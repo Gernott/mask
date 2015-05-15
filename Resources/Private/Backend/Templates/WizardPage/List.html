@@ -1,0 +1,51 @@
+
+<f:layout name="Default" />
+
+<f:section name="content">
+	<div class="typo3-dyntabmenu-tabs">
+		<table cellspacing="0" cellpadding="0" border="0" class="typo3-dyntabmenu">
+			<tr>
+				<td nowrap="nowrap" class="tab"><f:link.action action="list" controller="WizardContent" class="x-tab-right"><f:translate key="tx_mask.all.contentelements" /></f:link.action></td>
+			<td nowrap="nowrap" class="tabact"><f:link.action action="list" controller="WizardPage" class="x-tab-right"><f:translate key="tx_mask.all.pagetemplates" /></f:link.action></td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="typo3-dyntabmenu-divs">
+		<div class="c-tablayer" style="padding:10px;">
+			<f:flashMessages />
+
+			<f:if condition="{backendLayouts -> f:count()}==0">
+				<f:then>
+					<div class="typo3-message message-warning"><strong><f:translate key="tx_mask.page.warning" /></strong> <f:translate key="tx_mask.page.nobackendlayout" /></div>
+				</f:then>
+				<f:else>
+					<table cellspacing="0" cellpadding="0" border="0" class="typo3-dblist">
+						<thead>
+							<tr class="t3-row-header">
+								<td nowrap="nowrap" class="col-title"><f:translate key="tx_mask.page.image" /></td>
+						<td nowrap="nowrap" class="col-title"><f:translate key="tx_mask.page.titleuid" /></td>
+						<td nowrap="nowrap" class="col-title"><f:translate key="tx_mask.page.description" /></td>
+						<td nowrap="nowrap" class="col-title">&nbsp;</td>
+						</tr>
+						</thead>
+						<tbody>
+						<f:for each="{backendLayouts}" as="layout">
+							<tr class="db_list_normal">
+								<td>
+							<f:if condition='{layout.icon}'>
+								<img src="/uploads/media/{layout.icon}" /></td>
+							</f:if>
+							<td><p><strong>{layout.title}</strong><br />{layout.uid}</p></td>
+							<td><p>{layout.description}</p></td>
+							<td><f:link.action action="edit" arguments="{layout : layout}"><span class="t3-icon t3-icon-actions t3-icon-actions-document t3-icon-document-open">&nbsp;</span></f:link.action></td>
+							</tr>
+						</f:for>
+						</tbody>
+					</table>
+				</f:else>
+			</f:if>
+
+		</div>
+	</div>
+</f:section>

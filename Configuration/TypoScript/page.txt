@@ -1,0 +1,5 @@
+config.tx_extbase {
+	objects {
+		TYPO3\CMS\Frontend\ContentObject\FluidTemplateContentObject.className = MASK\Mask\Fluid\FluidTemplateContentObject
+	}
+}

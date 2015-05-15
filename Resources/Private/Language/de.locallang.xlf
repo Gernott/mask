@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2015-02-12T18:53:00Z" product-name="mask">
+		<header/>
+		<body>
+			<trans-unit id="tx_mask.field.String">
+				<target>Textfeld</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.Integer">
+				<target>Zahlfeld</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.Float">
+				<target>Kommazahl</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.Link">
+				<target>Link</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.Date">
+				<target>Datum</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.Datetime">
+				<target>Datum/Zeit</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.Text">
+				<target>Text</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.Richtext">
+				<target>Richtext</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.Check">
+				<target>Checkbox</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.Radio">
+				<target>Radiobutton</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.Select">
+				<target>Selectbox</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.File">
+				<target>Datei</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.Inline">
+				<target>Wiederholung</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.titleAdd">
+				<target>Hinzufügen</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.titleDelete">
+				<target>Löschen</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.titleMove">
+				<target>Verschieben</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.required">
+				<target>Pflichtfeld</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.trim">
+				<target>Leerraum entfernen</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.texttype">
+				<target>Texttyp</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.texttype.default">
+				<target>Standard</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.texttype.lower">
+				<target>Kleinbuchstaben</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.texttype.upper">
+				<target>Großbuchstaben</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.texttype.alpha">
+				<target>Buchstaben</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.texttype.alphanum">
+				<target>Buchstaben und Zahlen</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.texttype.alphanum_x">
+				<target>Buchstaben, Zahlen und -_</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.choosefield">
+				<target>Feld wählen:</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.newfield">
+				<target>Neues Feld</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.overwritelabel">
+				<target>Titel überschreiben:</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.fieldkey">
+				<target>Feld-Key*</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.label">
+				<target>Titel</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.check.columns">
+				<target>Spalten</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.check.items">
+				<target>Einträge (Ein Titel je Zeile, max 10)</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.date.default">
+				<target>Standard</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.datetime.default">
+				<target>Standard</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.float.size">
+				<target>Größe des Feldes</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.float.max">
+				<target>Maximale Länge</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.float.default">
+				<target>Standard</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.float.range.lower">
+				<target>Kleinster Wert</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.float.range.upper">
+				<target>Größter Wert</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.minitems">
+				<target>Minimum Anzahl</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.maxitems">
+				<target>Maximum Anzahl</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.integer.size">
+				<target>Größe des Feldes</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.integer.max">
+				<target>Maximale Länge</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.integer.default">
+				<target>Standard</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.integer.range.lower">
+				<target>Kleinster Wert</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.integer.range.upper">
+				<target>Größter Wert</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.link.default">
+				<target>Standard</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.link.file">
+				<target>Deaktiviere Datei:</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.link.mail">
+				<target>Mail:</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.link.page">
+				<target>Seite:</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.link.folder">
+				<target>Ordner:</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.link.url">
+				<target>URL:</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.radio.items">
+				<target>Elemente ([label,key], Ein Element je Zeile)</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.richtext.cols">
+				<target>Spalten</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.richtext.rows">
+				<target>Zeilen</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.richtext.default">
+				<target>Standard</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.size">
+				<target>Größe</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.autosizemax">
+				<target>AutoSizeMax</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.maxitems">
+				<target>Maximale Anzahl</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.items">
+				<target>Elemente ([label,key], Ein Element je Zeile)</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.foreign_table">
+				<target>Externe Tabelle</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.foreign_table_where">
+				<target>Externe Tabelle / where Bedingung</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.string.size">
+				<target>Größe des Feldes</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.string.max">
+				<target>Maximale Länge</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.string.default">
+				<target>Standard</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.text.cols">
+				<target>Spalten</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.text.rows">
+				<target>Zeilen</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.text.default">
+				<target>Standard</target>
+			</trans-unit>
+
+
+			<trans-unit id="tx_mask.content.title">
+				<target>Titel</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.error">
+				<target>Fehler!</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.image">
+				<target>Bild</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.titlekey">
+				<target>Titel/Key</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.description">
+				<target>Beschreibung</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.header">
+				<target>Inhalt bearbeiten</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.newheader">
+				<target>Neuer Inhalt</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.save">
+				<target>Speichern</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.saveandexit">
+				<target>Speichern und Schließen</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.html.header">
+				<target>HTML Code Beispiel</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.html.line1">
+				<target>Dies sind Beispielcodes für Ihr Frontend.</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.html.line2">
+				<target>Beim ersten Anlegen eines Inhaltselementes wird dieser Code in die Ziel-Datei in jenem Ordner gespeichert, welcher im Erweiterungsmanager in der Mask-Konfiguration festgelegt wurde. Standard ist: fileadmin/templates/content/.</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.html.line3a">
+				<target>Siehe</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.html.line3b">
+				<target>Fluid-Dokumentation</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.html.line3c">
+				<target>für weitere Details um die Ausgabe zu formatieren.</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.multiuse">
+				<target>Dieses Feld ist bei mehr als einem Content-Element in Verwendung:</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.newcontentelement">
+				<target>Neues Content-Element wurde angelegt.</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.updatedcontentelement">
+				<target>Content-Element wurde aktualisiert.</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.deletedcontentelement">
+				<target>Content-Element wurde gelöscht.</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.previewimagemissing">
+				<target>Vorschaubild fehlt, hier ablegen</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.htmlmissing">
+				<target>Fluid/HTML fehlt, hier ablegen</target>
+			</trans-unit>
+
+
+			<trans-unit id="tx_mask.page.title">
+				<target>Titel</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.page.image">
+				<target>Bild</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.page.titleuid">
+				<target>Titel/Uid</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.page.description">
+				<target>Beschreibung</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.page.header">
+				<target>Backendlayout erweitern</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.page.nobackendlayout">
+				<target>Es existiert noch kein Backendlayout! Dies kann im Modul Liste auf einer beliebigen Seite erstellt werden.</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.page.warning">
+				<target>Achtung!</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.page.updatedpage">
+				<target>Backend-Layout wurde aktualisert.</target>
+			</trans-unit>
+
+
+			<trans-unit id="tx_mask.all.label">
+				<target>Titel</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.description">
+				<target>Beschreibung</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.shorttitle">
+				<target>Kurztitel</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.fieldkey">
+				<target>Element-Key (Kleinbuchstaben)</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.contentelements">
+				<target>Inhaltselemente</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.pagetemplates">
+				<target>Seitenvorlagen</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.confirmdelete">
+				<target>Element wirklich löschen?</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.error.key">
+				<target>Es muss ein Feld-Key angegeben werden!</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.error.missingfolder">
+				<target>Verzeichnis fehlt. Das fehlende Verzeichnis muss angelegt oder der Pfad zum Verzeichnis im Erweiterungsmanager angepasst werden.</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.createmissingfolders">
+				<target>Fehlende Verzeichnisse anlegen</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.createdmissingfolders">
+				<target>Fehlende Verzeichnisse wurden angelegt.</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

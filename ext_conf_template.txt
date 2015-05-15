@@ -1,0 +1,6 @@
+# cat=basic; type=file [json]; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-json
+json = typo3conf/mask.json
+# cat=basic; type=folder; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-content
+content = fileadmin/templates/content/
+# cat=basic; type=folder; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-preview
+preview = fileadmin/templates/preview/

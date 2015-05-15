@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-02-12T18:53:00Z" product-name="mask">
+		<header/>
+		<body>
+			<trans-unit id="tx_mask.field.String">
+				<source>String</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.Integer">
+				<source>Integer</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.Float">
+				<source>Float</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.Link">
+				<source>Link</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.Date">
+				<source>Date</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.Datetime">
+				<source>Datetime</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.Text">
+				<source>Text</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.Richtext">
+				<source>Richtext</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.Check">
+				<source>Checkbox</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.Radio">
+				<source>Radiobutton</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.Select">
+				<source>Selectbox</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.File">
+				<source>File</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.Inline">
+				<source>Repeating</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.titleAdd">
+				<source>Add item</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.titleDelete">
+				<source>Delete item</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.titleMove">
+				<source>Move item</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.required">
+				<source>Required</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.trim">
+				<source>Trim</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.texttype">
+				<source>Texttype</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.texttype.default">
+				<source>Default</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.texttype.lower">
+				<source>Lowercase</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.texttype.upper">
+				<source>Uppercase</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.texttype.alpha">
+				<source>Letters</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.texttype.alphanum">
+				<source>Letters and Numbers</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.texttype.alphanum_x">
+				<source>Letters, Numbers and -_</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.choosefield">
+				<source>Choose field:</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.newfield">
+				<source>New field</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.overwritelabel">
+				<source>Overwrite label:</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.fieldkey">
+				<source>Field-key*</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.label">
+				<source>Label</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.check.columns">
+				<source>Columns</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.check.items">
+				<source>Items (One label each line, max 10)</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.date.default">
+				<source>Default</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.datetime.default">
+				<source>Default</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.float.size">
+				<source>Size of Formfield</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.float.max">
+				<source>Maxlength</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.float.default">
+				<source>Default</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.float.range.lower">
+				<source>Range lower</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.float.range.upper">
+				<source>Range upper</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.minitems">
+				<source>Minimum items</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.maxitems">
+				<source>Maximum items</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.integer.size">
+				<source>Size of Formfield</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.integer.max">
+				<source>Maxlength</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.integer.default">
+				<source>Default</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.integer.range.lower">
+				<source>Range lower</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.integer.range.upper">
+				<source>Range upper</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.link.default">
+				<source>Default</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.link.file">
+				<source>Disable File:</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.link.mail">
+				<source>Mail:</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.link.page">
+				<source>Page:</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.link.folder">
+				<source>Folder:</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.link.url">
+				<source>URL:</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.radio.items">
+				<source>Items ([label,key], one item each line)</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.richtext.cols">
+				<source>Columns</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.richtext.rows">
+				<source>Rows</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.richtext.default">
+				<source>Default</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.size">
+				<source>Size</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.autosizemax">
+				<source>AutoSizeMax</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.maxitems">
+				<source>Maxitems</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.items">
+				<source>Items ([label,key], one item each line)</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.foreign_table">
+				<source>foreign_table</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.foreign_table_where">
+				<source>foreign_table_where</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.string.size">
+				<source>Size of Formfield</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.string.max">
+				<source>Maxlength</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.string.default">
+				<source>Default</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.text.cols">
+				<source>Columns</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.text.rows">
+				<source>Rows</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.text.default">
+				<source>Default</source>
+			</trans-unit>
+
+
+			<trans-unit id="tx_mask.content.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.error">
+				<source>Error!</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.image">
+				<source>Image</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.titlekey">
+				<source>Title/Key</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.description">
+				<source>Description</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.header">
+				<source>Edit Content</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.newheader">
+				<source>New Content</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.save">
+				<source>Save</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.saveandexit">
+				<source>Save and Exit</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.html.header">
+				<source>HTML Code Example</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.html.line1">
+				<source>These are example codes for your frontend.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.html.line2">
+				<source>On first creation of a contentelement, this code is saved in the target-file into the folder, which you have specified in extensionmanager in mask-configuration. Default is: fileadmin/templates/content/.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.html.line3a">
+				<source>Use the official</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.html.line3b">
+				<source>Fluid-Documentation</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.html.line3c">
+				<source>for more details how to format the output.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.multiuse">
+				<source>This field is in use in more than one contentelement:</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.newcontentelement">
+				<source>New content element was created.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.updatedcontentelement">
+				<source>Content element was updated.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.deletedcontentelement">
+				<source>Content element was deleted.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.previewimagemissing">
+				<source>Preview image missing, place here</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.htmlmissing">
+				<source>Fluid/HTML missing, place here</source>
+			</trans-unit>
+
+
+			<trans-unit id="tx_mask.page.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.page.image">
+				<source>Image</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.page.titleuid">
+				<source>Title/uid</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.page.description">
+				<source>Description</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.page.header">
+				<source>Extend Backendlayout</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.page.nobackendlayout">
+				<source>No BackendLayout is existing! Create at least one in Module List.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.page.warning">
+				<source>Caution!</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.page.updatedpage">
+				<source>Backend-Layout was updated.</source>
+			</trans-unit>
+
+
+			<trans-unit id="tx_mask.all.label">
+				<source>Label</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.description">
+				<source>Description</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.shorttitle">
+				<source>Short Title</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.fieldkey">
+				<source>Element-key (unique, lowercase)</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.contentelements">
+				<source>Content Elements</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.pagetemplates">
+				<source>Page Templates</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.confirmdelete">
+				<source>Really delete element?</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.error.key">
+				<source>Field-Key is required!</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.error.missingfolder">
+				<source>Directory is missing. Create missing folder or change configuration in extension manager.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.createmissingfolders">
+				<source>Create missing directories</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.createdmissingfolders">
+				<source>Missing directories were created.</source>
+			</trans-unit>
+
+		</body>
+	</file>
+</xliff>
