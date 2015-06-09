@@ -366,7 +366,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	 */
 	public function checkFieldKey($params = array(), \TYPO3\CMS\Core\Http\AjaxRequestHandler &$ajaxObj = NULL) {
 		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-		$this->storageRepository = $this->objectManager->get("\MASK\Mask\Domain\Repository\StorageRepository");
+		$this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
 		// Get parameters, is there a better way? $params is not used yet
 		$fieldKey = $_GET["key"];
 		if ($_GET["table"]) {
@@ -394,7 +394,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	 */
 	public function checkElementKey($params = array(), \TYPO3\CMS\Core\Http\AjaxRequestHandler &$ajaxObj = NULL) {
 		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-		$this->storageRepository = $this->objectManager->get("\MASK\Mask\Domain\Repository\StorageRepository");
+		$this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
 		// Get parameters, is there a better way? $params is not used yet
 		$elementKey = $_GET["key"];
 		// check if elementKey is available
