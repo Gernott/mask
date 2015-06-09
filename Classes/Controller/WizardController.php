@@ -439,10 +439,10 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 		$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);
 		$success = TRUE;
 		if (!file_exists(PATH_site . $extConf["content"])) {
-			$success = $success && mkdir(PATH_site . $extConf["content"]);
+			$success = $success && mkdir(PATH_site . $extConf["content"], 0755, true);
 		}
 		if (!file_exists(PATH_site . $extConf["preview"])) {
-			$success = $success && mkdir(PATH_site . $extConf["preview"]);
+			$success = $success && mkdir(PATH_site . $extConf["preview"], 0755, true);
 		}
 		return $success;
 	}
