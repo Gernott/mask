@@ -453,7 +453,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	 */
 	public function createMissingFoldersAction() {
 		if ($this->createMissingFolders()) {
-			$this->flashMessageContainer->add(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.all.createdmissingfolders', 'mask'));
+			$this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.all.createdmissingfolders', 'mask'));
 		}
 		$this->redirect("list");
 	}
