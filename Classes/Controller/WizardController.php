@@ -27,7 +27,7 @@ namespace MASK\Mask\Controller;
  * ************************************************************* */
 
 /**
- *
+ *^
  *
  * @package mask
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
@@ -99,8 +99,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 				$sqlHandler = $this->objectManager->get('TYPO3\\CMS\\Install\\Sql\\SchemaMigrator');
 			}
 			/** @var $cacheManager \TYPO3\CMS\Core\Cache\CacheManager */
-			$cacheManager = $GLOBALS['typo3CacheManager'];
-			$cacheManager->setCacheConfigurations($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']);
+			\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager')->setCacheConfigurations($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']);
 			$sqlContent .= \TYPO3\CMS\Core\Cache\Cache::getDatabaseTableDefinitions();
 			$fieldDefinitionsFromFile = $sqlHandler->getFieldDefinitions_fileContent($sqlContent);
 			if (count($fieldDefinitionsFromFile)) {
