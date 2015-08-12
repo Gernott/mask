@@ -2,10 +2,10 @@
 
 $EM_CONF[$_EXTKEY] = array(
 	 'title' => 'Mask',
-	 'description' => 'Page- and Contentmasks.',
+	 'description' => 'Create your own content elements and page templates. Easy to use, even without programming skills because of the comfortalbe drag&drop system. Stored in structured database tables.',
 	 'category' => 'plugin',
-	 'author' => 'WEBprofil Team',
-	 'author_email' => 'office@webprofil.at',
+	 'author' => 'TYPO3.experten Team',
+	 'author_email' => 'office@typo3experten.com',
 	 'author_company' => 'WEBprofil - Gernot Ploiner e.U.',
 	 'shy' => '',
 	 'priority' => '',
@@ -17,11 +17,9 @@ $EM_CONF[$_EXTKEY] = array(
 	 'modify_tables' => '',
 	 'clearCacheOnLoad' => 1,
 	 'lockType' => '',
-	 'version' => '1.0.0',
+	 'version' => '1.0.1',
 	 'constraints' => array(
 		  'depends' => array(
-				'extbase' => '6.2.0-6.2.99',
-				'fluid' => '6.2.0-6.2.99',
 				'typo3' => '6.2.0-6.2.99',
 		  ),
 		  'conflicts' => array(
