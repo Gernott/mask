@@ -164,6 +164,8 @@ class StorageRepository {
 
 		// Create JSON tca Array:
 		if (is_array($content["tca"])) {
+
+
 			foreach ($content["tca"] as $key => $value) {
 				$inlineField = FALSE;
 
@@ -176,6 +178,13 @@ class StorageRepository {
 				}
 
 				$json[$type]["tca"][$columns[$key]] = $value;
+
+				// add rte flag if inline and rte
+				if ($inlineField) {
+					if ($content["elements"]["options"][$key] == "rte") {
+						$json[$type]["tca"][$columns[$key]]["rte"] = "1";
+					}
+				}
 
 				// Only add columns to elements if it is no inlinefield
 				if (!$inlineField) {
@@ -253,6 +262,16 @@ class StorageRepository {
 				}
 			}
 		}
+		// Recursively delete all inline-fields
+		if ($json[$table]["tca"][$field]["config"]["type"] == "inline") {
+			$inlineFields = $this->loadInlineFields($field);
+			if ($inlineFields) {
+				foreach ($inlineFields as $inlineField) {
+					$json = $this->removeField($inlineField["inlineParent"], "tx_mask_" . $inlineField["key"], $json);
+				}
+			}
+		}
+
 		if (count($elementsInUse) < 1) {
 
 			unset($json[$table]["tca"][$field]);
@@ -262,16 +281,6 @@ class StorageRepository {
 			if ($this->utility->getFormType($field) == "File") {
 				unset($json["sys_file_reference"]["sql"][$field]);
 				$json = $this->cleanTable("sys_file_reference", $json);
-			}
-
-			// Recursively delete all inline-fields
-			if ($json[$table]["tca"][$field]["config"]["type"] == "inline") {
-				$inlineFields = $this->loadInlineFields($field);
-				if ($inlineFields) {
-					foreach ($inlineFields as $inlineField) {
-						$json = $this->removeField($inlineField["inlineParent"], "tx_mask_" . $inlineField["key"], $json);
-					}
-				}
 			}
 		}
 		return $this->cleanTable($table, $json);

@@ -30,6 +30,9 @@ class FormTypeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 	 * @author Benjamin Butschell bb@webprofil.at>
 	 */
 	public function render($elementKey, $fieldKey, $type = "tt_content") {
+
+//		\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($fieldKey);
+
 		$this->utility = new \MASK\Mask\Utility\MaskUtility($this->objectManager);
 		$formType = $this->utility->getFormType($fieldKey, $elementKey, $type);
 		return $formType;

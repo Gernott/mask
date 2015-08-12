@@ -99,7 +99,7 @@ class MaskUtility {
 
 		// Load element and TCA of field
 		if ($elementKey) {
-			$element = $this->storageRepository->loadElement('tt_content', $elementKey);
+			$element = $this->storageRepository->loadElement($type, $elementKey);
 		}
 
 		// load tca for field from $GLOBALS
@@ -110,6 +110,15 @@ class MaskUtility {
 		if (!$tca["config"]) {
 			$tca = $element["tca"][$fieldKey];
 		}
+
+		// if field is in inline table, load tca from json
+		if (!in_array($type, array("tt_content", "pages"))) {
+			$tca = $this->storageRepository->loadField($type, $fieldKey);
+			if (!$tca["config"]) {
+				$tca = $this->storageRepository->loadField($type, "tx_mask_" . $fieldKey);
+			}
+		}
+
 
 		$tcaType = $tca["config"]["type"];
 		$evals = explode(",", $tca["config"]["eval"]);
@@ -140,25 +149,34 @@ class MaskUtility {
 				break;
 			case "text":
 				$formType = "Text";
-				if ($elementKey) {
-					$fieldNumberKey = -1;
-					if (is_array($element["columns"])) {
-						foreach ($element["columns"] as $numberKey => $column) {
-							if ($column == $fieldKey) {
-								$fieldNumberKey = $numberKey;
+				if (in_array($type, array("tt_content", "pages"))) {
+					if ($elementKey) {
+						$fieldNumberKey = -1;
+						if (is_array($element["columns"])) {
+							foreach ($element["columns"] as $numberKey => $column) {
+								if ($column == $fieldKey) {
+									$fieldNumberKey = $numberKey;
+								}
 							}
 						}
-					}
-					if ($fieldNumberKey >= 0) {
-						$option = $element["options"][$fieldNumberKey];
-						if ($option == "rte") {
-							$formType = "Richtext";
-						} else {
-							$formType = "Text";
+
+						if ($fieldNumberKey >= 0) {
+							$option = $element["options"][$fieldNumberKey];
+							if ($option == "rte") {
+								$formType = "Richtext";
+							} else {
+								$formType = "Text";
+							}
 						}
+					} else {
+						$formType = "Text";
 					}
 				} else {
-					$formType = "Text";
+					if ($tca["rte"]) {
+						$formType = "Richtext";
+					} else {
+						$formType = "Text";
+					}
 				}
 				break;
 			case "check":
@@ -411,26 +429,26 @@ class MaskUtility {
 						if ($fieldkey == "options" && $fieldvalue == "file") {
 							$fieldName = $tcakey;
 							$customSettingOverride = array(
-								'foreign_types' => array(
-									'0' => array(
-										'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-									),
-									'1' => array(
-										'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-									),
-									'2' => array(
-										'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-									),
-									'3' => array(
-										'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-									),
-									'4' => array(
-										'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-									),
-									'5' => array(
-										'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-									),
-								),
+								 'foreign_types' => array(
+									  '0' => array(
+											'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+									  ),
+									  '1' => array(
+											'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+									  ),
+									  '2' => array(
+											'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+									  ),
+									  '3' => array(
+											'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+									  ),
+									  '4' => array(
+											'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+									  ),
+									  '5' => array(
+											'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+									  ),
+								 ),
 							);
 							$allowedFileExtensions = $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'];
 							$columns[$tcakey]["config"] = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig($fieldName, $customSettingOverride, $allowedFileExtensions);
@@ -451,6 +469,7 @@ class MaskUtility {
 						// Unset some values that are not needed in TCA
 						unset($columns[$tcakey]["options"]);
 						unset($columns[$tcakey]["key"]);
+						unset($columns[$tcakey]["rte"]);
 						unset($columns[$tcakey]["inlineParent"]);
 
 						$columns[$tcakey] = $this->removeBlankOptions($columns[$tcakey]);
@@ -592,6 +611,17 @@ class MaskUtility {
 			$firstField = array_pop($fieldsCopy);
 		}
 
+		// get fields with rte configuration
+		$rteFields = array();
+		foreach ($fields as $field) {
+			$formType = $this->getFormType($field, "", $table);
+			if ($formType == "Richtext") {
+				$rteFields[] = $field.= ";;;richtext[]:rte_transform[mode=ts]";
+			} else {
+				$rteFields[] = $field;
+			}
+		}
+
 		// Adjust TCA-Template
 		$tableTca = $tcaTemplate;
 
@@ -599,8 +629,8 @@ class MaskUtility {
 		$tableTca["ctrl"]["label"] = $firstField;
 		$tableTca["ctrl"]["searchFields"] = implode(",", $fields);
 		$tableTca["ctrl"]["iconfile"] = "";
-		$tableTca["interface"]["showRecordFieldList"] = "sys_language_uid, l10n_parent, l10n_diffsource, hidden, " . implode(", ", $fields);
-		$tableTca["types"]["1"]["showitem"] = "sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, " . implode(", ", $fields) . ", --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime";
+		$tableTca["interface"]["showRecordFieldList"] = "sys_language_uid, l10n_parent, l10n_diffsource, hidden, " . implode(", ", $rteFields);
+		$tableTca["types"]["1"]["showitem"] = "sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, " . implode(", ", $rteFields) . ", --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime";
 
 		$tableTca["columns"]["l10n_parent"]["config"]["foreign_table"] = $table;
 		$tableTca["columns"]["l10n_parent"]["config"]["foreign_table_where"] = 'AND ' . $table . '.pid=###CURRENT_PID### AND ' . $table . '.sys_language_uid IN (-1,0)';
@@ -676,12 +706,25 @@ class MaskUtility {
 	 * @param array $tca
 	 * @author Benjamin Butschell <bb@webprofil.at>
 	 */
-	public function setPageTca($tca) {
+	public function setPageTca($tca, &$confVarsFe) {
 		// Load all Page-Fields for new Tab in Backend
 		$pageFields = array();
 		if ($tca) {
 			foreach ($tca as $fieldKey => $value) {
-				$pageFields[] = $fieldKey;
+
+				$element = array_pop($this->getElementsWhichUseField($fieldKey, "pages"));
+				$type = $this->getFormType($fieldKey, $element["key"], "pages");
+
+				$fieldKeyTca = $fieldKey;
+				if ($type == "Richtext") {
+					$fieldKeyTca .= ";;;richtext[]:rte_transform[mode=ts]";
+				}
+
+				$pageFields[] = $fieldKeyTca;
+
+				// Add addRootLineFields and pageOverlayFields for all pagefields
+				$confVarsFe["addRootLineFields"] .= "," . $fieldKey;
+				$confVarsFe["pageOverlayFields"] .= "," . $fieldKey;
 			}
 		}
 		$pageFieldString = "--div--;Content-Fields," . implode(",", $pageFields);

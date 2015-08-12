@@ -45,7 +45,7 @@ class TcaViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper 
 			 'l18n_cfg', 'backend_layout', 'backend_layout_next_level'
 		);
 		foreach ($GLOBALS['TCA'][$table]['columns'] as $tcaField => $tcaConfig) {
-			$fieldType = $this->utility->getFormType($tcaField);
+			$fieldType = $this->utility->getFormType($tcaField, "", $table);
 			if (
 					  ($fieldType == $type ||
 					  ($fieldType == "Text" &&

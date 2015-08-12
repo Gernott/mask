@@ -151,7 +151,7 @@
 								<f:if condition="{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')} == 'Inline'">
 									<ul class="dragtarget inline-container">
 										<f:for each="{field.inlineFields}" as="inlineField" key="inlineKey">
-											<f:render partial="Inline" arguments="{elementKey: field.key, field: inlineField, storage: storage}" />
+											<f:render partial="Inline" arguments="{elementKey: storage.key, field: inlineField, storage: storage}" />
 										</f:for>
 									</ul>
 								</f:if>
@@ -173,7 +173,7 @@
 								<f:else>
 									<!--TYPO3-Standard-Field-->
 									<div class="tx_mask_field">
-										
+
 										<!-- field header 3rd column: existing/TYPO3 fields (eg. bodytext) -->
 										<div class="tx_mask_fieldheader">
 											<div class="tx_mask_fieldheader_icon id_{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')}"></div>
@@ -182,10 +182,10 @@
 												<p>{key}</p>
 											</div>
 										</div>
-										
+
 										<div class="tx_mask_fieldcontent">
 											<label><f:translate key="tx_mask.field.overwritelabel" /><br />
-												<f:if condition="{mask:formType(elementKey:'{storage.key}', fieldKey:'{field.key}')} == 'Richtext'">
+												<f:if condition="{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')} == 'Richtext'">
 													<input type="hidden" name="tx_mask_tools_maskmask[storage][elements][options][--index--]" value="rte" />
 												</f:if>
 												<f:form.hidden value="{key}" name="storage[elements][columns][--index--]" />

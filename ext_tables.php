@@ -53,7 +53,7 @@ if (file_exists(PATH_site . $extConf["json"])) {
 	$pagesColumns = $utility->generateFieldsTca($json["pages"]["tca"]);
 	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('pages', $pagesColumns);
 	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('pages_language_overlay', $pagesColumns);
-	$utility->setPageTca($json["pages"]["tca"]);
+	$utility->setPageTca($json["pages"]["tca"], $TYPO3_CONF_VARS["FE"]);
 
 	// Generate TCA for Inline-Fields
 	$utility->setInlineTca($json);
