@@ -27,7 +27,7 @@ namespace MASK\Mask\Controller;
  * ************************************************************* */
 
 /**
- *
+ *^
  *
  * @package mask
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
@@ -99,8 +99,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 				$sqlHandler = $this->objectManager->get('TYPO3\\CMS\\Install\\Sql\\SchemaMigrator');
 			}
 			/** @var $cacheManager \TYPO3\CMS\Core\Cache\CacheManager */
-			$cacheManager = $GLOBALS['typo3CacheManager'];
-			$cacheManager->setCacheConfigurations($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']);
+			\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager')->setCacheConfigurations($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']);
 			$sqlContent .= \TYPO3\CMS\Core\Cache\Cache::getDatabaseTableDefinitions();
 			$fieldDefinitionsFromFile = $sqlHandler->getFieldDefinitions_fileContent($sqlContent);
 			if (count($fieldDefinitionsFromFile)) {
@@ -366,7 +365,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	 */
 	public function checkFieldKey($params = array(), \TYPO3\CMS\Core\Http\AjaxRequestHandler &$ajaxObj = NULL) {
 		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-		$this->storageRepository = $this->objectManager->get("\MASK\Mask\Domain\Repository\StorageRepository");
+		$this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
 		// Get parameters, is there a better way? $params is not used yet
 		$fieldKey = $_GET["key"];
 		if ($_GET["table"]) {
@@ -394,7 +393,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	 */
 	public function checkElementKey($params = array(), \TYPO3\CMS\Core\Http\AjaxRequestHandler &$ajaxObj = NULL) {
 		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-		$this->storageRepository = $this->objectManager->get("\MASK\Mask\Domain\Repository\StorageRepository");
+		$this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
 		// Get parameters, is there a better way? $params is not used yet
 		$elementKey = $_GET["key"];
 		// check if elementKey is available
@@ -439,10 +438,10 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 		$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);
 		$success = TRUE;
 		if (!file_exists(PATH_site . $extConf["content"])) {
-			$success = $success && mkdir(PATH_site . $extConf["content"]);
+			$success = $success && mkdir(PATH_site . $extConf["content"], 0755, true);
 		}
 		if (!file_exists(PATH_site . $extConf["preview"])) {
-			$success = $success && mkdir(PATH_site . $extConf["preview"]);
+			$success = $success && mkdir(PATH_site . $extConf["preview"], 0755, true);
 		}
 		return $success;
 	}
@@ -453,7 +452,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	 */
 	public function createMissingFoldersAction() {
 		if ($this->createMissingFolders()) {
-			$this->flashMessageContainer->add(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.all.createdmissingfolders', 'mask'));
+			$this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.all.createdmissingfolders', 'mask'));
 		}
 		$this->redirect("list");
 	}

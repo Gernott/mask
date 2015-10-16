@@ -22,7 +22,7 @@ class MaskUtility {
 	public function __construct(\TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager, \MASK\Mask\Domain\Repository\StorageRepository $storageRepository = NULL) {
 		$this->objectManager = $objectManager;
 		if (!$storageRepository) {
-			$this->storageRepository = $this->objectManager->get("\MASK\Mask\Domain\Repository\StorageRepository");
+			$this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
 		} else {
 			$this->storageRepository = $storageRepository;
 		}
@@ -37,7 +37,7 @@ class MaskUtility {
 	 * @author Benjamin Butschell <bb@webprofil.at>
 	 */
 	public function getElementsWhichUseField($key, $type = "tt_content") {
-		$this->storageRepository = $this->objectManager->get("\MASK\Mask\Domain\Repository\StorageRepository");
+		$this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
 		$storage = $this->storageRepository->load();
 
 		$elementsInUse = array();
@@ -66,7 +66,7 @@ class MaskUtility {
 	 * @author Benjamin Butschell <bb@webprofil.at>
 	 */
 	public function getLabel($elementKey, $fieldKey, $type = "tt_content", $isInlineField = FALSE) {
-		$this->storageRepository = $this->objectManager->get("\MASK\Mask\Domain\Repository\StorageRepository");
+		$this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
 		$storage = $this->storageRepository->load();
 		$fieldIndex = -1;
 		if (count($storage[$type]["elements"][$elementKey]["columns"]) > 0) {
@@ -94,7 +94,7 @@ class MaskUtility {
 	 * @author Benjamin Butschell <bb@webprofil.at>
 	 */
 	public function getFormType($fieldKey, $elementKey = "", $type = "tt_content") {
-		$this->storageRepository = $this->objectManager->get("\MASK\Mask\Domain\Repository\StorageRepository");
+		$this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
 		$formType = "String";
 
 		// Load element and TCA of field
@@ -222,7 +222,7 @@ class MaskUtility {
 	 * @author Benjamin Butschell <bb@webprofil.at>
 	 */
 	public function isEvalValueSet($fieldKey, $evalValue, $type = "tt_content") {
-		$this->storageRepository = $this->objectManager->get("\MASK\Mask\Domain\Repository\StorageRepository");
+		$this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
 		$storage = $this->storageRepository->load();
 		$found = FALSE;
 		if ($storage[$type]["tca"][$fieldKey]["config"]["eval"] != "") {
@@ -242,7 +242,7 @@ class MaskUtility {
 	 * @author Benjamin Butschell <bb@webprofil.at>
 	 */
 	public function isBlindLinkOptionSet($fieldKey, $evalValue, $type = "tt_content") {
-		$this->storageRepository = $this->objectManager->get("\MASK\Mask\Domain\Repository\StorageRepository");
+		$this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
 		$storage = $this->storageRepository->load();
 		$found = FALSE;
 		if ($storage[$type]["tca"][$fieldKey]["config"]["wizards"]["link"]["params"]["blindLinkOptions"] != "") {
@@ -261,7 +261,7 @@ class MaskUtility {
 	 * @author Benjamin Butschell <bb@webprofil.at>
 	 */
 	public function getFieldType($fieldKey, $elementKey = "") {
-		$this->storageRepository = $this->objectManager->get("\MASK\Mask\Domain\Repository\StorageRepository");
+		$this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
 		$storage = $this->storageRepository->load();
 
 		$types = array("pages", "tt_content");
