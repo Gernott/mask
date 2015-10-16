@@ -1,6 +1,6 @@
 <?php
 
-namespace TYPO3\Mask\ViewHelpers;
+namespace MASK\Mask\ViewHelpers;
 
 /**
  *

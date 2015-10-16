@@ -10,26 +10,25 @@ if (TYPO3_MODE === 'BE') {
 	 * Registers a Backend Module
 	 */
 	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-			'MASK.' . $_EXTKEY,
-			'tools', // Make module a submodule of 'admin'
-			'mask', // Submodule key
-			'top', // Position
-			array(
-		'WizardContent' => 'list, new, create, edit, update, delete, generate, showHtml, createMissingFolders',
-		'WizardPage' => 'list, new, create, edit, update, delete',
-			), array(
-		'access' => 'admin',
-		'icon' => 'EXT:' . $_EXTKEY . '/ext_icon.gif',
-		'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_mask.xlf',
-			)
+			  'MASK.' . $_EXTKEY, 'tools', // Make module a submodule of 'admin'
+			  'mask', // Submodule key
+			  'top', // Position
+			  array(
+		 'WizardContent' => 'list, new, create, edit, update, delete, generate, showHtml, createMissingFolders',
+		 'WizardPage' => 'list, new, create, edit, update, delete',
+			  ), array(
+		 'access' => 'admin',
+		 'icon' => 'EXT:' . $_EXTKEY . '/ext_icon.gif',
+		 'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_mask.xlf',
+			  )
 	);
 
 	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::registerAjaxHandler(
-			'WizardController::checkFieldKey', 'MASK\Mask\Controller\WizardController->checkFieldKey'
+			  'WizardController::checkFieldKey', 'MASK\Mask\Controller\WizardController->checkFieldKey'
 	);
 
 	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::registerAjaxHandler(
-			'WizardController::checkElementKey', 'MASK\Mask\Controller\WizardController->checkElementKey'
+			  'WizardController::checkElementKey', 'MASK\Mask\Controller\WizardController->checkElementKey'
 	);
 }
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Mask');
@@ -58,3 +57,15 @@ if (file_exists(PATH_site . $extConf["json"])) {
 	// Generate TCA for Inline-Fields
 	$utility->setInlineTca($json);
 }
+
+// include css for styling of backend preview of mask content elements
+$TBE_STYLES['skins']['mask']['name'] = 'mask';
+$TBE_STYLES['skins']['mask']['stylesheetDirectories'][] = 'EXT:mask/Resources/Public/Styles/Backend/';
+//
+//\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($extConf);
+//exit;
+//$TBE_STYLES['skins']['mask']['stylesheetDirectories'][] = "/" . $extConf["backend"];
+
+//\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($TBE_STYLES['skins']);
+//exit;
+

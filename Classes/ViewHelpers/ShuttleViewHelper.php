@@ -1,11 +1,11 @@
 <?php
 
-namespace TYPO3\Mask\ViewHelpers;
+namespace MASK\Mask\ViewHelpers;
 
 /**
  *
  * Example
- * {namespace mask=TYPO3\Mask\ViewHelpers}
+ * {namespace mask=MASK\Mask\ViewHelpers}
  * <mask:shuttle data="{data}" name="tx_mask_slider"/>
  *
  * @package TYPO3

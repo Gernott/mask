@@ -4,3 +4,5 @@ json = typo3conf/mask.json
 content = fileadmin/templates/content/
 # cat=basic; type=folder; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-preview
 preview = fileadmin/templates/preview/
+# cat=basic; type=folder; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-backend
+backend = fileadmin/templates/backend/

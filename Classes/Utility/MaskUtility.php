@@ -264,7 +264,12 @@ class MaskUtility {
 		$this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
 		$storage = $this->storageRepository->load();
 
-		$types = array("pages", "tt_content");
+		// get all possible types (tables)
+		$types = array_keys($storage);
+		$types[] = "pages";
+		$types[] = "tt_content";
+		$types = array_unique($types);
+
 		$fieldType = "";
 		$found = FALSE;
 		foreach ($types as $type) {
@@ -283,6 +288,9 @@ class MaskUtility {
 						}
 					}
 				}
+			} else if (is_array($storage[$type]["tca"][$fieldKey])) {
+				$fieldType = $type;
+				$found = TRUE;
 			}
 		}
 		return $fieldType;
@@ -420,6 +428,7 @@ class MaskUtility {
 	 * @todo Delete Empty TCA-Values recursive
 	 */
 	public function generateFieldsTca($tca) {
+
 		$columns = array();
 		if ($tca) {
 			foreach ($tca as $tcakey => $tcavalue) {
@@ -601,6 +610,28 @@ class MaskUtility {
 							 ),
 						),
 				  ),
+				  'parentid' => array(
+						'config' => array(
+							 'type' => 'select',
+							 'items' => array(
+								  array('', 0),
+							 ),
+							 'foreign_table' => 'tt_content',
+							 'foreign_table_where' =>
+							 'AND tt_content.pid=###CURRENT_PID###
+								AND tt_content.sys_language_uid IN (-1,###REC_FIELD_sys_language_uid###)',
+						),
+				  ),
+				  'parenttable' => array(
+						'config' => array(
+							 'type' => 'passthrough',
+						),
+				  ),
+				  'sorting' => array(
+						'config' => array(
+							 'type' => 'passthrough',
+						),
+				  ),
 			 ),
 		);
 
@@ -622,6 +653,9 @@ class MaskUtility {
 			}
 		}
 
+		// get parent table of this inline table
+		$parentTable = $this->getFieldType($table);
+
 		// Adjust TCA-Template
 		$tableTca = $tcaTemplate;
 
@@ -634,6 +668,9 @@ class MaskUtility {
 
 		$tableTca["columns"]["l10n_parent"]["config"]["foreign_table"] = $table;
 		$tableTca["columns"]["l10n_parent"]["config"]["foreign_table_where"] = 'AND ' . $table . '.pid=###CURRENT_PID### AND ' . $table . '.sys_language_uid IN (-1,0)';
+
+		$tableTca["columns"]["parentid"]["config"]["foreign_table"] = $parentTable;
+		$tableTca["columns"]["parentid"]["config"]["foreign_table_where"] = 'AND ' . $parentTable . '.pid=###CURRENT_PID### AND ' . $parentTable . '.sys_language_uid IN (-1,###REC_FIELD_sys_language_uid###)';
 
 		// Add some stuff we need to make irre work like it should
 		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages($table);
@@ -669,6 +706,12 @@ class MaskUtility {
 	 * @author Benjamin Butschell <bb@webprofil.at>
 	 */
 	public function getInlineElements($data, $name, $cType, $parentid = "parentid", $parenttable = "tt_content") {
+		// If this method is called in backend, there is no sys_language_uid
+		if ($GLOBALS['TSFE']->sys_language_uid) {
+			$sysLangUid = $GLOBALS['TSFE']->sys_language_uid;
+		} else {
+			$sysLangUid = 0;
+		}
 
 		// by default, the uid of the parent is $data["uid"]
 		$parentUid = $data["uid"];
@@ -688,7 +731,7 @@ class MaskUtility {
 				  "*", $name, $parentid . " = '" . $parentUid .
 				  "' AND parenttable = '" . $parenttable .
 				  "' AND deleted = '0' AND hidden='0' " .
-				  " AND sys_language_uid IN (-1," . $GLOBALS['TSFE']->sys_language_uid . ")", "", "sorting"
+				  " AND sys_language_uid IN (-1," . $sysLangUid . ")", "", "sorting"
 		);
 
 		// and recursively add them to an array

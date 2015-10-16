@@ -147,10 +147,12 @@ if (!function_exists('user_mask_contentType')) {
 			return false;
 		}
 	}
+
 }
 
 // for conditions on the backend-layouts
 if (!function_exists('user_mask_beLayout')) {
+
 	function user_mask_beLayout($layout) {
 		// get current page uid:
 		if (is_array($_REQUEST["data"]["pages"])) { // after saving page
@@ -162,7 +164,7 @@ if (!function_exists('user_mask_beLayout')) {
 			} else { // after saving an existing pages_language_overlay
 				$po_uid = intval($po_uid);
 				$sql = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-					"pid", "pages_language_overlay", "uid = " . $po_uid
+						  "pid", "pages_language_overlay", "uid = " . $po_uid
 				);
 				$data = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($sql);
 				$uid = $data["pid"];
@@ -172,10 +174,10 @@ if (!function_exists('user_mask_beLayout')) {
 		} else { // after opening or creating pages_language_overlay
 			$uid = $GLOBALS["SOBE"]->viewId;
 		}
-		
+
 		if ($uid) {
 			$sql = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				"backend_layout, backend_layout_next_level", "pages", "uid = " . $uid
+					  "backend_layout, backend_layout_next_level", "pages", "uid = " . $uid
 			);
 			$data = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($sql);
 
@@ -208,6 +210,7 @@ if (!function_exists('user_mask_beLayout')) {
 			return false;
 		}
 	}
+
 }
 
 // SQL inject:
@@ -220,3 +223,6 @@ $signalSlotDispatcher->connect('TYPO3\\CMS\\Install\\Service\\SqlExpectedSchemaS
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Frontend\\ContentObject\\FluidTemplateContentObject'] = array(
 	 'className' => 'MASK\\Mask\\Fluid\\FluidTemplateContentObject'
 );
+
+// Hook to override tt_content backend_preview
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem'][$_EXTKEY] = 'EXT:' . $_EXTKEY . '/Classes/Hooks/PageLayoutViewDrawItem.php:MASK\Mask\Hooks\PageLayoutViewDrawItem';

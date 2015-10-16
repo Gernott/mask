@@ -17,16 +17,24 @@ $EM_CONF[$_EXTKEY] = array(
 	 'modify_tables' => '',
 	 'clearCacheOnLoad' => 1,
 	 'lockType' => '',
-	 'version' => '1.0.1',
+	 'version' => '1.1.0dev',
 	 'constraints' => array(
 		  'depends' => array(
+				'extbase' => '6.2.0-6.2.99',
+				'fluid' => '6.2.0-6.2.99',
 				'typo3' => '6.2.0-6.2.99',
 		  ),
-		  'conflicts' => array(
-		  ),
+		  'conflicts' => array(),
 		  'suggests' => array(
 				'gridelements' => ''
 		  ),
 	 ),
+	 'autoload' =>
+	 array(
+		  'psr-4' =>
+		  array(
+				"MASK\\Mask\\" => "Classes/"
+		  )
+	 )
 );
 ?>

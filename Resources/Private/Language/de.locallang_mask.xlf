@@ -18,6 +18,9 @@
 			<trans-unit id="ext_conf_template-content">
 				<target>Ordner für Inhalts-Fluid-HTML-Vorlagen (mit / am Ende).</target>
 			</trans-unit>
+			<trans-unit id="ext_conf_template-backend">
+				<target>Ordner für Backend-Vorschau-Vorlagen (mit / am Ende).</target>
+			</trans-unit>
 			<trans-unit id="ext_conf_template-preview">
 				<target>Ordner für Vorschau-Bilder (mit / am Ende).</target>
 			</trans-unit>
