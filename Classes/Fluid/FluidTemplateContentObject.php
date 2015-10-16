@@ -1,7 +1,8 @@
 <?php
+
 namespace MASK\Mask\Fluid;
 
-/***************************************************************
+/* * *************************************************************
  *  Copyright notice
  *
  *  (c) 2010-2013 Extbase Team (http://forge.typo3.org/projects/typo3v4-mvc)
@@ -26,7 +27,7 @@ namespace MASK\Mask\Fluid;
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ * ************************************************************* */
 
 class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\FluidTemplateContentObject {
 
@@ -48,7 +49,7 @@ class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\Fluid
 	/**
 	 * Assign content object renderer data and current to view
 	 *
-git add	 * @author Benjamin Butschell <bb@webprofil.at>
+	 * @author Benjamin Butschell <bb@webprofil.at>
 	 * @return void
 	 */
 	protected function assignContentObjectDataAndCurrent() {
@@ -65,4 +66,5 @@ git add	 * @author Benjamin Butschell <bb@webprofil.at>
 
 		$this->view->assign('data', $data);
 	}
+
 }
