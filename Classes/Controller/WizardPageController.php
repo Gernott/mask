@@ -72,7 +72,7 @@ class WizardPageController extends \MASK\Mask\Controller\WizardController {
 	public function createAction($storage) {
 		$this->storageRepository->add($storage);
 		$this->generateAction();
-		$this->flashMessageContainer->add('Your new Content-Element was created.');
+		$this->addFlashMessage('Your new Content-Element was created.');
 		$this->redirect('list');
 	}
 
@@ -99,7 +99,7 @@ class WizardPageController extends \MASK\Mask\Controller\WizardController {
 	public function updateAction($storage) {
 		$this->storageRepository->update($storage);
 		$this->generateAction();
-		$this->flashMessageContainer->add(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.page.updatedpage', 'mask'));
+		$this->addErrorFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.page.updatedpage', 'mask'));
 		$this->redirectByAction();
 	}
 
@@ -111,7 +111,7 @@ class WizardPageController extends \MASK\Mask\Controller\WizardController {
 	 */
 	public function deleteAction(array $storage) {
 		$this->storageRepository->remove($storage);
-		$this->flashMessageContainer->add('Your Page was removed.');
+		$this->addErrorFlashMessage('Your Page was removed.');
 		$this->redirect('list');
 	}
 

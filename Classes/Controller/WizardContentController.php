@@ -84,7 +84,7 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController {
 		$html = $this->generateHtml($storage["elements"]["key"]); // generate HTML
 		$this->saveHtml($storage["elements"]["key"], $html); // save HTML
 		$this->savePreviewImage($storage["elements"]["key"]); // save preview image
-		$this->flashMessageContainer->add(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.newcontentelement', 'mask'));
+		$this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.newcontentelement', 'mask'));
 		$this->redirectByAction();
 	}
 
@@ -113,7 +113,7 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController {
 		$this->generateAction();
 		$html = $this->generateHtml($storage["elements"]["key"]); // generate HTML
 		$this->saveHtml($storage["elements"]["key"], $html); // save HTML
-		$this->flashMessageContainer->add(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.updatedcontentelement', 'mask'));
+		$this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.updatedcontentelement', 'mask'));
 		$this->redirectByAction();
 	}
 
@@ -127,7 +127,7 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController {
 	public function deleteAction($key, $type) {
 		$this->storageRepository->remove($type, $key);
 		$this->generateAction();
-		$this->flashMessageContainer->add(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.deletedcontentelement', 'mask'));
+		$this->addErrorFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.deletedcontentelement', 'mask'));
 		$this->redirect('list');
 	}
 

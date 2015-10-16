@@ -78,9 +78,15 @@ $content .= $pagesContent;
 // generate TypoScript setup
 $setupContent = 'module.tx_mask {
 	view {
-		templateRootPath = EXT:mask/Resources/Private/Backend/Templates/
-		partialRootPath = EXT:mask/Resources/Private/Backend/Partials/
-		layoutRootPath = EXT:mask/Resources/Private/Backend/Layouts/
+		templateRootPaths {
+			10 = EXT:mask/Resources/Private/Backend/Templates/
+		}
+		partialRootPaths {
+			10 = EXT:mask/Resources/Private/Backend/Partials/
+		}
+		layoutRootPaths {
+			10 = EXT:mask/Resources/Private/Backend/Layouts/
+		}
 	}
 	persistence{
 		classes {

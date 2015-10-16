@@ -1,7 +1,8 @@
 <?php
+
 namespace MASK\Mask\Fluid;
 
-/***************************************************************
+/* * *************************************************************
  *  Copyright notice
  *
  *  (c) 2010-2013 Extbase Team (http://forge.typo3.org/projects/typo3v4-mvc)
@@ -26,7 +27,7 @@ namespace MASK\Mask\Fluid;
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ * ************************************************************* */
 
 class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\FluidTemplateContentObject {
 
@@ -48,16 +49,15 @@ class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\Fluid
 	/**
 	 * Assign content object renderer data and current to view
 	 *
-	 * @param array $conf Configuration
 	 * @author Benjamin Butschell <bb@webprofil.at>
 	 * @return void
 	 */
-	protected function assignContentObjectDataAndCurrent(array $conf) {
+	protected function assignContentObjectDataAndCurrent() {
 		// Call Parent Function to maintain core functions
-		parent::assignContentObjectDataAndCurrent($conf);
+		parent::assignContentObjectDataAndCurrent();
 
 		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-		$this->utility = $this->objectManager->get("\MASK\Mask\Utility\MaskUtility");
+		$this->utility = $this->objectManager->get("MASK\Mask\Utility\MaskUtility");
 
 		// Make some enhancements to data
 		$data = $this->cObj->data;
@@ -66,4 +66,5 @@ class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\Fluid
 
 		$this->view->assign('data', $data);
 	}
+
 }
