@@ -10,7 +10,7 @@ tt_content {
 		default = TEXT
 		default {
 			field = CType
-			wrap = <p style="background-color: yellow;"><b>MASK ERROR:</b> Content Element type "|" has no renderinng definition!</p>
+			wrap = <p style="background-color: yellow;"><b>MASK ERROR:</b> Content Element type "|" has no rendering definition!</p>
 			prefixComment = 2 | Unknown element message:
 		}
 	}
