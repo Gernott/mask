@@ -49,12 +49,13 @@ class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\Fluid
 	/**
 	 * Assign content object renderer data and current to view
 	 *
+	 * @param array $conf Configuration
 	 * @author Benjamin Butschell <bb@webprofil.at>
 	 * @return void
 	 */
-	protected function assignContentObjectDataAndCurrent() {
+	protected function assignContentObjectDataAndCurrent(array $conf = array()) {
 		// Call Parent Function to maintain core functions
-		parent::assignContentObjectDataAndCurrent();
+		parent::assignContentObjectDataAndCurrent($conf);
 
 		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
 		$this->utility = $this->objectManager->get("MASK\Mask\Utility\MaskUtility");

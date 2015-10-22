@@ -61,11 +61,6 @@ if (file_exists(PATH_site . $extConf["json"])) {
 // include css for styling of backend preview of mask content elements
 $TBE_STYLES['skins']['mask']['name'] = 'mask';
 $TBE_STYLES['skins']['mask']['stylesheetDirectories'][] = 'EXT:mask/Resources/Public/Styles/Backend/';
-//
-//\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($extConf);
-//exit;
 //$TBE_STYLES['skins']['mask']['stylesheetDirectories'][] = "/" . $extConf["backend"];
 
-//\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($TBE_STYLES['skins']);
-//exit;
 

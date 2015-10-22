@@ -165,11 +165,9 @@
 					<div class="tx_mask_tabcell3">
 						<!--Edit-Mode-Features -->
 						<f:for each="{storage.tca}" as="field" key="key">
-							<mask:startWithCondition string="{key}" search="tx_mask" from="0" length="7">
-								<f:then>
-									<f:render partial="RenderFieldContent" arguments="{form: '{mask:formType(elementKey:storage.key, fieldKey:key, type: \'pages\')}', storage: storage, field:field, key:key, editMode: 1, type: 'pages'}" />
-								</f:then>
-							</mask:startWithCondition>
+							<f:if condition="{mask:substr(string: key, search: 'tx_mask', from: 0, length: 7)}">
+								<f:render partial="RenderFieldContent" arguments="{form: '{mask:formType(elementKey:storage.key, fieldKey:key, type: \'pages\')}', storage: storage, field:field, key:key, editMode: 1, type: 'pages'}" />
+							</f:if>
 						</f:for>
 					</div>
 				</div>

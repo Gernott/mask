@@ -397,6 +397,10 @@ class MaskUtility {
 	 */
 	public function setElementsTca($tca) {
 		$access = " ,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access, --palette--;LLL:EXT:cms/locallang_ttc.xml:palette.visibility;visibility, --palette--;LLL:EXT:cms/locallang_ttc.xml:palette.access;access";
+		$gridelements = '';
+		if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('gridelements')) {
+			$gridelements = ',--div--;LLL:EXT:lang/locallang_tca.xlf:sys_category.tabs.category, categories, tx_gridelements_container, tx_gridelements_columns';
+		}
 		if ($tca) {
 			foreach ($tca as $elementvalue) {
 				$fields = "";
@@ -408,14 +412,14 @@ class MaskUtility {
 				if (is_array($elementvalue["options"])) {
 					foreach ($elementvalue["options"] as $optionkey => $optionvalue) {
 						if ($optionvalue == "rte") {
-							$elementvalue["columns"][$optionkey] .= ";;;richtext[]:rte_transform[mode=ts]";
+//							$elementvalue["columns"][$optionkey] .= ";;;richtext[]:rte_transform[mode=ts]";
 						}
 					}
 				}
 				if (is_array($elementvalue["columns"])) {
 					$fields .= implode(",", $elementvalue["columns"]);
 				}
-				$GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["showitem"] = "CType;;4;;1-1-1," . $fields . $access;
+				$GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["showitem"] = "CType;;4;;1-1-1," . $fields . $access . $gridelements;
 			}
 		}
 	}
@@ -645,12 +649,12 @@ class MaskUtility {
 		// get fields with rte configuration
 		$rteFields = array();
 		foreach ($fields as $field) {
-			$formType = $this->getFormType($field, "", $table);
-			if ($formType == "Richtext") {
-				$rteFields[] = $field.= ";;;richtext[]:rte_transform[mode=ts]";
-			} else {
+//			$formType = $this->getFormType($field, "", $table);
+//			if ($formType == "Richtext") {
+//				$rteFields[] = $field.= ";;;richtext[]:rte_transform[mode=ts]";
+//			} else {
 				$rteFields[] = $field;
-			}
+//			}
 		}
 
 		// get parent table of this inline table
@@ -755,13 +759,13 @@ class MaskUtility {
 		if ($tca) {
 			foreach ($tca as $fieldKey => $value) {
 
-				$element = array_pop($this->getElementsWhichUseField($fieldKey, "pages"));
-				$type = $this->getFormType($fieldKey, $element["key"], "pages");
+//				$element = array_pop($this->getElementsWhichUseField($fieldKey, "pages"));
+//				$type = $this->getFormType($fieldKey, $element["key"], "pages");
 
 				$fieldKeyTca = $fieldKey;
-				if ($type == "Richtext") {
-					$fieldKeyTca .= ";;;richtext[]:rte_transform[mode=ts]";
-				}
+//				if ($type == "Richtext") {
+//					$fieldKeyTca .= ";;;richtext[]:rte_transform[mode=ts]";
+//				}
 
 				$pageFields[] = $fieldKeyTca;
 
