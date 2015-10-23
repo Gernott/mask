@@ -265,7 +265,11 @@ class MaskUtility {
 		$storage = $this->storageRepository->load();
 
 		// get all possible types (tables)
-		$types = array_keys($storage);
+		if ($storage) {
+			$types = array_keys($storage);
+		} else {
+			$types = array();
+		}
 		$types[] = "pages";
 		$types[] = "tt_content";
 		$types = array_unique($types);
