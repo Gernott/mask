@@ -396,10 +396,20 @@ class MaskUtility {
 	 * @author Benjamin Butschell <bb@webprofil.at>
 	 */
 	public function setElementsTca($tca) {
-		$access = " ,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access, --palette--;LLL:EXT:cms/locallang_ttc.xml:palette.visibility;visibility, --palette--;LLL:EXT:cms/locallang_ttc.xml:palette.access;access";
+
+		// backwards compatibility for typo3 6.2
+		$version = \TYPO3\CMS\Core\Utility\VersionNumberUtility::getNumericTypo3Version();
+		$versionNumber = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger($version);
+		if ($versionNumber > 7000000) {
+			$defaultTabs = ",--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.visibility;visibility,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.extended,--div--;LLL:EXT:lang/locallang_tca.xlf:sys_category.tabs.category,categories";
+		} else {
+			$defaultTabs = ",--div--;LLL:EXT:cms/locallang_tca.xlf:pages.tabs.access,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.visibility;visibility,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.extended,--div--;LLL:EXT:lang/locallang_tca.xlf:sys_category.tabs.category,categories";
+		}
+
+		// add gridelements fields, to make mask work with gridelements out of the box
 		$gridelements = '';
 		if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('gridelements')) {
-			$gridelements = ',--div--;LLL:EXT:lang/locallang_tca.xlf:sys_category.tabs.category, categories, tx_gridelements_container, tx_gridelements_columns';
+			$gridelements = ', tx_gridelements_container, tx_gridelements_columns';
 		}
 		if ($tca) {
 			foreach ($tca as $elementvalue) {
@@ -419,7 +429,7 @@ class MaskUtility {
 				if (is_array($elementvalue["columns"])) {
 					$fields .= implode(",", $elementvalue["columns"]);
 				}
-				$GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["showitem"] = "CType;;4;;1-1-1," . $fields . $access . $gridelements;
+				$GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["showitem"] = "--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general," . $fields . $defaultTabs . $gridelements;
 			}
 		}
 	}
@@ -653,7 +663,7 @@ class MaskUtility {
 //			if ($formType == "Richtext") {
 //				$rteFields[] = $field.= ";;;richtext[]:rte_transform[mode=ts]";
 //			} else {
-				$rteFields[] = $field;
+			$rteFields[] = $field;
 //			}
 		}
 
