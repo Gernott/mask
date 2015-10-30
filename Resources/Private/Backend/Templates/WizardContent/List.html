@@ -1,4 +1,5 @@
 {namespace mask=MASK\Mask\ViewHelpers}
+{namespace core = TYPO3\CMS\Core\ViewHelpers}
 <f:layout name="Default" />
 
 <f:section name="content">
@@ -38,10 +39,13 @@
 				<f:for each="{storages.tt_content.elements}" as="storage" key="key">
 					<tr class="db_list_normal">
 						<td></td>
-						<td><img src="/{extConf.preview}ce_{key}.png" /></td>
-						<td nowrap="nowrap"><p><strong>{storage.label}</strong><br />{key}</p></td>
-						<td>
-							<p>{storage.description}</p>
+						<td><f:link.action action="edit" arguments="{type:'tt_content',key:key}">
+						<!-- mask:icon should be replaced by core:icon when compatibility for TYPO3 6.2 isn't needed anymore -->
+						<mask:icon identifier="mask-ce-{key}" size="large" />
+					</f:link.action></td>
+					<td nowrap="nowrap"><p><strong><f:link.action action="edit" arguments="{type:'tt_content',key:key}">{storage.label}</f:link.action></strong><br />{key}</p></td>
+					<td>
+						<p>{storage.description}</p>
 					<mask:link data="{key}" />
 					</td>
 					<td nowrap="nowrap">

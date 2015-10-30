@@ -266,9 +266,6 @@
 			<trans-unit id="tx_mask.content.deletedcontentelement">
 				<source>Content element was deleted.</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.content.previewimagemissing">
-				<source>Preview image missing, place here</source>
-			</trans-unit>
 			<trans-unit id="tx_mask.content.htmlmissing">
 				<source>Fluid/HTML missing, place here</source>
 			</trans-unit>
@@ -311,6 +308,9 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.all.fieldkey">
 				<source>Element-key (unique, lowercase)</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.icon">
+				<source>FontAwesome-Iconcode</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.contentelements">
 				<source>Content Elements</source>

@@ -1,5 +1,9 @@
 <?php
 
+// backwards compatibility for typo3 6.2
+$version = \TYPO3\CMS\Core\Utility\VersionNumberUtility::getNumericTypo3Version();
+$versionNumber = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger($version);
+
 if (!defined('TYPO3_MODE')) {
 	die('Access denied.');
 }
@@ -22,9 +26,26 @@ $temp = "";
 $template = file_get_contents(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mask') . "Resources/Private/Mask/page.ts", true);
 // make content-Elements
 if ($json["tt_content"]["elements"]) {
+	// backwards compatibility for typo3 6.2
+	if ($versionNumber >= 7005000) {
+		$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance("TYPO3\CMS\Core\Imaging\IconRegistry");
+	}
 	foreach ($json["tt_content"]["elements"] as $element) {
-		$temp = str_replace("###KEY###", $element["key"], $template);
-		$temp = str_replace("###ICON###", '../' . $extConf["preview"] . 'ce_' . $element["key"] . '.png', $temp);
+		// backwards compatibility for typo3 6.2
+		if ($versionNumber >= 7005000) {
+			// Register icons for contentelements
+			$iconIdentifier = 'mask-ce-' . $element["key"];
+			$iconRegistry->registerIcon(
+					  $iconIdentifier, "MASK\Mask\Imaging\IconProvider\ContentElementIconProvider", array(
+				 'contentElementKey' => $element["key"]
+					  )
+			);
+			$temp = str_replace("###ICON###", "iconIdentifier = " . $iconIdentifier, $template);
+		} else {
+			$temp = str_replace("###ICON###", "icon = ../" . $extConf["preview"] . 'ce_' . $element["key"] . '.png', $template);
+		}
+
+		$temp = str_replace("###KEY###", $element["key"], $temp);
 		$temp = str_replace("###LABEL###", $element["label"], $temp);
 		$temp = str_replace("###DESCRIPTION###", $element["description"], $temp);
 		$content.= $temp;
@@ -39,6 +60,7 @@ if ($json["tt_content"]["elements"]) {
 		$content .= "[end]\n\n";
 	}
 }
+
 
 // make pages
 $pageColumns = array();

@@ -266,9 +266,6 @@
 			<trans-unit id="tx_mask.content.deletedcontentelement">
 				<target>Content-Element wurde gelöscht.</target>
 			</trans-unit>
-			<trans-unit id="tx_mask.content.previewimagemissing">
-				<target>Vorschaubild fehlt, hier ablegen</target>
-			</trans-unit>
 			<trans-unit id="tx_mask.content.htmlmissing">
 				<target>Fluid/HTML fehlt, hier ablegen</target>
 			</trans-unit>
@@ -311,6 +308,9 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.all.fieldkey">
 				<target>Element-Key (Kleinbuchstaben)</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.icon">
+				<target>FontAwesome-Iconcode</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.contentelements">
 				<target>Inhaltselemente</target>
