@@ -89,7 +89,7 @@ The last step ist to define each lib.content* in your TypoScript-setup with this
 
 .. code-block:: typoscript
 
-	lib.content0 < temp.content
+	lib.content0 < temp.mask.content
 	lib.content0.select.where = colPos=0`
 
 Change all 0 to your ID.
@@ -115,5 +115,5 @@ Language information
 
 Mask works with TYPO3 features. So it is fully compatible with the TYPO3 languagehandling.
 But in TYPO3 there are some Bugs with languages. It is not possible to use contentelements with the language-display-setting "all languages". In frontend the element appears twice or the element don't appear at all.
-Mask bypass this Bug. You only have to use **temp.content** instead of **styles.content.get**.
-But be careful: temp.content don't work with language-fallback!
+Mask bypass this Bug. You only have to use **temp.mask.content** instead of **styles.content.get**.
+But be careful: temp.mask.content doesn't work with language-fallback!
