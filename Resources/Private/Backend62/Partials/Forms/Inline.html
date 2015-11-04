@@ -1,0 +1,21 @@
+{namespace mask=MASK\Mask\ViewHelpers}
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][type]" value="inline" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][exclude]" value="1" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][sql][{type}][--index--]" value="int(11) unsigned DEFAULT '0' NOT NULL" />
+
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][foreign_table]" value="--inlinetable--" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][foreign_field]" value="parentid" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][foreign_table_field]" value="parenttable" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][foreign_sortby]" value="sorting" />
+
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][appearance][collapseAll]" value="1" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][appearance][levelLinksPosition]" value="top" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][appearance][showSynchronizationLink]" value="1" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][appearance][showPossibleLocalizationRecords]" value="1" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][appearance][showAllLocalizationLink]" value="1" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][appearance][useSortable]" value="1" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][appearance][enabledControls][dragdrop]" value="1" />
+<label><f:translate key="tx_mask.field.inline.minitems" /><br />
+	<input name="tx_mask_tools_maskmask[storage][tca][--index--][config][minitems]" type="number" class="tx_mask_formhalf" min="0" value="{field.config.minitems}" /></label>
+<label><f:translate key="tx_mask.field.inline.maxitems" /><br />
+	<input name="tx_mask_tools_maskmask[storage][tca][--index--][config][maxitems]" type="number" class="tx_mask_formhalf" min="1" value="{field.config.maxitems}" /></label>

@@ -1,0 +1,72 @@
+{namespace mask=MASK\Mask\ViewHelpers}
+<div data-type="{form}" class="tx_mask_field {f:if(condition: '{editMode}', then: 'edit_field', else: 'new_field')}">
+
+	<!-- field header 3rd column: own/mask fields (eg. tx_mask_text) -->
+	<div class="tx_mask_fieldheader">
+		<div class="tx_mask_fieldheader_icon id_{form}"></div>
+		<div class="tx_mask_fieldheader_text">
+			<h1>{mask:label(elementKey: storage.key, fieldKey: key, field: field)}</h1>
+			<p>{field.key}</p>
+		</div>
+	</div>
+
+	<f:if condition="{isInlineField}">
+		<f:then></f:then>
+		<f:else>
+			<f:render partial="WizardContent/Warnings" arguments="{storage: storage, editMode: editMode, key: key}" />
+		</f:else>
+	</f:if>
+
+	<div class="tx_mask_fieldcontent">
+		<!-- only when create field (not edit), used in content and pages -->
+		<f:if condition="{editMode}">
+			<f:then></f:then>
+			<f:else>
+				<!-- mask or TYPO3 field chooser -->
+				<label><f:translate key="tx_mask.field.choosefield" /><br />
+					<f:if condition="{form} == 'Richtext'">
+						<input type="hidden" name="tx_mask_tools_maskmask[storage][elements][options][--index--]" value="rte" />
+					</f:if>
+					<select name="tx_mask_tools_maskmask[storage][elements][columns][--index--]" class="tx_mask_formhalf tx_mask_fieldcontent_type">
+						<optgroup class="c-divider" label="New">
+							<option value="-1"><f:translate key="tx_mask.field.newfield" /></option>
+						</optgroup>
+						<optgroup class="c-divider" label="Existing">
+						<f:for each="{mask:tca(type: '{form}', table:type)}" as="item">
+							<f:if condition="{item.label}">
+								<f:then>
+									<option value="{item.field}"><f:translate key="{item.label}" /> ({item.field})</option>
+								</f:then>
+								<f:else>
+									<option value="{item.field}">{item.field}</option>
+								</f:else>
+							</f:if>
+						</f:for>
+						</optgroup>
+					</select>
+				</label>
+				<!-- TYPO3 field overwrite label -->
+				<div class="tx_mask_fieldcontent_existing">
+					<label><f:translate key="tx_mask.field.overwritelabel" /><br />
+						<f:form.textfield class="tx_mask_formhalf" name="tx_mask_tools_maskmask[storage][elements][labels][--index--]" placeholder="{f:translate(key:'tx_mask.all.label')}" title="{f:translate(key:'tx_mask.all.label')}" /></label>
+				</div>
+			</f:else>
+		</f:if>
+
+		<!-- mask field key and label -->
+		<div class="tx_mask_fieldcontent_new">
+			<f:if condition="{editMode}">
+				<f:then>
+					<input name="tx_mask_tools_maskmask[storage][elements][columns][]" type="hidden" class="tx_mask_newfieldname lowercase tceforms-textfield" required="required" data-error="{f:translate(key:'tx_mask.all.error.key')}" value="{field.key}" />
+				</f:then>
+				<f:else>
+					<f:translate key="tx_mask.field.fieldkey" /><br>
+					<input name="tx_mask_tools_maskmask[storage][elements][columns][]" type="text" class="tx_mask_newfieldname lowercase tceforms-textfield" required="required" data-error="{f:translate(key:'tx_mask.all.error.key')}" value="{field.key}" />
+				</f:else>
+			</f:if>
+			<label><f:translate key="tx_mask.field.label" /><br>
+				<input name="tx_mask_tools_maskmask[storage][elements][labels][--index--]" type="text" class="tx_mask_formhalf" title="{f:translate(key:'tx_mask.content.label')}" placeholder="{f:translate(key:'tx_mask.content.label')}" value="{mask:label(elementKey: storage.key, fieldKey: key, field: field)}" /></label>
+			<f:render partial="Forms/{form}" arguments="{storage: storage, editMode: editMode, field: field, key:key, elementKey: storage.key, type: type}" />
+		</div>
+	</div>
+</div>

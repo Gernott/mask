@@ -98,16 +98,17 @@ $content .= $pagesContent;
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig($content);
 
 // generate TypoScript setup
-$setupContent = 'module.tx_mask {
+$setupContent = '
+module.tx_mask {
 	view {
 		templateRootPaths {
-			10 = EXT:mask/Resources/Private/Backend/Templates/
+			10 = EXT:mask/Resources/Private/Backend62/Templates/
 		}
 		partialRootPaths {
-			10 = EXT:mask/Resources/Private/Backend/Partials/
+			10 = EXT:mask/Resources/Private/Backend62/Partials/
 		}
 		layoutRootPaths {
-			10 = EXT:mask/Resources/Private/Backend/Layouts/
+			10 = EXT:mask/Resources/Private/Backend62/Layouts/
 		}
 	}
 	persistence{
@@ -124,6 +125,21 @@ $setupContent = 'module.tx_mask {
 		}
 	}
 }
+[compatVersion = 7.0.0]
+module.tx_mask {
+	view {
+		templateRootPaths {
+			10 = EXT:mask/Resources/Private/Backend/Templates/
+		}
+		partialRootPaths {
+			10 = EXT:mask/Resources/Private/Backend/Partials/
+		}
+		layoutRootPaths {
+			10 = EXT:mask/Resources/Private/Backend/Layouts/
+		}
+	}
+}
+[end]
 ';
 // Load setup.ts Template
 $template = file_get_contents(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mask') . "Resources/Private/Mask/setup.ts", true);

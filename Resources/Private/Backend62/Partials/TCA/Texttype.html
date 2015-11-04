@@ -1,0 +1,12 @@
+{namespace mask=MASK\Mask\ViewHelpers}
+
+<label><f:translate key="tx_mask.field.texttype" /><br>
+	<select name="tx_mask_tools_maskmask[dummy][--index--][texttype]" title="{f:translate(key:'tx_mask.field.texttype')}" class="tx_mask_fieldcontent_eval">
+		<option value=""><f:translate key="tx_mask.field.texttype.default" /></option>
+		<option {f:if(condition: '{mask:eval(fieldKey:\'{key}\', elementKey:\'{elementKey}\', field:\'{field}\', evalValue:\'lower\')}', then: 'selected="selected"', else: '')} value="lower"><f:translate key="tx_mask.field.texttype.lower" /></option>
+		<option {f:if(condition: '{mask:eval(fieldKey:\'{key}\', elementKey:\'{elementKey}\', field:\'{field}\', evalValue:\'upper\')}', then: 'selected="selected"', else: '')} value="upper"><f:translate key="tx_mask.field.texttype.upper" /></option>
+		<option {f:if(condition: '{mask:eval(fieldKey:\'{key}\', elementKey:\'{elementKey}\', field:\'{field}\', evalValue:\'alpha\')}', then: 'selected="selected"', else: '')} value="alpha"><f:translate key="tx_mask.field.texttype.alpha" /></option>
+		<option {f:if(condition: '{mask:eval(fieldKey:\'{key}\', elementKey:\'{elementKey}\', field:\'{field}\', evalValue:\'alphanum\')}', then: 'selected="selected"', else: '')} value="alphanum"><f:translate key="tx_mask.field.texttype.alphanum" /></option>
+		<option {f:if(condition: '{mask:eval(fieldKey:\'{key}\', elementKey:\'{elementKey}\', field:\'{field}\', evalValue:\'alphanum_x\')}', then: 'selected="selected"', else: '')} value="alphanum_x"><f:translate key="tx_mask.field.texttype.alphanum_x" /></option>
+	</select>
+</label>

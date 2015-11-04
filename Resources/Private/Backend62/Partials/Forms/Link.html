@@ -1,0 +1,31 @@
+{namespace mask=MASK\Mask\ViewHelpers}
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][type]" value="input" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][exclude]" value="1" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][sql][{type}][--index--]" value="tinytext" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][wizards][_PADDING]" value="2" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][wizards][link][type]" value="popup" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][wizards][link][title]" value="Link" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][wizards][link][icon]" value="link_popup.gif" />
+<!--<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][wizards][link][script]" value="browse_links.php?mode=wizard" />-->
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][wizards][link][module][name]" value="wizard_element_browser" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][wizards][link][module][urlParameters][mode]" value="wizard" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][wizards][link][JSopenParams]" value="height=300,width=500,status=0,menubar=0,scrollbars=1" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][eval]" value="" class="tx_mask_fieldcontent_evalresult" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][wizards][link][params][blindLinkOptions]" value="folder" class="tx_mask_fieldcontent_linkresult" />
+
+<label><f:translate key="tx_mask.field.link.default" /><br>
+	<input name="tx_mask_tools_maskmask[storage][tca][--index--][config][default]" type="text" class="tx_mask_formhalf" title="default" placeholder="default" value="{field.config.default}"/></label>
+<div>
+	<f:render partial="TCA/Required" arguments="{key:key, elementKey:storage.key, field: field}" />
+	<f:render partial="TCA/Trim" arguments="{key:key, elementKey:storage.key, field: field}" />
+</div>
+
+<div>
+	<div>
+		<f:translate key="tx_mask.field.link.file" /><input name="tx_mask_tools_maskmask[dummy][--index--][file]" type="checkbox" value="file" {f:if(condition: '{mask:linkoption(fieldKey:\'{key}\', elementKey:\'{elementKey}\', evalValue:\'file\')}', then: 'checked="checked"', else: '')} class="tx_mask_fieldcontent_link" />
+		<f:translate key="tx_mask.field.link.mail" /><input name="tx_mask_tools_maskmask[dummy][--index--][mail]" type="checkbox" value="mail" {f:if(condition: '{mask:linkoption(fieldKey:\'{key}\', elementKey:\'{elementKey}\', evalValue:\'mail\')}', then: 'checked="checked"', else: '')} class="tx_mask_fieldcontent_link" />
+		<f:translate key="tx_mask.field.link.page" /><input name="tx_mask_tools_maskmask[dummy][--index--][page]" type="checkbox" value="page" {f:if(condition: '{mask:linkoption(fieldKey:\'{key}\', elementKey:\'{elementKey}\', evalValue:\'page\')}', then: 'checked="checked"', else: '')} class="tx_mask_fieldcontent_link" />
+		<f:translate key="tx_mask.field.link.folder" /><input name="tx_mask_tools_maskmask[dummy][--index--][folder]" type="checkbox" value="folder" {f:if(condition: '{mask:linkoption(fieldKey:\'{key}\', elementKey:\'{elementKey}\', evalValue:\'folder\')}', then: 'checked="checked"', else: '')} class="tx_mask_fieldcontent_link" />
+		<f:translate key="tx_mask.field.link.url" /><input name="tx_mask_tools_maskmask[dummy][--index--][url]" type="checkbox" value="url" {f:if(condition: '{mask:linkoption(fieldKey:\'{key}\', elementKey:\'{elementKey}\', evalValue:\'url\')}', then: 'checked="checked"', else: '')} class="tx_mask_fieldcontent_link" />
+	</div>
+</div>

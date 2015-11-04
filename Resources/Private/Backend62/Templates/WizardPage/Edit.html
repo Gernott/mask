@@ -1,0 +1,194 @@
+{namespace mask=MASK\Mask\ViewHelpers}
+<f:layout name="Default" />
+
+<f:section name="content">
+	<div class="typo3-dyntabmenu-tabs">
+		<table cellspacing="0" cellpadding="0" border="0" class="typo3-dyntabmenu">
+			<tr>
+				<td nowrap="nowrap" class="tab"><f:link.action action="list" controller="WizardContent" class="x-tab-right"><f:translate key="tx_mask.all.contentelements" /></f:link.action></td>
+			<td nowrap="nowrap" class="tabact"><f:link.action action="list" controller="WizardPage" class="x-tab-right"><f:translate key="tx_mask.all.pagetemplates" /></f:link.action></td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="typo3-dyntabmenu-divs">
+		<div class="c-tablayer" style="padding:10px;">
+			<f:flashMessages />
+			<h1 style="margin-bottom: 10px;"><f:translate key="tx_mask.page.header" /></h1>
+			<f:render partial="FormErrors" />
+			<f:form action="update" name="storage" object="{storage}">
+				<f:render partial="WizardPage/Metadata" arguments="{storage:storage, type:'Page', layout: backendLayout}" />
+				<br style="clear:both;" />
+				<div class="tx_mask_tab">
+					<div class="tx_mask_tabcell1">
+						<ul class="tx_mask_fieldtypes" id="dragstart">
+							<li data-type="String" class="id_String">
+								<span class="id_typetext"><f:translate key="tx_mask.field.String" /></span>
+								<span class="id_labeltext"></span>
+								<span class="id_keytext"></span>
+								<span class="id_add" title="{f:translate(key:'tx_mask.field.titleAdd')}"></span>
+								<span class="id_delete" title="{f:translate(key:'tx_mask.field.titleDelete')}"></span>
+								<span class="id_move" title="{f:translate(key:'tx_mask.field.titleMove')}"></span>
+							</li>
+							<li data-type="Integer" class="id_Integer">
+								<span class="id_typetext"><f:translate key="tx_mask.field.Integer" /></span>
+								<span class="id_labeltext"></span>
+								<span class="id_keytext"></span>
+								<span class="id_add" title="{f:translate(key:'tx_mask.field.titleAdd')}"></span>
+								<span class="id_delete" title="{f:translate(key:'tx_mask.field.titleDelete')}"></span>
+								<span class="id_move" title="{f:translate(key:'tx_mask.field.titleMove')}"></span>
+							</li>
+							<li data-type="Float" class="id_Float">
+								<span class="id_typetext"><f:translate key="tx_mask.field.Float" /></span>
+								<span class="id_labeltext"></span>
+								<span class="id_keytext"></span>
+								<span class="id_add" title="{f:translate(key:'tx_mask.field.titleAdd')}"></span>
+								<span class="id_delete" title="{f:translate(key:'tx_mask.field.titleDelete')}"></span>
+								<span class="id_move" title="{f:translate(key:'tx_mask.field.titleMove')}"></span>
+							</li>
+							<li data-type="Link" class="id_Link">
+								<span class="id_typetext"><f:translate key="tx_mask.field.Link" /></span>
+								<span class="id_labeltext"></span>
+								<span class="id_keytext"></span>
+								<span class="id_add" title="{f:translate(key:'tx_mask.field.titleAdd')}"></span>
+								<span class="id_delete" title="{f:translate(key:'tx_mask.field.titleDelete')}"></span>
+								<span class="id_move" title="{f:translate(key:'tx_mask.field.titleMove')}"></span>
+							</li>
+							<li data-type="Date" class="id_Date">
+								<span class="id_typetext"><f:translate key="tx_mask.field.Date" /></span>
+								<span class="id_labeltext"></span>
+								<span class="id_keytext"></span>
+								<span class="id_add" title="{f:translate(key:'tx_mask.field.titleAdd')}"></span>
+								<span class="id_delete" title="{f:translate(key:'tx_mask.field.titleDelete')}"></span>
+								<span class="id_move" title="{f:translate(key:'tx_mask.field.titleMove')}"></span>
+							</li>
+							<li data-type="Datetime" class="id_Datetime">
+								<span class="id_typetext"><f:translate key="tx_mask.field.Datetime" /></span>
+								<span class="id_labeltext"></span>
+								<span class="id_keytext"></span>
+								<span class="id_add" title="{f:translate(key:'tx_mask.field.titleAdd')}"></span>
+								<span class="id_delete" title="{f:translate(key:'tx_mask.field.titleDelete')}"></span>
+								<span class="id_move" title="{f:translate(key:'tx_mask.field.titleMove')}"></span>
+							</li>
+							<li data-type="Text" class="id_Text">
+								<span class="id_typetext"><f:translate key="tx_mask.field.Text" /></span>
+								<span class="id_labeltext"></span>
+								<span class="id_keytext"></span>
+								<span class="id_add" title="{f:translate(key:'tx_mask.field.titleAdd')}"></span>
+								<span class="id_delete" title="{f:translate(key:'tx_mask.field.titleDelete')}"></span>
+								<span class="id_move" title="{f:translate(key:'tx_mask.field.titleMove')}"></span>
+							</li>
+							<li data-type="Richtext" class="id_Richtext">
+								<span class="id_typetext"><f:translate key="tx_mask.field.Richtext" /></span>
+								<span class="id_labeltext"></span>
+								<span class="id_keytext"></span>
+								<span class="id_add" title="{f:translate(key:'tx_mask.field.titleAdd')}"></span>
+								<span class="id_delete" title="{f:translate(key:'tx_mask.field.titleDelete')}"></span>
+								<span class="id_move" title="{f:translate(key:'tx_mask.field.titleMove')}"></span>
+							</li>
+							<li data-type="Check" class="id_Check">
+								<span class="id_typetext"><f:translate key="tx_mask.field.Check" /></span>
+								<span class="id_labeltext"></span>
+								<span class="id_keytext"></span>
+								<span class="id_add" title="{f:translate(key:'tx_mask.field.titleAdd')}"></span>
+								<span class="id_delete" title="{f:translate(key:'tx_mask.field.titleDelete')}"></span>
+								<span class="id_move" title="{f:translate(key:'tx_mask.field.titleMove')}"></span>
+							</li>
+							<li data-type="Radio" class="id_Radio">
+								<span class="id_typetext"><f:translate key="tx_mask.field.Radio" /></span>
+								<span class="id_labeltext"></span>
+								<span class="id_keytext"></span>
+								<span class="id_add" title="{f:translate(key:'tx_mask.field.titleAdd')}"></span>
+								<span class="id_delete" title="{f:translate(key:'tx_mask.field.titleDelete')}"></span>
+								<span class="id_move" title="{f:translate(key:'tx_mask.field.titleMove')}"></span>
+							</li>
+							<li data-type="Select" class="id_Select">
+								<span class="id_typetext"><f:translate key="tx_mask.field.Select" /></span>
+								<span class="id_labeltext"></span>
+								<span class="id_keytext"></span>
+								<span class="id_add" title="{f:translate(key:'tx_mask.field.titleAdd')}"></span>
+								<span class="id_delete" title="{f:translate(key:'tx_mask.field.titleDelete')}"></span>
+								<span class="id_move" title="{f:translate(key:'tx_mask.field.titleMove')}"></span>
+							</li>
+							<li data-type="File" class="id_File">
+								<span class="id_typetext"><f:translate key="tx_mask.field.File" /></span>
+								<span class="id_labeltext"></span>
+								<span class="id_keytext"></span>
+								<span class="id_add" title="{f:translate(key:'tx_mask.field.titleAdd')}"></span>
+								<span class="id_delete" title="{f:translate(key:'tx_mask.field.titleDelete')}"></span>
+								<span class="id_move" title="{f:translate(key:'tx_mask.field.titleMove')}"></span>
+							</li>
+							<li data-type="Inline" class="id_Inline">
+								<span class="id_typetext"><f:translate key="tx_mask.field.Inline" /></span>
+								<span class="id_labeltext"></span>
+								<span class="id_keytext"></span>
+								<span class="id_add" title="{f:translate(key:'tx_mask.field.titleAdd')}"></span>
+								<span class="id_delete" title="{f:translate(key:'tx_mask.field.titleDelete')}"></span>
+								<span class="id_move" title="{f:translate(key:'tx_mask.field.titleMove')}"></span>
+								<ul class="dragtarget inline-container">
+
+								</ul>
+							</li>
+						</ul>
+						<div class="save_buttons" style="width: 100%; float: left;">
+							<f:form.submit name="formAction[save]" value="{f:translate(key:'tx_mask.content.save')}" />
+							<f:form.submit name="formAction[saveAndExit]" value="{f:translate(key:'tx_mask.content.saveandexit')}" />
+						</div>
+					</div>
+
+					<div class="tx_mask_tabcellpadding"></div>
+
+					<div class="tx_mask_tabcell2">
+						<ul class="tx_mask_fieldtypes dragtarget">
+							<f:for each="{storage.tca}" as="field" key="key">
+								<li data-type="{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}', type: 'pages')}" class="id_{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}', type: 'pages')}">
+									<span class="id_typetext"><f:translate key="tx_mask.field.{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}', type: 'pages')}" /></span>
+									<span class="id_labeltext"><mask:label elementKey="{storage.key}" fieldKey="{key}" /></span>
+									<span class="id_keytext">{field.key}</span>
+									<span class="id_add" title="{f:translate(key:'tx_mask.field.titleAdd')}"></span>
+									<span class="id_delete" title="{f:translate(key:'tx_mask.field.titleDelete')}"></span>
+									<span class="id_move" title="{f:translate(key:'tx_mask.field.titleMove')}"></span>
+								<f:if condition="{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}', type:'pages')} == 'Inline'">
+									<ul class="dragtarget inline-container">
+										<f:for each="{field.inlineFields}" as="inlineField" key="inlineKey">
+											<f:render partial="Inline" arguments="{elementKey: field.key, field: inlineField, storage: storage}" />
+										</f:for>
+									</ul>
+								</f:if>
+								</li>
+							</f:for>
+						</ul>
+					</div>
+
+					<div class="tx_mask_tabcellpadding"></div>
+
+					<div class="tx_mask_tabcell3">
+						<!--Edit-Mode-Features -->
+						<f:for each="{storage.tca}" as="field" key="key">
+							<f:if condition="{mask:substr(string: key, search: 'tx_mask', from: 0, length: 7)}">
+								<f:render partial="RenderFieldContent" arguments="{form: '{mask:formType(elementKey:storage.key, fieldKey:key, type: \'pages\')}', storage: storage, field:field, key:key, editMode: 1, type: 'pages'}" />
+							</f:if>
+						</f:for>
+					</div>
+				</div>
+			</f:form>
+
+			<div style="display:none;" id="templates">
+				<f:render partial="Forms/Form" arguments="{form: 'String', storage: storage, type: 'pages'}" />
+				<f:render partial="Forms/Form" arguments="{form: 'Integer', storage: storage, type: 'pages'}" />
+				<f:render partial="Forms/Form" arguments="{form: 'Float', storage: storage, type: 'pages'}" />
+				<f:render partial="Forms/Form" arguments="{form: 'Link', storage: storage, type: 'pages'}" />
+				<f:render partial="Forms/Form" arguments="{form: 'Date', storage: storage, type: 'pages'}" />
+				<f:render partial="Forms/Form" arguments="{form: 'Datetime', storage: storage, type: 'pages'}" />
+				<f:render partial="Forms/Form" arguments="{form: 'Text', storage: storage, type: 'pages'}" />
+				<f:render partial="Forms/Form" arguments="{form: 'Richtext', storage: storage, type: 'pages'}" />
+				<f:render partial="Forms/Form" arguments="{form: 'Check', storage: storage, type: 'pages'}" />
+				<f:render partial="Forms/Form" arguments="{form: 'Radio', storage: storage, type: 'pages'}" />
+				<f:render partial="Forms/Form" arguments="{form: 'Select', storage: storage, type: 'pages'}" />
+				<f:render partial="Forms/Form" arguments="{form: 'File', storage: storage, type: 'pages'}" />
+				<f:render partial="Forms/Form" arguments="{form: 'Inline', storage: storage, type: 'pages'}" />
+				<f:render partial="Forms/Form" arguments="{form: 'Content', storage: storage, type: 'pages'}" />
+			</div>
+		</div>
+	</div>
+</f:section>

@@ -1,0 +1,16 @@
+{namespace mask=MASK\Mask\ViewHelpers}
+<li data-type="{mask:formType(elementKey:'{elementKey}', fieldKey:'{field.key}', type: '{field.inlineParent}')}" class="id_{mask:formType(elementKey:'{storage.key}', fieldKey:'{field.key}', type: '{field.inlineParent}')}">
+	<span class="id_typetext"><f:translate key="tx_mask.field.{mask:formType(elementKey:'{storage.key}', fieldKey:'{field.key}', type: '{field.inlineParent}')}" /></span>
+	<span class="id_labeltext">{field.label}</span>
+	<span class="id_keytext">{field.key}</span>
+	<span class="id_add" title="{f:translate(key:'tx_mask.field.titleAdd')}"></span>
+	<span class="id_delete" title="{f:translate(key:'tx_mask.field.titleDelete')}"></span>
+	<span class="id_move" title="{f:translate(key:'tx_mask.field.titleMove')}"></span>
+	<f:if condition="{mask:formType(elementKey:'{elementKey}', fieldKey:'{field.key}', type: '{field.inlineParent}')} == 'Inline'">
+		<ul class="dragtarget inline-container">
+			<f:for each="{field.inlineFields}" as="inlineField" key="inlineKey">
+				<f:render partial="Inline" arguments="{elementKey: field.key, field: inlineField, storage: storage}" />
+			</f:for>
+		</ul>
+	</f:if>
+</li>

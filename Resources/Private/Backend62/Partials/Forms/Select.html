@@ -1,0 +1,19 @@
+{namespace mask=MASK\Mask\ViewHelpers}
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][type]" value="select" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][exclude]" value="1" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][sql][{type}][--index--]" value="tinytext" />
+
+<label><f:translate key="tx_mask.field.select.size" /><br />
+	<input name="tx_mask_tools_maskmask[storage][tca][--index--][config][size]" type="number" class="tx_mask_formhalf" title="size" placeholder="cols" min="1" value="{field.config.size}"/></label>
+<label><f:translate key="tx_mask.field.select.autosizemax" /><br />
+	<input name="tx_mask_tools_maskmask[storage][tca][--index--][config][autoSizeMax]" type="number" class="tx_mask_formhalf" title="autoSizeMax" placeholder="cols" min="1" value="{field.config.autoSizeMax}" /></label>
+<label><f:translate key="tx_mask.field.select.maxitems" /><br />
+	<input name="tx_mask_tools_maskmask[storage][tca][--index--][config][maxitems]" type="number" class="tx_mask_formhalf" title="maxitems" placeholder="cols" min="1" value="{field.config.maxitems}" /></label>
+<label><f:translate key="tx_mask.field.select.items" /><br />
+	<textarea name="tx_mask_tools_maskmask[dummy][--index--][int]" class="tx_mask_formhalf tx_mask_fieldcontent_items" title="cols"><mask:Items items="{field.config.items}" /></textarea>
+	<div class="tx_mask_fieldcontent_itemsresult"></div>
+</label>
+<label><f:translate key="tx_mask.field.select.foreign_table" /><br />
+	<input name="tx_mask_tools_maskmask[storage][tca][--index--][config][foreign_table]" type="text" class="tx_mask_formhalf" title="foreign_table" placeholder="pages" value="{field.config.foreign_table}"/></label>
+<label><f:translate key="tx_mask.field.select.foreign_table_where" /><br />
+	<input name="tx_mask_tools_maskmask[storage][tca][--index--][config][foreign_table_where]" type="text" class="tx_mask_formhalf" title="foreign_table_where" placeholder="doctype=1" value="{field.config.foreign_table_where}"/></label>
