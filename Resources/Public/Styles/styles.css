@@ -310,3 +310,6 @@ input.not_unique {
 input.create_missing_folders {
 	margin-top: 12px;
 }
+.form-section .panel {
+	margin: 0 0 1em;
+}

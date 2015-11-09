@@ -2,18 +2,21 @@
 {namespace core = TYPO3\CMS\Core\ViewHelpers}
 <f:layout name="Default" />
 <f:section name="content">
-    <ul class="nav nav-tabs t3js-tabs" role="tablist" id="tabs-DTM-mask" data-store-last-tab="1">
-        <li role="presentation" class="t3js-tabmenu-item active">
-        <f:link.action action="list" controller="WizardContent" additionalParams="{aria-controls:'DTM-mask-1', role:'tab', data-toggle:'tab'}"><f:translate key="tx_mask.all.contentelements" /></f:link.action>
-        </li>
-        <li role="presentation" class="t3js-tabmenu-item">
-        <f:link.action action="list" controller="WizardPage" additionalParams="{aria-controls:'DTM-mask-2', role:'tab', data-toggle:'tab'}"><f:translate key="tx_mask.all.pagetemplates" /></f:link.action>
-        </li>
-    </ul>
+	<ul class="nav nav-tabs t3js-tabs" role="tablist" id="tabs-DTM-mask" data-store-last-tab="1">
+		<li role="presentation" class="t3js-tabmenu-item active">
+		<f:link.action action="list" controller="WizardContent" additionalParams="{aria-controls:'DTM-mask-1', role:'tab', data-toggle:'tab'}"><f:translate key="tx_mask.all.contentelements" /></f:link.action>
+		</li>
+		<li role="presentation" class="t3js-tabmenu-item">
+		<f:link.action action="list" controller="WizardPage" additionalParams="{aria-controls:'DTM-mask-2', role:'tab', data-toggle:'tab'}"><f:translate key="tx_mask.all.pagetemplates" /></f:link.action>
+		</li>
+		<li role="presentation" class="t3js-tabmenu-item">
+		<mask:configureExtension><mask:icon identifier="actions-system-extension-configure" altText="{f:translate(key: 'tx_mask.all.configure')}" /></mask:configureExtension>
+		</li>
+	</ul>
 
-    <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="DTM-mask-1">
-            <div class="form-section">
+	<div class="tab-content">
+		<div role="tabpanel" class="tab-pane active" id="DTM-mask-1">
+			<div class="form-section">
 				<f:flashMessages />
 				<h1 style="margin-bottom: 10px;"><f:translate key="tx_mask.content.newheader" /></h1>
 				<f:render partial="FormErrors" />

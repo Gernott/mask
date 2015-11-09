@@ -133,7 +133,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 			$this->checkForDbUpdate($params['extensionKey'], $sql);
 			if ($this->dbUpdateNeeded) {
 				foreach ($this->updateStatements as $type => $statements) {
-					
+
 					foreach ($statements as $statement) {
 						if (in_array($type, array('change', 'add', 'create_table'))) {
 							$res = $this->getDatabaseConnection()->admin_query($statement);

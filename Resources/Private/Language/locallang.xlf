@@ -233,6 +233,9 @@
 			<trans-unit id="tx_mask.content.save">
 				<source>Save</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.content.saveandcreate">
+				<source>Save and create further element</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.content.saveandexit">
 				<source>Save and Exit</source>
 			</trans-unit>
@@ -311,6 +314,12 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.all.icon">
 				<source>FontAwesome-Iconcode</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.color">
+				<source>Colour (HEX-Code)</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.configure">
+				<source>Configure</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.contentelements">
 				<source>Content Elements</source>

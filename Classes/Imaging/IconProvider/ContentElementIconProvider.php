@@ -85,14 +85,30 @@ class ContentElementIconProvider implements IconProviderInterface {
 		$previewIconAvailable = $this->isPreviewIconAvailable($options['contentElementKey']);
 		$fontAwesomeKeyAvailable = $this->isFontAwesomeKeyAvailable($this->contentElement);
 
-		// decide what kind of icon to render
 
+		// decide what kind of icon to render
 		if ($fontAwesomeKeyAvailable) {
-			$markup = '<span class="icon-unify"><i class="fa fa-' . htmlspecialchars($this->getFontAwesomeKey($this->contentElement)) . '"></i></span>';
+
+			$color = $this->getColor($this->contentElement);
+			if ($color) {
+				$styles[] = "color: #" . $color;
+			}
+			if (count($styles)) {
+				$markup = '<span class="icon-unify" style="' . implode("; ", $styles) . '"><i class="fa fa-' . htmlspecialchars($this->getFontAwesomeKey($this->contentElement)) . '"></i></span>';
+			} else {
+				$markup = '<span class="icon-unify" ><i class="fa fa-' . htmlspecialchars($this->getFontAwesomeKey($this->contentElement)) . '"></i></span>';
+			}
 		} else if ($previewIconAvailable) {
 			$markup = '<img src="' . $this->getPreviewIconPath($options['contentElementKey']) . '" alt="' . $this->contentElement["label"] . '" title="' . $this->contentElement["label"] . '"/>';
 		} else {
-			$markup = '<img src="/typo3conf/ext/mask/Resources/Public/Icons/mask-ce-default.png" alt="' . $this->contentElement["label"] . '" title="' . $this->contentElement["label"] . '"/>';
+//			$markup = '<img src="/typo3conf/ext/mask/Resources/Public/Icons/mask-ce-default.png" alt="' . $this->contentElement["label"] . '" title="' . $this->contentElement["label"] . '"/>';
+
+			$color = $this->getColor($this->contentElement);
+			if ($color) {
+				$styles[] = "background-color: #" . $color;
+			}
+			$styles[] = "color: #fff";
+			$markup = '<span class="icon-unify mask-default-icon" style="' . implode("; ", $styles) . '">' . substr($this->contentElement["label"], 0, 1) . '</span>';
 		}
 
 		return $markup;
@@ -140,6 +156,16 @@ class ContentElementIconProvider implements IconProviderInterface {
 	 */
 	protected function getFontAwesomeKey($element) {
 		return trim(str_replace("fa-", "", $element["icon"]));
+	}
+
+	/**
+	 * returns trimmed and unified hex-code
+	 * @param array $element
+	 * @author Benjamin Butschell <bb@webprofil.at>
+	 * @return string
+	 */
+	protected function getColor($element) {
+		return trim(str_replace("#", "", $element["color"]));
 	}
 
 }

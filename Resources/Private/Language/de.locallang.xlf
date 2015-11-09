@@ -233,6 +233,9 @@
 			<trans-unit id="tx_mask.content.save">
 				<target>Speichern</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.content.saveandcreate">
+				<target>Speichern und weiteres Element anlegen</target>
+			</trans-unit>
 			<trans-unit id="tx_mask.content.saveandexit">
 				<target>Speichern und Schließen</target>
 			</trans-unit>
@@ -311,6 +314,12 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.all.icon">
 				<target>FontAwesome-Iconcode</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.color">
+				<target>Farbe (HEX-Code)</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.configure">
+				<target>Konfigurieren</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.contentelements">
 				<target>Inhaltselemente</target>
