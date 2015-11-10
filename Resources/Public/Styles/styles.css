@@ -12,8 +12,17 @@
 	margin: 0;
 }
 .tx_mask_fieldtypes LI {
-	padding-bottom: 3px;
+	margin-bottom: 3px;
 	width: 100%;
+	background-color: #ededed;
+	cursor: move;
+}
+.tx_mask_tabcell2 .tx_mask_fieldtypes LI {
+	cursor: hand;
+	cursor: pointer;
+}
+.tx_mask_fieldtypes LI>DIV {
+	padding-right: 5px;
 }
 .tx_mask_tabcell2 UL.tx_mask_fieldtypes LI .id_typetext,
 .tx_mask_tabcell1 UL.tx_mask_fieldtypes LI .id_labeltext,
@@ -23,10 +32,66 @@
 .tx_mask_tabcell2 UL.tx_mask_fieldtypes LI .id_add {
 	display: none;
 }
-.dragtarget {
+
+/* Field header */
+.tx_mask_fieldheader {
+	padding-bottom: 20px;
+}
+.tx_mask_fieldheader_icon {
+	min-height: 32px;
+	width: 32px;
+	margin-right: 7px;
+	float: left;
+}
+.tx_mask_fieldheader_text {
+	min-height: 32px;
+}
+.tx_mask_fieldheader_text H1 {
+	font-size: 140%;
+	font-family: Verdana,Arial,Helvetica,sans-serif;
+	font-weight: normal;
+	margin: 0;
+	padding: 0;
+}
+.tx_mask_fieldheader_text P {
+	font-size: 100%;
+	font-weight: normal;
+	margin: 0;
+	padding: 0;
+}
+
+/* Texts */
+UL.tx_mask_fieldtypes LI .id_typetext {
+	font-size: 120%;
+	line-height: 220%;
+}
+UL.tx_mask_fieldtypes LI .id_labeltext {
+	display: block;
+	font-size: 12px;
+	font-weight: bold;
+	color: #525252;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	width: 155px;
+	white-space: nowrap;
+}
+UL.tx_mask_fieldtypes LI .id_keytext {
+	font-size: 10px;
+	display: block;
+	color: #525252;
+}
+
+
+
+
+
+.tx_mask_tabcell2 .dragtarget {
 	background-color: #ccc;
 	min-height: 47px;
 }
+
+
+
 /*
 .id_Inline .dragtarget {
 	min-height: 27px;
