@@ -13,7 +13,27 @@
 <input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][appearance][showAllLocalizationLink]" value="1" />
 <input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][appearance][useSortable]" value="1" />
 <input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][appearance][enabledControls][dragdrop]" value="1" />
-<label>minitems<br />
-	<input name="tx_mask_tools_maskmask[storage][tca][--index--][config][minitems]" type="number" class="tx_mask_formhalf" title="minitems" placeholder="cols" min="0" value="{field.config.minitems}" /></label>
-<label>maxitems<br />
-	<input name="tx_mask_tools_maskmask[storage][tca][--index--][config][maxitems]" type="number" class="tx_mask_formhalf" title="maxitems" placeholder="cols" min="1" value="{field.config.maxitems}" /></label>
+<div class="row">
+	<div class="form-group col-sm-12">
+		<label class="t3js-formengine-label" for="minitems">
+			minitems
+		</label>
+		<div class="t3js-formengine-field-item">
+			<div class="form-control-wrap" style="">
+				<input name="tx_mask_tools_maskmask[storage][tca][--index--][config][minitems]" type="number" class="form-control" id="minitems" title="minitems" placeholder="cols" min="0" value="{field.config.minitems}" />
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="form-group col-sm-12">
+		<label class="t3js-formengine-label" for="maxitems">
+			maxitems
+		</label>
+		<div class="t3js-formengine-field-item">
+			<div class="form-control-wrap" style="">
+				<input name="tx_mask_tools_maskmask[storage][tca][--index--][config][maxitems]" type="number" class="form-control" id="maxitems" title="maxitems" placeholder="cols" min="1" value="{field.config.maxitems}" />
+			</div>
+		</div>
+	</div>
+</div>

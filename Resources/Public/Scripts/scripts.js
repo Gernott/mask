@@ -265,7 +265,7 @@ function prepareInlineFieldForInsert(field, template) {
 	if (jQuery(field).closest(".inline-container").size() > 0) {
 
 		jQuery(newTemplate).find(".tx_mask_fieldcontent_existing").remove();
-		jQuery(newTemplate).find(".tx_mask_fieldcontent_type").closest("LABEL").remove();
+		jQuery(newTemplate).find(".tx_mask_fieldcontent_type").closest("LABEL").remove(); // TODO TYPO3 7
 		jQuery(newTemplate).find(".tx_mask_fieldcontent_new").show();
 	}
 	return newTemplate;

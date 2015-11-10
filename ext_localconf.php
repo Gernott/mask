@@ -19,6 +19,21 @@ if (file_exists(PATH_site . $extConf["json"])) {
 	$json = json_decode(file_get_contents(PATH_site . $extConf["json"]), true);
 }
 
+// Icon registry
+// backwards compatibility for typo3 6.2
+if ($versionNumber >= 7005000) {
+	$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance("TYPO3\CMS\Core\Imaging\IconRegistry");
+	$maskIcons = array ("Check", "Date", "Datetime", "File", "Float", "Inline", "Integer", "Link", "Radio", "Richtext", "Select", "String", "Text");
+	foreach ($maskIcons as $maskIcon) {
+		$iconRegistry->registerIcon(
+			'mask-fieldtype-' . $maskIcon, \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
+			array(
+				'source' => 'EXT:mask/Resources/Public/Icons/fieldtypes/' . $maskIcon . '.svg'
+			)
+		);
+	}
+}
+
 // generate page TSconfig
 $content = "";
 $temp = "";
@@ -26,10 +41,7 @@ $temp = "";
 $template = file_get_contents(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mask') . "Resources/Private/Mask/page.ts", true);
 // make content-Elements
 if ($json["tt_content"]["elements"]) {
-	// backwards compatibility for typo3 6.2
-	if ($versionNumber >= 7005000) {
-		$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance("TYPO3\CMS\Core\Imaging\IconRegistry");
-	}
+
 	foreach ($json["tt_content"]["elements"] as $element) {
 		// backwards compatibility for typo3 6.2
 		if ($versionNumber >= 7005000) {

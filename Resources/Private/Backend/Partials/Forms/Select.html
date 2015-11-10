@@ -3,17 +3,72 @@
 <input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][exclude]" value="1" />
 <input type="hidden" name="tx_mask_tools_maskmask[storage][sql][{type}][--index--]" value="tinytext" />
 
-<label><f:translate key="tx_mask.field.select.size" /><br />
-	<input name="tx_mask_tools_maskmask[storage][tca][--index--][config][size]" type="number" class="tx_mask_formhalf" title="size" placeholder="cols" min="1" value="{field.config.size}"/></label>
-<label><f:translate key="tx_mask.field.select.autosizemax" /><br />
-	<input name="tx_mask_tools_maskmask[storage][tca][--index--][config][autoSizeMax]" type="number" class="tx_mask_formhalf" title="autoSizeMax" placeholder="cols" min="1" value="{field.config.autoSizeMax}" /></label>
-<label><f:translate key="tx_mask.field.select.maxitems" /><br />
-	<input name="tx_mask_tools_maskmask[storage][tca][--index--][config][maxitems]" type="number" class="tx_mask_formhalf" title="maxitems" placeholder="cols" min="1" value="{field.config.maxitems}" /></label>
-<label><f:translate key="tx_mask.field.select.items" /><br />
-	<textarea name="tx_mask_tools_maskmask[dummy][--index--][int]" class="tx_mask_formhalf tx_mask_fieldcontent_items" title="cols"><mask:Items items="{field.config.items}" /></textarea>
-	<div class="tx_mask_fieldcontent_itemsresult"></div>
-</label>
-<label><f:translate key="tx_mask.field.select.foreign_table" /><br />
-	<input name="tx_mask_tools_maskmask[storage][tca][--index--][config][foreign_table]" type="text" class="tx_mask_formhalf" title="foreign_table" placeholder="pages" value="{field.config.foreign_table}"/></label>
-<label><f:translate key="tx_mask.field.select.foreign_table_where" /><br />
-	<input name="tx_mask_tools_maskmask[storage][tca][--index--][config][foreign_table_where]" type="text" class="tx_mask_formhalf" title="foreign_table_where" placeholder="doctype=1" value="{field.config.foreign_table_where}"/></label>
+<div class="row">
+	<div class="form-group col-sm-6">
+		<label class="t3js-formengine-label" for="select_size">
+			<f:translate key="tx_mask.field.select.size" />
+		</label>
+		<div class="t3js-formengine-field-item">
+			<div class="form-control-wrap" style="">
+				<input id="select_size" name="tx_mask_tools_maskmask[storage][tca][--index--][config][size]" type="number" class="form-control" title="size" placeholder="cols" min="1" value="{field.config.size}"/>
+			</div>
+		</div>
+	</div>
+	<div class="form-group col-sm-6">
+		<label class="t3js-formengine-label" for="select_autosizemax">
+			<f:translate key="tx_mask.field.select.autosizemax" />
+		</label>
+		<div class="t3js-formengine-field-item">
+			<div class="form-control-wrap" style="">
+				<input id="select_autosizemax" name="tx_mask_tools_maskmask[storage][tca][--index--][config][autoSizeMax]" type="number" class="form-control" title="autoSizeMax" placeholder="cols" min="1" value="{field.config.autoSizeMax}" />
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="form-group col-sm-6">
+		<label class="t3js-formengine-label" for="select_foreigntable">
+			<f:translate key="tx_mask.field.select.foreign_table" />
+		</label>
+		<div class="t3js-formengine-field-item">
+			<div class="form-control-wrap" style="">
+				<input id="select_foreigntable" name="tx_mask_tools_maskmask[storage][tca][--index--][config][foreign_table]" type="text" class="form-control" title="foreign_table" placeholder="pages" value="{field.config.foreign_table}"/>
+			</div>
+		</div>
+	</div>
+	<div class="form-group col-sm-6">
+		<label class="t3js-formengine-label" for="select_foreigntablewhere">
+			<f:translate key="tx_mask.field.select.foreign_table_where" />
+		</label>
+		<div class="t3js-formengine-field-item">
+			<div class="form-control-wrap" style="">
+				<input id="select_foreigntablewhere" name="tx_mask_tools_maskmask[storage][tca][--index--][config][foreign_table_where]" type="text" class="form-control" title="foreign_table_where" placeholder="doctype=1" value="{field.config.foreign_table_where}"/>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="form-group col-sm-6">
+		<label class="t3js-formengine-label" for="select_maxitems">
+			<f:translate key="tx_mask.field.select.maxitems" />
+		</label>
+		<div class="t3js-formengine-field-item">
+			<div class="form-control-wrap" style="">
+				<input id="select_maxitems" name="tx_mask_tools_maskmask[storage][tca][--index--][config][maxitems]" type="number" class="form-control" title="maxitems" placeholder="cols" min="1" value="{field.config.maxitems}" />
+			</div>
+		</div>
+	</div>
+	<div class="form-group col-sm-6">
+		<label class="t3js-formengine-label" for="select_int">
+			<f:translate key="tx_mask.field.select.items" />
+		</label>
+		<div class="t3js-formengine-field-item">
+			<div class="form-control-wrap" style="">
+				<textarea id="select_int" name="tx_mask_tools_maskmask[dummy][--index--][int]" class="form-control tx_mask_fieldcontent_items" rows="10" title="cols"><mask:Items items="{field.config.items}" /></textarea>
+				<div class="tx_mask_fieldcontent_itemsresult"></div>
+			</div>
+		</div>
+	</div>
+</div>
