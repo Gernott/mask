@@ -92,17 +92,25 @@
 												</div>
 											</div>
 
-											<div class="tx_mask_fieldcontent">
-												<label><f:translate key="tx_mask.field.overwritelabel" /><br />
-													<f:if condition="{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')} == 'Richtext'">
-														<input type="hidden" name="tx_mask_tools_maskmask[storage][elements][options][--index--]" value="rte" />
-													</f:if>
-													<f:form.hidden value="{key}" name="storage[elements][columns][--index--]" />
-													<f:form.textfield class="tx_mask_formhalf" value="{mask:label(elementKey: storage.key, fieldKey: key)}" name="storage[elements][labels][--index--]" placeholder="{f:translate(key:'tx_mask.all.label')}" title="{f:translate(key:'tx_mask.all.label')}" /></label>
-
-												<!-- Neu -->
-												<div class="tx_mask_fieldcontent_new">	</div>
+											<div class="row tx_mask_fieldcontent">
+												<div class="form-group col-sm-12">
+													<label class="t3js-formengine-label" for="all_overwrite">
+														<f:translate key="tx_mask.field.overwritelabel" />
+													</label>
+													<div class="t3js-formengine-field-item">
+														<div class="form-control-wrap" style="">
+															<f:if condition="{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')} == 'Richtext'">
+																<input type="hidden" name="tx_mask_tools_maskmask[storage][elements][options][--index--]" value="rte" />
+															</f:if>
+															<f:form.hidden value="{key}" name="storage[elements][columns][--index--]" />
+															<f:form.textfield id="all_overwrite" class="form-control" value="{mask:label(elementKey: storage.key, fieldKey: key)}" name="storage[elements][labels][--index--]" placeholder="{f:translate(key:'tx_mask.all.label')}" title="{f:translate(key:'tx_mask.all.label')}" />
+															<!-- Neu -->
+															<div class="tx_mask_fieldcontent_new">	</div>
+														</div>
+													</div>
+												</div>
 											</div>
+										</div>
 										</div>
 									</f:else>
 								</f:if>
