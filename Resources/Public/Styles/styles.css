@@ -26,6 +26,11 @@
 	display: table-caption;
 	caption-side: bottom;
 }
+.id_Inline .tx_mask_btn_caption {
+	padding-left: 5px;
+	border-left: 2px solid #ddd;
+	background-color: #ededed;
+}
 .tx_mask_btn_row>DIV {
 	display: table-cell;
 }
@@ -61,12 +66,16 @@
 }
 .tx_mask_tabcell2>.dragtarget {
 	display: block;
-	min-height: 100px;
-	background-color: #0000FF;
+	padding-bottom: 50px;
+	background-color: blue;
 }
 .tx_mask_tabcell2 UL .dragtarget {
-	background-color: #0f0;
-	min-height: 50px;
+	min-height: 38px;
+}
+
+.tx_mask_tabcell2 UL .dragtarget li.tx_mask_btn {
+	margin-top: 3px;
+	margin-bottom: 0px;
 }
 
 .tx_mask_tabcell2 UL.tx_mask_fieldtypes LI .id_typetext,

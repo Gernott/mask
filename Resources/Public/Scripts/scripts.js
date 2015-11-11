@@ -67,6 +67,9 @@ jQuery(document).ready(function () {
 		deleteField(field);
 		return false;
 	});
+	
+	// 2nd column equal height to 1st column
+	jQuery(".tx_mask_tabcell2 > .dragtarget").height(jQuery('.tx_mask_tabcell1').innerHeight()+"px");
 
 	jQuery("INPUT[type=submit]").on("click", function (e) {
 		validateFields();
