@@ -139,6 +139,8 @@ jQuery(document).ready(function () {
 			jQuery(".tx_mask_tabcell2 LI").eq(fieldIndex).find(".id_labeltext").html(
 					  jQuery(this).closest(".tx_mask_field").find(".tx_mask_fieldcontent_new INPUT[name='tx_mask_tools_maskmask[storage][elements][labels][--index--]']").val()
 					  );
+
+			console.log("test");
 			jQuery(this).closest(".tx_mask_fieldcontent").find('.tx_mask_fieldcontent_existing').hide();
 			jQuery(this).closest(".tx_mask_fieldcontent").find('.tx_mask_fieldcontent_new').hide();
 		} else if (jQuery(this).val() == '-1') {
@@ -299,6 +301,9 @@ function initSortable() {
 					jQuery(".tx_mask_tabcell3>DIV").hide(); // Hide all fieldconfigs
 					var newTemplate = prepareInlineFieldForInsert(ui.item, fieldTemplate);
 					jQuery(".tx_mask_tabcell3").append(newTemplate); // Add new fieldconfig
+
+					console.log(newTemplate);
+
 					jQuery(".tx_mask_newfieldname:visible").focus(); // Set focus to key field
 				}
 			}
@@ -461,9 +466,9 @@ function syncBodyToHead(body) {
 	var title = jQuery(body).find("INPUT[name='tx_mask_tools_maskmask[storage][elements][labels][--index--]']:visible").val();
 
 	var head = findHeadByBody(body);
-	jQuery(head).find(" > .id_keytext").html(key);
+	jQuery(head).find(".id_keytext").html(key);
 	var head = findHeadByBody(body);
-	jQuery(head).find(" > .id_labeltext").html(title);
+	jQuery(head).find(".id_labeltext").html(title);
 
 	// Show correct label and key in tabcell3 on top
 	jQuery(body).find(".tx_mask_fieldheader_text H1").html(title);
