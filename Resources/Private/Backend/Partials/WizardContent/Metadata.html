@@ -4,7 +4,7 @@
 			<f:translate key="tx_mask.content.title" />*
 		</label>
 		<div class="t3js-formengine-field-item">
-			<div class="form-control-wrap" style="max-width: 350px">
+			<div class="form-control-wrap">
 				<f:form.textfield class="form-control" id="meta_label" required="required" value="{storage.label}" property="elements][label" placeholder="{f:translate(key:'tx_mask.content.title')}" title="{f:translate(key:'tx_mask.content.title')}" />
 			</div>
 		</div>
@@ -14,7 +14,7 @@
 			<f:translate key="tx_mask.all.fieldkey" />*
 		</label>
 		<div class="t3js-formengine-field-item">
-			<div class="form-control-wrap" style="max-width: 350px">
+			<div class="form-control-wrap">
 				<f:form.textfield class="form-control lowercase" id="meta_key" value="{storage.key}" required="required" property="elements][key" placeholder="{f:translate(key:'tx_mask.all.fieldkey')}" title="{f:translate(key:'tx_mask.all.fieldkey')}" readonly="{f:if(condition: '{editMode}', then: 'readonly', else: '')}" />
 			</div>
 		</div>
@@ -24,7 +24,7 @@
 			<f:translate key="tx_mask.all.shorttitle" />
 		</label>
 		<div class="t3js-formengine-field-item">
-			<div class="form-control-wrap" style="max-width: 350px">
+			<div class="form-control-wrap">
 				<f:form.textfield class="form-control" id="meta_shortlabel" property="elements][shortLabel" value="{storage.shortLabel}" placeholder="{f:translate(key:'tx_mask.all.shorttitle')}" title="{f:translate(key:'tx_mask.all.shorttitle')}" />
 			</div>
 		</div>
@@ -46,10 +46,10 @@
 	</div>
 	<div class="form-group col-sm-3">
 		<label class="t3js-formengine-label" for="meta_icon">
-			<f:translate key="tx_mask.all.icon" />
+			<a href="https://fortawesome.github.io/Font-Awesome/icons/" target="_blank"><f:translate key="tx_mask.all.icon" /></a>
 		</label>
 		<div class="t3js-formengine-field-item">
-			<div class="form-control-wrap" style="max-width: 350px">
+			<div class="form-control-wrap">
 				<f:form.textfield class="form-control" id="meta_icon" property="elements][icon"  value="{storage.icon}" placeholder="{f:translate(key:'tx_mask.all.icon')}" title="{f:translate(key:'tx_mask.all.icon')}" />
 			</div>
 		</div>

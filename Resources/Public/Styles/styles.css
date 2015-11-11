@@ -15,9 +15,12 @@
 .tx_mask_btn {
 	display: table;
 	width: 100%;
-	margin-bottom: 3px;
-	background-color: #ededed;
+	margin-bottom: 4px;
+	background-color: #efefef;
 	cursor: move;
+	height: 37px;
+	border-radius: 2px;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.13);
 }
 .tx_mask_btn_row {
 	display: table-row;
@@ -40,15 +43,18 @@
 .tx_mask_btn_row .tx_mask_btn_img {
 	width: 37px;
 }
-.tx_mask_btn_row .tx_mask_btn_img IMG {
-	border-radius: 3px;
+.tx_mask_btn_row .tx_mask_btn_img IMG, .tx_mask_fieldheader IMG {
+	border-radius: 2px;
 }
 .tx_mask_btn_row .tx_mask_btn_text {
 	vertical-align: middle;
+	padding-left:	13px;
 }
 .tx_mask_btn_row .tx_mask_btn_actions {
 	width: 69px;
 	text-align: right;
+	vertical-align: middle;
+	padding-right: 10px;
 }
 
 .tx_mask_tabcell2 .tx_mask_btn {
@@ -88,20 +94,24 @@
 
 /* Field header */
 .tx_mask_fieldheader {
-	padding-bottom: 20px;
+	padding-bottom: 6px;
+	border-bottom: 1px solid #ccc;
+	margin-bottom: 14px;
+	height: 50px;
 }
 .tx_mask_fieldheader_icon {
 	min-height: 32px;
 	width: 32px;
 	margin-right: 7px;
 	float: left;
+	margin-right: 16px;
 }
 .tx_mask_fieldheader_text {
 	min-height: 32px;
 }
 .tx_mask_fieldheader_text H1 {
-	font-size: 140%;
-	font-family: Verdana,Arial,Helvetica,sans-serif;
+	font-size: 165%;
+	font-family: Share,Verdana,Arial,Helvetica,sans-serif;
 	font-weight: normal;
 	margin: 0;
 	padding: 0;
@@ -125,7 +135,6 @@ UL.tx_mask_fieldtypes LI .id_labeltext {
 	color: #525252;
 	text-overflow: ellipsis;
 	overflow: hidden;
-	width: 155px;
 	white-space: nowrap;
 }
 UL.tx_mask_fieldtypes LI .id_keytext {
@@ -140,6 +149,49 @@ UL.tx_mask_fieldtypes LI .id_keytext {
 	display: none;
 }
 
+.tx_mask_tabcell1 > DIV {
+	margin-top: 12px;
+}
+.tx_mask_tabcell1 .btn-success {
+	margin: 5px 0;
+}
+.tx_mask_tabcell3 {
+	padding: 0 20px 0 20px;
+}
+UL.tx_mask_fieldtypes LI .id_keytext {
+	font-size: 10px;
+	display: block;
+	color: #525252;
+}
+.tx_mask_tabcell2 LI.active,  .tx_mask_tabcell2 LI:hover {
+	background-color: #DEDEDE;
+}
+.icon-size-default {
+	height: 37px;
+	width: 37px;
+	line-height: 37px;
+}
+
+UL.tx_mask_fieldtypes .tx_mask_fieldcontent_highlight {
+	height: 37px;
+	/*	background-color: #ddd;*/
+	border: 1px dashed #aaa;
+	margin-bottom: 3px;
+	list-style: none;
+}
+.tx_mask_tabcell1 LI {
+	font-family: Share;
+	font-size: 1.1em;
+}
+.tx_mask_tabcell1 LI .tx_mask_btn_actions {
+	cursor: hand;
+	cursor: pointer;
+}
+.row.bench {
+    margin-top: 5px;
+    border-top: 1px solid #ccc;
+    padding-top: 19px;
+}
 
 
 
@@ -149,9 +201,9 @@ UL.tx_mask_fieldtypes LI .id_keytext {
 .id_Inline .dragtarget {
 	min-height: 27px;
 	/*margin: 34px 0 0 -42px;*/
-	margin: 0 0 0 -42px;
-	padding: 3px 0 3px 3px;
-	list-style-type: none;
+margin: 0 0 0 -42px;
+padding: 3px 0 3px 3px;
+list-style-type: none;
 }
 .dragtarget .id_Inline .id_labeltext, .dragtarget .id_Inline .id_keytext {
 	min-height: 16px;
