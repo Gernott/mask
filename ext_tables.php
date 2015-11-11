@@ -18,7 +18,7 @@ if (TYPO3_MODE === 'BE') {
 		 'WizardPage' => 'list, new, create, edit, update, delete',
 			  ), array(
 		 'access' => 'admin',
-		 'icon' => 'EXT:' . $_EXTKEY . '/ext_icon.gif',
+		 'icon' => 'EXT:' . $_EXTKEY . '/Resources/Public/Icons/module-mask_wizard.svg',
 		 'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_mask.xlf',
 			  )
 	);
