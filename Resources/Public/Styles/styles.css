@@ -55,12 +55,18 @@
 	padding: 0;
 	margin: 0;
 	width: 100%;
+}
+.tx_mask_tabcell1 .dragtarget {
 	display: none;
 }
 .tx_mask_tabcell2>.dragtarget {
 	display: block;
 	min-height: 100px;
 	background-color: #0000FF;
+}
+.tx_mask_tabcell2 UL .dragtarget {
+	background-color: #0f0;
+	min-height: 50px;
 }
 
 .tx_mask_tabcell2 UL.tx_mask_fieldtypes LI .id_typetext,
