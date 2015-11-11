@@ -19,22 +19,29 @@
 	background-color: #ededed;
 	cursor: move;
 }
-.tx_mask_btn>DIV {
+.tx_mask_btn_row {
+	display: table-row;
+}
+.tx_mask_btn_caption {
+	display: table-caption;
+	caption-side: bottom;
+}
+.tx_mask_btn_row>DIV {
 	display: table-cell;
 }
-.tx_mask_btn IMG {
+.tx_mask_btn_row IMG {
 	vertical-align: bottom;
 }
-.tx_mask_btn .tx_mask_btn_img {
+.tx_mask_btn_row .tx_mask_btn_img {
 	width: 37px;
 }
-.tx_mask_btn .tx_mask_btn_img IMG {
+.tx_mask_btn_row .tx_mask_btn_img IMG {
 	border-radius: 3px;
 }
-.tx_mask_btn .tx_mask_btn_text {
+.tx_mask_btn_row .tx_mask_btn_text {
 	vertical-align: middle;
 }
-.tx_mask_btn .tx_mask_btn_actions {
+.tx_mask_btn_row .tx_mask_btn_actions {
 	width: 69px;
 	text-align: right;
 }
@@ -44,10 +51,18 @@
 	cursor: pointer;
 }
 .tx_mask_btn .dragtarget {
-	display: table-row;
-	height: 30px;
+	display: block;
+	padding: 0;
+	margin: 0;
+	width: 100%;
+	display: none;
+}
+.tx_mask_tabcell2>.dragtarget {
+	display: block;
+	min-height: 100px;
 	background-color: #0000FF;
 }
+
 .tx_mask_tabcell2 UL.tx_mask_fieldtypes LI .id_typetext,
 .tx_mask_tabcell1 UL.tx_mask_fieldtypes LI .id_labeltext,
 .tx_mask_tabcell1 UL.tx_mask_fieldtypes LI .id_keytext,
@@ -104,14 +119,15 @@ UL.tx_mask_fieldtypes LI .id_keytext {
 	display: block;
 	color: #525252;
 }
-
-
-
-
-.tx_mask_tabcell2 .dragtarget {
-	background-color: #ccc;
-	min-height: 47px;
+.tx_mask_fieldcontent_existing {
+	display: none;
 }
+.tx_mask_field {
+	display: none;
+}
+
+
+
 
 
 

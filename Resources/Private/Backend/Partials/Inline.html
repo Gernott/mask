@@ -1,23 +1,28 @@
 {namespace mask=MASK\Mask\ViewHelpers}
+{namespace core = TYPO3\CMS\Core\ViewHelpers}
 <li data-type="{mask:formType(elementKey:'{elementKey}', fieldKey:'{field.key}', type: '{field.inlineParent}')}" class="id_{mask:formType(elementKey:'{storage.key}', fieldKey:'{field.key}', type: '{field.inlineParent}')} tx_mask_btn">
-	<div class="tx_mask_btn_img">
-		<core:icon identifier="mask-fieldtype-{mask:formType(elementKey:'{elementKey}', fieldKey:'{field.key}', type: '{field.inlineParent}')}" size="default" />
+	<div class="tx_mask_btn_row">
+		<div class="tx_mask_btn_img">
+			<core:icon identifier="mask-fieldtype-{mask:formType(elementKey:'{elementKey}', fieldKey:'{field.key}', type: '{field.inlineParent}')}" size="default" />
+		</div>
+		<div class="tx_mask_btn_text">
+			<span class="id_typetext"><f:translate key="tx_mask.field.{mask:formType(elementKey:'{storage.key}', fieldKey:'{field.key}', type: '{field.inlineParent}')}" /></span>
+			<span class="id_labeltext">{field.label}</span>
+			<span class="id_keytext">{field.key}</span>
+		</div>
+		<div class="tx_mask_btn_actions">
+			<span class="id_add" title="{f:translate(key:'tx_mask.field.titleAdd')}"><core:icon identifier="actions-edit-add" size="default" /></span>
+			<span class="id_delete" title="{f:translate(key:'tx_mask.field.titleDelete')}"><core:icon identifier="actions-edit-delete" size="default" /></span>
+			<span class="id_move" title="{f:translate(key:'tx_mask.field.titleMove')}"><core:icon identifier="actions-move-move" /></span>
+		</div>	
 	</div>
-	<div class="tx_mask_btn_text">
-		<span class="id_typetext"><f:translate key="tx_mask.field.{mask:formType(elementKey:'{storage.key}', fieldKey:'{field.key}', type: '{field.inlineParent}')}" /></span>
-		<span class="id_labeltext">{field.label}</span>
-		<span class="id_keytext">{field.key}</span>
-	</div>
-	<div class="tx_mask_btn_actions">
-		<span class="id_add" title="{f:translate(key:'tx_mask.field.titleAdd')}"><core:icon identifier="actions-edit-add" size="default" /></span>
-		<span class="id_delete" title="{f:translate(key:'tx_mask.field.titleDelete')}"><core:icon identifier="actions-edit-delete" size="default" /></span>
-		<span class="id_move" title="{f:translate(key:'tx_mask.field.titleMove')}"><core:icon identifier="actions-move-move" /></span>
-	</div>	
-	<f:if condition="{mask:formType(elementKey:'{elementKey}', fieldKey:'{field.key}', type: '{field.inlineParent}')} == 'Inline'">
+<f:if condition="{mask:formType(elementKey:'{elementKey}', fieldKey:'{field.key}', type: '{field.inlineParent}')} == 'Inline'">
+	<div class="tx_mask_btn_caption">
 		<ul class="dragtarget inline-container">
 			<f:for each="{field.inlineFields}" as="inlineField" key="inlineKey">
 				<f:render partial="Inline" arguments="{elementKey: field.key, field: inlineField, storage: storage}" />
 			</f:for>
 		</ul>
-	</f:if>
+	</div>
+</f:if>
 </li>
