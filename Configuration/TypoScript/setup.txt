@@ -19,8 +19,8 @@ mask >
 
 
 # Default TypoScript for Content Columns:
-temp.content = CONTENT
-temp.content {
+temp.mask.content = CONTENT
+temp.mask.content {
 	table = tt_content
 	select {
 		pidInList = this
@@ -31,6 +31,10 @@ temp.content {
 		andWhere.intval = 1
 	}
 }
+
+# temp.content is deprecated, always use temp.mask.content
+temp.content < temp.mask.content
+
 
 # Temporary page cObject:
 temp.mask.page = PAGE
