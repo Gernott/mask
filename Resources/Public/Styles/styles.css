@@ -6,23 +6,47 @@
 	}
 }
 
-.tx_mask_fieldtypes LI, .tx_mask_fieldtypes {
+/* Filedtype Buttons */
+.tx_mask_btn, .tx_mask_fieldtypes {
 	list-style-type: none;
 	padding: 0;
 	margin: 0;
 }
-.tx_mask_fieldtypes LI {
-	margin-bottom: 3px;
+.tx_mask_btn {
+	display: table;
 	width: 100%;
+	margin-bottom: 3px;
 	background-color: #ededed;
 	cursor: move;
 }
-.tx_mask_tabcell2 .tx_mask_fieldtypes LI {
+.tx_mask_btn>DIV {
+	display: table-cell;
+}
+.tx_mask_btn IMG {
+	vertical-align: bottom;
+}
+.tx_mask_btn .tx_mask_btn_img {
+	width: 37px;
+}
+.tx_mask_btn .tx_mask_btn_img IMG {
+	border-radius: 3px;
+}
+.tx_mask_btn .tx_mask_btn_text {
+	vertical-align: middle;
+}
+.tx_mask_btn .tx_mask_btn_actions {
+	width: 69px;
+	text-align: right;
+}
+
+.tx_mask_tabcell2 .tx_mask_btn {
 	cursor: hand;
 	cursor: pointer;
 }
-.tx_mask_fieldtypes LI>DIV {
-	padding-right: 5px;
+.tx_mask_btn .dragtarget {
+	display: table-row;
+	height: 30px;
+	background-color: #0000FF;
 }
 .tx_mask_tabcell2 UL.tx_mask_fieldtypes LI .id_typetext,
 .tx_mask_tabcell1 UL.tx_mask_fieldtypes LI .id_labeltext,
@@ -80,7 +104,6 @@ UL.tx_mask_fieldtypes LI .id_keytext {
 	display: block;
 	color: #525252;
 }
-
 
 
 
