@@ -555,6 +555,7 @@ class MaskUtility {
 						'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
 						'config' => array(
 							 'type' => 'select',
+							 'renderType' => 'selectSingle',
 							 'foreign_table' => 'sys_language',
 							 'foreign_table_where' => 'ORDER BY sys_language.title',
 							 'items' => array(
@@ -724,11 +725,13 @@ class MaskUtility {
 	 * @author Benjamin Butschell <bb@webprofil.at>
 	 */
 	public function getInlineElements($data, $name, $cType, $parentid = "parentid", $parenttable = "tt_content") {
-		// If this method is called in backend, there is no sys_language_uid
+		// If this method is called in backend, there is no $GLOBALS['TSFE']
 		if ($GLOBALS['TSFE']->sys_language_uid) {
 			$sysLangUid = $GLOBALS['TSFE']->sys_language_uid;
+			$enableFields = $GLOBALS['TSFE']->cObj->enableFields($name);
 		} else {
 			$sysLangUid = 0;
+			$enableFields = "";
 		}
 
 		// by default, the uid of the parent is $data["uid"]
@@ -749,7 +752,7 @@ class MaskUtility {
 				  "*", $name, $parentid . " = '" . $parentUid .
 				  "' AND parenttable = '" . $parenttable .
 				  "' AND sys_language_uid IN (-1," . $sysLangUid . ")"
-				  . $GLOBALS['TSFE']->cObj->enableFields($name), "", "sorting"
+				  . $enableFields, "", "sorting"
 		);
 
 		// and recursively add them to an array
