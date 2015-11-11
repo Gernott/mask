@@ -748,8 +748,8 @@ class MaskUtility {
 		$sql = $GLOBALS["TYPO3_DB"]->exec_SELECTquery(
 				  "*", $name, $parentid . " = '" . $parentUid .
 				  "' AND parenttable = '" . $parenttable .
-				  "' AND deleted = '0' AND hidden='0' " .
-				  " AND sys_language_uid IN (-1," . $sysLangUid . ")", "", "sorting"
+				  "' AND sys_language_uid IN (-1," . $sysLangUid . ")"
+				  . $GLOBALS['TSFE']->cObj->enableFields($name), "", "sorting"
 		);
 
 		// and recursively add them to an array
