@@ -67,7 +67,6 @@
 .tx_mask_tabcell2>.dragtarget {
 	display: block;
 	padding-bottom: 50px;
-	background-color: blue;
 }
 .tx_mask_tabcell2 UL .dragtarget {
 	min-height: 38px;
