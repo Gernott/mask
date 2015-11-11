@@ -330,7 +330,7 @@ class MaskUtility {
 		$storage = $this->storageRepository->load();
 		/* @var $fileRepository \TYPO3\CMS\Core\Resource\FileRepository */
 		$fileRepository = $this->objectManager->get("TYPO3\CMS\Core\Resource\FileRepository");
-		$contentFields = array("media", "image");
+		$contentFields = array("media", "image", "assets");
 		if ($storage[$table]["tca"]) {
 			foreach ($storage[$table]["tca"] as $fieldKey => $field) {
 				$contentFields[] = $fieldKey;
