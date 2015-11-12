@@ -10,14 +10,6 @@
 			<p>{field.key}</p>
 		</div>
 	</div>
-
-	<f:if condition="{isInlineField}">
-		<f:then></f:then>
-		<f:else>
-			<f:render partial="WizardContent/Warnings" arguments="{storage: storage, editMode: editMode, key: key}" />
-		</f:else>
-	</f:if>
-
 	<div class="tx_mask_fieldcontent">
 		<!-- only when create field (not edit), used in content and pages -->
 		<f:if condition="{editMode}">
@@ -107,4 +99,10 @@
 			<f:render partial="Forms/{form}" arguments="{storage: storage, editMode: editMode, field: field, key:key, elementKey: storage.key, type: type}" />
 		</div>
 	</div>
+	<f:if condition="{isInlineField}">
+		<f:then></f:then>
+		<f:else>
+			<f:render partial="WizardContent/Warnings" arguments="{storage: storage, editMode: editMode, key: key}" />
+		</f:else>
+	</f:if>
 </div>

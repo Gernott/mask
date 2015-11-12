@@ -1,11 +1,24 @@
 {namespace mask=MASK\Mask\ViewHelpers}
 <f:if condition="{editMode}">
 	<f:if condition="{mask:Multiuse(key: key, elementKey: storage.key) -> f:count()} > 1">
-		<div class="warnings">
-			<f:translate key="tx_mask.content.multiuse" />
-			<f:for each="{mask:Multiuse(key: key, elementKey: storage.key)}" as="element" iteration="iteration">
-				{element.label}<f:if condition="{iteration.isLast}"><f:then></f:then>	<f:else>, </f:else></f:if>
-			</f:for>
+		<div class="alert alert-info">
+			<div class="media">
+				<div class="media-left">
+					<span class="fa-stack fa-lg">
+						<i class="fa fa-circle fa-stack-2x"></i>
+						<i class="fa fa-info fa-stack-1x"></i>
+					</span>
+				</div>
+				<div class="media-body">
+					<h4 class="alert-title"><f:translate key="tx_mask.content.multiuse" /></h4>
+					<div class="alert-message">
+						<f:translate key="tx_mask.content.multiuse.description" />
+						<f:for each="{mask:Multiuse(key: key, elementKey: storage.key)}" as="element" iteration="iteration">
+							{element.label}<f:if condition="{iteration.isLast}"><f:then></f:then>	<f:else>, </f:else></f:if>
+						</f:for>
+					</div>
+				</div>
+			</div>
 		</div>
 	</f:if>
 </f:if>

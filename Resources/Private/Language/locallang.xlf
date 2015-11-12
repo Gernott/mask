@@ -258,7 +258,10 @@
 				<source>for more details how to format the output.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.multiuse">
-				<source>This field is in use in more than one contentelement:</source>
+				<source>This field is in use in more than one contentelement.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.multiuse.description">
+				<source>If you change this field, changes will affect these contentelements:</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.newcontentelement">
 				<source>New content element was created.</source>

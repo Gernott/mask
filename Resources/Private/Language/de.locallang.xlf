@@ -258,7 +258,10 @@
 				<target>für weitere Details um die Ausgabe zu formatieren.</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.multiuse">
-				<target>Dieses Feld ist bei mehr als einem Content-Element in Verwendung:</target>
+				<target>Dieses Feld ist bei mehr als einem Content-Element in Verwendung.</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.multiuse.description">
+				<target>Wenn Sie dieses Feld verändern, werden diese Änderungen in folgenden Content-Elementen wirksam:</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.newcontentelement">
 				<target>Neues Content-Element wurde angelegt.</target>
