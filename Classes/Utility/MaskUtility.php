@@ -745,6 +745,14 @@ class MaskUtility {
 		if ($parenttable == "pages" && $GLOBALS['TSFE']->sys_language_uid != 0) {
 			$parenttable = "pages_language_overlay";
 			$parentUid = $data["_PAGES_OVERLAY_UID"];
+
+			/**
+			 * else if the parenttable is tt_content and we are looking for translated
+			 * elements and the field _LOCALIZED_UID is available, then use this field
+			 * Otherwise we have problems with gridelements and translation
+			 */
+		} else if ($parenttable == "tt_content" && $GLOBALS['TSFE']->sys_language_uid != 0 && $data["_LOCALIZED_UID"] != "") {
+			$parentUid = $data["_LOCALIZED_UID"];
 		}
 
 		// fetching the inline elements
