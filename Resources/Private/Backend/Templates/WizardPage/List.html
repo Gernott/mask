@@ -42,7 +42,7 @@
 										<img src="/uploads/media/{layout.icon}" />
 									</f:if
 									></td>
-									<td><p><strong>{layout.title}</strong><br />{layout.uid}</p></td>
+									<td><f:link.action action="edit" arguments="{layout : layout}"><p><strong>{layout.title}</strong><br />{layout.uid}</p></f:link.action></td>
 									<td><p>{layout.description}</p></td>
 									<td><f:link.action action="edit" arguments="{layout : layout}" class="btn btn-default"><core:icon identifier="actions-document-open" /></f:link.action></td>
 									</tr>
