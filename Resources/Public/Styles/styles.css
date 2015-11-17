@@ -188,21 +188,19 @@ UL.tx_mask_fieldtypes .tx_mask_fieldcontent_highlight {
 	cursor: pointer;
 }
 .row.bench {
-    margin-top: 5px;
-    border-top: 1px solid #ccc;
-    padding-top: 19px;
+	margin-top: 5px;
+	border-top: 1px solid #ccc;
+	padding-top: 19px;
 }
 .panel-space {
 	margin: 1em 0;
 }
 
 
-
-
 /*
 .id_Inline .dragtarget {
 	min-height: 27px;
-	/*margin: 34px 0 0 -42px;*/
+	margin: 34px 0 0 -42px;
 margin: 0 0 0 -42px;
 padding: 3px 0 3px 3px;
 list-style-type: none;
