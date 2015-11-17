@@ -2,7 +2,7 @@
 
 $EM_CONF[$_EXTKEY] = array(
 	 'title' => 'Mask',
-	 'description' => 'Create your own content elements and page templates. Easy to use, even without programming skills because of the comfortalbe drag&drop system. Stored in structured database tables.',
+	 'description' => 'Create your own content elements and page templates. Easy to use, even without programming skills because of the comfortable drag&drop system. Stored in structured database tables.',
 	 'category' => 'plugin',
 	 'author' => 'TYPO3.experten Team',
 	 'author_email' => 'office@typo3experten.com',
