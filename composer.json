@@ -1,7 +1,7 @@
 {
 	"name": "mask/mask",
 	"type": "typo3-cms-extension",
-	"description": "Create your own content elements and page templates. Easy to use, even without programming skills because of the comfortalbe drag&drop system. Stored in structured database tables.",
+	"description": "Create your own content elements and page templates. Easy to use, even without programming skills because of the comfortable drag&drop system. Stored in structured database tables.",
 	"homepage": "https://forge.typo3.org/projects/extension-mask",
 	"support": {
 		"issues": "https://forge.typo3.org/projects/extension-mask"
