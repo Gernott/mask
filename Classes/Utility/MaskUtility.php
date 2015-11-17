@@ -423,13 +423,16 @@ class MaskUtility {
 					$label = $elementvalue["label"];
 				}
 				\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(array($label, "mask_" . $elementvalue["key"]), "CType", "mask");
-				if (is_array($elementvalue["options"])) {
-					foreach ($elementvalue["options"] as $optionkey => $optionvalue) {
-						if ($optionvalue == "rte") {
-//							$elementvalue["columns"][$optionkey] .= ";;;richtext[]:rte_transform[mode=ts]";
+				if ($versionNumber < 7000000) {
+					if (is_array($elementvalue["options"])) {
+						foreach ($elementvalue["options"] as $optionkey => $optionvalue) {
+							if ($optionvalue == "rte") {
+								$elementvalue["columns"][$optionkey] .= ";;;richtext[]:rte_transform[mode=ts]";
+							}
 						}
 					}
 				}
+
 				if (is_array($elementvalue["columns"])) {
 					$fields .= implode(",", $elementvalue["columns"]);
 				}
@@ -570,6 +573,7 @@ class MaskUtility {
 						'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.l18n_parent',
 						'config' => array(
 							 'type' => 'select',
+							 'renderType' => 'selectSingle',
 							 'items' => array(
 								  array('', 0),
 							 ),
@@ -632,6 +636,7 @@ class MaskUtility {
 				  'parentid' => array(
 						'config' => array(
 							 'type' => 'select',
+							 'renderType' => 'selectSingle',
 							 'items' => array(
 								  array('', 0),
 							 ),
@@ -661,15 +666,23 @@ class MaskUtility {
 			$firstField = array_pop($fieldsCopy);
 		}
 
+		// backwards compatibility for typo3 6.2
+		$version = \TYPO3\CMS\Core\Utility\VersionNumberUtility::getNumericTypo3Version();
+		$versionNumber = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger($version);
+
 		// get fields with rte configuration
 		$rteFields = array();
 		foreach ($fields as $field) {
-//			$formType = $this->getFormType($field, "", $table);
-//			if ($formType == "Richtext") {
-//				$rteFields[] = $field.= ";;;richtext[]:rte_transform[mode=ts]";
-//			} else {
-			$rteFields[] = $field;
-//			}
+			if ($versionNumber >= 7000000) {
+				$rteFields[] = $field;
+			} else {
+				$formType = $this->getFormType($field, "", $table);
+				if ($formType == "Richtext") {
+					$rteFields[] = $field.= ";;;richtext[]:rte_transform[mode=ts]";
+				} else {
+					$rteFields[] = $field;
+				}
+			}
 		}
 
 		// get parent table of this inline table
@@ -779,18 +792,26 @@ class MaskUtility {
 	 * @author Benjamin Butschell <bb@webprofil.at>
 	 */
 	public function setPageTca($tca, &$confVarsFe) {
+
+		// backwards compatibility for typo3 6.2
+		$version = \TYPO3\CMS\Core\Utility\VersionNumberUtility::getNumericTypo3Version();
+		$versionNumber = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger($version);
+
 		// Load all Page-Fields for new Tab in Backend
 		$pageFields = array();
 		if ($tca) {
 			foreach ($tca as $fieldKey => $value) {
+				if ($versionNumber >= 7000000) {
+					$fieldKeyTca = $fieldKey;
+				} else {
+					$element = array_pop($this->getElementsWhichUseField($fieldKey, "pages"));
+					$type = $this->getFormType($fieldKey, $element["key"], "pages");
 
-//				$element = array_pop($this->getElementsWhichUseField($fieldKey, "pages"));
-//				$type = $this->getFormType($fieldKey, $element["key"], "pages");
-
-				$fieldKeyTca = $fieldKey;
-//				if ($type == "Richtext") {
-//					$fieldKeyTca .= ";;;richtext[]:rte_transform[mode=ts]";
-//				}
+					$fieldKeyTca = $fieldKey;
+					if ($type == "Richtext") {
+						$fieldKeyTca .= ";;;richtext[]:rte_transform[mode=ts]";
+					}
+				}
 
 				$pageFields[] = $fieldKeyTca;
 
