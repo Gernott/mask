@@ -1,0 +1,36 @@
+<div style="float:left; width: 100%;">
+	<div style="float:left; width: 50%;">
+		<div style="padding: 0 15px 5px 0;">
+			<label for="title">
+				<f:translate key="tx_mask.content.title" />*
+			</label><br />
+			<f:form.textfield class="tx_mask_formfull" required="required" value="{storage.label}" property="elements][label" placeholder="{f:translate(key:'tx_mask.content.title')}" title="{f:translate(key:'tx_mask.content.title')}" />
+		</div>
+	</div>
+	<div style="float:left; width: 25%;">
+		<div style="padding: 0 15px 5px 0;">
+			<label for="fieldkey">
+				<f:translate key="tx_mask.all.fieldkey" />*
+			</label><br />
+			<f:form.textfield class="tx_mask_formfull lowercase" value="{storage.key}" required="required" property="elements][key" placeholder="{f:translate(key:'tx_mask.all.fieldkey')}" title="{f:translate(key:'tx_mask.all.fieldkey')}" readonly="{f:if(condition: '{editMode}', then: 'readonly', else: '')}" />
+		</div>
+	</div>
+	<div style="float:left; width: 25%;">
+		<div style="padding: 0 15px 5px 0;">
+			<label for="shorttitle">
+				<f:translate key="tx_mask.all.shorttitle" />
+			</label><br />
+			<f:form.textfield class="tx_mask_formfull" property="elements][shortLabel" value="{storage.shortLabel}" placeholder="{f:translate(key:'tx_mask.all.shorttitle')}" title="{f:translate(key:'tx_mask.all.shorttitle')}" />
+		</div>
+	</div>
+</div>
+<div style="float:left; width: 100%; border-bottom: 1px solid #adadad; margin-bottom: 20px;">
+	<div style="padding: 0 15px 5px 0;">
+		<label for="description">
+			<f:translate key="tx_mask.all.description" />
+		</label><br />
+		<f:form.textfield class="tx_mask_formfull" property="elements][description"  value="{storage.description}" placeholder="{f:translate(key:'tx_mask.all.description')}" title="{f:translate(key:'tx_mask.all.description')}" />
+		<f:form.hidden property="type" value="tt_content" />
+		<f:form.hidden property="orgkey" value="{storage.key}" />
+	</div>
+</div>

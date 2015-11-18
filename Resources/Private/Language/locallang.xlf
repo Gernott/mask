@@ -233,6 +233,9 @@
 			<trans-unit id="tx_mask.content.save">
 				<source>Save</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.content.saveandcreate">
+				<source>Save and create further element</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.content.saveandexit">
 				<source>Save and Exit</source>
 			</trans-unit>
@@ -255,7 +258,10 @@
 				<source>for more details how to format the output.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.multiuse">
-				<source>This field is in use in more than one contentelement:</source>
+				<source>This field is in use in more than one contentelement.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.multiuse.description">
+				<source>If you change this field, changes will affect these contentelements:</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.newcontentelement">
 				<source>New content element was created.</source>
@@ -265,9 +271,6 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.content.deletedcontentelement">
 				<source>Content element was deleted.</source>
-			</trans-unit>
-			<trans-unit id="tx_mask.content.previewimagemissing">
-				<source>Preview image missing, place here</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.htmlmissing">
 				<source>Fluid/HTML missing, place here</source>
@@ -281,16 +284,16 @@
 				<source>Image</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.page.titleuid">
-				<source>Title/uid</source>
+				<source>Title/Uid</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.page.description">
 				<source>Description</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.page.header">
-				<source>Extend Backendlayout</source>
+				<source>Extend Backend-Layout</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.page.nobackendlayout">
-				<source>No BackendLayout is existing! Create at least one in Module List.</source>
+				<source>No Backend-Layout found. Create at least one Backend-Layout in module "List".</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.page.warning">
 				<source>Caution!</source>
@@ -312,6 +315,15 @@
 			<trans-unit id="tx_mask.all.fieldkey">
 				<source>Element-key (unique, lowercase)</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.all.icon">
+				<source>FontAwesome-Iconcode</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.color">
+				<source>Colour (HEX-Code)</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.configure">
+				<source>Configure</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.all.contentelements">
 				<source>Content Elements</source>
 			</trans-unit>
@@ -325,7 +337,7 @@
 				<source>Field-Key is required!</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.error.missingfolder">
-				<source>Directory is missing. Create missing folder or change configuration in extension manager.</source>
+				<source>Directory is missing. Create missing directory or change configuration in extension manager.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.createmissingfolders">
 				<source>Create missing directories</source>

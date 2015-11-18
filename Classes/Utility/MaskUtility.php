@@ -264,7 +264,16 @@ class MaskUtility {
 		$this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
 		$storage = $this->storageRepository->load();
 
-		$types = array("pages", "tt_content");
+		// get all possible types (tables)
+		if ($storage) {
+			$types = array_keys($storage);
+		} else {
+			$types = array();
+		}
+		$types[] = "pages";
+		$types[] = "tt_content";
+		$types = array_unique($types);
+
 		$fieldType = "";
 		$found = FALSE;
 		foreach ($types as $type) {
@@ -283,6 +292,9 @@ class MaskUtility {
 						}
 					}
 				}
+			} else if (is_array($storage[$type]["tca"][$fieldKey])) {
+				$fieldType = $type;
+				$found = TRUE;
 			}
 		}
 		return $fieldType;
@@ -318,7 +330,7 @@ class MaskUtility {
 		$storage = $this->storageRepository->load();
 		/* @var $fileRepository \TYPO3\CMS\Core\Resource\FileRepository */
 		$fileRepository = $this->objectManager->get("TYPO3\CMS\Core\Resource\FileRepository");
-		$contentFields = array("media", "image");
+		$contentFields = array("media", "image", "assets");
 		if ($storage[$table]["tca"]) {
 			foreach ($storage[$table]["tca"] as $fieldKey => $field) {
 				$contentFields[] = $fieldKey;
@@ -388,7 +400,21 @@ class MaskUtility {
 	 * @author Benjamin Butschell <bb@webprofil.at>
 	 */
 	public function setElementsTca($tca) {
-		$access = " ,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access, --palette--;LLL:EXT:cms/locallang_ttc.xml:palette.visibility;visibility, --palette--;LLL:EXT:cms/locallang_ttc.xml:palette.access;access";
+
+		// backwards compatibility for typo3 6.2
+		$version = \TYPO3\CMS\Core\Utility\VersionNumberUtility::getNumericTypo3Version();
+		$versionNumber = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger($version);
+		if ($versionNumber >= 7000000) {
+			$defaultTabs = ",--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.visibility;visibility,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.extended,--div--;LLL:EXT:lang/locallang_tca.xlf:sys_category.tabs.category,categories";
+		} else {
+			$defaultTabs = ",--div--;LLL:EXT:cms/locallang_tca.xlf:pages.tabs.access,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.visibility;visibility,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.extended,--div--;LLL:EXT:lang/locallang_tca.xlf:sys_category.tabs.category,categories";
+		}
+
+		// add gridelements fields, to make mask work with gridelements out of the box
+		$gridelements = '';
+		if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('gridelements')) {
+			$gridelements = ', tx_gridelements_container, tx_gridelements_columns';
+		}
 		if ($tca) {
 			foreach ($tca as $elementvalue) {
 				$fields = "";
@@ -397,17 +423,20 @@ class MaskUtility {
 					$label = $elementvalue["label"];
 				}
 				\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(array($label, "mask_" . $elementvalue["key"]), "CType", "mask");
-				if (is_array($elementvalue["options"])) {
-					foreach ($elementvalue["options"] as $optionkey => $optionvalue) {
-						if ($optionvalue == "rte") {
-							$elementvalue["columns"][$optionkey] .= ";;;richtext[]:rte_transform[mode=ts]";
+				if ($versionNumber < 7000000) {
+					if (is_array($elementvalue["options"])) {
+						foreach ($elementvalue["options"] as $optionkey => $optionvalue) {
+							if ($optionvalue == "rte") {
+								$elementvalue["columns"][$optionkey] .= ";;;richtext[]:rte_transform[mode=ts]";
+							}
 						}
 					}
 				}
+
 				if (is_array($elementvalue["columns"])) {
 					$fields .= implode(",", $elementvalue["columns"]);
 				}
-				$GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["showitem"] = "CType;;4;;1-1-1," . $fields . $access;
+				$GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["showitem"] = "--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general," . $fields . $defaultTabs . $gridelements;
 			}
 		}
 	}
@@ -420,6 +449,7 @@ class MaskUtility {
 	 * @todo Delete Empty TCA-Values recursive
 	 */
 	public function generateFieldsTca($tca) {
+
 		$columns = array();
 		if ($tca) {
 			foreach ($tca as $tcakey => $tcavalue) {
@@ -528,6 +558,7 @@ class MaskUtility {
 						'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
 						'config' => array(
 							 'type' => 'select',
+							 'renderType' => 'selectSingle',
 							 'foreign_table' => 'sys_language',
 							 'foreign_table_where' => 'ORDER BY sys_language.title',
 							 'items' => array(
@@ -542,6 +573,7 @@ class MaskUtility {
 						'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.l18n_parent',
 						'config' => array(
 							 'type' => 'select',
+							 'renderType' => 'selectSingle',
 							 'items' => array(
 								  array('', 0),
 							 ),
@@ -601,6 +633,29 @@ class MaskUtility {
 							 ),
 						),
 				  ),
+				  'parentid' => array(
+						'config' => array(
+							 'type' => 'select',
+							 'renderType' => 'selectSingle',
+							 'items' => array(
+								  array('', 0),
+							 ),
+							 'foreign_table' => 'tt_content',
+							 'foreign_table_where' =>
+							 'AND tt_content.pid=###CURRENT_PID###
+								AND tt_content.sys_language_uid IN (-1,###REC_FIELD_sys_language_uid###)',
+						),
+				  ),
+				  'parenttable' => array(
+						'config' => array(
+							 'type' => 'passthrough',
+						),
+				  ),
+				  'sorting' => array(
+						'config' => array(
+							 'type' => 'passthrough',
+						),
+				  ),
 			 ),
 		);
 
@@ -611,16 +666,27 @@ class MaskUtility {
 			$firstField = array_pop($fieldsCopy);
 		}
 
+		// backwards compatibility for typo3 6.2
+		$version = \TYPO3\CMS\Core\Utility\VersionNumberUtility::getNumericTypo3Version();
+		$versionNumber = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger($version);
+
 		// get fields with rte configuration
 		$rteFields = array();
 		foreach ($fields as $field) {
-			$formType = $this->getFormType($field, "", $table);
-			if ($formType == "Richtext") {
-				$rteFields[] = $field.= ";;;richtext[]:rte_transform[mode=ts]";
-			} else {
+			if ($versionNumber >= 7000000) {
 				$rteFields[] = $field;
+			} else {
+				$formType = $this->getFormType($field, "", $table);
+				if ($formType == "Richtext") {
+					$rteFields[] = $field.= ";;;richtext[]:rte_transform[mode=ts]";
+				} else {
+					$rteFields[] = $field;
+				}
 			}
 		}
+
+		// get parent table of this inline table
+		$parentTable = $this->getFieldType($table);
 
 		// Adjust TCA-Template
 		$tableTca = $tcaTemplate;
@@ -634,6 +700,9 @@ class MaskUtility {
 
 		$tableTca["columns"]["l10n_parent"]["config"]["foreign_table"] = $table;
 		$tableTca["columns"]["l10n_parent"]["config"]["foreign_table_where"] = 'AND ' . $table . '.pid=###CURRENT_PID### AND ' . $table . '.sys_language_uid IN (-1,0)';
+
+		$tableTca["columns"]["parentid"]["config"]["foreign_table"] = $parentTable;
+		$tableTca["columns"]["parentid"]["config"]["foreign_table_where"] = 'AND ' . $parentTable . '.pid=###CURRENT_PID### AND ' . $parentTable . '.sys_language_uid IN (-1,###REC_FIELD_sys_language_uid###)';
 
 		// Add some stuff we need to make irre work like it should
 		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages($table);
@@ -669,6 +738,14 @@ class MaskUtility {
 	 * @author Benjamin Butschell <bb@webprofil.at>
 	 */
 	public function getInlineElements($data, $name, $cType, $parentid = "parentid", $parenttable = "tt_content") {
+		// If this method is called in backend, there is no $GLOBALS['TSFE']
+		if ($GLOBALS['TSFE']->sys_language_uid) {
+			$sysLangUid = $GLOBALS['TSFE']->sys_language_uid;
+			$enableFields = $GLOBALS['TSFE']->cObj->enableFields($name);
+		} else {
+			$sysLangUid = 0;
+			$enableFields = "";
+		}
 
 		// by default, the uid of the parent is $data["uid"]
 		$parentUid = $data["uid"];
@@ -681,14 +758,22 @@ class MaskUtility {
 		if ($parenttable == "pages" && $GLOBALS['TSFE']->sys_language_uid != 0) {
 			$parenttable = "pages_language_overlay";
 			$parentUid = $data["_PAGES_OVERLAY_UID"];
+
+			/**
+			 * else if the parenttable is tt_content and we are looking for translated
+			 * elements and the field _LOCALIZED_UID is available, then use this field
+			 * Otherwise we have problems with gridelements and translation
+			 */
+		} else if ($parenttable == "tt_content" && $GLOBALS['TSFE']->sys_language_uid != 0 && $data["_LOCALIZED_UID"] != "") {
+			$parentUid = $data["_LOCALIZED_UID"];
 		}
 
 		// fetching the inline elements
 		$sql = $GLOBALS["TYPO3_DB"]->exec_SELECTquery(
 				  "*", $name, $parentid . " = '" . $parentUid .
 				  "' AND parenttable = '" . $parenttable .
-				  "' AND deleted = '0' AND hidden='0' " .
-				  " AND sys_language_uid IN (-1," . $GLOBALS['TSFE']->sys_language_uid . ")", "", "sorting"
+				  "' AND sys_language_uid IN (-1," . $sysLangUid . ")"
+				  . $enableFields, "", "sorting"
 		);
 
 		// and recursively add them to an array
@@ -707,17 +792,25 @@ class MaskUtility {
 	 * @author Benjamin Butschell <bb@webprofil.at>
 	 */
 	public function setPageTca($tca, &$confVarsFe) {
+
+		// backwards compatibility for typo3 6.2
+		$version = \TYPO3\CMS\Core\Utility\VersionNumberUtility::getNumericTypo3Version();
+		$versionNumber = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger($version);
+
 		// Load all Page-Fields for new Tab in Backend
 		$pageFields = array();
 		if ($tca) {
 			foreach ($tca as $fieldKey => $value) {
+				if ($versionNumber >= 7000000) {
+					$fieldKeyTca = $fieldKey;
+				} else {
+					$element = array_pop($this->getElementsWhichUseField($fieldKey, "pages"));
+					$type = $this->getFormType($fieldKey, $element["key"], "pages");
 
-				$element = array_pop($this->getElementsWhichUseField($fieldKey, "pages"));
-				$type = $this->getFormType($fieldKey, $element["key"], "pages");
-
-				$fieldKeyTca = $fieldKey;
-				if ($type == "Richtext") {
-					$fieldKeyTca .= ";;;richtext[]:rte_transform[mode=ts]";
+					$fieldKeyTca = $fieldKey;
+					if ($type == "Richtext") {
+						$fieldKeyTca .= ";;;richtext[]:rte_transform[mode=ts]";
+					}
 				}
 
 				$pageFields[] = $fieldKeyTca;

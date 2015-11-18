@@ -1,0 +1,3 @@
+{namespace mask=MASK\Mask\ViewHelpers}
+<label><f:translate key="tx_mask.field.trim" /><br>
+	<input name="tx_mask_tools_maskmask[dummy][--index--][trim]" type="checkbox" {f:if(condition: '{mask:eval(fieldKey:\'{key}\', field:\'{field}\', elementKey:\'{elementKey}\', evalValue:\'trim\')}', then: 'checked="checked"', else: '')} value="trim" title="{f:translate(key:'tx_mask.content.trim')}" class="tx_mask_fieldcontent_eval" /></label>

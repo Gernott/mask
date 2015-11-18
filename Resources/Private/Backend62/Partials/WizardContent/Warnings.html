@@ -1,0 +1,11 @@
+{namespace mask=MASK\Mask\ViewHelpers}
+<f:if condition="{editMode}">
+	<f:if condition="{mask:Multiuse(key: key, elementKey: storage.key) -> f:count()} > 1">
+		<div class="warnings">
+			<f:translate key="tx_mask.content.multiuse" />
+			<f:for each="{mask:Multiuse(key: key, elementKey: storage.key)}" as="element" iteration="iteration">
+				{element.label}<f:if condition="{iteration.isLast}"><f:then></f:then>	<f:else>, </f:else></f:if>
+			</f:for>
+		</div>
+	</f:if>
+</f:if>

@@ -99,7 +99,7 @@ class WizardPageController extends \MASK\Mask\Controller\WizardController {
 	public function updateAction($storage) {
 		$this->storageRepository->update($storage);
 		$this->generateAction();
-		$this->addErrorFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.page.updatedpage', 'mask'));
+		$this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.page.updatedpage', 'mask'));
 		$this->redirectByAction();
 	}
 
@@ -111,10 +111,8 @@ class WizardPageController extends \MASK\Mask\Controller\WizardController {
 	 */
 	public function deleteAction(array $storage) {
 		$this->storageRepository->remove($storage);
-		$this->addErrorFlashMessage('Your Page was removed.');
+		$this->addFlashMessage('Your Page was removed.');
 		$this->redirect('list');
 	}
 
 }
-
-?>

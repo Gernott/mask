@@ -1,0 +1,28 @@
+{
+	"name": "mask/mask",
+	"type": "typo3-cms-extension",
+	"description": "Create your own content elements and page templates. Easy to use, even without programming skills because of the comfortable drag&drop system. Stored in structured database tables.",
+	"homepage": "https://forge.typo3.org/projects/extension-mask",
+	"support": {
+		"issues": "https://forge.typo3.org/projects/extension-mask"
+	},
+	"keywords": ["TYPO3 CMS", "Mask", "Contentelements", "Wizard"],
+	"authors": [
+		{
+			"name": "TYPO3.experten Team",
+			"email": "office@typo3experten.com",
+			"role": "Developer",
+			"homepage": "typo3experten.com"
+		}
+	],
+	"license": ["GPL-2.0+"],
+	"version": "1.1.0",
+	"require": {
+		"typo3/cms-core": ">=6.2 <6.2.99 || >=7.6.0 <7.6.99"
+	},
+	"autoload": {
+		"psr-4": {
+			"MASK\\Mask\\": "Classes/"
+		}
+	}
+}

@@ -1,6 +1,6 @@
 mod.wizards.newContentElement.wizardItems.common {
 	elements.mask_###KEY### {
-		icon = ###ICON###
+		###ICON###
 		title = ###LABEL###
 		description = ###DESCRIPTION###
 		tt_content_defValues.CType = mask_###KEY###

@@ -127,7 +127,7 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController {
 	public function deleteAction($key, $type) {
 		$this->storageRepository->remove($type, $key);
 		$this->generateAction();
-		$this->addErrorFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.deletedcontentelement', 'mask'));
+		$this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.deletedcontentelement', 'mask'));
 		$this->redirect('list');
 	}
 

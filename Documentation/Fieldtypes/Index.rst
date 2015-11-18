@@ -76,7 +76,7 @@ In case of using f:cObject, use the following TypoScript in your setup-field:
 
 	lib.my_image = IMAGE
 	lib.my_image.file {
-		import.field = image
+		import.field = tx_mask_image
 		treatIdAsReference = 1
 	}
 

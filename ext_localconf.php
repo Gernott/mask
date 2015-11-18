@@ -1,5 +1,9 @@
 <?php
 
+// backwards compatibility for typo3 6.2
+$version = \TYPO3\CMS\Core\Utility\VersionNumberUtility::getNumericTypo3Version();
+$versionNumber = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger($version);
+
 if (!defined('TYPO3_MODE')) {
 	die('Access denied.');
 }
@@ -15,6 +19,21 @@ if (file_exists(PATH_site . $extConf["json"])) {
 	$json = json_decode(file_get_contents(PATH_site . $extConf["json"]), true);
 }
 
+// Icon registry
+// backwards compatibility for typo3 6.2
+if ($versionNumber >= 7005000) {
+	$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance("TYPO3\CMS\Core\Imaging\IconRegistry");
+	$maskIcons = array ("Check", "Date", "Datetime", "File", "Float", "Inline", "Integer", "Link", "Radio", "Richtext", "Select", "String", "Text");
+	foreach ($maskIcons as $maskIcon) {
+		$iconRegistry->registerIcon(
+			'mask-fieldtype-' . $maskIcon, \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
+			array(
+				'source' => 'EXT:mask/Resources/Public/Icons/fieldtypes/' . $maskIcon . '.svg'
+			)
+		);
+	}
+}
+
 // generate page TSconfig
 $content = "";
 $temp = "";
@@ -22,9 +41,23 @@ $temp = "";
 $template = file_get_contents(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mask') . "Resources/Private/Mask/page.ts", true);
 // make content-Elements
 if ($json["tt_content"]["elements"]) {
+
 	foreach ($json["tt_content"]["elements"] as $element) {
-		$temp = str_replace("###KEY###", $element["key"], $template);
-		$temp = str_replace("###ICON###", '../' . $extConf["preview"] . 'ce_' . $element["key"] . '.png', $temp);
+		// backwards compatibility for typo3 6.2
+		if ($versionNumber >= 7005000) {
+			// Register icons for contentelements
+			$iconIdentifier = 'mask-ce-' . $element["key"];
+			$iconRegistry->registerIcon(
+					  $iconIdentifier, "MASK\Mask\Imaging\IconProvider\ContentElementIconProvider", array(
+				 'contentElementKey' => $element["key"]
+					  )
+			);
+			$temp = str_replace("###ICON###", "iconIdentifier = " . $iconIdentifier, $template);
+		} else {
+			$temp = str_replace("###ICON###", "icon = ../" . $extConf["preview"] . 'ce_' . $element["key"] . '.png', $template);
+		}
+
+		$temp = str_replace("###KEY###", $element["key"], $temp);
 		$temp = str_replace("###LABEL###", $element["label"], $temp);
 		$temp = str_replace("###DESCRIPTION###", $element["description"], $temp);
 		$content.= $temp;
@@ -39,6 +72,7 @@ if ($json["tt_content"]["elements"]) {
 		$content .= "[end]\n\n";
 	}
 }
+
 
 // make pages
 $pageColumns = array();
@@ -76,16 +110,17 @@ $content .= $pagesContent;
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig($content);
 
 // generate TypoScript setup
-$setupContent = 'module.tx_mask {
+$setupContent = '
+module.tx_mask {
 	view {
 		templateRootPaths {
-			10 = EXT:mask/Resources/Private/Backend/Templates/
+			10 = EXT:mask/Resources/Private/Backend62/Templates/
 		}
 		partialRootPaths {
-			10 = EXT:mask/Resources/Private/Backend/Partials/
+			10 = EXT:mask/Resources/Private/Backend62/Partials/
 		}
 		layoutRootPaths {
-			10 = EXT:mask/Resources/Private/Backend/Layouts/
+			10 = EXT:mask/Resources/Private/Backend62/Layouts/
 		}
 	}
 	persistence{
@@ -102,6 +137,21 @@ $setupContent = 'module.tx_mask {
 		}
 	}
 }
+[compatVersion = 7.0.0]
+module.tx_mask {
+	view {
+		templateRootPaths {
+			10 = EXT:mask/Resources/Private/Backend/Templates/
+		}
+		partialRootPaths {
+			10 = EXT:mask/Resources/Private/Backend/Partials/
+		}
+		layoutRootPaths {
+			10 = EXT:mask/Resources/Private/Backend/Layouts/
+		}
+	}
+}
+[end]
 ';
 // Load setup.ts Template
 $template = file_get_contents(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mask') . "Resources/Private/Mask/setup.ts", true);
@@ -147,10 +197,12 @@ if (!function_exists('user_mask_contentType')) {
 			return false;
 		}
 	}
+
 }
 
 // for conditions on the backend-layouts
 if (!function_exists('user_mask_beLayout')) {
+
 	function user_mask_beLayout($layout) {
 		// get current page uid:
 		if (is_array($_REQUEST["data"]["pages"])) { // after saving page
@@ -162,7 +214,7 @@ if (!function_exists('user_mask_beLayout')) {
 			} else { // after saving an existing pages_language_overlay
 				$po_uid = intval($po_uid);
 				$sql = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-					"pid", "pages_language_overlay", "uid = " . $po_uid
+						  "pid", "pages_language_overlay", "uid = " . $po_uid
 				);
 				$data = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($sql);
 				$uid = $data["pid"];
@@ -172,10 +224,10 @@ if (!function_exists('user_mask_beLayout')) {
 		} else { // after opening or creating pages_language_overlay
 			$uid = $GLOBALS["SOBE"]->viewId;
 		}
-		
+
 		if ($uid) {
 			$sql = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				"backend_layout, backend_layout_next_level", "pages", "uid = " . $uid
+					  "backend_layout, backend_layout_next_level", "pages", "uid = " . $uid
 			);
 			$data = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($sql);
 
@@ -208,6 +260,7 @@ if (!function_exists('user_mask_beLayout')) {
 			return false;
 		}
 	}
+
 }
 
 // SQL inject:
@@ -216,7 +269,11 @@ $signalSlotDispatcher->connect('TYPO3\\CMS\\Install\\Service\\SqlExpectedSchemaS
 
 // Hook for tt_content inline elements
 //$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] = 'EXT:mask/Classes/Hooks/class.tx_mask_tcemainprocdm.php:tx_mask_tcemainprocdm';
+
 // Enhance Fluid Output with overridden FluidTemplateContentObject
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Frontend\\ContentObject\\FluidTemplateContentObject'] = array(
 	 'className' => 'MASK\\Mask\\Fluid\\FluidTemplateContentObject'
 );
+
+// Hook to override tt_content backend_preview
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem'][$_EXTKEY] = 'EXT:' . $_EXTKEY . '/Classes/Hooks/PageLayoutViewDrawItem.php:MASK\Mask\Hooks\PageLayoutViewDrawItem';

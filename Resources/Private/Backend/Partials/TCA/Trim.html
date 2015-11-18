@@ -1,3 +1,9 @@
-{namespace mask=TYPO3\Mask\ViewHelpers}
-<label><f:translate key="tx_mask.field.trim" /><br>
-	<input name="tx_mask_tools_maskmask[dummy][--index--][trim]" type="checkbox" {f:if(condition: '{mask:eval(fieldKey:\'{key}\', field:\'{field}\', elementKey:\'{elementKey}\', evalValue:\'trim\')}', then: 'checked="checked"', else: '')} value="trim" title="{f:translate(key:'tx_mask.content.trim')}" class="tx_mask_fieldcontent_eval" /></label>
+{namespace mask=MASK\Mask\ViewHelpers}
+<label class="t3js-formengine-label" for="all_trim">
+	<f:translate key="tx_mask.field.trim" />
+</label>
+<div class="t3js-formengine-field-item">
+	<div class="form-control-wrap" style="">
+		<input id="all_trim" class="tx_mask_fieldcontent_eval" name="tx_mask_tools_maskmask[dummy][--index--][trim]" type="checkbox" {f:if(condition: '{mask:eval(fieldKey:\'{key}\', field:\'{field}\', elementKey:\'{elementKey}\', evalValue:\'trim\')}', then: 'checked="checked"', else: '')} value="trim" title="{f:translate(key:'tx_mask.content.trim')}" />
+	</div>
+</div>

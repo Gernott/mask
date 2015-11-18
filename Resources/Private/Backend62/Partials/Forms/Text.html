@@ -1,0 +1,13 @@
+{namespace mask=MASK\Mask\ViewHelpers}
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][type]" value="text" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][exclude]" value="1" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][sql][{type}][--index--]" value="text" />
+<label><f:translate key="tx_mask.field.text.cols" /><br>
+	<input name="tx_mask_tools_maskmask[storage][tca][--index--][config][cols]" type="number" class="tx_mask_formhalf" title="cols" placeholder="cols" min="1" max="48" value="{field.config.cols}" /></label>
+<label><f:translate key="tx_mask.field.text.rows" /><br>
+	<input name="tx_mask_tools_maskmask[storage][tca][--index--][config][rows]" type="number" class="tx_mask_formhalf" title="rows" placeholder="rows" min="0" max="20" value="{field.config.rows}" /></label>
+<label><f:translate key="tx_mask.field.text.default" /><br>
+	<input name="tx_mask_tools_maskmask[storage][tca][--index--][config][default]" type="text" class="tx_mask_formhalf" title="default" placeholder="default" value="{field.config.default}" /></label>
+<f:render partial="TCA/Required" arguments="{key:key, elementKey:storage.key, field:field}" />
+<f:render partial="TCA/Trim" arguments="{key:key, elementKey:storage.key, field:field}" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][eval]" value="" class="tx_mask_fieldcontent_evalresult" />

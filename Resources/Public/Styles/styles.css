@@ -1,201 +1,88 @@
 @charset "utf-8";
 
-/* 3-col table for editing fields */
-.tx_mask_tab {
+@media (min-width: 768px) {
+	.tx_mask_borderright {
+		border-right: 1px solid #a2aab8;
+	}
+}
+
+/* Filedtype Buttons */
+.tx_mask_btn, .tx_mask_fieldtypes {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+.tx_mask_btn {
+	display: table;
 	width: 100%;
-	display:table;
+	margin-bottom: 4px;
+	background-color: #efefef;
+	cursor: move;
+	height: 37px;
+	border-radius: 2px;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.13);
 }
-.tx_mask_tabcell1, .tx_mask_tabcell2, .tx_mask_tabcell3 {
-	padding: 11px;
-	background-color: #f7f7f7;
-	background-image: -moz-linear-gradient(center top , #ffffff 0px, #ececec 100px);
-	background-repeat: repeat-x;
-	border: 1px solid #a2aab8;
-	display:table-cell;
+.tx_mask_btn_row {
+	display: table-row;
 }
-.tx_mask_tabcell1, .tx_mask_tabcell2 {
-	margin-right: 10px;
-	width: 250px;
+.tx_mask_btn_caption {
+	display: table-caption;
+	caption-side: bottom;
 }
-.tx_mask_tabcell1 {
-	background: none;
-	border: 1px solid #ececec;
+.id_Inline .tx_mask_btn_caption {
+	padding-left: 5px;
+	border-left: 2px solid #ddd;
+	background-color: #ededed;
 }
-.tx_mask_tabcell2, .tx_mask_tabcell3 {
-	vertical-align: top;
+.tx_mask_btn_row>DIV {
+	display: table-cell;
 }
-.tx_mask_tabcell3 > DIV {
+.tx_mask_btn_row IMG {
+	vertical-align: bottom;
+}
+.tx_mask_btn_row .tx_mask_btn_img {
+	width: 37px;
+}
+.tx_mask_btn_row .tx_mask_btn_img IMG, .tx_mask_fieldheader IMG {
+	border-radius: 2px;
+}
+.tx_mask_btn_row .tx_mask_btn_text {
+	vertical-align: middle;
+	padding-left:	13px;
+}
+.tx_mask_btn_row .tx_mask_btn_actions {
+	width: 69px;
+	text-align: right;
+	vertical-align: middle;
+	padding-right: 10px;
+}
+
+.tx_mask_tabcell2 .tx_mask_btn {
+	cursor: hand;
+	cursor: pointer;
+}
+.tx_mask_btn .dragtarget {
+	display: block;
+	padding: 0;
+	margin: 0;
+	width: 100%;
+}
+.tx_mask_tabcell1 .dragtarget {
 	display: none;
 }
-.tx_mask_tabcellpadding {
-	width: 10px;
-	display:table-cell;
-}
-
-/* fieldtypes */
-UL.tx_mask_fieldtypes {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	float: left;
-	width: 100%;
-}
-.tx_mask_tabcell2 UL {
-	/*background-color: #E0E0E0;*/
-}
-.tx_mask_tabcell2 UL.tx_mask_fieldtypes {
-	min-height: 492px;
-}
-UL.tx_mask_fieldtypes LI {
-	background-color: #E0E0E0;
-	/* border: 1px solid #D5D5D5; */
-	margin-bottom: 2px;
-	min-height: 26px;
-	padding: 8px 0 0 42px;
-	background-repeat: no-repeat;
-	background-position: 0;
-	width: 206px;
-	cursor: move;
-	position: relative;
-}
-UL.tx_mask_fieldtypes LI.active,
-UL.tx_mask_fieldtypes LI:hover {
-	background-color: #666;
-	color: #fff;
-}
-UL.tx_mask_fieldtypes LI.active > .id_keytext,
-UL.tx_mask_fieldtypes LI:hover > .id_keytext,
-UL.tx_mask_fieldtypes LI.active > .id_labeltext,
-UL.tx_mask_fieldtypes LI:hover > .id_labeltext {
-	color: #fff;
-}
-.tx_mask_tabcell2 UL.tx_mask_fieldtypes LI {
-	min-height: 31px;
-	padding-top: 3px;
-	line-height: 120%;
-	cursor: hand;
-	cursor: pointer;
-	background-position: top left;
-}
-.id_Check {
-	background-image: url('../Icons/fieldtypes/check.png');
-}
-.id_Date {
-	background-image: url('../Icons/fieldtypes/date.png');
-}
-.id_Datetime {
-	background-image: url('../Icons/fieldtypes/datetime.png');
-}
-.id_File {
-	background-image: url('../Icons/fieldtypes/file.png');
-}
-.id_Float {
-	background-image: url('../Icons/fieldtypes/float.png');
-}
-.id_Inline {
-	background-image: url('../Icons/fieldtypes/inline.png');
-}
-.id_Integer {
-	background-image: url('../Icons/fieldtypes/integer.png');
-}
-.id_Link {
-	background-image: url('../Icons/fieldtypes/link.png');
-}
-.id_Radio {
-	background-image: url('../Icons/fieldtypes/radio.png');
-}
-.id_Richtext {
-	background-image: url('../Icons/fieldtypes/richtext.png');
-}
-.id_Select {
-	background-image: url('../Icons/fieldtypes/select.png');
-}
-.id_String {
-	background-image: url('../Icons/fieldtypes/string.png');
-}
-.id_Text {
-	background-image: url('../Icons/fieldtypes/text.png');
-}
-.tx_mask_tabcell2 UL.tx_mask_fieldtypes>LI.id_Inline {
-	min-height: 65px;
-}
-
-UL.tx_mask_fieldtypes .tx_mask_fieldcontent_highlight {
-	height: 20px;
-	background-color: #ddd;
-	border: 1px dashed #aaa;
-}
-
-/* Field header */
-.tx_mask_fieldheader {
-}
-.tx_mask_fieldheader_icon {
-	min-height: 32px;
-	width: 32px;
-	margin-right: 7px;
-	float: left;
-}
-.tx_mask_fieldheader_text {
-	min-height: 32px;
-}
-.tx_mask_fieldheader_text H1 {
-	font-size: 100%;
-	font-family: Verdana,Arial,Helvetica,sans-serif;
-	font-weight: normal;
-	margin: 0;
-	padding: 0;
-}
-.tx_mask_fieldheader_text P {
-	font-size: 10px;
-	font-weight: normal;
-	margin: 0;
-	padding: 0;
-}
-
-/* Buttons */
-UL.tx_mask_fieldtypes LI .id_add,
-UL.tx_mask_fieldtypes LI .id_delete,
-UL.tx_mask_fieldtypes LI .id_move {
-	background-repeat: no-repeat;
-	position: absolute;
+.tx_mask_tabcell2>.dragtarget {
 	display: block;
-	text-indent: -9999px;
-	cursor: hand;
-	cursor: pointer;
+	padding-bottom: 50px;
 }
-UL.tx_mask_fieldtypes LI .id_add {
-	background-image: url('../Icons/buttons/add.png');
-	width: 19px;
-	height: 19px;
-	top: 8px;
-	right: 8px;
+.tx_mask_tabcell2 UL .dragtarget {
+	min-height: 38px;
 }
-UL.tx_mask_fieldtypes LI:hover .id_add {
-	background-image: url('../Icons/buttons/add_act.png');
+
+.tx_mask_tabcell2 UL .dragtarget li.tx_mask_btn {
+	margin-top: 3px;
+	margin-bottom: 0px;
 }
-UL.tx_mask_fieldtypes LI .id_delete {
-	background-image: url('../Icons/buttons/delete.png');
-	width: 14px;
-	height: 17px;
-	top: 9px;
-	right: 9px;
-}
-UL.tx_mask_fieldtypes LI:hover>.id_delete,
-UL.tx_mask_fieldtypes LI.active>.id_delete {
-	background-image: url('../Icons/buttons/delete_act.png');
-}
-UL.tx_mask_fieldtypes LI .id_move {
-	background-image: url('../Icons/buttons/move.png');
-	width: 24px;
-	height: 24px;
-	top: 6px;
-	right: 27px;
-	cursor: n-resize;
-}
-UL.tx_mask_fieldtypes LI:hover>.id_move,
-UL.tx_mask_fieldtypes LI.active>.id_move {
-	background-image: url('../Icons/buttons/move_act.png');
-}
+
 .tx_mask_tabcell2 UL.tx_mask_fieldtypes LI .id_typetext,
 .tx_mask_tabcell1 UL.tx_mask_fieldtypes LI .id_labeltext,
 .tx_mask_tabcell1 UL.tx_mask_fieldtypes LI .id_keytext,
@@ -205,8 +92,41 @@ UL.tx_mask_fieldtypes LI.active>.id_move {
 	display: none;
 }
 
+/* Field header */
+.tx_mask_fieldheader {
+	padding-bottom: 6px;
+	border-bottom: 1px solid #ccc;
+	margin-bottom: 14px;
+	height: 50px;
+}
+.tx_mask_fieldheader_icon {
+	min-height: 32px;
+	width: 32px;
+	margin-right: 7px;
+	float: left;
+	margin-right: 16px;
+}
+.tx_mask_fieldheader_text {
+	min-height: 32px;
+}
+.tx_mask_fieldheader_text H1 {
+	font-size: 165%;
+	font-family: Share,Verdana,Arial,Helvetica,sans-serif;
+	font-weight: normal;
+	margin: 0;
+	padding: 0;
+}
+.tx_mask_fieldheader_text P {
+	font-size: 100%;
+	font-weight: normal;
+	margin: 0;
+	padding: 0;
+}
+
 /* Texts */
 UL.tx_mask_fieldtypes LI .id_typetext {
+	font-size: 120%;
+	line-height: 220%;
 }
 UL.tx_mask_fieldtypes LI .id_labeltext {
 	display: block;
@@ -215,7 +135,6 @@ UL.tx_mask_fieldtypes LI .id_labeltext {
 	color: #525252;
 	text-overflow: ellipsis;
 	overflow: hidden;
-	width: 155px;
 	white-space: nowrap;
 }
 UL.tx_mask_fieldtypes LI .id_keytext {
@@ -223,90 +142,70 @@ UL.tx_mask_fieldtypes LI .id_keytext {
 	display: block;
 	color: #525252;
 }
-
-.x-tab-panel-body-content {
-	padding: 10px;
-}
-.typo3-dblist THEAD TD {
-	font-weight: bold;
-}
-.typo3-messages {
-	margin-bottom: 17px;
-}
-table.typo3-dblist tr td.col-title {
-	width: auto;
-}
-
-.tx_mask_formfull {
-	width: 100%;
-	padding: 3px 5px;
-}
-.tx_mask_formhalf {
-	width: 50%;
-}
-
-.tx_mask_fieldcontent LABEL {
-	padding-bottom: 5px;
-	display: block;
-}
-.tx_mask_field {
-	position: relative;
-}
 .tx_mask_fieldcontent_existing {
 	display: none;
 }
-.tx_mask_fieldcontent_new {
-}
-.edit_field .tx_mask_fieldcontent_new {
-	display: block;
-}
-input[readonly="readonly"] {
-	background: rgba(255,255,255,0.5);
-	border: 1px solid #ccc;
-	color: #AAA;
-}
-input.not_unique {
-	background-color: #FFD8D8;
-	border-color: #E70000;
-}
-.save_buttons {
-	margin-top: 22px;
-	float: left;
-}
-.tx_mask_tabcell2 UL.tx_mask_fieldtypes LI.existing_inline .inline-container {
+.tx_mask_field {
 	display: none;
 }
-.tx_mask_tabcell2 UL.tx_mask_fieldtypes LI.existing_inline {
-	min-height: 31px;
+
+.tx_mask_tabcell1 > DIV {
+	margin-top: 12px;
 }
-.warnings {
-	color: #FF8500;
+.tx_mask_tabcell1 .btn-success {
+	margin: 5px 0;
 }
-.tx_mask_fieldcontent {
-	border-top: 1px solid #cacaca;
-	margin-top: 10px;
-	padding-top: 13px;
+.tx_mask_tabcell3 {
+	padding: 0 20px 0 20px;
 }
+UL.tx_mask_fieldtypes LI .id_keytext {
+	font-size: 10px;
+	display: block;
+	color: #525252;
+}
+.tx_mask_tabcell2 LI.active,  .tx_mask_tabcell2 LI:hover {
+	background-color: #DEDEDE;
+}
+.icon-size-default {
+	height: 37px;
+	width: 37px;
+	line-height: 37px;
+}
+
+UL.tx_mask_fieldtypes .tx_mask_fieldcontent_highlight {
+	height: 37px;
+	/*	background-color: #ddd;*/
+	border: 1px dashed #aaa;
+	margin-bottom: 3px;
+	list-style: none;
+}
+.tx_mask_tabcell1 LI {
+	font-family: Share;
+	font-size: 1.1em;
+}
+.tx_mask_tabcell1 LI .tx_mask_btn_actions {
+	cursor: hand;
+	cursor: pointer;
+}
+.row.bench {
+	margin-top: 5px;
+	border-top: 1px solid #ccc;
+	padding-top: 19px;
+}
+.panel-space {
+	margin: 1em 0;
+}
+
+
+/*
 .id_Inline .dragtarget {
 	min-height: 27px;
-	/*margin: 34px 0 0 -42px;*/
-	margin: 0 0 0 -42px;
-	padding: 3px 0 3px 3px;
-	list-style-type: none;
-}
-.id_Inline .dragtarget LI {
-	width: auto;
+	margin: 34px 0 0 -42px;
+margin: 0 0 0 -42px;
+padding: 3px 0 3px 3px;
+list-style-type: none;
 }
 .dragtarget .id_Inline .id_labeltext, .dragtarget .id_Inline .id_keytext {
 	min-height: 16px;
 }
-.tx_mask_tabcell1 .id_Inline .dragtarget {
-	display: none;
-}
-
-.inline-container {
-	border-left: 3px solid black;
-}
-input.create_missing_folders {
-	margin-top: 12px;
-}
+*/

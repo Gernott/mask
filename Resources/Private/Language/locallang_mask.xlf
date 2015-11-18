@@ -13,13 +13,16 @@
 				<source>Create and manage Masks</source>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-json">
-				<source>XFile with project-specific mask configuration.</source>
+				<source>File with project-specific mask configuration.</source>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-content">
-				<source>XFolder for Content Fluid Templates (with ending slash).</source>
+				<source>Folder for Content Fluid Templates (with ending slash).</source>
+			</trans-unit>
+			<trans-unit id="ext_conf_template-backend">
+				<source>Folder for Backend Preview Templates (with ending slash).</source>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-preview">
-				<source>XFolder for preview-images (with ending slash).</source>
+				<source>Folder for preview-images (with ending slash).</source>
 			</trans-unit>
 		</body>
 	</file>

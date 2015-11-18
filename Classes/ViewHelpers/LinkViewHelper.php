@@ -1,11 +1,11 @@
 <?php
 
-namespace TYPO3\Mask\ViewHelpers;
+namespace MASK\Mask\ViewHelpers;
 
 /**
  *
  * Example
- * {namespace mask=TYPO3\Mask\ViewHelpers}
+ * {namespace mask=MASK\Mask\ViewHelpers}
  *
  * @package TYPO3
  * @subpackage mask
@@ -24,17 +24,6 @@ class LinkViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 	 */
 	public function render($data) {
 		$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);
-
-		$url = $extConf['preview'] . 'ce_' . $data . '.png';
-		if (!file_exists(PATH_site . $url) || !is_file(PATH_site . $url)) {
-			$preview = '<div class="typo3-message message-error"><strong>' .
-					  \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.error', 'mask') .
-					  '</strong> ' .
-					  \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.previewimagemmissing', 'mask') .
-					  ': <span style="text-decoration:underline;">' . $url .
-					  '</span></div>';
-		}
-
 		$url = $extConf['content'] . $data . '.html';
 		if (!file_exists(PATH_site . $url) || !is_file(PATH_site . $url)) {
 			$content = '<div class="typo3-message message-error"><strong>' .
@@ -43,7 +32,7 @@ class LinkViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 					  ': <span style="text-decoration:underline;">' . $url .
 					  '</span></div>';
 		}
-
-		return $preview . '<br />' . $content;
+		return $content;
 	}
+
 }

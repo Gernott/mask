@@ -1,0 +1,315 @@
+@charset "utf-8";
+
+/* 3-col table for editing fields */
+.tx_mask_tab {
+	width: 100%;
+	display:table;
+}
+.tx_mask_tabcell1, .tx_mask_tabcell2, .tx_mask_tabcell3 {
+	padding: 11px;
+	background-color: #f7f7f7;
+	background-image: -moz-linear-gradient(center top , #ffffff 0px, #ececec 100px);
+	background-repeat: repeat-x;
+	border: 1px solid #a2aab8;
+	display:table-cell;
+}
+.tx_mask_tabcell1, .tx_mask_tabcell2 {
+	margin-right: 10px;
+	width: 250px;
+}
+.tx_mask_tabcell1 {
+	background: none;
+	border: 1px solid #ececec;
+}
+.tx_mask_tabcell2, .tx_mask_tabcell3 {
+	vertical-align: top;
+}
+.tx_mask_tabcell3 > DIV {
+	display: none;
+}
+.tx_mask_tabcellpadding {
+	width: 10px;
+	display:table-cell;
+}
+
+/* fieldtypes */
+UL.tx_mask_fieldtypes {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	float: left;
+	width: 100%;
+}
+.tx_mask_tabcell2 UL {
+	/*background-color: #E0E0E0;*/
+}
+.tx_mask_tabcell2 UL.tx_mask_fieldtypes {
+	min-height: 492px;
+}
+UL.tx_mask_fieldtypes LI {
+	background-color: #E0E0E0;
+	/* border: 1px solid #D5D5D5; */
+	margin-bottom: 2px;
+	min-height: 26px;
+	padding: 8px 0 0 42px;
+	background-repeat: no-repeat;
+	background-position: 0;
+	width: 206px;
+	cursor: move;
+	position: relative;
+}
+UL.tx_mask_fieldtypes LI.active,
+UL.tx_mask_fieldtypes LI:hover {
+	background-color: #666;
+	color: #fff;
+}
+UL.tx_mask_fieldtypes LI.active > .id_keytext,
+UL.tx_mask_fieldtypes LI:hover > .id_keytext,
+UL.tx_mask_fieldtypes LI.active > .id_labeltext,
+UL.tx_mask_fieldtypes LI:hover > .id_labeltext {
+	color: #fff;
+}
+.tx_mask_tabcell2 UL.tx_mask_fieldtypes LI {
+	min-height: 31px;
+	padding-top: 3px;
+	line-height: 120%;
+	cursor: hand;
+	cursor: pointer;
+	background-position: top left;
+}
+.id_Check {
+	background-image: url('../Icons/fieldtypes/check.png');
+}
+.id_Date {
+	background-image: url('../Icons/fieldtypes/date.png');
+}
+.id_Datetime {
+	background-image: url('../Icons/fieldtypes/datetime.png');
+}
+.id_File {
+	background-image: url('../Icons/fieldtypes/file.png');
+}
+.id_Float {
+	background-image: url('../Icons/fieldtypes/float.png');
+}
+.id_Inline {
+	background-image: url('../Icons/fieldtypes/inline.png');
+}
+.id_Integer {
+	background-image: url('../Icons/fieldtypes/integer.png');
+}
+.id_Link {
+	background-image: url('../Icons/fieldtypes/link.png');
+}
+.id_Radio {
+	background-image: url('../Icons/fieldtypes/radio.png');
+}
+.id_Richtext {
+	background-image: url('../Icons/fieldtypes/richtext.png');
+}
+.id_Select {
+	background-image: url('../Icons/fieldtypes/select.png');
+}
+.id_String {
+	background-image: url('../Icons/fieldtypes/string.png');
+}
+.id_Text {
+	background-image: url('../Icons/fieldtypes/text.png');
+}
+.tx_mask_tabcell2 UL.tx_mask_fieldtypes>LI.id_Inline {
+	min-height: 65px;
+}
+
+UL.tx_mask_fieldtypes .tx_mask_fieldcontent_highlight {
+	height: 20px;
+	background-color: #ddd;
+	border: 1px dashed #aaa;
+}
+
+/* Field header */
+.tx_mask_fieldheader {
+}
+.tx_mask_fieldheader_icon {
+	min-height: 32px;
+	width: 32px;
+	margin-right: 7px;
+	float: left;
+}
+.tx_mask_fieldheader_text {
+	min-height: 32px;
+}
+.tx_mask_fieldheader_text H1 {
+	font-size: 100%;
+	font-family: Verdana,Arial,Helvetica,sans-serif;
+	font-weight: normal;
+	margin: 0;
+	padding: 0;
+}
+.tx_mask_fieldheader_text P {
+	font-size: 10px;
+	font-weight: normal;
+	margin: 0;
+	padding: 0;
+}
+
+/* Buttons */
+UL.tx_mask_fieldtypes LI .id_add,
+UL.tx_mask_fieldtypes LI .id_delete,
+UL.tx_mask_fieldtypes LI .id_move {
+	background-repeat: no-repeat;
+	position: absolute;
+	display: block;
+	text-indent: -9999px;
+	cursor: hand;
+	cursor: pointer;
+}
+UL.tx_mask_fieldtypes LI .id_add {
+	background-image: url('../Icons/buttons/add.png');
+	width: 19px;
+	height: 19px;
+	top: 8px;
+	right: 8px;
+}
+UL.tx_mask_fieldtypes LI:hover .id_add {
+	background-image: url('../Icons/buttons/add_act.png');
+}
+UL.tx_mask_fieldtypes LI .id_delete {
+	background-image: url('../Icons/buttons/delete.png');
+	width: 14px;
+	height: 17px;
+	top: 9px;
+	right: 9px;
+}
+UL.tx_mask_fieldtypes LI:hover>.id_delete,
+UL.tx_mask_fieldtypes LI.active>.id_delete {
+	background-image: url('../Icons/buttons/delete_act.png');
+}
+UL.tx_mask_fieldtypes LI .id_move {
+	background-image: url('../Icons/buttons/move.png');
+	width: 24px;
+	height: 24px;
+	top: 6px;
+	right: 27px;
+	cursor: n-resize;
+}
+UL.tx_mask_fieldtypes LI:hover>.id_move,
+UL.tx_mask_fieldtypes LI.active>.id_move {
+	background-image: url('../Icons/buttons/move_act.png');
+}
+.tx_mask_tabcell2 UL.tx_mask_fieldtypes LI .id_typetext,
+.tx_mask_tabcell1 UL.tx_mask_fieldtypes LI .id_labeltext,
+.tx_mask_tabcell1 UL.tx_mask_fieldtypes LI .id_keytext,
+.tx_mask_tabcell1 UL.tx_mask_fieldtypes LI .id_delete,
+.tx_mask_tabcell1 UL.tx_mask_fieldtypes LI .id_move,
+.tx_mask_tabcell2 UL.tx_mask_fieldtypes LI .id_add {
+	display: none;
+}
+
+/* Texts */
+UL.tx_mask_fieldtypes LI .id_typetext {
+}
+UL.tx_mask_fieldtypes LI .id_labeltext {
+	display: block;
+	font-size: 12px;
+	font-weight: bold;
+	color: #525252;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	width: 155px;
+	white-space: nowrap;
+}
+UL.tx_mask_fieldtypes LI .id_keytext {
+	font-size: 10px;
+	display: block;
+	color: #525252;
+}
+
+.x-tab-panel-body-content {
+	padding: 10px;
+}
+.typo3-dblist THEAD TD {
+	font-weight: bold;
+}
+.typo3-messages {
+	margin-bottom: 17px;
+}
+table.typo3-dblist tr td.col-title {
+	width: auto;
+}
+
+.tx_mask_formfull {
+	width: 100%;
+	padding: 3px 5px;
+}
+.tx_mask_formhalf {
+	width: 50%;
+}
+
+.tx_mask_fieldcontent LABEL {
+	padding-bottom: 5px;
+	display: block;
+}
+.tx_mask_field {
+	position: relative;
+}
+.tx_mask_fieldcontent_existing {
+	display: none;
+}
+.tx_mask_fieldcontent_new {
+}
+.edit_field .tx_mask_fieldcontent_new {
+	display: block;
+}
+input[readonly="readonly"] {
+	background: rgba(255,255,255,0.5);
+	border: 1px solid #ccc;
+	color: #AAA;
+}
+input.not_unique {
+	background-color: #FFD8D8;
+	border-color: #E70000;
+}
+.save_buttons {
+	margin-top: 22px;
+	float: left;
+}
+.tx_mask_tabcell2 UL.tx_mask_fieldtypes LI.existing_inline .inline-container {
+	display: none;
+}
+.tx_mask_tabcell2 UL.tx_mask_fieldtypes LI.existing_inline {
+	min-height: 31px;
+}
+.warnings {
+	color: #FF8500;
+}
+.tx_mask_fieldcontent {
+	border-top: 1px solid #cacaca;
+	margin-top: 10px;
+	padding-top: 13px;
+}
+.id_Inline .dragtarget {
+	min-height: 27px;
+	/*margin: 34px 0 0 -42px;*/
+	margin: 0 0 0 -42px;
+	padding: 3px 0 3px 3px;
+	list-style-type: none;
+}
+.id_Inline .dragtarget LI {
+	width: auto;
+}
+.dragtarget .id_Inline .id_labeltext, .dragtarget .id_Inline .id_keytext {
+	min-height: 16px;
+}
+.tx_mask_tabcell1 .id_Inline .dragtarget {
+	display: none;
+}
+
+.inline-container {
+	border-left: 3px solid black;
+}
+input.create_missing_folders {
+	margin-top: 12px;
+}
+.form-section .panel {
+	margin: 0 0 1em;
+}

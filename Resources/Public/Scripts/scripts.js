@@ -68,6 +68,9 @@ jQuery(document).ready(function () {
 		return false;
 	});
 
+	// 2nd column equal height to 1st column
+	jQuery(".tx_mask_tabcell2 > .dragtarget").css("minHeight", jQuery('.tx_mask_tabcell1').innerHeight()+"px");
+
 	jQuery("INPUT[type=submit]").on("click", function (e) {
 		validateFields();
 	});
@@ -139,8 +142,9 @@ jQuery(document).ready(function () {
 			jQuery(".tx_mask_tabcell2 LI").eq(fieldIndex).find(".id_labeltext").html(
 					  jQuery(this).closest(".tx_mask_field").find(".tx_mask_fieldcontent_new INPUT[name='tx_mask_tools_maskmask[storage][elements][labels][--index--]']").val()
 					  );
-			jQuery(this).parent().nextAll('.tx_mask_fieldcontent_existing').hide();
-			jQuery(this).parent().nextAll('.tx_mask_fieldcontent_new').hide();
+
+			jQuery(this).closest(".tx_mask_fieldcontent").find('.tx_mask_fieldcontent_existing').hide();
+			jQuery(this).closest(".tx_mask_fieldcontent").find('.tx_mask_fieldcontent_new').hide();
 		} else if (jQuery(this).val() == '-1') {
 
 			// Hide inline-container if selected an "existing inline"
@@ -156,23 +160,24 @@ jQuery(document).ready(function () {
 			jQuery(".tx_mask_tabcell2 LI").eq(fieldIndex).find(".id_labeltext").html(
 					  jQuery(this).closest(".tx_mask_field").find(".tx_mask_fieldcontent_new INPUT[name='tx_mask_tools_maskmask[storage][elements][labels][--index--]']").val()
 					  );
-			jQuery(this).parent().nextAll('.tx_mask_fieldcontent_existing').hide();
-			jQuery(this).parent().nextAll('.tx_mask_fieldcontent_new').show();
+			jQuery(this).closest(".tx_mask_fieldcontent").find('.tx_mask_fieldcontent_existing').hide();
+			jQuery(this).closest(".tx_mask_fieldcontent").find('.tx_mask_fieldcontent_new').show();
 		} else {
-
 			// Hide inline-container if selected an "existing inline"
 			var body = jQuery(this).closest(".tx_mask_field");
 			hideInlineContainer(body);
 
 			// Show correct label and key in tabcell2
 			var fieldIndex = jQuery(this).closest(".tx_mask_field").index();
+
 			jQuery(this).closest(".tx_mask_field").find("INPUT[name='tx_mask_tools_maskmask[storage][elements][columns][]']").attr("disabled", "disabled");
 			jQuery(".tx_mask_tabcell2 LI").eq(fieldIndex).find(".id_keytext").html(jQuery(this).val());
 			jQuery(".tx_mask_tabcell2 LI").eq(fieldIndex).find(".id_labeltext").html(
 					  jQuery(this).closest(".tx_mask_field").find(".tx_mask_fieldcontent_existing INPUT[name='tx_mask_tools_maskmask[storage][elements][labels][--index--]']").val()
 					  );
-			jQuery(this).parent().nextAll('.tx_mask_fieldcontent_existing').show();
-			jQuery(this).parent().nextAll('.tx_mask_fieldcontent_new').hide();
+			jQuery(this).closest(".tx_mask_fieldcontent").find('.tx_mask_fieldcontent_existing').show();
+			jQuery(this).closest(".tx_mask_fieldcontent").find('.tx_mask_fieldcontent_new').hide();
+
 		}
 	});
 });
@@ -263,9 +268,9 @@ function prepareInlineFieldForInsert(field, template) {
 	var newTemplate = jQuery.parseHTML(template);
 	// Inline-Fields don't have the option to use existing fields
 	if (jQuery(field).closest(".inline-container").size() > 0) {
-
 		jQuery(newTemplate).find(".tx_mask_fieldcontent_existing").remove();
 		jQuery(newTemplate).find(".tx_mask_fieldcontent_type").closest("LABEL").remove();
+		jQuery(newTemplate).find(".tx_mask_fieldcontent_type").closest(".row").remove();
 		jQuery(newTemplate).find(".tx_mask_fieldcontent_new").show();
 	}
 	return newTemplate;
@@ -460,10 +465,10 @@ function syncBodyToHead(body) {
 	var title = jQuery(body).find("INPUT[name='tx_mask_tools_maskmask[storage][elements][labels][--index--]']:visible").val();
 
 	var head = findHeadByBody(body);
-	jQuery(head).find(" > .id_keytext").html(key);
+	jQuery(head).find(" > .tx_mask_btn_row .id_keytext").html(key);
 	var head = findHeadByBody(body);
-	jQuery(head).find(" > .id_labeltext").html(title);
-	
+	jQuery(head).find(" > .tx_mask_btn_row .id_labeltext").html(title);
+
 	// Show correct label and key in tabcell3 on top
 	jQuery(body).find(".tx_mask_fieldheader_text H1").html(title);
 	jQuery(body).find(".tx_mask_fieldheader_text P").html(key);

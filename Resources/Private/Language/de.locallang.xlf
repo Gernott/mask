@@ -233,6 +233,9 @@
 			<trans-unit id="tx_mask.content.save">
 				<target>Speichern</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.content.saveandcreate">
+				<target>Speichern und weiteres Element anlegen</target>
+			</trans-unit>
 			<trans-unit id="tx_mask.content.saveandexit">
 				<target>Speichern und Schließen</target>
 			</trans-unit>
@@ -255,7 +258,10 @@
 				<target>für weitere Details um die Ausgabe zu formatieren.</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.multiuse">
-				<target>Dieses Feld ist bei mehr als einem Content-Element in Verwendung:</target>
+				<target>Dieses Feld ist bei mehr als einem Content-Element in Verwendung.</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.multiuse.description">
+				<target>Wenn Sie dieses Feld verändern, werden diese Änderungen in folgenden Content-Elementen wirksam:</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.newcontentelement">
 				<target>Neues Content-Element wurde angelegt.</target>
@@ -265,9 +271,6 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.content.deletedcontentelement">
 				<target>Content-Element wurde gelöscht.</target>
-			</trans-unit>
-			<trans-unit id="tx_mask.content.previewimagemissing">
-				<target>Vorschaubild fehlt, hier ablegen</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.htmlmissing">
 				<target>Fluid/HTML fehlt, hier ablegen</target>
@@ -311,6 +314,15 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.all.fieldkey">
 				<target>Element-Key (Kleinbuchstaben)</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.icon">
+				<target>FontAwesome-Iconcode</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.color">
+				<target>Farbe (HEX-Code)</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.configure">
+				<target>Konfigurieren</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.contentelements">
 				<target>Inhaltselemente</target>
