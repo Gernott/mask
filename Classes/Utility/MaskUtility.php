@@ -739,7 +739,7 @@ class MaskUtility {
 	 */
 	public function getInlineElements($data, $name, $cType, $parentid = "parentid", $parenttable = "tt_content") {
 		// If this method is called in backend, there is no $GLOBALS['TSFE']
-		if ($GLOBALS['TSFE']->sys_language_uid) {
+		if (isset($GLOBALS['TSFE']->sys_language_uid)) {
 			$sysLangUid = $GLOBALS['TSFE']->sys_language_uid;
 			$enableFields = $GLOBALS['TSFE']->cObj->enableFields($name);
 		} else {
