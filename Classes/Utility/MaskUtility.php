@@ -436,6 +436,9 @@ class MaskUtility {
 				if (is_array($elementvalue["columns"])) {
 					$fields .= implode(",", $elementvalue["columns"]);
 				}
+				if ($versionNumber >= 7000000) {
+					$GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["columnsOverrides"]["bodytext"]["defaultExtras"] = 'richtext:rte_transform[mode=ts_css]';
+				}
 				$GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["showitem"] = "--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general," . $fields . $defaultTabs . $gridelements;
 			}
 		}
