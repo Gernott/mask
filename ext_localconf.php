@@ -26,7 +26,7 @@ if ($versionNumber >= 7005000) {
 	$maskIcons = array("Check", "Date", "Datetime", "File", "Float", "Inline", "Integer", "Link", "Radio", "Richtext", "Select", "String", "Text");
 	foreach ($maskIcons as $maskIcon) {
 		$iconRegistry->registerIcon(
-				  'mask-fieldtype-' . $maskIcon, '\TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider', array(
+				  'mask-fieldtype-' . $maskIcon, 'TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider', array(
 			 'source' => 'EXT:mask/Resources/Public/Icons/fieldtypes/' . $maskIcon . '.svg'
 				  )
 		);
