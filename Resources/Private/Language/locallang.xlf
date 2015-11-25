@@ -243,7 +243,7 @@
 				<source>HTML Code Example</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.html.line1">
-				<source>These are example codes for your frontend.</source>
+				<source>This is an example code for your frontend template.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.html.line2">
 				<source>On first creation of a contentelement, this code is saved in the target-file into the folder, which you have specified in extensionmanager in mask-configuration. Default is: fileadmin/templates/content/.</source>
