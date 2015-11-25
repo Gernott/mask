@@ -37,7 +37,7 @@ class IconViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 			if ($altSrc) {
 				return '<img src="' . $altSrc . '" alt="' . $altText . '" />';
 			} else if ($altText) {
-				return '$altText';
+				return $altText;
 			}
 		}
 	}

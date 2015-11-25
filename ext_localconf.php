@@ -23,13 +23,12 @@ if (file_exists(PATH_site . $extConf["json"])) {
 // backwards compatibility for typo3 6.2
 if ($versionNumber >= 7005000) {
 	$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance("TYPO3\CMS\Core\Imaging\IconRegistry");
-	$maskIcons = array ("Check", "Date", "Datetime", "File", "Float", "Inline", "Integer", "Link", "Radio", "Richtext", "Select", "String", "Text");
+	$maskIcons = array("Check", "Date", "Datetime", "File", "Float", "Inline", "Integer", "Link", "Radio", "Richtext", "Select", "String", "Text");
 	foreach ($maskIcons as $maskIcon) {
 		$iconRegistry->registerIcon(
-			'mask-fieldtype-' . $maskIcon, \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
-			array(
-				'source' => 'EXT:mask/Resources/Public/Icons/fieldtypes/' . $maskIcon . '.svg'
-			)
+				  'mask-fieldtype-' . $maskIcon, 'TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider', array(
+			 'source' => 'EXT:mask/Resources/Public/Icons/fieldtypes/' . $maskIcon . '.svg'
+				  )
 		);
 	}
 }
@@ -269,7 +268,6 @@ $signalSlotDispatcher->connect('TYPO3\\CMS\\Install\\Service\\SqlExpectedSchemaS
 
 // Hook for tt_content inline elements
 //$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] = 'EXT:mask/Classes/Hooks/class.tx_mask_tcemainprocdm.php:tx_mask_tcemainprocdm';
-
 // Enhance Fluid Output with overridden FluidTemplateContentObject
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Frontend\\ContentObject\\FluidTemplateContentObject'] = array(
 	 'className' => 'MASK\\Mask\\Fluid\\FluidTemplateContentObject'

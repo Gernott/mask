@@ -436,6 +436,9 @@ class MaskUtility {
 				if (is_array($elementvalue["columns"])) {
 					$fields .= implode(",", $elementvalue["columns"]);
 				}
+				if ($versionNumber >= 7000000) {
+					$GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["columnsOverrides"]["bodytext"]["defaultExtras"] = 'richtext:rte_transform[mode=ts_css]';
+				}
 				$GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["showitem"] = "--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general," . $fields . $defaultTabs . $gridelements;
 			}
 		}
@@ -739,7 +742,7 @@ class MaskUtility {
 	 */
 	public function getInlineElements($data, $name, $cType, $parentid = "parentid", $parenttable = "tt_content") {
 		// If this method is called in backend, there is no $GLOBALS['TSFE']
-		if ($GLOBALS['TSFE']->sys_language_uid) {
+		if (isset($GLOBALS['TSFE']->sys_language_uid)) {
 			$sysLangUid = $GLOBALS['TSFE']->sys_language_uid;
 			$enableFields = $GLOBALS['TSFE']->cObj->enableFields($name);
 		} else {
