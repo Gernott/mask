@@ -665,8 +665,7 @@ class MaskUtility {
 		// Create Fields-Array
 		$fields = array_keys($tca);
 		if ($fields) {
-			$fieldsCopy = $fields;
-			$firstField = array_pop($fieldsCopy);
+			$firstField = $fields[0];
 		}
 
 		// backwards compatibility for typo3 6.2
