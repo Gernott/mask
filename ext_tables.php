@@ -35,7 +35,7 @@ if (TYPO3_MODE === 'BE') {
 
 // Load JSON-File from $_EXTCONF:
 $extConf = unserialize($_EXTCONF);
-if (file_exists(PATH_site . $extConf["json"])) {
+if (!empty($extConf["json"]) && file_exists(PATH_site . $extConf["json"])) {
 
 	$json = json_decode(file_get_contents(PATH_site . $extConf["json"]), true);
 
