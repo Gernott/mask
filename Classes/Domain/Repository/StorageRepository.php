@@ -62,7 +62,7 @@ class StorageRepository {
 	 */
 	public function loadField($type, $key) {
 		$json = $this->load();
-		return $json[$type]["tca"][$key];
+		return isset($json[$type]["tca"][$key]) ? $json[$type]["tca"][$key] : array();
 	}
 
 	/**
@@ -74,6 +74,10 @@ class StorageRepository {
 	 */
 	public function loadInlineFields($parentKey) {
 		$json = $this->load();
+		if (empty($json)) {
+			return array();
+		}
+
 		$inlineFields = array();
 		foreach ($json as $table) {
 			if ($table["tca"]) {
@@ -98,12 +102,13 @@ class StorageRepository {
 	 */
 	public function loadElement($type, $key) {
 		$json = $this->load();
-		$fields = array();
+		if (empty($json)) {
+			return array();
+		}
 
-		if (count($json[$type]["elements"][$key]["columns"]) > 0) {
-			foreach ($json[$type]["elements"][$key]["columns"] as $fieldName) {
-				$fields[$fieldName] = $json[$type]["tca"][$fieldName];
-			}
+		$fields = array();
+		foreach ($json[$type]["elements"][$key]["columns"] as $fieldName) {
+			$fields[$fieldName] = $json[$type]["tca"][$fieldName];
 		}
 		if (count($fields) > 0) {
 			$json[$type]["elements"][$key]["tca"] = $fields;
@@ -323,6 +328,10 @@ class StorageRepository {
 	 */
 	public function loadSql() {
 		$json = $this->load();
+		if (empty($json)) {
+			return array();
+		}
+
 		$sql_content = array();
 		$types = array_keys($json);
 		$nonIrreTables = array("pages", "tt_content");
