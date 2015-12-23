@@ -197,9 +197,8 @@ class StorageRepository {
 		}
 
 		// Save
-		$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);
-		$handle = fopen(PATH_site . $extConf["json"], "w");
-		$encodedJson = "";
+		$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);                
+                $encodedJson = "";
 
 		// Return JSON formatted in PHP 5.4.0 and higher
 		if (version_compare(phpversion(), '5.4.0', '<')) {
@@ -207,7 +206,7 @@ class StorageRepository {
 		} else {
 			$encodedJson = json_encode($json, JSON_PRETTY_PRINT);
 		}
-		fwrite($handle, $encodedJson);
+                \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $extConf["json"], $encodedJson);
 	}
 
 	/**
@@ -230,8 +229,7 @@ class StorageRepository {
 		}
 		// Save
 		$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);
-		$handle = fopen(PATH_site . $extConf["json"], "w");
-		fwrite($handle, json_encode($json));
+                \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $extConf["json"], json_encode($json));
 	}
 
 	/**
