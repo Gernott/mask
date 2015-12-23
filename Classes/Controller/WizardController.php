@@ -323,8 +323,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 		if (file_exists(PATH_site . $extConf["content"] . $key . ".html")) {
 			return false;
 		} else {
-			$handle = fopen(PATH_site . $extConf["content"] . $key . ".html", "w");
-			fwrite($handle, $html);
+                        \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $extConf["content"] . $key . ".html", $html);
 			return true;
 		}
 	}
