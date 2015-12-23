@@ -218,11 +218,21 @@ if (!function_exists('user_mask_beLayout')) {
 				$data = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($sql);
 				$uid = $data["pid"];
 			}
-		} elseif ($GLOBALS["SOBE"]->editconf["pages"]) { // after opening pages
-			$uid = intval(key($GLOBALS["SOBE"]->editconf["pages"]));
-		} else { // after opening or creating pages_language_overlay
-			$uid = $GLOBALS["SOBE"]->viewId;
-		}
+                } elseif ($GLOBALS["SOBE"]->editconf["pages"]) { // after opening pages
+                    $uid = intval(key($GLOBALS["SOBE"]->editconf["pages"]));
+                } elseif ($GLOBALS["SOBE"]->viewId) { // after opening or creating pages_language_overlay
+                    $uid = $GLOBALS["SOBE"]->viewId;
+                } else {
+                    if ($GLOBALS["_SERVER"]["HTTP_REFERER"] != "") {
+                        $url = $GLOBALS["_SERVER"]["HTTP_REFERER"];
+                        $queryString = parse_url($url, PHP_URL_QUERY);
+                        $result = array();
+                        parse_str($queryString, $result);
+                        if ($result["id"]) {
+                            $uid = (int) $result["id"];
+                        }
+                    }
+                }
 
 		if ($uid) {
 			$sql = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
