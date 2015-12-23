@@ -35,7 +35,6 @@ temp.mask.content {
 # temp.content is deprecated, always use temp.mask.content
 temp.content < temp.mask.content
 
-
 # Temporary page cObject:
 temp.mask.page = PAGE
 temp.mask.page {
@@ -76,9 +75,7 @@ lib.parseFunc {
 			typolink.extTarget =
 			typolink.extTarget.override = _blank
 			typolink.target < lib.parseTarget
-			typolink.target =
-			typolink.target.override = _blank
-			parseFunc.constants =1
+			parseFunc.constants = 1
 		}
 	}
 	allowTags = a, abbr, acronym, address, article, aside, b, bdo, big, blockquote, br, caption, center, cite, code, col, colgroup, dd, del, dfn, dl, div, dt, em, font, footer, header, h1, h2, h3, h4, h5, h6, hr, i, img, ins, kbd, label, li, link, meta, nav, ol, p, pre, q, samp, sdfield, section, small, span, strike, strong, style, sub, sup, table, thead, tbody, tfoot, td, th, tr, title, tt, u, ul, var
