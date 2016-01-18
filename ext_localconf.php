@@ -169,7 +169,7 @@ if ($json["tt_content"]["elements"]) {
 if (!function_exists('user_mask_contentType')) {
 
 	function user_mask_contentType($param = "") {
-		if (is_array($_REQUEST["edit"]["tt_content"])) {
+		if (isset($_REQUEST["edit"]["tt_content"]) && is_array($_REQUEST["edit"]["tt_content"])) {
 			$field = explode("|", $param);
 			$request = $_REQUEST;
 			$first = array_shift($request["edit"]["tt_content"]);
