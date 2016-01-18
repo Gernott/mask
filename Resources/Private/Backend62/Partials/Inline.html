@@ -6,11 +6,11 @@
 	<span class="id_add" title="{f:translate(key:'tx_mask.field.titleAdd')}"></span>
 	<span class="id_delete" title="{f:translate(key:'tx_mask.field.titleDelete')}"></span>
 	<span class="id_move" title="{f:translate(key:'tx_mask.field.titleMove')}"></span>
-	<f:if condition="{mask:formType(elementKey:'{elementKey}', fieldKey:'{field.key}', type: '{field.inlineParent}')} == 'Inline'">
-		<ul class="dragtarget inline-container">
-			<f:for each="{field.inlineFields}" as="inlineField" key="inlineKey">
-				<f:render partial="Inline" arguments="{elementKey: field.key, field: inlineField, storage: storage}" />
-			</f:for>
-		</ul>
-	</f:if>
+<f:if condition="{mask:formType(elementKey:'{elementKey}', fieldKey:'{field.key}', type: '{field.inlineParent}')} == 'Inline'">
+	<ul class="dragtarget inline-container">
+		<f:for each="{field.inlineFields}" as="inlineField" key="inlineKey">
+			<f:render partial="Inline" arguments="{elementKey: field.key, field: inlineField, storage: storage}" />
+		</f:for>
+	</ul>
+</f:if>
 </li>

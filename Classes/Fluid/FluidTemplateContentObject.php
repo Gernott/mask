@@ -29,66 +29,68 @@ namespace MASK\Mask\Fluid;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\FluidTemplateContentObject {
+class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\FluidTemplateContentObject
+{
 
-	/**
-	 * MaskUtility
-	 *
-	 * @var \MASK\Mask\Utility\MaskUtility
-	 * @inject
-	 */
-	protected $utility;
+    /**
+     * MaskUtility
+     *
+     * @var \MASK\Mask\Utility\MaskUtility
+     * @inject
+     */
+    protected $utility;
 
-	/**
-	 * ObjectManager
-	 *
-	 * @var \TYPO3\CMS\Extbase\Object\ObjectManager
-	 */
-	protected $objectManager;
+    /**
+     * ObjectManager
+     *
+     * @var \TYPO3\CMS\Extbase\Object\ObjectManager
+     */
+    protected $objectManager;
 
-	/**
-	 * Change variables for view, called by TYPO3 7
-	 *
-	 * @param array $conf Configuration
-	 * @author Benjamin Butschell <bb@webprofil.at>
-	 * @return void
-	 */
-	protected function getContentObjectVariables(array $conf = array()) {
-		// Call Parent Function to maintain core functions
-		$variables = parent::getContentObjectVariables($conf);
+    /**
+     * Change variables for view, called by TYPO3 7
+     *
+     * @param array $conf Configuration
+     * @author Benjamin Butschell <bb@webprofil.at>
+     * @return void
+     */
+    protected function getContentObjectVariables(array $conf = array())
+    {
+        // Call Parent Function to maintain core functions
+        $variables = parent::getContentObjectVariables($conf);
 
-		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-		$this->utility = $this->objectManager->get("MASK\Mask\Utility\MaskUtility");
+        $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+        $this->utility = $this->objectManager->get("MASK\Mask\Utility\MaskUtility");
 
-		// Make some enhancements to data
-		$data = $variables['data'];
-		$this->utility->addFilesToData($data, "pages");
-		$this->utility->addIrreToData($data, "pages");
-		$variables['data'] = $data;
+        // Make some enhancements to data
+        $data = $variables['data'];
+        $this->utility->addFilesToData($data, "pages");
+        $this->utility->addIrreToData($data, "pages");
+        $variables['data'] = $data;
 
-		return $variables;
-	}
+        return $variables;
+    }
 
-	/**
-	 * Assign content object renderer data and current to view, called by TYPO3 6.2
-	 *
-	 * @param array $conf Configuration
-	 * @author Benjamin Butschell <bb@webprofil.at>
-	 * @return void
-	 */
-	protected function assignContentObjectDataAndCurrent(array $conf = array()) {
-		// Call Parent Function to maintain core functions
-		parent::assignContentObjectDataAndCurrent($conf);
+    /**
+     * Assign content object renderer data and current to view, called by TYPO3 6.2
+     *
+     * @param array $conf Configuration
+     * @author Benjamin Butschell <bb@webprofil.at>
+     * @return void
+     */
+    protected function assignContentObjectDataAndCurrent(array $conf = array())
+    {
+        // Call Parent Function to maintain core functions
+        parent::assignContentObjectDataAndCurrent($conf);
 
-		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-		$this->utility = $this->objectManager->get("MASK\Mask\Utility\MaskUtility");
+        $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+        $this->utility = $this->objectManager->get("MASK\Mask\Utility\MaskUtility");
 
-		// Make some enhancements to data
-		$data = $this->cObj->data;
-		$this->utility->addFilesToData($data, "pages");
-		$this->utility->addIrreToData($data, "pages");
+        // Make some enhancements to data
+        $data = $this->cObj->data;
+        $this->utility->addFilesToData($data, "pages");
+        $this->utility->addIrreToData($data, "pages");
 
-		$this->view->assign('data', $data);
-	}
-
+        $this->view->assign('data', $data);
+    }
 }

@@ -10,28 +10,29 @@ namespace MASK\Mask\ViewHelpers;
  * @author Benjamin Butschell bb@webprofil.at>
  *
  */
-class MultiuseViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class MultiuseViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
 
-	/**
-	 * Utility
-	 *
-	 * @var \MASK\Mask\Utility\MaskUtility
-	 * @inject
-	 */
-	protected $utility;
+    /**
+     * Utility
+     *
+     * @var \MASK\Mask\Utility\MaskUtility
+     * @inject
+     */
+    protected $utility;
 
-	/**
-	 * Returns all elements that use this field
-	 *
-	 * @param string $key TCA Type
-	 * @param string $elementKey Key of the element
-	 * @return array elements in use
-	 * @author Benjamin Butschell bb@webprofil.at>
-	 */
-	public function render($key, $elementKey) {
-		$this->utility = new \MASK\Mask\Utility\MaskUtility($this->objectManager);
-		$type = $this->utility->getFieldType($key, $elementKey);
-		return $this->utility->getElementsWhichUseField($key, $type);
-	}
-
+    /**
+     * Returns all elements that use this field
+     *
+     * @param string $key TCA Type
+     * @param string $elementKey Key of the element
+     * @return array elements in use
+     * @author Benjamin Butschell bb@webprofil.at>
+     */
+    public function render($key, $elementKey)
+    {
+        $this->utility = new \MASK\Mask\Utility\MaskUtility($this->objectManager);
+        $type = $this->utility->getFieldType($key, $elementKey);
+        return $this->utility->getElementsWhichUseField($key, $type);
+    }
 }

@@ -10,30 +10,31 @@ namespace MASK\Mask\ViewHelpers;
  * @author Benjamin Butschell bb@webprofil.at>
  *
  */
-class FormTypeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class FormTypeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
 
-	/**
-	 * Utility
-	 *
-	 * @var \MASK\Mask\Utility\MaskUtility
-	 * @inject
-	 */
-	protected $utility;
+    /**
+     * Utility
+     *
+     * @var \MASK\Mask\Utility\MaskUtility
+     * @inject
+     */
+    protected $utility;
 
-	/**
-	 * Returns the label of a field in an element
-	 *
-	 * @param string $elementKey Key of Element
-	 * @param string $fieldKey Key if Field
-	 * @param string $type table
-	 * @return string formType
-	 * @author Benjamin Butschell bb@webprofil.at>
-	 */
-	public function render($elementKey, $fieldKey, $type = "tt_content") {
+    /**
+     * Returns the label of a field in an element
+     *
+     * @param string $elementKey Key of Element
+     * @param string $fieldKey Key if Field
+     * @param string $type table
+     * @return string formType
+     * @author Benjamin Butschell bb@webprofil.at>
+     */
+    public function render($elementKey, $fieldKey, $type = "tt_content")
+    {
 
-		$this->utility = new \MASK\Mask\Utility\MaskUtility($this->objectManager);
-		$formType = $this->utility->getFormType($fieldKey, $elementKey, $type);
-		return $formType;
-	}
-
+        $this->utility = new \MASK\Mask\Utility\MaskUtility($this->objectManager);
+        $formType = $this->utility->getFormType($fieldKey, $elementKey, $type);
+        return $formType;
+    }
 }

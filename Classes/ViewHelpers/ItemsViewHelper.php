@@ -10,23 +10,24 @@ namespace MASK\Mask\ViewHelpers;
  * @author Benjamin Butschell <bb@webprofil.at>
  *
  */
-class ItemsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class ItemsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
 
-	/**
-	 * Returns all elements that use this field
-	 *
-	 * @param array $items TCA Type
-	 * @return string items as string
-	 * @author Benjamin Butschell bb@webprofil.at>
-	 */
-	public function render($items) {
-		$itemArray = array();
-		if ($items) {
-			foreach ($items as $item) {
-				$itemArray[] = implode(",", $item);
-			}
-		}
-		return implode("\n", $itemArray);
-	}
-
+    /**
+     * Returns all elements that use this field
+     *
+     * @param array $items TCA Type
+     * @return string items as string
+     * @author Benjamin Butschell bb@webprofil.at>
+     */
+    public function render($items)
+    {
+        $itemArray = array();
+        if ($items) {
+            foreach ($items as $item) {
+                $itemArray[] = implode(",", $item);
+            }
+        }
+        return implode("\n", $itemArray);
+    }
 }
