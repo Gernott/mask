@@ -2,6 +2,8 @@
 
 namespace MASK\Mask\ViewHelpers;
 
+use TYPO3\CMS\Backend\Utility\BackendUtility;
+
 /**
  *
  * @package TYPO3
@@ -21,9 +23,12 @@ class ConfigureExtensionViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abst
 			 'tx_extensionmanager_tools_extensionmanagerextensionmanager[extension][key]' => 'mask',
 			 'tx_extensionmanager_tools_extensionmanagerextensionmanager[action]' => 'showConfigurationForm',
 			 'tx_extensionmanager_tools_extensionmanagerextensionmanager[controller]' => 'Configuration',
-			 'returnUrl' => '/typo3/index.php?M=web_list&moduleToken=af60fa4a531eeec50e8d9890a4c278271d6c9c17&id=1&imagemode=1'
+			 'returnUrl' => BackendUtility::getModuleUrl('tools_MaskMask', array(
+				 'tx_mask_tools_maskmask[controller]' => $this->controllerContext->getRequest()->getControllerName(),
+				 'tx_mask_tools_maskmask[action]' => $this->controllerContext->getRequest()->getControllerActionName(),
+			 )),
 		);
-		$url = \TYPO3\CMS\Backend\Utility\BackendUtility::getModuleUrl('tools_ExtensionmanagerExtensionmanager', $urlParameters);
+		$url = BackendUtility::getModuleUrl('tools_ExtensionmanagerExtensionmanager', $urlParameters);
 		return'<a href="' . htmlspecialchars($url) . '">' . $this->renderChildren() . '</a>';
 	}
 

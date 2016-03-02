@@ -465,9 +465,9 @@ function syncBodyToHead(body) {
 	var title = jQuery(body).find("INPUT[name='tx_mask_tools_maskmask[storage][elements][labels][--index--]']:visible").val();
 
 	var head = findHeadByBody(body);
-	jQuery(head).find(" > .tx_mask_btn_row .id_keytext").html(key);
+	jQuery(head).find(" > .tx_mask_btn_row .id_keytext, > .id_keytext").html(key);
 	var head = findHeadByBody(body);
-	jQuery(head).find(" > .tx_mask_btn_row .id_labeltext").html(title);
+	jQuery(head).find(" > .tx_mask_btn_row .id_labeltext, > .id_labeltext").html(title);
 
 	// Show correct label and key in tabcell3 on top
 	jQuery(body).find(".tx_mask_fieldheader_text H1").html(title);
