@@ -45,7 +45,16 @@
 											<div class="tx_mask_btn_text">
 												<span class="id_typetext"><f:translate key="tx_mask.field.{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')}" /></span>
 												<span class="id_labeltext"><mask:label elementKey="{storage.key}" fieldKey="{key}" /></span>
-												<span class="id_keytext">{field.key}</span>
+												<span class="id_keytext">
+													<f:if condition="{field.key}">
+														<f:then>
+															{field.key}
+														</f:then>
+														<f:else>
+															{key}
+														</f:else>
+													</f:if>
+												</span>
 											</div>
 											<div class="tx_mask_btn_actions">
 												<span class="id_add" title="{f:translate(key:'tx_mask.field.titleAdd')}"><core:icon identifier="actions-edit-add" size="default" /></span>
