@@ -1,7 +1,8 @@
 <?php
+
 namespace MASK\Mask\Domain\Repository;
 
-/***************************************************************
+/* * *************************************************************
  *  Copyright notice
  *
  *  (c) 2014 Gernot Ploiner <gp@webprofil.at>, WEBprofil - Gernot Ploiner e.U.
@@ -23,7 +24,7 @@ namespace MASK\Mask\Domain\Repository;
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ * ************************************************************* */
 
 /**
  *
@@ -32,6 +33,7 @@ namespace MASK\Mask\Domain\Repository;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+{
 
 }

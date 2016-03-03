@@ -2,14 +2,7 @@
 <f:layout name="Default" />
 
 <f:section name="content">
-	<div class="typo3-dyntabmenu-tabs">
-		<table cellspacing="0" cellpadding="0" border="0" class="typo3-dyntabmenu">
-			<tr>
-				<td nowrap="nowrap" class="tabact"><f:link.action action="list" controller="WizardContent" class="x-tab-right"><f:translate key="tx_mask.all.contentelements" /></f:link.action></td>
-			<td nowrap="nowrap" class="tab"><f:link.action action="list" controller="WizardPage" class="x-tab-right"><f:translate key="tx_mask.all.pagetemplates" /></f:link.action></td>
-			</tr>
-		</table>
-	</div>
+	<f:render partial="Tabs" arguments="{active: 'WizardContent'}" />
 
 	<div class="typo3-dyntabmenu-divs">
 		<div class="c-tablayer" style="padding:10px;">
@@ -144,7 +137,16 @@
 								<li data-type="{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')}" class="id_{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')}">
 									<span class="id_typetext"><f:translate key="tx_mask.field.{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')}" /></span>
 									<span class="id_labeltext"><mask:label elementKey="{storage.key}" fieldKey="{key}" /></span>
-									<span class="id_keytext">{field.key}</span>
+									<span class="id_keytext">
+										<f:if condition="{field.key}">
+											<f:then>
+												{field.key}
+											</f:then>
+											<f:else>
+												{key}
+											</f:else>
+										</f:if>
+									</span>
 									<span class="id_add" title="{f:translate(key:'tx_mask.field.titleAdd')}"></span>
 									<span class="id_delete" title="{f:translate(key:'tx_mask.field.titleDelete')}"></span>
 									<span class="id_move" title="{f:translate(key:'tx_mask.field.titleMove')}"></span>

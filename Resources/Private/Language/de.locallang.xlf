@@ -181,7 +181,7 @@
 				<target>Maximale Anzahl</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.select.items">
-				<target>Elemente ([label,key], Ein Element je Zeile)</target>
+				<target>Elemente ([label,id], Ein Element je Zeile, Id (Zahl) beginnt mit 1)</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.select.foreign_table">
 				<target>Externe Tabelle</target>
