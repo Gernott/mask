@@ -684,9 +684,12 @@ class MaskUtility
         );
 
         // Create Fields-Array
-        $fields = array_keys($tca);
-        if ($fields) {
-            $firstField = $fields[0];
+        $fields = array();
+        if ($tca) {
+            $fields = array_keys($tca);
+            if ($fields) {
+                $firstField = $fields[0];
+            }
         }
 
         // backwards compatibility for typo3 6.2
@@ -695,15 +698,17 @@ class MaskUtility
 
         // get fields with rte configuration
         $rteFields = array();
-        foreach ($fields as $field) {
-            if ($versionNumber >= 7000000) {
-                $rteFields[] = $field;
-            } else {
-                $formType = $this->getFormType($field, "", $table);
-                if ($formType == "Richtext") {
-                    $rteFields[] = $field.= ";;;richtext[]:rte_transform[mode=ts]";
-                } else {
+        if ($fields) {
+            foreach ($fields as $field) {
+                if ($versionNumber >= 7000000) {
                     $rteFields[] = $field;
+                } else {
+                    $formType = $this->getFormType($field, "", $table);
+                    if ($formType == "Richtext") {
+                        $rteFields[] = $field.= ";;;richtext[]:rte_transform[mode=ts]";
+                    } else {
+                        $rteFields[] = $field;
+                    }
                 }
             }
         }
