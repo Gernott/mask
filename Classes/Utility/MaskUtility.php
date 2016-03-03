@@ -337,6 +337,12 @@ class MaskUtility
      */
     public function addFilesToData(&$data, $table = "tt_content")
     {
+        if ($data["_LOCALIZED_UID"]) {
+            $uid = $data["_LOCALIZED_UID"];
+        } else {
+            $uid = $data["uid"];
+        }
+
         $storage = $this->storageRepository->load();
         /* @var $fileRepository \TYPO3\CMS\Core\Resource\FileRepository */
         $fileRepository = $this->objectManager->get("TYPO3\CMS\Core\Resource\FileRepository");
@@ -349,7 +355,7 @@ class MaskUtility
         if ($contentFields) {
             foreach ($contentFields as $fieldKey) {
                 if ($this->getFormType($fieldKey, "", $table) == "File") {
-                    $data[$fieldKey] = $fileRepository->findByRelation($table, $fieldKey, $data["uid"]);
+                    $data[$fieldKey] = $fileRepository->findByRelation($table, $fieldKey, $uid);
                 }
             }
         }
@@ -810,7 +816,7 @@ class MaskUtility
      * @param array $tca
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    public function setPageTca($tca)
+    public function setPageTca($tca, $dummy = null)
     {
 
         // backwards compatibility for typo3 6.2
