@@ -1,0 +1,8 @@
+<div class="typo3-dyntabmenu-tabs">
+	<table cellspacing="0" cellpadding="0" border="0" class="typo3-dyntabmenu">
+		<tr>
+			<td nowrap="nowrap" class="tab{f:if(condition: '{active} == \'WizardContent\'', then: 'act')}"><f:link.action action="list" controller="WizardContent" class="x-tab-right"><f:translate key="tx_mask.all.contentelements" /></f:link.action></td>
+			<td nowrap="nowrap" class="tab{f:if(condition: '{active} == \'WizardPage\'', then: 'act')}"><f:link.action action="list" controller="WizardPage" class="x-tab-right"><f:translate key="tx_mask.all.pagetemplates" /></f:link.action></td>
+		</tr>
+	</table>
+</div>
