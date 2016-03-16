@@ -38,7 +38,7 @@
 						<div class="form-group col-sm-3 tx_mask_borderright tx_mask_tabcell2">
 							<ul class="tx_mask_fieldtypes dragtarget">
 								<f:for each="{storage.tca}" as="field" key="key">
-									<li data-type="{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}', type: 'pages')}" class="id_{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}', type: 'pages')} tx_mask_btn">
+									<li data-type="{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}', type: 'pages')}" class="id_{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}', type: 'pages')} tx_mask_btn" data-fieldtype="{f:if(condition: '{mask:substr(string: key, search: \'tx_mask\', from: 0, length: 7)}', then: 'mask', else:'existing')}">
 										<div class="tx_mask_btn_row">
 											<div class="tx_mask_btn_img">
 												<core:icon identifier="mask-fieldtype-{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}', type: 'pages')}" size="default" />

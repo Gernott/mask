@@ -279,6 +279,7 @@ function prepareInlineFieldForInsert(field, template) {
 function initSortable() {
 	received = false;
 	receivedNew = false;
+	sorted = false;
 	jQuery(".dragtarget").sortable({
 		revert: true,
 		placeholder: "tx_mask_fieldcontent_highlight",
@@ -308,19 +309,81 @@ function initSortable() {
 			}
 		},
 		stop: function (event, ui) {
-			initSortable();
-			sortFields();
+			if (!sorted) {
+				initSortable();
+				sortFields();
+				sorted = true;
+			}
 			jQuery(ui.item).click();
 			if (receivedNew) {
 				jQuery(".tx_mask_newfieldname:visible").focus();
 			}
 			receivedNew = false;
 			received = false;
+			sorted = false;
 		},
 		receive: function (event, ui) {
-			received = true;
-			if (jQuery(ui.sender).closest("UL").is("#dragstart")) {
-				receivedNew = true;
+			// get head of the dragged field
+			var head = ui.item;
+
+			// check if field is allowed to be dragged here
+			var allowed = true;
+			var isMaskField = jQuery(head).attr("data-fieldtype") === "mask";
+			var isNew = jQuery(head).attr("data-fieldtype") === undefined;
+			var isDraggedIntoInline = jQuery(head).closest(".inline-container").size() > 0;
+
+			if (isDraggedIntoInline && !isMaskField && !isNew) {
+				allowed = false;
+			}
+
+			if (allowed) {
+				// if not already sorted by stop event, sort
+				if (!sorted) {
+					initSortable();
+					sortFields();
+					sorted = true;
+				}
+
+				// body can only be fetched after sorting
+				var body = findBodyByHead(head);
+
+				received = true;
+				// check if the received element is from first column
+				if (jQuery(ui.sender).closest("UL").is("#dragstart")) {
+					receivedNew = true;
+				}
+
+				// if the drag target is in an inline field container
+				if (isDraggedIntoInline) {
+
+					// hide the option to use existing field
+					jQuery(body).find(".tx_mask_fieldcontent_existing").hide();
+					jQuery(body).find(".tx_mask_fieldcontent_type").closest("LABEL").hide();
+					jQuery(body).find(".tx_mask_fieldcontent_type").closest(".row").hide();
+					jQuery(body).find(".tx_mask_fieldcontent_type").val("-1");
+					jQuery(body).find("INPUT[name='tx_mask_tools_maskmask[storage][elements][columns][]']").removeAttr("disabled");
+					jQuery(body).find(".tx_mask_fieldcontent_new").show();
+
+					// and copy the label to keep it, for better user experience
+					if (jQuery(body).find("#form_overwritelabel").size() > 0) {
+						var overwriteLabel = jQuery(body).find("#form_overwritelabel").val();
+						if (overwriteLabel !== "") {
+							jQuery(body).find("#form_label").val(overwriteLabel);
+						}
+					}
+
+					// then sync the body and the head
+					syncBodyToHead(body);
+				} else {
+					// if it is not dragged into an inline element, just make sure all the options are shown
+					jQuery(body).find(".tx_mask_fieldcontent_type").closest("LABEL").show();
+					jQuery(body).find(".tx_mask_fieldcontent_type").closest(".row").show();
+					jQuery(body).find(".tx_mask_fieldcontent_type").closest(".row").show();
+				}
+			} else {
+				// if dragging is not allowed, abort
+				alert("You are trying to drag an element which relies on a tt_content-field into a repeating field. This is not allowed, because it does not make any sense. Create a new field instead.");
+				ui.sender.sortable('cancel');
 			}
 		}
 	});
