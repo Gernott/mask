@@ -337,8 +337,15 @@ function initSortable() {
 			}
 
 			if (allowed) {
-				// if not already sorted by stop event, sort
-				if (!sorted) {
+
+				received = true;
+				// check if the received element is from first column
+				if (jQuery(ui.sender).closest("UL").is("#dragstart")) {
+					receivedNew = true;
+				}
+
+				// if not already sorted by stop event and if the element is not from the first column, sort
+				if (!sorted && !receivedNew) {
 					initSortable();
 					sortFields();
 					sorted = true;
@@ -346,12 +353,6 @@ function initSortable() {
 
 				// body can only be fetched after sorting
 				var body = findBodyByHead(head);
-
-				received = true;
-				// check if the received element is from first column
-				if (jQuery(ui.sender).closest("UL").is("#dragstart")) {
-					receivedNew = true;
-				}
 
 				// if the drag target is in an inline field container
 				if (isDraggedIntoInline) {
