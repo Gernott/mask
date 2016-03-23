@@ -160,7 +160,7 @@
 				<source>URL:</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.radio.items">
-				<source>Items ([label,key], one item each line)</source>
+				<source>Items ([label,key], one item each line, key (int) starts with 1)</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.richtext.cols">
 				<source>Columns</source>
