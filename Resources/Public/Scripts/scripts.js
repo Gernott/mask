@@ -275,11 +275,12 @@ function prepareInlineFieldForInsert(field, template) {
 	}
 	return newTemplate;
 }
+var received;
+var receivedNew;
+var sorted;
 
 function initSortable() {
-	received = false;
-	receivedNew = false;
-	sorted = false;
+
 	jQuery(".dragtarget").sortable({
 		revert: true,
 		placeholder: "tx_mask_fieldcontent_highlight",
@@ -294,23 +295,39 @@ function initSortable() {
 		update: function (event, ui) { // On Drop:
 			// if list received a new element
 			if (received) {
+				var head = ui.item;
 				jQuery(".tx_mask_tabcell2 LI").removeClass("active");
-				jQuery(ui.item).addClass("active");
+				jQuery(head).addClass("active");
 
 				// if list received a new element from left column
 				if (receivedNew) {
-					var fieldType = jQuery(ui.item).data("type");
+					var index = jQuery(".tx_mask_tabcell2 UL LI").index(head);
+					var bodyAppender = jQuery(".tx_mask_tabcell3>DIV").eq(index - 1);
+
+					var fieldType = jQuery(head).data("type");
 					var fieldTemplate = jQuery("#templates DIV[data-type='" + fieldType + "']").outerHTML();
 					jQuery(".tx_mask_tabcell3>DIV").hide(); // Hide all fieldconfigs
-					var newTemplate = prepareInlineFieldForInsert(ui.item, fieldTemplate);
-					jQuery(".tx_mask_tabcell3").append(newTemplate); // Add new fieldconfig
+					var newTemplate = prepareInlineFieldForInsert(head, fieldTemplate);
+					if (index === 0) {
+						jQuery(".tx_mask_tabcell3").prepend(newTemplate); // Add new fieldconfig
+					} else {
+						if (bodyAppender) {
+							jQuery(bodyAppender).after(newTemplate); // Add new fieldconfig
+						} else {
+							jQuery(".tx_mask_tabcell3").append(newTemplate); // Add new fieldconfig
+						}
+					}
 					jQuery(".tx_mask_newfieldname:visible").focus(); // Set focus to key field
 				}
+			} else {
+				received = false;
+				receivedNew = false;
+				sorted = false;
 			}
 		},
 		stop: function (event, ui) {
+			initSortable();
 			if (!sorted) {
-				initSortable();
 				sortFields();
 				sorted = true;
 			}
@@ -323,6 +340,11 @@ function initSortable() {
 			sorted = false;
 		},
 		receive: function (event, ui) {
+
+			received = false;
+			receivedNew = false;
+			sorted = false;
+
 			// get head of the dragged field
 			var head = ui.item;
 
@@ -345,7 +367,7 @@ function initSortable() {
 				}
 
 				// if not already sorted by stop event and if the element is not from the first column, sort
-				if (!sorted && !receivedNew) {
+				if (!sorted) {
 					initSortable();
 					sortFields();
 					sorted = true;
@@ -386,6 +408,8 @@ function initSortable() {
 				alert("You are trying to drag an element which relies on a tt_content-field into a repeating field. This is not allowed, because it does not make any sense. Create a new field instead.");
 				ui.sender.sortable('cancel');
 			}
+
+
 		}
 	});
 }
@@ -407,7 +431,7 @@ function sort_li(a, b) {
 function deleteField(field) {
 	// If this field is inline-field, delete all its children
 	if (jQuery(field).hasClass("id_Inline")) {
-		var childrenFields = jQuery(field).find(" > .inline-container > LI");
+		var childrenFields = jQuery(field).find(" > .inline-container > LI, > .tx_mask_btn_caption > .inline-container > LI");
 		jQuery.each(childrenFields, function (index, elem) {
 			deleteField(elem);
 		});

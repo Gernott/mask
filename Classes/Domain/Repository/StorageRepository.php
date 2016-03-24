@@ -222,8 +222,9 @@ class StorageRepository
      *
      * @param string $type
      * @param string $key
+     * @param array $remainingFields
      */
-    public function remove($type, $key)
+    public function remove($type, $key, $remainingFields = array())
     {
         // Load
         $json = $this->load();
@@ -232,8 +233,8 @@ class StorageRepository
         $columns = $json[$type]["elements"][$key]["columns"];
         unset($json[$type]["elements"][$key]);
         if (is_array($columns)) {
-            foreach ($columns as $id => $field) {
-                $json = $this->removeField($type, $field, $json);
+            foreach ($columns as $field) {
+                $json = $this->removeField($type, $field, $json, $remainingFields);
             }
         }
         // Save
@@ -248,19 +249,20 @@ class StorageRepository
      * @param string $table
      * @param string $field
      * @param array $json
+     * @param array $remainingFields
      * @return array
      */
-    private function removeField($table, $field, $json)
+    private function removeField($table, $field, $json, $remainingFields = array())
     {
 
         // init utility
         $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
         $this->utility = new \MASK\Mask\Utility\MaskUtility($this->objectManager, $this);
 
-        // and unset field only if not needed anymore
+        // check if this field is used in any other elements
         $elementsInUse = array();
-        if ($json["tt_content"]["elements"]) {
-            foreach ($json["tt_content"]["elements"] as $element) {
+        if ($json[$table]["elements"]) {
+            foreach ($json[$table]["elements"] as $element) {
                 if ($element["columns"]) {
                     foreach ($element["columns"] as $column) {
                         if ($column == $field) {
@@ -270,18 +272,49 @@ class StorageRepository
                 }
             }
         }
-        // Recursively delete all inline-fields
+
+
+        // check if father gets deleted
+        $fatherFound = false;
+        if ($remainingFields) {
+            foreach ($remainingFields as $remainingField) {
+                if ($field == "tx_mask_" . $remainingField) {
+                    $fatherFound = true;
+                }
+            }
+        }
+        $fatherGetsDeleted = !$fatherFound;
+
+        // if the field is a repeating field, make some exceptions
         if ($json[$table]["tca"][$field]["config"]["type"] == "inline") {
             $inlineFields = $this->loadInlineFields($field);
             if ($inlineFields) {
+                // Recursively delete all inline-fields if necessary
                 foreach ($inlineFields as $inlineField) {
-                    $json = $this->removeField($inlineField["inlineParent"], "tx_mask_" . $inlineField["key"], $json);
+                    $found = false;
+                    // check if the fields are really deleted, or if they are just deleted temporarly for update action
+                    if ($remainingFields) {
+                        foreach ($remainingFields as $remainingField) {
+                            if ($inlineField["key"] == $remainingField) {
+                                $found = true;
+                            }
+                        }
+                    }
+                    if ($found) {
+                        // was not really deleted => can be deleted temporarly because it will be readded
+                        $json = $this->removeField($inlineField["inlineParent"], "tx_mask_" . $inlineField["key"], $json);
+                    } else {
+                        // was really deleted and can only be deleted if father is not in use in another element
+                        if (($fatherGetsDeleted && count($elementsInUse) == 0) || !$fatherGetsDeleted) {
+                            $json = $this->removeField($inlineField["inlineParent"], "tx_mask_" . $inlineField["key"], $json);
+                        }
+                    }
                 }
             }
         }
 
+        // then delete the field, if it is not in use in another element
         if (count($elementsInUse) < 1) {
-
             unset($json[$table]["tca"][$field]);
             unset($json[$table]["sql"][$field]);
 
@@ -323,7 +356,7 @@ class StorageRepository
      */
     public function update($content)
     {
-        $this->remove($content["type"], $content["orgkey"]);
+        $this->remove($content["type"], $content["orgkey"], $content["elements"]["columns"]);
         $this->add($content);
     }
 
