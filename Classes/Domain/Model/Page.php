@@ -1,11 +1,12 @@
 <?php
+
 namespace MASK\Mask\Domain\Model;
 
-/***************************************************************
+/* * *************************************************************
  *  Copyright notice
  *
  *  (c) 2014 Gernot Ploiner <gp@webprofil.at>, WEBprofil - Gernot Ploiner e.U.
- *  
+ *
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -23,7 +24,7 @@ namespace MASK\Mask\Domain\Model;
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ * ************************************************************* */
 
 /**
  *
@@ -32,148 +33,160 @@ namespace MASK\Mask\Domain\Model;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
+class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+{
 
-	/**
-	 * Title of the Pagetemplate.
-	 *
-	 * @var \string
-	 * @validate NotEmpty
-	 */
-	protected $title;
+    /**
+     * Title of the Pagetemplate.
+     *
+     * @var \string
+     * @validate NotEmpty
+     */
+    protected $title;
 
-	/**
-	 * Backend layout
-	 *
-	 * @var \integer
-	 */
-	protected $belayout;
+    /**
+     * Backend layout
+     *
+     * @var \integer
+     */
+    protected $belayout;
 
-	/**
-	 * Lowercase internal Key. Not Visible in TYPO3 Backend.
-	 *
-	 * @var \string
-	 * @validate NotEmpty
-	 */
-	protected $fieldkey;
+    /**
+     * Lowercase internal Key. Not Visible in TYPO3 Backend.
+     *
+     * @var \string
+     * @validate NotEmpty
+     */
+    protected $fieldkey;
 
-	/**
-	 * Content for the HTML Head.
-	 *
-	 * @var \string
-	 */
-	protected $header;
+    /**
+     * Content for the HTML Head.
+     *
+     * @var \string
+     */
+    protected $header;
 
-	/**
-	 * Default Template if no selection.
-	 *
-	 * @var boolean
-	 */
-	protected $defaulttemplate = FALSE;
+    /**
+     * Default Template if no selection.
+     *
+     * @var boolean
+     */
+    protected $defaulttemplate = FALSE;
 
-	/**
-	 * Returns the title
-	 *
-	 * @return \string $title
-	 */
-	public function getTitle() {
-		return $this->title;
-	}
+    /**
+     * Returns the title
+     *
+     * @return \string $title
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
 
-	/**
-	 * Sets the title
-	 *
-	 * @param \string $title
-	 * @return void
-	 */
-	public function setTitle($title) {
-		$this->title = $title;
-	}
+    /**
+     * Sets the title
+     *
+     * @param \string $title
+     * @return void
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
 
-	/**
-	 * Returns the belayout
-	 *
-	 * @return \integer $belayout
-	 */
-	public function getBelayout() {
-		return $this->belayout;
-	}
+    /**
+     * Returns the belayout
+     *
+     * @return \integer $belayout
+     */
+    public function getBelayout()
+    {
+        return $this->belayout;
+    }
 
-	/**
-	 * Sets the belayout
-	 *
-	 * @param \integer $belayout
-	 * @return void
-	 */
-	public function setBelayout($belayout) {
-		$this->belayout = $belayout;
-	}
+    /**
+     * Sets the belayout
+     *
+     * @param \integer $belayout
+     * @return void
+     */
+    public function setBelayout($belayout)
+    {
+        $this->belayout = $belayout;
+    }
 
-	/**
-	 * Returns the fieldkey
-	 *
-	 * @return \string $fieldkey
-	 */
-	public function getFieldkey() {
-		return $this->fieldkey;
-	}
+    /**
+     * Returns the fieldkey
+     *
+     * @return \string $fieldkey
+     */
+    public function getFieldkey()
+    {
+        return $this->fieldkey;
+    }
 
-	/**
-	 * Sets the fieldkey
-	 *
-	 * @param \string $fieldkey
-	 * @return void
-	 */
-	public function setFieldkey($fieldkey) {
-		$this->fieldkey = $fieldkey;
-	}
+    /**
+     * Sets the fieldkey
+     *
+     * @param \string $fieldkey
+     * @return void
+     */
+    public function setFieldkey($fieldkey)
+    {
+        $this->fieldkey = $fieldkey;
+    }
 
-	/**
-	 * Returns the header
-	 *
-	 * @return \string $header
-	 */
-	public function getHeader() {
-		return $this->header;
-	}
+    /**
+     * Returns the header
+     *
+     * @return \string $header
+     */
+    public function getHeader()
+    {
+        return $this->header;
+    }
 
-	/**
-	 * Sets the header
-	 *
-	 * @param \string $header
-	 * @return void
-	 */
-	public function setHeader($header) {
-		$this->header = $header;
-	}
+    /**
+     * Sets the header
+     *
+     * @param \string $header
+     * @return void
+     */
+    public function setHeader($header)
+    {
+        $this->header = $header;
+    }
 
-	/**
-	 * Returns the defaulttemplate
-	 *
-	 * @return boolean $defaulttemplate
-	 */
-	public function getDefaulttemplate() {
-		return $this->defaulttemplate;
-	}
+    /**
+     * Returns the defaulttemplate
+     *
+     * @return boolean $defaulttemplate
+     */
+    public function getDefaulttemplate()
+    {
+        return $this->defaulttemplate;
+    }
 
-	/**
-	 * Sets the defaulttemplate
-	 *
-	 * @param boolean $defaulttemplate
-	 * @return void
-	 */
-	public function setDefaulttemplate($defaulttemplate) {
-		$this->defaulttemplate = $defaulttemplate;
-	}
+    /**
+     * Sets the defaulttemplate
+     *
+     * @param boolean $defaulttemplate
+     * @return void
+     */
+    public function setDefaulttemplate($defaulttemplate)
+    {
+        $this->defaulttemplate = $defaulttemplate;
+    }
 
-	/**
-	 * Returns the boolean state of defaulttemplate
-	 *
-	 * @return boolean
-	 */
-	public function isDefaulttemplate() {
-		return $this->getDefaulttemplate();
-	}
-
+    /**
+     * Returns the boolean state of defaulttemplate
+     *
+     * @return boolean
+     */
+    public function isDefaulttemplate()
+    {
+        return $this->getDefaulttemplate();
+    }
 }
+
 ?>

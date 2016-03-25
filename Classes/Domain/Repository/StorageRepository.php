@@ -34,307 +34,351 @@ namespace MASK\Mask\Domain\Repository;
  *
  * @api
  */
-class StorageRepository {
+class StorageRepository
+{
 
-	/**
-	 * MaskUtility
-	 *
-	 * @var \MASK\Mask\Utility\MaskUtility
-	 */
-	protected $utility;
+    /**
+     * MaskUtility
+     *
+     * @var \MASK\Mask\Utility\MaskUtility
+     */
+    protected $utility;
 
-	/**
-	 * Load Storage
-	 *
-	 * @return array
-	 */
-	public function load() {
-		$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);
-		if (file_exists(PATH_site . $extConf["json"]) && is_file(PATH_site . $extConf["json"])) {
-			return json_decode(file_get_contents(PATH_site . $extConf["json"]), true);
-		}
-	}
+    /**
+     * Load Storage
+     *
+     * @return array
+     */
+    public function load()
+    {
+        $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);
+        if (file_exists(PATH_site . $extConf["json"]) && is_file(PATH_site . $extConf["json"])) {
+            return json_decode(file_get_contents(PATH_site . $extConf["json"]), true);
+        } else {
+            return array();
+        }
+    }
 
-	/**
-	 * Load Field
-	 * @author Benjamin Butschell <bb@webprofil.at>
-	 * @return array
-	 */
-	public function loadField($type, $key) {
-		$json = $this->load();
-		return $json[$type]["tca"][$key];
-	}
+    /**
+     * Load Field
+     * @author Benjamin Butschell <bb@webprofil.at>
+     * @return array
+     */
+    public function loadField($type, $key)
+    {
+        $json = $this->load();
+        return $json[$type]["tca"][$key];
+    }
 
-	/**
-	 * Loads all the inline fields of an inline-field, recursively!
-	 *
-	 * @param string $parentKey key of the inline-field
-	 * @author Benjamin Butschell <bb@webprofil.at>
-	 * @return array
-	 */
-	public function loadInlineFields($parentKey) {
-		$json = $this->load();
-		$inlineFields = array();
-		foreach ($json as $table) {
-			if ($table["tca"]) {
-				foreach ($table["tca"] as $key => $tca) {
-					if ($tca["inlineParent"] == $parentKey) {
-						if ($tca["config"]["type"] == "inline") {
-							$tca["inlineFields"] = $this->loadInlineFields($key);
-						}
-						$tca["maskKey"] = "tx_mask_" . $tca["key"];
-						$inlineFields[] = $tca;
-					}
-				}
-			}
-		}
-		return $inlineFields;
-	}
+    /**
+     * Loads all the inline fields of an inline-field, recursively!
+     *
+     * @param string $parentKey key of the inline-field
+     * @author Benjamin Butschell <bb@webprofil.at>
+     * @return array
+     */
+    public function loadInlineFields($parentKey)
+    {
+        $json = $this->load();
+        $inlineFields = array();
+        foreach ($json as $table) {
+            if ($table["tca"]) {
+                foreach ($table["tca"] as $key => $tca) {
+                    if ($tca["inlineParent"] == $parentKey) {
+                        if ($tca["config"]["type"] == "inline") {
+                            $tca["inlineFields"] = $this->loadInlineFields($key);
+                        }
+                        $tca["maskKey"] = "tx_mask_" . $tca["key"];
+                        $inlineFields[] = $tca;
+                    }
+                }
+            }
+        }
+        return $inlineFields;
+    }
 
-	/**
-	 * Load Element with all the field configurations
-	 *
-	 * @return array
-	 */
-	public function loadElement($type, $key) {
-		$json = $this->load();
-		$fields = array();
+    /**
+     * Load Element with all the field configurations
+     *
+     * @return array
+     */
+    public function loadElement($type, $key)
+    {
+        $json = $this->load();
+        $fields = array();
 
-		if (count($json[$type]["elements"][$key]["columns"]) > 0) {
-			foreach ($json[$type]["elements"][$key]["columns"] as $fieldName) {
-				$fields[$fieldName] = $json[$type]["tca"][$fieldName];
-			}
-		}
-		if (count($fields) > 0) {
-			$json[$type]["elements"][$key]["tca"] = $fields;
-		}
-		return $json[$type]["elements"][$key];
-	}
+        if (count($json[$type]["elements"][$key]["columns"]) > 0) {
+            foreach ($json[$type]["elements"][$key]["columns"] as $fieldName) {
+                $fields[$fieldName] = $json[$type]["tca"][$fieldName];
+            }
+        }
+        if (count($fields) > 0) {
+            $json[$type]["elements"][$key]["tca"] = $fields;
+        }
+        return $json[$type]["elements"][$key];
+    }
 
-	/**
-	 * Adds new Content-Element
-	 *
-	 * @param array $content
-	 */
-	public function add($content) {
-		// Load
-		$json = $this->load();
+    /**
+     * Adds new Content-Element
+     *
+     * @param array $content
+     */
+    public function add($content)
+    {
+        // Load
+        $json = $this->load();
 
-		// Create JSON elements Array:
-		foreach ($content["elements"] as $key => $value) {
-			// delete columns and labels of irre-fields from elements
-			if ($key == "columns" || $key == "labels") {
-				foreach ($value as $index => $column) {
-					if (!$content["tca"][$index]["inlineParent"]) {
-						$contentColumns[] = $column;
-					} else {
-						unset($value[$index]);
-						unset($value[$index]);
-					}
-				}
-			}
-			$json[$content["type"]]["elements"][$content["elements"]["key"]][$key] = $value;
-		}
+        // Create JSON elements Array:
+        foreach ($content["elements"] as $key => $value) {
+            // delete columns and labels of irre-fields from elements
+            if ($key == "columns" || $key == "labels") {
+                foreach ($value as $index => $column) {
+                    if (!$content["tca"][$index]["inlineParent"]) {
+                        $contentColumns[] = $column;
+                    } else {
+                        unset($value[$index]);
+                        unset($value[$index]);
+                    }
+                }
+            }
+            $json[$content["type"]]["elements"][$content["elements"]["key"]][$key] = $value;
+        }
 
-		$contentColumns = array();
-		$columns = array();
+        $contentColumns = array();
+        $columns = array();
 
-		// delete columns and labels of irre-fields from elements
-		if ($content["elements"]["columns"]) {
-			foreach ($content["elements"]["columns"] as $index => $column) {
-				if (!$content["tca"][$index]["inlineParent"]) {
-					$contentColumns[] = $column;
-				} else {
-					unset($content["elements"]["columns"][$index]);
-					unset($content["elements"]["labels"][$index]);
-				}
-				$columns[] = $column;
-			}
-		}
+        // delete columns and labels of irre-fields from elements
+        if ($content["elements"]["columns"]) {
+            foreach ($content["elements"]["columns"] as $index => $column) {
+                if (!$content["tca"][$index]["inlineParent"]) {
+                    $contentColumns[] = $column;
+                } else {
+                    unset($content["elements"]["columns"][$index]);
+                    unset($content["elements"]["labels"][$index]);
+                }
+                $columns[] = $column;
+            }
+        }
 
-		// Create JSON sql Array:
-		if (is_array($content["sql"])) {
-			foreach ($content["sql"] as $table => $sqlArray) {
-				foreach ($sqlArray as $index => $type) {
-					$fieldname = "tx_mask_" . $columns[$index];
-					$json[$table]["sql"][$fieldname][$table][$fieldname] = $type;
-				}
-			}
-		}
+        // Create JSON sql Array:
+        if (is_array($content["sql"])) {
+            foreach ($content["sql"] as $table => $sqlArray) {
+                foreach ($sqlArray as $index => $type) {
+                    $fieldname = "tx_mask_" . $columns[$index];
+                    $json[$table]["sql"][$fieldname][$table][$fieldname] = $type;
+                }
+            }
+        }
 
-		// Create JSON tca Array:
-		if (is_array($content["tca"])) {
+        // Create JSON tca Array:
+        if (is_array($content["tca"])) {
 
 
-			foreach ($content["tca"] as $key => $value) {
-				$inlineField = FALSE;
+            foreach ($content["tca"] as $key => $value) {
+                $inlineField = FALSE;
 
-				// if this field is inline-field
-				if ($value["inlineParent"]) {
-					$type = $value["inlineParent"];
-					$inlineField = TRUE;
-				} else {
-					$type = $content["type"];
-				}
+                // if this field is inline-field
+                if ($value["inlineParent"]) {
+                    $type = $value["inlineParent"];
+                    $inlineField = TRUE;
+                } else {
+                    $type = $content["type"];
+                }
 
-				$json[$type]["tca"][$columns[$key]] = $value;
+                $json[$type]["tca"][$columns[$key]] = $value;
 
-				// add rte flag if inline and rte
-				if ($inlineField) {
-					if ($content["elements"]["options"][$key] == "rte") {
-						$json[$type]["tca"][$columns[$key]]["rte"] = "1";
-					}
-				}
+                // add rte flag if inline and rte
+                if ($inlineField) {
+                    if ($content["elements"]["options"][$key] == "rte") {
+                        $json[$type]["tca"][$columns[$key]]["rte"] = "1";
+                    }
+                }
 
-				// Only add columns to elements if it is no inlinefield
-				if (!$inlineField) {
-					$json[$type]["elements"][$content["elements"]["key"]]["columns"][$key] = "tx_mask_" . $columns[$key];
-				}
-				$json[$type]["tca"]["tx_mask_" . $columns[$key]] = $json[$type]["tca"][$columns[$key]];
-				$json[$type]["tca"]["tx_mask_" . $columns[$key]]["key"] = $columns[$key];
-				unset($json[$type]["tca"][$columns[$key]]);
-			}
-		}
+                // Only add columns to elements if it is no inlinefield
+                if (!$inlineField) {
+                    $json[$type]["elements"][$content["elements"]["key"]]["columns"][$key] = "tx_mask_" . $columns[$key];
+                }
+                $json[$type]["tca"]["tx_mask_" . $columns[$key]] = $json[$type]["tca"][$columns[$key]];
+                $json[$type]["tca"]["tx_mask_" . $columns[$key]]["key"] = $columns[$key];
+                unset($json[$type]["tca"][$columns[$key]]);
+            }
+        }
 
-		// Save
-		$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);
-		$handle = fopen(PATH_site . $extConf["json"], "w");
-		$encodedJson = "";
+        // Save
+        $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);
+        $encodedJson = "";
 
-		// Return JSON formatted in PHP 5.4.0 and higher
-		if (version_compare(phpversion(), '5.4.0', '<')) {
-			$encodedJson = json_encode($json);
-		} else {
-			$encodedJson = json_encode($json, JSON_PRETTY_PRINT);
-		}
-		fwrite($handle, $encodedJson);
-	}
+        // Return JSON formatted in PHP 5.4.0 and higher
+        if (version_compare(phpversion(), '5.4.0', '<')) {
+            $encodedJson = json_encode($json);
+        } else {
+            $encodedJson = json_encode($json, JSON_PRETTY_PRINT);
+        }
+        \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $extConf["json"], $encodedJson);
+    }
 
-	/**
-	 * Removes Content-Element
-	 *
-	 * @param string $type
-	 * @param string $key
-	 */
-	public function remove($type, $key) {
-		// Load
-		$json = $this->load();
+    /**
+     * Removes Content-Element
+     *
+     * @param string $type
+     * @param string $key
+     * @param array $remainingFields
+     */
+    public function remove($type, $key, $remainingFields = array())
+    {
+        // Load
+        $json = $this->load();
 
-		// Remove
-		$columns = $json[$type]["elements"][$key]["columns"];
-		unset($json[$type]["elements"][$key]);
-		if (is_array($columns)) {
-			foreach ($columns as $id => $field) {
-				$json = $this->removeField($type, $field, $json);
-			}
-		}
-		// Save
-		$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);
-		$handle = fopen(PATH_site . $extConf["json"], "w");
-		fwrite($handle, json_encode($json));
-	}
+        // Remove
+        $columns = $json[$type]["elements"][$key]["columns"];
+        unset($json[$type]["elements"][$key]);
+        if (is_array($columns)) {
+            foreach ($columns as $field) {
+                $json = $this->removeField($type, $field, $json, $remainingFields);
+            }
+        }
+        // Save
+        $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);
+        \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $extConf["json"], json_encode($json));
+    }
 
-	/**
-	 * Removes a field from the json, also recursively all inline-fields
-	 * @author Benjamin Butschell <bb@webprofil.at>
-	 *
-	 * @param string $table
-	 * @param string $field
-	 * @param array $json
-	 * @return array
-	 */
-	private function removeField($table, $field, $json) {
+    /**
+     * Removes a field from the json, also recursively all inline-fields
+     * @author Benjamin Butschell <bb@webprofil.at>
+     *
+     * @param string $table
+     * @param string $field
+     * @param array $json
+     * @param array $remainingFields
+     * @return array
+     */
+    private function removeField($table, $field, $json, $remainingFields = array())
+    {
 
-		// init utility
-		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-		$this->utility = new \MASK\Mask\Utility\MaskUtility($this->objectManager, $this);
+        // init utility
+        $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+        $this->utility = new \MASK\Mask\Utility\MaskUtility($this->objectManager, $this);
 
-		// and unset field only if not needed anymore
-		$elementsInUse = array();
-		if ($json["tt_content"]["elements"]) {
-			foreach ($json["tt_content"]["elements"] as $element) {
-				if ($element["columns"]) {
-					foreach ($element["columns"] as $column) {
-						if ($column == $field) {
-							$elementsInUse[] = $element;
-						}
-					}
-				}
-			}
-		}
-		// Recursively delete all inline-fields
-		if ($json[$table]["tca"][$field]["config"]["type"] == "inline") {
-			$inlineFields = $this->loadInlineFields($field);
-			if ($inlineFields) {
-				foreach ($inlineFields as $inlineField) {
-					$json = $this->removeField($inlineField["inlineParent"], "tx_mask_" . $inlineField["key"], $json);
-				}
-			}
-		}
+        // check if this field is used in any other elements
+        $elementsInUse = array();
+        if ($json[$table]["elements"]) {
+            foreach ($json[$table]["elements"] as $element) {
+                if ($element["columns"]) {
+                    foreach ($element["columns"] as $column) {
+                        if ($column == $field) {
+                            $elementsInUse[] = $element;
+                        }
+                    }
+                }
+            }
+        }
 
-		if (count($elementsInUse) < 1) {
 
-			unset($json[$table]["tca"][$field]);
-			unset($json[$table]["sql"][$field]);
+        // check if father gets deleted
+        $fatherFound = false;
+        if ($remainingFields) {
+            foreach ($remainingFields as $remainingField) {
+                if ($field == "tx_mask_" . $remainingField) {
+                    $fatherFound = true;
+                }
+            }
+        }
+        $fatherGetsDeleted = !$fatherFound;
 
-			// If field is of type file, also delete entry in sys_file_reference
-			if ($this->utility->getFormType($field) == "File") {
-				unset($json["sys_file_reference"]["sql"][$field]);
-				$json = $this->cleanTable("sys_file_reference", $json);
-			}
-		}
-		return $this->cleanTable($table, $json);
-	}
+        // if the field is a repeating field, make some exceptions
+        if ($json[$table]["tca"][$field]["config"]["type"] == "inline") {
+            $inlineFields = $this->loadInlineFields($field);
+            if ($inlineFields) {
+                // Recursively delete all inline-fields if necessary
+                foreach ($inlineFields as $inlineField) {
+                    $found = false;
+                    // check if the fields are really deleted, or if they are just deleted temporarly for update action
+                    if ($remainingFields) {
+                        foreach ($remainingFields as $remainingField) {
+                            if ($inlineField["key"] == $remainingField) {
+                                $found = true;
+                            }
+                        }
+                    }
+                    if ($found) {
+                        // was not really deleted => can be deleted temporarly because it will be readded
+                        $json = $this->removeField($inlineField["inlineParent"], "tx_mask_" . $inlineField["key"], $json);
+                    } else {
+                        // was really deleted and can only be deleted if father is not in use in another element
+                        if (($fatherGetsDeleted && count($elementsInUse) == 0) || !$fatherGetsDeleted) {
+                            $json = $this->removeField($inlineField["inlineParent"], "tx_mask_" . $inlineField["key"], $json);
+                        }
+                    }
+                }
+            }
+        }
 
-	/**
-	 * Deletes all the empty settings of a table
-	 *
-	 * @author Benjamin Butschell <bb@webprofil.at>
-	 * @param string $table
-	 * @param array $json
-	 * @return array
-	 */
-	private function cleanTable($table, $json) {
-		if (count($json[$table]["tca"]) < 1) {
-			unset($json[$table]["tca"]);
-		}
-		if (count($json[$table]["sql"]) < 1) {
-			unset($json[$table]["sql"]);
-		}
-		if (count($json[$table]) < 1) {
-			unset($json[$table]);
-		}
-		return $json;
-	}
+        // then delete the field, if it is not in use in another element
+        if (count($elementsInUse) < 1) {
+            unset($json[$table]["tca"][$field]);
+            unset($json[$table]["sql"][$field]);
 
-	/**
-	 * Updates Content-Element in Storage-Repository
-	 *
-	 * @param array $content
-	 */
-	public function update($content) {
-		$this->remove($content["type"], $content["orgkey"]);
-		$this->add($content);
-	}
+            // If field is of type file, also delete entry in sys_file_reference
+            if ($this->utility->getFormType($field) == "File") {
+                unset($json["sys_file_reference"]["sql"][$field]);
+                $json = $this->cleanTable("sys_file_reference", $json);
+            }
+        }
+        return $this->cleanTable($table, $json);
+    }
 
-	/**
-	 * returns sql statements of all elements and pages and irre
-	 * @return array
-	 */
-	public function loadSql() {
-		$json = $this->load();
-		$sql_content = array();
-		$types = array_keys($json);
-		$nonIrreTables = array("pages", "tt_content");
+    /**
+     * Deletes all the empty settings of a table
+     *
+     * @author Benjamin Butschell <bb@webprofil.at>
+     * @param string $table
+     * @param array $json
+     * @return array
+     */
+    private function cleanTable($table, $json)
+    {
+        if (count($json[$table]["tca"]) < 1) {
+            unset($json[$table]["tca"]);
+        }
+        if (count($json[$table]["sql"]) < 1) {
+            unset($json[$table]["sql"]);
+        }
+        if (count($json[$table]) < 1) {
+            unset($json[$table]);
+        }
+        return $json;
+    }
 
-		// Generate SQL-Statements
-		if ($types) {
-			foreach ($types as $type) {
-				if ($json[$type]["sql"]) {
+    /**
+     * Updates Content-Element in Storage-Repository
+     *
+     * @param array $content
+     */
+    public function update($content)
+    {
+        $this->remove($content["type"], $content["orgkey"], $content["elements"]["columns"]);
+        $this->add($content);
+    }
 
-					// If type/table is an irre table, then create table for it
-					if (array_search($type, $nonIrreTables) === FALSE) {
-						$sql_content[] = "CREATE TABLE " . $type . " (
+    /**
+     * returns sql statements of all elements and pages and irre
+     * @return array
+     */
+    public function loadSql()
+    {
+        $json = $this->load();
+        $sql_content = array();
+        $types = array_keys($json);
+        $nonIrreTables = array("pages", "tt_content");
+
+        // Generate SQL-Statements
+        if ($types) {
+            foreach ($types as $type) {
+                if ($json[$type]["sql"]) {
+
+                    // If type/table is an irre table, then create table for it
+                    if (array_search($type, $nonIrreTables) === FALSE) {
+                        $sql_content[] = "CREATE TABLE " . $type . " (
 
 							 uid int(11) NOT NULL auto_increment,
 							 pid int(11) DEFAULT '0' NOT NULL,
@@ -371,30 +415,29 @@ class StorageRepository {
 							 sorting	int(11) DEFAULT '0' NOT NULL,
 
 						 );\n";
-					}
+                    }
 
-					foreach ($json[$type]["sql"] as $field) {
-						if ($field) {
-							foreach ($field as $table => $fields) {
-								if ($fields) {
-									foreach ($fields as $field => $definition) {
-										$sql_content[] = "CREATE TABLE " . $table . " (\n\t" . $field . " " . $definition . "\n);\n";
+                    foreach ($json[$type]["sql"] as $field) {
+                        if ($field) {
+                            foreach ($field as $table => $fields) {
+                                if ($fields) {
+                                    foreach ($fields as $field => $definition) {
+                                        $sql_content[] = "CREATE TABLE " . $table . " (\n\t" . $field . " " . $definition . "\n);\n";
 
-										// every statement for pages, also for pages_language_overlay
-										if ($table == "pages") {
-											$sql_content[] = "CREATE TABLE pages_language_overlay (\n\t" . $field . " " . $definition . "\n);\n";
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		// Parentfield
-		$sql_content[] = "CREATE TABLE tt_content (\n\ttx_mask_content_parent int(11) unsigned NOT NULL DEFAULT '0'\n);\n";
-		return $sql_content;
-	}
-
+                                        // every statement for pages, also for pages_language_overlay
+                                        if ($table == "pages") {
+                                            $sql_content[] = "CREATE TABLE pages_language_overlay (\n\t" . $field . " " . $definition . "\n);\n";
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        // Parentfield
+//		$sql_content[] = "CREATE TABLE tt_content (\n\ttx_mask_content_parent int(11) unsigned NOT NULL DEFAULT '0'\n);\n";
+        return $sql_content;
+    }
 }

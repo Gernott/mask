@@ -1,7 +1,8 @@
 <?php
+
 namespace MASK\Mask\Domain\Repository;
 
-/***************************************************************
+/* * *************************************************************
  *  Copyright notice
  *
  *  (c) 2010-2013 Extbase Team (http://forge.typo3.org/projects/typo3v4-mvc)
@@ -26,23 +27,26 @@ namespace MASK\Mask\Domain\Repository;
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ * ************************************************************* */
+
 /**
  * Repository for \TYPO3\CMS\Extbase\Domain\Model\BackendLayout.
  *
  * @api
  */
-class BackendLayoutRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+class BackendLayoutRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+{
 
-	/**
-	 * Initializes the repository.
-	 *
-	 * @return void
-	 */
-	public function initializeObject() {
-		/** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings */
-		$querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
-		$querySettings->setRespectStoragePage(FALSE);
-		$this->setDefaultQuerySettings($querySettings);
-	}
+    /**
+     * Initializes the repository.
+     *
+     * @return void
+     */
+    public function initializeObject()
+    {
+        /** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings */
+        $querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
+        $querySettings->setRespectStoragePage(FALSE);
+        $this->setDefaultQuerySettings($querySettings);
+    }
 }

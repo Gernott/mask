@@ -22,7 +22,7 @@ To install the extension, perform the following steps:
 
 #. Import and install the Extension in the TYPO3-Backend in Module **Extensionmanager**.
 
-#. Include static template **Mask** in Module **Template** in your main TypoScript-Template.
+#. Include static template **Content Elements (fluid_styled_content)** first and after it **Mask (mask)** in Module **Template** in your main TypoScript-Template.
 
 
 

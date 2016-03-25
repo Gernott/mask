@@ -2,17 +2,7 @@
 {namespace core = TYPO3\CMS\Core\ViewHelpers}
 <f:layout name="Default" />
 <f:section name="content">
-	<ul class="nav nav-tabs t3js-tabs" role="tablist" id="tabs-DTM-mask" data-store-last-tab="1">
-		<li role="presentation" class="t3js-tabmenu-item active">
-		<f:link.action action="list" controller="WizardContent" additionalParams="{aria-controls:'DTM-mask-1', role:'tab', data-toggle:'tab'}"><f:translate key="tx_mask.all.contentelements" /></f:link.action>
-		</li>
-		<li role="presentation" class="t3js-tabmenu-item">
-		<f:link.action action="list" controller="WizardPage" additionalParams="{aria-controls:'DTM-mask-2', role:'tab', data-toggle:'tab'}"><f:translate key="tx_mask.all.pagetemplates" /></f:link.action>
-		</li>
-		<li role="presentation" class="t3js-tabmenu-item">
-		<mask:configureExtension><mask:icon identifier="actions-system-extension-configure" altText="{f:translate(key: 'tx_mask.all.configure')}" /></mask:configureExtension>
-		</li>
-	</ul>
+	<f:render partial="Tabs" arguments="{active: 'WizardContent'}" />
 
 	<div class="tab-content">
 		<div role="tabpanel" class="tab-pane active" id="DTM-mask-1">
@@ -47,15 +37,24 @@
 						<div class="form-group col-sm-3 tx_mask_borderright tx_mask_tabcell2">
 							<ul class="tx_mask_fieldtypes dragtarget">
 								<f:for each="{storage.tca}" as="field" key="key">
-									<li data-type="{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')}" class="id_{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')} tx_mask_btn">
+									<li data-type="{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')}" class="id_{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')} tx_mask_btn" data-fieldtype="{f:if(condition: '{mask:substr(string: key, search: \'tx_mask\', from: 0, length: 7)}', then: 'mask', else:'existing')}">
 										<div class="tx_mask_btn_row">
 											<div class="tx_mask_btn_img">
 												<core:icon identifier="mask-fieldtype-{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')}" size="default" />
 											</div>
 											<div class="tx_mask_btn_text">
 												<span class="id_typetext"><f:translate key="tx_mask.field.{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')}" /></span>
-												<span class="id_labeltext"><mask:label elementKey="{storage.key}" fieldKey="{key}" /></span>
-												<span class="id_keytext">{field.key}</span>
+												<span class="id_labeltext"><mask:label elementKey="{storage.key}" fieldKey="{key}" table="tt_content" field="{field}"/></span>
+												<span class="id_keytext">
+													<f:if condition="{field.key}">
+														<f:then>
+															{field.key}
+														</f:then>
+														<f:else>
+															{key}
+														</f:else>
+													</f:if>
+												</span>
 											</div>
 											<div class="tx_mask_btn_actions">
 												<span class="id_add" title="{f:translate(key:'tx_mask.field.titleAdd')}"><core:icon identifier="actions-edit-add" size="default" /></span>
@@ -92,7 +91,7 @@
 											<div class="tx_mask_fieldheader">
 												<div class="tx_mask_fieldheader_icon id_{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')}"><core:icon identifier="mask-fieldtype-{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')}" size="default" /></div>
 												<div class="tx_mask_fieldheader_text">
-													<h1><mask:label elementKey="{storage.key}" fieldKey="{key}" />&nbsp;</h1>
+													<h1><mask:label elementKey="{storage.key}" fieldKey="{key}" table="tt_content" />&nbsp;</h1>
 													<p>{key}</p>
 												</div>
 											</div>
@@ -108,7 +107,7 @@
 																<input type="hidden" name="tx_mask_tools_maskmask[storage][elements][options][--index--]" value="rte" />
 															</f:if>
 															<f:form.hidden value="{key}" name="storage[elements][columns][--index--]" />
-															<f:form.textfield id="all_overwrite" class="form-control" value="{mask:label(elementKey: storage.key, fieldKey: key)}" name="storage[elements][labels][--index--]" placeholder="{f:translate(key:'tx_mask.all.label')}" title="{f:translate(key:'tx_mask.all.label')}" />
+															<f:form.textfield id="all_overwrite" class="form-control" value="{mask:label(elementKey: storage.key, fieldKey: key, table:'tt_content', field: field)}" name="storage[elements][labels][--index--]" placeholder="{f:translate(key:'tx_mask.all.label')}" title="{f:translate(key:'tx_mask.all.label')}" />
 															<!-- Neu -->
 															<div class="tx_mask_fieldcontent_new">	</div>
 														</div>
