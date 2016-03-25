@@ -180,6 +180,24 @@
 			<trans-unit id="tx_mask.field.select.maxitems">
 				<source>Maxitems</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.select.renderType">
+				<source>Rendertype</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.renderType.selectSingle">
+				<source>Selectbox single</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.renderType.selectSingleBox">
+				<source>Selectbox multiple</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.renderType.selectCheckBox">
+				<source>Checkboxes</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.renderType.selectMultipleSideBySide">
+				<source>Shuttle</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.renderType.selectTree">
+				<source>Tree</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.select.items">
 				<source>Items ([label,id], one item each line, id (int) starts with 1)</source>
 			</trans-unit>
