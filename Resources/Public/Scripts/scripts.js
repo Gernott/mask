@@ -180,6 +180,12 @@ jQuery(document).ready(function () {
 
 		}
 	});
+
+	// initialize font-icon-picker
+	jQuery('#meta_icon').fontIconPicker({
+		iconsPerPage: 20
+	});
+
 });
 
 //Do the magic to inline fields

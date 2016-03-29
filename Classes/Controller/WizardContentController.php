@@ -45,6 +45,14 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
     protected $storageRepository;
 
     /**
+     * IconRepository
+     *
+     * @var \MASK\Mask\Domain\Repository\IconRepository
+     * @inject
+     */
+    protected $iconRepository;
+
+    /**
      * action list
      *
      * @return void
@@ -72,7 +80,8 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
      */
     public function newAction()
     {
-
+        $icons = $this->iconRepository->findAll();
+        $this->view->assign('icons', $icons);
     }
 
     /**
@@ -101,8 +110,10 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
     public function editAction($type, $key)
     {
         $storage = $this->storageRepository->loadElement($type, $key);
+        $icons = $this->iconRepository->findAll();
         $this->prepareStorage($storage);
         $this->view->assign('storage', $storage);
+        $this->view->assign('icons', $icons);
         $this->view->assign('editMode', 1);
     }
 

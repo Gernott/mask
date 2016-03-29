@@ -334,7 +334,7 @@
 				<source>Element-key (unique, lowercase)</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.icon">
-				<source>FontAwesome-Iconcode</source>
+				<source>FontAwesome-Icon</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.color">
 				<source>Colour (HEX-Code)</source>

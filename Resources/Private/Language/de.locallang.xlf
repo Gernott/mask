@@ -334,7 +334,7 @@
 				<target>Element-Key (Kleinbuchstaben)</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.icon">
-				<target>FontAwesome-Iconcode</target>
+				<target>FontAwesome-Icon</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.color">
 				<target>Farbe (HEX-Code)</target>

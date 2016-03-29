@@ -11,7 +11,7 @@
 				<h1 style="margin-bottom: 10px;"><f:translate key="tx_mask.content.newheader" /></h1>
 				<f:render partial="FormErrors" />
 				<f:form action="create" name="storage" object="{storage}">
-					<f:render partial="WizardContent/Metadata" arguments="{storage:storage}" />
+					<f:render partial="WizardContent/Metadata" arguments="{storage:storage, icons: icons}" />
 					<div class="row bench">
 						<div class="form-group col-sm-3 tx_mask_borderright tx_mask_tabcell1">
 							<ul class="tx_mask_fieldtypes" id="dragstart">
