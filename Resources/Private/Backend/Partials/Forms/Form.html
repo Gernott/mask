@@ -6,7 +6,7 @@
 	<div class="tx_mask_fieldheader">
 		<div class="tx_mask_fieldheader_icon id_{form}"><core:icon identifier="mask-fieldtype-{form}" size="default" /></div>
 		<div class="tx_mask_fieldheader_text">
-			<h1>{mask:label(elementKey: storage.key, fieldKey: key, field: field)}</h1>
+			<h1>{mask:label(elementKey: storage.key, fieldKey: key, field: field, table:type)}</h1>
 			<p>{field.key}</p>
 		</div>
 	</div>
@@ -91,7 +91,7 @@
 					</label>
 					<div class="t3js-formengine-field-item">
 						<div class="form-control-wrap">
-							<input name="tx_mask_tools_maskmask[storage][elements][labels][--index--]" id="form_label" type="text" class="form-control" title="{f:translate(key:'tx_mask.content.label')}" placeholder="{f:translate(key:'tx_mask.content.label')}" value="{mask:label(elementKey: storage.key, fieldKey: key, field: field)}" />
+							<input name="tx_mask_tools_maskmask[storage][elements][labels][--index--]" id="form_label" type="text" class="form-control" title="{f:translate(key:'tx_mask.content.label')}" placeholder="{f:translate(key:'tx_mask.content.label')}" value="{mask:label(elementKey: storage.key, fieldKey: key, field: field, table:type)}" />
 						</div>
 					</div>
 				</div>
