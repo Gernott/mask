@@ -42,6 +42,9 @@
 			<trans-unit id="tx_mask.field.Inline">
 				<source>Repeating</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.Tab">
+				<source>Tab</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.titleAdd">
 				<source>Add item</source>
 			</trans-unit>

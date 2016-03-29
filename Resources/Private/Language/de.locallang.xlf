@@ -42,6 +42,9 @@
 			<trans-unit id="tx_mask.field.Inline">
 				<target>Wiederholung</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.Tab">
+				<target>Reiter</target>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.titleAdd">
 				<target>Hinzufügen</target>
 			</trans-unit>

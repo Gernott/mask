@@ -31,20 +31,7 @@
 				</f:form>
 
 				<div style="display:none;" id="templates">
-					<f:render partial="Forms/Form" arguments="{form: 'String', storage: storage, type: 'tt_content'}" />
-					<f:render partial="Forms/Form" arguments="{form: 'Integer', storage: storage, type: 'tt_content'}" />
-					<f:render partial="Forms/Form" arguments="{form: 'Float', storage: storage, type: 'tt_content'}" />
-					<f:render partial="Forms/Form" arguments="{form: 'Link', storage: storage, type: 'tt_content'}" />
-					<f:render partial="Forms/Form" arguments="{form: 'Date', storage: storage, type: 'tt_content'}" />
-					<f:render partial="Forms/Form" arguments="{form: 'Datetime', storage: storage, type: 'tt_content'}" />
-					<f:render partial="Forms/Form" arguments="{form: 'Text', storage: storage, type: 'tt_content'}" />
-					<f:render partial="Forms/Form" arguments="{form: 'Richtext', storage: storage, type: 'tt_content'}" />
-					<f:render partial="Forms/Form" arguments="{form: 'Check', storage: storage, type: 'tt_content'}" />
-					<f:render partial="Forms/Form" arguments="{form: 'Radio', storage: storage, type: 'tt_content'}" />
-					<f:render partial="Forms/Form" arguments="{form: 'Select', storage: storage, type: 'tt_content'}" />
-					<f:render partial="Forms/Form" arguments="{form: 'File', storage: storage, type: 'tt_content'}" />
-					<f:render partial="Forms/Form" arguments="{form: 'Inline', storage: storage, type: 'tt_content'}" />
-					<f:render partial="Forms/Form" arguments="{form: 'Content', storage: storage, type: 'tt_content'}" />
+					<f:render partial="Forms" arguments="{storage: storage, type: 'tt_content'}" />
 				</div>
 			</div>
 		</div>

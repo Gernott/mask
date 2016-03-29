@@ -210,6 +210,9 @@ class MaskUtility
                     $formType = "Inline";
                 }
                 break;
+            case "tab":
+                $formType = "Tab";
+                break;
             default:
                 break;
         }
