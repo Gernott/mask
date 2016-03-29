@@ -1,4 +1,5 @@
 {namespace mask=MASK\Mask\ViewHelpers}
+{namespace core = TYPO3\CMS\Core\ViewHelpers}
 
 <ul class="nav nav-tabs t3js-tabs" role="tablist" id="tabs-DTM-mask" data-store-last-tab="1">
 	<li role="presentation" class="t3js-tabmenu-item{f:if(condition: '{active} == \'WizardContent\'', then: ' active')}">
@@ -8,6 +9,6 @@
 		<f:link.action action="list" controller="WizardPage" additionalParams="{aria-controls:'DTM-mask-2', role:'tab', data-toggle:'tab'}"><f:translate key="tx_mask.all.pagetemplates" /></f:link.action>
 	</li>
 	<li role="presentation" class="t3js-tabmenu-item">
-		<mask:configureExtension><mask:icon identifier="actions-system-extension-configure" altText="{f:translate(key: 'tx_mask.all.configure')}" /></mask:configureExtension>
+		<mask:configureExtension><core:icon identifier="actions-system-extension-configure" /></mask:configureExtension>
 	</li>
 </ul>

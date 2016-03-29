@@ -1,8 +1,4 @@
 <?php
-// backwards compatibility for typo3 6.2
-$version = \TYPO3\CMS\Core\Utility\VersionNumberUtility::getNumericTypo3Version();
-$versionNumber = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger($version);
-
 if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
@@ -19,17 +15,14 @@ if (!empty($extConf["json"]) && file_exists(PATH_site . $extConf["json"])) {
 }
 
 // Icon registry
-// backwards compatibility for typo3 6.2
-if ($versionNumber >= 7005000) {
-    $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance("TYPO3\CMS\Core\Imaging\IconRegistry");
-    $maskIcons = array("Check", "Date", "Datetime", "File", "Float", "Inline", "Integer", "Link", "Radio", "Richtext", "Select", "String", "Text");
-    foreach ($maskIcons as $maskIcon) {
-        $iconRegistry->registerIcon(
-            'mask-fieldtype-' . $maskIcon, 'TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider', array(
-            'source' => 'EXT:mask/Resources/Public/Icons/fieldtypes/' . $maskIcon . '.svg'
-            )
-        );
-    }
+$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance("TYPO3\CMS\Core\Imaging\IconRegistry");
+$maskIcons = array("Check", "Date", "Datetime", "File", "Float", "Inline", "Integer", "Link", "Radio", "Richtext", "Select", "String", "Text");
+foreach ($maskIcons as $maskIcon) {
+    $iconRegistry->registerIcon(
+        'mask-fieldtype-' . $maskIcon, 'TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider', array(
+        'source' => 'EXT:mask/Resources/Public/Icons/fieldtypes/' . $maskIcon . '.svg'
+        )
+    );
 }
 
 // generate page TSconfig
@@ -41,20 +34,14 @@ $template = file_get_contents(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility
 if ($json["tt_content"]["elements"]) {
 
     foreach ($json["tt_content"]["elements"] as $element) {
-        // backwards compatibility for typo3 6.2
-        if ($versionNumber >= 7005000) {
-            // Register icons for contentelements
-            $iconIdentifier = 'mask-ce-' . $element["key"];
-            $iconRegistry->registerIcon(
-                $iconIdentifier, "MASK\Mask\Imaging\IconProvider\ContentElementIconProvider", array(
-                'contentElementKey' => $element["key"]
-                )
-            );
-            $temp = str_replace("###ICON###", "iconIdentifier = " . $iconIdentifier, $template);
-        } else {
-            $temp = str_replace("###ICON###", "icon = ../" . $extConf["preview"] . 'ce_' . $element["key"] . '.png', $template);
-        }
-
+        // Register icons for contentelements
+        $iconIdentifier = 'mask-ce-' . $element["key"];
+        $iconRegistry->registerIcon(
+            $iconIdentifier, "MASK\Mask\Imaging\IconProvider\ContentElementIconProvider", array(
+            'contentElementKey' => $element["key"]
+            )
+        );
+        $temp = str_replace("###ICON###", "iconIdentifier = " . $iconIdentifier, $template);
         $temp = str_replace("###KEY###", $element["key"], $temp);
         $temp = str_replace("###LABEL###", $element["label"], $temp);
         $temp = str_replace("###DESCRIPTION###", $element["description"], $temp);
@@ -112,13 +99,13 @@ $setupContent = '
 module.tx_mask {
 	view {
 		templateRootPaths {
-			10 = EXT:mask/Resources/Private/Backend62/Templates/
+			10 = EXT:mask/Resources/Private/Backend/Templates/
 		}
 		partialRootPaths {
-			10 = EXT:mask/Resources/Private/Backend62/Partials/
+			10 = EXT:mask/Resources/Private/Backend/Partials/
 		}
 		layoutRootPaths {
-			10 = EXT:mask/Resources/Private/Backend62/Layouts/
+			10 = EXT:mask/Resources/Private/Backend/Layouts/
 		}
 	}
 	persistence{
@@ -135,21 +122,6 @@ module.tx_mask {
 		}
 	}
 }
-[compatVersion = 7.0.0]
-module.tx_mask {
-	view {
-		templateRootPaths {
-			10 = EXT:mask/Resources/Private/Backend/Templates/
-		}
-		partialRootPaths {
-			10 = EXT:mask/Resources/Private/Backend/Partials/
-		}
-		layoutRootPaths {
-			10 = EXT:mask/Resources/Private/Backend/Layouts/
-		}
-	}
-}
-[end]
 ';
 // Load setup.ts Template
 $template = file_get_contents(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mask') . "Resources/Private/Mask/setup.ts", true);

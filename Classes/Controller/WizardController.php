@@ -332,28 +332,6 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     }
 
     /**
-     * Saves preview image for Contentelements, if File not exists
-     *
-     * @param string $key
-     * @author Gernot Ploiner <gp@webprofil.at>
-     */
-    protected function savePreviewImage($key)
-    {
-        $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);
-        if (file_exists(PATH_site . $extConf["preview"] . "ce_" . $key . ".png")) {
-            return false;
-        } else {
-            $source = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mask') . "Resources/Private/Images/preview.png";
-            $target = PATH_site . $extConf["preview"] . "ce_" . $key . ".png";
-            if (copy($source, $target)) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-    }
-
-    /**
      * Check, if folders from extensionmanager-settings are existing
      *
      * @author Gernot Ploiner <gp@webprofil.at>

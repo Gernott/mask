@@ -420,14 +420,8 @@ class MaskUtility
     public function setElementsTca($tca)
     {
 
-        // backwards compatibility for typo3 6.2
-        $version = \TYPO3\CMS\Core\Utility\VersionNumberUtility::getNumericTypo3Version();
-        $versionNumber = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger($version);
-        if ($versionNumber >= 7000000) {
-            $defaultTabs = ",--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.visibility;visibility,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.extended,--div--;LLL:EXT:lang/locallang_tca.xlf:sys_category.tabs.category,categories";
-        } else {
-            $defaultTabs = ",--div--;LLL:EXT:cms/locallang_tca.xlf:pages.tabs.access,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.visibility;visibility,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.extended,--div--;LLL:EXT:lang/locallang_tca.xlf:sys_category.tabs.category,categories";
-        }
+
+        $defaultTabs = ",--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.visibility;visibility,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.extended,--div--;LLL:EXT:lang/locallang_tca.xlf:sys_category.tabs.category,categories";
 
         // add gridelements fields, to make mask work with gridelements out of the box
         $gridelements = '';
@@ -692,26 +686,8 @@ class MaskUtility
             }
         }
 
-        // backwards compatibility for typo3 6.2
-        $version = \TYPO3\CMS\Core\Utility\VersionNumberUtility::getNumericTypo3Version();
-        $versionNumber = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger($version);
-
         // get fields with rte configuration
-        $rteFields = array();
-        if ($fields) {
-            foreach ($fields as $field) {
-                if ($versionNumber >= 7000000) {
-                    $rteFields[] = $field;
-                } else {
-                    $formType = $this->getFormType($field, "", $table);
-                    if ($formType == "Richtext") {
-                        $rteFields[] = $field.= ";;;richtext[]:rte_transform[mode=ts]";
-                    } else {
-                        $rteFields[] = $field;
-                    }
-                }
-            }
-        }
+        $rteFields = $fields;
 
         // get parent table of this inline table
         $parentTable = $this->getFieldType($table);
@@ -823,26 +799,11 @@ class MaskUtility
      */
     public function setPageTca($tca, $dummy = null)
     {
-
-        // backwards compatibility for typo3 6.2
-        $version = \TYPO3\CMS\Core\Utility\VersionNumberUtility::getNumericTypo3Version();
-        $versionNumber = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger($version);
-
         // Load all Page-Fields for new Tab in Backend
         $pageFields = array();
         if ($tca) {
             foreach ($tca as $fieldKey => $value) {
-                if ($versionNumber >= 7000000) {
-                    $fieldKeyTca = $fieldKey;
-                } else {
-                    $element = array_pop($this->getElementsWhichUseField($fieldKey, "pages"));
-                    $type = $this->getFormType($fieldKey, $element["key"], "pages");
-
-                    $fieldKeyTca = $fieldKey;
-                    if ($type == "Richtext") {
-                        $fieldKeyTca .= ";;;richtext[]:rte_transform[mode=ts]";
-                    }
-                }
+                $fieldKeyTca = $fieldKey;
                 $pageFields[] = $fieldKeyTca;
             }
         }

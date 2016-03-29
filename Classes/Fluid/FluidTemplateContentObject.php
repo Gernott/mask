@@ -48,7 +48,7 @@ class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\Fluid
     protected $objectManager;
 
     /**
-     * Change variables for view, called by TYPO3 7
+     * Change variables for view
      *
      * @param array $conf Configuration
      * @author Benjamin Butschell <bb@webprofil.at>
@@ -69,28 +69,5 @@ class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\Fluid
         $variables['data'] = $data;
 
         return $variables;
-    }
-
-    /**
-     * Assign content object renderer data and current to view, called by TYPO3 6.2
-     *
-     * @param array $conf Configuration
-     * @author Benjamin Butschell <bb@webprofil.at>
-     * @return void
-     */
-    protected function assignContentObjectDataAndCurrent(array $conf = array())
-    {
-        // Call Parent Function to maintain core functions
-        parent::assignContentObjectDataAndCurrent($conf);
-
-        $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-        $this->utility = $this->objectManager->get("MASK\Mask\Utility\MaskUtility");
-
-        // Make some enhancements to data
-        $data = $this->cObj->data;
-        $this->utility->addFilesToData($data, "pages");
-        $this->utility->addIrreToData($data, "pages");
-
-        $this->view->assign('data', $data);
     }
 }
