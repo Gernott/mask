@@ -18,7 +18,7 @@ tt_content {
 mask >
 
 
-# Default TypoScript for Content Columns:
+# temp.mask.content is deprecated and will be removed in mask 2.0, always use styles.content.get in TYPO3 => 7.0
 temp.mask.content = CONTENT
 temp.mask.content {
 	table = tt_content
@@ -32,7 +32,7 @@ temp.mask.content {
 	}
 }
 
-# temp.content is deprecated, always use temp.mask.content
+# temp.content is deprecated and will be removed in mask 2.0, always use styles.content.get in TYPO3 => 7.0
 temp.content < temp.mask.content
 
 # Temporary page cObject:

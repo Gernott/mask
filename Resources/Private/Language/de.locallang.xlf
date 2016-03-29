@@ -180,6 +180,24 @@
 			<trans-unit id="tx_mask.field.select.maxitems">
 				<target>Maximale Anzahl</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.select.renderType">
+				<target>Darstellung</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.renderType.selectSingle">
+				<target>Selectbox Einfachauswahl</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.renderType.selectSingleBox">
+				<target>Selectbox Mehrfachauswahl</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.renderType.selectCheckBox">
+				<target>Checkboxen</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.renderType.selectMultipleSideBySide">
+				<target>Pendel</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.renderType.selectTree">
+				<target>Baumauswahl</target>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.select.items">
 				<target>Elemente ([label,id], Ein Element je Zeile, Id (Zahl) beginnt mit 1)</target>
 			</trans-unit>

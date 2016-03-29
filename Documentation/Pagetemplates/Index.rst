@@ -89,31 +89,31 @@ The last step ist to define each lib.content* in your TypoScript-setup with this
 
 .. code-block:: typoscript
 
-	lib.content0 < temp.mask.content
-	lib.content0.select.where = colPos=0`
+	lib.content0 < styles.content.get
+	lib.content0.select.where = colPos=0
 
 Change all 0 to your ID.
 
-Tipp: You can also use styles.content.get, if you want to use css_styled_content. See next chapter for more details.
+Caution: The old TypoScript Snippets temp.mask.content and temp.content are deprecated and will be removed in mask 2.0.
 
-If no content appears in the frontend, be sure you have included the static TypoScript-Template **Mask**. See **Installation** for more Details.
-
-
-css_styled_content
-------------------
-
-css_styled_content is a static TypoScript configuration, delivered by the TYPO3 core. It handles the regular contentelements of TYPO3 (Regular Text Element, Text & Images, ...) in Backend and in the Frontend.
-
-So if you don't want to use this elements in your project, you don't need to include the css_styled_content TypoScript.
-
-If you like to use the regular contentelements and Mask-contentelements together, it is very important to include the static Mask TypoScript-Template after the static css_styled_content TypoScript-Template!
-Otherwise no Mask-content is displayed in the Frontend.
+If no content appears in the frontend, be sure you have included the static TypoScript-Template **Content Elements (fluid_styled_content)** first and after it **Mask (mask)**.
 
 
-Language information
+fluid_styled_content
 --------------------
+
+fluid_styled_content is a static TypoScript configuration, delivered by the TYPO3 core. It handles the regular contentelements of TYPO3 (Regular Text Element, Text & Images, ...) in Backend and in the Frontend. And it provides the TypoScript styles.content.get. So you need this TypoScript Template to see content in your frontend.
+
+It is very important to include the static Mask TypoScript-Template after the static fluid_styled_content TypoScript-Template!
+Otherwise no Mask-content is displayed in the Frontend.
+The same rules apply on the old css_styled_content.
+
+
+Language information for TYPO3 6.2
+----------------------------------
 
 Mask works with TYPO3 features. So it is fully compatible with the TYPO3 languagehandling.
 But in TYPO3 there are some Bugs with languages. It is not possible to use contentelements with the language-display-setting "all languages". In frontend the element appears twice or the element don't appear at all.
 Mask bypass this Bug. You only have to use **temp.mask.content** instead of **styles.content.get**.
 But be careful: temp.mask.content doesn't work with language-fallback!
+In TYPO3 7.x this Bugs are fixed.

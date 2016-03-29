@@ -134,9 +134,9 @@
 					<div class="tx_mask_tabcell2">
 						<ul class="tx_mask_fieldtypes dragtarget">
 							<f:for each="{storage.tca}" as="field" key="key">
-								<li data-type="{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')}" class="id_{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')}">
+								<li data-type="{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')}" class="id_{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')}" data-fieldtype="{f:if(condition: '{mask:substr(string: key, search: \'tx_mask\', from: 0, length: 7)}', then: 'mask', else:'existing')}">
 									<span class="id_typetext"><f:translate key="tx_mask.field.{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')}" /></span>
-									<span class="id_labeltext"><mask:label elementKey="{storage.key}" fieldKey="{key}" /></span>
+									<span class="id_labeltext"><mask:label elementKey="{storage.key}" fieldKey="{key}" table="tt_content" field="{field}"/></span>
 									<span class="id_keytext">
 										<f:if condition="{field.key}">
 											<f:then>
@@ -180,7 +180,7 @@
 										<div class="tx_mask_fieldheader">
 											<div class="tx_mask_fieldheader_icon id_{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')}"></div>
 											<div class="tx_mask_fieldheader_text">
-												<h1><mask:label elementKey="{storage.key}" fieldKey="{key}" />&nbsp;</h1>
+												<h1><mask:label elementKey="{storage.key}" fieldKey="{key}" table="tt_content" field="{field}"/>&nbsp;</h1>
 												<p>{key}</p>
 											</div>
 										</div>
@@ -191,7 +191,7 @@
 													<input type="hidden" name="tx_mask_tools_maskmask[storage][elements][options][--index--]" value="rte" />
 												</f:if>
 												<f:form.hidden value="{key}" name="storage[elements][columns][--index--]" />
-												<f:form.textfield class="tx_mask_formhalf" value="{mask:label(elementKey: storage.key, fieldKey: key)}" name="storage[elements][labels][--index--]" placeholder="{f:translate(key:'tx_mask.all.label')}" title="{f:translate(key:'tx_mask.all.label')}" /></label>
+												<f:form.textfield class="tx_mask_formhalf" value="{mask:label(elementKey: storage.key, fieldKey: key, table: 'tt_content', field: field)}" name="storage[elements][labels][--index--]" placeholder="{f:translate(key:'tx_mask.all.label')}" title="{f:translate(key:'tx_mask.all.label')}" /></label>
 
 											<!-- Neu -->
 											<div class="tx_mask_fieldcontent_new">	</div>

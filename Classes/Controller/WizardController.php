@@ -103,15 +103,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             }
             /** @var $cacheManager \TYPO3\CMS\Core\Cache\CacheManager */
             \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager')->setCacheConfigurations($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']);
-//			$sqlFile = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($extensionKey) . 'ext_tables.sql';
-//			$sqlContent = \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($sqlFile);
-//			$sqlContent = implode(";", $this->storageRepository->loadSql());
-//			var_dump(implode(";", $sqlContent));
-//			exit;
             $fieldDefinitionsFromFile = $sqlHandler->getFieldDefinitions_fileContent($sqlContent);
-//
-//			var_dump($fieldDefinitionsFromFile);
-//			exit;
             if (count($fieldDefinitionsFromFile)) {
                 $fieldDefinitionsFromCurrentDatabase = $sqlHandler->getFieldDefinitions_database();
                 $updateTableDefinition = $sqlHandler->getDatabaseExtra($fieldDefinitionsFromFile, $fieldDefinitionsFromCurrentDatabase);

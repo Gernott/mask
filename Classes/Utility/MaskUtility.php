@@ -64,11 +64,10 @@ class MaskUtility
      * @param string $elementKey Key of Element
      * @param string $fieldKey Key if Field
      * @param string $type elementtype
-     * @param boolean $isInlineField elementtype
      * @return string Label
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    public function getLabel($elementKey, $fieldKey, $type = "tt_content", $isInlineField = FALSE)
+    public function getLabel($elementKey, $fieldKey, $type = "tt_content")
     {
         $this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
         $storage = $this->storageRepository->load();
@@ -265,15 +264,16 @@ class MaskUtility
      * @param string $fieldKey key of field
      * @param string $elementKey key of element
      * @return string $fieldType returns fieldType or null if not found
+     * @return string $excludeInlineFields only search in tt_content and pages
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    public function getFieldType($fieldKey, $elementKey = "")
+    public function getFieldType($fieldKey, $elementKey = "", $excludeInlineFields = false)
     {
         $this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
         $storage = $this->storageRepository->load();
 
         // get all possible types (tables)
-        if ($storage) {
+        if ($storage && !$excludeInlineFields) {
             $types = array_keys($storage);
         } else {
             $types = array();
@@ -289,7 +289,7 @@ class MaskUtility
                 foreach ($storage[$type]["elements"] as $element) {
 
                     // if this is the element we search for, or no special element was given,
-                    // and the element has colums and the fieldType wasn't found yet
+                    // and the element has columns and the fieldType wasn't found yet
                     if (($element["key"] == $elementKey || $elementKey == "") && $element["columns"] && !$found) {
 
                         foreach ($element["columns"] as $column) {
