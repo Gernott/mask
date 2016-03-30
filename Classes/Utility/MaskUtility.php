@@ -422,8 +422,6 @@ class MaskUtility
      */
     public function setElementsTca($tca)
     {
-
-
         $defaultTabs = ",--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.visibility;visibility,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.extended,--div--;LLL:EXT:lang/locallang_tca.xlf:sys_category.tabs.category,categories";
 
         // add gridelements fields, to make mask work with gridelements out of the box
@@ -433,7 +431,8 @@ class MaskUtility
         }
         if ($tca) {
             foreach ($tca as $elementvalue) {
-                $fields = "";
+                $prependTabs = "--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,";
+                $fieldArray = array();
                 $label = $elementvalue["shortLabel"]; // Optional shortLabel
                 if ($label == "") {
                     $label = $elementvalue["label"];
@@ -448,11 +447,30 @@ class MaskUtility
                     }
                 }
 
+                // now add all the fields that should be shown
                 if (is_array($elementvalue["columns"])) {
-                    $fields .= implode(",", $elementvalue["columns"]);
+                    foreach ($elementvalue["columns"] as $index => $fieldKey) {
+
+                        // check if this field is of type tab
+                        $formType = $this->getFormType($fieldKey, $elementvalue["key"], "tt_content");
+                        if ($formType == "Tab") {
+                            $label = $this->getLabel($elementvalue["key"], $fieldKey, "tt_content");
+                            // if a tab is in the first position then change the name of the general tab
+                            if ($index === 0) {
+                                $prependTabs = '--div--;' . $label . "," . $prependTabs;
+                            } else {
+                                // otherwise just add new tab
+                                $fieldArray[] = '--div--;' . $label;
+                            }
+                        } else {
+                            $fieldArray[] = $fieldKey;
+                        }
+                    }
                 }
+                $fields = implode(",", $fieldArray);
+
                 $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["columnsOverrides"]["bodytext"]["defaultExtras"] = 'richtext:rte_transform[mode=ts_css]';
-                $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["showitem"] = "--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general," . $fields . $defaultTabs . $gridelements;
+                $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["showitem"] = $prependTabs . $fields . $defaultTabs . $gridelements;
             }
         }
     }
@@ -470,6 +488,7 @@ class MaskUtility
         $columns = array();
         if ($tca) {
             foreach ($tca as $tcakey => $tcavalue) {
+                $addToTca = true;
                 if ($tcavalue) {
                     foreach ($tcavalue as $fieldkey => $fieldvalue) {
                         // Add File-Config for file-field
@@ -501,6 +520,11 @@ class MaskUtility
                             $columns[$tcakey]["config"] = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig($fieldName, $customSettingOverride, $allowedFileExtensions);
                         }
 
+                        // check if field is actually a tab
+                        if (isset($fieldvalue["type"]) && $fieldvalue["type"] == "tab") {
+                            $addToTca = false;
+                        }
+
                         // Fill missing tablename in TCA-Config for inline-fields
                         if ($fieldkey == "config" && $tcavalue[$fieldkey]["foreign_table"] == "--inlinetable--") {
                             $tcavalue[$fieldkey]["foreign_table"] = $tcakey;
@@ -522,6 +546,10 @@ class MaskUtility
                         $columns[$tcakey] = $this->removeBlankOptions($columns[$tcakey]);
                         $columns[$tcakey] = $this->replaceKey($columns[$tcakey], $tcakey);
                     }
+                }
+                // if this field should not be added to the tca (e.g. tabs)
+                if (!$addToTca) {
+                    unset($columns[$tcakey]);
                 }
             }
         }
