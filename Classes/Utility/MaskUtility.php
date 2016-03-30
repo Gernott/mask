@@ -439,12 +439,11 @@ class MaskUtility
                     $label = $elementvalue["label"];
                 }
                 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(array($label, "mask_" . $elementvalue["key"]), "CType", "mask");
-                if ($versionNumber < 7000000) {
-                    if (is_array($elementvalue["options"])) {
-                        foreach ($elementvalue["options"] as $optionkey => $optionvalue) {
-                            if ($optionvalue == "rte") {
-                                $elementvalue["columns"][$optionkey] .= ";;;richtext[]:rte_transform[mode=ts]";
-                            }
+
+                if (is_array($elementvalue["options"])) {
+                    foreach ($elementvalue["options"] as $optionkey => $optionvalue) {
+                        if ($optionvalue == "rte") {
+                            $elementvalue["columns"][$optionkey] .= ";;;richtext[]:rte_transform[mode=ts]";
                         }
                     }
                 }
@@ -452,9 +451,7 @@ class MaskUtility
                 if (is_array($elementvalue["columns"])) {
                     $fields .= implode(",", $elementvalue["columns"]);
                 }
-                if ($versionNumber >= 7000000) {
-                    $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["columnsOverrides"]["bodytext"]["defaultExtras"] = 'richtext:rte_transform[mode=ts_css]';
-                }
+                $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["columnsOverrides"]["bodytext"]["defaultExtras"] = 'richtext:rte_transform[mode=ts_css]';
                 $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["showitem"] = "--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general," . $fields . $defaultTabs . $gridelements;
             }
         }
