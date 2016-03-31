@@ -442,7 +442,7 @@ class MaskUtility
                 if (is_array($elementvalue["options"])) {
                     foreach ($elementvalue["options"] as $optionkey => $optionvalue) {
                         if ($optionvalue == "rte") {
-                            $elementvalue["columns"][$optionkey] .= ";;;richtext[]:rte_transform[mode=ts]";
+//                            $elementvalue["columns"][$optionkey] .= ";;;richtext[]:rte_transform[mode=ts]";
                         }
                     }
                 }
@@ -559,6 +559,7 @@ class MaskUtility
     /**
      * Generates the TCA for Inline-Tables
      *
+     * @param string $table
      * @param array $tca
      * @return string
      * @author Benjamin Butschell <bb@webprofil.at>
@@ -705,17 +706,34 @@ class MaskUtility
             ),
         );
 
-        // Create Fields-Array
-        $fields = array();
+
+        // now add all the fields that should be shown
+        $prependTabs = "sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, ";
         if ($tca) {
-            $fields = array_keys($tca);
-            if ($fields) {
-                $firstField = $fields[0];
+            $i = 0;
+            foreach ($tca as $fieldKey => $configuration) {
+                // check if this field is of type tab
+                $formType = $this->getFormType($fieldKey, "", $table);
+                if ($formType == "Tab") {
+                    $label = $configuration["label"];
+                    // if a tab is in the first position then change the name of the general tab
+                    if ($i === 0) {
+                        $prependTabs = '--div--;' . $label . "," . $prependTabs;
+                    } else {
+                        // otherwise just add new tab
+                        $fields[] = '--div--;' . $label;
+                    }
+                } else {
+                    $fields[] = $fieldKey;
+                }
+                $i++;
             }
         }
 
-        // get fields with rte configuration
-        $rteFields = $fields;
+        // take first field for inline label
+        if ($fields) {
+            $firstField = $this->getFirstNoneTabField($fields);
+        }
 
         // get parent table of this inline table
         $parentTable = $this->getFieldType($table);
@@ -727,8 +745,8 @@ class MaskUtility
         $tableTca["ctrl"]["label"] = $firstField;
         $tableTca["ctrl"]["searchFields"] = implode(",", $fields);
         $tableTca["ctrl"]["iconfile"] = "";
-        $tableTca["interface"]["showRecordFieldList"] = "sys_language_uid, l10n_parent, l10n_diffsource, hidden, " . implode(", ", $rteFields);
-        $tableTca["types"]["1"]["showitem"] = "sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, " . implode(", ", $rteFields) . ", --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime";
+        $tableTca["interface"]["showRecordFieldList"] = "sys_language_uid, l10n_parent, l10n_diffsource, hidden, " . implode(", ", $fields);
+        $tableTca["types"]["1"]["showitem"] = $prependTabs . implode(", ", $fields) . ", --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime";
 
         $tableTca["columns"]["l10n_parent"]["config"]["foreign_table"] = $table;
         $tableTca["columns"]["l10n_parent"]["config"]["foreign_table_where"] = 'AND ' . $table . '.pid=###CURRENT_PID### AND ' . $table . '.sys_language_uid IN (-1,0)';
@@ -739,6 +757,26 @@ class MaskUtility
         // Add some stuff we need to make irre work like it should
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages($table);
         $GLOBALS["TCA"][$table] = $tableTca;
+    }
+
+    /**
+     * Searches an array of strings and returns the first string, that is not a tab
+     * @param array $fields
+     * @return $string
+     */
+    private function getFirstNoneTabField($fields)
+    {
+        if (count($fields)) {
+            $potentialFirst = $fields[0];
+            if (strpos($potentialFirst, "--div--") !== FALSE) {
+                unset($fields[0]);
+                return $this->getFirstNoneTabField($fields);
+            } else {
+                return $potentialFirst;
+            }
+        } else {
+            return "";
+        }
     }
 
     /**
