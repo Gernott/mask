@@ -438,15 +438,7 @@ class MaskUtility
                     $label = $elementvalue["label"];
                 }
                 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(array($label, "mask_" . $elementvalue["key"]), "CType", "mask");
-
-                if (is_array($elementvalue["options"])) {
-                    foreach ($elementvalue["options"] as $optionkey => $optionvalue) {
-                        if ($optionvalue == "rte") {
-//                            $elementvalue["columns"][$optionkey] .= ";;;richtext[]:rte_transform[mode=ts]";
-                        }
-                    }
-                }
-
+                
                 // now add all the fields that should be shown
                 if (is_array($elementvalue["columns"])) {
                     foreach ($elementvalue["columns"] as $index => $fieldKey) {
