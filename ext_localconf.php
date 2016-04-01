@@ -3,6 +3,10 @@ if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
 
+// initialize mask utility for various things
+$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+$maskUtility = new MASK\Mask\Utility\MaskUtility($objectManager);
+
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
     'MASK.' . $_EXTKEY, 'ContentRenderer', array('Frontend' => 'contentelement'), array('Frontend' => '')
 );
@@ -243,14 +247,19 @@ if (!function_exists('user_mask_beLayout')) {
     }
 }
 
+
+
 // set rootlinefields and pageoverlayfields
 if ($json['pages']['tca']) {
     $rootlineFields = explode(",", $GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields']);
     $pageOverlayFields = explode(",", $GLOBALS['TYPO3_CONF_VARS']['FE']['pageOverlayFields']);
     foreach ($json['pages']['tca'] as $fieldKey => $value) {
-        // Add addRootLineFields and pageOverlayFields for all pagefields
-        $rootlineFields[] = $fieldKey;
-        $pageOverlayFields[] = $fieldKey;
+        $formType = $maskUtility->getFormType($fieldKey, "", "pages");
+        if ($formType !== "Tab") {
+            // Add addRootLineFields and pageOverlayFields for all pagefields
+            $rootlineFields[] = $fieldKey;
+            $pageOverlayFields[] = $fieldKey;
+        }
     }
     $GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields'] = implode(",", $rootlineFields);
     $GLOBALS['TYPO3_CONF_VARS']['FE']['pageOverlayFields'] = implode(",", $pageOverlayFields);

@@ -24,7 +24,7 @@ class MaskUtility
     {
         $this->objectManager = $objectManager;
         if (!$storageRepository) {
-            $this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
+            $this->storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
         } else {
             $this->storageRepository = $storageRepository;
         }
@@ -40,7 +40,7 @@ class MaskUtility
      */
     public function getElementsWhichUseField($key, $type = "tt_content")
     {
-        $this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
+//        $this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
         $storage = $this->storageRepository->load();
 
         $elementsInUse = array();
@@ -69,7 +69,7 @@ class MaskUtility
      */
     public function getLabel($elementKey, $fieldKey, $type = "tt_content")
     {
-        $this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
+//        $this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
         $storage = $this->storageRepository->load();
         $fieldIndex = -1;
         if (count($storage[$type]["elements"][$elementKey]["columns"]) > 0) {
@@ -98,7 +98,7 @@ class MaskUtility
      */
     public function getFormType($fieldKey, $elementKey = "", $type = "tt_content")
     {
-        $this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
+//        $this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
         $formType = "String";
 
         // Load element and TCA of field
@@ -115,14 +115,13 @@ class MaskUtility
             $tca = $element["tca"][$fieldKey];
         }
 
-        // if field is in inline table, load tca from json
-        if (!in_array($type, array("tt_content", "pages"))) {
+        // if field is in inline table or $GLOBALS["TCA"] is not yet filled, load tca from json
+        if (!in_array($type, array("tt_content", "pages")) || $tca == null) {
             $tca = $this->storageRepository->loadField($type, $fieldKey);
             if (!$tca["config"]) {
                 $tca = $this->storageRepository->loadField($type, "tx_mask_" . $fieldKey);
             }
         }
-
 
         $tcaType = $tca["config"]["type"];
         $evals = explode(",", $tca["config"]["eval"]);
@@ -130,7 +129,7 @@ class MaskUtility
         if ($tca["options"] == "file") {
             $formType = "File";
         }
-
+        
         // And decide via different tca settings which formType it is
         switch ($tcaType) {
             case "input":
@@ -230,7 +229,7 @@ class MaskUtility
      */
     public function isEvalValueSet($fieldKey, $evalValue, $type = "tt_content")
     {
-        $this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
+//        $this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
         $storage = $this->storageRepository->load();
         $found = FALSE;
         if ($storage[$type]["tca"][$fieldKey]["config"]["eval"] != "") {
@@ -251,7 +250,7 @@ class MaskUtility
      */
     public function isBlindLinkOptionSet($fieldKey, $evalValue, $type = "tt_content")
     {
-        $this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
+//        $this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
         $storage = $this->storageRepository->load();
         $found = FALSE;
         if ($storage[$type]["tca"][$fieldKey]["config"]["wizards"]["link"]["params"]["blindLinkOptions"] != "") {
@@ -272,7 +271,7 @@ class MaskUtility
      */
     public function getFieldType($fieldKey, $elementKey = "", $excludeInlineFields = false)
     {
-        $this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
+//        $this->storageRepositobjectmanag->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
         $storage = $this->storageRepository->load();
 
         // get all possible types (tables)
@@ -438,7 +437,7 @@ class MaskUtility
                     $label = $elementvalue["label"];
                 }
                 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(array($label, "mask_" . $elementvalue["key"]), "CType", "mask");
-                
+
                 // now add all the fields that should be shown
                 if (is_array($elementvalue["columns"])) {
                     foreach ($elementvalue["columns"] as $index => $fieldKey) {
@@ -465,6 +464,45 @@ class MaskUtility
                 $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["showitem"] = $prependTabs . $fields . $defaultTabs . $gridelements;
             }
         }
+    }
+
+    /**
+     * Generates and sets the tca for all the extended pages
+     *
+     * @param array $tca
+     * @author Benjamin Butschell <bb@webprofil.at>
+     */
+    public function setPageTca($tca)
+    {
+        $prependTabs = "--div--;Content-Fields,";
+        if ($tca) {
+            $i = 0;
+            foreach ($tca as $fieldKey => $config) {
+                // no information about which element this field is for at this point
+                $elements = $this->getElementsWhichUseField($fieldKey, "pages");
+                $element = $elements[0];
+
+                // check if this field is of type tab
+                $formType = $this->getFormType($fieldKey, $element["key"], "pages");
+                if ($formType == "Tab") {
+                    $label = $this->getLabel($element["key"], $fieldKey, "pages");
+                    // if a tab is in the first position then change the name of the general tab
+                    if ($i === 0) {
+                        $prependTabs = '--div--;' . $label . ",";
+                    } else {
+                        // otherwise just add new tab
+                        $fieldArray[] = '--div--;' . $label;
+                    }
+                } else {
+                    $fieldArray[] = $fieldKey;
+                }
+                $i++;
+            }
+        }
+        $pageFieldString = $prependTabs . implode(",", $fieldArray);
+
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('pages', $pageFieldString);
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('pages_language_overlay', $pageFieldString);
     }
 
     /**
@@ -847,26 +885,5 @@ class MaskUtility
             $elements[] = $element;
         }
         return $elements;
-    }
-
-    /**
-     * Generates and sets the tca for all the extended pages
-     *
-     * @param array $tca
-     * @author Benjamin Butschell <bb@webprofil.at>
-     */
-    public function setPageTca($tca, $dummy = null)
-    {
-        // Load all Page-Fields for new Tab in Backend
-        $pageFields = array();
-        if ($tca) {
-            foreach ($tca as $fieldKey => $value) {
-                $fieldKeyTca = $fieldKey;
-                $pageFields[] = $fieldKeyTca;
-            }
-        }
-        $pageFieldString = "--div--;Content-Fields," . implode(",", $pageFields);
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('pages', $pageFieldString);
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('pages_language_overlay', $pageFieldString);
     }
 }
