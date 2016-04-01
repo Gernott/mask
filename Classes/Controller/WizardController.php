@@ -71,6 +71,14 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     protected $fieldHelper;
 
     /**
+     * HtmlCodeGenerator
+     *
+     * @var \MASK\Mask\CodeGenerator\HtmlCodeGenerator
+     * @inject
+     */
+    protected $htmlCodeGenerator;
+
+    /**
      * Generates all the necessary files
      * @author Gernot Ploiner <gp@webprofil.at>
      * @author Benjamin Butschell <bb@webprofil.at>
@@ -207,110 +215,8 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      */
     protected function showHtmlAction($key)
     {
-        $html = $this->generateHtml($key);
+        $html = $this->htmlCodeGenerator->generateHtml($key);
         $this->view->assign('html', $html);
-    }
-
-    /**
-     * Generates Fluid HTML for Contentelements
-     *
-     * @param string $key
-     * @return string $html
-     * @author Gernot Ploiner <gp@webprofil.at>
-     *
-     */
-    protected function generateHtml($key, $table = "tt_content")
-    {
-        $storage = $this->storageRepository->loadElement('tt_content', $key);
-        $html = "";
-        if ($storage["tca"]) {
-            foreach ($storage["tca"] as $fieldKey => $fieldConfig) {
-                $html .= $this->generateFieldHtml($fieldKey, $key);
-            }
-        }
-        return $html;
-    }
-
-    /**
-     * Generates HTML for a field
-     * @param string $fieldKey
-     * @param string $elementKey
-     * @param string $table
-     * @param string $datafield
-     * @return string $html
-     * @author Gernot Ploiner <gp@webprofil.at>
-     * @author Benjamin Butschell <bb@webprofil.at>
-     */
-    public function generateFieldHtml($fieldKey, $elementKey, $table = "tt_content", $datafield = "data")
-    {
-        $html = "";
-        switch ($this->fieldHelper->getFormType($fieldKey, $elementKey, $table)) {
-            case "Check":
-                $html .= "{f:if(condition: " . $datafield . "." . $fieldKey . ", then: 'On', else: 'Off')}<br />\n\n";
-                break;
-            case "Content": // TODO: Benjamin, Fluid-Vorlage für Feld "Content Verbindung":
-                $html .= '{' . $datafield . '.' . $fieldKey . '}<br />' . "\n\n";
-                break;
-            case "Date":
-                $html .= '<f:format.date format="d.m.Y">{' . $datafield . '.' . $fieldKey . '}</f:format.date><br />' . "\n\n";
-                break;
-            case "Datetime":
-                $html .= '<f:format.date format="d.m.Y - H:i:s">{' . $datafield . '.' . $fieldKey . '}</f:format.date><br />' . "\n\n";
-                break;
-            case "File":
-                $html .= '<f:for each="{' . $datafield . '.' . $fieldKey . '}" as="file">
-  <f:image src="{file.uid}" alt="{file.alternative}" title="{file.title}" treatIdAsReference="1" width="200" /><br />
-  {file.description} / {file.identifier}<br />
-</f:for>' . "\n\n";
-                break;
-            case "Float":
-                $html .= '<f:format.number decimals="2" decimalSeparator="," thousandsSeparator=".">{' . $datafield . '.' . $fieldKey . '}</f:format.number><br />' . "\n\n";
-                break;
-            case "Inline":
-                $html .= '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">' . "\n";
-                $html .= "<ul>\n";
-                $html .= "<f:for each=\"{" . $datafield . "." . $fieldKey . "}\" as=\"" . $datafield . "_item" . "\">\n<li>";
-                $inlineFields = $this->storageRepository->loadInlineFields($fieldKey);
-                if ($inlineFields) {
-                    foreach ($inlineFields as $inlineField) {
-                        $html .= $this->generateFieldHtml($inlineField["maskKey"], $elementKey, $fieldKey, $datafield . "_item") . "\n";
-                    }
-                }
-                $html .= "</li>\n</f:for>" . "\n";
-                $html .= "</ul>\n";
-                $html .= "</f:if>\n\n";
-                break;
-            case "Integer":
-                $html .= '{' . $datafield . '.' . $fieldKey . '}<br />' . "\n\n";
-                break;
-            case "Link":
-                $html .= '<f:link.page pageUid="{' . $datafield . '.' . $fieldKey . '}">{data.' . $fieldKey . '}</f:link.page><br />' . "\n\n";
-                break;
-            case "Radio":
-                $html .= '<f:switch expression="{' . $datafield . '.' . $fieldKey . '}">
-  <f:case value="1">Value is: 1</f:case>
-  <f:case value="2">Value is: 2</f:case>
-  <f:case value="3">Value is: 3</f:case>
-</f:switch><br />' . "\n\n";
-                break;
-            case "Richtext":
-                $html .= '<f:format.html parseFuncTSPath="lib.parseFunc_RTE">{' . $datafield . '.' . $fieldKey . '}</f:format.html><br />' . "\n\n";
-                break;
-            case "Select":
-                $html .= '<f:switch expression="{' . $datafield . '.' . $fieldKey . '}">
-  <f:case value="1">Value is: 1</f:case>
-  <f:case value="2">Value is: 2</f:case>
-  <f:case value="3">Value is: 3</f:case>
-</f:switch><br />' . "\n\n";
-                break;
-            case "String":
-                $html .= '{' . $datafield . '.' . $fieldKey . '}<br />' . "\n\n";
-                break;
-            case "Text":
-                $html .= '<f:format.nl2br>{' . $datafield . '.' . $fieldKey . '}</f:format.nl2br><br />' . "\n\n";
-                break;
-        }
-        return $html;
     }
 
     /**
@@ -329,23 +235,6 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $extConf["content"] . $key . ".html", $html);
             return true;
         }
-    }
-
-    /**
-     * Check, if folders from extensionmanager-settings are existing
-     *
-     * @author Gernot Ploiner <gp@webprofil.at>
-     */
-    protected function checkFolders()
-    {
-        $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);
-        if (!file_exists(PATH_site . $extConf["content"])) {
-            $message[] = $extConf["content"] . ": " . \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.all.error.missingfolder', 'mask');
-        }
-        if (!file_exists(PATH_site . $extConf["preview"])) {
-            $message[] = $extConf["preview"] . ": " . \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.all.error.missingfolder', 'mask');
-        }
-        return $message;
     }
 
     /**
@@ -423,6 +312,23 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         } else if (key_exists("saveAndExit", $formAction)) {
             $this->redirect('list');
         }
+    }
+
+    /**
+     * Check, if folders from extensionmanager-settings are existing
+     *
+     * @author Gernot Ploiner <gp@webprofil.at>
+     */
+    protected function checkFolders()
+    {
+        $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);
+        if (!file_exists(PATH_site . $extConf["content"])) {
+            $message[] = $extConf["content"] . ": " . \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.all.error.missingfolder', 'mask');
+        }
+        if (!file_exists(PATH_site . $extConf["preview"])) {
+            $message[] = $extConf["preview"] . ": " . \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.all.error.missingfolder', 'mask');
+        }
+        return $message;
     }
 
     /**
