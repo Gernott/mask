@@ -19,7 +19,7 @@ class LinkoptionViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
      * @var \MASK\Mask\Utility\GeneralUtility
      * @inject
      */
-    protected $utility;
+    protected $generalUtility;
 
     /**
      * Utility

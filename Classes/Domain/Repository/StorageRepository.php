@@ -42,7 +42,7 @@ class StorageRepository
      *
      * @var \MASK\Mask\Helper\FieldHelper
      */
-    protected $utility;
+    protected $fieldHelper;
 
     /**
      * Load Storage
