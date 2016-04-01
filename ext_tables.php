@@ -36,25 +36,22 @@ if (TYPO3_MODE === 'BE') {
 $extConf = unserialize($_EXTCONF);
 if (!empty($extConf["json"]) && file_exists(PATH_site . $extConf["json"])) {
 
+    $tcaCodeGenerator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\CodeGenerator\\TcaCodeGenerator');
     $json = json_decode(file_get_contents(PATH_site . $extConf["json"]), true);
 
-    /* @var $objectManager TYPO3\CMS\Extbase\Object\ObjectManager */
-    $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-    $utility = new \MASK\Mask\Utility\MaskUtility($objectManager);
-
     // Generate TCA for Content-Elements
-    $contentColumns = $utility->generateFieldsTca($json["tt_content"]["tca"]);
+    $contentColumns = $tcaCodeGenerator->generateFieldsTca($json["tt_content"]["tca"]);
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tt_content', $contentColumns);
-    $utility->setElementsTca($json["tt_content"]["elements"]);
+    $tcaCodeGenerator->setElementsTca($json["tt_content"]["elements"]);
 
     // Generate TCA for Pages
-    $pagesColumns = $utility->generateFieldsTca($json["pages"]["tca"]);
+    $pagesColumns = $tcaCodeGenerator->generateFieldsTca($json["pages"]["tca"]);
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('pages', $pagesColumns);
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('pages_language_overlay', $pagesColumns);
-    $utility->setPageTca($json["pages"]["tca"]);
+    $tcaCodeGenerator->setPageTca($json["pages"]["tca"]);
 
     // Generate TCA for Inline-Fields
-    $utility->setInlineTca($json);
+    $tcaCodeGenerator->setInlineTca($json);
 }
 
 // include css for styling of backend preview of mask content elements

@@ -63,12 +63,12 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     protected $backendLayoutRepository;
 
     /**
-     * MaskUtility
+     * FieldHelper
      *
-     * @var \MASK\Mask\Utility\MaskUtility
+     * @var \MASK\Mask\Helper\FieldHelper
      * @inject
      */
-    protected $utility;
+    protected $fieldHelper;
 
     /**
      * Generates all the necessary files
@@ -244,7 +244,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     public function generateFieldHtml($fieldKey, $elementKey, $table = "tt_content", $datafield = "data")
     {
         $html = "";
-        switch ($this->utility->getFormType($fieldKey, $elementKey, $table)) {
+        switch ($this->fieldHelper->getFormType($fieldKey, $elementKey, $table)) {
             case "Check":
                 $html .= "{f:if(condition: " . $datafield . "." . $fieldKey . ", then: 'On', else: 'Off')}<br />\n\n";
                 break;

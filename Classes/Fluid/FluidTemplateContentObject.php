@@ -33,19 +33,12 @@ class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\Fluid
 {
 
     /**
-     * MaskUtility
+     * InlineHelper
      *
-     * @var \MASK\Mask\Utility\MaskUtility
+     * @var \MASK\Mask\Helper\InlineHelper
      * @inject
      */
-    protected $utility;
-
-    /**
-     * ObjectManager
-     *
-     * @var \TYPO3\CMS\Extbase\Object\ObjectManager
-     */
-    protected $objectManager;
+    protected $inlineHelper;
 
     /**
      * Change variables for view
@@ -59,13 +52,12 @@ class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\Fluid
         // Call Parent Function to maintain core functions
         $variables = parent::getContentObjectVariables($conf);
 
-        $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-        $this->utility = $this->objectManager->get("MASK\Mask\Utility\MaskUtility");
+        $this->inlineHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
 
         // Make some enhancements to data
         $data = $variables['data'];
-        $this->utility->addFilesToData($data, "pages");
-        $this->utility->addIrreToData($data, "pages");
+        $this->inlineHelper->addFilesToData($data, "pages");
+        $this->inlineHelper->addIrreToData($data, "pages");
         $variables['data'] = $data;
 
         return $variables;

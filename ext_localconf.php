@@ -5,7 +5,7 @@ if (!defined('TYPO3_MODE')) {
 
 // initialize mask utility for various things
 $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-$maskUtility = new MASK\Mask\Utility\MaskUtility($objectManager);
+$fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
     'MASK.' . $_EXTKEY, 'ContentRenderer', array('Frontend' => 'contentelement'), array('Frontend' => '')
@@ -254,7 +254,7 @@ if ($json['pages']['tca']) {
     $rootlineFields = explode(",", $GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields']);
     $pageOverlayFields = explode(",", $GLOBALS['TYPO3_CONF_VARS']['FE']['pageOverlayFields']);
     foreach ($json['pages']['tca'] as $fieldKey => $value) {
-        $formType = $maskUtility->getFormType($fieldKey, "", "pages");
+        $formType = $fieldHelper->getFormType($fieldKey, "", "pages");
         if ($formType !== "Tab") {
             // Add addRootLineFields and pageOverlayFields for all pagefields
             $rootlineFields[] = $fieldKey;

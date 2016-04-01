@@ -38,9 +38,9 @@ class StorageRepository
 {
 
     /**
-     * MaskUtility
+     * FieldHelper
      *
-     * @var \MASK\Mask\Utility\MaskUtility
+     * @var \MASK\Mask\Helper\FieldHelper
      */
     protected $utility;
 
@@ -255,9 +255,7 @@ class StorageRepository
     private function removeField($table, $field, $json, $remainingFields = array())
     {
 
-        // init utility
-        $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-        $this->utility = new \MASK\Mask\Utility\MaskUtility($this->objectManager, $this);
+        $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
 
         // check if this field is used in any other elements
         $elementsInUse = array();
@@ -319,7 +317,7 @@ class StorageRepository
             unset($json[$table]["sql"][$field]);
 
             // If field is of type file, also delete entry in sys_file_reference
-            if ($this->utility->getFormType($field) == "File") {
+            if ($this->fieldHelper->getFormType($field) == "File") {
                 unset($json["sys_file_reference"]["sql"][$field]);
                 $json = $this->cleanTable("sys_file_reference", $json);
             }

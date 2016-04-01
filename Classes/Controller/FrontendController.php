@@ -25,12 +25,12 @@ class FrontendController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
     protected $storageRepository;
 
     /**
-     * MaskUtility
+     * InlineHelper
      *
-     * @var \MASK\Mask\Utility\MaskUtility
+     * @var \MASK\Mask\Helper\InlineHelper
      * @inject
      */
-    protected $utility;
+    protected $inlineHelper;
 
     /**
      * Displays the content in the frontend
@@ -41,8 +41,8 @@ class FrontendController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
     {
         $this->view->setTemplatePathAndFilename($this->settings["file"]);
         $data = $this->configurationManager->getContentObject()->data;
-        $this->utility->addFilesToData($data, "tt_content");
-        $this->utility->addIrreToData($data);
+        $this->inlineHelper->addFilesToData($data, "tt_content");
+        $this->inlineHelper->addIrreToData($data);
         $this->view->assign('data', $data);
     }
 

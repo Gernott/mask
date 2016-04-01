@@ -16,10 +16,18 @@ class EvalViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
     /**
      * Utility
      *
-     * @var \MASK\Mask\Utility\MaskUtility
+     * @var \MASK\Mask\Utility\GeneralUtility
      * @inject
      */
-    protected $utility;
+    protected $generalUtility;
+
+    /**
+     * Utility
+     *
+     * @var \MASK\Mask\Helper\FieldHelper
+     * @inject
+     */
+    protected $fieldHelper;
 
     /**
      * Checks if a $evalValue is set in a field
@@ -33,17 +41,19 @@ class EvalViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
      */
     public function render($fieldKey, $elementKey, $evalValue, $field = NULL)
     {
-        $this->utility = new \MASK\Mask\Utility\MaskUtility($this->objectManager);
+        $this->generalUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Utility\\GeneralUtility');
+        $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
+
         if ($field) {
             if ($field["inlineParent"]) {
                 $type = $field["inlineParent"];
                 $fieldKey = "tx_mask_" . $field["key"];
             } else {
-                $type = $this->utility->getFieldType($fieldKey, $elementKey);
+                $type = $this->fieldHelper->getFieldType($fieldKey, $elementKey);
             }
         } else {
-            $type = $this->utility->getFieldType($fieldKey, $elementKey);
+            $type = $this->fieldHelper->getFieldType($fieldKey, $elementKey);
         }
-        return $this->utility->isEvalValueSet($fieldKey, $evalValue, $type);
+        return $this->generalUtility->isEvalValueSet($fieldKey, $evalValue, $type);
     }
 }

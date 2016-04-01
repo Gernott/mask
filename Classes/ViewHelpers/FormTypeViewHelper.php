@@ -14,12 +14,12 @@ class FormTypeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 {
 
     /**
-     * Utility
+     * FieldHelper
      *
-     * @var \MASK\Mask\Utility\MaskUtility
+     * @var \MASK\Mask\Helper\FieldHelper
      * @inject
      */
-    protected $utility;
+    protected $fieldHelper;
 
     /**
      * Returns the label of a field in an element
@@ -32,8 +32,8 @@ class FormTypeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
      */
     public function render($elementKey, $fieldKey, $type = "tt_content")
     {
-        $this->utility = new \MASK\Mask\Utility\MaskUtility($this->objectManager);
-        $formType = $this->utility->getFormType($fieldKey, $elementKey, $type);
+        $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
+        $formType = $this->fieldHelper->getFormType($fieldKey, $elementKey, $type);
         return $formType;
     }
 }

@@ -14,12 +14,12 @@ class LabelViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 {
 
     /**
-     * Utility
+     * FieldHelper
      *
-     * @var \MASK\Mask\Utility\MaskUtility
+     * @var \MASK\Mask\Helper\FieldHelper
      * @inject
      */
-    protected $utility;
+    protected $fieldHelper;
 
     /**
      * Returns the label of a field in an element
@@ -33,7 +33,7 @@ class LabelViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
      */
     public function render($elementKey, $fieldKey, $field = NULL, $table = NULL)
     {
-        $this->utility = new \MASK\Mask\Utility\MaskUtility($this->objectManager);
+        $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
         // if we have the whole field configuration
         if ($field) {
             // check if this field is in an repeating field
@@ -47,14 +47,14 @@ class LabelViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
                     $type = $table;
                 } else {
                     // otherwise try to get the label, set param $excludeInlineFields to true
-                    $type = $this->utility->getFieldType($fieldKey, $elementKey, true);
+                    $type = $this->fieldHelper->getFieldType($fieldKey, $elementKey, true);
                 }
-                $label = $this->utility->getLabel($elementKey, $fieldKey, $type);
+                $label = $this->fieldHelper->getLabel($elementKey, $fieldKey, $type);
             }
         } else {
             // if we don't have the field configuration, try the best to fetch the type and the correct label
-            $type = $this->utility->getFieldType($fieldKey, $elementKey, false);
-            $label = $this->utility->getLabel($elementKey, $fieldKey, $type);
+            $type = $this->fieldHelper->getFieldType($fieldKey, $elementKey, false);
+            $label = $this->fieldHelper->getLabel($elementKey, $fieldKey, $type);
         }
         return $label;
     }
