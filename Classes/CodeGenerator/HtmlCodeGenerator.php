@@ -67,7 +67,8 @@ class HtmlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
     protected function generateFieldHtml($fieldKey, $elementKey, $table = "tt_content", $datafield = "data")
     {
         $html = "";
-        switch ($this->fieldHelper->getFormType($fieldKey, $elementKey, $table)) {
+        $fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
+        switch ($fieldHelper->getFormType($fieldKey, $elementKey, $table)) {
             case "Check":
                 $html .= "{f:if(condition: " . $datafield . "." . $fieldKey . ", then: 'On', else: 'Off')}<br />\n\n";
                 break;
