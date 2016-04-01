@@ -79,6 +79,14 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     protected $htmlCodeGenerator;
 
     /**
+     * SqlCodeGenerator
+     *
+     * @var \MASK\Mask\CodeGenerator\SqlCodeGenerator
+     * @inject
+     */
+    protected $sqlCodeGenerator;
+
+    /**
      * Generates all the necessary files
      * @author Gernot Ploiner <gp@webprofil.at>
      * @author Benjamin Butschell <bb@webprofil.at>
@@ -87,104 +95,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     public function generateAction()
     {
         // Update Database
-        $this->updateDatabase();
-    }
-
-    /**
-     * Checks for DB-Updates, adjusted function from extension_builder
-     *
-     * @param string $extensionKey
-     * @param string $sqlContent
-     * @return void
-     */
-    protected function checkForDbUpdate($extensionKey, $sqlContent)
-    {
-        $this->dbUpdateNeeded = FALSE;
-        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($extensionKey)) {
-            $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-            if (class_exists('TYPO3\\CMS\\Install\\Service\\SqlSchemaMigrationService')) {
-                /* @var \TYPO3\CMS\Install\Service\SqlSchemaMigrationService $sqlHandler */
-                $sqlHandler = $this->objectManager->get('TYPO3\\CMS\\Install\\Service\\SqlSchemaMigrationService');
-            } else {
-                /* @var \TYPO3\CMS\Install\Sql\SchemaMigrator $sqlHandler */
-                $sqlHandler = $this->objectManager->get('TYPO3\\CMS\\Install\\Sql\\SchemaMigrator');
-            }
-            /** @var $cacheManager \TYPO3\CMS\Core\Cache\CacheManager */
-            \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager')->setCacheConfigurations($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']);
-            $fieldDefinitionsFromFile = $sqlHandler->getFieldDefinitions_fileContent($sqlContent);
-            if (count($fieldDefinitionsFromFile)) {
-                $fieldDefinitionsFromCurrentDatabase = $sqlHandler->getFieldDefinitions_database();
-                $updateTableDefinition = $sqlHandler->getDatabaseExtra($fieldDefinitionsFromFile, $fieldDefinitionsFromCurrentDatabase);
-                $this->updateStatements = $sqlHandler->getUpdateSuggestions($updateTableDefinition);
-                if (!empty($updateTableDefinition['extra']) || !empty($updateTableDefinition['diff']) || !empty($updateTableDefinition['diff_currentValues'])) {
-                    $this->dbUpdateNeeded = TRUE;
-                }
-            }
-        }
-    }
-
-    /**
-     * Performs updates, adjusted function from extension_builder
-     *
-     * @param array $params
-     * @return type
-     */
-    protected function performDbUpdates($params, $sql)
-    {
-
-        $hasErrors = FALSE;
-        if (!empty($params['extensionKey'])) {
-            $this->checkForDbUpdate($params['extensionKey'], $sql);
-            if ($this->dbUpdateNeeded) {
-                foreach ($this->updateStatements as $type => $statements) {
-
-                    foreach ($statements as $statement) {
-                        if (in_array($type, array('change', 'add', 'create_table'))) {
-                            $res = $this->getDatabaseConnection()->admin_query($statement);
-
-
-                            if ($res === FALSE) {
-                                $hasErrors = TRUE;
-                                \TYPO3\CMS\Core\Utility\GeneralUtility::devlog('SQL error', 'mask', 0, array('statement' => $statement, 'error' => $this->getDatabaseConnection()->sql_error()));
-                            } elseif (is_resource($res) || is_a($res, '\\mysqli_result')) {
-                                $this->getDatabaseConnection()->sql_free_result($res);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        if ($hasErrors) {
-            return array('error' => 'Database could not be updated. Please check it in the update wizard of the install tool');
-        } else {
-            return array('success' => 'Database was successfully updated');
-        }
-    }
-
-    /**
-     * function from extension_builder
-     *
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
-     */
-    protected function getDatabaseConnection()
-    {
-        return $GLOBALS['TYPO3_DB'];
-    }
-
-    /**
-     * Updates the database if necessary
-     *
-     * @author Benjamin Butschell <bb@webprofil.at>
-     * @return array
-     */
-    protected function updateDatabase()
-    {
-        $params["extensionKey"] = "mask";
-        $sqlStatements = $this->storageRepository->loadSql();
-        if (count($sqlStatements) > 0) {
-            $response = $this->performDbUpdates($params, implode(" ", $sqlStatements));
-        }
-        return $response;
+        $this->sqlCodeGenerator->updateDatabase();
     }
 
     /**

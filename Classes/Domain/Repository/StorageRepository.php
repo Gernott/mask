@@ -45,6 +45,13 @@ class StorageRepository
     protected $fieldHelper;
 
     /**
+     * SqlCodeGenerator
+     *
+     * @var \MASK\Mask\CodeGenerator\SqlCodeGenerator
+     */
+    protected $sqlCodeGenerator;
+
+    /**
      * Load Storage
      *
      * @return array
@@ -356,86 +363,5 @@ class StorageRepository
     {
         $this->remove($content["type"], $content["orgkey"], $content["elements"]["columns"]);
         $this->add($content);
-    }
-
-    /**
-     * returns sql statements of all elements and pages and irre
-     * @return array
-     */
-    public function loadSql()
-    {
-        $json = $this->load();
-        $sql_content = array();
-        $types = array_keys($json);
-        $nonIrreTables = array("pages", "tt_content");
-
-        // Generate SQL-Statements
-        if ($types) {
-            foreach ($types as $type) {
-                if ($json[$type]["sql"]) {
-
-                    // If type/table is an irre table, then create table for it
-                    if (array_search($type, $nonIrreTables) === FALSE) {
-                        $sql_content[] = "CREATE TABLE " . $type . " (
-
-							 uid int(11) NOT NULL auto_increment,
-							 pid int(11) DEFAULT '0' NOT NULL,
-
-							 tstamp int(11) unsigned DEFAULT '0' NOT NULL,
-							 crdate int(11) unsigned DEFAULT '0' NOT NULL,
-							 cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
-							 deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
-							 hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
-							 starttime int(11) unsigned DEFAULT '0' NOT NULL,
-							 endtime int(11) unsigned DEFAULT '0' NOT NULL,
-
-							 t3ver_oid int(11) DEFAULT '0' NOT NULL,
-							 t3ver_id int(11) DEFAULT '0' NOT NULL,
-							 t3ver_wsid int(11) DEFAULT '0' NOT NULL,
-							 t3ver_label varchar(255) DEFAULT '' NOT NULL,
-							 t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
-							 t3ver_stage int(11) DEFAULT '0' NOT NULL,
-							 t3ver_count int(11) DEFAULT '0' NOT NULL,
-							 t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
-							 t3ver_move_id int(11) DEFAULT '0' NOT NULL,
-
-							 sys_language_uid int(11) DEFAULT '0' NOT NULL,
-							 l10n_parent int(11) DEFAULT '0' NOT NULL,
-							 l10n_diffsource mediumblob,
-
-							 PRIMARY KEY (uid),
-							 KEY parent (pid),
-							 KEY t3ver_oid (t3ver_oid,t3ver_wsid),
-							 KEY language (l10n_parent,sys_language_uid),
-
-							 parentid int(11) DEFAULT '0' NOT NULL,
-							 parenttable varchar(255) DEFAULT '',
-							 sorting	int(11) DEFAULT '0' NOT NULL,
-
-						 );\n";
-                    }
-
-                    foreach ($json[$type]["sql"] as $field) {
-                        if ($field) {
-                            foreach ($field as $table => $fields) {
-                                if ($fields) {
-                                    foreach ($fields as $field => $definition) {
-                                        $sql_content[] = "CREATE TABLE " . $table . " (\n\t" . $field . " " . $definition . "\n);\n";
-
-                                        // every statement for pages, also for pages_language_overlay
-                                        if ($table == "pages") {
-                                            $sql_content[] = "CREATE TABLE pages_language_overlay (\n\t" . $field . " " . $definition . "\n);\n";
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        // Parentfield
-//		$sql_content[] = "CREATE TABLE tt_content (\n\ttx_mask_content_parent int(11) unsigned NOT NULL DEFAULT '0'\n);\n";
-        return $sql_content;
     }
 }

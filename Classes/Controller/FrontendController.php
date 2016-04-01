@@ -45,17 +45,4 @@ class FrontendController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
         $this->inlineHelper->addIrreToData($data);
         $this->view->assign('data', $data);
     }
-
-    /**
-     * Returns the SQL of all elements
-     *
-     * @param array $sqlString
-     * @return array
-     */
-    public function addDatabaseTablesDefinition(array $sqlString)
-    {
-        $sql = $this->storageRepository->loadSql();
-        $mergedSqlString = array_merge($sqlString, $sql);
-        return array('sqlString' => $mergedSqlString);
-    }
 }
