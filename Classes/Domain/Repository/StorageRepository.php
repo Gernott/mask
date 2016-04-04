@@ -59,7 +59,7 @@ class StorageRepository
     public function load()
     {
         $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);
-        if (file_exists(PATH_site . $extConf["json"]) && is_file(PATH_site . $extConf["json"])) {
+        if (!empty($extConf["json"]) && file_exists(PATH_site . $extConf["json"]) && is_file(PATH_site . $extConf["json"])) {
             return json_decode(file_get_contents(PATH_site . $extConf["json"]), true);
         } else {
             return array();

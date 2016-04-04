@@ -32,31 +32,31 @@ if (TYPO3_MODE === 'BE') {
 }
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Mask');
 
-// Load JSON-File from $_EXTCONF:
-$extConf = unserialize($_EXTCONF);
-if (!empty($extConf["json"]) && file_exists(PATH_site . $extConf["json"])) {
+$storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
+$configuration = $storageRepository->load();
+
+if (!empty($configuration)) {
 
     $tcaCodeGenerator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\CodeGenerator\\TcaCodeGenerator');
-    $json = json_decode(file_get_contents(PATH_site . $extConf["json"]), true);
 
     // Generate TCA for Content-Elements
-    $contentColumns = $tcaCodeGenerator->generateFieldsTca($json["tt_content"]["tca"]);
+    $contentColumns = $tcaCodeGenerator->generateFieldsTca($configuration["tt_content"]["tca"]);
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tt_content', $contentColumns);
-    $tcaCodeGenerator->setElementsTca($json["tt_content"]["elements"]);
+    $tcaCodeGenerator->setElementsTca($configuration["tt_content"]["elements"]);
 
     // Generate TCA for Pages
-    $pagesColumns = $tcaCodeGenerator->generateFieldsTca($json["pages"]["tca"]);
+    $pagesColumns = $tcaCodeGenerator->generateFieldsTca($configuration["pages"]["tca"]);
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('pages', $pagesColumns);
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('pages_language_overlay', $pagesColumns);
-    $tcaCodeGenerator->setPageTca($json["pages"]["tca"]);
+    $tcaCodeGenerator->setPageTca($configuration["pages"]["tca"]);
 
     // Generate TCA for Inline-Fields
-    $tcaCodeGenerator->setInlineTca($json);
+    $tcaCodeGenerator->setInlineTca($configuration);
 }
 
 // include css for styling of backend preview of mask content elements
 $TBE_STYLES['skins']['mask']['name'] = 'mask';
 $TBE_STYLES['skins']['mask']['stylesheetDirectories'][] = 'EXT:mask/Resources/Public/Styles/Backend/';
-//$TBE_STYLES['skins']['mask']['stylesheetDirectories'][] = "/" . $extConf["backend"];
+//$TBE_STYLES['skins']['mask']['stylesheetDirectories'][] = "/" . $settings["backend"];
 
 
