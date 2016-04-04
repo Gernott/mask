@@ -68,8 +68,6 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
         $this->view->assign('missingFolders', $missingFolders);
         $storages = $this->storageRepository->load();
         $this->view->assign('storages', $storages);
-        $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);
-        $this->view->assign('extConf', $extConf);
     }
 
     /**

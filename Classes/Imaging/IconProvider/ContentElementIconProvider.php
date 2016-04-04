@@ -44,16 +44,24 @@ class ContentElementIconProvider implements IconProviderInterface
     protected $storageRepository;
 
     /**
-     * extension configuration
-     * @var array
-     */
-    protected $extConf;
-
-    /**
      * contentElement definiton
      * @var array
      */
     protected $contentElement;
+
+    /**
+     * SettingsService
+     *
+     * @var \MASK\Mask\Domain\Service\SettingsService
+     */
+    protected $settingsService;
+
+    /**
+     * settings
+     *
+     * @var array
+     */
+    protected $extSettings;
 
     /**
      *
@@ -69,7 +77,8 @@ class ContentElementIconProvider implements IconProviderInterface
         }
         $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
         $this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
-        $this->extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);
+        $this->settingsService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Service\\SettingsService');
+        $this->extSettings = $this->settingsService->get();
         $this->contentElement = $this->storageRepository->loadElement("tt_content", $options["contentElementKey"]);
         $icon->setMarkup($this->generateMarkup($icon, $options));
     }
@@ -151,7 +160,7 @@ class ContentElementIconProvider implements IconProviderInterface
      */
     protected function getPreviewIconPath($key)
     {
-        return '/' . $this->extConf["preview"] . 'ce_' . $key . '.png';
+        return '/' . $this->extSettings["preview"] . 'ce_' . $key . '.png';
     }
 
     /**

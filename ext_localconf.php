@@ -8,8 +8,9 @@ $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CM
 $storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
 $fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
 $typoScriptCodeGenerator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\CodeGenerator\\TyposcriptCodeGenerator');
-$configuration =$storageRepository->load();
-$settings = unserialize($_EXTCONF);
+$settingsService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Service\\SettingsService');
+$configuration = $storageRepository->load();
+$settings = $settingsService->get();
 
 // Register Plugin to render content in the frontend
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
@@ -166,7 +167,6 @@ $signalSlotDispatcher->connect('TYPO3\\CMS\\Install\\Service\\SqlExpectedSchemaS
 
 // Hook for tt_content inline elements
 //$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] = 'EXT:mask/Classes/Hooks/class.tx_mask_tcemainprocdm.php:tx_mask_tcemainprocdm';
-
 // Enhance Fluid Output with overridden FluidTemplateContentObject
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Frontend\\ContentObject\\FluidTemplateContentObject'] = array(
     'className' => 'MASK\\Mask\\Fluid\\FluidTemplateContentObject'

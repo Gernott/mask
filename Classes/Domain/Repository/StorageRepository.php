@@ -52,15 +52,37 @@ class StorageRepository
     protected $sqlCodeGenerator;
 
     /**
+     * SettingsService
+     *
+     * @var \MASK\Mask\Domain\Service\SettingsService
+     */
+    protected $settingsService;
+
+    /**
+     * settings
+     *
+     * @var array
+     */
+    protected $extSettings;
+
+    /**
+     * is called before every action
+     */
+    public function __construct()
+    {
+        $this->settingsService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Service\\SettingsService');
+        $this->extSettings = $this->settingsService->get();
+    }
+
+    /**
      * Load Storage
      *
      * @return array
      */
     public function load()
     {
-        $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);
-        if (!empty($extConf["json"]) && file_exists(PATH_site . $extConf["json"]) && is_file(PATH_site . $extConf["json"])) {
-            return json_decode(file_get_contents(PATH_site . $extConf["json"]), true);
+        if (!empty($this->extSettings["json"]) && file_exists(PATH_site . $this->extSettings["json"]) && is_file(PATH_site . $this->extSettings["json"])) {
+            return json_decode(file_get_contents(PATH_site . $this->extSettings["json"]), true);
         } else {
             return array();
         }
@@ -212,7 +234,6 @@ class StorageRepository
         }
 
         // Save
-        $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);
         $encodedJson = "";
 
         // Return JSON formatted in PHP 5.4.0 and higher
@@ -221,7 +242,7 @@ class StorageRepository
         } else {
             $encodedJson = json_encode($json, JSON_PRETTY_PRINT);
         }
-        \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $extConf["json"], $encodedJson);
+        \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $this->extSettings["json"], $encodedJson);
     }
 
     /**
@@ -245,8 +266,7 @@ class StorageRepository
             }
         }
         // Save
-        $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);
-        \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $extConf["json"], json_encode($json));
+        \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $this->extSettings["json"], json_encode($json));
     }
 
     /**

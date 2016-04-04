@@ -44,6 +44,20 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
     protected $storageRepository;
 
     /**
+     * SettingsService
+     *
+     * @var \MASK\Mask\Domain\Service\SettingsService
+     */
+    protected $settingsService;
+
+    /**
+     * settings
+     *
+     * @var array
+     */
+    protected $extSettings;
+
+    /**
      * Preprocesses the preview rendering of a content element.
      *
      * @param \TYPO3\CMS\Backend\View\PageLayoutView $parentObject Calling parent object
@@ -55,12 +69,13 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
      */
     public function preProcess(\TYPO3\CMS\Backend\View\PageLayoutView &$parentObject, &$drawItem, &$headerContent, &$itemContent, array &$row)
     {
+        $this->settingsService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Service\\SettingsService');
+        $this->extSettings = $this->settingsService->get();
 
         // only render special backend preview if it is a mask element
         if (substr($row['CType'], 0, 4) === "mask") {
-            $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);
             $elementKey = substr($row['CType'], 5);
-            $templateRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($extConf["backend"]);
+            $templateRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($this->extSettings["backend"]);
             $templatePathAndFilename = $templateRootPath . $elementKey . '.html';
 
             if (file_exists($templatePathAndFilename)) {

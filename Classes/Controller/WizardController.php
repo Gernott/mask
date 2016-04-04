@@ -42,11 +42,6 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     protected $dbUpdateNeeded = FALSE;
 
     /**
-     * @var string
-     */
-    protected $extConf = "";
-
-    /**
      * StorageRepository
      *
      * @var \MASK\Mask\Domain\Repository\StorageRepository
@@ -85,6 +80,29 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * @inject
      */
     protected $sqlCodeGenerator;
+
+    /**
+     * SettingsService
+     *
+     * @var \MASK\Mask\Domain\Service\SettingsService
+     * @inject
+     */
+    protected $settingsService;
+
+    /**
+     * settings
+     *
+     * @var array
+     */
+    protected $extSettings;
+
+    /**
+     * is called before every action
+     */
+    public function initializeAction()
+    {
+        $this->extSettings = $this->settingsService->get();
+    }
 
     /**
      * Generates all the necessary files
@@ -139,11 +157,10 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      */
     protected function saveHtml($key, $html)
     {
-        $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);
-        if (file_exists(PATH_site . $extConf["content"] . $key . ".html")) {
+        if (file_exists(PATH_site . $this->extSettings["content"] . $key . ".html")) {
             return false;
         } else {
-            \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $extConf["content"] . $key . ".html", $html);
+            \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $this->extSettings["content"] . $key . ".html", $html);
             return true;
         }
     }
@@ -232,12 +249,11 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      */
     protected function checkFolders()
     {
-        $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);
-        if (!file_exists(PATH_site . $extConf["content"])) {
-            $message[] = $extConf["content"] . ": " . \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.all.error.missingfolder', 'mask');
+        if (!file_exists(PATH_site . $this->extSettings["content"])) {
+            $message[] = $this->extSettings["content"] . ": " . \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.all.error.missingfolder', 'mask');
         }
-        if (!file_exists(PATH_site . $extConf["preview"])) {
-            $message[] = $extConf["preview"] . ": " . \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.all.error.missingfolder', 'mask');
+        if (!file_exists(PATH_site . $this->extSettings["preview"])) {
+            $message[] = $this->extSettings["preview"] . ": " . \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.all.error.missingfolder', 'mask');
         }
         return $message;
     }
@@ -249,13 +265,12 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      */
     protected function createMissingFolders()
     {
-        $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);
         $success = TRUE;
-        if (!file_exists(PATH_site . $extConf["content"])) {
-            $success = $success && mkdir(PATH_site . $extConf["content"], 0755, true);
+        if (!file_exists(PATH_site . $this->extSettings["content"])) {
+            $success = $success && mkdir(PATH_site . $this->extSettings["content"], 0755, true);
         }
-        if (!file_exists(PATH_site . $extConf["preview"])) {
-            $success = $success && mkdir(PATH_site . $extConf["preview"], 0755, true);
+        if (!file_exists(PATH_site . $this->extSettings["preview"])) {
+            $success = $success && mkdir(PATH_site . $this->extSettings["preview"], 0755, true);
         }
         return $success;
     }
