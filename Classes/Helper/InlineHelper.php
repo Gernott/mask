@@ -36,7 +36,7 @@ class InlineHelper
 
     /**
      * StorageRepository
-     * y
+     * 
      * @var \MASK\Mask\Domain\Repository\StorageRepository
      */
     protected $storageRepository;

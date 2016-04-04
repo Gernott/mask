@@ -41,6 +41,14 @@ class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\Fluid
     protected $inlineHelper;
 
     /**
+     * storageRepository
+     *
+     * @var \MASK\Mask\Domain\Repository\StorageRepository
+     * @inject
+     */
+    protected $storageRepository;
+
+    /**
      * Change variables for view
      *
      * @param array $conf Configuration
@@ -52,7 +60,8 @@ class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\Fluid
         // Call Parent Function to maintain core functions
         $variables = parent::getContentObjectVariables($conf);
 
-        $this->inlineHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
+        $this->storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
+        $this->inlineHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\InlineHelper', $this->storageRepository);
 
         // Make some enhancements to data
         $data = $variables['data'];
