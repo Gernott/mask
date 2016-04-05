@@ -34,7 +34,27 @@ namespace MASK\Mask\Domain\Service;
 class SettingsService
 {
 
-    private $settings = array();
+    /**
+     * Contains the settings of the current extension
+     *
+     * @var array
+     * @api
+     */
+    protected $settings = array();
+
+    /**
+     * Contains the settings of the typoscript
+     *
+     * @var array
+     */
+    protected $typoscriptSettings;
+
+    /**
+     * Contains the settings of the $_EXTCONF
+     *
+     * @var array
+     */
+    protected $extSettings;
 
     /**
      * Returns the settings
@@ -42,10 +62,20 @@ class SettingsService
      */
     public function get()
     {
-        $this->settings = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);
-        if (empty($this->settings)) {
-            $this->settings = $_EXTCONF;
+        $this->extSettings = $this->getExtSettings();
+        return $this->extSettings;
+    }
+
+    /**
+     * Returns an array with the settings from $_EXTCONF
+     * @return array
+     */
+    protected function getExtSettings()
+    {
+        $extSettings = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);
+        if (empty($extSettings)) {
+            $extSettings = $_EXTCONF;
         }
-        return $this->settings;
+        return $extSettings;
     }
 }
