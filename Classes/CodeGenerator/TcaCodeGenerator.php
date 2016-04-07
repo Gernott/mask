@@ -148,7 +148,12 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                 $i++;
             }
         }
-        $pageFieldString = $prependTabs . implode(",", $fieldArray);
+
+        if (!empty($fieldArray)) {
+            $pageFieldString = $prependTabs . implode(",", $fieldArray);
+        } else {
+            $pageFieldString = $prependTabs;
+        }
 
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('pages', $pageFieldString);
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('pages_language_overlay', $pageFieldString);
