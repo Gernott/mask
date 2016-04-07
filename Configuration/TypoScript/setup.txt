@@ -15,7 +15,6 @@ tt_content {
 		}
 	}
 }
-mask >
 
 # Temporary page cObject:
 temp.mask.page = PAGE
