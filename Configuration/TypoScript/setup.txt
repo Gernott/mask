@@ -17,24 +17,6 @@ tt_content {
 }
 mask >
 
-
-# temp.mask.content is deprecated and will be removed in mask 2.0, always use styles.content.get in TYPO3 => 7.0
-temp.mask.content = CONTENT
-temp.mask.content {
-	table = tt_content
-	select {
-		pidInList = this
-		orderBy = sorting
-		where = colPos=0
-		andWhere.data = GP:L
-		andWhere.noTrimWrap = |(sys_language_uid = | OR sys_language_uid = -1)|
-		andWhere.intval = 1
-	}
-}
-
-# temp.content is deprecated and will be removed in mask 2.0, always use styles.content.get in TYPO3 => 7.0
-temp.content < temp.mask.content
-
 # Temporary page cObject:
 temp.mask.page = PAGE
 temp.mask.page {
