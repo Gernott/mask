@@ -1,0 +1,31 @@
+{namespace mask=MASK\Mask\ViewHelpers}
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][type]" value="input" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][exclude]" value="1" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][sql][{type}][--index--]" value="tinytext" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][eval]" value="" class="tx_mask_fieldcontent_evalresult" />
+
+<div class="row">
+	<div class="form-group col-sm-6">
+		<label class="t3js-formengine-label" for="string_size">
+			<f:translate key="tx_mask.field.string.size" />
+		</label>
+		<div class="t3js-formengine-field-item">
+			<div class="form-control-wrap" style="">
+				<input id="string_size" name="tx_mask_tools_maskmask[storage][tca][--index--][config][size]" type="number" class="form-control" title="cols" placeholder="cols" min="1" max="48" value="{field.config.size}" />
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="form-group col-sm-6">
+		<label class="t3js-formengine-label" for="string_default">
+			<f:translate key="tx_mask.field.string.default" />
+		</label>
+		<div class="t3js-formengine-field-item">
+			<div class="form-control-wrap" style="">
+				<input id="string_default" name="tx_mask_tools_maskmask[storage][tca][--index--][config][default]" type="text" class="form-control" title="default" placeholder="default" value="{field.config.default}" />
+			</div>
+		</div>
+	</div>
+</div>

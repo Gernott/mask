@@ -1,0 +1,18 @@
+{namespace mask=MASK\Mask\ViewHelpers}
+<f:if condition="{field.inlineParent}">
+	<f:then>
+		<f:render partial="Forms/General/Form" arguments="{form: '{mask:formType(elementKey:storage.key, fieldKey:key, type: field.inlineParent)}', storage: storage, field:field, key:key, editMode: 1, type: type}" />
+	</f:then>
+	<f:else>
+		<f:render partial="Forms/General/Form" arguments="{form: '{mask:formType(elementKey:storage.key, fieldKey:key, type: type)}', storage: storage, field:field, key:key, editMode: 1, type: type}" />
+	</f:else>
+</f:if>
+<f:if condition="{field.inlineFields}">
+	<f:then>
+		<f:for each="{field.inlineFields}" as="inlineField" key="inlineKey">
+			<f:render partial="Forms/General/RenderFieldContent" arguments="{form: '{mask:formType(elementKey:storage.key, fieldKey:inlineField.maskKey, type:inlineField.inlineParent)}', storage: storage, field:inlineField, key:inlineField.maskKey, editMode: 1, type: type}" />
+		</f:for>
+	</f:then>
+	<f:else>
+	</f:else>
+</f:if>

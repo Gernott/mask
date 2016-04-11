@@ -20,7 +20,7 @@
 	<div class="tx_mask_btn_caption">
 		<ul class="dragtarget inline-container">
 			<f:for each="{field.inlineFields}" as="inlineField" key="inlineKey">
-				<f:render partial="Inline" arguments="{elementKey: field.key, field: inlineField, storage: storage}" />
+				<f:render partial="Forms/General/Inline" arguments="{elementKey: field.key, field: inlineField, storage: storage}" />
 			</f:for>
 		</ul>
 	</div>

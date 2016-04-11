@@ -2,23 +2,23 @@
 {namespace core = TYPO3\CMS\Core\ViewHelpers}
 <f:layout name="Default" />
 <f:section name="content">
-	<f:render partial="Tabs" arguments="{active: 'WizardPage'}" />
+	<f:render partial="General/Tabs" arguments="{active: 'WizardPage'}" />
 
 	<div class="tab-content">
 		<div role="tabpanel" class="tab-pane active" id="DTM-mask-1">
 			<div class="form-section">
 				<f:flashMessages />
 				<h1 style="margin-bottom: 10px;"><f:translate key="tx_mask.page.header" /></h1>
-				<f:render partial="FormErrors" />
+				<f:render partial="Forms/General/FormErrors" />
 				<f:form action="update" name="storage" object="{storage}">
 					<f:render partial="WizardPage/Metadata" arguments="{storage:storage, type:'Page', layout: backendLayout}" />
 					<div class="row bench">
 						<div class="form-group col-sm-3 tx_mask_borderright tx_mask_tabcell1">
 							<ul class="tx_mask_fieldtypes" id="dragstart">
-								<f:render partial="FormTypeButtons"/>
+								<f:render partial="Forms/General/FormTypeButtons"/>
 							</ul>
 							<div class="save_buttons" style="width: 100%; float: left;">
-								<f:render partial="Controls" />
+								<f:render partial="General/Controls" />
 							</div>
 						</div>
 
@@ -45,7 +45,7 @@
 										<div class="tx_mask_btn_caption">
 											<ul class="dragtarget inline-container">
 												<f:for each="{field.inlineFields}" as="inlineField" key="inlineKey">
-													<f:render partial="Inline" arguments="{elementKey: field.key, field: inlineField, storage: storage}" />
+													<f:render partial="Forms/General/Inline" arguments="{elementKey: field.key, field: inlineField, storage: storage}" />
 												</f:for>
 											</ul>
 										</div>
@@ -59,7 +59,7 @@
 							<!--Edit-Mode-Features -->
 							<f:for each="{storage.tca}" as="field" key="key">
 								<f:if condition="{mask:substr(string: key, search: 'tx_mask', from: 0, length: 7)}">
-									<f:render partial="RenderFieldContent" arguments="{form: '{mask:formType(elementKey:storage.key, fieldKey:key, type: \'pages\')}', storage: storage, field:field, key:key, editMode: 1, type: 'pages'}" />
+									<f:render partial="Forms/General/RenderFieldContent" arguments="{form: '{mask:formType(elementKey:storage.key, fieldKey:key, type: \'pages\')}', storage: storage, field:field, key:key, editMode: 1, type: 'pages'}" />
 								</f:if>
 							</f:for>
 						</div>
@@ -67,7 +67,7 @@
 				</f:form>
 
 				<div style="display:none;" id="templates">
-					<f:render partial="Forms" arguments="{storage: storage, type: 'pages'}" />
+					<f:render partial="Forms/General/Forms" arguments="{storage: storage, type: 'pages'}" />
 				</div>
 			</div>
 		</div>
