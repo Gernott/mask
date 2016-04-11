@@ -99,7 +99,6 @@ Mask
 /* Field header */
 .tx_mask_fieldheader {
 	padding-bottom: 6px;
-	border-bottom: 1px solid #ccc;
 	margin-bottom: 14px;
 	height: 50px;
 }
