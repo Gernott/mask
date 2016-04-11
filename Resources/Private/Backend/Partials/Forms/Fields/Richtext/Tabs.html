@@ -1,1 +1,11 @@
 {namespace mask=MASK\Mask\ViewHelpers}
+<div role="tabpanel" class="tab-pane" id="validation_{key}">
+	<div class="row">
+		<div class="form-group col-sm-3">
+			<f:render partial="TCA/Required" arguments="{key:key, elementKey:storage.key, field:field}" />
+		</div>
+		<div class="form-group col-sm-3">
+			<f:render partial="TCA/Trim" arguments="{key:key, elementKey:storage.key, field:field}" />
+		</div>
+	</div>
+</div>
