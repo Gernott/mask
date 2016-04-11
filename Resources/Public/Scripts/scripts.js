@@ -48,6 +48,8 @@ jQuery(document).ready(function () {
 		jQuery(buttonCode).click();
 		jQuery(".tx_mask_newfieldname:visible").focus(); // Set focus to key field
 		initSortable();
+		var body = findBodyByHead(buttonCode);
+		initializeTabs(body);
 	});
 
 	// 2nd column click
@@ -58,6 +60,8 @@ jQuery(document).ready(function () {
 		jQuery(".tx_mask_tabcell3>DIV").hide(); // Hide all fieldconfigs
 		jQuery(".tx_mask_tabcell3>DIV:eq(" + fieldIndex + ")").show(); // Show current fieldconfig
 		event.stopPropagation(); // prevent other click events in Inline-Field
+		var body = findBodyByHead(this);
+		openFirstTab(body);
 	});
 
 	// 2nd column delete
@@ -187,6 +191,39 @@ jQuery(document).ready(function () {
 	});
 
 });
+
+function initializeTabs(body) {
+	var uniqueKey = getUniqueKey();
+	var tabContents = jQuery(body).find(".tab-content .tab-pane");
+	var tabHeads = jQuery(body).find(".nav-tabs");
+	var tabLinks = jQuery(body).find(".nav-tabs LI A");
+	jQuery.each(tabContents, function (index, content) {
+		var id = jQuery(content).attr("id");
+		jQuery(content).attr("id", id + uniqueKey);
+	});
+	jQuery.each(tabHeads, function (index, head) {
+		var id = jQuery(head).attr("id");
+		jQuery(head).attr("id", id + uniqueKey);
+	});
+	jQuery.each(tabLinks, function (index, link) {
+		var href = jQuery(link).attr("href");
+		jQuery(link).attr("href", href + uniqueKey);
+	});
+	openFirstTab(body);
+}
+function getUniqueKey() {
+	return Math.random().toString(36).substr(2, 9);
+}
+function openFirstTab(body) {
+	// if there is no tab open already, open the first
+	var openedTab = jQuery(body).find(".tab-content .tab-pane.active");
+	if (jQuery(openedTab).size() === 0) {
+		var tabContents = jQuery(body).find(".tab-content .tab-pane");
+		var tabLinks = jQuery(body).find(".nav-tabs LI A");
+		jQuery(tabLinks).first().closest("LI").addClass("active");
+		jQuery(tabContents).first().addClass("active");
+	}
+}
 
 //Do the magic to inline fields
 function editInlineFields() {
@@ -337,9 +374,14 @@ function initSortable() {
 				sortFields();
 				sorted = true;
 			}
-			jQuery(ui.item).click();
+
+			var head = jQuery(ui.item);
+			var body = findBodyByHead(head);
+			jQuery(head).click();
 			if (receivedNew) {
+				initializeTabs(body);
 				jQuery(".tx_mask_newfieldname:visible").focus();
+
 			}
 			receivedNew = false;
 			received = false;
@@ -414,8 +456,6 @@ function initSortable() {
 				alert("You are trying to drag an element which relies on a tt_content-field into a repeating field. This is not allowed, because it does not make any sense. Create a new field instead.");
 				ui.sender.sortable('cancel');
 			}
-
-
 		}
 	});
 }

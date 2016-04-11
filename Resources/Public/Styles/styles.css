@@ -199,6 +199,12 @@ UL.tx_mask_fieldtypes .tx_mask_fieldcontent_highlight {
 .panel-space {
 	margin: 1em 0;
 }
+.tx_mask_fieldcontent.tab-content {
+	border-left: 1px solid #ccc;
+	padding: 20px;
+	border-bottom: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+}
 
 
 /* fontIconPicker main CSS file {@link https://github.com/micc83/fontIconPicker} */
