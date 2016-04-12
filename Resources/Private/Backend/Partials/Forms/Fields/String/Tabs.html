@@ -2,14 +2,7 @@
 <div role="tabpanel" class="tab-pane" id="validation_{key}">
 	<div class="row">
 		<div class="form-group col-sm-6">
-			<label class="t3js-formengine-label" for="string_max">
-				<f:translate key="tx_mask.field.string.max" />
-			</label>
-			<div class="t3js-formengine-field-item">
-				<div class="form-control-wrap" style="">
-					<input id="string_max" name="tx_mask_tools_maskmask[storage][tca][--index--][config][max]" type="number" class="form-control" title="max" placeholder="max" min="0" max="512" value="{field.config.max}" />
-				</div>
-			</div>
+			<f:render partial="Forms/Config/Max" arguments="{key:key, elementKey:storage.key, field: field}" />
 		</div>
 		<div class="form-group col-sm-6">
 			<label class="t3js-formengine-label" for="string_is_in">
