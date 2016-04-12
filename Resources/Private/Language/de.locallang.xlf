@@ -58,7 +58,58 @@
 				<target>Pflichtfeld</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.trim">
-				<target>Leerraum entfernen</target>
+				<target>Leerraum am Anfang und Ende entfernen</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.alpha">
+				<source>Nur "a-z A-Z" Zeichen</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.alphanum">
+				<source>Nur "a-z A-Z 0-9" Zeichen</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.alphanum_x">
+				<source>Nur "a-z A-Z 0-9 _ -" Zeichen</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.domainname">
+				<source>Nur Domainnamen wie “example.com”</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.email">
+				<source>E-Mail Adresse</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.lower">
+				<source>Nur kleine Buchstaben</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.md5">
+				<source>In MD5-Hash konvertieren</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.nospace">
+				<source>Keine Leerzeichen erlauben</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.null">
+				<source>Checkbox zum NULL setzen anzeigen</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.num">
+				<source>Nur Ziffern</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.password">
+				<source>Passwortfeld</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.time">
+				<source>Uhrzeitfeld (h:m)</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.timesec">
+				<source>Uhrzeitfeld (h:m:s)</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.unique">
+				<source>Wert muss einzigartig in der Tabellenspalte sein</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.uniqueInPid">
+				<source>Wert muss einzigartig in Tabellenspalte und PID sein</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.upper">
+				<source>Nur Blockbuchstaben</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.year">
+				<source>Nur Jahre zwischen 1970 und 2038</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.texttype">
 				<target>Texttyp</target>
@@ -219,6 +270,21 @@
 			<trans-unit id="tx_mask.field.string.default">
 				<target>Standard</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.string.placeholder">
+				<source>Platzhaltertext</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.string.is_in">
+				<source>Erlaubte Zeichen</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.string.mode">
+				<source>Zeige "Override"-Checkbox wenn Platzhaltertext</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.string.renderType">
+				<source>Vor dem Absenden mit RSA verschlüsseln</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.string.autocomplete">
+				<source>HTML5-Autocomplete aktivieren</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.text.cols">
 				<target>Spalten</target>
 			</trans-unit>
@@ -365,6 +431,22 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.all.createdmissingfolders">
 				<target>Fehlende Verzeichnisse wurden angelegt.</target>
+			</trans-unit>
+
+			<trans-unit id="tx_mask.tabs.default">
+				<source>Allgemein</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.tabs.validation">
+				<source>Validierung</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.tabs.extended">
+				<source>Erweitert</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.tabs.database">
+				<source>Datenbank</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.tabs.wizards">
+				<source>Wizards</source>
 			</trans-unit>
 		</body>
 	</file>

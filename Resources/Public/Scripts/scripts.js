@@ -275,6 +275,16 @@ function evalFields() {
 		evalValues = jQuery.grep(evalValues, function (n) {
 			return(n);
 		});
+
+		// search is_in field
+		var isInField = jQuery(item).find("INPUT[name='tx_mask_tools_maskmask[storage][tca][--index--][config][is_in]']");
+		if (jQuery(isInField).size() > 0) {
+			var isInValue = jQuery(isInField).val();
+			if (isInValue !== "") {
+				evalValues.push("is_in");
+			}
+		}
+		
 		eval = evalValues.join(",");
 		jQuery(item).find('.tx_mask_fieldcontent_evalresult').val(eval);
 	});

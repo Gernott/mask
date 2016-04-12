@@ -1,6 +1,7 @@
 <f:switch expression="{type}">
 	<f:case value="String">
 		<f:render partial="Forms/Tabs/Validation" arguments="{key: key}" />
+		<f:render partial="Forms/Tabs/Extended" arguments="{key: key}" />
 	</f:case>
 	<f:case value="Float">
 		<f:render partial="Forms/Tabs/Validation" arguments="{key: key}" />

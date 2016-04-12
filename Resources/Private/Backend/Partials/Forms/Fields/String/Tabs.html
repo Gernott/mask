@@ -7,7 +7,17 @@
 			</label>
 			<div class="t3js-formengine-field-item">
 				<div class="form-control-wrap" style="">
-					<input id="string_max" name="tx_mask_tools_maskmask[storage][tca][--index--][config][max]" type="number" class="form-control" title="rows" placeholder="rows" min="0" max="512" value="{field.config.max}" />
+					<input id="string_max" name="tx_mask_tools_maskmask[storage][tca][--index--][config][max]" type="number" class="form-control" title="max" placeholder="max" min="0" max="512" value="{field.config.max}" />
+				</div>
+			</div>
+		</div>
+		<div class="form-group col-sm-6">
+			<label class="t3js-formengine-label" for="string_is_in">
+				<f:translate key="tx_mask.field.string.is_in" />
+			</label>
+			<div class="t3js-formengine-field-item">
+				<div class="form-control-wrap" style="">
+					<input id="string_is_in" name="tx_mask_tools_maskmask[storage][tca][--index--][config][is_in]" type="text" class="form-control" title="is_in" placeholder="is_in" value="{field.config.is_in}" />
 				</div>
 			</div>
 		</div>
@@ -15,29 +25,90 @@
 
 	<div class="row">
 		<div class="form-group col-sm-6">
-			<label class="t3js-formengine-label" for="string_texttype">
-				<f:translate key="tx_mask.field.texttype" />
+			<f:render partial="Forms/Eval/Required" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/Trim" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/Alpha" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/AlphaNum" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/AlphaNumX" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/Domainname" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/Email" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/Lower" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/NoSpace" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/Num" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/Unique" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/UniqueInPid" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/Upper" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+	</div>
+</div>
+<div role="tabpanel" class="tab-pane" id="extended_{key}">
+	<div class="row">
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/Md5" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/Null" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/Password" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group col-sm-6">
+			<label class="t3js-formengine-label" for="string_mode">
+				<f:translate key="tx_mask.field.string.mode" />
 			</label>
 			<div class="t3js-formengine-field-item">
 				<div class="form-control-wrap" style="">
-					<select id="string_texttype" name="tx_mask_tools_maskmask[dummy][--index--][texttype]" title="{f:translate(key:'tx_mask.field.texttype')}" class="form-control tx_mask_fieldcontent_eval">
-						<option value=""><f:translate key="tx_mask.field.texttype.default" /></option>
-						<option {f:if(condition: '{mask:eval(fieldKey:\'{key}\', elementKey:\'{elementKey}\', field:\'{field}\', evalValue:\'lower\')}', then: 'selected="selected"', else: '')} value="lower"><f:translate key="tx_mask.field.texttype.lower" /></option>
-						<option {f:if(condition: '{mask:eval(fieldKey:\'{key}\', elementKey:\'{elementKey}\', field:\'{field}\', evalValue:\'upper\')}', then: 'selected="selected"', else: '')} value="upper"><f:translate key="tx_mask.field.texttype.upper" /></option>
-						<option {f:if(condition: '{mask:eval(fieldKey:\'{key}\', elementKey:\'{elementKey}\', field:\'{field}\', evalValue:\'alpha\')}', then: 'selected="selected"', else: '')} value="alpha"><f:translate key="tx_mask.field.texttype.alpha" /></option>
-						<option {f:if(condition: '{mask:eval(fieldKey:\'{key}\', elementKey:\'{elementKey}\', field:\'{field}\', evalValue:\'alphanum\')}', then: 'selected="selected"', else: '')} value="alphanum"><f:translate key="tx_mask.field.texttype.alphanum" /></option>
-						<option {f:if(condition: '{mask:eval(fieldKey:\'{key}\', elementKey:\'{elementKey}\', field:\'{field}\', evalValue:\'alphanum_x\')}', then: 'selected="selected"', else: '')} value="alphanum_x"><f:translate key="tx_mask.field.texttype.alphanum_x" /></option>
-					</select>
+					<input id="string_mode" name="tx_mask_tools_maskmask[storage][tca][--index--][config][mode]" type="checkbox" {f:if(condition: '{field.config.mode} == \'useOrOverridePlaceholder\'', then: 'checked="checked"', else: '')} value="useOrOverridePlaceholder" title="useOrOverridePlaceholder" />
+				</div>
+			</div>
+		</div>
+		<div class="form-group col-sm-6">
+			<label class="t3js-formengine-label" for="string_rendertype">
+				<f:translate key="tx_mask.field.string.renderType" />
+			</label>
+			<div class="t3js-formengine-field-item">
+				<div class="form-control-wrap" style="">
+					<input id="string_rendertype" name="tx_mask_tools_maskmask[storage][tca][--index--][config][renderType]" type="checkbox" {f:if(condition: '{field.config.renderType} == \'rsaInput\'', then: 'checked="checked"', else: '')} value="rsaInput" title="rsaInput" />
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="row">
 		<div class="form-group col-sm-6">
-			<f:render partial="TCA/Required" arguments="{key:key, elementKey:storage.key, field: field}" />
-		</div>
-		<div class="form-group col-sm-6">
-			<f:render partial="TCA/Trim" arguments="{key:key, elementKey:storage.key, field: field}" />
+			<label class="t3js-formengine-label" for="string_autocomplete">
+				<f:translate key="tx_mask.field.string.autocomplete" />
+			</label>
+			<div class="t3js-formengine-field-item">
+				<div class="form-control-wrap" style="">
+					<input id="string_autocomplete" name="tx_mask_tools_maskmask[storage][tca][--index--][config][autocomplete]" type="checkbox" {f:if(condition: '{field.config.autocomplete} == \'1\'', then: 'checked="checked"', else: '')} value="1" title="autocomplete" />
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

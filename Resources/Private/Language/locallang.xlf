@@ -60,6 +60,57 @@
 			<trans-unit id="tx_mask.field.trim">
 				<source>Trim</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.alpha">
+				<source>Only "a-z A-Z" characters</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.alphanum">
+				<source>Only "a-z A-Z 0-9" characters</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.alphanum_x">
+				<source>Only "a-z A-Z 0-9 _ -" characters</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.domainname">
+				<source>Only domain names such as “example.com”</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.email">
+				<source>E-Mail Address</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.lower">
+				<source>Only lowercase characters</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.md5">
+				<source>Convert to MD5-Hash</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.nospace">
+				<source>Don't allow spaces</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.null">
+				<source>Add checkbox to for setting field NULL</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.num">
+				<source>Only "0-9" characters</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.password">
+				<source>Password Field</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.time">
+				<source>Time field (h:m)</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.timesec">
+				<source>Time field (h:m:s)</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.unique">
+				<source>Field has to be unique in table</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.uniqueInPid">
+				<source>Field has to be unique in table and pid</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.upper">
+				<source>Only uppercase characters</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.year">
+				<source>Only years between 1970 and 2038</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.texttype">
 				<source>Texttype</source>
 			</trans-unit>
@@ -219,6 +270,21 @@
 			<trans-unit id="tx_mask.field.string.default">
 				<source>Default</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.string.placeholder">
+				<source>Placeholder</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.string.is_in">
+				<source>Allowed Characters</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.string.mode">
+				<source>Show Override-Checkbox for Placeholder</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.string.renderType">
+				<source>Add RSA encryption prior to being submitted</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.string.autocomplete">
+				<source>Activate HTML5-autocomplete</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.text.cols">
 				<source>Columns</source>
 			</trans-unit>
@@ -365,6 +431,22 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.all.createdmissingfolders">
 				<source>Missing directories were created.</source>
+			</trans-unit>
+
+			<trans-unit id="tx_mask.tabs.default">
+				<source>General</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.tabs.validation">
+				<source>Validation</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.tabs.extended">
+				<source>Extended</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.tabs.database">
+				<source>Database</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.tabs.wizards">
+				<source>Wizards</source>
 			</trans-unit>
 
 		</body>

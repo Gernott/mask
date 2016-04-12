@@ -68,6 +68,9 @@ class GeneralUtility
         $found = FALSE;
         if ($storage[$type]["tca"][$fieldKey]["config"]["eval"] != "") {
             $evals = explode(",", $storage[$type]["tca"][$fieldKey]["config"]["eval"]);
+            foreach ($evals as $index => $eval) {
+                $evals[$index] = strtolower($eval);
+            }
             $found = array_search(strtolower($evalValue), $evals) !== FALSE;
         }
         return $found;
