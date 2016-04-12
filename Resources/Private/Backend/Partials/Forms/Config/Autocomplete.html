@@ -1,0 +1,9 @@
+{namespace mask=MASK\Mask\ViewHelpers}
+<label class="t3js-formengine-label" for="string_autocomplete">
+	<f:translate key="tx_mask.field.string.autocomplete" />
+</label>
+<div class="t3js-formengine-field-item">
+	<div class="form-control-wrap" style="">
+		<input id="string_autocomplete" name="tx_mask_tools_maskmask[storage][tca][--index--][config][autocomplete]" type="checkbox" {f:if(condition: '{field.config.autocomplete} == \'1\'', then: 'checked="checked"', else: '')} value="1" title="autocomplete" />
+	</div>
+</div>

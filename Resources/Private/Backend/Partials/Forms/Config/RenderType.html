@@ -1,0 +1,9 @@
+{namespace mask=MASK\Mask\ViewHelpers}
+<label class="t3js-formengine-label" for="string_rendertype">
+	<f:translate key="tx_mask.field.string.renderType" />
+</label>
+<div class="t3js-formengine-field-item">
+	<div class="form-control-wrap" style="">
+		<input id="string_rendertype" name="tx_mask_tools_maskmask[storage][tca][--index--][config][renderType]" type="checkbox" {f:if(condition: '{field.config.renderType} == \'rsaInput\'', then: 'checked="checked"', else: '')} value="rsaInput" title="rsaInput" />
+	</div>
+</div>

@@ -1,0 +1,9 @@
+{namespace mask=MASK\Mask\ViewHelpers}
+<label class="t3js-formengine-label" for="string_mode">
+	<f:translate key="tx_mask.field.string.mode" />
+</label>
+<div class="t3js-formengine-field-item">
+	<div class="form-control-wrap" style="">
+		<input id="string_mode" name="tx_mask_tools_maskmask[storage][tca][--index--][config][mode]" type="checkbox" {f:if(condition: '{field.config.mode} == \'useOrOverridePlaceholder\'', then: 'checked="checked"', else: '')} value="useOrOverridePlaceholder" title="useOrOverridePlaceholder" />
+	</div>
+</div>

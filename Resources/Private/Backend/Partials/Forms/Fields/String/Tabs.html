@@ -79,36 +79,15 @@
 	</div>
 	<div class="row">
 		<div class="form-group col-sm-6">
-			<label class="t3js-formengine-label" for="string_mode">
-				<f:translate key="tx_mask.field.string.mode" />
-			</label>
-			<div class="t3js-formengine-field-item">
-				<div class="form-control-wrap" style="">
-					<input id="string_mode" name="tx_mask_tools_maskmask[storage][tca][--index--][config][mode]" type="checkbox" {f:if(condition: '{field.config.mode} == \'useOrOverridePlaceholder\'', then: 'checked="checked"', else: '')} value="useOrOverridePlaceholder" title="useOrOverridePlaceholder" />
-				</div>
-			</div>
+			<f:render partial="Forms/Config/Mode" arguments="{key:key, elementKey:storage.key, field: field}" />
 		</div>
 		<div class="form-group col-sm-6">
-			<label class="t3js-formengine-label" for="string_rendertype">
-				<f:translate key="tx_mask.field.string.renderType" />
-			</label>
-			<div class="t3js-formengine-field-item">
-				<div class="form-control-wrap" style="">
-					<input id="string_rendertype" name="tx_mask_tools_maskmask[storage][tca][--index--][config][renderType]" type="checkbox" {f:if(condition: '{field.config.renderType} == \'rsaInput\'', then: 'checked="checked"', else: '')} value="rsaInput" title="rsaInput" />
-				</div>
-			</div>
+			<f:render partial="Forms/Config/RenderType" arguments="{key:key, elementKey:storage.key, field: field}" />
 		</div>
 	</div>
 	<div class="row">
 		<div class="form-group col-sm-6">
-			<label class="t3js-formengine-label" for="string_autocomplete">
-				<f:translate key="tx_mask.field.string.autocomplete" />
-			</label>
-			<div class="t3js-formengine-field-item">
-				<div class="form-control-wrap" style="">
-					<input id="string_autocomplete" name="tx_mask_tools_maskmask[storage][tca][--index--][config][autocomplete]" type="checkbox" {f:if(condition: '{field.config.autocomplete} == \'1\'', then: 'checked="checked"', else: '')} value="1" title="autocomplete" />
-				</div>
-			</div>
+			<f:render partial="Forms/Config/Autocomplete" arguments="{key:key, elementKey:storage.key, field: field}" />
 		</div>
 	</div>
 </div>
