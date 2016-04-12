@@ -93,13 +93,11 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
                 $element = $this->storageRepository->loadElement("tt_content", $elementKey);
                 $view->assign("row", $row);
                 $view->assign("data", $data);
+				$view->assign("element", $element);
 
                 // Render everything
-                $content = $view->render();
-                $headerContent = '<strong>' . $element["label"] . '</strong><br>';
-                $itemContent .= '<div style="display:block; padding: 10px 0 4px 0px;border-top: 1px solid #CACACA;margin-top: 6px;" class="content_preview_' . $elementKey . '">';
-                $itemContent .= $content;
-                $itemContent .= '</div>';
+                $itemContent = $parentObject->linkEditContent($view->render(), $row);
+
                 $drawItem = FALSE;
             }
         }
