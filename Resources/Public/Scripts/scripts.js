@@ -37,14 +37,35 @@ jQuery(document).ready(function () {
 
 	// 1st column click
 	jQuery(".tx_mask_tabcell1").on("click", "LI", function (event) {
+
+		// search for active field
+		var activeFound = false;
+		var activeHead = jQuery(".tx_mask_tabcell2 .tx_mask_btn.active");
+		if (jQuery(activeHead).size() > 0) {
+			activeFound = true;
+			var activeBody = findBodyByHead(activeHead);
+		}
+
 		buttonCode = jQuery.parseHTML(jQuery(this).outerHTML());
 		jQuery(".tx_mask_tabcell2 LI").removeClass("active");
 		jQuery(buttonCode).addClass("active");
-		jQuery(".tx_mask_tabcell2 > UL").append(buttonCode);
+
+		// if active field was found, new field is inserted after this
+		if (activeFound) {
+			jQuery(activeHead).after(buttonCode);
+		} else {
+			jQuery(".tx_mask_tabcell2 > UL").append(buttonCode);
+		}
 		fieldType = jQuery(buttonCode).data("type");
 		fieldTemplate = jQuery("#templates DIV[data-type='" + fieldType + "']").outerHTML();
 		jQuery(".tx_mask_tabcell3>DIV").hide(); // Hide all fieldconfigs
-		jQuery(".tx_mask_tabcell3").append(fieldTemplate); // Add new fieldconfig
+
+		// if active field was found, new field is inserted after this
+		if (activeFound) {
+			jQuery(activeBody).after(fieldTemplate);
+		} else {
+			jQuery(".tx_mask_tabcell3").append(fieldTemplate);
+		}
 		jQuery(buttonCode).click();
 		jQuery(".tx_mask_newfieldname:visible").focus(); // Set focus to key field
 		initSortable();
@@ -284,7 +305,7 @@ function evalFields() {
 				evalValues.push("is_in");
 			}
 		}
-		
+
 		eval = evalValues.join(",");
 		jQuery(item).find('.tx_mask_fieldcontent_evalresult').val(eval);
 	});
