@@ -213,6 +213,18 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                             $tcavalue[$fieldkey]["foreign_table"] = $tcakey;
                         }
 
+                        // set date ranges if date field
+                        if ($fieldkey == "config" && $tcavalue[$fieldkey]["dbType"] == "date") {
+                            if ($tcavalue[$fieldkey]["range"]["upper"] != "") {
+                                $date = new \DateTime($tcavalue[$fieldkey]["range"]["upper"]);
+                                $tcavalue[$fieldkey]["range"]["upper"] = $date->getTimestamp() + 86400;
+                            }
+                            if ($tcavalue[$fieldkey]["range"]["lower"] != "") {
+                                $date = new \DateTime($tcavalue[$fieldkey]["range"]["lower"]);
+                                $tcavalue[$fieldkey]["range"]["lower"] = $date->getTimestamp() + 86400;
+                            }
+                        }
+
                         // merge user inputs with file array
                         if (!is_array($columns[$tcakey])) {
                             $columns[$tcakey] = array();
