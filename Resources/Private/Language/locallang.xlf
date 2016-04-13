@@ -213,6 +213,9 @@
 			<trans-unit id="tx_mask.field.link.wizard.scrollbars">
 				<source>Scrollbars</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.link.wizard.allowed_extensions">
+				<source>Allowed File Extensions (all if empty)</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.link.file">
 				<source>Disable File:</source>
 			</trans-unit>

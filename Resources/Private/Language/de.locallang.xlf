@@ -198,6 +198,24 @@
 			<trans-unit id="tx_mask.field.link.default">
 				<target>Standard</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.link.wizard.height">
+				<source>Höhe</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.link.wizard.width">
+				<source>Breite</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.link.wizard.state">
+				<source>Status</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.link.wizard.menubar">
+				<source>Menübar</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.link.wizard.scrollbars">
+				<source>Scrollbars</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.link.wizard.allowed_extensions">
+				<source>Erlaubte Dateiendungen (Alle wenn leer)</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.link.file">
 				<target>Deaktiviere Datei:</target>
 			</trans-unit>

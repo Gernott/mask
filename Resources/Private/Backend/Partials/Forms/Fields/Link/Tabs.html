@@ -25,6 +25,18 @@
 			<f:render partial="Forms/Eval/UniqueInPid" arguments="{key:key, elementKey:storage.key, field: field}" />
 		</div>
 	</div>
+	<div class="row">
+		<div class="form-group col-sm-6">
+			<label class="t3js-formengine-label">
+				<f:translate key="tx_mask.field.link.wizard.allowed_extensions" />
+			</label>
+			<div class="t3js-formengine-field-item">
+				<div class="form-control-wrap" style="">
+					<input class="form-control" name="tx_mask_tools_maskmask[storage][tca][--index--][config][wizards][link][params][allowedExtensions]" type="text" value="{field.config.wizards.link.params.allowedExtensions}" title="allowedExtensions" placeholder="commaseperated list of file extensions" />
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 <div role="tabpanel" class="tab-pane" id="wizards_{key}">
 	<div class="row">
@@ -34,7 +46,7 @@
 			</label>
 			<div class="t3js-formengine-field-item">
 				<div class="form-control-wrap" style="">
-					<input class="tx_mask_fieldcontent_jsopenparams" name="tx_mask_tools_maskmask[dummy][--index--][height]" required="required" data-property="height" type="number" value="{mask:jsOpenParams(fieldKey:'{key}', field:'{field}', elementKey:'{elementKey}', property:'height')}" title="height" />
+					<input class="tx_mask_fieldcontent_jsopenparams form-control" name="tx_mask_tools_maskmask[dummy][--index--][height]" required="required" data-property="height" type="number" value="{mask:jsOpenParams(fieldKey:'{key}', field:'{field}', elementKey:'{elementKey}', property:'height')}" title="height" />
 				</div>
 			</div>
 		</div>
@@ -44,7 +56,7 @@
 			</label>
 			<div class="t3js-formengine-field-item">
 				<div class="form-control-wrap" style="">
-					<input class="tx_mask_fieldcontent_jsopenparams" name="tx_mask_tools_maskmask[dummy][--index--][width]" required="required" data-property="width" type="number" value="{mask:jsOpenParams(fieldKey:'{key}', field:'{field}', elementKey:'{elementKey}', property:'width')}" title="width" />
+					<input class="tx_mask_fieldcontent_jsopenparams form-control" name="tx_mask_tools_maskmask[dummy][--index--][width]" required="required" data-property="width" type="number" value="{mask:jsOpenParams(fieldKey:'{key}', field:'{field}', elementKey:'{elementKey}', property:'width')}" title="width" />
 				</div>
 			</div>
 		</div>
