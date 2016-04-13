@@ -36,7 +36,7 @@ class InlineHelper
 
     /**
      * StorageRepository
-     * 
+     *
      * @var \MASK\Mask\Domain\Repository\StorageRepository
      */
     protected $storageRepository;
@@ -44,7 +44,7 @@ class InlineHelper
     /**
      * @param \MASK\Mask\Domain\Repository\StorageRepository $storageRepository
      */
-    public function __construct(\MASK\Mask\Domain\Repository\StorageRepository $storageRepository)
+    public function __construct(\MASK\Mask\Domain\Repository\StorageRepository $storageRepository = null)
     {
         if (!$storageRepository) {
             $this->storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
