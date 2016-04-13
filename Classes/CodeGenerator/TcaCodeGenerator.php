@@ -213,8 +213,8 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                             $tcavalue[$fieldkey]["foreign_table"] = $tcakey;
                         }
 
-                        // set date ranges if date field
-                        if ($fieldkey == "config" && $tcavalue[$fieldkey]["dbType"] == "date") {
+                        // set date ranges if date or datetime field
+                        if ($fieldkey == "config" && ($tcavalue[$fieldkey]["dbType"] == "date" || $tcavalue[$fieldkey]["dbType"] == "datetime")) {
                             if ($tcavalue[$fieldkey]["range"]["upper"] != "") {
                                 $date = new \DateTime($tcavalue[$fieldkey]["range"]["upper"]);
                                 $tcavalue[$fieldkey]["range"]["upper"] = $date->getTimestamp() + 86400;
