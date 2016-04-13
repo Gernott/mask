@@ -10,7 +10,7 @@ namespace MASK\Mask\ViewHelpers;
  * @author Benjamin Butschell bb@webprofil.at>
  *
  */
-class EvalViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class JsOpenParamsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
 
     /**
@@ -30,16 +30,16 @@ class EvalViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
     protected $fieldHelper;
 
     /**
-     * Checks if a $evalValue is set in a field
+     * Returns value from jsopenParams
      *
      * @param string $fieldKey TCA Type
      * @param string $elementKey TCA Type
-     * @param string $evalValue value to search for
+     * @param string $property value to search for
      * @param array $field
      * @return boolean $evalValue is set
      * @author Benjamin Butschell bb@webprofil.at>
      */
-    public function render($fieldKey, $elementKey, $evalValue, $field = NULL)
+    public function render($fieldKey, $elementKey, $property, $field = NULL)
     {
         $this->generalUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Utility\\GeneralUtility');
         $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
@@ -54,6 +54,6 @@ class EvalViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
         } else {
             $type = $this->fieldHelper->getFieldType($fieldKey, $elementKey);
         }
-        return $this->generalUtility->isEvalValueSet($fieldKey, $evalValue, $type);
+        return $this->generalUtility->getJsOpenParamValue($fieldKey, $property, $type);
     }
 }

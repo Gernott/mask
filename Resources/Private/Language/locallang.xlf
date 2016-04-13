@@ -85,7 +85,7 @@
 				<source>Don't allow spaces</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.null">
-				<source>Add checkbox to for setting field NULL</source>
+				<source>Add checkbox for setting field NULL</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.num">
 				<source>Only "0-9" characters</source>
@@ -197,6 +197,21 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.field.link.default">
 				<source>Default</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.link.wizard.height">
+				<source>Height</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.link.wizard.width">
+				<source>Width</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.link.wizard.state">
+				<source>Status</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.link.wizard.menubar">
+				<source>Menubar</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.link.wizard.scrollbars">
+				<source>Scrollbars</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.link.file">
 				<source>Disable File:</source>
