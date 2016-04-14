@@ -557,9 +557,21 @@ function validateFields() {
 	jQuery("form input").unbind("invalid").bind('invalid', function (e) {
 		// get error message from element
 		var errorMessage = jQuery(this).attr("data-error");
+
 		// search correct head to body for clicking it
 		var body = jQuery(this).closest(".tx_mask_field");
 		var head = findHeadByBody(body);
+
+		// open correct tab
+		var tabBody = jQuery(this).closest(".tab-pane");
+		var tabHead = jQuery(".t3js-tabmenu-item A[href='#" + jQuery(tabBody).attr("id") + "']").parent("LI");
+		if (jQuery(tabBody).size() > 0) {
+			jQuery(".tx_mask_field .t3js-tabmenu-item").removeClass("active");
+			jQuery(".tx_mask_field .tab-pane").removeClass("active");
+			jQuery(tabBody).addClass("active");
+			jQuery(tabHead).addClass("active");
+		}
+
 		e.target.setCustomValidity("");
 		if (!e.target.validity.valid) {
 			// click head to make field visible
