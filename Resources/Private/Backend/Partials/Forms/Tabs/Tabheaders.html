@@ -24,9 +24,13 @@
 	</f:case>
 	<f:case value="Text">
 		<f:render partial="Forms/Tabs/Validation" arguments="{key: key}" />
+		<f:render partial="Forms/Tabs/Wizards" arguments="{key: key}" />
+		<f:render partial="Forms/Tabs/Extended" arguments="{key: key}" />
 	</f:case>
 	<f:case value="Richtext">
 		<f:render partial="Forms/Tabs/Validation" arguments="{key: key}" />
+		<f:render partial="Forms/Tabs/Wizards" arguments="{key: key}" />
+		<f:render partial="Forms/Tabs/Extended" arguments="{key: key}" />
 	</f:case>
 	<f:case value="Check">
 	</f:case>

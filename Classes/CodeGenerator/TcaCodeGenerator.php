@@ -225,6 +225,11 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                             }
                         }
 
+                        // set correct rendertype if format (code highlighting) is set in text tca
+                        if ($fieldkey == "config" && $tcavalue[$fieldkey]["format"] != "") {
+                            $tcavalue[$fieldkey]["renderType"] = "t3editor";
+                        }
+
                         // merge user inputs with file array
                         if (!is_array($columns[$tcakey])) {
                             $columns[$tcakey] = array();

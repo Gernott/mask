@@ -136,7 +136,7 @@ jQuery(document).ready(function () {
 		editInlineFields();
 		// Index in Arrays schreiben und inline-elemente zu ihren Eltern zuordnen
 		jQuery(".tx_mask_fieldcontent").each(function (index, field) {
-			var inputs = jQuery(this).find("INPUT, SELECT");
+			var inputs = jQuery(this).find("INPUT, SELECT, TEXTAREA");
 			// If the field is an line-field
 			if (jQuery(field).find(".inline-container").size() > 0) {
 				jQuery.each(inputs, function (inputIndex, input) {

@@ -312,6 +312,39 @@
 			<trans-unit id="tx_mask.field.text.default">
 				<target>Standard</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.text.wrap">
+				<source>Wrap deaktivieren</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.text.format">
+				<source>T3-Editor</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.text.format.none">
+				<source>-</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.text.format.html">
+				<source>HTML</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.text.format.typoscript">
+				<source>TypoScript</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.text.format.javascript">
+				<source>Javascript</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.text.format.css">
+				<source>CSS</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.text.format.xml">
+				<source>XML</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.text.format.php">
+				<source>PHP</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.text.format.sparql">
+				<source>SPARQL</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.text.format.mixed">
+				<source>Mixed</source>
+			</trans-unit>
 
 
 			<trans-unit id="tx_mask.content.title">

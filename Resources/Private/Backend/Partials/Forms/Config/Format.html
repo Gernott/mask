@@ -1,0 +1,19 @@
+{namespace mask=MASK\Mask\ViewHelpers}
+<label class="t3js-formengine-label">
+	<f:translate key="tx_mask.field.text.format" />
+</label>
+<div class="t3js-formengine-field-item">
+	<div class="form-control-wrap" style="">
+		<select name="tx_mask_tools_maskmask[storage][tca][--index--][config][format]" class="form-control" title="format" >
+			<option {f:if(condition:'{field.config.format} == \'\'', then:'selected=selected')} value=""><f:translate key="tx_mask.field.text.format.none"/></option>
+			<option {f:if(condition:'{field.config.format} == \'html\'', then:'selected=selected')} value="html"><f:translate key="tx_mask.field.text.format.html"/></option>
+			<option {f:if(condition:'{field.config.format} == \'typoscript\'', then:'selected=selected')} value="typoscript"><f:translate key="tx_mask.field.text.format.typoscript"/></option>
+			<option {f:if(condition:'{field.config.format} == \'javascript\'', then:'selected=selected')} value="javascript"><f:translate key="tx_mask.field.text.format.javascript"/></option>
+			<option {f:if(condition:'{field.config.format} == \'css\'', then:'selected=selected')} value="css"><f:translate key="tx_mask.field.text.format.css"/></option>
+			<option {f:if(condition:'{field.config.format} == \'xml\'', then:'selected=selected')} value="xml"><f:translate key="tx_mask.field.text.format.xml"/></option>
+			<option {f:if(condition:'{field.config.format} == \'php\'', then:'selected=selected')} value="php"><f:translate key="tx_mask.field.text.format.php"/></option>
+			<option {f:if(condition:'{field.config.format} == \'sparql\'', then:'selected=selected')} value="sparql"><f:translate key="tx_mask.field.text.format.sparql"/></option>
+			<option {f:if(condition:'{field.config.format} == \'mixed\'', then:'selected=selected')} value="mixed"><f:translate key="tx_mask.field.text.format.mixed"/></option>
+		</select>
+	</div>
+</div>
