@@ -107,6 +107,7 @@ jQuery(document).ready(function () {
 		evalFields();
 		linkFields();
 		jsOpenParamsFields();
+		rteTransformFields();
 
 		// Checkbox items:
 		jQuery('.tx_mask_fieldcontent_items').each(function () {
@@ -365,6 +366,18 @@ function jsOpenParamsFields() {
 		});
 		eval = evalValues.join(",");
 		jQuery(item).find('.tx_mask_fieldcontent_jsopenparams_result').val(eval);
+	});
+}
+// Merge rte_transform fields together
+function rteTransformFields() {
+	var fields = jQuery(".tx_mask_tabcell3 .tx_mask_field");
+	jQuery.each(fields, function (i, item) {
+		var rteTransform = "";
+		var mode = jQuery(item).find('.tx_mask_fieldcontent_rte_transform').val();
+		if (mode !== "") {
+			rteTransform = "richtext[]:rte_transform[" + mode + "]";
+			jQuery(item).find('.tx_mask_fieldcontent_rte_transform_result').val(rteTransform);
+		}
 	});
 }
 

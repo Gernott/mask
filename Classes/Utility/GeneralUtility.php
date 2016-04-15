@@ -77,6 +77,27 @@ class GeneralUtility
     }
 
     /**
+     * Returns the rte_transform properties
+     *
+     * @param string $fieldKey TCA Type
+     * @param string $type elementtype
+     * @return string $rte_transform
+     * @author Benjamin Butschell <bb@webprofil.at>
+     */
+    public function getRteTransformMode($fieldKey, $type = "tt_content")
+    {
+        $storage = $this->storageRepository->load();
+        $transformMode = "";
+        $matches = array();
+        if ($storage[$type]["tca"][$fieldKey]["defaultExtras"] != "") {
+            $re = "/(rte_transform\\[([a-z=_]+)\\])/";
+            preg_match($re, $storage[$type]["tca"][$fieldKey]["defaultExtras"], $matches);
+            $transformMode = end($matches);
+        }
+        return $transformMode;
+    }
+
+    /**
      * Returns value for jsopenparams property
      *
      * @param string $fieldKey TCA Type
