@@ -529,6 +529,9 @@
 			<trans-unit id="tx_mask.tabs.appearance">
 				<source>Verhalten und Aussehen</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.tabs.localization">
+				<source>Lokalisierung</source>
+			</trans-unit>
 
 		</body>
 	</file>
