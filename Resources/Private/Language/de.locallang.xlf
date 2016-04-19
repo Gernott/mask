@@ -180,6 +180,33 @@
 			<trans-unit id="tx_mask.field.inline.maxitems">
 				<target>Maximum Anzahl</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.collapse_all">
+				<source>Alle Elemente standardmäßig einklappen</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.expand_single">
+				<source>Akkordion-Modus (Nur ein aufgeklapptes Element erlauben)</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.new_record_link_title">
+				<source>Beschriftung von "Create new" Button</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.use_sortable">
+				<source>Drag'n'Drop aktivieren</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.show_possible_localization_records">
+				<source>
+					Zeige unlokalisierte Records welche in der Originalsprache vorhanden sind, aber noch nicht lokalisiert sind
+				</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.show_synchronization_link">
+				<source>
+					Zeige den "Synchronize" Button um auf eine 1:1 Übersetzung mit der Originalsprache upzudaten
+				</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.show_all_localization_link">
+				<source>
+					Zeige den "Lokalisiere alle Records" Button um unlokalisierte Datensätze zu holen
+				</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.integer.size">
 				<target>Größe des Feldes</target>
 			</trans-unit>
@@ -499,6 +526,10 @@
 			<trans-unit id="tx_mask.tabs.wizards">
 				<source>Wizards</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.tabs.appearance">
+				<source>Verhalten und Aussehen</source>
+			</trans-unit>
+
 		</body>
 	</file>
 </xliff>

@@ -180,6 +180,27 @@
 			<trans-unit id="tx_mask.field.inline.maxitems">
 				<source>Maximum items</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.collapse_all">
+				<source>Collapse items by default</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.expand_single">
+				<source>Accordion-Mode (only allow one opened item)</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.new_record_link_title">
+				<source>Label of "Create new" Button</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.use_sortable">
+				<source>Activate Drag'n'Drop</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.show_possible_localization_records">
+				<source>Show unlocalized records which are in the original language, but not yet localized</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.show_synchronization_link">
+				<source>Show a “synchronize” link to update to a 1:1 translation with the original language</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.show_all_localization_link">
+				<source>Show the “localize all records” link to fetch untranslated records from the original language</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.integer.size">
 				<source>Size of Formfield</source>
 			</trans-unit>
@@ -501,6 +522,9 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.tabs.wizards">
 				<source>Wizards</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.tabs.appearance">
+				<source>Appearance and Behaviour</source>
 			</trans-unit>
 
 		</body>
