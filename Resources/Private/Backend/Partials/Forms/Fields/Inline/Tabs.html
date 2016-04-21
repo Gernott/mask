@@ -14,7 +14,16 @@
 			<f:render partial="Forms/Config/Appearance/NewRecordLinkTitle" arguments="{key:key, elementKey:storage.key, field: field}" />
 		</div>
 		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Config/Appearance/LevelLinksPosition" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+
+	</div>
+	<div class="row">
+		<div class="form-group col-sm-6">
 			<f:render partial="Forms/Config/Appearance/UseSortable" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<!--<f:render partial="Forms/Config/Appearance/UseSortable" arguments="{key:key, elementKey:storage.key, field: field}" />-->
 		</div>
 	</div>
 </div>
@@ -42,7 +51,15 @@
 			<f:render partial="Forms/Config/Appearance/ShowAllLocalizationLink" arguments="{key:key, elementKey:storage.key, field: field}" />
 		</div>
 		<div class="form-group col-sm-6">
-<!--			<f:render partial="Forms/Config/Appearance/showPossibleLocalizationRecords" arguments="{key:key, elementKey:storage.key, field: field}" />-->
+			<f:render partial="Forms/Config/Appearance/ShowRemovedLocalizationRecords" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Config/Behaviour/LocalizationMode" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Config/Behaviour/LocalizeChildrenAtParentLocalization" arguments="{key:key, elementKey:storage.key, field: field}" />
 		</div>
 	</div>
 </div>

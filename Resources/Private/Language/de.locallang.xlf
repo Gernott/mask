@@ -207,6 +207,36 @@
 					Zeige den "Lokalisiere alle Records" Button um unlokalisierte Datensätze zu holen
 				</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.show_removed_localization_records">
+				<source>Zeige entfernte lokalisierte Records</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.level_links_position">
+				<source>Position des "Create new" Button</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.level_links_position.top">
+				<source>Oberhalb</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.level_links_position.bottom">
+				<source>Unterhalb</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.level_links_position.both">
+				<source>Beides</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.level_links_position.none">
+				<source>Ausblenden</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.localization_mode">
+				<source>Lokalisierungs-Modus</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.localization_mode.select">
+				<source>Datensätze lokalisieren (select)</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.localization_mode.keep">
+				<source>Nicht lokalisieren, Datensätze der Originalsprache verwenden (keep)</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.localize_children_at_parent_localization">
+				<source>Datensätze mit Conten-Element lokaliseren</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.integer.size">
 				<target>Größe des Feldes</target>
 			</trans-unit>

@@ -446,7 +446,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
         $tableTca["ctrl"]["title"] = $table;
         $tableTca["ctrl"]["label"] = $firstField;
         $tableTca["ctrl"]["searchFields"] = implode(",", $fields);
-        $tableTca["ctrl"]["iconfile"] = "";
+        $tableTca["ctrl"]["iconfile"] = "EXT:mask/ext_icon.svg";
         $tableTca["interface"]["showRecordFieldList"] = "sys_language_uid, l10n_parent, l10n_diffsource, hidden, " . implode(", ", $fields);
         $tableTca["types"]["1"]["showitem"] = $prependTabs . implode(", ", $fields) . ", --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime";
 
