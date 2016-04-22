@@ -52,6 +52,15 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                     // Generate Field TCA
                     $fieldTCA = $this->generateFieldsTca($subJson["tca"]);
                     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns($table, $fieldTCA);
+
+                    // set label for inline
+                    if (!empty($json["tt_content"]["tca"][$table]["inlineLabel"])) {
+                        $fields = array_keys($subJson["tca"]);
+                        if (array_search($json["tt_content"]["tca"][$table]["inlineLabel"], $fields) !== FALSE) {
+                            $GLOBALS["TCA"][$table]["ctrl"]['label'] = $json["tt_content"]["tca"][$table]["inlineLabel"];
+                        }
+                    }
+                    
                     // hide table in list view
                     $GLOBALS["TCA"][$table]['ctrl']['hideTable'] = TRUE;
                 }
@@ -242,6 +251,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                         unset($columns[$tcakey]["key"]);
                         unset($columns[$tcakey]["rte"]);
                         unset($columns[$tcakey]["inlineParent"]);
+                        unset($columns[$tcakey]["inlineLabel"]);
 
                         $columns[$tcakey] = $generalUtility->removeBlankOptions($columns[$tcakey]);
                         $columns[$tcakey] = $generalUtility->replaceKey($columns[$tcakey], $tcakey);
@@ -432,11 +442,16 @@ class TcaCodeGenerator extends AbstractCodeGenerator
             }
         }
 
+//        if (!empty($tca["inlineLabel"])) {
+//            $labelField = $tca["inlineLabel"];
+//        } else {
         // take first field for inline label
         if ($fields) {
-            $firstField = $generalUtility->getFirstNoneTabField($fields);
+            $labelField = $generalUtility->getFirstNoneTabField($fields);
         }
-
+//        }
+//        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($tca);
+//        exit();
         // get parent table of this inline table
         $parentTable = $fieldHelper->getFieldType($table);
 
@@ -444,7 +459,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
         $tableTca = $tcaTemplate;
 
         $tableTca["ctrl"]["title"] = $table;
-        $tableTca["ctrl"]["label"] = $firstField;
+        $tableTca["ctrl"]["label"] = $labelField;
         $tableTca["ctrl"]["searchFields"] = implode(",", $fields);
         $tableTca["ctrl"]["iconfile"] = "EXT:mask/ext_icon.svg";
         $tableTca["interface"]["showRecordFieldList"] = "sys_language_uid, l10n_parent, l10n_diffsource, hidden, " . implode(", ", $fields);
