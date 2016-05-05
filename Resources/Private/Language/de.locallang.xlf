@@ -300,6 +300,15 @@
 			<trans-unit id="tx_mask.field.richtext.default">
 				<target>Standard</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.select.file_folder">
+				<source>Dateien aus Ordner</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.file_folder_ext_list">
+				<source>Nur Dateien mit diesen Dateiendungen</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.file_folder_recursions">
+				<source>Rekursionstiefe des Verzeichnis</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.select.size">
 				<target>Größe</target>
 			</trans-unit>
@@ -561,6 +570,9 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.tabs.localization">
 				<source>Lokalisierung</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.tabs.files">
+				<source>Dateien</source>
 			</trans-unit>
 
 		</body>
