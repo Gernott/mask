@@ -204,6 +204,13 @@ UL.tx_mask_fieldtypes .tx_mask_fieldcontent_highlight {
 	border-bottom: 1px solid #ccc;
 	border-right: 1px solid #ccc;
 }
+.tx_mask_fieldcontent LABEL.check-item {
+    float: left;
+    margin: 11px 11px;
+}
+.tx_mask_fieldcontent .t3js-formengine-field-item.check-item {
+    float: left;
+}
 
 
 /* fontIconPicker main CSS file {@link https://github.com/micc83/fontIconPicker} */

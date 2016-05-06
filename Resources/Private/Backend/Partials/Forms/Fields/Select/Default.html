@@ -26,7 +26,7 @@
 		</label>
 		<div class="t3js-formengine-field-item">
 			<div class="form-control-wrap" style="">
-				<input id="select_size" name="tx_mask_tools_maskmask[storage][tca][--index--][config][size]" type="number" class="form-control" title="size" placeholder="cols" min="1" value="{field.config.size}"/>
+				<input id="select_size" name="tx_mask_tools_maskmask[storage][tca][--index--][config][size]" type="number" class="form-control" title="size" placeholder="size of selectbox" min="1" value="{field.config.size}"/>
 			</div>
 		</div>
 	</div>
@@ -38,7 +38,9 @@
 		</label>
 		<div class="t3js-formengine-field-item">
 			<div class="form-control-wrap" style="">
-				<textarea id="select_int" name="tx_mask_tools_maskmask[dummy][--index--][int]" class="form-control tx_mask_fieldcontent_items" rows="10" title="cols"><mask:Items items="{field.config.items}" /></textarea>
+				<textarea id="select_int" name="tx_mask_tools_maskmask[dummy][--index--][int]" class="form-control tx_mask_fieldcontent_items" rows="10" placeholder="option1,1
+option2,2
+option3,3" ><mask:Items items="{field.config.items}" /></textarea>
 				<div class="tx_mask_fieldcontent_itemsresult"></div>
 			</div>
 		</div>

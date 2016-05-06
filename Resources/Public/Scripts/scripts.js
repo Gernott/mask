@@ -62,7 +62,14 @@ jQuery(document).ready(function () {
 
 		// if active field was found, new field is inserted after this
 		if (activeFound) {
-			jQuery(activeBody).after(fieldTemplate);
+			if (jQuery(activeHead).hasClass("id_Inline")) {
+				var tempActiveHead = jQuery(activeHead).find(".inline-container > LI:last");
+				var tempActiveBody = findBodyByHead(tempActiveHead);
+				jQuery(tempActiveBody).after(fieldTemplate);
+			} else {
+				jQuery(activeBody).after(fieldTemplate);
+			}
+
 		} else {
 			jQuery(".tx_mask_tabcell3").append(fieldTemplate);
 		}

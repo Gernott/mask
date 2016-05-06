@@ -60,7 +60,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                             $GLOBALS["TCA"][$table]["ctrl"]['label'] = $json["tt_content"]["tca"][$table]["inlineLabel"];
                         }
                     }
-                    
+
                     // hide table in list view
                     $GLOBALS["TCA"][$table]['ctrl']['hideTable'] = TRUE;
                 }
@@ -208,7 +208,12 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                                     ),
                                 ),
                             );
-                            $allowedFileExtensions = $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'];
+
+                            if ($tcavalue["config"]["filter"]["0"]["parameters"]["allowedFileExtensions"] != "") {
+                                $allowedFileExtensions = $tcavalue["config"]["filter"]["0"]["parameters"]["allowedFileExtensions"];
+                            }  else {
+                                $allowedFileExtensions = $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'];
+                            }
                             $columns[$tcakey]["config"] = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig($fieldName, $customSettingOverride, $allowedFileExtensions);
                         }
 
@@ -442,16 +447,11 @@ class TcaCodeGenerator extends AbstractCodeGenerator
             }
         }
 
-//        if (!empty($tca["inlineLabel"])) {
-//            $labelField = $tca["inlineLabel"];
-//        } else {
         // take first field for inline label
         if ($fields) {
             $labelField = $generalUtility->getFirstNoneTabField($fields);
         }
-//        }
-//        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($tca);
-//        exit();
+
         // get parent table of this inline table
         $parentTable = $fieldHelper->getFieldType($table);
 
