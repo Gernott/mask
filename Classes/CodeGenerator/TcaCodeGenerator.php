@@ -60,6 +60,12 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                             $GLOBALS["TCA"][$table]["ctrl"]['label'] = $json["tt_content"]["tca"][$table]["inlineLabel"];
                         }
                     }
+                    // set icon for inline
+                    if (!empty($json["tt_content"]["tca"][$table]["inlineIcon"])) {
+                        $GLOBALS["TCA"][$table]["ctrl"]['iconfile'] = $json["tt_content"]["tca"][$table]["inlineIcon"];
+                    } else {
+                        $GLOBALS["TCA"][$table]["ctrl"]['iconfile'] = "EXT:mask/ext_icon.svg";
+                    }
 
                     // hide table in list view
                     $GLOBALS["TCA"][$table]['ctrl']['hideTable'] = TRUE;
@@ -209,9 +215,19 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                                 ),
                             );
 
+                            $customSettingOverride["appearance"] = $tcavalue["config"]["appearance"];
+                            if ($customSettingOverride["appearance"]["fileUploadAllowed"] == "") {
+                                $customSettingOverride["appearance"]["fileUploadAllowed"] = "false";
+                            }
+                            if ($customSettingOverride["appearance"]["useSortable"] == "") {
+                                $customSettingOverride["appearance"]["useSortable"] = "0";
+                            } else {
+                                $customSettingOverride["appearance"]["useSortable"] = "1";
+                            }
+
                             if ($tcavalue["config"]["filter"]["0"]["parameters"]["allowedFileExtensions"] != "") {
                                 $allowedFileExtensions = $tcavalue["config"]["filter"]["0"]["parameters"]["allowedFileExtensions"];
-                            }  else {
+                            } else {
                                 $allowedFileExtensions = $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'];
                             }
                             $columns[$tcakey]["config"] = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig($fieldName, $customSettingOverride, $allowedFileExtensions);
@@ -257,6 +273,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                         unset($columns[$tcakey]["rte"]);
                         unset($columns[$tcakey]["inlineParent"]);
                         unset($columns[$tcakey]["inlineLabel"]);
+                        unset($columns[$tcakey]["inlineIcon"]);
 
                         $columns[$tcakey] = $generalUtility->removeBlankOptions($columns[$tcakey]);
                         $columns[$tcakey] = $generalUtility->replaceKey($columns[$tcakey], $tcakey);
@@ -461,7 +478,6 @@ class TcaCodeGenerator extends AbstractCodeGenerator
         $tableTca["ctrl"]["title"] = $table;
         $tableTca["ctrl"]["label"] = $labelField;
         $tableTca["ctrl"]["searchFields"] = implode(",", $fields);
-        $tableTca["ctrl"]["iconfile"] = "EXT:mask/ext_icon.svg";
         $tableTca["interface"]["showRecordFieldList"] = "sys_language_uid, l10n_parent, l10n_diffsource, hidden, " . implode(", ", $fields);
         $tableTca["types"]["1"]["showitem"] = $prependTabs . implode(", ", $fields) . ", --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime";
 

@@ -174,6 +174,9 @@
 			<trans-unit id="tx_mask.field.float.range.upper">
 				<target>Größter Wert</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.file_upload_allowed">
+				<source>Erlaube Dateiupload</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.allowed_file_extensions">
 				<source>Erlaubte Dateiendungen</source>
 			</trans-unit>
@@ -239,6 +242,12 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.localize_children_at_parent_localization">
 				<source>Datensätze mit Conten-Element lokaliseren</source>
+			</trans-unit>
+						<trans-unit id="tx_mask.field.inline.inline_label">
+				<source>Key des Feldes das für IRRE-Label verwendet wird (tx_mask_..)</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.inline_icon">
+				<source>Pfad zu Icon das für IRRE verwendet wird</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.integer.size">
 				<target>Größe des Feldes</target>
