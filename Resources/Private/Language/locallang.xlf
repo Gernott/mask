@@ -453,7 +453,7 @@
 				<source>Save and create further element</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.saveandexit">
-				<source>Save and Exit</source>
+				<source>Save and close</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.html.header">
 				<source>HTML Code Example</source>
