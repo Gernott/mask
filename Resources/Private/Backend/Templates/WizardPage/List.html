@@ -18,23 +18,23 @@
 							<table cellspacing="0" cellpadding="0" border="0" class="table table-striped table-hover">
 								<thead>
 									<tr>
-										<td nowrap="nowrap" class="col-icon"><f:translate key="tx_mask.page.image" /></td>
-								<td nowrap="nowrap"><f:translate key="tx_mask.page.titleuid" /></td>
-								<td nowrap="nowrap" class="col-title"><f:translate key="tx_mask.page.description" /></td>
-								<td nowrap="nowrap" class="col-control">&nbsp;</td>
-								</tr>
+										<th class="text-nowrap col-icon"><f:translate key="tx_mask.page.image" /></th>
+										<th class="text-nowrap"><f:translate key="tx_mask.page.titleuid" /></th>
+										<th class="text-nowrap col-title"><f:translate key="tx_mask.page.description" /></th>
+										<th class="text-nowrap col-control">&nbsp;</th>
+									</tr>
 								</thead>
 								<tbody>
 								<f:for each="{backendLayouts}" as="layout">
 									<tr>
 										<td>
-									<f:if condition='{layout.icon}'>
-										<img src="/uploads/media/{layout.icon}" />
-									</f:if
-									></td>
-									<td><f:link.action action="edit" arguments="{layout : layout}"><p><strong>{layout.title}</strong><br />{layout.uid}</p></f:link.action></td>
-									<td><p>{layout.description}</p></td>
-									<td><f:link.action action="edit" arguments="{layout : layout}" class="btn btn-default"><core:icon identifier="actions-document-open" /></f:link.action></td>
+											<f:if condition='{layout.icon}'>
+												<img src="/uploads/media/{layout.icon}" />
+											</f:if>
+										</td>
+										<td><f:link.action action="edit" arguments="{layout : layout}"><p><strong>{layout.title}</strong><br />{layout.uid}</p></f:link.action></td>
+										<td><p>{layout.description}</p></td>
+										<td><f:link.action action="edit" arguments="{layout : layout}" class="btn btn-default"><core:icon identifier="actions-document-open" /></f:link.action></td>
 									</tr>
 								</f:for>
 								</tbody>
