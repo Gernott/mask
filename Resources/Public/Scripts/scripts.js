@@ -185,6 +185,8 @@ jQuery(document).ready(function () {
 			var body = jQuery(this).closest(".tx_mask_field");
 			showInlineContainer(body);
 
+			showTcaSettings(body);
+
 			// Show correct label and key in tabcell2
 			var fieldIndex = jQuery(this).closest(".tx_mask_field").index();
 			jQuery(this).closest(".tx_mask_field").find("INPUT[name='tx_mask_tools_maskmask[storage][elements][columns][]']").removeAttr("disabled");
@@ -204,6 +206,8 @@ jQuery(document).ready(function () {
 			// Show correct label and key in tabcell2
 			var fieldIndex = jQuery(this).closest(".tx_mask_field").index();
 
+			hideTcaSettings(body);
+
 			jQuery(this).closest(".tx_mask_field").find("INPUT[name='tx_mask_tools_maskmask[storage][elements][columns][]']").attr("disabled", "disabled");
 			jQuery(".tx_mask_tabcell2 LI").eq(fieldIndex).find(".id_keytext").html(jQuery(this).val());
 			jQuery(".tx_mask_tabcell2 LI").eq(fieldIndex).find(".id_labeltext").html(
@@ -221,6 +225,15 @@ jQuery(document).ready(function () {
 	});
 
 });
+
+function hideTcaSettings(body) {
+	jQuery(body).find("INPUT[name*='tx_mask_tools_maskmask[storage][tca]'], SELECT[name*='tx_mask_tools_maskmask[storage][tca]'], TEXTAREA[name*='tx_mask_tools_maskmask[storage][tca]']").attr("disabled", "disabled");
+	jQuery(body).find(".t3js-tabmenu-item:not(.active)").hide();
+}
+function showTcaSettings(body) {
+	jQuery(body).find("INPUT[name*='tx_mask_tools_maskmask[storage][tca]'], SELECT[name*='tx_mask_tools_maskmask[storage][tca]'], TEXTAREA[name*='tx_mask_tools_maskmask[storage][tca]']").removeAttr("disabled");
+	jQuery(body).find(".t3js-tabmenu-item").show();
+}
 
 function initializeTabs(body) {
 	var uniqueKey = getUniqueKey();
