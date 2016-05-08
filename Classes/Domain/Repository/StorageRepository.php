@@ -233,6 +233,9 @@ class StorageRepository
             }
         }
 
+		// sort content elements by key before saving
+		ksort($json["tt_content"]["elements"]);
+
         // Save
         $encodedJson = "";
 
