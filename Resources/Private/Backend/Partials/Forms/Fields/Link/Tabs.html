@@ -1,0 +1,114 @@
+{namespace mask=MASK\Mask\ViewHelpers}
+<div role="tabpanel" class="tab-pane" id="validation_{key}">
+	<div class="row">
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/Required" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/Trim" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/Unique" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/UniqueInPid" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group col-sm-6">
+			<label class="t3js-formengine-label">
+				<f:translate key="tx_mask.field.link.wizard.allowed_extensions" />
+			</label>
+			<div class="t3js-formengine-field-item">
+				<div class="form-control-wrap" style="">
+					<input class="form-control" name="tx_mask_tools_maskmask[storage][tca][--index--][config][wizards][link][params][allowedExtensions]" type="text" value="{field.config.wizards.link.params.allowedExtensions}" title="allowedExtensions" placeholder="commaseperated list of file extensions" />
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group col-sm-12">
+			<f:translate key="tx_mask.field.link.file" /><input name="tx_mask_tools_maskmask[dummy][--index--][file]" type="checkbox" value="file" {f:if(condition: '{mask:linkoption(fieldKey:\'{key}\', elementKey:\'{elementKey}\', evalValue:\'file\')}', then: 'checked="checked"', else: '')} class="tx_mask_fieldcontent_link" />
+																				 <f:translate key="tx_mask.field.link.mail" /><input name="tx_mask_tools_maskmask[dummy][--index--][mail]" type="checkbox" value="mail" {f:if(condition: '{mask:linkoption(fieldKey:\'{key}\', elementKey:\'{elementKey}\', evalValue:\'mail\')}', then: 'checked="checked"', else: '')} class="tx_mask_fieldcontent_link" />
+																				 <f:translate key="tx_mask.field.link.page" /><input name="tx_mask_tools_maskmask[dummy][--index--][page]" type="checkbox" value="page" {f:if(condition: '{mask:linkoption(fieldKey:\'{key}\', elementKey:\'{elementKey}\', evalValue:\'page\')}', then: 'checked="checked"', else: '')} class="tx_mask_fieldcontent_link" />
+																				 <f:translate key="tx_mask.field.link.folder" /><input name="tx_mask_tools_maskmask[dummy][--index--][folder]" type="checkbox" value="folder" {f:if(condition: '{mask:linkoption(fieldKey:\'{key}\', elementKey:\'{elementKey}\', evalValue:\'folder\')}', then: 'checked="checked"', else: '')} class="tx_mask_fieldcontent_link" />
+																				 <f:translate key="tx_mask.field.link.url" /><input name="tx_mask_tools_maskmask[dummy][--index--][url]" type="checkbox" value="url" {f:if(condition: '{mask:linkoption(fieldKey:\'{key}\', elementKey:\'{elementKey}\', evalValue:\'url\')}', then: 'checked="checked"', else: '')} class="tx_mask_fieldcontent_link" />
+		</div>
+	</div>
+</div>
+<div role="tabpanel" class="tab-pane" id="wizards_{key}">
+	<div class="row">
+		<div class="form-group col-sm-6">
+			<label class="t3js-formengine-label">
+				<f:translate key="tx_mask.field.link.wizard.height" />
+			</label>
+			<div class="t3js-formengine-field-item">
+				<div class="form-control-wrap" style="">
+					<input class="tx_mask_fieldcontent_jsopenparams form-control" name="tx_mask_tools_maskmask[dummy][--index--][height]" required="required" data-property="height" type="number" value="{mask:jsOpenParams(fieldKey:'{key}', field:'{field}', elementKey:'{elementKey}', property:'height')}" title="height" />
+				</div>
+			</div>
+		</div>
+		<div class="form-group col-sm-6">
+			<label class="t3js-formengine-label">
+				<f:translate key="tx_mask.field.link.wizard.width" />
+			</label>
+			<div class="t3js-formengine-field-item">
+				<div class="form-control-wrap" style="">
+					<input class="tx_mask_fieldcontent_jsopenparams form-control" name="tx_mask_tools_maskmask[dummy][--index--][width]" required="required" data-property="width" type="number" value="{mask:jsOpenParams(fieldKey:'{key}', field:'{field}', elementKey:'{elementKey}', property:'width')}" title="width" />
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group col-sm-6">
+			<div class="t3js-formengine-field-item check-item">
+				<div class="form-control-wrap" style="">
+					<input class="tx_mask_fieldcontent_jsopenparams" name="tx_mask_tools_maskmask[dummy][--index--][status]" data-property="status" type="checkbox" {f:if(condition: '{mask:jsOpenParams(fieldKey:\'{key}\', field:\'{field}\', elementKey:\'{elementKey}\', property:\'status\')}', then: 'checked="checked"', else: '')} value="1" title="status" />
+				</div>
+			</div>
+			<label class="t3js-formengine-label check-item">
+				<f:translate key="tx_mask.field.link.wizard.state" />
+			</label>
+		</div>
+		<div class="form-group col-sm-6">
+			<div class="t3js-formengine-field-item check-item">
+				<div class="form-control-wrap" style="">
+					<input class="tx_mask_fieldcontent_jsopenparams" name="tx_mask_tools_maskmask[dummy][--index--][menubar]" data-property="menubar" type="checkbox" {f:if(condition: '{mask:jsOpenParams(fieldKey:\'{key}\', field:\'{field}\', elementKey:\'{elementKey}\', property:\'menubar\')}', then: 'checked="checked"', else: '')} value="1" title="menubar" />
+				</div>
+			</div>
+			<label class="t3js-formengine-label check-item">
+				<f:translate key="tx_mask.field.link.wizard.menubar" />
+			</label>
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group col-sm-6">
+			<div class="t3js-formengine-field-item check-item">
+				<div class="form-control-wrap" style="">
+					<input class="tx_mask_fieldcontent_jsopenparams" name="tx_mask_tools_maskmask[dummy][--index--][scrollbars]" data-property="scrollbars" type="checkbox" {f:if(condition: '{mask:jsOpenParams(fieldKey:\'{key}\', field:\'{field}\', elementKey:\'{elementKey}\', property:\'scrollbars\')}', then: 'checked="checked"', else: '')} value="1" title="scrollbars" />
+				</div>
+			</div>
+			<label class="t3js-formengine-label check-item">
+				<f:translate key="tx_mask.field.link.wizard.scrollbars" />
+			</label>
+		</div>
+	</div>
+</div>
+<div role="tabpanel" class="tab-pane" id="extended_{key}">
+	<div class="row">
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/Null" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Config/Autocomplete" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Config/Mode" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+	</div>
+</div>

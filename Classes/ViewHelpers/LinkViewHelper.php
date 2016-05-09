@@ -16,6 +16,21 @@ class LinkViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
 
     /**
+     * SettingsService
+     *
+     * @var \MASK\Mask\Domain\Service\SettingsService
+     * @inject
+     */
+    protected $settingsService;
+
+    /**
+     * settings
+     *
+     * @var array
+     */
+    protected $extSettings;
+
+    /**
      * Checks Links for BE-module
      *
      * @param object $data the parent object
@@ -25,8 +40,8 @@ class LinkViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
      */
     public function render($data)
     {
-        $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);
-        $url = $extConf['content'] . $data . '.html';
+        $this->extSettings = $this->settingsService->get();
+        $url = $this->extSettings['content'] . $data . '.html';
         if (!file_exists(PATH_site . $url) || !is_file(PATH_site . $url)) {
             $content = '<div class="typo3-message message-error"><strong>' .
                 \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.error', 'mask') .

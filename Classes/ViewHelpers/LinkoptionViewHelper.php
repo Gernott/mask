@@ -16,10 +16,18 @@ class LinkoptionViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
     /**
      * Utility
      *
-     * @var \MASK\Mask\Utility\MaskUtility
+     * @var \MASK\Mask\Utility\GeneralUtility
      * @inject
      */
-    protected $utility;
+    protected $generalUtility;
+
+    /**
+     * Utility
+     *
+     * @var \MASK\Mask\Helper\FieldHelper
+     * @inject
+     */
+    protected $fieldHelper;
 
     /**
      * Checks if a $evalValue is set in a field
@@ -32,8 +40,10 @@ class LinkoptionViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
      */
     public function render($fieldKey, $elementKey, $evalValue)
     {
-        $this->utility = new \MASK\Mask\Utility\MaskUtility($this->objectManager);
-        $type = $this->utility->getFieldType($fieldKey, $elementKey);
-        return $this->utility->isBlindLinkOptionSet($fieldKey, $evalValue, $type);
+        $this->generalUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Utility\\GeneralUtility');
+        $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
+
+        $type = $this->fieldHelper->getFieldType($fieldKey, $elementKey);
+        return $this->generalUtility->isBlindLinkOptionSet($fieldKey, $evalValue, $type);
     }
 }

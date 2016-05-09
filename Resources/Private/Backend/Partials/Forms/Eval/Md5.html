@@ -1,0 +1,9 @@
+{namespace mask=MASK\Mask\ViewHelpers}
+<div class="t3js-formengine-field-item check-item">
+	<div class="form-control-wrap" >
+		<input class="tx_mask_fieldcontent_eval" name="tx_mask_tools_maskmask[dummy][--index--][md5]" type="checkbox" {f:if(condition: '{mask:eval(fieldKey:\'{key}\', field:\'{field}\', elementKey:\'{elementKey}\', evalValue:\'md5\')}', then: 'checked="checked"', else: '')} value="md5" title="Required" />
+	</div>
+</div>
+<label class="t3js-formengine-label check-item">
+	<f:translate key="tx_mask.field.md5" />
+</label>

@@ -55,6 +55,62 @@ Selectbox
 ---------
 Selectbox with own values or relation to other database-table.
 
+Size
+^^^^
+Defines the height of the selectbox. Example: If set to 2, the selectbox get a height of 2 entrys.
+
+AutoSizeMax
+^^^^^^^^^^^
+If set, the height of the selectbox is set to the amount of values, but at maximum to this value.
+
+foreign_table
+^^^^^^^^^^^^^
+Here you can auto-fill the selectbox with values from a databasetable. Just enter the tablename. You can access the value easy with TypoScript. Example: If set to pages, the selectbox is filled with all pages from your project.
+In your fluid-template, you can use <f:cObject typoscriptObjectPath="lib.pages" data="{data}" />
+And in your TypoScript setup you can access to all data of the selected pages-record:
+
+.. code-block:: typoscript
+	lib.pages = CONTENT
+	lib.pages {
+  	table = pages
+	  select {
+	    pidInList = root
+	    recursive = 99
+	    uidInList.field = tx_mask_select
+	  }
+  	renderObj = COA
+	  renderObj {
+	    10 = TEXT
+	    10.field = title
+	    10.wrap = <h1>|</h1>
+	    20 = TEXT
+	    20.field = tstamp
+	    20.strftime = %d.%m.%Y
+	    20.noTrimWrap = |<p>Last update: |</p>|
+	  }
+	}
+
+
+foreign_table_where
+^^^^^^^^^^^^^^^^^^^
+If you use foreign_table and want to filter the values in your selectbox or set the sorting of the selectbox options, you can do this here. Example:
+Sorting by title (Z-A): ORDER BY title DESC
+Only default pages-doctype: AND doktype=1
+
+renderType
+^^^^^^^^^^
+Change the type of the selectbox from singe to multiple, ore use checkboxes or a shuttle instead of a slectbox.
+
+Maxitems
+^^^^^^^^
+If renderType is not set to Selectbox single, you can define the maximum allowed amount of items. The values will be stored commaseparated. So you can use TypoScript split to access to each value.
+
+Items
+^^^^^
+Here you can define static values. It is allowed to use them standalone or in combination with foreign_table. Example with usage of foreign_table:
+Please choose,0
+Note, that the ids must be integers! If you use only static values without using foreign_table, ids should be startwith 1, because 0 resets the state to NULL.
+
 File
 ----
 File-field with using of FAL.

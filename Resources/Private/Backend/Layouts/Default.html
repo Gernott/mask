@@ -1,5 +1,9 @@
-<f:be.container>
-	<link media="all" href="../typo3conf/ext/mask/Resources/Public/Styles/styles.css" type="text/css" rel="stylesheet" />
+<f:be.container
+	pageTitle="Mask"
+	loadJQuery="true"
+	includeCssFiles="{0: '{f:uri.resource(path:\'Styles/styles.css\')}'}"
+	includeJsFiles="{0: '{f:uri.resource(path:\'Scripts/libs.js\')}', 1: '{f:uri.resource(path:\'Scripts/scripts.js\')}'}"
+	>
 	<div class="typo3-fullDoc">
 		<div id="typo3-docheader">
 			<div class="typo3-docheader-functions">
@@ -19,6 +23,4 @@
 			</div>
 		</div>
 	</div>
-	<script src="../typo3conf/ext/mask/Resources/Public/Scripts/libs.js?_cache={f:format.date(date: '', format: 'dmYHis')}"></script>
-	<script src="../typo3conf/ext/mask/Resources/Public/Scripts/scripts.js?_cache={f:format.date(date: '', format: 'dmYHis')}"></script>
 </f:be.container>

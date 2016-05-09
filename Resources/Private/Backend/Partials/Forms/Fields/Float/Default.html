@@ -1,0 +1,20 @@
+{namespace mask=MASK\Mask\ViewHelpers}
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][type]" value="input" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][exclude]" value="1" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][sql][{type}][--index--]" value="double(11,2) DEFAULT '0.00' NOT NULL" />
+<input type="hidden" name="tx_mask_tools_maskmask[dummy][--index--][int]" value="double2" class="tx_mask_fieldcontent_eval" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][eval]" value="double2" class="tx_mask_fieldcontent_evalresult" />
+
+<div class="row">
+	<div class="form-group col-sm-6">
+		<f:render partial="Forms/Config/Default" arguments="{key:key, elementKey:storage.key, field: field}" />
+	</div>
+	<div class="form-group col-sm-6">
+		<f:render partial="Forms/Config/Placeholder" arguments="{key:key, elementKey:storage.key, field: field}" />
+	</div>
+</div>
+<div class="row">
+	<div class="form-group col-sm-6">
+		<f:render partial="Forms/Config/Size" arguments="{key:key, elementKey:storage.key, field: field}" />
+	</div>
+</div>

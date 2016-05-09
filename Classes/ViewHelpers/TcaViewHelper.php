@@ -16,12 +16,12 @@ class TcaViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
 
     /**
-     * Utility
+     * FieldHelper
      *
-     * @var \MASK\Mask\Utility\MaskUtility
+     * @var \MASK\Mask\Helper\FieldHelper
      * @inject
      */
-    protected $utility;
+    protected $fieldHelper;
 
     /**
      * Generates TCA Selectbox-Options-Array for a specific TCA-type.
@@ -34,7 +34,7 @@ class TcaViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
      */
     public function render($type, $table)
     {
-        $this->utility = new \MASK\Mask\Utility\MaskUtility($this->objectManager);
+        $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
         // in tt_content allow all fields except $forbiddenFields
         if ($table == "tt_content") {
             $forbiddenFields = array(
@@ -49,7 +49,7 @@ class TcaViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
                 'l18n_cfg', 'backend_layout', 'backend_layout_next_level'
             );
             foreach ($GLOBALS['TCA'][$table]['columns'] as $tcaField => $tcaConfig) {
-                $fieldType = $this->utility->getFormType($tcaField, "", $table);
+                $fieldType = $this->fieldHelper->getFormType($tcaField, "", $table);
                 if (
                     ($fieldType == $type ||
                     ($fieldType == "Text" &&
@@ -64,7 +64,7 @@ class TcaViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
         } else {
             // in pages allow only fields already created by mask
             foreach ($GLOBALS['TCA'][$table]['columns'] as $tcaField => $tcaConfig) {
-                $fieldType = $this->utility->getFormType($tcaField, "", $table);
+                $fieldType = $this->fieldHelper->getFormType($tcaField, "", $table);
                 if (
                     ($fieldType == $type ||
                     ($fieldType == "Text" &&

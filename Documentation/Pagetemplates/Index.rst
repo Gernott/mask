@@ -94,8 +94,6 @@ The last step ist to define each lib.content* in your TypoScript-setup with this
 
 Change all 0 to your ID.
 
-Caution: The old TypoScript Snippets temp.mask.content and temp.content are deprecated and will be removed in mask 2.0.
-
 If no content appears in the frontend, be sure you have included the static TypoScript-Template **Content Elements (fluid_styled_content)** first and after it **Mask (mask)**.
 
 
@@ -107,13 +105,3 @@ fluid_styled_content is a static TypoScript configuration, delivered by the TYPO
 It is very important to include the static Mask TypoScript-Template after the static fluid_styled_content TypoScript-Template!
 Otherwise no Mask-content is displayed in the Frontend.
 The same rules apply on the old css_styled_content.
-
-
-Language information for TYPO3 6.2
-----------------------------------
-
-Mask works with TYPO3 features. So it is fully compatible with the TYPO3 languagehandling.
-But in TYPO3 there are some Bugs with languages. It is not possible to use contentelements with the language-display-setting "all languages". In frontend the element appears twice or the element don't appear at all.
-Mask bypass this Bug. You only have to use **temp.mask.content** instead of **styles.content.get**.
-But be careful: temp.mask.content doesn't work with language-fallback!
-In TYPO3 7.x this Bugs are fixed.

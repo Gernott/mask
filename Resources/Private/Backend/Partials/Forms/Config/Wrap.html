@@ -1,0 +1,9 @@
+{namespace mask=MASK\Mask\ViewHelpers}
+<div class="t3js-formengine-field-item check-item">
+	<div class="form-control-wrap" style="">
+		<input name="tx_mask_tools_maskmask[storage][tca][--index--][config][wrap]" type="checkbox" {f:if(condition: '{field.config.wrap} == \'off\'', then: 'checked="checked"', else: '')} value="off" title="wrap" />
+	</div>
+</div>
+<label class="t3js-formengine-label check-item">
+	<f:translate key="tx_mask.field.text.wrap" />
+</label>

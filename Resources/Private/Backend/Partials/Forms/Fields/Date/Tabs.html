@@ -1,0 +1,42 @@
+{namespace mask=MASK\Mask\ViewHelpers}
+
+<div role="tabpanel" class="tab-pane" id="validation_{key}">
+	<div class="row">
+		<div class="form-group col-sm-6">
+			<label class="t3js-formengine-label">
+				<f:translate key="tx_mask.field.float.range.lower" />
+			</label>
+			<div class="t3js-formengine-field-item">
+				<div class="form-control-wrap" style="">
+					<input type="date" class="form-control" name="tx_mask_tools_maskmask[storage][tca][--index--][config][range][lower]" value="{field.config.range.lower}">
+				</div>
+			</div>
+		</div>
+		<div class="form-group col-sm-6">
+			<label class="t3js-formengine-label">
+				<f:translate key="tx_mask.field.float.range.upper" />
+			</label>
+			<div class="t3js-formengine-field-item">
+				<div class="form-control-wrap" style="">
+					<input type="date" class="form-control" name="tx_mask_tools_maskmask[storage][tca][--index--][config][range][upper]" value="{field.config.range.upper}">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/Required" arguments="{key:key, elementKey: storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/Trim" arguments="{key:key, elementKey: storage.key, field: field}" />
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/Unique" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/UniqueInPid" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+	</div>
+</div>

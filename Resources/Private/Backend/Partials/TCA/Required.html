@@ -1,9 +1,0 @@
-{namespace mask=MASK\Mask\ViewHelpers}
-<label class="t3js-formengine-label" for="all_required">
-	<f:translate key="tx_mask.field.required" />
-</label>
-<div class="t3js-formengine-field-item">
-	<div class="form-control-wrap" style="">
-		<input id="all_required" class="tx_mask_fieldcontent_eval" name="tx_mask_tools_maskmask[dummy][--index--][required]" type="checkbox" {f:if(condition: '{mask:eval(fieldKey:\'{key}\', field:\'{field}\', elementKey:\'{elementKey}\', evalValue:\'required\')}', then: 'checked="checked"', else: '')} value="required" title="Required" />
-	</div>
-</div>

@@ -42,6 +42,9 @@
 			<trans-unit id="tx_mask.field.Inline">
 				<target>Wiederholung</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.Tab">
+				<target>Reiter</target>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.titleAdd">
 				<target>Hinzufügen</target>
 			</trans-unit>
@@ -55,7 +58,58 @@
 				<target>Pflichtfeld</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.trim">
-				<target>Leerraum entfernen</target>
+				<target>Leerraum am Anfang und Ende entfernen</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.alpha">
+				<source>Nur "a-z A-Z" Zeichen</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.alphanum">
+				<source>Nur "a-z A-Z 0-9" Zeichen</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.alphanum_x">
+				<source>Nur "a-z A-Z 0-9 _ -" Zeichen</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.domainname">
+				<source>Nur Domainnamen wie “example.com”</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.email">
+				<source>E-Mail Adresse</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.lower">
+				<source>Nur kleine Buchstaben</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.md5">
+				<source>In MD5-Hash konvertieren</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.nospace">
+				<source>Keine Leerzeichen erlauben</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.null">
+				<source>Checkbox zum NULL setzen anzeigen</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.num">
+				<source>Nur Ziffern</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.password">
+				<source>Passwortfeld</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.time">
+				<source>Uhrzeitfeld (h:m)</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.timesec">
+				<source>Uhrzeitfeld (h:m:s)</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.unique">
+				<source>Wert muss einzigartig in der Tabellenspalte sein</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.uniqueInPid">
+				<source>Wert muss einzigartig in Tabellenspalte und PID sein</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.upper">
+				<source>Nur Blockbuchstaben</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.year">
+				<source>Nur Jahre zwischen 1970 und 2038</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.texttype">
 				<target>Texttyp</target>
@@ -120,11 +174,80 @@
 			<trans-unit id="tx_mask.field.float.range.upper">
 				<target>Größter Wert</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.file_upload_allowed">
+				<source>Erlaube Dateiupload</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.allowed_file_extensions">
+				<source>Erlaubte Dateiendungen</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.minitems">
 				<target>Minimum Anzahl</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.maxitems">
 				<target>Maximum Anzahl</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.collapse_all">
+				<source>Alle Elemente standardmäßig einklappen</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.expand_single">
+				<source>Akkordion-Modus (Nur ein aufgeklapptes Element erlauben)</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.new_record_link_title">
+				<source>Beschriftung von "Create new" Button</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.use_sortable">
+				<source>Drag'n'Drop aktivieren</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.show_possible_localization_records">
+				<source>
+					Zeige unlokalisierte Records welche in der Originalsprache vorhanden sind, aber noch nicht lokalisiert sind
+				</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.show_synchronization_link">
+				<source>
+					Zeige den "Synchronize" Button um auf eine 1:1 Übersetzung mit der Originalsprache upzudaten
+				</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.show_all_localization_link">
+				<source>
+					Zeige den "Lokalisiere alle Records" Button um unlokalisierte Datensätze zu holen
+				</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.show_removed_localization_records">
+				<source>Zeige entfernte lokalisierte Records</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.level_links_position">
+				<source>Position des "Create new" Button</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.level_links_position.top">
+				<source>Oberhalb</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.level_links_position.bottom">
+				<source>Unterhalb</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.level_links_position.both">
+				<source>Beides</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.level_links_position.none">
+				<source>Ausblenden</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.localization_mode">
+				<source>Lokalisierungs-Modus</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.localization_mode.select">
+				<source>Datensätze lokalisieren (select)</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.localization_mode.keep">
+				<source>Nicht lokalisieren, Datensätze der Originalsprache verwenden (keep)</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.localize_children_at_parent_localization">
+				<source>Datensätze mit Conten-Element lokaliseren</source>
+			</trans-unit>
+						<trans-unit id="tx_mask.field.inline.inline_label">
+				<source>Key des Feldes das für IRRE-Label verwendet wird (tx_mask_..)</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.inline_icon">
+				<source>Pfad zu Icon das für IRRE verwendet wird</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.integer.size">
 				<target>Größe des Feldes</target>
@@ -143,6 +266,24 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.field.link.default">
 				<target>Standard</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.link.wizard.height">
+				<source>Höhe</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.link.wizard.width">
+				<source>Breite</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.link.wizard.state">
+				<source>Status</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.link.wizard.menubar">
+				<source>Menübar</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.link.wizard.scrollbars">
+				<source>Scrollbars</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.link.wizard.allowed_extensions">
+				<source>Erlaubte Dateiendungen (Alle wenn leer)</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.link.file">
 				<target>Deaktiviere Datei:</target>
@@ -171,6 +312,15 @@
 			<trans-unit id="tx_mask.field.richtext.default">
 				<target>Standard</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.select.file_folder">
+				<source>Dateien aus Ordner</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.file_folder_ext_list">
+				<source>Nur Dateien mit diesen Dateiendungen</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.file_folder_recursions">
+				<source>Rekursionstiefe des Verzeichnis</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.select.size">
 				<target>Größe</target>
 			</trans-unit>
@@ -179,6 +329,27 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.field.select.maxitems">
 				<target>Maximale Anzahl</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.minitems">
+				<source>Minimale Anzahl</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.renderType">
+				<target>Darstellung</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.renderType.selectSingle">
+				<target>Selectbox Einfachauswahl</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.renderType.selectSingleBox">
+				<target>Selectbox Mehrfachauswahl</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.renderType.selectCheckBox">
+				<target>Checkboxen</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.renderType.selectMultipleSideBySide">
+				<target>Pendel</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.renderType.selectTree">
+				<target>Baumauswahl</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.select.items">
 				<target>Elemente ([label,id], Ein Element je Zeile, Id (Zahl) beginnt mit 1)</target>
@@ -198,6 +369,21 @@
 			<trans-unit id="tx_mask.field.string.default">
 				<target>Standard</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.string.placeholder">
+				<source>Platzhaltertext</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.string.is_in">
+				<source>Erlaubte Zeichen</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.string.mode">
+				<source>Zeige "Override"-Checkbox wenn Platzhaltertext</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.string.renderType">
+				<source>Vor dem Absenden mit RSA verschlüsseln</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.string.autocomplete">
+				<source>HTML5-Autocomplete aktivieren</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.text.cols">
 				<target>Spalten</target>
 			</trans-unit>
@@ -206,6 +392,39 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.field.text.default">
 				<target>Standard</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.text.wrap">
+				<source>Wrap deaktivieren</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.text.format">
+				<source>T3-Editor</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.text.format.none">
+				<source>-</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.text.format.html">
+				<source>HTML</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.text.format.typoscript">
+				<source>TypoScript</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.text.format.javascript">
+				<source>Javascript</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.text.format.css">
+				<source>CSS</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.text.format.xml">
+				<source>XML</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.text.format.php">
+				<source>PHP</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.text.format.sparql">
+				<source>SPARQL</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.text.format.mixed">
+				<source>Mixed</source>
 			</trans-unit>
 
 
@@ -316,7 +535,7 @@
 				<target>Element-Key (Kleinbuchstaben)</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.icon">
-				<target>FontAwesome-Iconcode</target>
+				<target>FontAwesome-Icon</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.color">
 				<target>Farbe (HEX-Code)</target>
@@ -345,6 +564,32 @@
 			<trans-unit id="tx_mask.all.createdmissingfolders">
 				<target>Fehlende Verzeichnisse wurden angelegt.</target>
 			</trans-unit>
+
+			<trans-unit id="tx_mask.tabs.default">
+				<source>Allgemein</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.tabs.validation">
+				<source>Validierung</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.tabs.extended">
+				<source>Erweitert</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.tabs.database">
+				<source>Datenbank</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.tabs.wizards">
+				<source>Wizards</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.tabs.appearance">
+				<source>Verhalten und Aussehen</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.tabs.localization">
+				<source>Lokalisierung</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.tabs.files">
+				<source>Dateien</source>
+			</trans-unit>
+
 		</body>
 	</file>
 </xliff>

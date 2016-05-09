@@ -1,0 +1,19 @@
+{namespace mask=MASK\Mask\ViewHelpers}
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][type]" value="radio" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][exclude]" value="1" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][sql][{type}][--index--]" value="int(11) DEFAULT '0' NOT NULL" />
+<div class="row">
+	<div class="form-group col-sm-12">
+		<label class="t3js-formengine-label" for="radio_cols">
+			<f:translate key="tx_mask.field.radio.items" />
+		</label>
+		<div class="t3js-formengine-field-item">
+			<div class="form-control-wrap" style="">
+				<textarea id="radio_cols" name="tx_mask_tools_maskmask[dummy][--index--][int]" class="form-control tx_mask_fieldcontent_items" title="cols" rows="10" placeholder="option1,1
+option2,2
+option3,3"><mask:Items items="{field.config.items}" /></textarea>
+				<div class="tx_mask_fieldcontent_itemsresult"></div>
+			</div>
+		</div>
+	</div>
+</div>

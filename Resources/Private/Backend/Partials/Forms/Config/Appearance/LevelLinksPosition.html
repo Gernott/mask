@@ -1,0 +1,14 @@
+{namespace mask=MASK\Mask\ViewHelpers}
+<label class="t3js-formengine-label">
+	<f:translate key="tx_mask.field.inline.level_links_position" />
+</label>
+<div class="t3js-formengine-field-item">
+	<div class="form-control-wrap" style="">
+		<select name="tx_mask_tools_maskmask[storage][tca][--index--][config][appearance][levelLinksPosition]" class="form-control" title="levelLinksPosition" >
+			<option {f:if(condition:'{field.config.appearance.levelLinksPosition} == \'top\'', then:'selected=selected')} value="top"><f:translate key="tx_mask.field.inline.level_links_position.top"/></option>
+			<option {f:if(condition:'{field.config.appearance.levelLinksPosition} == \'bottom\'', then:'selected=selected')} value="bottom"><f:translate key="tx_mask.field.inline.level_links_position.bottom"/></option>
+			<option {f:if(condition:'{field.config.appearance.levelLinksPosition} == \'both\'', then:'selected=selected')} value="both"><f:translate key="tx_mask.field.inline.level_links_position.both"/></option>
+			<option {f:if(condition:'{field.config.appearance.levelLinksPosition} == \'none\'', then:'selected=selected')} value="none"><f:translate key="tx_mask.field.inline.level_links_position.none"/></option>
+		</select>
+	</div>
+</div>

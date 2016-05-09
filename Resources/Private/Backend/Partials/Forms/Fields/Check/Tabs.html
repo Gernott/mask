@@ -1,0 +1,8 @@
+{namespace mask=MASK\Mask\ViewHelpers}
+<div role="tabpanel" class="tab-pane" id="extended_{key}">
+	<div class="row">
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Config/Default" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+	</div>
+</div>

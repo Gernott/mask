@@ -37,17 +37,47 @@ jQuery(document).ready(function () {
 
 	// 1st column click
 	jQuery(".tx_mask_tabcell1").on("click", "LI", function (event) {
+
+		// search for active field
+		var activeFound = false;
+		var activeHead = jQuery(".tx_mask_tabcell2 .tx_mask_btn.active");
+		if (jQuery(activeHead).size() > 0) {
+			activeFound = true;
+			var activeBody = findBodyByHead(activeHead);
+		}
+
 		buttonCode = jQuery.parseHTML(jQuery(this).outerHTML());
 		jQuery(".tx_mask_tabcell2 LI").removeClass("active");
 		jQuery(buttonCode).addClass("active");
-		jQuery(".tx_mask_tabcell2 > UL").append(buttonCode);
+
+		// if active field was found, new field is inserted after this
+		if (activeFound) {
+			jQuery(activeHead).after(buttonCode);
+		} else {
+			jQuery(".tx_mask_tabcell2 > UL").append(buttonCode);
+		}
 		fieldType = jQuery(buttonCode).data("type");
 		fieldTemplate = jQuery("#templates DIV[data-type='" + fieldType + "']").outerHTML();
 		jQuery(".tx_mask_tabcell3>DIV").hide(); // Hide all fieldconfigs
-		jQuery(".tx_mask_tabcell3").append(fieldTemplate); // Add new fieldconfig
+
+		// if active field was found, new field is inserted after this
+		if (activeFound) {
+			if (jQuery(activeHead).hasClass("id_Inline")) {
+				var tempActiveHead = jQuery(activeHead).find(".inline-container > LI:last");
+				var tempActiveBody = findBodyByHead(tempActiveHead);
+				jQuery(tempActiveBody).after(fieldTemplate);
+			} else {
+				jQuery(activeBody).after(fieldTemplate);
+			}
+
+		} else {
+			jQuery(".tx_mask_tabcell3").append(fieldTemplate);
+		}
 		jQuery(buttonCode).click();
 		jQuery(".tx_mask_newfieldname:visible").focus(); // Set focus to key field
 		initSortable();
+		var body = findBodyByHead(buttonCode);
+		initializeTabs(body);
 	});
 
 	// 2nd column click
@@ -58,6 +88,8 @@ jQuery(document).ready(function () {
 		jQuery(".tx_mask_tabcell3>DIV").hide(); // Hide all fieldconfigs
 		jQuery(".tx_mask_tabcell3>DIV:eq(" + fieldIndex + ")").show(); // Show current fieldconfig
 		event.stopPropagation(); // prevent other click events in Inline-Field
+		var body = findBodyByHead(this);
+		openFirstTab(body);
 	});
 
 	// 2nd column delete
@@ -81,6 +113,8 @@ jQuery(document).ready(function () {
 		// Merge eval fields:
 		evalFields();
 		linkFields();
+		jsOpenParamsFields();
+		rteTransformFields();
 
 		// Checkbox items:
 		jQuery('.tx_mask_fieldcontent_items').each(function () {
@@ -110,7 +144,7 @@ jQuery(document).ready(function () {
 		editInlineFields();
 		// Index in Arrays schreiben und inline-elemente zu ihren Eltern zuordnen
 		jQuery(".tx_mask_fieldcontent").each(function (index, field) {
-			var inputs = jQuery(this).find("INPUT, SELECT");
+			var inputs = jQuery(this).find("INPUT, SELECT, TEXTAREA");
 			// If the field is an line-field
 			if (jQuery(field).find(".inline-container").size() > 0) {
 				jQuery.each(inputs, function (inputIndex, input) {
@@ -151,6 +185,8 @@ jQuery(document).ready(function () {
 			var body = jQuery(this).closest(".tx_mask_field");
 			showInlineContainer(body);
 
+			showTcaSettings(body);
+
 			// Show correct label and key in tabcell2
 			var fieldIndex = jQuery(this).closest(".tx_mask_field").index();
 			jQuery(this).closest(".tx_mask_field").find("INPUT[name='tx_mask_tools_maskmask[storage][elements][columns][]']").removeAttr("disabled");
@@ -170,6 +206,8 @@ jQuery(document).ready(function () {
 			// Show correct label and key in tabcell2
 			var fieldIndex = jQuery(this).closest(".tx_mask_field").index();
 
+			hideTcaSettings(body);
+
 			jQuery(this).closest(".tx_mask_field").find("INPUT[name='tx_mask_tools_maskmask[storage][elements][columns][]']").attr("disabled", "disabled");
 			jQuery(".tx_mask_tabcell2 LI").eq(fieldIndex).find(".id_keytext").html(jQuery(this).val());
 			jQuery(".tx_mask_tabcell2 LI").eq(fieldIndex).find(".id_labeltext").html(
@@ -180,7 +218,55 @@ jQuery(document).ready(function () {
 
 		}
 	});
+
+	// initialize font-icon-picker
+	jQuery('#meta_icon').fontIconPicker({
+		iconsPerPage: 20
+	});
+
 });
+
+function hideTcaSettings(body) {
+	jQuery(body).find("INPUT[name*='tx_mask_tools_maskmask[storage][tca]'], SELECT[name*='tx_mask_tools_maskmask[storage][tca]'], TEXTAREA[name*='tx_mask_tools_maskmask[storage][tca]']").attr("disabled", "disabled");
+	jQuery(body).find(".t3js-tabmenu-item:not(.active)").hide();
+}
+function showTcaSettings(body) {
+	jQuery(body).find("INPUT[name*='tx_mask_tools_maskmask[storage][tca]'], SELECT[name*='tx_mask_tools_maskmask[storage][tca]'], TEXTAREA[name*='tx_mask_tools_maskmask[storage][tca]']").removeAttr("disabled");
+	jQuery(body).find(".t3js-tabmenu-item").show();
+}
+
+function initializeTabs(body) {
+	var uniqueKey = getUniqueKey();
+	var tabContents = jQuery(body).find(".tab-content .tab-pane");
+	var tabHeads = jQuery(body).find(".nav-tabs");
+	var tabLinks = jQuery(body).find(".nav-tabs LI A");
+	jQuery.each(tabContents, function (index, content) {
+		var id = jQuery(content).attr("id");
+		jQuery(content).attr("id", id + uniqueKey);
+	});
+	jQuery.each(tabHeads, function (index, head) {
+		var id = jQuery(head).attr("id");
+		jQuery(head).attr("id", id + uniqueKey);
+	});
+	jQuery.each(tabLinks, function (index, link) {
+		var href = jQuery(link).attr("href");
+		jQuery(link).attr("href", href + uniqueKey);
+	});
+	openFirstTab(body);
+}
+function getUniqueKey() {
+	return Math.random().toString(36).substr(2, 9);
+}
+function openFirstTab(body) {
+	// if there is no tab open already, open the first
+	var openedTab = jQuery(body).find(".tab-content .tab-pane.active");
+	if (jQuery(openedTab).size() === 0) {
+		var tabContents = jQuery(body).find(".tab-content .tab-pane");
+		var tabLinks = jQuery(body).find(".nav-tabs LI A");
+		jQuery(tabLinks).first().closest("LI").addClass("active");
+		jQuery(tabContents).first().addClass("active");
+	}
+}
 
 //Do the magic to inline fields
 function editInlineFields() {
@@ -232,6 +318,16 @@ function evalFields() {
 		evalValues = jQuery.grep(evalValues, function (n) {
 			return(n);
 		});
+
+		// search is_in field
+		var isInField = jQuery(item).find("INPUT[name='tx_mask_tools_maskmask[storage][tca][--index--][config][is_in]']");
+		if (jQuery(isInField).size() > 0) {
+			var isInValue = jQuery(isInField).val();
+			if (isInValue !== "") {
+				evalValues.push("is_in");
+			}
+		}
+
 		eval = evalValues.join(",");
 		jQuery(item).find('.tx_mask_fieldcontent_evalresult').val(eval);
 	});
@@ -261,6 +357,47 @@ function linkFields() {
 		});
 		eval = evalValues.join(",");
 		jQuery(item).find('.tx_mask_fieldcontent_linkresult').val(eval);
+	});
+}
+
+// Merge jsOpenParams options together
+function jsOpenParamsFields() {
+	var fields = jQuery(".tx_mask_tabcell3 .tx_mask_field");
+	jQuery.each(fields, function (i, item) {
+		evalValues = new Array();
+		jQuery(item).find('.tx_mask_fieldcontent_jsopenparams').each(function (index, value) {
+			var property = jQuery(value).attr("data-property");
+			if (jQuery(value).attr("type") === "checkbox") {
+				if (jQuery(value).is(':checked')) {
+					evalValues[index] = property + "=" + jQuery(value).val();
+				} else {
+					evalValues[index] = property + "=0";
+				}
+			} else if (jQuery(value).attr("type") === "hidden" || jQuery(value).attr("type") === "text" || jQuery(value).attr("type") === "number") {
+				evalValues[index] = property + "=" + jQuery(value).val();
+			} else if (jQuery(value).is("select")) {
+				if (jQuery(value).val() !== undefined) {
+					evalValues[index] = property + "=" + jQuery(value).val();
+				}
+			}
+		});
+		evalValues = jQuery.grep(evalValues, function (n) {
+			return(n);
+		});
+		eval = evalValues.join(",");
+		jQuery(item).find('.tx_mask_fieldcontent_jsopenparams_result').val(eval);
+	});
+}
+// Merge rte_transform fields together
+function rteTransformFields() {
+	var fields = jQuery(".tx_mask_tabcell3 .tx_mask_field");
+	jQuery.each(fields, function (i, item) {
+		var rteTransform = "";
+		var mode = jQuery(item).find('.tx_mask_fieldcontent_rte_transform').val();
+		if (mode !== "") {
+			rteTransform = "richtext[]:rte_transform[" + mode + "]";
+			jQuery(item).find('.tx_mask_fieldcontent_rte_transform_result').val(rteTransform);
+		}
 	});
 }
 
@@ -331,9 +468,14 @@ function initSortable() {
 				sortFields();
 				sorted = true;
 			}
-			jQuery(ui.item).click();
+
+			var head = jQuery(ui.item);
+			var body = findBodyByHead(head);
+			jQuery(head).click();
 			if (receivedNew) {
+				initializeTabs(body);
 				jQuery(".tx_mask_newfieldname:visible").focus();
+
 			}
 			receivedNew = false;
 			received = false;
@@ -408,8 +550,6 @@ function initSortable() {
 				alert("You are trying to drag an element which relies on a tt_content-field into a repeating field. This is not allowed, because it does not make any sense. Create a new field instead.");
 				ui.sender.sortable('cancel');
 			}
-
-
 		}
 	});
 }
@@ -450,9 +590,21 @@ function validateFields() {
 	jQuery("form input").unbind("invalid").bind('invalid', function (e) {
 		// get error message from element
 		var errorMessage = jQuery(this).attr("data-error");
+
 		// search correct head to body for clicking it
 		var body = jQuery(this).closest(".tx_mask_field");
 		var head = findHeadByBody(body);
+
+		// open correct tab
+		var tabBody = jQuery(this).closest(".tab-pane");
+		var tabHead = jQuery(".t3js-tabmenu-item A[href='#" + jQuery(tabBody).attr("id") + "']").parent("LI");
+		if (jQuery(tabBody).size() > 0) {
+			jQuery(".tx_mask_field .t3js-tabmenu-item").removeClass("active");
+			jQuery(".tx_mask_field .tab-pane").removeClass("active");
+			jQuery(tabBody).addClass("active");
+			jQuery(tabHead).addClass("active");
+		}
+
 		e.target.setCustomValidity("");
 		if (!e.target.validity.valid) {
 			// click head to make field visible

@@ -38,11 +38,41 @@ class StorageRepository
 {
 
     /**
-     * MaskUtility
+     * FieldHelper
      *
-     * @var \MASK\Mask\Utility\MaskUtility
+     * @var \MASK\Mask\Helper\FieldHelper
      */
-    protected $utility;
+    protected $fieldHelper;
+
+    /**
+     * SqlCodeGenerator
+     *
+     * @var \MASK\Mask\CodeGenerator\SqlCodeGenerator
+     */
+    protected $sqlCodeGenerator;
+
+    /**
+     * SettingsService
+     *
+     * @var \MASK\Mask\Domain\Service\SettingsService
+     */
+    protected $settingsService;
+
+    /**
+     * settings
+     *
+     * @var array
+     */
+    protected $extSettings;
+
+    /**
+     * is called before every action
+     */
+    public function __construct()
+    {
+        $this->settingsService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Service\\SettingsService');
+        $this->extSettings = $this->settingsService->get();
+    }
 
     /**
      * Load Storage
@@ -51,9 +81,8 @@ class StorageRepository
      */
     public function load()
     {
-        $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);
-        if (file_exists(PATH_site . $extConf["json"]) && is_file(PATH_site . $extConf["json"])) {
-            return json_decode(file_get_contents(PATH_site . $extConf["json"]), true);
+        if (!empty($this->extSettings["json"]) && file_exists(PATH_site . $this->extSettings["json"]) && is_file(PATH_site . $this->extSettings["json"])) {
+            return json_decode(file_get_contents(PATH_site . $this->extSettings["json"]), true);
         } else {
             return array();
         }
@@ -204,8 +233,10 @@ class StorageRepository
             }
         }
 
+		// sort content elements by key before saving
+		ksort($json["tt_content"]["elements"]);
+
         // Save
-        $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);
         $encodedJson = "";
 
         // Return JSON formatted in PHP 5.4.0 and higher
@@ -214,7 +245,7 @@ class StorageRepository
         } else {
             $encodedJson = json_encode($json, JSON_PRETTY_PRINT);
         }
-        \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $extConf["json"], $encodedJson);
+        \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $this->extSettings["json"], $encodedJson);
     }
 
     /**
@@ -238,8 +269,7 @@ class StorageRepository
             }
         }
         // Save
-        $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);
-        \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $extConf["json"], json_encode($json));
+        \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $this->extSettings["json"], json_encode($json));
     }
 
     /**
@@ -255,9 +285,7 @@ class StorageRepository
     private function removeField($table, $field, $json, $remainingFields = array())
     {
 
-        // init utility
-        $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-        $this->utility = new \MASK\Mask\Utility\MaskUtility($this->objectManager, $this);
+        $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
 
         // check if this field is used in any other elements
         $elementsInUse = array();
@@ -319,7 +347,7 @@ class StorageRepository
             unset($json[$table]["sql"][$field]);
 
             // If field is of type file, also delete entry in sys_file_reference
-            if ($this->utility->getFormType($field) == "File") {
+            if ($this->fieldHelper->getFormType($field) == "File") {
                 unset($json["sys_file_reference"]["sql"][$field]);
                 $json = $this->cleanTable("sys_file_reference", $json);
             }
@@ -358,86 +386,5 @@ class StorageRepository
     {
         $this->remove($content["type"], $content["orgkey"], $content["elements"]["columns"]);
         $this->add($content);
-    }
-
-    /**
-     * returns sql statements of all elements and pages and irre
-     * @return array
-     */
-    public function loadSql()
-    {
-        $json = $this->load();
-        $sql_content = array();
-        $types = array_keys($json);
-        $nonIrreTables = array("pages", "tt_content");
-
-        // Generate SQL-Statements
-        if ($types) {
-            foreach ($types as $type) {
-                if ($json[$type]["sql"]) {
-
-                    // If type/table is an irre table, then create table for it
-                    if (array_search($type, $nonIrreTables) === FALSE) {
-                        $sql_content[] = "CREATE TABLE " . $type . " (
-
-							 uid int(11) NOT NULL auto_increment,
-							 pid int(11) DEFAULT '0' NOT NULL,
-
-							 tstamp int(11) unsigned DEFAULT '0' NOT NULL,
-							 crdate int(11) unsigned DEFAULT '0' NOT NULL,
-							 cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
-							 deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
-							 hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
-							 starttime int(11) unsigned DEFAULT '0' NOT NULL,
-							 endtime int(11) unsigned DEFAULT '0' NOT NULL,
-
-							 t3ver_oid int(11) DEFAULT '0' NOT NULL,
-							 t3ver_id int(11) DEFAULT '0' NOT NULL,
-							 t3ver_wsid int(11) DEFAULT '0' NOT NULL,
-							 t3ver_label varchar(255) DEFAULT '' NOT NULL,
-							 t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
-							 t3ver_stage int(11) DEFAULT '0' NOT NULL,
-							 t3ver_count int(11) DEFAULT '0' NOT NULL,
-							 t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
-							 t3ver_move_id int(11) DEFAULT '0' NOT NULL,
-
-							 sys_language_uid int(11) DEFAULT '0' NOT NULL,
-							 l10n_parent int(11) DEFAULT '0' NOT NULL,
-							 l10n_diffsource mediumblob,
-
-							 PRIMARY KEY (uid),
-							 KEY parent (pid),
-							 KEY t3ver_oid (t3ver_oid,t3ver_wsid),
-							 KEY language (l10n_parent,sys_language_uid),
-
-							 parentid int(11) DEFAULT '0' NOT NULL,
-							 parenttable varchar(255) DEFAULT '',
-							 sorting	int(11) DEFAULT '0' NOT NULL,
-
-						 );\n";
-                    }
-
-                    foreach ($json[$type]["sql"] as $field) {
-                        if ($field) {
-                            foreach ($field as $table => $fields) {
-                                if ($fields) {
-                                    foreach ($fields as $field => $definition) {
-                                        $sql_content[] = "CREATE TABLE " . $table . " (\n\t" . $field . " " . $definition . "\n);\n";
-
-                                        // every statement for pages, also for pages_language_overlay
-                                        if ($table == "pages") {
-                                            $sql_content[] = "CREATE TABLE pages_language_overlay (\n\t" . $field . " " . $definition . "\n);\n";
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        // Parentfield
-//		$sql_content[] = "CREATE TABLE tt_content (\n\ttx_mask_content_parent int(11) unsigned NOT NULL DEFAULT '0'\n);\n";
-        return $sql_content;
     }
 }

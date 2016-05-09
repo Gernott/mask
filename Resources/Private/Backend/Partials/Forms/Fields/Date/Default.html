@@ -1,0 +1,19 @@
+{namespace mask=MASK\Mask\ViewHelpers}
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][type]" value="input" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][dbType]" value="date" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][size]" value="8" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][max]" value="20" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][exclude]" value="1" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][sql][{type}][--index--]" value="date DEFAULT '0000-00-00'" />
+<input type="hidden" name="tx_mask_tools_maskmask[dummy][--index--][date]" value="date" class="tx_mask_fieldcontent_eval" />
+<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][eval]" value="date" class="tx_mask_fieldcontent_evalresult" />
+
+
+<div class="row">
+	<div class="form-group col-sm-6">
+		<f:render partial="Forms/Config/Default" arguments="{key:key, elementKey:storage.key, field: field}" />
+	</div>
+	<div class="form-group col-sm-6">
+		<f:render partial="Forms/Config/Placeholder" arguments="{key:key, elementKey:storage.key, field: field}" />
+	</div>
+</div>

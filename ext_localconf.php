@@ -1,170 +1,44 @@
 <?php
-// backwards compatibility for typo3 6.2
-$version = \TYPO3\CMS\Core\Utility\VersionNumberUtility::getNumericTypo3Version();
-$versionNumber = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger($version);
-
 if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
 
+// initialize mask utility for various things
+$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+$storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
+$fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
+$typoScriptCodeGenerator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\CodeGenerator\\TyposcriptCodeGenerator');
+$settingsService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Service\\SettingsService');
+$configuration = $storageRepository->load();
+$settings = $settingsService->get();
+
+// Register Plugin to render content in the frontend
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
     'MASK.' . $_EXTKEY, 'ContentRenderer', array('Frontend' => 'contentelement'), array('Frontend' => '')
 );
+
+// Register Icons needed in the backend module
+$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance("TYPO3\CMS\Core\Imaging\IconRegistry");
+$maskIcons = array("Check", "Date", "Datetime", "File", "Float", "Inline", "Integer", "Link", "Radio", "Richtext", "Select", "String", "Tab", "Text");
+foreach ($maskIcons as $maskIcon) {
+    $iconRegistry->registerIcon(
+        'mask-fieldtype-' . $maskIcon, 'TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider', array(
+        'source' => 'EXT:mask/Resources/Public/Icons/Fieldtypes/' . $maskIcon . '.svg'
+        )
+    );
+}
+
+// Add all the typoscript we need in the correct files
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:mask/Configuration/TypoScript/page.txt">');
+$tsConfig = $typoScriptCodeGenerator->generateTsConfig($configuration);
+$pageTs = $typoScriptCodeGenerator->generatePageTyposcript($configuration);
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig($tsConfig);
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig($pageTs);
 
-// Load JSON file
-$extConf = unserialize($_EXTCONF);
-if (!empty($extConf["json"]) && file_exists(PATH_site . $extConf["json"])) {
-    $json = json_decode(file_get_contents(PATH_site . $extConf["json"]), true);
-}
+$setupTs = $typoScriptCodeGenerator->generateSetupTyposcript($configuration, $settings);
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup($setupTs);
 
-// Icon registry
-// backwards compatibility for typo3 6.2
-if ($versionNumber >= 7005000) {
-    $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance("TYPO3\CMS\Core\Imaging\IconRegistry");
-    $maskIcons = array("Check", "Date", "Datetime", "File", "Float", "Inline", "Integer", "Link", "Radio", "Richtext", "Select", "String", "Text");
-    foreach ($maskIcons as $maskIcon) {
-        $iconRegistry->registerIcon(
-            'mask-fieldtype-' . $maskIcon, 'TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider', array(
-            'source' => 'EXT:mask/Resources/Public/Icons/fieldtypes/' . $maskIcon . '.svg'
-            )
-        );
-    }
-}
-
-// generate page TSconfig
-$content = "";
-$temp = "";
-// Load page.ts Template
-$template = file_get_contents(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mask') . "Resources/Private/Mask/page.ts", true);
-// make content-Elements
-if ($json["tt_content"]["elements"]) {
-
-    foreach ($json["tt_content"]["elements"] as $element) {
-        // backwards compatibility for typo3 6.2
-        if ($versionNumber >= 7005000) {
-            // Register icons for contentelements
-            $iconIdentifier = 'mask-ce-' . $element["key"];
-            $iconRegistry->registerIcon(
-                $iconIdentifier, "MASK\Mask\Imaging\IconProvider\ContentElementIconProvider", array(
-                'contentElementKey' => $element["key"]
-                )
-            );
-            $temp = str_replace("###ICON###", "iconIdentifier = " . $iconIdentifier, $template);
-        } else {
-            $temp = str_replace("###ICON###", "icon = ../" . $extConf["preview"] . 'ce_' . $element["key"] . '.png', $template);
-        }
-
-        $temp = str_replace("###KEY###", $element["key"], $temp);
-        $temp = str_replace("###LABEL###", $element["label"], $temp);
-        $temp = str_replace("###DESCRIPTION###", $element["description"], $temp);
-        $content.= $temp;
-
-        // Labels
-        $content .= "\n[userFunc = user_mask_contentType(CType|mask_" . $element["key"] . ")]\n";
-        if ($element["columns"]) {
-            foreach ($element["columns"] as $index => $column) {
-                $content .= " TCEFORM.tt_content." . $column . ".label = " . $element["labels"][$index] . "\n";
-            }
-        }
-        $content .= "[end]\n\n";
-    }
-}
-
-
-// make pages
-$pageColumns = array();
-$disableColumns = "";
-$pagesContent = "";
-if ($json["pages"]["elements"]) {
-    foreach ($json["pages"]["elements"] as $element) {
-        // Labels for pages
-        $pagesContent .= "\n[userFunc = user_mask_beLayout(" . $element["key"] . ")]\n";
-        // if page has backendlayout with this element-key
-        if ($element["columns"]) {
-            foreach ($element["columns"] as $index => $column) {
-                $pagesContent .= " TCEFORM.pages." . $column . ".label = " . $element["labels"][$index] . "\n";
-                $pagesContent .= " TCEFORM.pages_language_overlay." . $column . ".label = " . $element["labels"][$index] . "\n";
-            }
-            $pagesContent .= "\n";
-            foreach ($element["columns"] as $index => $column) {
-                $pageColumns[] = $column;
-                $pagesContent .= " TCEFORM.pages." . $column . ".disabled = 0\n";
-                $pagesContent .= " TCEFORM.pages_language_overlay." . $column . ".disabled = 0\n";
-            }
-        }
-        $pagesContent .= "[end]\n";
-    }
-}
-// disable all fields by default and only activate by condition
-foreach ($pageColumns as $column) {
-    $disableColumns .= "TCEFORM.pages." . $column . ".disabled = 1\n";
-    $disableColumns .= "TCEFORM.pages_language_overlay." . $column . ".disabled = 1\n";
-}
-$pagesContent = $disableColumns . "\n" . $pagesContent;
-$content .= $pagesContent;
-
-// put into page TSconfig:
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig($content);
-
-// generate TypoScript setup
-$setupContent = '
-module.tx_mask {
-	view {
-		templateRootPaths {
-			10 = EXT:mask/Resources/Private/Backend62/Templates/
-		}
-		partialRootPaths {
-			10 = EXT:mask/Resources/Private/Backend62/Partials/
-		}
-		layoutRootPaths {
-			10 = EXT:mask/Resources/Private/Backend62/Layouts/
-		}
-	}
-	persistence{
-		classes {
-			MASK\Mask\Domain\Model\BackendLayout {
-				mapping {
-					tableName = backend_layout
-					columns {
-						uid.mapOnProperty = uid
-						title.mapOnProperty = title
-					}
-				}
-			}
-		}
-	}
-}
-[compatVersion = 7.0.0]
-module.tx_mask {
-	view {
-		templateRootPaths {
-			10 = EXT:mask/Resources/Private/Backend/Templates/
-		}
-		partialRootPaths {
-			10 = EXT:mask/Resources/Private/Backend/Partials/
-		}
-		layoutRootPaths {
-			10 = EXT:mask/Resources/Private/Backend/Layouts/
-		}
-	}
-}
-[end]
-';
-// Load setup.ts Template
-$template = file_get_contents(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mask') . "Resources/Private/Mask/setup.ts", true);
-// Fill setup.ts:
-if ($json["tt_content"]["elements"]) {
-    foreach ($json["tt_content"]["elements"] as $element) {
-        $temp = str_replace("###KEY###", $element["key"], $template);
-        $temp = str_replace("###PATH###", $extConf['content'] . $element["key"] . '.html', $temp);
-        $setupContent.= $temp;
-    }
-}
-// put into setup-field:
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup($setupContent);
-
-// for conditions on tt_content:
+// for conditions on tt_content
 if (!function_exists('user_mask_contentType')) {
 
     function user_mask_contentType($param = "")
@@ -276,9 +150,12 @@ if ($json['pages']['tca']) {
     $rootlineFields = explode(",", $GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields']);
     $pageOverlayFields = explode(",", $GLOBALS['TYPO3_CONF_VARS']['FE']['pageOverlayFields']);
     foreach ($json['pages']['tca'] as $fieldKey => $value) {
-        // Add addRootLineFields and pageOverlayFields for all pagefields
-        $rootlineFields[] = $fieldKey;
-        $pageOverlayFields[] = $fieldKey;
+        $formType = $fieldHelper->getFormType($fieldKey, "", "pages");
+        if ($formType !== "Tab") {
+            // Add addRootLineFields and pageOverlayFields for all pagefields
+            $rootlineFields[] = $fieldKey;
+            $pageOverlayFields[] = $fieldKey;
+        }
     }
     $GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields'] = implode(",", $rootlineFields);
     $GLOBALS['TYPO3_CONF_VARS']['FE']['pageOverlayFields'] = implode(",", $pageOverlayFields);
@@ -286,7 +163,7 @@ if ($json['pages']['tca']) {
 
 // SQL inject:
 $signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\SignalSlot\\Dispatcher');
-$signalSlotDispatcher->connect('TYPO3\\CMS\\Install\\Service\\SqlExpectedSchemaService', 'tablesDefinitionIsBeingBuilt', 'MASK\\Mask\\Controller\\FrontendController', 'addDatabaseTablesDefinition');
+$signalSlotDispatcher->connect('TYPO3\\CMS\\Install\\Service\\SqlExpectedSchemaService', 'tablesDefinitionIsBeingBuilt', 'MASK\\Mask\\CodeGenerator\\SqlCodeGenerator', 'addDatabaseTablesDefinition');
 
 // Hook for tt_content inline elements
 //$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] = 'EXT:mask/Classes/Hooks/class.tx_mask_tcemainprocdm.php:tx_mask_tcemainprocdm';

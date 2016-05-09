@@ -1,0 +1,79 @@
+{namespace mask=MASK\Mask\ViewHelpers}
+<div role="tabpanel" class="tab-pane" id="validation_{key}">
+	<div class="row">
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Config/Max" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Config/IsIn" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/Required" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/Trim" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/Alpha" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/AlphaNum" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/AlphaNumX" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/Domainname" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/Email" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/Lower" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/NoSpace" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/Num" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/Unique" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/UniqueInPid" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/Upper" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+	</div>
+</div>
+<div role="tabpanel" class="tab-pane" id="extended_{key}">
+	<div class="row">
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/Md5" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/Null" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Config/Mode" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Config/RenderType" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Config/Autocomplete" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Eval/Password" arguments="{key:key, elementKey:storage.key, field: field}" />
+		</div>
+	</div>
+</div>

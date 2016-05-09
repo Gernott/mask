@@ -45,6 +45,14 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
     protected $storageRepository;
 
     /**
+     * IconRepository
+     *
+     * @var \MASK\Mask\Domain\Repository\IconRepository
+     * @inject
+     */
+    protected $iconRepository;
+
+    /**
      * action list
      *
      * @return void
@@ -60,8 +68,6 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
         $this->view->assign('missingFolders', $missingFolders);
         $storages = $this->storageRepository->load();
         $this->view->assign('storages', $storages);
-        $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);
-        $this->view->assign('extConf', $extConf);
     }
 
     /**
@@ -72,7 +78,8 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
      */
     public function newAction()
     {
-
+        $icons = $this->iconRepository->findAll();
+        $this->view->assign('icons', $icons);
     }
 
     /**
@@ -85,9 +92,8 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
     {
         $this->storageRepository->add($storage);
         $this->generateAction();
-        $html = $this->generateHtml($storage["elements"]["key"]); // generate HTML
-        $this->saveHtml($storage["elements"]["key"], $html); // save HTML
-        $this->savePreviewImage($storage["elements"]["key"]); // save preview image
+        $html = $this->htmlCodeGenerator->generateHtml($storage["elements"]["key"]);
+        $this->saveHtml($storage["elements"]["key"], $html);
         $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.newcontentelement', 'mask'));
         $this->redirectByAction();
     }
@@ -102,8 +108,10 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
     public function editAction($type, $key)
     {
         $storage = $this->storageRepository->loadElement($type, $key);
+        $icons = $this->iconRepository->findAll();
         $this->prepareStorage($storage);
         $this->view->assign('storage', $storage);
+        $this->view->assign('icons', $icons);
         $this->view->assign('editMode', 1);
     }
 
@@ -117,8 +125,8 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
     {
         $this->storageRepository->update($storage);
         $this->generateAction();
-        $html = $this->generateHtml($storage["elements"]["key"]); // generate HTML
-        $this->saveHtml($storage["elements"]["key"], $html); // save HTML
+        $html = $this->htmlCodeGenerator->generateHtml($storage["elements"]["key"]);
+        $this->saveHtml($storage["elements"]["key"], $html);
         $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.updatedcontentelement', 'mask'));
         $this->redirectByAction();
     }

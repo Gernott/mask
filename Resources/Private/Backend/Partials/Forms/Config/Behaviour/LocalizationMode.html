@@ -1,0 +1,12 @@
+{namespace mask=MASK\Mask\ViewHelpers}
+<label class="t3js-formengine-label">
+	<f:translate key="tx_mask.field.inline.localization_mode" />
+</label>
+<div class="t3js-formengine-field-item">
+	<div class="form-control-wrap" style="">
+		<select name="tx_mask_tools_maskmask[storage][tca][--index--][config][behaviour][localizationMode]" class="form-control" title="levelLinksPosition" >
+			<option {f:if(condition:'{field.config.behaviour.localizationMode} == \'select\'', then:'selected=selected')} value="select"><f:translate key="tx_mask.field.inline.localization_mode.select"/></option>
+			<option {f:if(condition:'{field.config.behaviour.localizationMode} == \'keep\'', then:'selected=selected')} value="keep"><f:translate key="tx_mask.field.inline.localization_mode.keep"/></option>
+		</select>
+	</div>
+</div>

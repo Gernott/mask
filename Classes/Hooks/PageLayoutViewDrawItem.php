@@ -40,8 +40,22 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
 {
 
     protected $objectManager;
-    protected $utility;
+    protected $inlineHelper;
     protected $storageRepository;
+
+    /**
+     * SettingsService
+     *
+     * @var \MASK\Mask\Domain\Service\SettingsService
+     */
+    protected $settingsService;
+
+    /**
+     * settings
+     *
+     * @var array
+     */
+    protected $extSettings;
 
     /**
      * Preprocesses the preview rendering of a content element.
@@ -55,18 +69,19 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
      */
     public function preProcess(\TYPO3\CMS\Backend\View\PageLayoutView &$parentObject, &$drawItem, &$headerContent, &$itemContent, array &$row)
     {
+        $this->settingsService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Service\\SettingsService');
+        $this->extSettings = $this->settingsService->get();
 
         // only render special backend preview if it is a mask element
         if (substr($row['CType'], 0, 4) === "mask") {
-            $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);
             $elementKey = substr($row['CType'], 5);
-            $templateRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($extConf["backend"]);
+            $templateRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($this->extSettings["backend"]);
             $templatePathAndFilename = $templateRootPath . $elementKey . '.html';
 
             if (file_exists($templatePathAndFilename)) {
                 // initialize some things we need
                 $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\Object\\ObjectManager');
-                $this->utility = $this->objectManager->get("MASK\Mask\Utility\MaskUtility");
+                $this->inlineHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\InlineHelper');
                 $this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
                 $view = $this->objectManager->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
 
@@ -99,8 +114,8 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
     protected function getContentObject($uid)
     {
         $data = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('*', 'tt_content', 'uid=' . $uid);
-        $this->utility->addFilesToData($data, "tt_content");
-        $this->utility->addIrreToData($data);
+        $this->inlineHelper->addFilesToData($data, "tt_content");
+        $this->inlineHelper->addIrreToData($data);
         return $data;
     }
 }

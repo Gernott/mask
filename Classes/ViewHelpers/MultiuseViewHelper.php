@@ -14,12 +14,12 @@ class MultiuseViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 {
 
     /**
-     * Utility
+     * FieldHelper
      *
-     * @var \MASK\Mask\Utility\MaskUtility
+     * @var \MASK\Mask\Helper\FieldHelper
      * @inject
      */
-    protected $utility;
+    protected $fieldHelper;
 
     /**
      * Returns all elements that use this field
@@ -31,8 +31,8 @@ class MultiuseViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
      */
     public function render($key, $elementKey)
     {
-        $this->utility = new \MASK\Mask\Utility\MaskUtility($this->objectManager);
-        $type = $this->utility->getFieldType($key, $elementKey);
-        return $this->utility->getElementsWhichUseField($key, $type);
+        $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
+        $type = $this->fieldHelper->getFieldType($key, $elementKey);
+        return $this->fieldHelper->getElementsWhichUseField($key, $type);
     }
 }
