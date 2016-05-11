@@ -90,7 +90,7 @@ class HtmlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
 		 case "File":
 			$html .= '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">' . "\n";
 			$html .= '<f:for each="{' . $datafield . '.' . $fieldKey . '}" as="file">
-  <f:image src="{file.uid}" alt="{file.alternative}" title="{file.title}" treatIdAsReference="1" width="200" /><br />
+  <f:image image="{file}" alt="{file.alternative}" title="{file.title}" width="200" /><br />
   {file.description} / {file.identifier}<br />
 </f:for>' . "\n";
 			$html .= "</f:if>\n\n";

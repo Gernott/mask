@@ -170,9 +170,9 @@ UL.tx_mask_fieldtypes LI .id_keytext {
 	background-color: #DEDEDE;
 }
 .icon-size-default {
-	height: 37px;
-	width: 37px;
-	line-height: 37px;
+	height: 37px !important;
+	width: 37px !important;
+	line-height: 37px !important;
 }
 
 UL.tx_mask_fieldtypes .tx_mask_fieldcontent_highlight {
