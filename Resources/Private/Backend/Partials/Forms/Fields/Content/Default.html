@@ -1,3 +1,4 @@
+{namespace mask=MASK\Mask\ViewHelpers}
 <input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][type]" value="inline" />
 <input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][exclude]" value="1" />
 <input type="hidden" name="tx_mask_tools_maskmask[storage][sql][{type}][--index--]" value="int(11) unsigned DEFAULT '0' NOT NULL" />
@@ -34,6 +35,18 @@
 		<div class="t3js-formengine-field-item">
 			<div class="form-control-wrap" style="">
 				<input name="tx_mask_tools_maskmask[storage][tca][--index--][config][maxitems]" type="number" class="form-control" id="maxitems" title="maxitems" placeholder="cols" min="1" value="{field.config.maxitems}" />
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="form-group col-sm-12">
+		<label class="t3js-formengine-label" >
+			Allowed content elements
+		</label>
+		<div class="t3js-formengine-field-item">
+			<div class="form-control-wrap" >
+				<f:form.select name="storage[tca][--index--][cTypes]" options="{mask:cTypes()}" value="{field.cTypes}" multiple="1" size="10" class="form-control"/>
 			</div>
 		</div>
 	</div>
