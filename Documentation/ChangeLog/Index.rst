@@ -11,6 +11,8 @@
 ChangeLog
 =========
 
+Mask 2.0.1
+  Fixed Bug with JsOpenParamsViewHelper
 
 Mask 2.0.0
   Kicking all the legacy TYPO3 6.2 code, Code refactoring and cleanup, no more huge MaskUtility Class, better use of TYPO3 Standards, Possibility to add tabs to content elements and pages, New FontAwesome Icon Picker for better UX, Mask-Backend Module now uses Tab Elements for better structuring, Many new TCA options for each field type
