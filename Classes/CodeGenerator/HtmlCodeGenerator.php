@@ -70,8 +70,12 @@ class HtmlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
 		 case "Check":
 			$html .= "{f:if(condition: " . $datafield . "." . $fieldKey . ", then: 'On', else: 'Off')}<br />\n\n";
 			break;
-		 case "Content": // TODO: Benjamin, Fluid-Vorlage für Feld "Content Verbindung":
-			$html .= '{' . $datafield . '.' . $fieldKey . '}<br />' . "\n\n";
+		 case "Content":
+			$html .= '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">' . "\n";
+			$html .= "<f:for each=\"{" . $datafield . "." . $fieldKey . "}\" as=\"" . $datafield . "_item" . "\">\n";
+			$html .= '<f:cObject typoscriptObjectPath="lib.tx_mask.content">{' . $datafield . '_item.uid}</f:cObject><br />' . "\n";
+			$html .= "</f:for>\n";
+			$html .= "</f:if>\n\n";
 			break;
 		 case "Date":
 			$html .= '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">' . "\n";

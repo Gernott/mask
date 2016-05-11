@@ -210,7 +210,7 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
             }
         }
         // Parentfield
-//		$sql_content[] = "CREATE TABLE tt_content (\n\ttx_mask_content_parent int(11) unsigned NOT NULL DEFAULT '0'\n);\n";
+		$sql_content[] = "CREATE TABLE tt_content (\n\tparentid int(11) unsigned NOT NULL DEFAULT '0'\n);\n";
         return $sql_content;
     }
 
