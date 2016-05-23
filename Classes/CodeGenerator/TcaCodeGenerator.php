@@ -274,6 +274,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                         unset($columns[$tcakey]["inlineParent"]);
                         unset($columns[$tcakey]["inlineLabel"]);
                         unset($columns[$tcakey]["inlineIcon"]);
+                        unset($columns[$tcakey]["cTypes"]);
 
                         $columns[$tcakey] = $generalUtility->removeBlankOptions($columns[$tcakey]);
                         $columns[$tcakey] = $generalUtility->replaceKey($columns[$tcakey], $tcakey);
