@@ -1,4 +1,6 @@
-<?php namespace MASK\Mask\ItemsProcFuncs;
+<?php
+
+namespace MASK\Mask\ItemsProcFuncs;
 
 /* * *************************************************************
  *  Copyright notice
@@ -31,29 +33,53 @@
 class ColPosList
 {
 
-   /**
-	* Render the allowed colPos for nested content elements
-	* @param array $params
-	*/
-   public function itemsProcFunc(&$params)
-   {
-	  // if this tt_content element is inline element of mask
-	  if (!empty($params["row"]["parentid"]) || $params["row"]["colPos"] == "-90") {
-		 // only allow mask nested element column
-		 $params["items"] = array(
-			 array(
-				 "Mask-Nested-Element",
-				 '-90',
-				 null,
-				 null
-			 )
-		 );
-	  } else { // if it is not inline tt_content element
-		 // and if other itemsProcFunc from other extension was available (e.g. gridelements),
-		 // then call it now and let it render the items
-		 if (!empty($params["config"]["m_itemsProcFunc"])) {
-			\TYPO3\CMS\Core\Utility\GeneralUtility::callUserFunction($params["config"]["m_itemsProcFunc"], $params, $this);
-		 }
-	  }
-   }
+    /**
+     * FieldHelper
+     *
+     * @var \MASK\Mask\Helper\FieldHelper
+     */
+    protected $fieldHelper;
+
+    /**
+     * Render the allowed colPos for nested content elements
+     * @param array $params
+     */
+    public function itemsProcFunc(&$params)
+    {
+
+        $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
+        $isNested = false;
+
+        $fields = $params["row"];
+        foreach ($fields as $key => $field) {
+            if (\TYPO3\CMS\Core\Utility\GeneralUtility::isFirstPartOfStr($key, "tx_mask_")) {
+               $fieldType = $this->fieldHelper->getFormType($key);
+               if ($fieldType == "Content") {
+                   if ($field > 0) {
+                       $isNested = true;
+                   }
+               }
+            }
+        }
+//        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($fields);
+//        exit();
+        // if this tt_content element is inline element of mask
+        if (!empty($params["row"]["parentid"])  || $params["row"]["colPos"] == "999") {
+            // only allow mask nested element column
+            $params["items"] = array(
+                array(
+                    "Mask-Nested-Element",
+                    '999',
+                    null,
+                    null
+                )
+            );
+        } else { // if it is not inline tt_content element
+            // and if other itemsProcFunc from other extension was available (e.g. gridelements),
+            // then call it now and let it render the items
+            if (!empty($params["config"]["m_itemsProcFunc"])) {
+                \TYPO3\CMS\Core\Utility\GeneralUtility::callUserFunction($params["config"]["m_itemsProcFunc"], $params, $this);
+            }
+        }
+    }
 }

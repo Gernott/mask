@@ -143,7 +143,8 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
         $sql_content = array();
         $types = array_keys($json);
         $nonIrreTables = array("pages", "tt_content");
-
+//        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($json);
+//        exit();
         // Generate SQL-Statements
         if ($types) {
             foreach ($types as $type) {
@@ -210,7 +211,7 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
             }
         }
         // Parentfield
-		$sql_content[] = "CREATE TABLE tt_content (\n\tparentid int(11) unsigned NOT NULL DEFAULT '0'\n);\n";
+//		$sql_content[] = "CREATE TABLE tt_content (\n\tparentid int(11) unsigned NOT NULL DEFAULT '0'\n);\n";
         return $sql_content;
     }
 

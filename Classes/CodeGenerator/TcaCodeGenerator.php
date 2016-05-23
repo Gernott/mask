@@ -260,6 +260,11 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                             $tcavalue[$fieldkey]["renderType"] = "t3editor";
                         }
 
+                        // make some adjustmens to content fields
+                        if ($fieldkey == "config" && $tcavalue[$fieldkey]["foreign_table"] == "tt_content") {
+                            $tcavalue[$fieldkey]["foreign_field"] = $tcakey;
+                        }
+
                         // merge user inputs with file array
                         if (!is_array($columns[$tcakey])) {
                             $columns[$tcakey] = array();
