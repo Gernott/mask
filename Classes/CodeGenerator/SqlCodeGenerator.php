@@ -206,7 +206,7 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
                                         // if this field is a content field, also add parent columns
                                         $fieldType = $fieldHelper->getFormType($field, "", $table);
                                         if ($fieldType == "Content") {
-                                            $sql_content[] = "CREATE TABLE " . $table . " (\n\t" . $field . "_parent" . " " . $definition . "\n);\n";
+                                            $sql_content[] = "CREATE TABLE tt_content (\n\t" . $field . "_parent" . " " . $definition . "\n);\n";
                                         }
                                     }
                                 }
