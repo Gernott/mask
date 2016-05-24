@@ -33,12 +33,7 @@ namespace MASK\Mask\ItemsProcFuncs;
 class ColPosList
 {
 
-    /**
-     * FieldHelper
-     *
-     * @var \MASK\Mask\Helper\FieldHelper
-     */
-    protected $fieldHelper;
+    protected $colPos = 999;
 
     /**
      * Render the allowed colPos for nested content elements
@@ -46,30 +41,13 @@ class ColPosList
      */
     public function itemsProcFunc(&$params)
     {
-
-        $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
-        $isNested = false;
-
-        $fields = $params["row"];
-        foreach ($fields as $key => $field) {
-            if (\TYPO3\CMS\Core\Utility\GeneralUtility::isFirstPartOfStr($key, "tx_mask_")) {
-               $fieldType = $this->fieldHelper->getFormType($key);
-               if ($fieldType == "Content") {
-                   if ($field > 0) {
-                       $isNested = true;
-                   }
-               }
-            }
-        }
-//        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($fields);
-//        exit();
         // if this tt_content element is inline element of mask
-        if (!empty($params["row"]["parentid"])  || $params["row"]["colPos"] == "999") {
+        if ($params["row"]["colPos"] == $this->colPos) {
             // only allow mask nested element column
             $params["items"] = array(
                 array(
                     "Mask-Nested-Element",
-                    '999',
+                    $this->colPos,
                     null,
                     null
                 )

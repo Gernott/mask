@@ -262,7 +262,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 
                         // make some adjustmens to content fields
                         if ($fieldkey == "config" && $tcavalue[$fieldkey]["foreign_table"] == "tt_content") {
-                            $tcavalue[$fieldkey]["foreign_field"] = $tcakey;
+                            $tcavalue[$fieldkey]["foreign_field"] = $tcakey . "_parent";
                         }
 
                         // merge user inputs with file array

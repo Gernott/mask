@@ -143,6 +143,8 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
         $sql_content = array();
         $types = array_keys($json);
         $nonIrreTables = array("pages", "tt_content");
+        $fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
+
 //        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($json);
 //        exit();
         // Generate SQL-Statements
@@ -201,6 +203,12 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
                                         // every statement for pages, also for pages_language_overlay
                                         if ($table == "pages") {
                                             $sql_content[] = "CREATE TABLE pages_language_overlay (\n\t" . $field . " " . $definition . "\n);\n";
+                                        }
+
+                                        // if this field is a content field, also add parent columns
+                                        $fieldType = $fieldHelper->getFormType($field, "", $table);
+                                        if ($fieldType == "Content") {
+                                            $sql_content[] = "CREATE TABLE " . $table . " (\n\t" . $field . "_parent" . " " . $definition . "\n);\n";
                                         }
                                     }
                                 }
