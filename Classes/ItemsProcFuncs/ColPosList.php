@@ -30,10 +30,8 @@ namespace MASK\Mask\ItemsProcFuncs;
  * Render the allowed colPos for nested content elements
  * @author Benjamin Butschell <bb@webprofil.at>
  */
-class ColPosList
+class ColPosList extends AbstractList
 {
-
-    protected $colPos = 999;
 
     /**
      * Render the allowed colPos for nested content elements
@@ -46,7 +44,7 @@ class ColPosList
             // only allow mask nested element column
             $params["items"] = array(
                 array(
-                    "Mask-Nested-Element",
+                    \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('mask_content_colpos', 'mask'),
                     $this->colPos,
                     null,
                     null

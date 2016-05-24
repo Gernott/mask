@@ -590,6 +590,10 @@
 				<source>Files</source>
 			</trans-unit>
 
+			<trans-unit id="mask_content_colpos">
+				<source>Mask-Nested-Content</source>
+			</trans-unit>
+
 		</body>
 	</file>
 </xliff>

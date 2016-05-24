@@ -246,7 +246,7 @@
 			<trans-unit id="tx_mask.field.inline.localize_children_at_parent_localization">
 				<source>Datensätze mit Conten-Element lokaliseren</source>
 			</trans-unit>
-						<trans-unit id="tx_mask.field.inline.inline_label">
+			<trans-unit id="tx_mask.field.inline.inline_label">
 				<source>Key des Feldes das für IRRE-Label verwendet wird (tx_mask_..)</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.inline_icon">
@@ -593,6 +593,9 @@
 				<source>Dateien</source>
 			</trans-unit>
 
+			<trans-unit id="mask_content_colpos">
+				<target>Mask-Nested-Content</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

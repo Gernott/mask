@@ -27,27 +27,12 @@ namespace MASK\Mask\ItemsProcFuncs;
  * ************************************************************* */
 
 /**
- * Render the allowed CTypes for nested content elements
+ * Abstract class to render item lists
  * @author Benjamin Butschell <bb@webprofil.at>
  */
-class CTypeList extends AbstractList
+abstract class AbstractList
 {
 
-    /**
-     * Render the allowed CTypes for nested content elements
-     * @param array $params
-     */
-    public function itemsProcFunc(&$params)
-    {
-        // if this tt_content element is inline element of mask
-        if ($params["row"]["colPos"] == $this->colPos) {
-            // todo: only allow specified CTypes
-        } else { // if it is not inline tt_content element
-            // and if other itemsProcFunc from other extension was available (e.g. gridelements),
-            // then call it now and let it render the items
-            if (!empty($params["config"]["m_itemsProcFunc"])) {
-                \TYPO3\CMS\Core\Utility\GeneralUtility::callUserFunction($params["config"]["m_itemsProcFunc"], $params, $this);
-            }
-        }
-    }
+    protected $colPos = 999;
+
 }
