@@ -124,7 +124,7 @@ jQuery(document).ready(function () {
 				lineArray = line.split(',');
 				output += '<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][items][' + key + '][0]" value="' + lineArray[0] + '" />';
 				if (lineArray[1] !== undefined) {
-					output += '<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][items][' + key + '][1]" value="' + lineArray[1] + '" />';
+					output += '<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][items][' + key + '][1]" value="' + lineArray[1].trim() + '" />';
 				}
 			});
 			jQuery(this).parent().find(".tx_mask_fieldcontent_itemsresult").html(output);
