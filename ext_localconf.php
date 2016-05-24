@@ -67,7 +67,12 @@ if (!function_exists('user_mask_contentType')) {
                 }
             }
         } else {
-            return false;
+            // if content element is loaded by ajax, then it's ok
+            if (is_array($_REQUEST["ajax"])) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 }
