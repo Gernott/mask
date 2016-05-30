@@ -94,9 +94,15 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
                 $view->assign("row", $row);
                 $view->assign("data", $data);
 
+                // if the elementLabel contains LLL: then translate it
+                $elementLabel = $element["label"];
+                if (\TYPO3\CMS\Core\Utility\GeneralUtility::isFirstPartOfStr($elementLabel, 'LLL:')) {
+                    $elementLabel = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($elementLabel, "mask");
+                }
+
                 // Render everything
                 $content = $view->render();
-                $headerContent = '<strong>' . $element["label"] . '</strong><br>';
+                $headerContent = '<strong>' . $elementLabel . '</strong><br>';
                 $itemContent .= '<div style="display:block; padding: 10px 0 4px 0px;border-top: 1px solid #CACACA;margin-top: 6px;" class="content_preview_' . $elementKey . '">';
                 $itemContent .= $content;
                 $itemContent .= '</div>';
