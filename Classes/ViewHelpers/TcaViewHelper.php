@@ -46,7 +46,7 @@ class TcaViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
                 'no_cache', 'no_search', 'shortcut', 'shortcut_mode', 'content_from_pid',
                 'mount_pid', 'keywords', 'description', 'abstract', 'author',
                 'author_email', 'is_siteroot', 'mount_pid_ol', 'module', 'fe_login_mode',
-                'l18n_cfg', 'backend_layout', 'backend_layout_next_level'
+                'l18n_cfg', 'backend_layout', 'backend_layout_next_level', 'tx_gridelements_children'
             );
             foreach ($GLOBALS['TCA'][$table]['columns'] as $tcaField => $tcaConfig) {
                 $fieldType = $this->fieldHelper->getFormType($tcaField, "", $table);
