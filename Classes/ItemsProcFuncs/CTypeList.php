@@ -48,6 +48,7 @@ class CTypeList extends AbstractList
     {
         // if this tt_content element is inline element of mask
         if ($params["row"]["colPos"] == $this->colPos) {
+            $fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
             $this->storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
 
             if (isset($_REQUEST["ajax"]["context"])) {
@@ -69,7 +70,8 @@ class CTypeList extends AbstractList
             }
 
             // load the json configuration of this field
-            $fieldConfiguration = $this->storageRepository->loadField($params["table"], $fieldKey);
+            $table =  $fieldHelper->getFieldType($fieldKey);
+            $fieldConfiguration = $this->storageRepository->loadField($table, $fieldKey);
 
             // if there is a restriction of cTypes specified
             if (is_array($fieldConfiguration["cTypes"])) {
@@ -83,18 +85,7 @@ class CTypeList extends AbstractList
                         unset($params["items"][$itemKey]);
                     }
                 }
-//                \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($params);
-//                exit();
             }
-// unset default value, because it could be that it isn't available anymore
-//            $params["row"]["CType"] = "mask_content_test";
-//            $params["config"]["default"] = "mask_content_test";
-
-//            \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($params);
-//            exit();
-
-//            \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($params["row"]["CType"]);
-//            exit();
         } else { // if it is not inline tt_content element
             // and if other itemsProcFunc from other extension was available (e.g. gridelements),
             // then call it now and let it render the items

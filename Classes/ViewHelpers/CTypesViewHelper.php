@@ -1,4 +1,6 @@
-<?php namespace MASK\Mask\ViewHelpers;
+<?php
+
+namespace MASK\Mask\ViewHelpers;
 
 /**
  *
@@ -13,23 +15,25 @@
 class CTypesViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
 
-   /**
-	* Returns an array with all content element cTypes
-	*
-	* @return array $items an array with all content element cTypes
-	* @author Benjamin Butschell <bb@webprofil.at>
-	*/
-   public function render()
-   {
-	  $items = array();
-	  $cTypes = $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'];
-	  foreach ($cTypes as $type) {
-		 if (\TYPO3\CMS\Core\Utility\GeneralUtility::isFirstPartOfStr($type[0], 'LLL:')) {
-			$items[$type[1]] = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($type[0], "mask") . " (" . $type[1] . ")";
-		 } else {
-			$items[$type[1]] = $type[0] . " (" . $type[1] . ")";
-		 }
-	  }
-	  return $items;
-   }
+    /**
+     * Returns an array with all content element cTypes
+     *
+     * @return array $items an array with all content element cTypes
+     * @author Benjamin Butschell <bb@webprofil.at>
+     */
+    public function render()
+    {
+        $items = array();
+        $cTypes = $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'];
+        if ($cTypes) {
+            foreach ($cTypes as $type) {
+                if (\TYPO3\CMS\Core\Utility\GeneralUtility::isFirstPartOfStr($type[0], 'LLL:')) {
+                    $items[$type[1]] = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($type[0], "mask") . " (" . $type[1] . ")";
+                } else {
+                    $items[$type[1]] = $type[0] . " (" . $type[1] . ")";
+                }
+            }
+            return $items;
+        }
+    }
 }
