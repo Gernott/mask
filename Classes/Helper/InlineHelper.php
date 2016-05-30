@@ -136,13 +136,14 @@ class InlineHelper
         if (!$childTable) {
             $childTable = $name;
         }
+        
         // If this method is called in backend, there is no $GLOBALS['TSFE']
         if (isset($GLOBALS['TSFE']->sys_language_uid)) {
             $sysLangUid = $GLOBALS['TSFE']->sys_language_uid;
             $enableFields = $GLOBALS['TSFE']->cObj->enableFields($childTable);
         } else {
             $sysLangUid = 0;
-            $enableFields = "";
+            $enableFields = " AND " . $childTable . ".deleted = 0";
         }
 
         // by default, the uid of the parent is $data["uid"]
