@@ -10,6 +10,8 @@
 
 ChangeLog
 =========
+Mask 2.1.0
+  New field type "Content", to nest content elements, and some bugfixes
 
 Mask 2.0.1
   Fixed Bug with JsOpenParamsViewHelper
