@@ -27,10 +27,12 @@ class CTypesViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelp
         $cTypes = $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'];
         if ($cTypes) {
             foreach ($cTypes as $type) {
-                if (\TYPO3\CMS\Core\Utility\GeneralUtility::isFirstPartOfStr($type[0], 'LLL:')) {
-                    $items[$type[1]] = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($type[0], "mask") . " (" . $type[1] . ")";
-                } else {
-                    $items[$type[1]] = $type[0] . " (" . $type[1] . ")";
+                if ($type[1] !== "--div--") {
+                    if (\TYPO3\CMS\Core\Utility\GeneralUtility::isFirstPartOfStr($type[0], 'LLL:')) {
+                        $items[$type[1]] = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($type[0], "mask") . " (" . $type[1] . ")";
+                    } else {
+                        $items[$type[1]] = $type[0] . " (" . $type[1] . ")";
+                    }
                 }
             }
             return $items;
