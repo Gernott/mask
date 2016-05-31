@@ -88,6 +88,16 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
                 // Load the backend template
                 $view->setTemplatePathAndFilename($templatePathAndFilename);
 
+                // if there are paths for layouts and partials set, add them to view
+                if (!empty($this->extSettings["layouts_backend"])) {
+                    $layoutRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($this->extSettings["layouts_backend"]);
+                    $view->setLayoutRootPaths(array($layoutRootPath));
+                }
+                if (!empty($this->extSettings["partials_backend"])) {
+                    $partialRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($this->extSettings["partials_backend"]);
+                    $view->setPartialRootPaths(array($partialRootPath));
+                }
+
                 // Fetch and assign some useful variables
                 $data = $this->getContentObject($row["uid"]);
                 $element = $this->storageRepository->loadElement("tt_content", $elementKey);

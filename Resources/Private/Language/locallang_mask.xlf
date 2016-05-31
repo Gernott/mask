@@ -16,16 +16,28 @@
 				<source>Create and manage Masks</source>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-json">
-				<source>File with project-specific mask configuration.</source>
+				<source>File with project-specific mask configuration</source>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-content">
-				<source>Folder for Content Fluid Templates (with ending slash).</source>
+				<source>Folder for Content Fluid Templates (with trailing slash)</source>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-backend">
-				<source>Folder for Backend Preview Templates (with ending slash).</source>
+				<source>Folder for Backend Preview Templates (with trailing slash)</source>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-preview">
-				<source>Folder for preview-images (with ending slash).</source>
+				<source>Folder for preview-images (with trailing slash)</source>
+			</trans-unit>
+			<trans-unit id="ext_conf_template-layouts">
+				<source>Folder for Content Fluid Layouts (with trailing slash)</source>
+			</trans-unit>
+			<trans-unit id="ext_conf_template-partials">
+				<source>Folder for Content Fluid Partials (with trailing slash)</source>
+			</trans-unit>
+			<trans-unit id="ext_conf_template-layouts_backend">
+				<source>Folder for Backend Preview Layouts (with trailing slash)</source>
+			</trans-unit>
+			<trans-unit id="ext_conf_template-partials_backend">
+				<source>Folder for Backend Preview Partials (with trailing slash)</source>
 			</trans-unit>
 		</body>
 	</file>

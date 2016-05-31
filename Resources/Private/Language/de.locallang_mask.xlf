@@ -16,17 +16,23 @@
 				<target>Erstelle und verwalte Masken</target>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-json">
-				<target>Datei mit Projektspezifischer Mask-Konfiguration.</target>
+				<target>Datei mit Projektspezifischer Mask-Konfiguration</target>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-content">
-				<target>Ordner für Inhalts-Fluid-HTML-Vorlagen (mit / am Ende).</target>
+				<target>Ordner für Inhalts-Fluid-HTML-Vorlagen (mit / am Ende)</target>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-backend">
-				<target>Ordner für Backend-Vorschau-Vorlagen (mit / am Ende).</target>
+				<target>Ordner für Backend-Vorschau-Vorlagen (mit / am Ende)</target>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-preview">
-				<target>Ordner für Vorschau-Bilder (mit / am Ende).</target>
+				<target>Ordner für Vorschau-Bilder (mit / am Ende)</target>
 			</trans-unit>
+			<trans-unit id="ext_conf_template-layouts">
+				<source>Ordner für Inhalts-Fluid-HTML-Layouts (mit / am Ende)</source>
+			</trans-unit>
+			<trans-unit id="ext_conf_template-partials">
+				<source>Ordner für Inhalts-Fluid-HTML-Partials (mit / am Ende)</source>
+			</trans-unit>s
 		</body>
 	</file>
 </xliff>
