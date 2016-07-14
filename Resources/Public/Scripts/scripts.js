@@ -110,6 +110,9 @@ jQuery(document).ready(function () {
 	// Form Submit:
 	jQuery('FORM[name=storage]').bind('submit', function (event) {
 
+		// cType selectbox has wrong name when added fresh
+		jQuery("SELECT[name='storage[tca][--index--][cTypes][]']").attr("name", "tx_mask_tools_maskmask[storage][tca][--index--][cTypes][]");
+
 		// Merge eval fields:
 		evalFields();
 		linkFields();
