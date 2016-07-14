@@ -329,7 +329,8 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                 ),
                 'searchFields' => '',
                 'dynamicConfigFile' => '',
-                'iconfile' => ''
+                'iconfile' => '',
+                'requestUpdate' => 'CType'
             ),
             'interface' => array(
                 'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, ',
