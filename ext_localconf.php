@@ -38,45 +38,6 @@ $pageTs = $typoScriptCodeGenerator->generatePageTyposcript($configuration);
 $setupTs = $typoScriptCodeGenerator->generateSetupTyposcript($configuration, $settings);
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup($setupTs);
 
-// for conditions on tt_content
-if (!function_exists('user_mask_contentType')) {
-
-    function user_mask_contentType($param = "")
-    {
-        if (isset($_REQUEST["edit"]["tt_content"]) && is_array($_REQUEST["edit"]["tt_content"])) {
-            $field = explode("|", $param);
-            $request = $_REQUEST;
-            $first = array_shift($request["edit"]["tt_content"]);
-
-            if ($first == "new") { // if new element
-                if ($_REQUEST["defVals"]["tt_content"]["CType"] == $field[1]) {
-                    return true;
-                } else {
-                    return false;
-                }
-            } else { // if element exists
-                $uid = intval(key($_REQUEST["edit"]["tt_content"]));
-                $sql = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-                    $field[0], "tt_content", "uid = " . $uid
-                );
-                $data = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($sql);
-                if ($data[$field[0]] == $field[1]) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        } else {
-            // if content element is loaded by ajax, then it's ok
-            if (is_array($_REQUEST["ajax"])) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-    }
-}
-
 // for conditions on the backend-layouts
 if (!function_exists('user_mask_beLayout')) {
 
