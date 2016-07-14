@@ -31,17 +31,16 @@
 											</div>
 											<div class="tx_mask_btn_text">
 												<span class="id_typetext"><f:translate key="tx_mask.field.{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')}" /></span>
-												<span class="id_labeltext"><mask:label elementKey="{storage.key}" fieldKey="{key}" table="tt_content" field="{field}"/></span>
-												<span class="id_keytext">
-													<f:if condition="{field.key}">
-														<f:then>
-															{field.key}
-														</f:then>
-														<f:else>
-															{key}
-														</f:else>
-													</f:if>
-												</span>
+												<f:alias map="{label: '{mask:label(elementKey: \'{storage.key}\', fieldKey: \'{key}\', field: \'{field}\', table: \'tt_content\')}'}">
+													<span class="id_labeltext" title="{label}">
+														<f:format.crop maxCharacters="20" append="..."><mask:translateLabel key="{label}" /></f:format.crop>
+													</span>
+												</f:alias>
+												<f:alias map="{keyText: '{f:if(condition: \'{field.key}\', then: \'{field.key}\', else: \'{key}\')}'}">
+													<span class="id_keytext" title="{keyText}">
+														<f:format.crop maxCharacters="60" append="...">{keyText}</f:format.crop>
+													</span>
+												</f:alias>
 											</div>
 											<div class="tx_mask_btn_actions">
 												<span class="id_add" title="{f:translate(key:'tx_mask.field.titleAdd')}"><core:icon identifier="actions-edit-add" size="default" /></span>
@@ -77,10 +76,12 @@
 											<!-- field header 3rd column: existing/TYPO3 fields (eg. bodytext) -->
 											<div class="tx_mask_fieldheader">
 												<div class="tx_mask_fieldheader_icon id_{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')}"><core:icon identifier="mask-fieldtype-{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')}" size="default" /></div>
-												<div class="tx_mask_fieldheader_text">
-													<h1><mask:label elementKey="{storage.key}" fieldKey="{key}" table="tt_content" />&nbsp;</h1>
-													<p>{key}</p>
-												</div>
+												<f:alias map="{label: '{mask:label(elementKey: \'{storage.key}\', fieldKey: \'{key}\', table: \'tt_content\')}'}">
+													<div class="tx_mask_fieldheader_text" title="{label}">
+														<h1><f:format.crop maxCharacters="60" append="..."><mask:translateLabel key="{label}" /></f:format.crop>&nbsp;</h1>
+														<p>{key}</p>
+													</div>
+												</f:alias>
 											</div>
 
 											<div class="row tx_mask_fieldcontent">
