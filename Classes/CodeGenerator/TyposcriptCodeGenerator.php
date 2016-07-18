@@ -69,13 +69,11 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
                 $content.= $temp;
 
                 // Labels
-                $content .= "\n[userFunc = user_mask_contentType(CType|mask_" . $element["key"] . ")]\n";
                 if ($element["columns"]) {
                     foreach ($element["columns"] as $index => $column) {
-                        $content .= " TCEFORM.tt_content." . $column . ".label = " . $element["labels"][$index] . "\n";
+                        $content .= "\nTCEFORM.tt_content." . $column . ".types.mask_" . $element["key"] . ".label = " . $element["labels"][$index] . "\n";
                     }
                 }
-                $content .= "[end]\n\n";
             }
         }
         return $content;
