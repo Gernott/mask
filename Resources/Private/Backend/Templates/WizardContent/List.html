@@ -30,7 +30,7 @@
 							<th class="text-nowrap"><f:translate key="tx_mask.content.image" /></th>
 							<th class="text-nowrap"><f:translate key="tx_mask.content.titlekey" /></th>
 							<th class="text-nowrap col-title"><f:translate key="tx_mask.content.description" /></th>
-							<th class="text-nowrap">In Verwendung</th>
+							<th class="text-nowrap"><f:translate key="tx_mask.content.count"/></th>
 							<th class="text-nowrap col-control">&nbsp;</td>
 								</tr>
 								</thead>
@@ -58,13 +58,13 @@
 										<f:link.action action="edit" arguments="{type:'tt_content',key:key}" class="btn btn-default"><core:icon identifier="actions-open" /></f:link.action>
 										<f:if condition="{storage.hidden}">
 											<f:then>
-												<f:link.action action="show" arguments="{key:key, type:'tt_content'}" class="btn btn-default"><core:icon identifier="actions-edit-unhide" /></f:link.action>
+												<f:link.action action="activate" arguments="{key:key}" class="btn btn-default"><core:icon identifier="actions-edit-unhide" /></f:link.action>
 											</f:then>
 											<f:else>
-												<f:link.action action="hide" arguments="{key:key, type:'tt_content'}" class="btn btn-default"><core:icon identifier="actions-edit-hide" /></f:link.action>
+												<f:link.action action="hide" arguments="{key:key}" class="btn btn-default"><core:icon identifier="actions-edit-hide" /></f:link.action>
 											</f:else>
 										</f:if>
-										<f:link.action action="delete" arguments="{type:'tt_content',key:key}" class="t3js-modal-trigger btn btn-default" additionalAttributes="{data-title: '{f:translate(key:\"tx_mask.field.titleDelete\")}', data-content: '{f:translate(key:\"tx_mask.all.confirmdelete\")}'}"><core:icon identifier="actions-edit-delete" /></f:link.action>
+										<f:link.action action="delete" arguments="{type:'tt_content',key:key}" class="t3js-modal-trigger btn btn-default" additionalAttributes="{data-title: '{f:translate(key:\"tx_mask.field.titleDelete\")}', data-content: '{f:translate(key:\"tx_mask.all.confirmdelete\")}', data-button-close-text:'{f:translate(key:\"tx_mask.all.abort\")}', data-button-ok-text:'{f:translate(key:\"tx_mask.all.delete\")}'}"><core:icon identifier="actions-edit-delete" /></f:link.action>
 									</div>
 								</td>
 								</tr>

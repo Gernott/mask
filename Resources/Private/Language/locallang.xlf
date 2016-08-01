@@ -494,7 +494,15 @@
 			<trans-unit id="tx_mask.content.htmlmissing">
 				<source>Fluid/HTML missing, place here</source>
 			</trans-unit>
-
+			<trans-unit id="tx_mask.content.hiddencontentelement">
+				<target>Content element was deactivated</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.activatedcontentelement">
+				<target>Content element was activated</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.count">
+				<target>In Usage</target>
+			</trans-unit>
 
 			<trans-unit id="tx_mask.page.title">
 				<source>Title</source>
@@ -551,6 +559,12 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.all.confirmdelete">
 				<source>Really delete element?</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.abort">
+				<target>Abort</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.delete">
+				<target>Delete</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.error.key">
 				<source>Field-Key is required!</source>

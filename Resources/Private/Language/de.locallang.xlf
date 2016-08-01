@@ -495,7 +495,7 @@
 				<target>Content-Element wurde deaktiviert</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.activatedcontentelement">
-				<target>Content-Element wurde deaktiviert</target>
+				<target>Content-Element wurde aktiviert</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.deletedcontentelement">
 				<target>Content-Element wurde gelöscht.</target>
@@ -503,7 +503,10 @@
 			<trans-unit id="tx_mask.content.htmlmissing">
 				<target>Fluid/HTML fehlt, hier ablegen</target>
 			</trans-unit>
-
+			<trans-unit id="tx_mask.content.count">
+				<target>In Verwendung</target>
+			</trans-unit>
+			
 
 			<trans-unit id="tx_mask.page.title">
 				<target>Titel</target>
@@ -560,6 +563,12 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.all.confirmdelete">
 				<target>Element wirklich löschen?</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.abort">
+				<target>Abbrechen</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.delete">
+				<target>Löschen</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.error.key">
 				<target>Es muss ein Feld-Key angegeben werden!</target>
