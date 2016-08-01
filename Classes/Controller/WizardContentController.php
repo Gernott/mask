@@ -145,4 +145,32 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
         $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.deletedcontentelement', 'mask'));
         $this->redirect('list');
     }
+
+    /**
+     * action hide
+     *
+     * @param string $key
+     * @return void
+     */
+    public function hideAction($key)
+    {
+        $this->storageRepository->hide("tt_content", $key);
+        $this->generateAction();
+        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.hiddencontentelement', 'mask'));
+        $this->redirect('list');
+    }
+
+    /**
+     * action activate
+     *
+     * @param string $key
+     * @return void
+     */
+    public function activateAction($key)
+    {
+        $this->storageRepository->activate("tt_content", $key);
+        $this->generateAction();
+        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.activatedcontentelement', 'mask'));
+        $this->redirect('list');
+    }
 }

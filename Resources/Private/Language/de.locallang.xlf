@@ -491,6 +491,12 @@
 			<trans-unit id="tx_mask.content.updatedcontentelement">
 				<target>Content-Element wurde aktualisiert.</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.content.hiddencontentelement">
+				<target>Content-Element wurde deaktiviert</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.activatedcontentelement">
+				<target>Content-Element wurde deaktiviert</target>
+			</trans-unit>
 			<trans-unit id="tx_mask.content.deletedcontentelement">
 				<target>Content-Element wurde gelöscht.</target>
 			</trans-unit>

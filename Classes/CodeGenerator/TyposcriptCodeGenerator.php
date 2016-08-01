@@ -53,7 +53,6 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
 
         // make content-Elements
         if ($json["tt_content"]["elements"]) {
-
             foreach ($json["tt_content"]["elements"] as $element) {
                 // Register icons for contentelements
                 $iconIdentifier = 'mask-ce-' . $element["key"];
@@ -62,16 +61,18 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
                     'contentElementKey' => $element["key"]
                     )
                 );
-                $temp = str_replace("###ICON###", "iconIdentifier = " . $iconIdentifier, $template);
-                $temp = str_replace("###KEY###", $element["key"], $temp);
-                $temp = str_replace("###LABEL###", $element["label"], $temp);
-                $temp = str_replace("###DESCRIPTION###", $element["description"], $temp);
-                $content.= $temp;
+                if (!$element["hidden"]) {
+                    $temp = str_replace("###ICON###", "iconIdentifier = " . $iconIdentifier, $template);
+                    $temp = str_replace("###KEY###", $element["key"], $temp);
+                    $temp = str_replace("###LABEL###", $element["label"], $temp);
+                    $temp = str_replace("###DESCRIPTION###", $element["description"], $temp);
+                    $content.= $temp;
 
-                // Labels
-                if ($element["columns"]) {
-                    foreach ($element["columns"] as $index => $column) {
-                        $content .= "\nTCEFORM.tt_content." . $column . ".types.mask_" . $element["key"] . ".label = " . $element["labels"][$index] . "\n";
+                    // Labels
+                    if ($element["columns"]) {
+                        foreach ($element["columns"] as $index => $column) {
+                            $content .= "\nTCEFORM.tt_content." . $column . ".types.mask_" . $element["key"] . ".label = " . $element["labels"][$index] . "\n";
+                        }
                     }
                 }
             }
@@ -160,9 +161,11 @@ module.tx_mask {
         // Fill setup.ts:
         if ($configuration["tt_content"]["elements"]) {
             foreach ($configuration["tt_content"]["elements"] as $element) {
-                $temp = str_replace("###KEY###", $element["key"], $template);
-                $temp = str_replace("###PATH###", $settings['content'] . $element["key"] . '.html', $temp);
-                $setupContent.= $temp;
+                if (!$element["hidden"]) {
+                    $temp = str_replace("###KEY###", $element["key"], $template);
+                    $temp = str_replace("###PATH###", $settings['content'] . $element["key"] . '.html', $temp);
+                    $setupContent.= $temp;
+                }
             }
         }
         return $setupContent;

@@ -93,6 +93,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
         }
         if ($tca) {
             foreach ($tca as $elementvalue) {
+                if (!$elementvalue["hidden"]) {
                 $prependTabs = "--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,";
                 $fieldArray = array();
                 $label = $elementvalue["shortLabel"]; // Optional shortLabel
@@ -127,6 +128,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                 $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["showitem"] = $prependTabs . $fields . $defaultTabs . $gridelements;
             }
         }
+    }
     }
 
     /**

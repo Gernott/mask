@@ -233,9 +233,8 @@ class StorageRepository
             }
         }
 
-		// sort content elements by key before saving
-		ksort($json["tt_content"]["elements"]);
-
+        // sort content elements by key before saving
+        $this->sortJson($json);
         // Save
         $encodedJson = "";
 
@@ -268,7 +267,38 @@ class StorageRepository
                 $json = $this->removeField($type, $field, $json, $remainingFields);
             }
         }
+        $this->sortJson($json);
         // Save
+        \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $this->extSettings["json"], json_encode($json));
+    }
+
+    /**
+     * Hides Content-Element
+     *
+     * @param string $type
+     * @param string $key
+     */
+    public function hide($type, $key)
+    {
+        // Load
+        $json = $this->load();
+        $json[$type]["elements"][$key]["hidden"] = 1;
+        $this->sortJson($json);
+        \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $this->extSettings["json"], json_encode($json));
+    }
+
+    /**
+     * Activates Content-Element
+     *
+     * @param string $type
+     * @param string $key
+     */
+    public function activate($type, $key)
+    {
+        // Load
+        $json = $this->load();
+        unset($json[$type]["elements"][$key]["hidden"]);
+        $this->sortJson($json);
         \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $this->extSettings["json"], json_encode($json));
     }
 
@@ -386,5 +416,20 @@ class StorageRepository
     {
         $this->remove($content["type"], $content["orgkey"], $content["elements"]["columns"]);
         $this->add($content);
+    }
+
+    /**
+     * Sorts the json entries
+     * @param array $json
+     */
+    private function sortJson(&$json)
+    {
+        ksort($json["tt_content"]["elements"]);
+        foreach ($json["tt_content"]["elements"] as $index => $element) {
+            if ($element["hidden"]) {
+                unset($json["tt_content"]["elements"][$index]);
+                $json["tt_content"]["elements"][$index] = $element;
+            }
+        }
     }
 }
