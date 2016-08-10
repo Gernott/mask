@@ -558,13 +558,16 @@
 				<source>Page Templates</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.confirmdelete">
-				<source>Really delete element?</source>
+				<source><![CDATA[<strong>Do you want to delete the content element?</strong> <br /><br />"Delete" only deletes the configuration. "Purge" deletes the configuration and all the corresponding template files. The content in the database can be deleted via the install tool.]]></source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.abort">
-				<target>Abort</target>
+				<source>Abort</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.delete">
-				<target>Delete</target>
+				<source>Delete</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.purge">
+				<source>Purge</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.error.key">
 				<source>Field-Key is required!</source>

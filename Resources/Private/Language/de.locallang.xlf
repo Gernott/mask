@@ -506,7 +506,7 @@
 			<trans-unit id="tx_mask.content.count">
 				<target>In Verwendung</target>
 			</trans-unit>
-			
+
 
 			<trans-unit id="tx_mask.page.title">
 				<target>Titel</target>
@@ -562,13 +562,16 @@
 				<target>Seitenvorlagen</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.confirmdelete">
-				<target>Element wirklich löschen?</target>
+				<target><![CDATA[<strong>Möchten Sie das Content-Element löschen?</strong> <br /><br />Beim normalen Löschen wird nur die Konfiguration gelöscht. Bei "Alles Entfernen" werden auch alle dazugehörge Dateien im System gelöscht (Fluid-Templates). Inhalte werden erst mit einem Database-Compare im Installations-Tool entfernt.]]></target>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.abort">
 				<target>Abbrechen</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.delete">
 				<target>Löschen</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.purge">
+				<target>Komplett entfernen</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.error.key">
 				<target>Es muss ein Feld-Key angegeben werden!</target>

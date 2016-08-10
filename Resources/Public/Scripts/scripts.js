@@ -1,5 +1,38 @@
 jQuery.noConflict();
 jQuery(document).ready(function () {
+
+	// delete modal of content elements
+	jQuery(document).on("click", ".deleteCe", function (event) {
+		event.preventDefault();
+		var deleteUrl = jQuery(this).attr("href");
+		var purgeUrl = jQuery(this).data("purge-url");
+		top.TYPO3.Modal.confirm(jQuery(this).data("title"), jQuery(this).data("content"), top.TYPO3.Severity.warning, [
+			{
+				text: jQuery(this).data("button-purge-text"),
+				btnClass: 'btn-danger',
+				trigger: function () {
+					top.TYPO3.Modal.dismiss();
+					window.location.href = purgeUrl;
+				}
+			}, {
+				text: jQuery(this).data("button-close-text"),
+				trigger: function () {
+					top.TYPO3.Modal.dismiss();
+				}
+			}, {
+				text: jQuery(this).data("button-ok-text"),
+				active: true,
+				btnClass: 'btn-warning',
+				trigger: function () {
+					top.TYPO3.Modal.dismiss();
+					window.location.href = deleteUrl;
+				}
+			}
+		]);
+		return false;
+	});
+
+
 	// Transform Lowercase Inputs to Lowercase
 	jQuery(document).on("change", "INPUT.lowercase", function (event) {
 		jQuery(this).val(jQuery(this).val().toLowerCase());
