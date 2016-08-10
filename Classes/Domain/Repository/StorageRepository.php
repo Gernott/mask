@@ -66,6 +66,12 @@ class StorageRepository
     protected $extSettings;
 
     /**
+     * json configuration
+     * @var array
+     */
+    private static $json = null;
+
+    /**
      * is called before every action
      */
     public function __construct()
@@ -81,11 +87,14 @@ class StorageRepository
      */
     public function load()
     {
-        if (!empty($this->extSettings["json"]) && file_exists(PATH_site . $this->extSettings["json"]) && is_file(PATH_site . $this->extSettings["json"])) {
-            return json_decode(file_get_contents(PATH_site . $this->extSettings["json"]), true);
-        } else {
-            return array();
+        if (self::$json === null) {
+            if (!empty($this->extSettings["json"]) && file_exists(PATH_site . $this->extSettings["json"]) && is_file(PATH_site . $this->extSettings["json"])) {
+                self::$json = json_decode(file_get_contents(PATH_site . $this->extSettings["json"]), true);
+            } else {
+                self::$json = array();
+            }
         }
+        return self::$json;
     }
 
     /**
