@@ -1,5 +1,5 @@
 {
-	"name": "mask/mask",
+	"name": "itplusx/mask",
 	"type": "typo3-cms-extension",
 	"description": "Create your own content elements and page templates. Easy to use, even without programming skills because of the comfortable drag&drop system. Stored in structured database tables. Style your frontend with Fluid tags. Ideal, if you want to switch from Templavoila.",
 	"homepage": "https://forge.typo3.org/projects/extension-mask",
