@@ -5,6 +5,8 @@ namespace MASK\Mask\Controller;
 /**
  * FrontendController
  */
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  *
@@ -56,14 +58,23 @@ class FrontendController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
         // load extension settings
         $this->extSettings = $this->settingsService->get();
 
+        // get framework configuration
+        $extbaseFrameworkConfiguration = $this->configurationManager->getConfiguration(
+            ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
+        );
+
         // if there are paths for layouts and partials set, add them to view
         if (!empty($this->extSettings["layouts"])) {
-            $layoutRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($this->extSettings["layouts"]);
-            $this->view->setLayoutRootPaths(array($layoutRootPath));
+            $viewLayoutRootPaths = $this->getViewProperty($extbaseFrameworkConfiguration, 'layoutRootPaths');
+            $extSettingsLayoutRootPath = GeneralUtility::getFileAbsFileName($this->extSettings["layouts"]);
+
+            $this->view->setLayoutRootPaths(array_replace($viewLayoutRootPaths, [$extSettingsLayoutRootPath]));
         }
         if (!empty($this->extSettings["partials"])) {
-            $partialRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($this->extSettings["partials"]);
-            $this->view->setPartialRootPaths(array($partialRootPath));
+            $viewPartialRootPaths = $this->getViewProperty($extbaseFrameworkConfiguration, 'partialRootPaths');
+            $extSettingsPartialRootPath = GeneralUtility::getFileAbsFileName($this->extSettings["partials"]);
+
+            $this->view->setPartialRootPaths(array_replace($viewPartialRootPaths, [$extSettingsPartialRootPath]));
         }
         $this->view->setTemplatePathAndFilename($this->settings["file"]);
         $data = $this->configurationManager->getContentObject()->data;
