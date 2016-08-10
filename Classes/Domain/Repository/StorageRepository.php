@@ -98,6 +98,23 @@ class StorageRepository
     }
 
     /**
+     * Write Storage
+     *
+     * @return array
+     */
+    public function write($json)
+    {
+        // Return JSON formatted in PHP 5.4.0 and higher
+        if (version_compare(phpversion(), '5.4.0', '<')) {
+            $encodedJson = json_encode($json);
+        } else {
+            $encodedJson = json_encode($json, JSON_PRETTY_PRINT);
+        }
+        \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $this->extSettings["json"], $encodedJson);
+        self::$json = $json;
+    }
+
+    /**
      * Load Field
      * @author Benjamin Butschell <bb@webprofil.at>
      * @return array
@@ -244,16 +261,7 @@ class StorageRepository
 
         // sort content elements by key before saving
         $this->sortJson($json);
-        // Save
-        $encodedJson = "";
-
-        // Return JSON formatted in PHP 5.4.0 and higher
-        if (version_compare(phpversion(), '5.4.0', '<')) {
-            $encodedJson = json_encode($json);
-        } else {
-            $encodedJson = json_encode($json, JSON_PRETTY_PRINT);
-        }
-        \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $this->extSettings["json"], $encodedJson);
+        $this->write($json);
     }
 
     /**
@@ -277,8 +285,7 @@ class StorageRepository
             }
         }
         $this->sortJson($json);
-        // Save
-        \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $this->extSettings["json"], json_encode($json));
+        $this->write($json);
     }
 
     /**
@@ -293,7 +300,7 @@ class StorageRepository
         $json = $this->load();
         $json[$type]["elements"][$key]["hidden"] = 1;
         $this->sortJson($json);
-        \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $this->extSettings["json"], json_encode($json));
+        $this->write($json);
     }
 
     /**
@@ -308,7 +315,7 @@ class StorageRepository
         $json = $this->load();
         unset($json[$type]["elements"][$key]["hidden"]);
         $this->sortJson($json);
-        \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $this->extSettings["json"], json_encode($json));
+        $this->write($json);
     }
 
     /**
