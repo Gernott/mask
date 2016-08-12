@@ -121,11 +121,11 @@ You can display images in the frontend with f:image or with f:cObject:
 	<f:for each="{data.tx_mask_image}" as="file">
 		f:image example:
 		<f:image src="{file.uid}" treatIdAsReference="1" width="200" />
-		
+
 		f:cObject example:
 		<f:cObject typoscriptObjectPath="lib.my_image" data="{image: file.uid}" />
 	</f:for>
-	
+
 In case of using f:cObject, use the following TypoScript in your setup-field:
 
 .. code-block:: typoscript
@@ -138,5 +138,14 @@ In case of using f:cObject, use the following TypoScript in your setup-field:
 
 Repeating
 ---------
-Repeating field, using IRRE technic. You can add subfields to this item.
+Repeating field, using IRRE technique. You can add repeating subfields to this item.
 Example: Create a slider with multiple slides.
+
+Content
+---------
+Allow users to add content elements to the content element. This way editors can nest the content elements and can for instance build an accordion in a comfortable way.
+Or if you want to create a media section, where only images, videos and audio elements are allowed, you can allow editors to only add the content elements that fit this requirement.
+
+Tab
+---------
+With the tab field, you can add a tab divider to better organise your fields in several tabs, and make editor's life easier.

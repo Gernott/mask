@@ -17,20 +17,20 @@ Introduction
 What does it do?
 ----------------
 
-Mask is a TYPO3-extension for creating contentelements and extend pagetemplates. It is possible to add new fields to any element. Fields can have serveral types, for example: text, file, relations, richtext,...
+Mask is a TYPO3-extension for creating contentelements and extending pagetemplates. It is possible to add new fields to any backend layout and creating completely customized content elements without writing any line of code. Fields can have several types, for example: text, file, relations, richtext,...
 
-Advantage of Mask
+Advantages of Mask
 -----------------
 
 + Mask stores the content in columns in databasetables - not in XML (Flexform)
 
 + Mask reuses existing database-fields to conserve the database
 
-+ Mask works only with existing features of the TYPO3-core: backend_layouts, fluid, typoscript, 
++ Mask only uses already existing features of the TYPO3-core and combines them: backend_layouts, fluid, typoscript, tca
 
-+ Mask allows repeating content with IRRE-technology
++ Mask allows repeating content and nesting content elements with IRRE-technology
 
-+ Mask supports multilanguage projects and resolves some language-bugs of TYPO3
++ Mask supports multilanguage projects
 
 + Mask supports workspaces and versioning
 

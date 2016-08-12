@@ -1,11 +1,11 @@
 <?php
 
-namespace MASK\Mask\Domain\Repository;
+namespace MASK\Mask\ItemsProcFuncs;
 
 /* * *************************************************************
  *  Copyright notice
  *
- *  (c) 2014 Gernot Ploiner <gp@webprofil.at>, WEBprofil - Gernot Ploiner e.U.
+ *  (c) 2016 Benjamin Butschell <bb@webprofil.at>, WEBprofil - Gernot Ploiner e.U.
  *
  *  All rights reserved
  *
@@ -27,22 +27,12 @@ namespace MASK\Mask\Domain\Repository;
  * ************************************************************* */
 
 /**
- *
- *
- * @package mask
- * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
- *
+ * Abstract class to render item lists
+ * @author Benjamin Butschell <bb@webprofil.at>
  */
-class ContentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+abstract class AbstractList
 {
 
-    public function initializeObject()
-    {
-        /** @var $querySettings TYPO3CMSExtbasePersistenceGenericTypo3QuerySettings */
-        $querySettings = $this->objectManager->get('TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings');
-        $querySettings->setRespectStoragePage(FALSE);
-        $querySettings->setIgnoreEnableFields(FALSE);
-        $querySettings->setIncludeDeleted(FALSE);
-        $this->setDefaultQuerySettings($querySettings);
-    }
+    protected $colPos = 999;
+
 }

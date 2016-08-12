@@ -32,8 +32,14 @@
 											</div>
 											<div class="tx_mask_btn_text">
 												<span class="id_typetext"><f:translate key="tx_mask.field.{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}', type: 'pages')}" /></span>
-												<span class="id_labeltext"><mask:label elementKey="{storage.key}" fieldKey="{key}" field="{field}" table="pages" /></span>
-												<span class="id_keytext">{field.key}</span>
+												<f:alias map="{label: '{mask:label(elementKey: \'{storage.key}\', fieldKey: \'{key}\', field: \'{field}\', table: \'pages\')}'}">
+													<span class="id_labeltext" title="{label}">
+														<f:format.crop maxCharacters="20" append="..."><mask:translateLabel key="{label}" /></f:format.crop>
+													</span>
+												</f:alias>
+												<span class="id_keytext" title="{field.key}">
+													<f:format.crop maxCharacters="20" append="...">{field.key}</f:format.crop>
+												</span>
 											</div>
 											<div class="tx_mask_btn_actions">
 												<span class="id_add" title="{f:translate(key:'tx_mask.field.titleAdd')}"><core:icon identifier="actions-edit-add" size="small" /></span>

@@ -225,6 +225,8 @@ class FieldHelper
                 $formType = "Inline";
                 if ($tca["config"]["foreign_table"] == "sys_file_reference") {
                     $formType = "File";
+                } else if($tca["config"]["foreign_table"] == "tt_content") {
+                    $formType = "Content";
                 } else {
                     $formType = "Inline";
                 }

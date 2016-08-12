@@ -33,7 +33,7 @@ class LinkViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
     /**
      * Checks Links for BE-module
      *
-     * @param object $data the parent object
+     * @param string $data the parent object
      * @param string $irreName The name of the irre attribut
      * @return array all irre elements of this attribut
      * @author Gernot Ploiner <gp@webprofil.at>

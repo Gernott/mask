@@ -1,5 +1,38 @@
 jQuery.noConflict();
 jQuery(document).ready(function () {
+
+	// delete modal of content elements
+	jQuery(document).on("click", ".deleteCe", function (event) {
+		event.preventDefault();
+		var deleteUrl = jQuery(this).attr("href");
+		var purgeUrl = jQuery(this).data("purge-url");
+		top.TYPO3.Modal.confirm(jQuery(this).data("title"), jQuery(this).data("content"), top.TYPO3.Severity.warning, [
+			{
+				text: jQuery(this).data("button-purge-text"),
+				btnClass: 'btn-danger',
+				trigger: function () {
+					top.TYPO3.Modal.dismiss();
+					window.location.href = purgeUrl;
+				}
+			}, {
+				text: jQuery(this).data("button-close-text"),
+				trigger: function () {
+					top.TYPO3.Modal.dismiss();
+				}
+			}, {
+				text: jQuery(this).data("button-ok-text"),
+				active: true,
+				btnClass: 'btn-warning',
+				trigger: function () {
+					top.TYPO3.Modal.dismiss();
+					window.location.href = deleteUrl;
+				}
+			}
+		]);
+		return false;
+	});
+
+
 	// Transform Lowercase Inputs to Lowercase
 	jQuery(document).on("change", "INPUT.lowercase", function (event) {
 		jQuery(this).val(jQuery(this).val().toLowerCase());
@@ -110,6 +143,9 @@ jQuery(document).ready(function () {
 	// Form Submit:
 	jQuery('FORM[name=storage]').bind('submit', function (event) {
 
+		// cType selectbox has wrong name when added fresh
+		jQuery("SELECT[name='storage[tca][--index--][cTypes][]']").attr("name", "tx_mask_tools_maskmask[storage][tca][--index--][cTypes][]");
+
 		// Merge eval fields:
 		evalFields();
 		linkFields();
@@ -124,7 +160,7 @@ jQuery(document).ready(function () {
 				lineArray = line.split(',');
 				output += '<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][items][' + key + '][0]" value="' + lineArray[0] + '" />';
 				if (lineArray[1] !== undefined) {
-					output += '<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][items][' + key + '][1]" value="' + lineArray[1] + '" />';
+					output += '<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][items][' + key + '][1]" value="' + lineArray[1].trim() + '" />';
 				}
 			});
 			jQuery(this).parent().find(".tx_mask_fieldcontent_itemsresult").html(output);

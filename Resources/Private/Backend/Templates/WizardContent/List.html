@@ -27,30 +27,44 @@
 							<thead>
 								<tr>
 									<th class="text-nowrap col-icon"><f:link.action action="new" class="btn btn-default"><core:icon identifier="actions-document-new" /></f:link.action></th>
-									<th class="text-nowrap"><f:translate key="tx_mask.content.image" /></th>
-									<th class="text-nowrap"><f:translate key="tx_mask.content.titlekey" /></th>
-									<th class="text-nowrap col-title"><f:translate key="tx_mask.content.description" /></th>
-									<th class="text-nowrap col-control">&nbsp;</td>
+							<th class="text-nowrap"><f:translate key="tx_mask.content.image" /></th>
+							<th class="text-nowrap"><f:translate key="tx_mask.content.titlekey" /></th>
+							<th class="text-nowrap col-title"><f:translate key="tx_mask.content.description" /></th>
+							<th class="text-nowrap"><f:translate key="tx_mask.content.count"/></th>
+							<th class="text-nowrap col-control">&nbsp;</td>
 								</tr>
-							</thead>
+								</thead>
 							<tbody>
 							<f:for each="{storages.tt_content.elements}" as="storage" key="key">
-								<tr>
+								<tr class="{f:if(condition:'{storage.hidden}' then:'element-hidden')}">
 									<td></td>
 									<td><f:link.action action="edit" arguments="{type:'tt_content',key:key}">
 									<core:icon identifier="mask-ce-{key}" size="large" />
 								</f:link.action></td>
-								<td class="text-nowrap"><p><strong><f:link.action action="edit" arguments="{type:'tt_content',key:key}">{storage.label}</f:link.action></strong><br />{key}</p></td>
+								<td class="text-nowrap"><p><strong><f:link.action action="edit" arguments="{type:'tt_content',key:key}"><f:translate key="{storage.label}">{storage.label}</f:translate></f:link.action></strong><br />{key}</p></td>
+
 								<td>
 									<p>{storage.description}</p>
 								<mask:link data="{key}" />
 								</td>
+								<td class="text-center text-muted">
+								<mask:elementCount key="{key}"/>
+								</td>
 								<td class="text-nowrap">
+
 									<div class="btn-group" role="group">
-										<f:link.action action="edit" arguments="{type:'tt_content',key:key}" class="btn btn-default"><core:icon identifier="actions-document-open" /></f:link.action>
 										<f:link.action action="showHtml" arguments="{key: key}" onclick="window.open(this.href, 'HTML', 'width=800,height=600,resizable=yes,scrollbars=yes');
 												return false;" class="btn btn-default"><core:icon identifier="sysnote-type-2" /></f:link.action>
-										<f:link.action action="delete" arguments="{type:'tt_content',key:key}" onclick="return confirm('{f:translate(key:\"tx_mask.all.confirmdelete\")}')" class="btn btn-default"><core:icon identifier="actions-edit-delete" /></f:link.action>
+										<f:link.action action="edit" arguments="{type:'tt_content',key:key}" class="btn btn-default"><core:icon identifier="actions-open" /></f:link.action>
+										<f:if condition="{storage.hidden}">
+											<f:then>
+												<f:link.action action="activate" arguments="{key:key}" class="btn btn-default"><core:icon identifier="actions-edit-unhide" /></f:link.action>
+											</f:then>
+											<f:else>
+												<f:link.action action="hide" arguments="{key:key}" class="btn btn-default"><core:icon identifier="actions-edit-hide" /></f:link.action>
+											</f:else>
+										</f:if>
+										<f:link.action action="delete" arguments="{type:'tt_content',key:key}" class="deleteCe btn btn-default" additionalAttributes="{data-purge-url:'{f:uri.action(action:\'purge\', arguments: {type:\'tt_content\',key:key})}', data-title: '{f:translate(key:\"tx_mask.field.titleDelete\")}', data-content: '{f:translate(key:\"tx_mask.all.confirmdelete\")}', data-button-close-text:'{f:translate(key:\"tx_mask.all.abort\")}', data-button-ok-text:'{f:translate(key:\"tx_mask.all.delete\")}', data-button-purge-text:'{f:translate(key:\"tx_mask.all.purge\")}'}"><core:icon identifier="actions-edit-delete" /></f:link.action>
 									</div>
 								</td>
 								</tr>
