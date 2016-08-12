@@ -11,7 +11,7 @@
 ChangeLog
 =========
 Mask 2.1.0
-  New field type "Content", to nest content elements, possibility to set layouts- and partials rootpaths for backend and frontend, added TYPO3 8 and PHP7 Support, and some bugfixes
+  New field type "Content", to nest content elements, possibility to set layouts- and partials rootpaths for backend and frontend, added TYPO3 8 and PHP7 Support, new controls, enhanced support of language labels, bugfixes
 
 Mask 2.0.1
   Fixed Bug with JsOpenParamsViewHelper
