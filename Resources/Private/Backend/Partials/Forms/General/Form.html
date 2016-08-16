@@ -5,10 +5,14 @@
 	<!-- field header 3rd column: own/mask fields (eg. tx_mask_text) -->
 	<div class="tx_mask_fieldheader">
 		<div class="tx_mask_fieldheader_icon id_{form}"><core:icon identifier="mask-fieldtype-{form}" size="default" /></div>
-		<div class="tx_mask_fieldheader_text">
-			<h1>{mask:label(elementKey: storage.key, fieldKey: key, field: field, table:type)}</h1>
-			<p>{field.key}</p>
-		</div>
+		<f:alias map="{label: '{mask:label(elementKey: storage.key, fieldKey: key, field: field, table: type)}'}">
+			<div class="tx_mask_fieldheader_text" title="{label}">
+				<h1>
+					<f:format.crop maxCharacters="60" append="..."><mask:translateLabel key="{label}" /></f:format.crop>
+				</h1>
+				<p>{field.key}</p>
+			</div>
+		</f:alias>
 	</div>
 	<div role="tabpanel">
 		<ul class="nav nav-tabs t3js-tabs" role="tablist" id="tabs-{key}" data-store-last-tab="1">

@@ -93,6 +93,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
         }
         if ($tca) {
             foreach ($tca as $elementvalue) {
+                if (!$elementvalue["hidden"]) {
                 $prependTabs = "--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,";
                 $fieldArray = array();
                 $label = $elementvalue["shortLabel"]; // Optional shortLabel
@@ -127,6 +128,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                 $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["showitem"] = $prependTabs . $fields . $defaultTabs . $gridelements;
             }
         }
+    }
     }
 
     /**
@@ -260,6 +262,14 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                             $tcavalue[$fieldkey]["renderType"] = "t3editor";
                         }
 
+                        // make some adjustmens to content fields
+                        if ($fieldkey == "config" && $tcavalue[$fieldkey]["foreign_table"] == "tt_content") {
+                            $tcavalue[$fieldkey]["foreign_field"] = $tcakey . "_parent";
+                            if ($tcavalue["cTypes"]) {
+                                $tcavalue[$fieldkey]["foreign_record_defaults"]["CType"] = reset($tcavalue["cTypes"]);
+                            }
+                        }
+
                         // merge user inputs with file array
                         if (!is_array($columns[$tcakey])) {
                             $columns[$tcakey] = array();
@@ -274,6 +284,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                         unset($columns[$tcakey]["inlineParent"]);
                         unset($columns[$tcakey]["inlineLabel"]);
                         unset($columns[$tcakey]["inlineIcon"]);
+                        unset($columns[$tcakey]["cTypes"]);
 
                         $columns[$tcakey] = $generalUtility->removeBlankOptions($columns[$tcakey]);
                         $columns[$tcakey] = $generalUtility->replaceKey($columns[$tcakey], $tcakey);
@@ -320,7 +331,8 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                 ),
                 'searchFields' => '',
                 'dynamicConfigFile' => '',
-                'iconfile' => ''
+                'iconfile' => '',
+                'requestUpdate' => 'CType'
             ),
             'interface' => array(
                 'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, ',

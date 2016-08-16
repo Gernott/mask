@@ -16,6 +16,14 @@ tt_content {
 	}
 }
 
+# snippet to render content elements
+lib.tx_mask.content = RECORDS
+lib.tx_mask.content {
+	tables = tt_content
+	source.current = 1
+	dontCheckPid = 1
+}
+
 # Temporary page cObject:
 temp.mask.page = PAGE
 temp.mask.page {

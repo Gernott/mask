@@ -7,8 +7,12 @@
 		</div>
 		<div class="tx_mask_btn_text">
 			<span class="id_typetext"><f:translate key="tx_mask.field.{mask:formType(elementKey:'{storage.key}', fieldKey:'{field.key}', type: '{field.inlineParent}')}" /></span>
-			<span class="id_labeltext">{field.label}</span>
-			<span class="id_keytext">{field.key}</span>
+			<span class="id_labeltext" title="{field.label}">
+				<f:format.crop maxCharacters="20" append="..."><mask:translateLabel key="{field.label}" /></f:format.crop>
+			</span>
+			<span class="id_keytext" title="{field.key}">
+				<f:format.crop maxCharacters="20" append="...">{field.key}</f:format.crop>
+			</span>
 		</div>
 		<div class="tx_mask_btn_actions">
 			<span class="id_add" title="{f:translate(key:'tx_mask.field.titleAdd')}"><core:icon identifier="actions-edit-add" size="default" /></span>
