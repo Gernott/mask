@@ -38,6 +38,11 @@ class BackendLayoutRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
 
     /**
+     * @var MASK\Mask\Backend\BackendLayoutView
+     */
+    protected $backendLayoutView;
+
+    /**
      * Initializes the repository.
      *
      * @return void
@@ -48,5 +53,40 @@ class BackendLayoutRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
         $querySettings->setRespectStoragePage(FALSE);
         $this->setDefaultQuerySettings($querySettings);
+        $this->backendLayoutView = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\Backend\BackendLayoutView::class);
+    }
+
+    /**
+     * Returns all backendlayouts defined, database and pagets
+     * 
+     * @return array
+     */
+    public function findAll()
+    {
+        $pageTsConfig = (array) \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig(0);
+        $dataProviderContext = $this->backendLayoutView->createDataProviderContext()->setPageTsConfig($pageTsConfig);
+        $backendLayoutCollections = $this->backendLayoutView->getDataProviderCollection()->getBackendLayoutCollections($dataProviderContext);
+        foreach ($backendLayoutCollections["default"]->getAll() as $backendLayout) {
+            $backendLayouts[$backendLayout->getIdentifier()] = $backendLayout;
+        }
+        foreach ($backendLayoutCollections["pagets"]->getAll() as $backendLayout) {
+            $backendLayouts[$backendLayout->getIdentifier()] = $backendLayout;
+        }
+        return $backendLayouts;
+    }
+
+    /**
+     * Returns a backendlayout or null, if non found
+     *
+     * @return \TYPO3\CMS\Backend\View\BackendLayout\BackendLayout
+     */
+    public function findByIdentifier($identifier)
+    {
+        $backendLayouts = $this->findAll();
+        if (isset($backendLayouts[$identifier])) {
+            return $backendLayouts[$identifier];
+        } else {
+            return null;
+        }
     }
 }
