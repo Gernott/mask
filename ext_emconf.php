@@ -1,7 +1,7 @@
 <?php
 $EM_CONF[$_EXTKEY] = array(
     'title' => 'Mask',
-    'description' => 'Create your own content elements and page templates. Easy to use, even without programming skills because of the comfortable drag&drop system. Stored in structured database tables. Style your frontend with Fluid tags. Ideal, if you want to switch from Templavoila.',
+    'description' => 'Create your own content elements and page templates. Easy to use, even without programming skills because of the comfortable drag and drop system. Stored in structured database tables. Style your frontend with Fluid tags. Ideal, if you want to switch from Templavoila.',
     'category' => 'plugin',
     'author' => 'WEBprofil - Gernot Ploiner e.U.',
     'author_email' => 'office@webprofil.at',
