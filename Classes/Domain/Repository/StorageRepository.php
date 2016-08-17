@@ -66,6 +66,12 @@ class StorageRepository
     protected $extSettings;
 
     /**
+     * json configuration
+     * @var array
+     */
+    private static $json = null;
+
+    /**
      * is called before every action
      */
     public function __construct()
@@ -81,11 +87,31 @@ class StorageRepository
      */
     public function load()
     {
-        if (!empty($this->extSettings["json"]) && file_exists(PATH_site . $this->extSettings["json"]) && is_file(PATH_site . $this->extSettings["json"])) {
-            return json_decode(file_get_contents(PATH_site . $this->extSettings["json"]), true);
-        } else {
-            return array();
+        if (self::$json === null) {
+            if (!empty($this->extSettings["json"]) && file_exists(PATH_site . $this->extSettings["json"]) && is_file(PATH_site . $this->extSettings["json"])) {
+                self::$json = json_decode(file_get_contents(PATH_site . $this->extSettings["json"]), true);
+            } else {
+                self::$json = array();
+            }
         }
+        return self::$json;
+    }
+
+    /**
+     * Write Storage
+     *
+     * @return array
+     */
+    public function write($json)
+    {
+        // Return JSON formatted in PHP 5.4.0 and higher
+        if (version_compare(phpversion(), '5.4.0', '<')) {
+            $encodedJson = json_encode($json);
+        } else {
+            $encodedJson = json_encode($json, JSON_PRETTY_PRINT);
+        }
+        \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $this->extSettings["json"], $encodedJson);
+        self::$json = $json;
     }
 
     /**
@@ -233,19 +259,9 @@ class StorageRepository
             }
         }
 
-		// sort content elements by key before saving
-		ksort($json["tt_content"]["elements"]);
-
-        // Save
-        $encodedJson = "";
-
-        // Return JSON formatted in PHP 5.4.0 and higher
-        if (version_compare(phpversion(), '5.4.0', '<')) {
-            $encodedJson = json_encode($json);
-        } else {
-            $encodedJson = json_encode($json, JSON_PRETTY_PRINT);
-        }
-        \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $this->extSettings["json"], $encodedJson);
+        // sort content elements by key before saving
+        $this->sortJson($json);
+        $this->write($json);
     }
 
     /**
@@ -268,8 +284,38 @@ class StorageRepository
                 $json = $this->removeField($type, $field, $json, $remainingFields);
             }
         }
-        // Save
-        \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $this->extSettings["json"], json_encode($json));
+        $this->sortJson($json);
+        $this->write($json);
+    }
+
+    /**
+     * Hides Content-Element
+     *
+     * @param string $type
+     * @param string $key
+     */
+    public function hide($type, $key)
+    {
+        // Load
+        $json = $this->load();
+        $json[$type]["elements"][$key]["hidden"] = 1;
+        $this->sortJson($json);
+        $this->write($json);
+    }
+
+    /**
+     * Activates Content-Element
+     *
+     * @param string $type
+     * @param string $key
+     */
+    public function activate($type, $key)
+    {
+        // Load
+        $json = $this->load();
+        unset($json[$type]["elements"][$key]["hidden"]);
+        $this->sortJson($json);
+        $this->write($json);
     }
 
     /**
@@ -386,5 +432,20 @@ class StorageRepository
     {
         $this->remove($content["type"], $content["orgkey"], $content["elements"]["columns"]);
         $this->add($content);
+    }
+
+    /**
+     * Sorts the json entries
+     * @param array $json
+     */
+    private function sortJson(&$json)
+    {
+        ksort($json["tt_content"]["elements"]);
+        foreach ($json["tt_content"]["elements"] as $index => $element) {
+            if ($element["hidden"]) {
+                unset($json["tt_content"]["elements"][$index]);
+                $json["tt_content"]["elements"][$index] = $element;
+            }
+        }
     }
 }

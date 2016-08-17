@@ -53,7 +53,6 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
 
         // make content-Elements
         if ($json["tt_content"]["elements"]) {
-
             foreach ($json["tt_content"]["elements"] as $element) {
                 // Register icons for contentelements
                 $iconIdentifier = 'mask-ce-' . $element["key"];
@@ -62,20 +61,22 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
                     'contentElementKey' => $element["key"]
                     )
                 );
-                $temp = str_replace("###ICON###", "iconIdentifier = " . $iconIdentifier, $template);
-                $temp = str_replace("###KEY###", $element["key"], $temp);
-                $temp = str_replace("###LABEL###", $element["label"], $temp);
-                $temp = str_replace("###DESCRIPTION###", $element["description"], $temp);
-                $content.= $temp;
+                if (!$element["hidden"]) {
+                    $temp = str_replace("###ICON###", "iconIdentifier = " . $iconIdentifier, $template);
+                    $temp = str_replace("###KEY###", $element["key"], $temp);
+                    $temp = str_replace("###LABEL###", $element["label"], $temp);
+                    $temp = str_replace("###DESCRIPTION###", $element["description"], $temp);
+                    $content.= $temp;
 
-                // Labels
-                $content .= "\n[userFunc = user_mask_contentType(CType|mask_" . $element["key"] . ")]\n";
-                if ($element["columns"]) {
-                    foreach ($element["columns"] as $index => $column) {
-                        $content .= " TCEFORM.tt_content." . $column . ".label = " . $element["labels"][$index] . "\n";
+                    // Labels
+                    $content .= "\n[userFunc = user_mask_contentType(CType|mask_" . $element["key"] . ")]\n";
+                    if ($element["columns"]) {
+                        foreach ($element["columns"] as $index => $column) {
+                            $content .= " TCEFORM.tt_content." . $column . ".label = " . $element["labels"][$index] . "\n";
+                        }
                     }
+                    $content .= "[end]\n\n";
                 }
-                $content .= "[end]\n\n";
             }
         }
         return $content;
@@ -162,9 +163,11 @@ module.tx_mask {
         // Fill setup.ts:
         if ($configuration["tt_content"]["elements"]) {
             foreach ($configuration["tt_content"]["elements"] as $element) {
-                $temp = str_replace("###KEY###", $element["key"], $template);
-                $temp = str_replace("###PATH###", $settings['content'] . $element["key"] . '.html', $temp);
-                $setupContent.= $temp;
+                if (!$element["hidden"]) {
+                    $temp = str_replace("###KEY###", $element["key"], $template);
+                    $temp = str_replace("###PATH###", $settings['content'] . $element["key"] . '.html', $temp);
+                    $setupContent.= $temp;
+                }
             }
         }
         return $setupContent;

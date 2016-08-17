@@ -4,6 +4,7 @@ namespace MASK\Mask\Imaging\IconProvider;
 
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconProviderInterface;
+use TYPO3\CMS\Core\Utility\PathUtility;
 
 /* * *************************************************************
  *  Copyright notice
@@ -111,7 +112,7 @@ class ContentElementIconProvider implements IconProviderInterface
                 $markup = '<span class="icon-unify" ><i class="fa fa-' . htmlspecialchars($this->getFontAwesomeKey($this->contentElement)) . '"></i></span>';
             }
         } else if ($previewIconAvailable) {
-            $markup = '<img src="' . $this->getPreviewIconPath($options['contentElementKey']) . '" alt="' . $this->contentElement["label"] . '" title="' . $this->contentElement["label"] . '"/>';
+            $markup = '<img src="' . PathUtility::getAbsoluteWebPath(PATH_site . ltrim($this->getPreviewIconPath($options['contentElementKey']), '/')) . '" alt="' . $this->contentElement["label"] . '" title="' . $this->contentElement["label"] . '"/>';
         } else {
 //			$markup = '<img src="/typo3conf/ext/mask/Resources/Public/Icons/mask-ce-default.png" alt="' . $this->contentElement["label"] . '" title="' . $this->contentElement["label"] . '"/>';
 
@@ -160,7 +161,7 @@ class ContentElementIconProvider implements IconProviderInterface
      */
     protected function getPreviewIconPath($key)
     {
-        return '/' . $this->extSettings["preview"] . 'ce_' . $key . '.png';
+        return $this->extSettings["preview"] . 'ce_' . $key . '.png';
     }
 
     /**

@@ -45,6 +45,9 @@
 			<trans-unit id="tx_mask.field.Tab">
 				<source>Tab</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.Content">
+				<source>Content</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.titleAdd">
 				<source>Add item</source>
 			</trans-unit>
@@ -491,7 +494,15 @@
 			<trans-unit id="tx_mask.content.htmlmissing">
 				<source>Fluid/HTML missing, place here</source>
 			</trans-unit>
-
+			<trans-unit id="tx_mask.content.hiddencontentelement">
+				<target>Content element was deactivated</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.activatedcontentelement">
+				<target>Content element was activated</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.count">
+				<target>In Usage</target>
+			</trans-unit>
 
 			<trans-unit id="tx_mask.page.title">
 				<source>Title</source>
@@ -547,7 +558,16 @@
 				<source>Page Templates</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.confirmdelete">
-				<source>Really delete element?</source>
+				<source><![CDATA[<strong>Do you want to delete the content element?</strong> <br /><br />"Delete" only deletes the configuration. "Purge" deletes the configuration and all the corresponding template files. The content in the database can be deleted via the install tool.]]></source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.abort">
+				<source>Abort</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.delete">
+				<source>Delete</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.purge">
+				<source>Purge</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.error.key">
 				<source>Field-Key is required!</source>
@@ -585,6 +605,10 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.tabs.files">
 				<source>Files</source>
+			</trans-unit>
+
+			<trans-unit id="mask_content_colpos">
+				<source>Mask-Nested-Content</source>
 			</trans-unit>
 
 		</body>

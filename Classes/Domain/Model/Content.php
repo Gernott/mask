@@ -67,6 +67,25 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $fieldkey;
 
     /**
+     * contentType
+     *
+     * @var \string
+     * @validate NotEmpty
+     */
+    protected $contentType;
+
+    public function getContentType()
+    {
+        return $this->contentType;
+    }
+
+    public function setContentType(\string $contentType)
+    {
+        $this->contentType = $contentType;
+        return $this;
+    }
+
+    /**
      * Returns the title
      *
      * @return \string $title
@@ -150,5 +169,3 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->fieldkey = $fieldkey;
     }
 }
-
-?>

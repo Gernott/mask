@@ -45,6 +45,9 @@
 			<trans-unit id="tx_mask.field.Tab">
 				<target>Reiter</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.Content">
+				<source>Content</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.titleAdd">
 				<target>Hinzufügen</target>
 			</trans-unit>
@@ -243,7 +246,7 @@
 			<trans-unit id="tx_mask.field.inline.localize_children_at_parent_localization">
 				<source>Datensätze mit Conten-Element lokaliseren</source>
 			</trans-unit>
-						<trans-unit id="tx_mask.field.inline.inline_label">
+			<trans-unit id="tx_mask.field.inline.inline_label">
 				<source>Key des Feldes das für IRRE-Label verwendet wird (tx_mask_..)</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.inline_icon">
@@ -488,11 +491,20 @@
 			<trans-unit id="tx_mask.content.updatedcontentelement">
 				<target>Content-Element wurde aktualisiert.</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.content.hiddencontentelement">
+				<target>Content-Element wurde deaktiviert</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.activatedcontentelement">
+				<target>Content-Element wurde aktiviert</target>
+			</trans-unit>
 			<trans-unit id="tx_mask.content.deletedcontentelement">
 				<target>Content-Element wurde gelöscht.</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.htmlmissing">
 				<target>Fluid/HTML fehlt, hier ablegen</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.count">
+				<target>In Verwendung</target>
 			</trans-unit>
 
 
@@ -550,7 +562,16 @@
 				<target>Seitenvorlagen</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.confirmdelete">
-				<target>Element wirklich löschen?</target>
+				<target><![CDATA[<strong>Möchten Sie das Content-Element löschen?</strong> <br /><br />Beim normalen Löschen wird nur die Konfiguration gelöscht. Bei "Alles Entfernen" werden auch alle dazugehörge Dateien im System gelöscht (Fluid-Templates). Inhalte werden erst mit einem Database-Compare im Installations-Tool entfernt.]]></target>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.abort">
+				<target>Abbrechen</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.delete">
+				<target>Löschen</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.purge">
+				<target>Komplett entfernen</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.error.key">
 				<target>Es muss ein Feld-Key angegeben werden!</target>
@@ -590,6 +611,9 @@
 				<source>Dateien</source>
 			</trans-unit>
 
+			<trans-unit id="mask_content_colpos">
+				<target>Mask-Nested-Content</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

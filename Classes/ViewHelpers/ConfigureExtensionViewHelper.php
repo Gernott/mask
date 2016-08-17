@@ -16,6 +16,13 @@ class ConfigureExtensionViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abst
 {
 
     /**
+     * We must not return encoded html
+     *
+     * @var bool
+     */
+    protected $escapeOutput = false;
+
+    /**
      * Renders link tag to extension manager configuration
      * @author Benjamin Butschell bb@webprofil.at>
      */
@@ -31,6 +38,6 @@ class ConfigureExtensionViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abst
             )),
         );
         $url = BackendUtility::getModuleUrl('tools_ExtensionmanagerExtensionmanager', $urlParameters);
-        return'<a href="' . htmlspecialchars($url) . '">' . $this->renderChildren() . '</a>';
+        return '<a href="' . htmlspecialchars($url) . '">' . $this->renderChildren() . '</a>';
     }
 }

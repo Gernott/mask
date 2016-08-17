@@ -2,7 +2,11 @@
 	pageTitle="Mask"
 	loadJQuery="true"
 	includeCssFiles="{0: '{f:uri.resource(path:\'Styles/styles.css\')}'}"
+	includeRequireJsModules="{
+	Modal:'TYPO3/CMS/Backend/Modal'
+	}"
 	includeJsFiles="{0: '{f:uri.resource(path:\'Scripts/libs.js\')}', 1: '{f:uri.resource(path:\'Scripts/scripts.js\')}'}"
+
 	>
 	<div class="typo3-fullDoc">
 		<div id="typo3-docheader">
@@ -18,7 +22,7 @@
 		</div>
 		<div id="typo3-docbody">
 			<div id="typo3-inner-docbody">
-				<f:flashMessages renderMode="div" />
+				<f:flashMessages />
 				<f:render section="content" />
 			</div>
 		</div>

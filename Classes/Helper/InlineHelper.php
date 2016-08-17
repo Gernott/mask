@@ -110,6 +110,9 @@ class InlineHelper
                 if ($fieldHelper->getFormType($field["key"], $cType, $table) == "Inline") {
                     $elements = $this->getInlineElements($data, $fieldname, $cType, "parentid", $table);
                     $data[$fieldname] = $elements;
+                } elseif ($fieldHelper->getFormType($field["key"], $cType, $table) == "Content") {
+                    $elements = $this->getInlineElements($data, $fieldname, $cType, $fieldname . "_parent", "tt_content", "tt_content");
+                    $data[$fieldname] = $elements;
                 }
             }
         }
@@ -123,18 +126,24 @@ class InlineHelper
      * @param string $cType The name of the irre attribut
      * @param string $parentid The name of the irre parentid
      * @param string $parenttable The table where the parent element is stored
+     * @param string $childTable name of childtable
      * @return array all irre elements of this attribut
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    public function getInlineElements($data, $name, $cType, $parentid = "parentid", $parenttable = "tt_content")
+    public function getInlineElements($data, $name, $cType, $parentid = "parentid", $parenttable = "tt_content", $childTable = null)
     {
+        // if the name of the child table is not explicitely given, take field key
+        if (!$childTable) {
+            $childTable = $name;
+        }
+        
         // If this method is called in backend, there is no $GLOBALS['TSFE']
         if (isset($GLOBALS['TSFE']->sys_language_uid)) {
             $sysLangUid = $GLOBALS['TSFE']->sys_language_uid;
-            $enableFields = $GLOBALS['TSFE']->cObj->enableFields($name);
+            $enableFields = $GLOBALS['TSFE']->cObj->enableFields($childTable);
         } else {
             $sysLangUid = 0;
-            $enableFields = "";
+            $enableFields = " AND " . $childTable . ".deleted = 0";
         }
 
         // by default, the uid of the parent is $data["uid"]
@@ -159,12 +168,20 @@ class InlineHelper
         }
 
         // fetching the inline elements
-        $sql = $GLOBALS["TYPO3_DB"]->exec_SELECTquery(
-            "*", $name, $parentid . " = '" . $parentUid .
-            "' AND parenttable = '" . $parenttable .
-            "' AND sys_language_uid IN (-1," . $sysLangUid . ")"
-            . $enableFields, "", "sorting"
-        );
+        if ($childTable == "tt_content") {
+            $sql = $GLOBALS["TYPO3_DB"]->exec_SELECTquery(
+                "*", $childTable, $parentid . " = '" . $parentUid .
+                "' AND sys_language_uid IN (-1," . $sysLangUid . ")"
+                . $enableFields, "", "sorting"
+            );
+        } else {
+            $sql = $GLOBALS["TYPO3_DB"]->exec_SELECTquery(
+                "*", $childTable, $parentid . " = '" . $parentUid .
+                "' AND parenttable = '" . $parenttable .
+                "' AND sys_language_uid IN (-1," . $sysLangUid . ")"
+                . $enableFields, "", "sorting"
+            );
+        }
 
         // and recursively add them to an array
         while ($element = $GLOBALS["TYPO3_DB"]->sql_fetch_assoc($sql)) {
@@ -172,6 +189,7 @@ class InlineHelper
             $this->addFilesToData($element, $name);
             $elements[] = $element;
         }
+
         return $elements;
     }
 }

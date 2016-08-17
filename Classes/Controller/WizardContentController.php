@@ -145,4 +145,65 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
         $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.deletedcontentelement', 'mask'));
         $this->redirect('list');
     }
+
+    /**
+     * action purge
+     *
+     * @param string $key
+     * @param string $type
+     * @return void
+     */
+    public function purgeAction($key, $type)
+    {
+        $this->deleteHtml($key);
+        $this->storageRepository->remove($type, $key);
+        $this->generateAction();
+        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.deletedcontentelement', 'mask'));
+        $this->redirect('list');
+    }
+
+    /**
+     * action hide
+     *
+     * @param string $key
+     * @return void
+     */
+    public function hideAction($key)
+    {
+        $this->storageRepository->hide("tt_content", $key);
+        $this->generateAction();
+        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.hiddencontentelement', 'mask'));
+        $this->redirect('list');
+    }
+
+    /**
+     * action activate
+     *
+     * @param string $key
+     * @return void
+     */
+    public function activateAction($key)
+    {
+        $this->storageRepository->activate("tt_content", $key);
+        $this->generateAction();
+        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.activatedcontentelement', 'mask'));
+        $this->redirect('list');
+    }
+
+    /**
+     * Deletes Fluid html, if file exists
+     *
+     * @param string $key
+     * @param string $html
+     * @author Benjamin Butschell <bb@webprofil.at>
+     */
+    protected function deleteHtml($key)
+    {
+        if (file_exists(PATH_site . $this->extSettings["content"] . $key . ".html")) {
+            unlink(PATH_site . $this->extSettings["content"] . $key . ".html");
+        }
+        if (file_exists(PATH_site . $this->extSettings["backend"] . $key . ".html")) {
+            unlink(PATH_site . $this->extSettings["backend"] . $key . ".html");
+        }
+    }
 }

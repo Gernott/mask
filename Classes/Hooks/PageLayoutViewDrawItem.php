@@ -88,15 +88,31 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
                 // Load the backend template
                 $view->setTemplatePathAndFilename($templatePathAndFilename);
 
+                // if there are paths for layouts and partials set, add them to view
+                if (!empty($this->extSettings["layouts_backend"])) {
+                    $layoutRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($this->extSettings["layouts_backend"]);
+                    $view->setLayoutRootPaths(array($layoutRootPath));
+                }
+                if (!empty($this->extSettings["partials_backend"])) {
+                    $partialRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($this->extSettings["partials_backend"]);
+                    $view->setPartialRootPaths(array($partialRootPath));
+                }
+
                 // Fetch and assign some useful variables
                 $data = $this->getContentObject($row["uid"]);
                 $element = $this->storageRepository->loadElement("tt_content", $elementKey);
                 $view->assign("row", $row);
                 $view->assign("data", $data);
 
+                // if the elementLabel contains LLL: then translate it
+                $elementLabel = $element["label"];
+                if (\TYPO3\CMS\Core\Utility\GeneralUtility::isFirstPartOfStr($elementLabel, 'LLL:')) {
+                    $elementLabel = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($elementLabel, "mask");
+                }
+
                 // Render everything
                 $content = $view->render();
-                $headerContent = '<strong>' . $element["label"] . '</strong><br>';
+                $headerContent = '<strong>' . $elementLabel . '</strong><br>';
                 $itemContent .= '<div style="display:block; padding: 10px 0 4px 0px;border-top: 1px solid #CACACA;margin-top: 6px;" class="content_preview_' . $elementKey . '">';
                 $itemContent .= $content;
                 $itemContent .= '</div>';

@@ -9,8 +9,8 @@
 Sponsors
 ========
 
-Mask was supportet by great sponsors! Thank you very much!
-We started Mask for our customers and used it only internally. Creating new fields has to be done by hand (create SQL/TCA,...). Then we got the idea to create a comfortable wizard to create such things easier and make this public. Then we searched for financial support and discovered crowdfunding. On `startnext <https://www.startnext.com/mask/>`_ we created our project and won the challenge.
+Mask was supported by great sponsors! Thank you very much!
+We started Mask for our customers and used it only internally. Creating new fields always had to be done by hand (create SQL/TCA,...). Then we got the idea to create a comfortable wizard to create such things easier and make this public. We searched for financial support and discovered crowdfunding. On `startnext <https://www.startnext.com/mask/>`_ we created our project.
 
 
 List of main sponsors
