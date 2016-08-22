@@ -39,7 +39,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Title for the New-Contentelement-Wizard.
      *
-     * @var \string
+     * @var string
      * @validate NotEmpty
      */
     protected $title;
@@ -47,21 +47,21 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Description for the New-Contentelement-Wizard.
      *
-     * @var \string
+     * @var string
      */
     protected $description;
 
     /**
      * Short Title for the Selectbox in Content-Edit-Mode.
      *
-     * @var \string
+     * @var string
      */
     protected $shorttitle;
 
     /**
      * Lowercase internal Key. Not Visible in TYPO3 Backend.
      *
-     * @var \string
+     * @var string
      * @validate NotEmpty
      */
     protected $fieldkey;
@@ -69,7 +69,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * contentType
      *
-     * @var \string
+     * @var string
      * @validate NotEmpty
      */
     protected $contentType;
@@ -79,7 +79,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         return $this->contentType;
     }
 
-    public function setContentType(\string $contentType)
+    public function setContentType($contentType)
     {
         $this->contentType = $contentType;
         return $this;
@@ -88,7 +88,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Returns the title
      *
-     * @return \string $title
+     * @return string $title
      */
     public function getTitle()
     {
@@ -98,7 +98,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the title
      *
-     * @param \string $title
+     * @param string $title
      * @return void
      */
     public function setTitle($title)
@@ -109,7 +109,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Returns the description
      *
-     * @return \string $description
+     * @return string $description
      */
     public function getDescription()
     {
@@ -119,7 +119,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the description
      *
-     * @param \string $description
+     * @param string $description
      * @return void
      */
     public function setDescription($description)
@@ -130,7 +130,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Returns the shorttitle
      *
-     * @return \string $shorttitle
+     * @return string $shorttitle
      */
     public function getShorttitle()
     {
@@ -140,7 +140,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the shorttitle
      *
-     * @param \string $shorttitle
+     * @param string $shorttitle
      * @return void
      */
     public function setShorttitle($shorttitle)
@@ -151,7 +151,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Returns the fieldkey
      *
-     * @return \string $fieldkey
+     * @return string $fieldkey
      */
     public function getFieldkey()
     {
@@ -161,7 +161,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the fieldkey
      *
-     * @param \string $fieldkey
+     * @param string $fieldkey
      * @return void
      */
     public function setFieldkey($fieldkey)
