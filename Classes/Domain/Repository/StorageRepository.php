@@ -2,6 +2,8 @@
 
 namespace MASK\Mask\Domain\Repository;
 
+use MASK\Mask\Domain\Service\JsonService;
+
 /* * *************************************************************
  *  Copyright notice
  *
@@ -88,11 +90,7 @@ class StorageRepository
     public function load()
     {
         if (self::$json === null) {
-            if (!empty($this->extSettings["json"]) && file_exists(PATH_site . $this->extSettings["json"]) && is_file(PATH_site . $this->extSettings["json"])) {
-                self::$json = json_decode(file_get_contents(PATH_site . $this->extSettings["json"]), true);
-            } else {
-                self::$json = array();
-            }
+            self::$json = JsonService::getInstance()->getConfiguration(PATH_site . $this->extSettings["json"]);
         }
         return self::$json;
     }
@@ -104,13 +102,7 @@ class StorageRepository
      */
     public function write($json)
     {
-        // Return JSON formatted in PHP 5.4.0 and higher
-        if (version_compare(phpversion(), '5.4.0', '<')) {
-            $encodedJson = json_encode($json);
-        } else {
-            $encodedJson = json_encode($json, JSON_PRETTY_PRINT);
-        }
-        \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $this->extSettings["json"], $encodedJson);
+        JsonService::getInstance()->saveConfiguration(PATH_site . $this->extSettings["json"], $json);
         self::$json = $json;
     }
 
