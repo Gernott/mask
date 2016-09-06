@@ -68,12 +68,6 @@ class StorageRepository
     protected $extSettings;
 
     /**
-     * json configuration
-     * @var array
-     */
-    private static $json = null;
-
-    /**
      * is called before every action
      */
     public function __construct()
@@ -89,21 +83,15 @@ class StorageRepository
      */
     public function load()
     {
-        if (self::$json === null) {
-            self::$json = JsonService::getInstance()->getConfiguration(PATH_site . $this->extSettings["json"]);
-        }
-        return self::$json;
+        return JsonService::getInstance()->getConfiguration(PATH_site . $this->extSettings["json"]);
     }
 
     /**
      * Write Storage
-     *
-     * @return array
      */
     public function write($json)
     {
         JsonService::getInstance()->saveConfiguration(PATH_site . $this->extSettings["json"], $json);
-        self::$json = $json;
     }
 
     /**

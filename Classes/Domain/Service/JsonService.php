@@ -7,6 +7,7 @@ use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * Class JsonService
@@ -18,6 +19,12 @@ class JsonService implements SingletonInterface
      * @var self|null
      */
     private static $_instance = null;
+
+    /**
+     * json configuration
+     * @var array
+     */
+    private $json = null;
 
     /**
      * @var ObjectManager
@@ -45,45 +52,48 @@ class JsonService implements SingletonInterface
      */
     public function getConfiguration($path = '')
     {
-        $data = [];
-        // check if path points to a file
-        if (substr($path, -strlen('.json')) == '.json') {
-            $data = GeneralUtility::getUrl($path) ?: array();
-        } else {
-            // path points to directory
-            $configurationFiles = GeneralUtility::getFilesInDir($path, 'json', true);
-            foreach ($configurationFiles as $filePath) {
-                $content = json_decode(GeneralUtility::getUrl($filePath), true) ?: array();
-                $errors = $this->searchForMergeError($data, $content);
-                if (!empty($errors)) {
-                    /* @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */
-                    $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
-                    $messageQueue = $flashMessageService->getMessageQueueByIdentifier();
-
-                    /* @var $message \TYPO3\CMS\Core\Messaging\FlashMessage */
-                    $message = GeneralUtility::makeInstance(FlashMessage::class, sprintf(
-                        'The file "%s" couldn\'t be included due to following merge errors:%s',
-                        basename($filePath),
-                        implode('<br/>-', array_map(function ($value, $key) {
-                            return $key . ': ' . $value;
-                        }, $errors, array_keys($errors)))
-                    ));
-                    $message->setSeverity(FlashMessage::WARNING);
-                    $messageQueue->addMessage($message);
-                } else {
-                    ArrayUtility::mergeRecursiveWithOverrule($data, $content);
-                }
-            }
+        if ($this->json !== null) {
+            return $this->json;
         }
 
-        return $data;
+        if (substr($path, -strlen('.json')) == '.json') {
+            // path points to a file
+            $this->json = json_decode(GeneralUtility::getUrl($path), true) ?: array();
+            return $this->json;
+        }
+
+        // path points to directory
+        $this->json = array();
+        $configurationFiles = GeneralUtility::getFilesInDir($path, 'json', true);
+        foreach ($configurationFiles as $filePath) {
+            $content = json_decode(GeneralUtility::getUrl($filePath), true) ?: array();
+            $errors = $this->searchForMergeError($this->json, $content);
+
+            if (empty($errors)) {
+                ArrayUtility::mergeRecursiveWithOverrule($this->json, $content);
+                continue;
+            }
+
+            foreach ($errors as $key => $error) {
+                $this->createFlashMessage(
+                    sprintf('mask - merge error at file "%s"', basename($filePath)),
+                    sprintf(
+                        '"%s" differs from current "%s" to new value "%s"',
+                        $key,
+                        $error['current'],
+                        $error['mergeValue']
+                    )
+                );
+            }
+        }
+        return $this->json;
     }
 
     /**
      * @param string $path
      * @param array  $data
      */
-    public function saveConfiguration($path, $data = [])
+    public function saveConfiguration($path, $data = array())
     {
         // check if path points to a file
         if (substr($path, -strlen('.json')) == '.json') {
@@ -111,12 +121,50 @@ class JsonService implements SingletonInterface
      */
     private function extractModules($data)
     {
-        $modules = array();
+        if (empty($data)) {
+            return array();
+        }
 
-        if (isset($data['tt_content']['elements'])) {
-            foreach ($data['tt_content']['elements'] as $elementKey => $elementConfig) {
-                // TODO: extract modules from json
-                // key => should be filename
+        $modules = array();
+        foreach ($data as $table => $cfg) {
+            if (!isset($cfg['elements'])) {
+                continue;
+            }
+            foreach ($cfg['elements'] as $elKey => $elCfg) {
+                if (empty($elCfg['columns'])) {
+                    continue;
+                }
+
+                // initialize create module
+                $module = array();
+                $module[$table]['elements'][$elKey] = $elCfg;
+                $module[$table]['sql'] = array_intersect_key($cfg['sql'], array_flip($elCfg['columns']));
+                $module[$table]['tca'] = array_intersect_key($cfg['tca'], array_flip($elCfg['columns']));
+
+                // add additional tables based on column names
+                foreach ($elCfg['columns'] as $column) {
+                    if (isset($data[$column])) {
+                        $module[$column] = $data[$column];
+                    }
+                }
+
+                // get all database fields from current module tables
+                $currentFields = array();
+                foreach ($module as $modCfg) {
+                    if (isset($modCfg['sql'])) {
+                        $currentFields = array_merge($currentFields, array_keys($modCfg['sql']));
+                    }
+                }
+
+                // find used sys_file_references and add them to module data
+                $references = array_filter($data['sys_file_reference']['sql'], function ($key) use ($currentFields) {
+                    return in_array($key, $currentFields);
+                }, ARRAY_FILTER_USE_KEY);
+                if (!empty($references)) {
+                    $module['sys_file_reference']['sql'] = $references;
+                }
+
+                $modules[$table . '_' . $elKey] = $module;
             }
         }
 
@@ -137,15 +185,19 @@ class JsonService implements SingletonInterface
         $flatArray2 = ArrayUtility::flatten($array2);
         $intersection = array_intersect_key($flatArray1, $flatArray2);
 
+        $errors = array();
         foreach ($intersection as $key => $value) {
             if ($value == $flatArray2[$key]) {
                 unset($intersection[$key]);
             } else {
-                $intersection[$key] .= ' => ' . $flatArray2[$key];
+                $errors[$key] = array(
+                    'current'    => $value,
+                    'mergeValue' => $flatArray2[$key],
+                );
             }
         }
 
-        return $intersection;
+        return $errors;
     }
 
 
@@ -162,5 +214,22 @@ class JsonService implements SingletonInterface
             return json_encode($data);
         }
         return json_encode($data, JSON_PRETTY_PRINT);
+    }
+
+    /**
+     * creates flash message into mask message queue
+     *
+     * @param string $title
+     * @param string $message
+     * @param int    $severity
+     */
+    private function createFlashMessage($title, $message, $severity = FlashMessage::ERROR)
+    {
+        /* @var $flashMessage \TYPO3\CMS\Core\Messaging\FlashMessage */
+        $flashMessage = GeneralUtility::makeInstance(FlashMessage::class, $message, $title, $severity);
+
+        /* @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */
+        $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
+        $flashMessageService->getMessageQueueByIdentifier('extbase.flashmessages.tx_mask_tools_maskmask')->enqueue($flashMessage);
     }
 }
