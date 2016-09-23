@@ -68,7 +68,9 @@ class InlineHelper
             $uid = $data["uid"];
         }
         
-        if(!is_int($uid)) {
+        // using is_numeric in favor to is_int
+        // due to some rare cases where uids are provided as strings
+        if(!is_numeric($uid)) {
             return;
         }
 
