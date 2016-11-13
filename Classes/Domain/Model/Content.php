@@ -79,7 +79,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         return $this->contentType;
     }
 
-    public function setContentType(\string $contentType)
+    public function setContentType(string $contentType)
     {
         $this->contentType = $contentType;
         return $this;
