@@ -39,7 +39,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Title of the Pagetemplate.
      *
-     * @var \string
+     * @var string
      * @validate NotEmpty
      */
     protected $title;
@@ -54,7 +54,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Lowercase internal Key. Not Visible in TYPO3 Backend.
      *
-     * @var \string
+     * @var string
      * @validate NotEmpty
      */
     protected $fieldkey;
@@ -62,7 +62,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Content for the HTML Head.
      *
-     * @var \string
+     * @var string
      */
     protected $header;
 
@@ -86,7 +86,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the title
      *
-     * @param \string $title
+     * @param string $title
      * @return void
      */
     public function setTitle($title)
@@ -128,7 +128,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the fieldkey
      *
-     * @param \string $fieldkey
+     * @param string $fieldkey
      * @return void
      */
     public function setFieldkey($fieldkey)
@@ -149,7 +149,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the header
      *
-     * @param \string $header
+     * @param string $header
      * @return void
      */
     public function setHeader($header)
