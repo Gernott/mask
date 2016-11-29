@@ -39,7 +39,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Title of the Pagetemplate.
      *
-     * @var \string
+     * @var string
      * @validate NotEmpty
      */
     protected $title;
@@ -47,14 +47,14 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Backend layout
      *
-     * @var \integer
+     * @var integer
      */
     protected $belayout;
 
     /**
      * Lowercase internal Key. Not Visible in TYPO3 Backend.
      *
-     * @var \string
+     * @var string
      * @validate NotEmpty
      */
     protected $fieldkey;
@@ -62,7 +62,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Content for the HTML Head.
      *
-     * @var \string
+     * @var string
      */
     protected $header;
 
@@ -76,7 +76,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Returns the title
      *
-     * @return \string $title
+     * @return string $title
      */
     public function getTitle()
     {
@@ -86,7 +86,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the title
      *
-     * @param \string $title
+     * @param string $title
      * @return void
      */
     public function setTitle($title)
@@ -97,7 +97,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Returns the belayout
      *
-     * @return \integer $belayout
+     * @return integer $belayout
      */
     public function getBelayout()
     {
@@ -107,7 +107,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the belayout
      *
-     * @param \integer $belayout
+     * @param integer $belayout
      * @return void
      */
     public function setBelayout($belayout)
@@ -118,7 +118,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Returns the fieldkey
      *
-     * @return \string $fieldkey
+     * @return string $fieldkey
      */
     public function getFieldkey()
     {
@@ -128,7 +128,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the fieldkey
      *
-     * @param \string $fieldkey
+     * @param string $fieldkey
      * @return void
      */
     public function setFieldkey($fieldkey)
@@ -139,7 +139,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Returns the header
      *
-     * @return \string $header
+     * @return string $header
      */
     public function getHeader()
     {
@@ -149,7 +149,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the header
      *
-     * @param \string $header
+     * @param string $header
      * @return void
      */
     public function setHeader($header)
