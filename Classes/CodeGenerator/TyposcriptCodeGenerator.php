@@ -165,7 +165,7 @@ module.tx_mask {
             foreach ($configuration["tt_content"]["elements"] as $element) {
                 if (!$element["hidden"]) {
                     $temp = str_replace("###KEY###", $element["key"], $template);
-                    $temp = str_replace("###PATH###", $settings['content'] . $element["key"] . '.html', $temp);
+                    $temp = str_replace("###PATH###", $element["key"] . '.html', $temp);
                     $setupContent.= $temp;
                 }
             }

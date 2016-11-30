@@ -1,18 +1,2 @@
 # cat=general; type=file [json]; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-json
 json = typo3conf/mask.json
-
-# cat=frontend; type=folder; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-content
-content = fileadmin/templates/content/
-# cat=frontend; type=folder; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-layouts
-layouts = fileadmin/templates/content/Layouts/
-# cat=frontend; type=folder; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-partials
-partials = fileadmin/templates/content/Partials/
-
-# cat=backend; type=folder; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-backend
-backend = fileadmin/templates/backend/
-# cat=backend; type=folder; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-layouts_backend
-layouts_backend = fileadmin/templates/backend/Layouts/
-# cat=backend; type=folder; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-partials_backend
-partials_backend = fileadmin/templates/backend/Partials/
-# cat=backend; type=folder; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-preview
-preview = fileadmin/templates/preview/

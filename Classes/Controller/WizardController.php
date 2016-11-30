@@ -101,7 +101,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      */
     public function initializeAction()
     {
-        $this->extSettings = $this->settingsService->get();
+        $this->extSettings = $this->settingsService->getBackendSettings();
     }
 
     /**
@@ -157,12 +157,13 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      */
     protected function saveHtml($key, $html)
     {
-        if (file_exists(PATH_site . $this->extSettings["content"] . $key . ".html")) {
-            return false;
-        } else {
-            \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $this->extSettings["content"] . $key . ".html", $html);
-            return true;
+        foreach ($this->extSettings["content"] as $templatePath) {
+            if (!file_exists(PATH_site . $templatePath . $key . ".html")) {
+                \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $templatePath . $key
+                    . ".html", $html);
+            }
         }
+        return true;
     }
 
     /**
@@ -176,7 +177,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     public function checkFieldKey($params = array(), \TYPO3\CMS\Core\Http\AjaxRequestHandler &$ajaxObj = NULL)
     {
         $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-        $this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
+        $this->storageRepository = $this->objectManager->get('MASK\\Mask\\Domain\\Repository\\StorageRepository');
         // Get parameters, is there a better way? $params is not used yet
         $fieldKey = $_GET["key"];
         if ($_GET["table"]) {
@@ -205,7 +206,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     public function checkElementKey($params = array(), \TYPO3\CMS\Core\Http\AjaxRequestHandler &$ajaxObj = NULL)
     {
         $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-        $this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
+        $this->storageRepository = $this->objectManager->get('MASK\\Mask\\Domain\\Repository\\StorageRepository');
         // Get parameters, is there a better way? $params is not used yet
         $elementKey = $_GET["key"];
         // check if elementKey is available
@@ -249,11 +250,20 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      */
     protected function checkFolders()
     {
-        if (!file_exists(PATH_site . $this->extSettings["content"])) {
-            $message[] = $this->extSettings["content"] . ": " . \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.all.error.missingfolder', 'mask');
+        $message = array();
+        foreach ($this->extSettings["content"] as $templatePath) {
+            if (!file_exists(PATH_site . $templatePath)) {
+                $message[] = $templatePath . ": "
+                    . \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.all.error.missingfolder',
+                        'mask');
+            }
         }
-        if (!file_exists(PATH_site . $this->extSettings["preview"])) {
-            $message[] = $this->extSettings["preview"] . ": " . \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.all.error.missingfolder', 'mask');
+        foreach ($this->extSettings["preview"] as $templatePath) {
+            if (!file_exists(PATH_site . $templatePath)) {
+                $message[] = $templatePath . ": "
+                    . \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.all.error.missingfolder',
+                        'mask');
+            }
         }
         return $message;
     }
@@ -266,11 +276,15 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     protected function createMissingFolders()
     {
         $success = TRUE;
-        if (!file_exists(PATH_site . $this->extSettings["content"])) {
-            $success = $success && mkdir(PATH_site . $this->extSettings["content"], 0755, true);
+        foreach ($this->extSettings["content"] as $templatePath) {
+            if (!file_exists(PATH_site . $templatePath)) {
+                $success = $success && mkdir(PATH_site . $templatePath, 0755, true);
+            }
         }
-        if (!file_exists(PATH_site . $this->extSettings["preview"])) {
-            $success = $success && mkdir(PATH_site . $this->extSettings["preview"], 0755, true);
+        foreach ($this->extSettings["preview"] as $templatePath) {
+            if (!file_exists(PATH_site . $templatePath)) {
+                $success = $success && mkdir(PATH_site . $templatePath, 0755, true);
+            }
         }
         return $success;
     }

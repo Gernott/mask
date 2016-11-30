@@ -141,3 +141,26 @@ lib.parseFunc_RTE {
 		htmlSpecialChars = 2
 	}
 }
+
+plugin.tx_mask {
+	settings {
+		feview {
+			templateRootPaths.0 = templates/content/
+			partialRootPaths.0 = templates/content/Partials/
+			layoutRootPaths.0 = templates/content/Layout/
+		}
+	}
+}
+
+module.tx_mask {
+	settings {
+		beview {
+			templateRootPaths.0 = templates/backend/
+			partialRootPaths.0 = templates/backend/Partials/
+			layoutRootPaths.0 = templates/backend/Layout/
+			previewRootPaths.0 = templates/preview/
+			contentRootPaths.0 = templates/content/
+			jsonRootPaths.0 = typo3conf/mask.json
+		}
+	}
+}

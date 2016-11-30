@@ -56,27 +56,21 @@ class FrontendController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
     public function contentelementAction()
     {
         // load extension settings
-        $this->extSettings = $this->settingsService->get();
-
-        // get framework configuration
-        $extbaseFrameworkConfiguration = $this->configurationManager->getConfiguration(
-            ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
-        );
+        $this->extSettings = $this->settingsService->getFrontendSettings();
 
         // if there are paths for layouts and partials set, add them to view
         if (!empty($this->extSettings["layouts"])) {
-            $viewLayoutRootPaths = $this->getViewProperty($extbaseFrameworkConfiguration, 'layoutRootPaths');
-            $extSettingsLayoutRootPath = GeneralUtility::getFileAbsFileName($this->extSettings["layouts"]);
-
-            $this->view->setLayoutRootPaths(array_replace($viewLayoutRootPaths, [$extSettingsLayoutRootPath]));
+            $this->view->setLayoutRootPaths($this->extSettings["layouts"]);
         }
         if (!empty($this->extSettings["partials"])) {
-            $viewPartialRootPaths = $this->getViewProperty($extbaseFrameworkConfiguration, 'partialRootPaths');
-            $extSettingsPartialRootPath = GeneralUtility::getFileAbsFileName($this->extSettings["partials"]);
-
-            $this->view->setPartialRootPaths(array_replace($viewPartialRootPaths, [$extSettingsPartialRootPath]));
+            $this->view->setPartialRootPaths($this->extSettings["partials"]);
         }
-        $this->view->setTemplatePathAndFilename($this->settings["file"]);
+        foreach ($this->extSettings['frontend'] as $templatePath) {
+            $fileName = $templatePath . $this->settings["file"];
+            if (is_file($fileName)) {
+                $this->view->setTemplatePathAndFilename($fileName);
+            }
+        }
         $data = $this->configurationManager->getContentObject()->data;
         $this->inlineHelper->addFilesToData($data, "tt_content");
         $this->inlineHelper->addIrreToData($data);

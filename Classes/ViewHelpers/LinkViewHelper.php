@@ -40,14 +40,20 @@ class LinkViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
      */
     public function render($data)
     {
-        $this->extSettings = $this->settingsService->get();
-        $url = $this->extSettings['content'] . $data . '.html';
-        if (!file_exists(PATH_site . $url) || !is_file(PATH_site . $url)) {
-            $content = '<div class="typo3-message message-error"><strong>' .
-                \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.error', 'mask') .
-                '</strong> ' . \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.htmlmissing', 'mask') .
-                ': <span style="text-decoration:underline;">' . $url .
-                '</span></div>';
+        $content = '';
+        $this->extSettings = $this->settingsService->getBackendSettings();
+        foreach ($this->extSettings['content'] as $templatePath) {
+            $url = $templatePath . $data . '.html';
+            if (!file_exists(PATH_site . $url) || !is_file(PATH_site . $url)) {
+                $content = '<div class="typo3-message message-error"><strong>' .
+                    \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.error', 'mask') .
+                    '</strong> '
+                    . \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.htmlmissing', 'mask') .
+                    ': <span style="text-decoration:underline;">' . $url .
+                    '</span></div>';
+            } else {
+                return '';
+            }
         }
         return $content;
     }

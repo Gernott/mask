@@ -199,11 +199,15 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
      */
     protected function deleteHtml($key)
     {
-        if (file_exists(PATH_site . $this->extSettings["content"] . $key . ".html")) {
-            unlink(PATH_site . $this->extSettings["content"] . $key . ".html");
+        foreach ($this->extSettings["content"] as $templatePath) {
+            if (file_exists(PATH_site . $templatePath . $key . ".html")) {
+                unlink(PATH_site . $templatePath . $key . ".html");
+            }
         }
-        if (file_exists(PATH_site . $this->extSettings["backend"] . $key . ".html")) {
-            unlink(PATH_site . $this->extSettings["backend"] . $key . ".html");
+        foreach ($this->extSettings["backend"] as $templatePath) {
+            if (file_exists(PATH_site . $templatePath . $key . ".html")) {
+                unlink(PATH_site . $templatePath . $key . ".html");
+            }
         }
     }
 }

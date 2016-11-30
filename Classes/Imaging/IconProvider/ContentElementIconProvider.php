@@ -77,9 +77,9 @@ class ContentElementIconProvider implements IconProviderInterface
             throw new \InvalidArgumentException('The option "contentElementKey" is required and must not be empty', 1440754978);
         }
         $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-        $this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
+        $this->storageRepository = $this->objectManager->get('MASK\\Mask\\Domain\\Repository\\StorageRepository');
         $this->settingsService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Service\\SettingsService');
-        $this->extSettings = $this->settingsService->get();
+        $this->extSettings = $this->settingsService->getBackendSettings();
         $this->contentElement = $this->storageRepository->loadElement("tt_content", $options["contentElementKey"]);
         $icon->setMarkup($this->generateMarkup($icon, $options));
     }

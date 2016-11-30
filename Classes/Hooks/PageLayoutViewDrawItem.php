@@ -70,19 +70,24 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
     public function preProcess(\TYPO3\CMS\Backend\View\PageLayoutView &$parentObject, &$drawItem, &$headerContent, &$itemContent, array &$row)
     {
         $this->settingsService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Service\\SettingsService');
-        $this->extSettings = $this->settingsService->get();
+        $this->extSettings = $this->settingsService->getBackendSettings();
 
         // only render special backend preview if it is a mask element
         if (substr($row['CType'], 0, 4) === "mask") {
             $elementKey = substr($row['CType'], 5);
-            $templateRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($this->extSettings["backend"]);
-            $templatePathAndFilename = $templateRootPath . $elementKey . '.html';
+            $templatePathAndFilename = null;
+            foreach ($this->extSettings['backend'] as $templatePath) {
+                $fileName = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($templatePath . $elementKey . '.html');
+                if (is_file($fileName)) {
+                    $templatePathAndFilename = $fileName;
+                }
+            }
 
-            if (file_exists($templatePathAndFilename)) {
+            if ($templatePathAndFilename) {
                 // initialize some things we need
                 $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\Object\\ObjectManager');
                 $this->inlineHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\InlineHelper');
-                $this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
+                $this->storageRepository = $this->objectManager->get('MASK\\Mask\\Domain\\Repository\\StorageRepository');
                 $view = $this->objectManager->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
 
                 // Load the backend template
@@ -90,12 +95,10 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
 
                 // if there are paths for layouts and partials set, add them to view
                 if (!empty($this->extSettings["layouts_backend"])) {
-                    $layoutRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($this->extSettings["layouts_backend"]);
-                    $view->setLayoutRootPaths(array($layoutRootPath));
+                    $view->setLayoutRootPaths($this->extSettings["layouts_backend"]);
                 }
                 if (!empty($this->extSettings["partials_backend"])) {
-                    $partialRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($this->extSettings["partials_backend"]);
-                    $view->setPartialRootPaths(array($partialRootPath));
+                    $view->setPartialRootPaths($this->extSettings["partials_backend"]);
                 }
 
                 // Fetch and assign some useful variables
