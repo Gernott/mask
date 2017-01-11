@@ -3,7 +3,7 @@
 $storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
 $configuration = $storageRepository->load();
 
-if (!empty($configuration)) {
+if (!empty($configuration) && array_key_exists('pages', $configuration)) {
 
     $tcaCodeGenerator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\CodeGenerator\\TcaCodeGenerator');
 

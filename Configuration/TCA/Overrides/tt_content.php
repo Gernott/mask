@@ -14,7 +14,8 @@ $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['itemsProcFunc'] = '
 $storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
 $configuration = $storageRepository->load();
 
-if (!empty($configuration)) {
+if (!empty($configuration) && array_key_exists('tt_content', $configuration)) {
+   \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(array_key_exists('tt_content', $configuration));
 
    $tcaCodeGenerator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\CodeGenerator\\TcaCodeGenerator');
 
