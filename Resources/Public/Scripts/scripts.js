@@ -38,6 +38,16 @@ jQuery(document).ready(function () {
 		jQuery(this).val(jQuery(this).val().toLowerCase());
 	});
 
+    // Only alphanumeric letters for field key
+    jQuery(document).on("keypress", "INPUT.tx_mask_newfieldname", function (event) {
+        var regex = new RegExp("^[a-zA-Z0-9]+$");
+        var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+        if (!regex.test(key)) {
+            event.preventDefault();
+            return false;
+        }
+    });
+
 	// Add title of field to 2nd column
 	jQuery(".tx_mask_tabcell3").on("keyup", ".tx_mask_field INPUT[name='tx_mask_tools_maskmask[storage][elements][labels][--index--]']", function (event) {
 		syncBodyToHead(jQuery(this).closest(".tx_mask_field"));
