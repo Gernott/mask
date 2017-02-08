@@ -16,7 +16,7 @@
 		}
 	],
 	"license": ["GPL-2.0+"],
-	"version": "2.1.0",
+	"version": "2.1.1",
 	"require": {
 		"typo3/cms-core": ">=7.6.0 <8.2.99"
 	},
