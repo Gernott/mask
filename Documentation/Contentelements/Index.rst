@@ -42,17 +42,17 @@ In the extensionmanager you find the setting **Folder for Backend Preview Templa
 
 .. code-block:: html
 
-	Examplecode:
-	Name: {data.tx_mask_name}<br />
-	E-Mail: {data.tx_mask_email}<br />
-	Tel.: {data.tx_mask_telephone}<br />
-	Fax: {data.tx_mask_fax}<br />
-	Position: {data.tx_mask_position}
+    Examplecode:
+    Name: {data.tx_mask_name}<br />
+    E-Mail: {data.tx_mask_email}<br />
+    Tel.: {data.tx_mask_telephone}<br />
+    Fax: {data.tx_mask_fax}<br />
+    Position: {data.tx_mask_position}
 
 .. figure:: ../Images/ContentelementsManual/Backendpreview.png
-	:alt: Change the backend preview
+    :alt: Change the backend preview
 
-	Default output and fitted preview
+    Default output and fitted preview
 
 Use fontawesome icons as previewimage
 --------------------------------------
@@ -60,8 +60,8 @@ Use fontawesome icons as previewimage
 If you quickly need a preview icon for your contentelement and don't want to make a graphic, just choose a fontawesome iconcode and choose a colour:
 
 .. figure:: ../Images/ContentelementsManual/Fontawesome.png
-	:alt: Use a fontawesome icon
+    :alt: Use a fontawesome icon
 
-	Put the code into the mask wizard
+    Put the code into the mask wizard
 
 Here you find an overview about all possible icons and their codes: https://fortawesome.github.io/Font-Awesome/icons/

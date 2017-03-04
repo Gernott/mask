@@ -1,44 +1,44 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2014-02-20T18:53:00Z" product-name="mask">
-		<header/>
-		<body>
-			<trans-unit id="mlang_tabs_tab">
-				<source>Mask</source>
-			</trans-unit>
-			<trans-unit id="new_content_element_tab">
-				<source>Mask-Elements</source>
-			</trans-unit>
-			<trans-unit id="mlang_labels_tabdescr">
-				<source>Create and manage Masks for pages and contents</source>
-			</trans-unit>
-			<trans-unit id="mlang_labels_tablabel">
-				<source>Create and manage Masks</source>
-			</trans-unit>
-			<trans-unit id="ext_conf_template-json">
-				<source>File with project-specific mask configuration</source>
-			</trans-unit>
-			<trans-unit id="ext_conf_template-content">
-				<source>Folder for Content Fluid Templates (with trailing slash)</source>
-			</trans-unit>
-			<trans-unit id="ext_conf_template-backend">
-				<source>Folder for Backend Preview Templates (with trailing slash)</source>
-			</trans-unit>
-			<trans-unit id="ext_conf_template-preview">
-				<source>Folder for preview-images (with trailing slash)</source>
-			</trans-unit>
-			<trans-unit id="ext_conf_template-layouts">
-				<source>Folder for Content Fluid Layouts (with trailing slash)</source>
-			</trans-unit>
-			<trans-unit id="ext_conf_template-partials">
-				<source>Folder for Content Fluid Partials (with trailing slash)</source>
-			</trans-unit>
-			<trans-unit id="ext_conf_template-layouts_backend">
-				<source>Folder for Backend Preview Layouts (with trailing slash)</source>
-			</trans-unit>
-			<trans-unit id="ext_conf_template-partials_backend">
-				<source>Folder for Backend Preview Partials (with trailing slash)</source>
-			</trans-unit>
-		</body>
-	</file>
+    <file source-language="en" datatype="plaintext" original="messages" date="2014-02-20T18:53:00Z" product-name="mask">
+        <header/>
+        <body>
+            <trans-unit id="mlang_tabs_tab">
+                <source>Mask</source>
+            </trans-unit>
+            <trans-unit id="new_content_element_tab">
+                <source>Mask-Elements</source>
+            </trans-unit>
+            <trans-unit id="mlang_labels_tabdescr">
+                <source>Create and manage Masks for pages and contents</source>
+            </trans-unit>
+            <trans-unit id="mlang_labels_tablabel">
+                <source>Create and manage Masks</source>
+            </trans-unit>
+            <trans-unit id="ext_conf_template-json">
+                <source>File with project-specific mask configuration</source>
+            </trans-unit>
+            <trans-unit id="ext_conf_template-content">
+                <source>Folder for Content Fluid Templates (with trailing slash)</source>
+            </trans-unit>
+            <trans-unit id="ext_conf_template-backend">
+                <source>Folder for Backend Preview Templates (with trailing slash)</source>
+            </trans-unit>
+            <trans-unit id="ext_conf_template-preview">
+                <source>Folder for preview-images (with trailing slash)</source>
+            </trans-unit>
+            <trans-unit id="ext_conf_template-layouts">
+                <source>Folder for Content Fluid Layouts (with trailing slash)</source>
+            </trans-unit>
+            <trans-unit id="ext_conf_template-partials">
+                <source>Folder for Content Fluid Partials (with trailing slash)</source>
+            </trans-unit>
+            <trans-unit id="ext_conf_template-layouts_backend">
+                <source>Folder for Backend Preview Layouts (with trailing slash)</source>
+            </trans-unit>
+            <trans-unit id="ext_conf_template-partials_backend">
+                <source>Folder for Backend Preview Partials (with trailing slash)</source>
+            </trans-unit>
+        </body>
+    </file>
 </xliff>

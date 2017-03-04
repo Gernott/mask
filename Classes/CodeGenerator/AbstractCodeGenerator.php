@@ -33,7 +33,6 @@ namespace MASK\Mask\CodeGenerator;
  */
 abstract class AbstractCodeGenerator
 {
-
     /**
      * StorageRepository
      *

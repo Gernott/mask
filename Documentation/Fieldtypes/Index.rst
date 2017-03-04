@@ -70,25 +70,25 @@ In your fluid-template, you can use <f:cObject typoscriptObjectPath="lib.pages" 
 And in your TypoScript setup you can access to all data of the selected pages-record:
 
 .. code-block:: typoscript
-	lib.pages = CONTENT
-	lib.pages {
-  	table = pages
-	  select {
-	    pidInList = root
-	    recursive = 99
-	    uidInList.field = tx_mask_select
-	  }
-  	renderObj = COA
-	  renderObj {
-	    10 = TEXT
-	    10.field = title
-	    10.wrap = <h1>|</h1>
-	    20 = TEXT
-	    20.field = tstamp
-	    20.strftime = %d.%m.%Y
-	    20.noTrimWrap = |<p>Last update: |</p>|
-	  }
-	}
+    lib.pages = CONTENT
+    lib.pages {
+      table = pages
+      select {
+        pidInList = root
+        recursive = 99
+        uidInList.field = tx_mask_select
+      }
+      renderObj = COA
+      renderObj {
+        10 = TEXT
+        10.field = title
+        10.wrap = <h1>|</h1>
+        20 = TEXT
+        20.field = tstamp
+        20.strftime = %d.%m.%Y
+        20.noTrimWrap = |<p>Last update: |</p>|
+      }
+    }
 
 
 foreign_table_where
@@ -118,23 +118,23 @@ You can display images in the frontend with f:image or with f:cObject:
 
 .. code-block:: typoscript
 
-	<f:for each="{data.tx_mask_image}" as="file">
-		f:image example:
-		<f:image src="{file.uid}" treatIdAsReference="1" width="200" />
+    <f:for each="{data.tx_mask_image}" as="file">
+        f:image example:
+        <f:image src="{file.uid}" treatIdAsReference="1" width="200" />
 
-		f:cObject example:
-		<f:cObject typoscriptObjectPath="lib.my_image" data="{image: file.uid}" />
-	</f:for>
+        f:cObject example:
+        <f:cObject typoscriptObjectPath="lib.my_image" data="{image: file.uid}" />
+    </f:for>
 
 In case of using f:cObject, use the following TypoScript in your setup-field:
 
 .. code-block:: typoscript
 
-	lib.my_image = IMAGE
-	lib.my_image.file {
-		import.field = tx_mask_image
-		treatIdAsReference = 1
-	}
+    lib.my_image = IMAGE
+    lib.my_image.file {
+        import.field = tx_mask_image
+        treatIdAsReference = 1
+    }
 
 Repeating
 ---------

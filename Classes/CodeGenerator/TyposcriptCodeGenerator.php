@@ -132,30 +132,30 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
         // generate TypoScript setup
         $setupContent = '
 module.tx_mask {
-	view {
-		templateRootPaths {
-			10 = EXT:mask/Resources/Private/Backend/Templates/
-		}
-		partialRootPaths {
-			10 = EXT:mask/Resources/Private/Backend/Partials/
-		}
-		layoutRootPaths {
-			10 = EXT:mask/Resources/Private/Backend/Layouts/
-		}
-	}
-	persistence{
-		classes {
-			MASK\Mask\Domain\Model\BackendLayout {
-				mapping {
-					tableName = backend_layout
-					columns {
-						uid.mapOnProperty = uid
-						title.mapOnProperty = title
-					}
-				}
-			}
-		}
-	}
+    view {
+        templateRootPaths {
+            10 = EXT:mask/Resources/Private/Backend/Templates/
+        }
+        partialRootPaths {
+            10 = EXT:mask/Resources/Private/Backend/Partials/
+        }
+        layoutRootPaths {
+            10 = EXT:mask/Resources/Private/Backend/Layouts/
+        }
+    }
+    persistence{
+        classes {
+            MASK\Mask\Domain\Model\BackendLayout {
+                mapping {
+                    tableName = backend_layout
+                    columns {
+                        uid.mapOnProperty = uid
+                        title.mapOnProperty = title
+                    }
+                }
+            }
+        }
+    }
 }
 ';
         // Load setup.ts Template
