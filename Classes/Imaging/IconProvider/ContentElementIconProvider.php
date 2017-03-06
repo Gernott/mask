@@ -114,7 +114,7 @@ class ContentElementIconProvider implements IconProviderInterface
         } else if ($previewIconAvailable) {
             $markup = '<img src="' . PathUtility::getAbsoluteWebPath(PATH_site . ltrim($this->getPreviewIconPath($options['contentElementKey']), '/')) . '" alt="' . $this->contentElement["label"] . '" title="' . $this->contentElement["label"] . '"/>';
         } else {
-//            $markup = '<img src="/typo3conf/ext/mask/Resources/Public/Icons/mask-ce-default.png" alt="' . $this->contentElement["label"] . '" title="' . $this->contentElement["label"] . '"/>';
+//			$markup = '<img src="/typo3conf/ext/mask/Resources/Public/Icons/mask-ce-default.png" alt="' . $this->contentElement["label"] . '" title="' . $this->contentElement["label"] . '"/>';
 
             $color = $this->getColor($this->contentElement);
             if ($color) {

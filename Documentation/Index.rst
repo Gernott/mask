@@ -13,50 +13,50 @@ Mask
 
 .. only:: html
 
-    :Classification:
-        mask
+	:Classification:
+		mask
 
-    :Version:
-        |2.1.0|
+	:Version:
+		|2.1.0|
 
-    :Language:
-        en
+	:Language:
+		en
 
-    :Description:
+	:Description:
 
-    :Keywords:
-        mask
+	:Keywords:
+		mask
 
-    :Copyright:
-        2016
+	:Copyright:
+		2016
 
-    :Author:
+	:Author:
 
-    :Email:
+	:Email:
 
-    :License:
-        This document is published under the Open Content License
-        available from http://www.opencontent.org/opl.shtml
+	:License:
+		This document is published under the Open Content License
+		available from http://www.opencontent.org/opl.shtml
 
-    :Rendered:
-        |today|
+	:Rendered:
+		|today|
 
-    The content of this document is related to TYPO3,
-    a GNU/GPL CMS/Framework available from `www.typo3.org <http://www.typo3.org/>`_.
+	The content of this document is related to TYPO3,
+	a GNU/GPL CMS/Framework available from `www.typo3.org <http://www.typo3.org/>`_.
 
-    **Table of Contents**
+	**Table of Contents**
 
 .. toctree::
-    :maxdepth: 5
-    :titlesonly:
-    :glob:
+	:maxdepth: 5
+	:titlesonly:
+	:glob:
 
-    Introduction/Index
-    Installation/Index
-    Contentelements/Index
-    Pagetemplates/Index
-    Fieldtypes/Index
-    Sponsors/Index
-    ToDoList/Index
-    ChangeLog/Index
-    Targets
+	Introduction/Index
+	Installation/Index
+	Contentelements/Index
+	Pagetemplates/Index
+	Fieldtypes/Index
+	Sponsors/Index
+	ToDoList/Index
+	ChangeLog/Index
+	Targets

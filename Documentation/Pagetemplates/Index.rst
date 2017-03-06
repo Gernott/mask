@@ -25,41 +25,41 @@ Mask comes with a ready-to-use TypoScript snippet for templating. You can define
 
 .. code-block:: typoscript
 
-    page < temp.mask.page
+	page < temp.mask.page
 
 This loads the following TypoScript:
 
 .. code-block:: typoscript
 
-    temp.mask.page = PAGE
-    temp.mask.page {
-        10 = FLUIDTEMPLATE
-        10 {
-            file.stdWrap.cObject = CASE
-            file.stdWrap.cObject {
-                key.data = levelfield:-1, backend_layout_next_level, slide
-                key.override.field = backend_layout
-                default = TEXT
-                default.value = fileadmin/templates/default.html
-            }
-        }
-    }
+	temp.mask.page = PAGE
+	temp.mask.page {
+		10 = FLUIDTEMPLATE
+		10 {
+			file.stdWrap.cObject = CASE
+			file.stdWrap.cObject {
+				key.data = levelfield:-1, backend_layout_next_level, slide
+				key.override.field = backend_layout
+				default = TEXT
+				default.value = fileadmin/templates/default.html
+			}
+		}
+	}
 
 So you have to save your HTML-pagetemplate here: fileadmin/templates/default.html
 If you want, you can change the path or filename easy with one TypoScript-line:
 
 .. code-block:: typoscript
 
-    page.10.file.stdWrap.cObject.default.value = yourpath/yourfile.html
+	page.10.file.stdWrap.cObject.default.value = yourpath/yourfile.html
 
 If you have more than one pagetemplate, you have to add and adjust these lines for each template:
 
 .. code-block:: typoscript
 
-    page.10.file.stdWrap.cObject {
-        2 = TEXT
-        2.value = fileadmin/templates/second.html
-    }
+	page.10.file.stdWrap.cObject {
+		2 = TEXT
+		2.value = fileadmin/templates/second.html
+	}
 
 You have to change the ID from 2 to your ID from the belonging Backend Layout. And you have to change the path and filename to your needs.
 Remember: Each pagetemplate needs its own Backend Layout record. You find the ID of your Backend Layout in the List Module on hovering the icon of the Backend Layout.
@@ -68,12 +68,12 @@ If you like to add some CSS or Javascript files, use the regular TypoScript or r
 
 .. code-block:: typoscript
 
-    page {
-        includeCSS.styles = path/your.css
-        includeCSS.lightbox = path/lightbox.css
-        includeJS.jquery = path/jquery.js
-        includeJS.scripts = path/your.js
-    }
+	page {
+		includeCSS.styles = path/your.css
+		includeCSS.lightbox = path/lightbox.css
+		includeJS.jquery = path/jquery.js
+		includeJS.scripts = path/your.js
+	}
 
 
 Contentcolumns
@@ -89,8 +89,8 @@ The last step ist to define each lib.content* in your TypoScript-setup with thes
 
 .. code-block:: typoscript
 
-    lib.content0 < styles.content.get
-    lib.content0.select.where = colPos=0
+	lib.content0 < styles.content.get
+	lib.content0.select.where = colPos=0
 
 Change all 0s to your ID.
 

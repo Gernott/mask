@@ -1,28 +1,28 @@
 {
-    "name": "mask/mask",
-    "type": "typo3-cms-extension",
-    "description": "Create your own content elements and page templates. Easy to use, even without programming skills because of the comfortable drag&drop system. Stored in structured database tables. Style your frontend with Fluid tags. Ideal, if you want to switch from Templavoila.",
-    "homepage": "https://forge.typo3.org/projects/extension-mask",
-    "support": {
-        "issues": "https://forge.typo3.org/projects/extension-mask"
-    },
-    "keywords": ["TYPO3 CMS", "Mask", "Contentelements", "Wizard"],
-    "authors": [
-        {
-            "name": "WEBprofil - Gernot Ploiner e.U.",
-            "email": "office@webprofil.at",
-            "role": "Developer",
-            "homepage": "http://www.webprofil.at"
-        }
-    ],
-    "license": ["GPL-2.0+"],
-    "version": "2.1.0",
-    "require": {
-        "typo3/cms-core": ">=7.6.0 <8.2.99"
-    },
-    "autoload": {
-        "psr-4": {
-            "MASK\\Mask\\": "Classes/"
-        }
-    }
+	"name": "mask/mask",
+	"type": "typo3-cms-extension",
+	"description": "Create your own content elements and page templates. Easy to use, even without programming skills because of the comfortable drag&drop system. Stored in structured database tables. Style your frontend with Fluid tags. Ideal, if you want to switch from Templavoila.",
+	"homepage": "https://forge.typo3.org/projects/extension-mask",
+	"support": {
+		"issues": "https://forge.typo3.org/projects/extension-mask"
+	},
+	"keywords": ["TYPO3 CMS", "Mask", "Contentelements", "Wizard"],
+	"authors": [
+		{
+			"name": "WEBprofil - Gernot Ploiner e.U.",
+			"email": "office@webprofil.at",
+			"role": "Developer",
+			"homepage": "http://www.webprofil.at"
+		}
+	],
+	"license": ["GPL-2.0+"],
+	"version": "2.1.0",
+	"require": {
+		"typo3/cms-core": ">=7.6.0 <8.2.99"
+	},
+	"autoload": {
+		"psr-4": {
+			"MASK\\Mask\\": "Classes/"
+		}
+	}
 }

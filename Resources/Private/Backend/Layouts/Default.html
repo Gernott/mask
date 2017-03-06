@@ -1,30 +1,30 @@
 <f:be.container
-    pageTitle="Mask"
-    loadJQuery="true"
-    includeCssFiles="{0: '{f:uri.resource(path:\'Styles/styles.css\')}'}"
-    includeRequireJsModules="{
-    Modal:'TYPO3/CMS/Backend/Modal'
-    }"
-    includeJsFiles="{0: '{f:uri.resource(path:\'Scripts/libs.js\')}', 1: '{f:uri.resource(path:\'Scripts/scripts.js\')}'}"
+	pageTitle="Mask"
+	loadJQuery="true"
+	includeCssFiles="{0: '{f:uri.resource(path:\'Styles/styles.css\')}'}"
+	includeRequireJsModules="{
+	Modal:'TYPO3/CMS/Backend/Modal'
+	}"
+	includeJsFiles="{0: '{f:uri.resource(path:\'Scripts/libs.js\')}', 1: '{f:uri.resource(path:\'Scripts/scripts.js\')}'}"
 
-    >
-    <div class="typo3-fullDoc">
-        <div id="typo3-docheader">
-            <div class="typo3-docheader-functions">
-            </div>
-            <div class="typo3-docheader-buttons">
-                <div class="docheader-row2-left">
-                </div>
-                <div class="docheader-row2-right">
-                    <!--<f:be.buttons.shortcut />-->
-                </div>
-            </div>
-        </div>
-        <div id="typo3-docbody">
-            <div id="typo3-inner-docbody">
-                <f:flashMessages />
-                <f:render section="content" />
-            </div>
-        </div>
-    </div>
+	>
+	<div class="typo3-fullDoc">
+		<div id="typo3-docheader">
+			<div class="typo3-docheader-functions">
+			</div>
+			<div class="typo3-docheader-buttons">
+				<div class="docheader-row2-left">
+				</div>
+				<div class="docheader-row2-right">
+					<!--<f:be.buttons.shortcut />-->
+				</div>
+			</div>
+		</div>
+		<div id="typo3-docbody">
+			<div id="typo3-inner-docbody">
+				<f:flashMessages />
+				<f:render section="content" />
+			</div>
+		</div>
+	</div>
 </f:be.container>
