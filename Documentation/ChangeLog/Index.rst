@@ -10,6 +10,8 @@
 
 ChangeLog
 =========
+Mask 2.1.1
+  PHP7 Compatibility fixed
 Mask 2.1.0
   New field type "Content", to nest content elements, possibility to set layouts- and partials rootpaths for backend and frontend, added TYPO3 8 and PHP7 Support, new controls (purge, deactive, element counter), enhanced support of language labels, better performance in frontend and backend, bugfixes
 
