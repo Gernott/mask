@@ -164,14 +164,16 @@ jQuery(document).ready(function () {
 
 		// Checkbox items:
 		jQuery('.tx_mask_fieldcontent_items').each(function () {
+            var id = this.id;
 			itemArray = this.value.split('\n');
 			output = "";
 			jQuery.each(itemArray, function (key, line) {
 				lineArray = line.split(',');
 				output += '<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][items][' + key + '][0]" value="' + lineArray[0] + '" />';
-				if (lineArray[1] !== undefined) {
-					output += '<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][items][' + key + '][1]" value="' + lineArray[1].trim() + '" />';
-				}
+				if (id !== 'check_items') {
+					value = (lineArray[1] !== undefined) ? lineArray[1] : key.toString();
+					output += '<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][items][' + key + '][1]" value="' + value.trim() + '" />';
+                }
 			});
 			jQuery(this).parent().find(".tx_mask_fieldcontent_itemsresult").html(output);
 		});

@@ -214,7 +214,7 @@ class GeneralUtility
     public function removeBlankOptions($haystack)
     {
         foreach ($haystack as $key => $value) {
-            if (is_array($value)) {
+            if (is_array($value) && $key !== 'items') {
                 $haystack[$key] = $this->removeBlankOptions($haystack[$key]);
             }
             if (empty($haystack[$key])) {
