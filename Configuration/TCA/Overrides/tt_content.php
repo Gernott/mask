@@ -10,3 +10,20 @@ if (!empty($GLOBALS['TCA']['tt_content']['columns']['CType']['config']['itemsPro
 // and set mask itemsProcFuncs
 $GLOBALS['TCA']['tt_content']['columns']['colPos']['config']['itemsProcFunc'] = 'MASK\Mask\ItemsProcFuncs\ColPosList->itemsProcFunc';
 $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['itemsProcFunc'] = 'MASK\Mask\ItemsProcFuncs\CTypeList->itemsProcFunc';
+
+$storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
+$configuration = $storageRepository->load();
+
+if (!empty($configuration) && array_key_exists('tt_content', $configuration)) {
+   \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(array_key_exists('tt_content', $configuration));
+
+   $tcaCodeGenerator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\CodeGenerator\\TcaCodeGenerator');
+
+   // Generate TCA for Content-Elements
+   $contentColumns = $tcaCodeGenerator->generateFieldsTca($configuration["tt_content"]["tca"]);
+   \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tt_content', $contentColumns);
+   $tcaCodeGenerator->setElementsTca($configuration["tt_content"]["elements"]);
+
+   // Generate TCA for Inline-Fields
+   $tcaCodeGenerator->setInlineTca($configuration);
+}
