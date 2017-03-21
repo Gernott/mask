@@ -1,5 +1,5 @@
-mask.tt_content.mask_###KEY### = USER
-mask.tt_content.mask_###KEY### {
+tt_content.mask_###KEY### = USER
+tt_content.mask_###KEY### {
 	userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
 	extensionName = Mask
 	pluginName = ContentRenderer
