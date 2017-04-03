@@ -67,6 +67,12 @@ class InlineHelper
         } else {
             $uid = $data["uid"];
         }
+        
+        // using is_numeric in favor to is_int
+        // due to some rare cases where uids are provided as strings
+        if(!is_numeric($uid)) {
+            return;
+        }
 
         $fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');

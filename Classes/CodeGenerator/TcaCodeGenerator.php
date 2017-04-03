@@ -94,41 +94,43 @@ class TcaCodeGenerator extends AbstractCodeGenerator
         if ($tca) {
             foreach ($tca as $elementvalue) {
                 if (!$elementvalue["hidden"]) {
-                $prependTabs = "--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,";
-                $fieldArray = array();
-                $label = $elementvalue["shortLabel"]; // Optional shortLabel
-                if ($label == "") {
-                    $label = $elementvalue["label"];
-                }
-                \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(array($label, "mask_" . $elementvalue["key"]), "CType", "mask");
+                    $prependTabs = "--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,";
+                    $fieldArray = array();
+                    $label = $elementvalue["shortLabel"]; // Optional shortLabel
+                    if ($label == "") {
+                        $label = $elementvalue["label"];
+                    }
+                    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(array($label, "mask_" . $elementvalue["key"]), "CType", "mask");
 
-                // now add all the fields that should be shown
-                if (is_array($elementvalue["columns"])) {
-                    foreach ($elementvalue["columns"] as $index => $fieldKey) {
+                    // now add all the fields that should be shown
+                    if (is_array($elementvalue["columns"])) {
+                        foreach ($elementvalue["columns"] as $index => $fieldKey) {
 
-                        // check if this field is of type tab
-                        $formType = $fieldHelper->getFormType($fieldKey, $elementvalue["key"], "tt_content");
-                        if ($formType == "Tab") {
-                            $label = $fieldHelper->getLabel($elementvalue["key"], $fieldKey, "tt_content");
-                            // if a tab is in the first position then change the name of the general tab
-                            if ($index === 0) {
-                                $prependTabs = '--div--;' . $label . "," . $prependTabs;
+                            // check if this field is of type tab
+                            $formType = $fieldHelper->getFormType($fieldKey, $elementvalue["key"], "tt_content");
+                            if ($formType == "Tab") {
+                                $label = $fieldHelper->getLabel($elementvalue["key"], $fieldKey, "tt_content");
+                                // if a tab is in the first position then change the name of the general tab
+                                if ($index === 0) {
+                                    $prependTabs = '--div--;' . $label . "," . $prependTabs;
+                                } else {
+                                    // otherwise just add new tab
+                                    $fieldArray[] = '--div--;' . $label;
+                                }
                             } else {
-                                // otherwise just add new tab
-                                $fieldArray[] = '--div--;' . $label;
+                                $fieldArray[] = $fieldKey;
                             }
-                        } else {
-                            $fieldArray[] = $fieldKey;
                         }
                     }
-                }
-                $fields = implode(",", $fieldArray);
+                    $fields = implode(",", $fieldArray);
 
-                $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["columnsOverrides"]["bodytext"]["defaultExtras"] = 'richtext:rte_transform[mode=ts_css]';
-                $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["showitem"] = $prependTabs . $fields . $defaultTabs . $gridelements;
+                    $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["columnsOverrides"]["bodytext"]["defaultExtras"] = 'richtext:rte_transform[mode=ts_css]';
+                    $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["columnsOverrides"]["bodytext"]["config"]['richtextConfiguration'] = 'default';
+                    $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["columnsOverrides"]["bodytext"]["config"]['enableRichtext'] = 1;
+                    $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["showitem"] = $prependTabs . $fields . $defaultTabs . $gridelements;
+                }
             }
         }
-    }
     }
 
     /**
@@ -286,6 +288,10 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                         unset($columns[$tcakey]["inlineIcon"]);
                         unset($columns[$tcakey]["cTypes"]);
 
+
+//                        $GLOBALS['TCA']["tt_content"]["types"]["mask_asdfsdaf"]["columnsOverrides"]["tx_mask_".$tcakey]["config"]['enableRichtext'] = 1;
+//                        $GLOBALS['TCA']["tt_content"]["types"]["mask_asdfsdaf"]["columnsOverrides"]["tx_mask_".$tcakey]["config"]['richtextConfiguration'] = 'default';
+
                         $columns[$tcakey] = $generalUtility->removeBlankOptions($columns[$tcakey]);
                         $columns[$tcakey] = $generalUtility->replaceKey($columns[$tcakey], $tcakey);
                     }
@@ -353,7 +359,6 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                         'foreign_table' => 'sys_language',
                         'foreign_table_where' => 'ORDER BY sys_language.title',
                         'items' => array(
-                            array('LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages', -1),
                             array('LLL:EXT:lang/locallang_general.xlf:LGL.default_value', 0)
                         ),
                     ),

@@ -1,21 +1,3 @@
-# Important for content output with mask and optional combination with css_styled_content:
-tt_content = CASE
-tt_content {
-	key.field = CType
-	default >
-	default < mask.tt_content
-	default = CASE
-	default {
-		key.field = CType
-		default = TEXT
-		default {
-			field = CType
-			wrap = <p style="background-color: yellow;"><b>MASK ERROR:</b> Content Element type "|" has no rendering definition! Have you cleared TYPO3 cache?</p>
-			prefixComment = 2 | Unknown element message:
-		}
-	}
-}
-
 # snippet to render content elements
 lib.tx_mask.content = RECORDS
 lib.tx_mask.content {

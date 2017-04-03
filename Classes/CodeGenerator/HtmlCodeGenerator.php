@@ -121,7 +121,7 @@ class HtmlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
 			break;
 		 case "Link":
 			$html .= '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">' . "\n";
-			$html .= '<f:link.page pageUid="{' . $datafield . '.' . $fieldKey . '}">{data.' . $fieldKey . '}</f:link.page><br />' . "\n";
+			$html .= '<f:link.typolink parameter="{' . $datafield . '.' . $fieldKey . '}">{' . $datafield . '.' . $fieldKey . '}</f:link.typolink><br />' . "\n";
 			$html .= "</f:if>\n\n";
 			break;
 		 case "Radio":
