@@ -61,9 +61,8 @@ class WizardPageController extends \MASK\Mask\Controller\WizardController
 	*/
    public function newAction()
    {
-
-
-	  $backendLayouts = $this->backendLayoutRepository->findAll();
+	  $settings = $this->settingsService->get();
+	  $backendLayouts = $this->backendLayoutRepository->findAll(explode(",", $settings['backendlayout_pids']));
 	  $this->view->assign('backendLayouts', $backendLayouts);
    }
 
