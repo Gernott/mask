@@ -614,6 +614,13 @@
 			<trans-unit id="mask_content_colpos">
 				<target>Mask-Nested-Content</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.content.clear_cache.title">
+				<target>Cache geleert?</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.clear_cache.message">
+				<target>Dein neues Content-Element wird nicht angezeigt? Deine Änderungen wirken sich im Backend nicht aus? System-Cache leeren!</target>
+			</trans-unit>
+
 		</body>
 	</file>
 </xliff>
