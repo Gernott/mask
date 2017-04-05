@@ -1,5 +1,7 @@
 # cat=general; type=file [json]; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-json
 json = typo3conf/mask.json
+# cat=general; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-backendlayout_pids
+backendlayout_pids = 0,1
 
 # cat=frontend; type=folder; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-content
 content = fileadmin/templates/content/

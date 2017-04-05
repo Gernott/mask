@@ -39,6 +39,9 @@
 			<trans-unit id="ext_conf_template-partials_backend">
 				<source>Folder for Backend Preview Partials (with trailing slash)</source>
 			</trans-unit>
+			<trans-unit id="ext_conf_template-backendlayout_pids">
+				<source>PageIds from where the in PageTS defined backend layouts should be loaded (comma separated)</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
