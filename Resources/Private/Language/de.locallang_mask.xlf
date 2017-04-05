@@ -32,7 +32,10 @@
 			</trans-unit>
 			<trans-unit id="ext_conf_template-partials">
 				<source>Ordner für Inhalts-Fluid-HTML-Partials (mit / am Ende)</source>
-			</trans-unit>s
+			</trans-unit>
+			<trans-unit id="ext_conf_template-backendlayout_pids">
+				<source>Seiten-IDs von denen Backendlayouts aus dem PageTS geladen werden (kommagetrennt)</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

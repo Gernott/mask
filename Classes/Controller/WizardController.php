@@ -230,7 +230,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $formAction = $params["formAction"];
         $arguments = array();
         if ($params["storage"]["type"] == "pages") {
-            $arguments["layout"] = $this->backendLayoutRepository->findByUid($params["storage"]["elements"]["key"]);
+            $arguments["layoutIdentifier"] = $this->backendLayoutRepository->findByIdentifier($params["storage"]["elements"]["key"])->getIdentifier();
         } else {
             $arguments["key"] = $params["storage"]["elements"]["key"];
             $arguments["type"] = $params["storage"]["type"];

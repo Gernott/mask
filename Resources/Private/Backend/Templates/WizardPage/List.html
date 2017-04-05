@@ -19,30 +19,31 @@
 								<thead>
 									<tr>
 										<th class="text-nowrap col-icon"><f:translate key="tx_mask.page.image" /></th>
-										<th class="text-nowrap"><f:translate key="tx_mask.page.titleuid" /></th>
-										<th class="text-nowrap col-title"><f:translate key="tx_mask.page.description" /></th>
-										<th class="text-nowrap col-control">&nbsp;</th>
-									</tr>
+								<th class="text-nowrap"><f:translate key="tx_mask.page.titleuid" /></th>
+								<th class="text-nowrap col-title"><f:translate key="tx_mask.page.description" /></th>
+								<th class="text-nowrap col-control">&nbsp;</th>
+								</tr>
 								</thead>
 								<tbody>
 								<f:for each="{backendLayouts}" as="layout">
+
 									<tr>
 										<td>
-											<f:if condition='{layout.icon}'>
-												<img src="/uploads/media/{layout.icon}" />
-											</f:if>
-										</td>
-										<td><f:link.action action="edit" arguments="{layout : layout}"><p><strong>{layout.title}</strong><br />{layout.uid}</p></f:link.action></td>
-										<td><p>{layout.description}</p></td>
-										<td><f:link.action action="edit" arguments="{layout : layout}" class="btn btn-default"><core:icon identifier="actions-document-open" /></f:link.action></td>
+									<f:if condition='{layout.iconPath}'>
+										<f:image src="{layout.iconPath}"/>
+									</f:if>
+									</td>
+									<td><f:link.action action="edit" arguments="{layoutIdentifier: layout.identifier}"><p><strong><mask:translateLabel key="{layout.title}" /></strong><br />{layout.identifier}</p></f:link.action></td>
+									<td><p>{layout.description}</p></td>
+									<td><f:link.action action="edit" arguments="{layoutIdentifier: layout.identifier}" class="btn btn-default"><core:icon identifier="actions-document-open" /></f:link.action></td>
 									</tr>
 								</f:for>
 								</tbody>
 							</table>
+						</div>
 					</f:else>
 				</f:if>
 			</div>
 		</div>
 	</div>
-</div>
 </f:section>

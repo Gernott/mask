@@ -1,6 +1,4 @@
-<?php
-
-namespace MASK\Mask\Controller;
+<?php namespace MASK\Mask\Controller;
 
 /* * *************************************************************
  *  Copyright notice
@@ -36,89 +34,94 @@ namespace MASK\Mask\Controller;
 class WizardPageController extends \MASK\Mask\Controller\WizardController
 {
 
-    /**
-     * StorageRepository
-     *
-     * @var \MASK\Mask\Domain\Repository\StorageRepository
-     * @inject
-     */
-    protected $storageRepository;
+   /**
+	* StorageRepository
+	*
+	* @var \MASK\Mask\Domain\Repository\StorageRepository
+	* @inject
+	*/
+   protected $storageRepository;
 
-    /**
-     * action list
-     *
-     * @return void
-     */
-    public function listAction()
-    {
-        $backendLayouts = $this->backendLayoutRepository->findAll();
-        $this->view->assign('backendLayouts', $backendLayouts);
-    }
+   /**
+	* action list
+	*
+	* @return void
+	*/
+   public function listAction()
+   {
+	  $settings = $this->settingsService->get();
+	  $backendLayouts = $this->backendLayoutRepository->findAll(explode(",", $settings['backendlayout_pids']));
+	  $this->view->assign('backendLayouts', $backendLayouts);
+   }
 
-    /**
-     * action new
-     *
-     * @return void
-     */
-    public function newAction()
-    {
-        $backendLayouts = $this->backendLayoutRepository->findAll();
-        $this->view->assign('backendLayouts', $backendLayouts);
-    }
+   /**
+	* action new
+	*
+	* @return void
+	*/
+   public function newAction()
+   {
+	  $settings = $this->settingsService->get();
+	  $backendLayouts = $this->backendLayoutRepository->findAll(explode(",", $settings['backendlayout_pids']));
+	  $this->view->assign('backendLayouts', $backendLayouts);
+   }
 
-    /**
-     * action create
-     *
-     * @param array $storage
-     * @return void
-     */
-    public function createAction($storage)
-    {
-        $this->storageRepository->add($storage);
-        $this->generateAction();
-        $this->addFlashMessage('Your new Content-Element was created.');
-        $this->redirect('list');
-    }
+   /**
+	* action create
+	*
+	* @param array $storage
+	* @return void
+	*/
+   public function createAction($storage)
+   {
+	  $this->storageRepository->add($storage);
+	  $this->generateAction();
+	  $this->addFlashMessage('Your new Content-Element was created.');
+	  $this->redirect('list');
+   }
 
-    /**
-     * action edit
-     *
-     * @param \MASK\Mask\Domain\Model\BackendLayout $layout
-     * @return void
-     */
-    public function editAction($layout)
-    {
-        $storage = $this->storageRepository->loadElement("pages", $layout->getUid());
-        $this->prepareStorage($storage);
-        $this->view->assign('backendLayout', $layout);
-        $this->view->assign('storage', $storage);
-        $this->view->assign('editMode', 1);
-    }
+   /**
+	* action edit
+	*
+	* @param string $layoutIdentifier
+	* @return void
+	*/
+   public function editAction($layoutIdentifier)
+   {
+	  $layout = $this->backendLayoutRepository->findByIdentifier($layoutIdentifier);
+	  if ($layout) {
+		 $storage = $this->storageRepository->loadElement("pages", $layoutIdentifier);
+		 $this->prepareStorage($storage);
+		 $this->view->assign('backendLayout', $layout);
+		 $this->view->assign('storage', $storage);
+		 $this->view->assign('editMode', 1);
+	  }
+   }
 
-    /**
-     * action update
-     *
-     * @param array $storage
-     * @return void
-     */
-    public function updateAction($storage)
-    {
-        $this->storageRepository->update($storage);
-        $this->generateAction();
-        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.page.updatedpage', 'mask'));
-        $this->redirectByAction();
-    }
+   /**
+	* action update
+	*
+	* @param array $storage
+	* @return void
+	*/
+   public function updateAction($storage)
+   {
+	  $this->storageRepository->update($storage);
+	  $this->generateAction();
+	  $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.page.updatedpage', 'mask'));
+	  $this->redirectByAction();
+   }
 
-    /**
-     * action delete
-     *
-     * @param array $storage
-     * @return void
-     */
-    public function deleteAction(array $storage)
-    {
-        $this->storageRepository->remove($storage);
-        $this->addFlashMessage('Your Page was removed.');
-        $this->redirect('list');
-    }
+   /**
+	* action delete
+	*
+	* @param array $storage
+	* @return void
+	*/
+   public function deleteAction(array $storage)
+   {
+	  $this->storageRepository->remove($storage);
+	  $this->addFlashMessage('Your Page was removed.');
+	  $this->redirect('list');
+   }
 }
