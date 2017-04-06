@@ -16,7 +16,7 @@ if (TYPO3_MODE === 'BE') {
         'WizardContent' => 'list, new, create, edit, update, delete, purge, generate, showHtml, createMissingFolders, hide, activate',
         'WizardPage' => 'list, new, create, edit, update, delete',
         ), array(
-        'access' => 'admin',
+        'access' => 'user,group',
         'icon' => 'EXT:' . $_EXTKEY . '/Resources/Public/Icons/module-mask_wizard.svg',
         'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_mask.xlf',
         )
