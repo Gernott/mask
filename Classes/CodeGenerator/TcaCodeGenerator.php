@@ -268,7 +268,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                         if ($fieldkey == "config" && $tcavalue[$fieldkey]["foreign_table"] == "tt_content") {
                             $tcavalue[$fieldkey]["foreign_field"] = $tcakey . "_parent";
                             if ($tcavalue["cTypes"]) {
-                                $tcavalue[$fieldkey]["foreign_record_defaults"]["CType"] = reset($tcavalue["cTypes"]);
+                                $tcavalue[$fieldkey]["overrideChildTca"]["columns"]["CType"]["config"]["default"] = reset($tcavalue["cTypes"]);
                             }
                         }
 
