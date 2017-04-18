@@ -23,3 +23,10 @@ if (!empty($configuration) && array_key_exists('tt_content', $configuration)) {
    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tt_content', $contentColumns);
    $tcaCodeGenerator->setElementsTca($configuration["tt_content"]["elements"]);
 }
+
+if (!empty($configuration)) {
+   
+    $tcaCodeGenerator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\CodeGenerator\\TcaCodeGenerator');
+    // Generate TCA for Inline-Fields
+    $tcaCodeGenerator->setInlineTca($configuration);
+}
