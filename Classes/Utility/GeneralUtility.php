@@ -217,7 +217,7 @@ class GeneralUtility
             if (is_array($value)) {
                 $haystack[$key] = $this->removeBlankOptions($haystack[$key]);
             }
-            if (empty($haystack[$key])) {
+            if( (is_array($haystack[$key]) && empty($haystack[$key])) || (is_string($haystack[$key]) && !strlen($haystack[$key])) ) {
                 unset($haystack[$key]);
             }
         }
