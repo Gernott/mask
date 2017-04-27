@@ -67,7 +67,7 @@ class InlineHelper
         } else {
             $uid = $data["uid"];
         }
-        
+
         // using is_numeric in favor to is_int
         // due to some rare cases where uids are provided as strings
         if(!is_numeric($uid)) {
@@ -142,7 +142,7 @@ class InlineHelper
         if (!$childTable) {
             $childTable = $name;
         }
-        
+
         // If this method is called in backend, there is no $GLOBALS['TSFE']
         if (isset($GLOBALS['TSFE']->sys_language_uid)) {
             $sysLangUid = $GLOBALS['TSFE']->sys_language_uid;
@@ -193,6 +193,9 @@ class InlineHelper
 
         // and recursively add them to an array
         while ($element = $GLOBALS["TYPO3_DB"]->sql_fetch_assoc($sql)) {
+            if (TYPO3_MODE == 'FE') {
+                $GLOBALS['TSFE']->sys_page->versionOL($childTable,$element);
+            }
             $this->addIrreToData($element, $name, $cType);
             $this->addFilesToData($element, $name);
             $elements[] = $element;
