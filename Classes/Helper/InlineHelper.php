@@ -67,7 +67,7 @@ class InlineHelper
         } else {
             $uid = $data["uid"];
         }
-        
+
         // using is_numeric in favor to is_int
         // due to some rare cases where uids are provided as strings
         if(!is_numeric($uid)) {
@@ -142,7 +142,7 @@ class InlineHelper
         if (!$childTable) {
             $childTable = $name;
         }
-        
+
         // If this method is called in backend, there is no $GLOBALS['TSFE']
         if (isset($GLOBALS['TSFE']->sys_language_uid)) {
             $sysLangUid = $GLOBALS['TSFE']->sys_language_uid;
@@ -178,6 +178,11 @@ class InlineHelper
             $sql = $GLOBALS["TYPO3_DB"]->exec_SELECTquery(
                 "*", $childTable, $parentid . " = '" . $parentUid .
                 "' AND sys_language_uid IN (-1," . $sysLangUid . ")"
+                . ' AND ('
+                . $childTable . '.t3ver_wsid=0 OR '
+                . $childTable . '.t3ver_wsid=' . (int)$GLOBALS['BE_USER']->workspace
+                . ' AND ' . $childTable . '.pid<>-1'
+                . ')'
                 . $enableFields, "", "sorting"
             );
         } else {
@@ -185,15 +190,28 @@ class InlineHelper
                 "*", $childTable, $parentid . " = '" . $parentUid .
                 "' AND parenttable = '" . $parenttable .
                 "' AND sys_language_uid IN (-1," . $sysLangUid . ")"
+                . ' AND ('
+                . $childTable . '.t3ver_wsid=0 OR '
+                . $childTable . '.t3ver_wsid=' . (int)$GLOBALS['BE_USER']->workspace
+                . ' AND ' . $childTable . '.pid<>-1'
+                . ')'
                 . $enableFields, "", "sorting"
             );
         }
 
         // and recursively add them to an array
+        $elements = array();
         while ($element = $GLOBALS["TYPO3_DB"]->sql_fetch_assoc($sql)) {
-            $this->addIrreToData($element, $name, $cType);
-            $this->addFilesToData($element, $name);
-            $elements[] = $element;
+            if (TYPO3_MODE == 'FE') {
+                $GLOBALS['TSFE']->sys_page->versionOL($childTable, $element);
+            } else {
+                $element = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecordWSOL($childTable, $element['uid']);
+            }
+            if ($element && empty($elements[$element['uid']])) {
+                $this->addIrreToData($element, $name, $cType);
+                $this->addFilesToData($element, $name);
+                $elements[$element['uid']] = $element;
+            }
         }
 
         return $elements;
