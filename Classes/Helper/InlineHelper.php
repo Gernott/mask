@@ -178,6 +178,7 @@ class InlineHelper
             $sql = $GLOBALS["TYPO3_DB"]->exec_SELECTquery(
                 "*", $childTable, $parentid . " = '" . $parentUid .
                 "' AND sys_language_uid IN (-1," . $sysLangUid . ")"
+                . (TYPO3_MODE == 'BE' ? \TYPO3\CMS\Backend\Utility\BackendUtility::getWorkspaceWhereClause($childTable) : '')
                 . $enableFields, "", "sorting"
             );
         } else {
@@ -185,6 +186,7 @@ class InlineHelper
                 "*", $childTable, $parentid . " = '" . $parentUid .
                 "' AND parenttable = '" . $parenttable .
                 "' AND sys_language_uid IN (-1," . $sysLangUid . ")"
+                . (TYPO3_MODE == 'BE' ? \TYPO3\CMS\Backend\Utility\BackendUtility::getWorkspaceWhereClause($childTable) : '')
                 . $enableFields, "", "sorting"
             );
         }
