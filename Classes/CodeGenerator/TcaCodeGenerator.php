@@ -219,12 +219,12 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 
 					 $customSettingOverride["appearance"] = $tcavalue["config"]["appearance"];
 					 if ($customSettingOverride["appearance"]["fileUploadAllowed"] == "") {
-						$customSettingOverride["appearance"]["fileUploadAllowed"] = "false";
+						$customSettingOverride["appearance"]["fileUploadAllowed"] = false;
 					 }
 					 if ($customSettingOverride["appearance"]["useSortable"] == "") {
-						$customSettingOverride["appearance"]["useSortable"] = "0";
+						$customSettingOverride["appearance"]["useSortable"] = 0;
 					 } else {
-						$customSettingOverride["appearance"]["useSortable"] = "1";
+						$customSettingOverride["appearance"]["useSortable"] = 1;
 					 }
 
 					 if ($tcavalue["config"]["filter"]["0"]["parameters"]["allowedFileExtensions"] != "") {
