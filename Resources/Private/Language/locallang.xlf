@@ -229,13 +229,16 @@
 				<source>None</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.localization_mode">
-				<source>Localization Mode</source>
+				<source>Localization Mode (l10n_mode)</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.inline.localization_mode.select">
-				<source>Localize Records (select)</source>
+			<trans-unit id="tx_mask.field.inline.l10n_mode.copy">
+				<source>Create copy (copy)</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.inline.localization_mode.keep">
-				<source>Don't localize, use records from source language (keep)</source>
+			<trans-unit id="tx_mask.field.inline.l10n_mode.prefixLangTitle">
+				<source>Copy with prefix (prefixLangTitle)</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.l10n_mode.exclude">
+				<source>Keep the value or data from original language (exclude)</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.localize_children_at_parent_localization">
 				<source>Localize Records when Content Element is localized</source>
