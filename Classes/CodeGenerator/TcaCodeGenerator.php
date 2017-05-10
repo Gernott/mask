@@ -195,26 +195,28 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 				  if ($fieldkey == "options" && $fieldvalue == "file") {
 					 $fieldName = $tcakey;
 					 $customSettingOverride = array(
-						 'foreign_types' => array(
-							 '0' => array(
-								 'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-							 ),
-							 '1' => array(
-								 'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-							 ),
-							 '2' => array(
-								 'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-							 ),
-							 '3' => array(
-								 'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-							 ),
-							 '4' => array(
-								 'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-							 ),
-							 '5' => array(
-								 'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-							 ),
-						 ),
+						'overrideChildTca' => array(
+						    'types' => array(
+								'0' => array(
+								    'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+								),
+								'1' => array(
+								    'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+								),
+								'2' => array(
+								    'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+								),
+								'3' => array(
+								    'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+								),
+								'4' => array(
+								    'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+								),
+								'5' => array(
+								    'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+								),
+                           ),
+                        )
 					 );
 
 					 $customSettingOverride["appearance"] = $tcavalue["config"]["appearance"];
