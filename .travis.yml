@@ -1,7 +1,10 @@
 language: php
 
+php:
+  - 7.0
+
 install:
-  - wget https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v2.3.1/php-cs-fixer.phar -O  ~/php-cs-fixer && chmod +x  ~/php-cs-fixer
+  - travis_retry wget https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v2.3.1/php-cs-fixer.phar -O  ~/php-cs-fixer && chmod +x  ~/php-cs-fixer
 
 script:
   - IFS=$'\n'; COMMIT_SCA_FILES=($(git diff --name-only --diff-filter=ACMRTUXB "${TRAVIS_COMMIT_RANGE}")); unset IFS
