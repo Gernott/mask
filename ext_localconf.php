@@ -80,7 +80,7 @@ if (!function_exists('user_mask_contentType')) {
 // for conditions on the backend-layouts
 if (!function_exists('user_mask_beLayout')) {
 
-   function user_mask_beLayout($layout)
+   function user_mask_beLayout($layout = null)
    {
 	  // get current page uid:
 	  if (is_array($_REQUEST["data"]["pages"])) { // after saving page

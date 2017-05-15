@@ -86,9 +86,11 @@ class WizardPageController extends \MASK\Mask\Controller\WizardController
 	* @param string $layoutIdentifier
 	* @return void
 	*/
-   public function editAction($layoutIdentifier)
+   public function editAction($layoutIdentifier = null)
    {
-	  $layout = $this->backendLayoutRepository->findByIdentifier($layoutIdentifier);
+	  $settings = $this->settingsService->get();
+	  $layout = $this->backendLayoutRepository->findByIdentifier($layoutIdentifier, explode(",", $settings['backendlayout_pids']));
+
 	  if ($layout) {
 		 $storage = $this->storageRepository->loadElement("pages", $layoutIdentifier);
 		 $this->prepareStorage($storage);

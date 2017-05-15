@@ -122,7 +122,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 			   }
 			   $fields = implode(",", $fieldArray);
 
-			   $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["columnsOverrides"]["bodytext"]["defaultExtras"] = 'richtext:rte_transform[mode=ts_css]';
+//			   $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["columnsOverrides"]["bodytext"]["defaultExtras"] = 'richtext:rte_transform[mode=ts_css]';
 			   $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["columnsOverrides"]["bodytext"]["config"]['richtextConfiguration'] = 'default';
 			   $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["columnsOverrides"]["bodytext"]["config"]['enableRichtext'] = 1;
 			   $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["showitem"] = $prependTabs . $fields . $defaultTabs . $gridelements;
@@ -195,28 +195,28 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 				  if ($fieldkey == "options" && $fieldvalue == "file") {
 					 $fieldName = $tcakey;
 					 $customSettingOverride = array(
-						'overrideChildTca' => array(
-						    'types' => array(
-								'0' => array(
-								    'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-								),
-								'1' => array(
-								    'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-								),
-								'2' => array(
-								    'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-								),
-								'3' => array(
-								    'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-								),
-								'4' => array(
-								    'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-								),
-								'5' => array(
-								    'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-								),
-                           ),
-                        )
+						 'overrideChildTca' => array(
+							 'types' => array(
+								 '0' => array(
+									 'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+								 ),
+								 '1' => array(
+									 'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+								 ),
+								 '2' => array(
+									 'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+								 ),
+								 '3' => array(
+									 'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+								 ),
+								 '4' => array(
+									 'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+								 ),
+								 '5' => array(
+									 'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+								 ),
+							 ),
+						 )
 					 );
 
 					 $customSettingOverride["appearance"] = $tcavalue["config"]["appearance"];
@@ -268,7 +268,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 				  if ($fieldkey == "config" && $tcavalue[$fieldkey]["foreign_table"] == "tt_content") {
 					 $tcavalue[$fieldkey]["foreign_field"] = $tcakey . "_parent";
 					 if ($tcavalue["cTypes"]) {
-						$tcavalue[$fieldkey]["foreign_record_defaults"]["CType"] = reset($tcavalue["cTypes"]);
+						$tcavalue[$fieldkey]["overrideChildTca"]["columns"]["CType"]["config"]["default"] = reset($tcavalue["cTypes"]);
 					 }
 				  }
 
@@ -324,8 +324,8 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 			  'crdate' => 'crdate',
 			  'cruser_id' => 'cruser_id',
 			  'dividers2tabs' => TRUE,
-			  'versioningWS' => 2,
-			  'versioning_followPages' => TRUE,
+			  'versioningWS' => TRUE,
+//			  'versioning_followPages' => TRUE,
 			  'languageField' => 'sys_language_uid',
 			  'transOrigPointerField' => 'l10n_parent',
 			  'transOrigDiffSourceField' => 'l10n_diffsource',
@@ -338,7 +338,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 			  'searchFields' => '',
 			  'dynamicConfigFile' => '',
 			  'iconfile' => '',
-			  'requestUpdate' => 'CType'
+//			  'requestUpdate' => 'CType'
 		  ),
 		  'interface' => array(
 			  'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, ',
@@ -401,12 +401,15 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 			  ),
 			  'starttime' => array(
 				  'exclude' => 1,
-				  'l10n_mode' => 'mergeIfNotBlank',
 				  'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.starttime',
 				  'config' => array(
+					  'behaviour' => array(
+						  'allowLanguageSynchronization' => TRUE
+					  ),
+					  'renderType' => 'inputDateTime',
 					  'type' => 'input',
 					  'size' => 13,
-					  'max' => 20,
+//					  'max' => 20,
 					  'eval' => 'datetime',
 					  'checkbox' => 0,
 					  'default' => 0,
@@ -417,12 +420,15 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 			  ),
 			  'endtime' => array(
 				  'exclude' => 1,
-				  'l10n_mode' => 'mergeIfNotBlank',
 				  'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.endtime',
 				  'config' => array(
+					  'behaviour' => array(
+						  'allowLanguageSynchronization' => TRUE
+					  ),
+					  'renderType' => 'inputDateTime',
 					  'type' => 'input',
 					  'size' => 13,
-					  'max' => 20,
+//					  'max' => 20,
 					  'eval' => 'datetime',
 					  'checkbox' => 0,
 					  'default' => 0,

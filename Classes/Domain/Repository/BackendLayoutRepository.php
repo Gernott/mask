@@ -90,9 +90,9 @@ class BackendLayoutRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 	*
 	* @return \TYPO3\CMS\Backend\View\BackendLayout\BackendLayout
 	*/
-   public function findByIdentifier($identifier)
+   public function findByIdentifier($identifier, $pageTsPids = array())
    {
-	  $backendLayouts = $this->findAll();
+	  $backendLayouts = $this->findAll($pageTsPids);
 	  if (isset($backendLayouts[$identifier])) {
 		 return $backendLayouts[$identifier];
 	  } else {
