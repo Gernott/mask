@@ -82,7 +82,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
    {
 
 	  $fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
-	  $defaultTabs = ",--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.visibility;visibility,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.extended,--div--;LLL:EXT:lang/locallang_tca.xlf:sys_category.tabs.category,categories";
+	  $defaultTabs = ",--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.appearance,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.frames;frames,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.appearanceLinks;appearanceLinks,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,--palette--;;language,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,--palette--;;hidden,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:categories,--div--;LLL:EXT:lang/Resources/Private/Language/locallang_tca.xlf:sys_category.tabs.category,categories,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:notes,rowDescription,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended";
 
 	  // add gridelements fields, to make mask work with gridelements out of the box
 	  $gridelements = '';
@@ -92,7 +92,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 	  if ($tca) {
 		 foreach ($tca as $elementvalue) {
 			if (!$elementvalue["hidden"]) {
-			   $prependTabs = "--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,";
+			   $prependTabs = "--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,";
 			   $fieldArray = array();
 			   $label = $elementvalue["shortLabel"]; // Optional shortLabel
 			   if ($label == "") {
@@ -325,7 +325,6 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 			  'cruser_id' => 'cruser_id',
 			  'dividers2tabs' => TRUE,
 			  'versioningWS' => TRUE,
-//			  'versioning_followPages' => TRUE,
 			  'languageField' => 'sys_language_uid',
 			  'transOrigPointerField' => 'l10n_parent',
 			  'transOrigDiffSourceField' => 'l10n_diffsource',
@@ -337,8 +336,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 			  ),
 			  'searchFields' => '',
 			  'dynamicConfigFile' => '',
-			  'iconfile' => '',
-//			  'requestUpdate' => 'CType'
+			  'iconfile' => ''
 		  ),
 		  'interface' => array(
 			  'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, ',
@@ -409,7 +407,6 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 					  'renderType' => 'inputDateTime',
 					  'type' => 'input',
 					  'size' => 13,
-//					  'max' => 20,
 					  'eval' => 'datetime',
 					  'checkbox' => 0,
 					  'default' => 0,
@@ -428,7 +425,6 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 					  'renderType' => 'inputDateTime',
 					  'type' => 'input',
 					  'size' => 13,
-//					  'max' => 20,
 					  'eval' => 'datetime',
 					  'checkbox' => 0,
 					  'default' => 0,
@@ -467,7 +463,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 	  $generalUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Utility\\GeneralUtility');
 
 	  // now add all the fields that should be shown
-	  $prependTabs = "sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, ";
+	  $prependTabs = "sys_language_uid, l10n_parent, l10n_diffsource, hidden, ";
 	  if ($tca) {
 		 $i = 0;
 		 foreach ($tca as $fieldKey => $configuration) {
@@ -504,7 +500,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 	  $tableTca["ctrl"]["label"] = $labelField;
 	  $tableTca["ctrl"]["searchFields"] = implode(",", $fields);
 	  $tableTca["interface"]["showRecordFieldList"] = "sys_language_uid, l10n_parent, l10n_diffsource, hidden, " . implode(", ", $fields);
-	  $tableTca["types"]["1"]["showitem"] = $prependTabs . implode(", ", $fields) . ", --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime";
+	  $tableTca["types"]["1"]["showitem"] = $prependTabs . implode(", ", $fields) . ", --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime";
 
 	  $tableTca["columns"]["l10n_parent"]["config"]["foreign_table"] = $table;
 	  $tableTca["columns"]["l10n_parent"]["config"]["foreign_table_where"] = 'AND ' . $table . '.pid=###CURRENT_PID### AND ' . $table . '.sys_language_uid IN (-1,0)';
