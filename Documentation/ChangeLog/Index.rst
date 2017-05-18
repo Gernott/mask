@@ -10,6 +10,10 @@
 
 ChangeLog
 =========
+Mask 3.0.1
+  Link bug fixed
+Mask 3.0.0
+  TYPO3 8 LTS Compatibility
 Mask 2.1.1
   PHP7 Compatibility fixed
 Mask 2.1.0
