@@ -10,6 +10,8 @@
 
 ChangeLog
 =========
+Mask 3.0.2
+  Fixed wrong typo3 version dependency
 Mask 3.0.1
   Link bug fixed
 Mask 3.0.0
