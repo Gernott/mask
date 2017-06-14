@@ -26,6 +26,8 @@ namespace MASK\Mask\Helper;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Methods for working with inline fields (IRRE)
  *
