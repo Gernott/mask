@@ -80,6 +80,9 @@ class FrontendController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
         $data = $this->configurationManager->getContentObject()->data;
         $this->inlineHelper->addFilesToData($data, "tt_content");
         $this->inlineHelper->addIrreToData($data);
-        $this->view->assign('data', $data);
+        $this->view->assignMultiple([
+            'data' => $data,
+            'languageUid' => $GLOBALS['TSFE']->sys_language_uid
+        ]);
     }
 }

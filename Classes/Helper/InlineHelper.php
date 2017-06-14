@@ -167,29 +167,56 @@ class InlineHelper
             $parentUid = $data["_LOCALIZED_UID"];
         }
 
-        // fetching the inline elements
-        if ($childTable == "tt_content") {
-            $sql = $GLOBALS["TYPO3_DB"]->exec_SELECTquery(
-                "*", $childTable, $parentid . " = '" . $parentUid .
-                "' AND sys_language_uid IN (-1," . $sysLangUid . ")"
-                . $enableFields, "", "sorting"
-            );
-        } else {
-            $sql = $GLOBALS["TYPO3_DB"]->exec_SELECTquery(
-                "*", $childTable, $parentid . " = '" . $parentUid .
-                "' AND parenttable = '" . $parenttable .
-                "' AND sys_language_uid IN (-1," . $sysLangUid . ")"
-                . $enableFields, "", "sorting"
-            );
-        }
+        $fallBackOrder = $this->getFallbackLanguages();
+        $fallBackOrder[] = $sysLangUid;
+        $contentMap = [];
 
-        // and recursively add them to an array
-        while ($element = $GLOBALS["TYPO3_DB"]->sql_fetch_assoc($sql)) {
-            $this->addIrreToData($element, $name, $cType);
-            $this->addFilesToData($element, $name);
-            $elements[] = $element;
+        foreach ($fallBackOrder as $lng) {
+            // fetching the inline elements
+            if ($childTable == "tt_content") {
+                $sql = $GLOBALS["TYPO3_DB"]->exec_SELECTquery(
+                    "*", $childTable, $parentid . " = '" . $parentUid .
+                    "' AND sys_language_uid IN (-1," . $lng . ")"
+                    . $enableFields, "", "sorting"
+                );
+            } else {
+                $sql = $GLOBALS["TYPO3_DB"]->exec_SELECTquery(
+                    "*", $childTable, $parentid . " = '" . $parentUid .
+                    "' AND parenttable = '" . $parenttable .
+                    "' AND sys_language_uid IN (-1," . $lng . ")"
+                    . $enableFields, "", "sorting"
+                );
+            }
+            while ($element = $GLOBALS["TYPO3_DB"]->sql_fetch_assoc($sql)) {
+                $this->addIrreToData($element, $name, $cType);
+                $this->addFilesToData($element, $name);
+
+                //find the closest translation
+                $id = $element['l18n_parent'] !== '0' ? $element['l18n_parent'] : $element['uid'];
+                if (isset ($contentMap[$id])) {
+                    $elements[$contentMap[$id]] = $element;
+                } else {
+                    $elements[] = $element;
+                    $contentMap[$id] = count($elements) -1;
+                }
+            }
         }
 
         return $elements;
+    }
+
+    /**
+     * Gets fallback languages from config.sys_language_mode
+     * @return array
+     */
+    private function getFallbackLanguages()
+    {
+        list($sys_language_mode, $sys_language_content) = GeneralUtility::trimExplode(';', $GLOBALS['TSFE']->config['config']['sys_language_mode']);
+
+        if ($sys_language_mode === 'content_fallback') {
+            return GeneralUtility::intExplode(',', $sys_language_content);
+        } else {
+            return [];
+        }
     }
 }
