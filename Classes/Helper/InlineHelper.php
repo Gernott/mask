@@ -194,7 +194,7 @@ class InlineHelper
                 $this->addFilesToData($element, $name);
 
                 //find the closest translation
-                $id = $element['l18n_parent'] !== '0' ? $element['l18n_parent'] : $element['uid'];
+                $id = $this->getParentElementUid($element);
                 if (isset ($contentMap[$id])) {
                     $elements[$contentMap[$id]] = $element;
                 } else {
@@ -205,6 +205,20 @@ class InlineHelper
         }
 
         return $elements;
+    }
+
+    /**
+     * @param $element
+     * @return string
+     */
+    private function getParentElementUid($element) {
+        if (isset ($element['l18n_parent']) && $element['l18n_parent'] !== '0') {
+            return $element['l18n_parent'];
+        } else if (isset ($element['l10n_parent']) && $element['l10n_parent'] !== '0') {
+            return $element['l10n_parent'];
+        } else {
+            return $element['uid'];
+        }
     }
 
     /**
