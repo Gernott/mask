@@ -150,6 +150,7 @@ class InlineHelper
 
         // by default, the uid of the parent is $data["uid"]
         $parentUid = $data["uid"];
+        $localizedParentUid = $this->getParentElementUid($data);
 
         /*
          * but if the parent table is the pages, and it isn't the default language
@@ -176,25 +177,32 @@ class InlineHelper
         foreach ($fallBackOrder as $lng) {
             // fetching the inline elements
             if ($childTable == "tt_content") {
+                $in = $parentUid . "','" . $localizedParentUid;
+
                 $sql = $GLOBALS["TYPO3_DB"]->exec_SELECTquery(
-                    "*", $childTable, $parentid . " = '" . $parentUid .
-                    "' AND sys_language_uid IN (-1," . $lng . ")"
+                    "*", $childTable, $parentid . " IN ('" . $in .
+                    "') AND sys_language_uid IN (-1," . $lng . ")"
                     . $enableFields, "", "sorting"
                 );
             } else {
+                $in = $parentUid . "','" . $localizedParentUid;
+
                 $sql = $GLOBALS["TYPO3_DB"]->exec_SELECTquery(
-                    "*", $childTable, $parentid . " = '" . $parentUid .
-                    "' AND parenttable = '" . $parenttable .
+                    "*", $childTable, $parentid . " IN ('" . $in .
+                    "') AND parenttable = '" . $parenttable .
                     "' AND sys_language_uid IN (-1," . $lng . ")"
                     . $enableFields, "", "sorting"
                 );
             }
             while ($element = $GLOBALS["TYPO3_DB"]->sql_fetch_assoc($sql)) {
+                //find the closest translation
+                $id = $this->getParentElementUid($element);
+                //apply record overlay
+                $element = $GLOBALS['TSFE']->sys_page->getRecordOverlay($childTable, $element, $lng, $GLOBALS['TSFE']->sys_language_contentOL);
+
                 $this->addIrreToData($element, $name, $cType);
                 $this->addFilesToData($element, $name);
 
-                //find the closest translation
-                $id = $this->getParentElementUid($element);
                 if (isset ($contentMap[$id])) {
                     $elements[$contentMap[$id]] = $element;
                 } else {
