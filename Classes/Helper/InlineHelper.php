@@ -188,8 +188,8 @@ class InlineHelper
                 $in = $parentUid . "','" . $localizedParentUid;
 
                 $sql = $GLOBALS["TYPO3_DB"]->exec_SELECTquery(
-                    "*", $childTable, $parentid . " IN ('" . $in .
-                    "') AND parenttable = '" . $parenttable .
+                    "*", $childTable, $parentid . " = '" . $parentUid .
+                    "' AND parenttable = '" . $parenttable .
                     "' AND sys_language_uid IN (-1," . $lng . ")"
                     . $enableFields, "", "sorting"
                 );
