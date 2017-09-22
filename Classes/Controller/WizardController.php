@@ -24,6 +24,9 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use TYPO3\CMS\Core\Cache\CacheManager;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * ^
  *
@@ -112,6 +115,10 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
    {
 	  // Update Database
 	  $this->sqlCodeGenerator->updateDatabase();
+
+	  // Clear system cache to force new TCA caching
+	  $cacheManager = GeneralUtility::makeInstance(CacheManager::class);
+	  $cacheManager->flushCachesInGroup('system');
    }
 
    /**
