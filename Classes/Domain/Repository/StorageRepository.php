@@ -161,9 +161,11 @@ class StorageRepository
     {
         $json = $this->load();
         $fields = array();
+        $columns = $json[$type]["elements"][$key]["columns"];
 
-        if (count($json[$type]["elements"][$key]["columns"]) > 0) {
-            foreach ($json[$type]["elements"][$key]["columns"] as $fieldName) {
+        //Check if it is an array before trying to count it
+        if (is_array($columns) && count($columns) > 0) {
+            foreach ($columns as $fieldName) {
                 $fields[$fieldName] = $json[$type]["tca"][$fieldName];
             }
         }
