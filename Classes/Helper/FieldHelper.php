@@ -288,4 +288,38 @@ class FieldHelper
         }
         return $fieldType;
     }
+
+    /**
+     * Returns all fields of a type from a table
+     *
+     * @param string $key TCA Type
+     * @param string $type elementtype
+     * @return array fields
+     */
+    public function getFieldsByType($key, $type)
+    {
+        $storage = $this->storageRepository->load();
+        if (empty($storage[$type]) || empty($storage[$type]['tca'])) {
+            return [];
+        }
+
+        $fields = [];
+        foreach ($storage[$type]['tca'] as $field => $config) {
+            if ($config['config']['type'] !== strtolower($key)) {
+                continue;
+            }
+
+            $elements = $this->getElementsWhichUseField($field, $type);
+            if (empty($elements)) {
+                continue;
+            }
+
+            $fields[] = [
+                'field' => $field,
+                'label' => $this->getLabel($elements[0]['key'], $field, $type),
+            ];
+        }
+
+        return $fields;
+    }
 }
