@@ -613,12 +613,6 @@
 			<trans-unit id="mask_content_colpos">
 				<source>Mask-Nested-Content</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.content.clear_cache.title">
-				<source>Cleared Cache?</source>
-			</trans-unit>
-			<trans-unit id="tx_mask.content.clear_cache.message">
-				<source>You don't see your new content element in the backend? Your changes are not shown? Clear the system caches!</source>
-			</trans-unit>
 
 		</body>
 	</file>
