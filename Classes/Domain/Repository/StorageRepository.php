@@ -194,6 +194,23 @@ class StorageRepository
                         unset($value[$index]);
                         unset($value[$index]);
                     }
+                    if ($key === 'labels'
+                        && empty($column)
+                        && isset($json[$content['type']]['tca'][$content['elements']['columns'][$index]])
+                    ) {
+                        // If using a mask field with empty label, we have to set the "default" label
+                        $label = '';
+                        foreach ($json[$content['type']]['elements'] as $element) {
+                            if (in_array($content['elements']['columns'][$index], $element['columns'], true)) {
+                                $i = array_search($content['elements']['columns'][$index], $element['columns'], true);
+                                if (!empty($element['labels'][$i])) {
+                                    $label = $element['labels'][$i];
+                                    break;
+                                }
+                            }
+                        }
+                        $value[$index] = $label;
+                    }
                 }
             }
             $json[$content["type"]]["elements"][$content["elements"]["key"]][$key] = $value;
