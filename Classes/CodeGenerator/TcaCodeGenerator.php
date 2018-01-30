@@ -375,6 +375,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 					  ),
 					  'foreign_table' => 'tx_test_domain_model_murph',
 					  'foreign_table_where' => 'AND tx_test_domain_model_murph.pid=###CURRENT_PID### AND tx_test_domain_model_murph.sys_language_uid IN (-1,0)',
+					  'default' => 0,
 				  ),
 			  ),
 			  'l10n_diffsource' => array(
