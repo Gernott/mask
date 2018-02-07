@@ -163,7 +163,7 @@ class FieldHelper
                 } else if (array_search(strtolower("datetime"), $evals) !== FALSE) {
                     $formType = "Datetime";
                 } else {
-                    if (is_array($tca["config"]["wizards"]["link"])) {
+                    if (is_array($tca["config"]["wizards"]["link"]) || $tca["config"]["renderType"] == 'inputLink') {
                         $formType = "Link";
                     } else {
                         $formType = "String";
