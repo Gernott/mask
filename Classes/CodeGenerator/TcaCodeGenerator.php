@@ -493,9 +493,9 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 
 	  $tableTca["ctrl"]["title"] = $table;
 	  $tableTca["ctrl"]["label"] = $labelField;
-	  $tableTca["ctrl"]["searchFields"] = implode(",", $fields);
-	  $tableTca["interface"]["showRecordFieldList"] = "sys_language_uid, l10n_parent, l10n_diffsource, hidden, " . implode(", ", $fields);
-	  $tableTca["types"]["1"]["showitem"] = $prependTabs . implode(", ", $fields) . ", --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime";
+	  $tableTca["ctrl"]["searchFields"] = implode(",", (array) $fields);
+	  $tableTca["interface"]["showRecordFieldList"] = "sys_language_uid, l10n_parent, l10n_diffsource, hidden, " . implode(", ", (array) $fields);
+	  $tableTca["types"]["1"]["showitem"] = $prependTabs . implode(", ", (array) $fields) . ", --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime";
 
 	  $tableTca["columns"]["l10n_parent"]["config"]["foreign_table"] = $table;
 	  $tableTca["columns"]["l10n_parent"]["config"]["foreign_table_where"] = 'AND ' . $table . '.pid=###CURRENT_PID### AND ' . $table . '.sys_language_uid IN (-1,0)';
