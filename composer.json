@@ -6,7 +6,7 @@
 	"support": {
 		"source": "https://github.com/Gernott/mask",
 		"docs": "https://docs.typo3.org/typo3cms/extensions/mask/Index.html",
-		"issues": "https://forge.typo3.org/projects/extension-mask"
+		"issues": "https://github.com/Gernott/mask/issues/"
 	},
 	"keywords": ["TYPO3 CMS", "Mask", "Contentelements", "Wizard"],
 	"authors": [

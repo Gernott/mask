@@ -21,5 +21,5 @@ Mask is a TYPO3 extension for creating content elements and extending page templ
 ## Next steps
 
 * Read how to install, configure and use mask in the [official documentation](https://docs.typo3.org/typo3cms/extensions/mask/)
-* Report bugs or suggest features in our [issue tracker](https://forge.typo3.org/projects/extension-mask)
+* Report bugs or suggest features in our [issue tracker](https://github.com/Gernott/mask/issues/)
 * [Join us on Slack](https://forger.typo3.org/slack) if you have any question about mask. Our channel is named _#ext-mask_
