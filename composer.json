@@ -5,7 +5,7 @@
 	"homepage": "http://mask.webprofil.at/",
 	"support": {
 		"source": "https://github.com/Gernott/mask",
-		"docs": "https://docs.typo3.org/typo3cms/extensions/mask/Index.html",
+		"docs": "https://docs.typo3.org/typo3cms/extensions/mask/",
 		"issues": "https://github.com/Gernott/mask/issues/"
 	},
 	"keywords": ["TYPO3 CMS", "Mask", "Contentelements", "Wizard"],
