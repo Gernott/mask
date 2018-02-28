@@ -14,7 +14,7 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  *
  * @package TYPO3
  * @subpackage mask
- * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
+ * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
  * @author Fabian Galinski <fabian@sgalinski.de>
  *
  */

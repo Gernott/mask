@@ -8,7 +8,7 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
  *
  * @package TYPO3
  * @subpackage mask
- * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
+ * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
  * @author Benjamin Butschell bb@webprofil.at>
  *
  */
