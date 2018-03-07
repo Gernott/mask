@@ -247,7 +247,7 @@
 				<target>Immer den Wert der Ausgangssprache anzeigen (exclude)</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.localize_children_at_parent_localization">
-				<target>Datensätze mit Conten-Element lokaliseren</target>
+				<target>Datensätze mit Content-Element lokaliseren</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.inline_label">
 				<target>Key des Feldes das für IRRE-Label verwendet wird (tx_mask_..)</target>
