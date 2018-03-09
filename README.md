@@ -18,8 +18,18 @@ Mask is a TYPO3 extension for creating content elements and extending page templ
 * Mask supports workspaces and versioning
 * Mask is written in Extbase, the modern way to create extensions
 
-## Next steps
+## Need help?
 
 * Read how to install, configure and use mask in the [official documentation](https://docs.typo3.org/typo3cms/extensions/mask/)
-* Report bugs or suggest features in our [issue tracker](https://github.com/Gernott/mask/issues/)
-* [Join us on Slack](https://forger.typo3.org/slack) if you have any question about mask. Our channel is named _#ext-mask_
+* [Visit our website](http://mask.webprofil.at) to find more information about mask.
+
+## Found a bug?
+* first check out the master branch and verify that the issue is not yet solved
+* have a look at the existing [issues](https://github.com/Gernott/mask/issues/), to prevent duplicates
+* if not found, report the bug in our [issue tracker](https://github.com/Gernott/mask/issues/new/)
+
+## Like a new feature?
+* have a look at our [wishlist](http://mask.webprofil.at/featurelist/overview/)
+* if your idea is not listed here, get in [contact](http://mask.webprofil.at/imprint/) with us
+* if you want to sponsor a feature, get in [contact](http://mask.webprofil.at/imprint/) with us
+* if you want to develop a feature, get in [contact](http://mask.webprofil.at/imprint/) to plan a strategy
