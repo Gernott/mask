@@ -251,16 +251,20 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	* Check, if folders from extensionmanager-settings are existing
 	*
 	* @author Gernot Ploiner <gp@webprofil.at>
+	* @return array $messages
 	*/
    protected function checkFolders()
    {
+
+	  $messages = [];
+
 	  if (!file_exists(PATH_site . $this->extSettings["content"])) {
-		 $message[] = $this->extSettings["content"] . ": " . \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.all.error.missingfolder', 'mask');
+		 $messages[] = $this->extSettings["content"] . ": " . \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.all.error.missingfolder', 'mask');
 	  }
 	  if (!file_exists(PATH_site . $this->extSettings["preview"])) {
-		 $message[] = $this->extSettings["preview"] . ": " . \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.all.error.missingfolder', 'mask');
+		 $messages[] = $this->extSettings["preview"] . ": " . \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.all.error.missingfolder', 'mask');
 	  }
-	  return $message;
+	  return $messages;
    }
 
    /**
