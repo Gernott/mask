@@ -93,7 +93,7 @@ class FieldHelper
     {
         $storage = $this->storageRepository->load();
         $fieldIndex = -1;
-        if (count($storage[$type]["elements"][$elementKey]["columns"]) > 0) {
+        if (count($storage[$type]["elements"][$elementKey]["columns"] ?? []) > 0) {
             foreach ($storage[$type]["elements"][$elementKey]["columns"] as $index => $column) {
                 if ($column == $fieldKey) {
                     $fieldIndex = $index;
