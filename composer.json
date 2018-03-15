@@ -18,7 +18,7 @@
 		}
 	],
 	"license": "GPL2 or later",
-	"version": "3.1.0",
+	"version": "3.1.1dev",
 	"require": {
 		"php": "^7.0",
 		"typo3/cms-core": "^8.7"
