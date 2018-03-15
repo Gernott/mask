@@ -61,7 +61,7 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
     {
         $messages = $this->checkFolders();
         $missingFolders = FALSE;
-        if (count($messages) > 0) {
+        if (count($messages ?? []) > 0) {
             $missingFolders = TRUE;
         }
         $this->view->assign('messages', $messages);
