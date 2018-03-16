@@ -17,7 +17,7 @@
 			"homepage": "http://www.webprofil.at"
 		}
 	],
-	"license": "GPL2 or later",
+	"license": "GPL-2.0-or-later",
 	"version": "3.1.1dev",
 	"require": {
 		"php": "^7.0",
