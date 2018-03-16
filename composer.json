@@ -18,7 +18,6 @@
 		}
 	],
 	"license": "GPL-2.0-or-later",
-	"version": "3.1.1dev",
 	"require": {
 		"php": "^7.0",
 		"typo3/cms-core": "^8.7"
@@ -30,6 +29,11 @@
 	"autoload": {
 		"psr-4": {
 			"MASK\\Mask\\": "Classes/"
+		}
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "3.1.1dev"
 		}
 	}
 }
