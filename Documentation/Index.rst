@@ -17,22 +17,19 @@ Mask
 		mask
 
 	:Version:
-		|2.1.1|
+		|3.1.1|
 
 	:Language:
 		en
-
-	:Description:
 
 	:Keywords:
 		mask
 
 	:Copyright:
-		2016
+		2018
 
 	:Author:
-
-	:Email:
+        WEBprofil - Gernot Ploiner e.U.
 
 	:License:
 		This document is published under the Open Content License

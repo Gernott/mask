@@ -77,7 +77,7 @@ Folder for Backend Preview Partials (with trailing slash). [backend.partials_bac
 
 
 Folder for preview images (with trailing slash). [backend.preview]
-   You can change the preview image to your prefered image or icon. Here you can set the path to the preview images.
+   You can change the preview image of contentelements to your prefered png image or png icon (32x32 pixel). Here you can set the path to the preview images. Store them with the key of the contentelement as filename (e.g. mykey.png)
 
 
   Default is: fileadmin/templates/preview/
