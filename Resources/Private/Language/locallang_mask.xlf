@@ -25,7 +25,7 @@
 				<source>Folder for Backend Preview Templates (with trailing slash)</source>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-preview">
-				<source>Folder for preview-images (with trailing slash)</source>
+				<source>Folder for 32x32 pixel png preview-images (e.g. mykey.png) for contentelements (with trailing slash)</source>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-layouts">
 				<source>Folder for Content Fluid Layouts (with trailing slash)</source>

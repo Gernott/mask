@@ -25,7 +25,7 @@
 				<target>Ordner für Backend-Vorschau-Vorlagen (mit / am Ende)</target>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-preview">
-				<target>Ordner für Vorschau-Bilder (mit / am Ende)</target>
+				<target>Ordner für 32x32 Pixel png Vorschaubilder (zB meinkey.png) für Inhaltselemente (mit / am Ende)</target>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-layouts">
 				<source>Ordner für Inhalts-Fluid-HTML-Layouts (mit / am Ende)</source>
