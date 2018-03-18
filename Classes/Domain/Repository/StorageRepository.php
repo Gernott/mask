@@ -459,11 +459,13 @@ class StorageRepository
      */
     private function sortJson(&$json)
     {
-        ksort($json["tt_content"]["elements"]);
-        foreach ($json["tt_content"]["elements"] as $index => $element) {
-            if ($element["hidden"]) {
-                unset($json["tt_content"]["elements"][$index]);
-                $json["tt_content"]["elements"][$index] = $element;
+        if(is_array($json["tt_content"]["elements"])) {
+            ksort($json["tt_content"]["elements"]);
+            foreach ($json["tt_content"]["elements"] as $index => $element) {
+                if ($element["hidden"]) {
+                    unset($json["tt_content"]["elements"][$index]);
+                    $json["tt_content"]["elements"][$index] = $element;
+                }
             }
         }
     }
