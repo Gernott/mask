@@ -40,7 +40,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
    /**
 	* @var bool
 	*/
-   protected $dbUpdateNeeded = FALSE;
+   protected $dbUpdateNeeded = false;
 
    /**
 	* StorageRepository
@@ -190,9 +190,9 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 		 $table = "tt_content";
 	  }
 	  // check if fieldKey is available for this table
-	  $isAvailable = TRUE;
+	  $isAvailable = true;
 	  if ($this->storageRepository->loadField($table, $fieldKey)) {
-		 $isAvailable = FALSE;
+		 $isAvailable = false;
 	  }
 	  // return infos as json
 	  $ajaxObj->setContentFormat("plain");
@@ -214,11 +214,11 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	  // Get parameters, is there a better way? $params is not used yet
 	  $elementKey = $_GET["key"];
 	  // check if elementKey is available
-	  $isAvailable = TRUE;
+	  $isAvailable = true;
 
 	  if ($this->storageRepository->loadElement("tt_content", $elementKey)) {
 
-		 $isAvailable = FALSE;
+		 $isAvailable = false;
 	  }
 	  // return infos as json
 	  $ajaxObj->setContentFormat("plain");
@@ -274,7 +274,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	*/
    protected function createMissingFolders()
    {
-	  $success = TRUE;
+	  $success = true;
 	  if (!file_exists(PATH_site . $this->extSettings["content"])) {
 		 $success = $success && mkdir(PATH_site . $this->extSettings["content"], 0755, true);
 	  }

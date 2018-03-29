@@ -44,7 +44,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 	  if ($json) {
 		 foreach ($json as $table => $subJson) {
 			$fieldTCA = array();
-			if (array_search($table, $notIrreTables) === FALSE) {
+			if (array_search($table, $notIrreTables) === false) {
 			   // Generate Table TCA
 			   $this->generateTableTca($table, $subJson["tca"]);
 			   // Generate Field TCA
@@ -54,7 +54,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 			   // set label for inline
 			   if (!empty($json["tt_content"]["tca"][$table]["inlineLabel"])) {
 				  $fields = array_keys($subJson["tca"]);
-				  if (array_search($json["tt_content"]["tca"][$table]["inlineLabel"], $fields) !== FALSE) {
+				  if (array_search($json["tt_content"]["tca"][$table]["inlineLabel"], $fields) !== false) {
 					 $GLOBALS["TCA"][$table]["ctrl"]['label'] = $json["tt_content"]["tca"][$table]["inlineLabel"];
 				  }
 			   }
@@ -66,7 +66,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 			   }
 
 			   // hide table in list view
-			   $GLOBALS["TCA"][$table]['ctrl']['hideTable'] = TRUE;
+			   $GLOBALS["TCA"][$table]['ctrl']['hideTable'] = true;
 			}
 		 }
 	  }
@@ -323,8 +323,8 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 			  'tstamp' => 'tstamp',
 			  'crdate' => 'crdate',
 			  'cruser_id' => 'cruser_id',
-			  'dividers2tabs' => TRUE,
-			  'versioningWS' => TRUE,
+			  'dividers2tabs' => true,
+			  'versioningWS' => true,
 			  'languageField' => 'sys_language_uid',
 			  'transOrigPointerField' => 'l10n_parent',
 			  'transOrigDiffSourceField' => 'l10n_diffsource',
@@ -401,7 +401,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 				  'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.starttime',
 				  'config' => array(
 					  'behaviour' => array(
-						  'allowLanguageSynchronization' => TRUE
+						  'allowLanguageSynchronization' => true
 					  ),
 					  'renderType' => 'inputDateTime',
 					  'type' => 'input',
@@ -416,7 +416,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 				  'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.endtime',
 				  'config' => array(
 					  'behaviour' => array(
-						  'allowLanguageSynchronization' => TRUE
+						  'allowLanguageSynchronization' => true
 					  ),
 					  'renderType' => 'inputDateTime',
 					  'type' => 'input',
@@ -515,7 +515,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 	  $notIrreTables = array("pages", "tt_content", "sys_file_reference");
 	  if ($configuration) {
 		 foreach ($configuration as $table => $subJson) {
-			if (array_search($table, $notIrreTables) === FALSE) {
+			if (array_search($table, $notIrreTables) === false) {
 			   \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages($table);
 			}
 		 }

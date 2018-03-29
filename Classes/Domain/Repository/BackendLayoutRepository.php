@@ -49,7 +49,7 @@ class BackendLayoutRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
    {
 	  /** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings */
 	  $querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
-	  $querySettings->setRespectStoragePage(FALSE);
+	  $querySettings->setRespectStoragePage(false);
 	  $this->setDefaultQuerySettings($querySettings);
 	  $this->backendLayoutView = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\Backend\BackendLayoutView::class);
    }

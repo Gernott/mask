@@ -71,7 +71,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @var boolean
      */
-    protected $defaulttemplate = FALSE;
+    protected $defaulttemplate = false;
 
     /**
      * Returns the title

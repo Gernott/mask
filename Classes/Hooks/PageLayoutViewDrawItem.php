@@ -116,7 +116,7 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
                 $itemContent .= '<div style="display:block; padding: 10px 0 4px 0px;border-top: 1px solid #CACACA;margin-top: 6px;" class="content_preview_' . $elementKey . '">';
                 $itemContent .= $content;
                 $itemContent .= '</div>';
-                $drawItem = FALSE;
+                $drawItem = false;
             }
         }
     }

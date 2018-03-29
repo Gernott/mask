@@ -249,12 +249,12 @@ class StorageRepository
 
 
             foreach ($content["tca"] as $key => $value) {
-                $inlineField = FALSE;
+                $inlineField = false;
 
                 // if this field is inline-field
                 if ($value["inlineParent"]) {
                     $type = $value["inlineParent"];
-                    $inlineField = TRUE;
+                    $inlineField = true;
                 } else {
                     $type = $content["type"];
                 }

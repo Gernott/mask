@@ -46,7 +46,7 @@ class EditLinkViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBas
         }
 
         $this->tag->setContent($this->renderChildren());
-        $this->tag->forceClosingTag(TRUE);
+        $this->tag->forceClosingTag(true);
 
         return $this->tag->render();
     }
