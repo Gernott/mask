@@ -43,7 +43,7 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
     protected function performDbUpdates($params, $sql)
     {
 
-        $hasErrors = FALSE;
+        $hasErrors = false;
         if (!empty($params['extensionKey'])) {
             $this->checkForDbUpdate($params['extensionKey'], $sql);
             if ($this->dbUpdateNeeded) {
@@ -54,8 +54,8 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
                             $res = $this->getDatabaseConnection()->admin_query($statement);
 
 
-                            if ($res === FALSE) {
-                                $hasErrors = TRUE;
+                            if ($res === false) {
+                                $hasErrors = true;
                                 \TYPO3\CMS\Core\Utility\GeneralUtility::devlog('SQL error', 'mask', 0, array('statement' => $statement, 'error' => $this->getDatabaseConnection()->sql_error()));
                             } elseif (is_resource($res) || is_a($res, '\\mysqli_result')) {
                                 $this->getDatabaseConnection()->sql_free_result($res);
@@ -81,7 +81,7 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
      */
     protected function checkForDbUpdate($extensionKey, $sqlContent)
     {
-        $this->dbUpdateNeeded = FALSE;
+        $this->dbUpdateNeeded = false;
         if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($extensionKey)) {
             $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
             if (class_exists('TYPO3\\CMS\\Install\\Service\\SqlSchemaMigrationService')) {
@@ -99,7 +99,7 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
                 $updateTableDefinition = $sqlHandler->getDatabaseExtra($fieldDefinitionsFromFile, $fieldDefinitionsFromCurrentDatabase);
                 $this->updateStatements = $sqlHandler->getUpdateSuggestions($updateTableDefinition);
                 if (!empty($updateTableDefinition['extra']) || !empty($updateTableDefinition['diff']) || !empty($updateTableDefinition['diff_currentValues'])) {
-                    $this->dbUpdateNeeded = TRUE;
+                    $this->dbUpdateNeeded = true;
                 }
             }
         }
@@ -151,7 +151,7 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
                 if ($json[$type]["sql"]) {
 
                     // If type/table is an irre table, then create table for it
-                    if (array_search($type, $nonIrreTables) === FALSE) {
+                    if (array_search($type, $nonIrreTables) === false) {
                         $sql_content[] = "CREATE TABLE " . $type . " (
 
 							 uid int(11) NOT NULL auto_increment,

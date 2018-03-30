@@ -60,9 +60,9 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
     public function listAction()
     {
         $messages = $this->checkFolders();
-        $missingFolders = FALSE;
+        $missingFolders = false;
         if (count($messages) > 0) {
-            $missingFolders = TRUE;
+            $missingFolders = true;
         }
         $this->view->assign('messages', $messages);
         $this->view->assign('missingFolders', $missingFolders);

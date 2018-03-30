@@ -154,13 +154,13 @@ class FieldHelper
         switch ($tcaType) {
             case "input":
                 $formType = "String";
-                if (array_search(strtolower("int"), $evals) !== FALSE) {
+                if (array_search(strtolower("int"), $evals) !== false) {
                     $formType = "Integer";
-                } else if (array_search(strtolower("double2"), $evals) !== FALSE) {
+                } else if (array_search(strtolower("double2"), $evals) !== false) {
                     $formType = "Float";
-                } else if (array_search(strtolower("date"), $evals) !== FALSE) {
+                } else if (array_search(strtolower("date"), $evals) !== false) {
                     $formType = "Date";
-                } else if (array_search(strtolower("datetime"), $evals) !== FALSE) {
+                } else if (array_search(strtolower("datetime"), $evals) !== false) {
                     $formType = "Datetime";
                 } else {
                     if (isset($tca["config"]["renderType"]) && $tca["config"]["renderType"] === "inputLink") {
@@ -264,7 +264,7 @@ class FieldHelper
         $types = array_unique($types);
 
         $fieldType = "";
-        $found = FALSE;
+        $found = false;
         foreach ($types as $type) {
             if ($storage[$type]["elements"] && !$found) {
                 foreach ($storage[$type]["elements"] as $element) {
@@ -276,14 +276,14 @@ class FieldHelper
                         foreach ($element["columns"] as $column) {
                             if ($column == $fieldKey && !$found) {
                                 $fieldType = $type;
-                                $found = TRUE;
+                                $found = true;
                             }
                         }
                     }
                 }
             } else if (is_array($storage[$type]["tca"][$fieldKey])) {
                 $fieldType = $type;
-                $found = TRUE;
+                $found = true;
             }
         }
         return $fieldType;

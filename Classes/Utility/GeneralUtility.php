@@ -65,13 +65,13 @@ class GeneralUtility
     public function isEvalValueSet($fieldKey, $evalValue, $type = "tt_content")
     {
         $storage = $this->storageRepository->load();
-        $found = FALSE;
+        $found = false;
         if ($storage[$type]["tca"][$fieldKey]["config"]["eval"] != "") {
             $evals = explode(",", $storage[$type]["tca"][$fieldKey]["config"]["eval"]);
             foreach ($evals as $index => $eval) {
                 $evals[$index] = strtolower($eval);
             }
-            $found = array_search(strtolower($evalValue), $evals) !== FALSE;
+            $found = array_search(strtolower($evalValue), $evals) !== false;
         }
         return $found;
     }
@@ -158,10 +158,10 @@ class GeneralUtility
     public function isBlindLinkOptionSet($fieldKey, $evalValue, $type = "tt_content")
     {
         $storage = $this->storageRepository->load();
-        $found = FALSE;
+        $found = false;
         if ($storage[$type]["tca"][$fieldKey]["config"]["wizards"]["link"]["params"]["blindLinkOptions"] != "") {
             $evals = explode(",", $storage[$type]["tca"][$fieldKey]["config"]["wizards"]["link"]["params"]["blindLinkOptions"]);
-            $found = array_search(strtolower($evalValue), $evals) !== FALSE;
+            $found = array_search(strtolower($evalValue), $evals) !== false;
         }
         return $found;
     }
@@ -195,7 +195,7 @@ class GeneralUtility
     {
         if (count($fields)) {
             $potentialFirst = $fields[0];
-            if (strpos($potentialFirst, "--div--") !== FALSE) {
+            if (strpos($potentialFirst, "--div--") !== false) {
                 unset($fields[0]);
                 return $this->getFirstNoneTabField($fields);
             } else {
