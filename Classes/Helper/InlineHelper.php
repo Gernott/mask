@@ -144,11 +144,11 @@ class InlineHelper
         }
 
         // If this method is called in backend, there is no $GLOBALS['TSFE']
-        if (isset($GLOBALS['TSFE']->sys_language_uid)) {
+        if (TYPO3_MODE == 'FE' && isset($GLOBALS['TSFE']->sys_language_uid)) {
             $sysLangUid = $GLOBALS['TSFE']->sys_language_uid;
             $enableFields = $GLOBALS['TSFE']->cObj->enableFields($childTable);
         } else {
-            $sysLangUid = 0;
+            $sysLangUid = $data['sys_language_uid'];
             $enableFields = " AND " . $childTable . ".deleted = 0";
         }
 
