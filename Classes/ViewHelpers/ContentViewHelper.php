@@ -2,6 +2,8 @@
 
 namespace MASK\Mask\ViewHelpers;
 
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+
 /**
  * ViewHelper for rendering any content element
  * @author Paul Beck
@@ -17,7 +19,7 @@ class ContentViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
     protected $configurationManager;
 
     /**
-     * @var Content Object
+     * @var ContentObjectRenderer Object
      */
     protected $cObj;
 
@@ -34,7 +36,7 @@ class ContentViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
             'source' => $uid,
             'dontCheckPid' => 1
         );
-        return $this->cObj->RECORDS($conf);
+        return $this->cObj->cObjGetSingle('RECORDS', $conf);
     }
 
     /**
