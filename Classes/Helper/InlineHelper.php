@@ -26,6 +26,9 @@ namespace MASK\Mask\Helper;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Methods for working with inline fields (IRRE)
  *
@@ -130,13 +133,13 @@ class InlineHelper
      * @param object $data the parent object
      * @param string $name The name of the irre attribut
      * @param string $cType The name of the irre attribut
-     * @param string $parentid The name of the irre parentid
+     * @param string $parentFieldName The name of the irre parentid
      * @param string $parenttable The table where the parent element is stored
      * @param string $childTable name of childtable
      * @return array all irre elements of this attribut
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    public function getInlineElements($data, $name, $cType, $parentid = "parentid", $parenttable = "tt_content", $childTable = null)
+    public function getInlineElements($data, $name, $cType, $parentFieldName = "parentid", $parenttable = "tt_content", $childTable = null)
     {
         // if the name of the child table is not explicitely given, take field key
         if (!$childTable) {
@@ -173,35 +176,22 @@ class InlineHelper
             $parentUid = $data["_LOCALIZED_UID"];
         }
 
-        // fetching the inline elements
-        if ($childTable == "tt_content") {
-            $sql = $GLOBALS["TYPO3_DB"]->exec_SELECTquery(
-                "*", $childTable, $parentid . " = '" . $parentUid .
-                "' AND sys_language_uid IN (-1," . $sysLangUid . ")"
-                . ' AND ('
-                . $childTable . '.t3ver_wsid=0 OR '
-                . $childTable . '.t3ver_wsid=' . (int)$GLOBALS['BE_USER']->workspace
-                . ' AND ' . $childTable . '.pid<>-1'
-                . ')'
-                . $enableFields, "", "sorting"
-            );
-        } else {
-            $sql = $GLOBALS["TYPO3_DB"]->exec_SELECTquery(
-                "*", $childTable, $parentid . " = '" . $parentUid .
-                "' AND parenttable = '" . $parenttable .
-                "' AND sys_language_uid IN (-1," . $sysLangUid . ")"
-                . ' AND ('
-                . $childTable . '.t3ver_wsid=0 OR '
-                . $childTable . '.t3ver_wsid=' . (int)$GLOBALS['BE_USER']->workspace
-                . ' AND ' . $childTable . '.pid<>-1'
-                . ')'
-                . $enableFields, "", "sorting"
-            );
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($childTable);
+        $queryBuilder
+            ->select('*')
+            ->where($queryBuilder->expr()->eq($parentFieldName, $parentUid))
+            ->orderBy('sorting')
+        ;
+
+        if ($childTable !== 'tt_content') {
+            $queryBuilder->andWhere($queryBuilder->expr()->eq('parenttable', $parenttable));
         }
+
+        $rows = $queryBuilder->execute()->fetchAll();
 
         // and recursively add them to an array
         $elements = array();
-        while ($element = $GLOBALS["TYPO3_DB"]->sql_fetch_assoc($sql)) {
+        foreach ($rows as $element) {
             if (TYPO3_MODE == 'FE') {
                 $GLOBALS['TSFE']->sys_page->versionOL($childTable, $element);
             } else {
