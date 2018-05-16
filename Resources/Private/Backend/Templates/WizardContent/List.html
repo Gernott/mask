@@ -46,6 +46,11 @@
 								<td>
 									<p>{storage.description}</p>
 								<mask:link data="{key}" />
+								<f:if condition="{mask:link(data:key)}">
+									<f:link.action action="createHtml" arguments="{key:key}">
+										<i class="fa fa-plus-circle "></i>
+									</f:link.action>
+								</f:if>
 								</td>
 								<td class="text-center text-muted">
 								<mask:elementCount key="{key}"/>

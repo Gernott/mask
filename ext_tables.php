@@ -13,7 +13,7 @@ if (TYPO3_MODE === 'BE') {
 	   'mask', // Submodule key
 	   'top', // Position
 	   array(
-	   'WizardContent' => 'list, new, create, edit, update, delete, purge, generate, showHtml, createMissingFolders, hide, activate',
+	   'WizardContent' => 'list, new, create, edit, update, delete, purge, generate, showHtml, createMissingFolders, hide, activate, createHtml',
 	   'WizardPage' => 'list, new, create, edit, update, delete',
 	   ), array(
 	   'access' => 'admin',

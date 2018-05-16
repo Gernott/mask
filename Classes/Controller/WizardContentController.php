@@ -206,4 +206,18 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
             unlink(PATH_site . $this->extSettings["backend"] . $key . ".html");
         }
     }
+
+    /**
+     * Create single Fluid html
+     *
+     * @param string $key
+     * @author Gernot Ploiner <gp@webprofil.at>
+     */
+    protected function createHtmlAction($key)
+    {
+        $html = $this->htmlCodeGenerator->generateHtml($key);
+        $this->saveHtml($key, $html);
+        $this->redirect('list');
+    }
+
 }
