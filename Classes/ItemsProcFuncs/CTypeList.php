@@ -70,7 +70,7 @@ class CTypeList extends AbstractList
             }
 
             // load the json configuration of this field
-            $table =  $fieldHelper->getFieldType($fieldKey);
+            $table = $fieldHelper->getFieldType($fieldKey);
             $fieldConfiguration = $this->storageRepository->loadField($table, $fieldKey);
 
             // if there is a restriction of cTypes specified
@@ -90,7 +90,8 @@ class CTypeList extends AbstractList
             // and if other itemsProcFunc from other extension was available (e.g. gridelements),
             // then call it now and let it render the items
             if (!empty($params["config"]["m_itemsProcFunc"])) {
-                \TYPO3\CMS\Core\Utility\GeneralUtility::callUserFunction($params["config"]["m_itemsProcFunc"], $params, $this);
+                \TYPO3\CMS\Core\Utility\GeneralUtility::callUserFunction($params["config"]["m_itemsProcFunc"], $params,
+                    $this);
             }
         }
     }
@@ -116,6 +117,7 @@ class CTypeList extends AbstractList
     protected function endsWith($haystack, $needle)
     {
         // search forward starting from end minus needle length characters
-        return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== false);
+        return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle,
+                    $temp) !== false);
     }
 }

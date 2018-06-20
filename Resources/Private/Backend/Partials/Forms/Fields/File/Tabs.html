@@ -3,44 +3,54 @@
 <div role="tabpanel" class="tab-pane" id="appearance_{key}">
 	<div class="row">
 		<div class="form-group col-sm-6">
-			<f:render partial="Forms/Config/Appearance/CollapseAll" arguments="{key:key, elementKey:storage.key, field: field}" />
+			<f:render partial="Forms/Config/Appearance/CollapseAll"
+								arguments="{key:key, elementKey:storage.key, field: field}"/>
 		</div>
 		<div class="form-group col-sm-6">
-			<f:render partial="Forms/Config/Appearance/ExpandSingle" arguments="{key:key, elementKey:storage.key, field: field}" />
+			<f:render partial="Forms/Config/Appearance/ExpandSingle"
+								arguments="{key:key, elementKey:storage.key, field: field}"/>
 		</div>
 	</div>
 	<div class="row">
 		<div class="form-group col-sm-6">
-			<f:render partial="Forms/Config/Appearance/UseSortable" arguments="{key:key, elementKey:storage.key, field: field}" />
+			<f:render partial="Forms/Config/Appearance/UseSortable"
+								arguments="{key:key, elementKey:storage.key, field: field}"/>
 		</div>
 		<div class="form-group col-sm-6">
-			<f:render partial="Forms/Config/Appearance/FileUploadAllowed" arguments="{key:key, elementKey:storage.key, field: field}" />
+			<f:render partial="Forms/Config/Appearance/FileUploadAllowed"
+								arguments="{key:key, elementKey:storage.key, field: field}"/>
 		</div>
 	</div>
 </div>
 <div role="tabpanel" class="tab-pane" id="localization_{key}">
 	<div class="row">
 		<div class="form-group col-sm-6">
-			<f:render partial="Forms/Config/Appearance/ShowSynchronizationLink" arguments="{key:key, elementKey:storage.key, field: field}" />
+			<f:render partial="Forms/Config/Appearance/ShowSynchronizationLink"
+								arguments="{key:key, elementKey:storage.key, field: field}"/>
 		</div>
 		<div class="form-group col-sm-6">
-			<f:render partial="Forms/Config/Appearance/ShowPossibleLocalizationRecords" arguments="{key:key, elementKey:storage.key, field: field}" />
-		</div>
-	</div>
-	<div class="row">
-		<div class="form-group col-sm-6">
-			<f:render partial="Forms/Config/Appearance/ShowAllLocalizationLink" arguments="{key:key, elementKey:storage.key, field: field}" />
-		</div>
-		<div class="form-group col-sm-6">
-			<f:render partial="Forms/Config/Appearance/ShowRemovedLocalizationRecords" arguments="{key:key, elementKey:storage.key, field: field}" />
+			<f:render partial="Forms/Config/Appearance/ShowPossibleLocalizationRecords"
+								arguments="{key:key, elementKey:storage.key, field: field}"/>
 		</div>
 	</div>
 	<div class="row">
 		<div class="form-group col-sm-6">
-			<f:render partial="Forms/Config/Behaviour/LocalizationMode" arguments="{key:key, elementKey:storage.key, field: field}" />
+			<f:render partial="Forms/Config/Appearance/ShowAllLocalizationLink"
+								arguments="{key:key, elementKey:storage.key, field: field}"/>
 		</div>
 		<div class="form-group col-sm-6">
-			<f:render partial="Forms/Config/Behaviour/LocalizeChildrenAtParentLocalization" arguments="{key:key, elementKey:storage.key, field: field}" />
+			<f:render partial="Forms/Config/Appearance/ShowRemovedLocalizationRecords"
+								arguments="{key:key, elementKey:storage.key, field: field}"/>
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Config/Behaviour/LocalizationMode"
+								arguments="{key:key, elementKey:storage.key, field: field}"/>
+		</div>
+		<div class="form-group col-sm-6">
+			<f:render partial="Forms/Config/Behaviour/LocalizeChildrenAtParentLocalization"
+								arguments="{key:key, elementKey:storage.key, field: field}"/>
 		</div>
 	</div>
 </div>
@@ -48,33 +58,38 @@
 	<div class="row">
 		<div class="form-group col-sm-6">
 			<label class="t3js-formengine-label" for="minitems">
-				<f:translate key="tx_mask.field.inline.minitems" />
+				<f:translate key="tx_mask.field.inline.minitems"/>
 			</label>
 			<div class="t3js-formengine-field-item">
 				<div class="form-control-wrap" style="">
-					<input id="minitems" name="tx_mask_tools_maskmask[storage][tca][--index--][config][minitems]" type="number" class="form-control" min="0" value="{field.config.minitems}" />
+					<input id="minitems" name="tx_mask_tools_maskmask[storage][tca][--index--][config][minitems]" type="number"
+								 class="form-control" min="0" value="{field.config.minitems}"/>
 				</div>
 			</div>
 		</div>
 		<div class="form-group col-sm-6">
 			<label class="t3js-formengine-label" for="maxitems">
-				<f:translate key="tx_mask.field.inline.maxitems" />
+				<f:translate key="tx_mask.field.inline.maxitems"/>
 			</label>
 			<div class="t3js-formengine-field-item">
 				<div class="form-control-wrap" style="">
-					<input id="maxitems" name="tx_mask_tools_maskmask[storage][tca][--index--][config][maxitems]" type="number" class="form-control" min="1" value="{field.config.maxitems}" />
+					<input id="maxitems" name="tx_mask_tools_maskmask[storage][tca][--index--][config][maxitems]" type="number"
+								 class="form-control" min="1" value="{field.config.maxitems}"/>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="row">
 		<div class="form-group col-sm-6">
-			<label class="t3js-formengine-label" >
-				<f:translate key="tx_mask.field.inline.allowed_file_extensions" />
+			<label class="t3js-formengine-label">
+				<f:translate key="tx_mask.field.inline.allowed_file_extensions"/>
 			</label>
 			<div class="t3js-formengine-field-item">
-				<div class="form-control-wrap" >
-					<input name="tx_mask_tools_maskmask[storage][tca][--index--][config][filter][0][parameters][allowedFileExtensions]" type="text" class="form-control" placeholder="comma seperated list, [GFX][imagefile_ext] if empty" value="{field.config.filter.0.parameters.allowedFileExtensions}" />
+				<div class="form-control-wrap">
+					<input
+						name="tx_mask_tools_maskmask[storage][tca][--index--][config][filter][0][parameters][allowedFileExtensions]"
+						type="text" class="form-control" placeholder="comma seperated list, [GFX][imagefile_ext] if empty"
+						value="{field.config.filter.0.parameters.allowedFileExtensions}"/>
 				</div>
 			</div>
 		</div>

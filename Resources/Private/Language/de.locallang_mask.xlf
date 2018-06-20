@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2014-02-20T18:53:00Z" product-name="mask">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2014-02-20T18:53:00Z"
+		  product-name="mask">
 		<header/>
 		<body>
 			<trans-unit id="mlang_tabs_tab">
@@ -25,7 +26,8 @@
 				<target>Ordner für Backend-Vorschau-Vorlagen (mit / am Ende)</target>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-preview">
-				<target>Ordner für 32x32 Pixel png Vorschaubilder (zB meinkey.png) für Inhaltselemente (mit / am Ende)</target>
+				<target>Ordner für 32x32 Pixel png Vorschaubilder (zB meinkey.png) für Inhaltselemente (mit / am Ende)
+				</target>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-layouts">
 				<source>Ordner für Inhalts-Fluid-HTML-Layouts (mit / am Ende)</source>

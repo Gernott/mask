@@ -402,11 +402,13 @@ class StorageRepository
                     }
                     if ($found) {
                         // was not really deleted => can be deleted temporarly because it will be readded
-                        $json = $this->removeField($inlineField["inlineParent"], "tx_mask_" . $inlineField["key"], $json);
+                        $json = $this->removeField($inlineField["inlineParent"], "tx_mask_" . $inlineField["key"],
+                            $json);
                     } else {
                         // was really deleted and can only be deleted if father is not in use in another element
                         if (($fatherGetsDeleted && count($elementsInUse) == 0) || !$fatherGetsDeleted) {
-                            $json = $this->removeField($inlineField["inlineParent"], "tx_mask_" . $inlineField["key"], $json);
+                            $json = $this->removeField($inlineField["inlineParent"], "tx_mask_" . $inlineField["key"],
+                                $json);
                         }
                     }
                 }
@@ -466,7 +468,7 @@ class StorageRepository
      */
     private function sortJson(&$json)
     {
-        if(is_array($json["tt_content"]["elements"])) {
+        if (is_array($json["tt_content"]["elements"])) {
             ksort($json["tt_content"]["elements"]);
             foreach ($json["tt_content"]["elements"] as $index => $element) {
                 if ($element["hidden"]) {

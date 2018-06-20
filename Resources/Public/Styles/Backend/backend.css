@@ -2,12 +2,13 @@
 *	It can be used to style the mask content elements in the backend.
 */
 .icon-size-large .icon-unify {
-   line-height: 47px;
+	line-height: 47px;
 	font-size: 35px;
 	font-family: Share, Verdana, Arial, Helvetica, sans-serif;
 	border-radius: 2px;
 	text-transform: uppercase;
 }
+
 .icon-unify {
 	font-family: Share, Verdana, Arial, Helvetica, sans-serif;
 	border-radius: 2px;

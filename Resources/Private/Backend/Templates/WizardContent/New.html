@@ -1,24 +1,26 @@
 {namespace mask=MASK\Mask\ViewHelpers}
 {namespace core = TYPO3\CMS\Core\ViewHelpers}
-<f:layout name="Default" />
+<f:layout name="Default"/>
 <f:section name="content">
-	<f:render partial="General/Tabs" arguments="{active: 'WizardContent'}" />
+	<f:render partial="General/Tabs" arguments="{active: 'WizardContent'}"/>
 
 	<div class="tab-content">
 		<div role="tabpanel" class="tab-pane active" id="DTM-mask-1">
 			<div class="form-section">
-				<f:flashMessages />
-				<h1 style="margin-bottom: 10px;"><f:translate key="tx_mask.content.newheader" /></h1>
-				<f:render partial="Forms/General/FormErrors" />
+				<f:flashMessages/>
+				<h1 style="margin-bottom: 10px;">
+					<f:translate key="tx_mask.content.newheader"/>
+				</h1>
+				<f:render partial="Forms/General/FormErrors"/>
 				<f:form action="create" name="storage" object="{storage}">
-					<f:render partial="WizardContent/Metadata" arguments="{storage:storage, icons: icons}" />
+					<f:render partial="WizardContent/Metadata" arguments="{storage:storage, icons: icons}"/>
 					<div class="row bench">
 						<div class="form-group col-sm-3 tx_mask_borderright tx_mask_tabcell1">
 							<ul class="tx_mask_fieldtypes" id="dragstart">
 								<f:render partial="Forms/General/FormTypeButtons"/>
 							</ul>
 							<div>
-								<f:render partial="General/Controls" />
+								<f:render partial="General/Controls"/>
 							</div>
 						</div>
 
@@ -31,7 +33,7 @@
 				</f:form>
 
 				<div style="display:none;" id="templates">
-					<f:render partial="Forms/General/Forms" arguments="{storage: storage, type: 'tt_content'}" />
+					<f:render partial="Forms/General/Forms" arguments="{storage: storage, type: 'tt_content'}"/>
 				</div>
 			</div>
 		</div>

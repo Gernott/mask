@@ -44,7 +44,7 @@ abstract class AbstractCodeGenerator
     /**
      * @param \MASK\Mask\Domain\Repository\StorageRepository $storageRepository
      */
-    public function __construct(\MASK\Mask\Domain\Repository\StorageRepository $storageRepository = NULL)
+    public function __construct(\MASK\Mask\Domain\Repository\StorageRepository $storageRepository = null)
     {
         if (!$storageRepository) {
             $this->storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');

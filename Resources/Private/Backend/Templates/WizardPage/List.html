@@ -1,27 +1,37 @@
 {namespace mask=MASK\Mask\ViewHelpers}
 {namespace core = TYPO3\CMS\Core\ViewHelpers}
-<f:layout name="Default" />
+<f:layout name="Default"/>
 <f:section name="content">
-	<f:render partial="General/Tabs" arguments="{active: 'WizardPage'}" />
+	<f:render partial="General/Tabs" arguments="{active: 'WizardPage'}"/>
 
 	<div class="tab-content">
 		<div role="tabpanel" class="tab-pane active" id="DTM-mask-1">
 			<div class="form-section">
-				<f:flashMessages />
+				<f:flashMessages/>
 
 				<f:if condition="{backendLayouts -> f:count()}==0">
 					<f:then>
-						<div class="typo3-message message-warning"><strong><f:translate key="tx_mask.page.warning" /></strong> <f:translate key="tx_mask.page.nobackendlayout" /></div>
+						<div class="typo3-message message-warning"><strong>
+							<f:translate key="tx_mask.page.warning"/>
+						</strong>
+							<f:translate key="tx_mask.page.nobackendlayout"/>
+						</div>
 					</f:then>
 					<f:else>
 						<div class="table-fit collapse in" id="recordlist-be_users" data-state="expanded">
 							<table cellspacing="0" cellpadding="0" border="0" class="table table-striped table-hover">
 								<thead>
-									<tr>
-										<th class="text-nowrap col-icon"><f:translate key="tx_mask.page.image" /></th>
-								<th class="text-nowrap"><f:translate key="tx_mask.page.titleuid" /></th>
-								<th class="text-nowrap col-title"><f:translate key="tx_mask.page.description" /></th>
-								<th class="text-nowrap col-control">&nbsp;</th>
+								<tr>
+									<th class="text-nowrap col-icon">
+										<f:translate key="tx_mask.page.image"/>
+									</th>
+									<th class="text-nowrap">
+										<f:translate key="tx_mask.page.titleuid"/>
+									</th>
+									<th class="text-nowrap col-title">
+										<f:translate key="tx_mask.page.description"/>
+									</th>
+									<th class="text-nowrap col-control">&nbsp;</th>
 								</tr>
 								</thead>
 								<tbody>
@@ -29,13 +39,25 @@
 
 									<tr>
 										<td>
-									<f:if condition='{layout.iconPath}'>
-										<f:image src="{layout.iconPath}"/>
-									</f:if>
-									</td>
-									<td><f:link.action action="edit" arguments="{layoutIdentifier: layout.identifier}"><p><strong><mask:translateLabel key="{layout.title}" /></strong><br />{layout.identifier}</p></f:link.action></td>
-									<td><p>{layout.description}</p></td>
-									<td><f:link.action action="edit" arguments="{layoutIdentifier: layout.identifier}" class="btn btn-default"><core:icon identifier="actions-document-open" /></f:link.action></td>
+											<f:if condition='{layout.iconPath}'>
+												<f:image src="{layout.iconPath}"/>
+											</f:if>
+										</td>
+										<td>
+											<f:link.action action="edit" arguments="{layoutIdentifier: layout.identifier}">
+												<p><strong>
+													<mask:translateLabel key="{layout.title}"/>
+												</strong><br/>{layout.identifier}
+												</p>
+											</f:link.action>
+										</td>
+										<td><p>{layout.description}</p></td>
+										<td>
+											<f:link.action action="edit" arguments="{layoutIdentifier: layout.identifier}"
+																		 class="btn btn-default">
+												<core:icon identifier="actions-document-open"/>
+											</f:link.action>
+										</td>
 									</tr>
 								</f:for>
 								</tbody>

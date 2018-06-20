@@ -21,7 +21,7 @@ class ElementCountViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVi
      * @var \MASK\Mask\Domain\Repository\ContentRepository
      * @inject
      */
-    protected $contentRepository = NULL;
+    protected $contentRepository = null;
 
     /**
      * Counts the occurences in tt_content

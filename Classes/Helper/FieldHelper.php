@@ -44,7 +44,7 @@ class FieldHelper
     /**
      * @param \MASK\Mask\Domain\Repository\StorageRepository $storageRepository
      */
-    public function __construct(\MASK\Mask\Domain\Repository\StorageRepository $storageRepository = NULL)
+    public function __construct(\MASK\Mask\Domain\Repository\StorageRepository $storageRepository = null)
     {
         if (!$storageRepository) {
             $this->storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
@@ -156,17 +156,23 @@ class FieldHelper
                 $formType = "String";
                 if (array_search(strtolower("int"), $evals) !== false) {
                     $formType = "Integer";
-                } else if (array_search(strtolower("double2"), $evals) !== false) {
-                    $formType = "Float";
-                } else if (array_search(strtolower("date"), $evals) !== false) {
-                    $formType = "Date";
-                } else if (array_search(strtolower("datetime"), $evals) !== false) {
-                    $formType = "Datetime";
                 } else {
-                    if (isset($tca["config"]["renderType"]) && $tca["config"]["renderType"] === "inputLink") {
-                        $formType = "Link";
+                    if (array_search(strtolower("double2"), $evals) !== false) {
+                        $formType = "Float";
                     } else {
-                        $formType = "String";
+                        if (array_search(strtolower("date"), $evals) !== false) {
+                            $formType = "Date";
+                        } else {
+                            if (array_search(strtolower("datetime"), $evals) !== false) {
+                                $formType = "Datetime";
+                            } else {
+                                if (isset($tca["config"]["renderType"]) && $tca["config"]["renderType"] === "inputLink") {
+                                    $formType = "Link";
+                                } else {
+                                    $formType = "String";
+                                }
+                            }
+                        }
                     }
                 }
                 break;
@@ -225,10 +231,12 @@ class FieldHelper
                 $formType = "Inline";
                 if ($tca["config"]["foreign_table"] == "sys_file_reference") {
                     $formType = "File";
-                } else if($tca["config"]["foreign_table"] == "tt_content") {
-                    $formType = "Content";
                 } else {
-                    $formType = "Inline";
+                    if ($tca["config"]["foreign_table"] == "tt_content") {
+                        $formType = "Content";
+                    } else {
+                        $formType = "Inline";
+                    }
                 }
                 break;
             case "tab":
@@ -281,9 +289,11 @@ class FieldHelper
                         }
                     }
                 }
-            } else if (is_array($storage[$type]["tca"][$fieldKey])) {
-                $fieldType = $type;
-                $found = true;
+            } else {
+                if (is_array($storage[$type]["tca"][$fieldKey])) {
+                    $fieldType = $type;
+                    $found = true;
+                }
             }
         }
         return $fieldType;

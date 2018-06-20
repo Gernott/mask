@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2015-02-12T18:53:00Z" product-name="mask">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2015-02-12T18:53:00Z"
+		  product-name="mask">
 		<header/>
 		<body>
 			<trans-unit id="tx_mask.field.String">
@@ -203,7 +204,8 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.show_possible_localization_records">
 				<target>
-					Zeige unlokalisierte Records welche in der Originalsprache vorhanden sind, aber noch nicht lokalisiert sind
+					Zeige unlokalisierte Records welche in der Originalsprache vorhanden sind, aber noch nicht
+					lokalisiert sind
 				</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.show_synchronization_link">
@@ -471,7 +473,10 @@
 				<target>Dies sind Beispielcodes für Ihr Frontend.</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.html.line2">
-				<target>Beim ersten Anlegen eines Inhaltselementes wird dieser Code in die Ziel-Datei in jenem Ordner gespeichert, welcher im Erweiterungsmanager in der Mask-Konfiguration festgelegt wurde. Standard ist: fileadmin/templates/content/.</target>
+				<target>Beim ersten Anlegen eines Inhaltselementes wird dieser Code in die Ziel-Datei in jenem Ordner
+					gespeichert, welcher im Erweiterungsmanager in der Mask-Konfiguration festgelegt wurde. Standard
+					ist: fileadmin/templates/content/.
+				</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.html.line3a">
 				<target>Siehe</target>
@@ -486,7 +491,9 @@
 				<target>Dieses Feld ist bei mehr als einem Content-Element in Verwendung.</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.multiuse.description">
-				<target>Wenn Sie dieses Feld verändern, werden diese Änderungen in folgenden Content-Elementen wirksam:</target>
+				<target>Wenn Sie dieses Feld verändern, werden diese Änderungen in folgenden Content-Elementen
+					wirksam:
+				</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.newcontentelement">
 				<target>Neues Content-Element wurde angelegt.</target>
@@ -527,7 +534,9 @@
 				<target>Backendlayout erweitern</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.page.nobackendlayout">
-				<target>Es existiert noch kein Backendlayout! Dies kann im Modul Liste auf einer beliebigen Seite erstellt werden.</target>
+				<target>Es existiert noch kein Backendlayout! Dies kann im Modul Liste auf einer beliebigen Seite
+					erstellt werden.
+				</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.page.warning">
 				<target>Achtung!</target>
@@ -565,7 +574,8 @@
 				<target>Seitenvorlagen</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.confirmdelete">
-				<target><![CDATA[<strong>Möchten Sie das Content-Element löschen?</strong> <br /><br />Beim normalen Löschen wird nur die Konfiguration gelöscht. Bei "Alles Entfernen" werden auch alle dazugehörge Dateien im System gelöscht (Fluid-Templates). Inhalte werden erst mit einem Database-Compare im Installations-Tool entfernt.]]></target>
+				<target>
+					<![CDATA[<strong>Möchten Sie das Content-Element löschen?</strong> <br /><br />Beim normalen Löschen wird nur die Konfiguration gelöscht. Bei "Alles Entfernen" werden auch alle dazugehörge Dateien im System gelöscht (Fluid-Templates). Inhalte werden erst mit einem Database-Compare im Installations-Tool entfernt.]]></target>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.abort">
 				<target>Abbrechen</target>
@@ -580,7 +590,9 @@
 				<target>Es muss ein Feld-Key angegeben werden!</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.error.missingfolder">
-				<target>Verzeichnis fehlt. Das fehlende Verzeichnis muss angelegt oder der Pfad zum Verzeichnis im Erweiterungsmanager angepasst werden.</target>
+				<target>Verzeichnis fehlt. Das fehlende Verzeichnis muss angelegt oder der Pfad zum Verzeichnis im
+					Erweiterungsmanager angepasst werden.
+				</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.createmissingfolders">
 				<target>Fehlende Verzeichnisse anlegen</target>

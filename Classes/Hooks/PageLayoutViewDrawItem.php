@@ -67,8 +67,13 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
      * @param array $row Record row of tt_content
      * @return void
      */
-    public function preProcess(\TYPO3\CMS\Backend\View\PageLayoutView &$parentObject, &$drawItem, &$headerContent, &$itemContent, array &$row)
-    {
+    public function preProcess(
+        \TYPO3\CMS\Backend\View\PageLayoutView &$parentObject,
+        &$drawItem,
+        &$headerContent,
+        &$itemContent,
+        array &$row
+    ) {
         $this->settingsService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Service\\SettingsService');
         $this->extSettings = $this->settingsService->get();
 

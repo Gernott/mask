@@ -43,8 +43,9 @@ class ContentViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
      * @param \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager
      * @return void
      */
-    public function injectConfigurationManager(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager)
-    {
+    public function injectConfigurationManager(
+        \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager
+    ) {
         $this->configurationManager = $configurationManager;
         $this->cObj = $this->configurationManager->getContentObject();
     }

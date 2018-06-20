@@ -61,7 +61,8 @@ class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\Fluid
         $variables = parent::getContentObjectVariables($conf);
 
         $this->storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
-        $this->inlineHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\InlineHelper', $this->storageRepository);
+        $this->inlineHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\InlineHelper',
+            $this->storageRepository);
 
         // Make some enhancements to data
         $data = $variables['data'];

@@ -29,7 +29,8 @@ class CTypesViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelp
             foreach ($cTypes as $type) {
                 if ($type[1] !== "--div--") {
                     if (\TYPO3\CMS\Core\Utility\GeneralUtility::isFirstPartOfStr($type[0], 'LLL:')) {
-                        $items[$type[1]] = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($type[0], "mask") . " (" . $type[1] . ")";
+                        $items[$type[1]] = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($type[0],
+                                "mask") . " (" . $type[1] . ")";
                     } else {
                         $items[$type[1]] = $type[0] . " (" . $type[1] . ")";
                     }

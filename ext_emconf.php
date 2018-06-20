@@ -27,10 +27,10 @@ $EM_CONF[$_EXTKEY] = array(
         ),
     ),
     'autoload' =>
-    array(
-        'psr-4' =>
         array(
-            "MASK\\Mask\\" => "Classes/"
+            'psr-4' =>
+                array(
+                    "MASK\\Mask\\" => "Classes/"
+                )
         )
-    )
 );

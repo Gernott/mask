@@ -28,14 +28,14 @@ class TranslateLabelViewHelper extends AbstractViewHelper
      * @param string $extensionName
      * @return string
      */
-    public function render($key = NULL, $extensionName = NULL)
+    public function render($key = null, $extensionName = null)
     {
         if (empty($key) || strpos($key, 'LLL') > 0) {
             return $key;
         }
 
         $request = $this->renderingContext->getControllerContext()->getRequest();
-        $extensionName = $extensionName === NULL ? $request->getControllerExtensionName() : $extensionName;
+        $extensionName = $extensionName === null ? $request->getControllerExtensionName() : $extensionName;
         $result = LocalizationUtility::translate($key, $extensionName);
         return (empty($result) ? $key : $result);
     }

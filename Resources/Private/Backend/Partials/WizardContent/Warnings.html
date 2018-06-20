@@ -10,11 +10,17 @@
 					</span>
 				</div>
 				<div class="media-body">
-					<h4 class="alert-title"><f:translate key="tx_mask.content.multiuse" /></h4>
+					<h4 class="alert-title">
+						<f:translate key="tx_mask.content.multiuse"/>
+					</h4>
 					<div class="alert-message">
-						<f:translate key="tx_mask.content.multiuse.description" />
+						<f:translate key="tx_mask.content.multiuse.description"/>
 						<f:for each="{mask:Multiuse(key: key, elementKey: storage.key)}" as="element" iteration="iteration">
-							{element.label}<f:if condition="{iteration.isLast}"><f:then></f:then>	<f:else>, </f:else></f:if>
+							{element.label}
+							<f:if condition="{iteration.isLast}">
+								<f:then></f:then>
+								<f:else>,</f:else>
+							</f:if>
 						</f:for>
 					</div>
 				</div>

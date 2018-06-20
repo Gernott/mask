@@ -8,7 +8,12 @@
 		"docs": "https://docs.typo3.org/typo3cms/extensions/mask/",
 		"issues": "https://github.com/Gernott/mask/issues/"
 	},
-	"keywords": ["TYPO3 CMS", "Mask", "Contentelements", "Wizard"],
+	"keywords": [
+		"TYPO3 CMS",
+		"Mask",
+		"Contentelements",
+		"Wizard"
+	],
 	"authors": [
 		{
 			"name": "WEBprofil - Gernot Ploiner e.U.",

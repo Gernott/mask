@@ -39,7 +39,7 @@ class JsOpenParamsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVi
      * @return boolean $evalValue is set
      * @author Benjamin Butschell bb@webprofil.at>
      */
-    public function render($fieldKey, $elementKey, $property, $field = NULL)
+    public function render($fieldKey, $elementKey, $property, $field = null)
     {
         $this->generalUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Utility\\GeneralUtility');
         $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');

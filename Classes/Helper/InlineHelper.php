@@ -70,7 +70,7 @@ class InlineHelper
 
         // using is_numeric in favor to is_int
         // due to some rare cases where uids are provided as strings
-        if(!is_numeric($uid)) {
+        if (!is_numeric($uid)) {
             return;
         }
 
@@ -117,7 +117,8 @@ class InlineHelper
                     $elements = $this->getInlineElements($data, $fieldname, $cType, "parentid", $table);
                     $data[$fieldname] = $elements;
                 } elseif ($fieldHelper->getFormType($field["key"], $cType, $table) == "Content") {
-                    $elements = $this->getInlineElements($data, $fieldname, $cType, $fieldname . "_parent", "tt_content", "tt_content");
+                    $elements = $this->getInlineElements($data, $fieldname, $cType, $fieldname . "_parent",
+                        "tt_content", "tt_content");
                     $data[$fieldname] = $elements;
                 }
             }
@@ -136,8 +137,14 @@ class InlineHelper
      * @return array all irre elements of this attribut
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    public function getInlineElements($data, $name, $cType, $parentid = "parentid", $parenttable = "tt_content", $childTable = null)
-    {
+    public function getInlineElements(
+        $data,
+        $name,
+        $cType,
+        $parentid = "parentid",
+        $parenttable = "tt_content",
+        $childTable = null
+    ) {
         // if the name of the child table is not explicitely given, take field key
         if (!$childTable) {
             $childTable = $name;
@@ -169,8 +176,10 @@ class InlineHelper
              * elements and the field _LOCALIZED_UID is available, then use this field
              * Otherwise we have problems with gridelements and translation
              */
-        } else if ($parenttable == "tt_content" && $GLOBALS['TSFE']->sys_language_uid != 0 && $data["_LOCALIZED_UID"] != "") {
-            $parentUid = $data["_LOCALIZED_UID"];
+        } else {
+            if ($parenttable == "tt_content" && $GLOBALS['TSFE']->sys_language_uid != 0 && $data["_LOCALIZED_UID"] != "") {
+                $parentUid = $data["_LOCALIZED_UID"];
+            }
         }
 
         // fetching the inline elements

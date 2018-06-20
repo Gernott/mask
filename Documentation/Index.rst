@@ -14,29 +14,29 @@ Mask
 .. only:: html
 
 	:Classification:
-		mask
+   		mask
 
-	:Version:
-		|3.1.1|
+   	:Version:
+   		|3.1.1|
 
 	:Language:
-		en
+   		en
 
-	:Keywords:
-		mask
+   	:Keywords:
+   		mask
 
-	:Copyright:
-		2018
+   	:Copyright:
+   		2018
 
-	:Author:
-        WEBprofil - Gernot Ploiner e.U.
+   	:Author:
+           WEBprofil - Gernot Ploiner e.U.
 
-	:License:
-		This document is published under the Open Content License
-		available from http://www.opencontent.org/opl.shtml
+   	:License:
+   		This document is published under the Open Content License
+   		available from http://www.opencontent.org/opl.shtml
 
 	:Rendered:
-		|today|
+   		|today|
 
 	The content of this document is related to TYPO3,
 	a GNU/GPL CMS/Framework available from `www.typo3.org <http://www.typo3.org/>`_.
@@ -46,14 +46,14 @@ Mask
 .. toctree::
 	:maxdepth: 5
 	:titlesonly:
-	:glob:
+   	:glob:
 
-	Introduction/Index
-	Installation/Index
-	Contentelements/Index
-	Pagetemplates/Index
-	Fieldtypes/Index
-	Sponsors/Index
-	ToDoList/Index
-	ChangeLog/Index
-	Targets
+   	Introduction/Index
+   	Installation/Index
+   	Contentelements/Index
+   	Pagetemplates/Index
+   	Fieldtypes/Index
+   	Sponsors/Index
+   	ToDoList/Index
+   	ChangeLog/Index
+   	Targets

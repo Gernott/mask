@@ -56,7 +56,10 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
 
                             if ($res === false) {
                                 $hasErrors = true;
-                                \TYPO3\CMS\Core\Utility\GeneralUtility::devlog('SQL error', 'mask', 0, array('statement' => $statement, 'error' => $this->getDatabaseConnection()->sql_error()));
+                                \TYPO3\CMS\Core\Utility\GeneralUtility::devlog('SQL error', 'mask', 0, array(
+                                    'statement' => $statement,
+                                    'error' => $this->getDatabaseConnection()->sql_error()
+                                ));
                             } elseif (is_resource($res) || is_a($res, '\\mysqli_result')) {
                                 $this->getDatabaseConnection()->sql_free_result($res);
                             }
@@ -96,7 +99,8 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
             $fieldDefinitionsFromFile = $sqlHandler->getFieldDefinitions_fileContent($sqlContent);
             if (count($fieldDefinitionsFromFile)) {
                 $fieldDefinitionsFromCurrentDatabase = $sqlHandler->getFieldDefinitions_database();
-                $updateTableDefinition = $sqlHandler->getDatabaseExtra($fieldDefinitionsFromFile, $fieldDefinitionsFromCurrentDatabase);
+                $updateTableDefinition = $sqlHandler->getDatabaseExtra($fieldDefinitionsFromFile,
+                    $fieldDefinitionsFromCurrentDatabase);
                 $this->updateStatements = $sqlHandler->getUpdateSuggestions($updateTableDefinition);
                 if (!empty($updateTableDefinition['extra']) || !empty($updateTableDefinition['diff']) || !empty($updateTableDefinition['diff_currentValues'])) {
                     $this->dbUpdateNeeded = true;

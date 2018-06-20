@@ -44,7 +44,7 @@ class GeneralUtility
     /**
      * @param \MASK\Mask\Domain\Repository\StorageRepository $storageRepository
      */
-    public function __construct(\MASK\Mask\Domain\Repository\StorageRepository $storageRepository = NULL)
+    public function __construct(\MASK\Mask\Domain\Repository\StorageRepository $storageRepository = null)
     {
         if (!$storageRepository) {
             $this->storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
@@ -160,7 +160,8 @@ class GeneralUtility
         $storage = $this->storageRepository->load();
         $found = false;
         if ($storage[$type]["tca"][$fieldKey]["config"]["wizards"]["link"]["params"]["blindLinkOptions"] != "") {
-            $evals = explode(",", $storage[$type]["tca"][$fieldKey]["config"]["wizards"]["link"]["params"]["blindLinkOptions"]);
+            $evals = explode(",",
+                $storage[$type]["tca"][$fieldKey]["config"]["wizards"]["link"]["params"]["blindLinkOptions"]);
             $found = array_search(strtolower($evalValue), $evals) !== false;
         }
         return $found;
@@ -217,7 +218,7 @@ class GeneralUtility
             if (is_array($value)) {
                 $haystack[$key] = $this->removeBlankOptions($haystack[$key]);
             }
-            if( (is_array($haystack[$key]) && empty($haystack[$key])) || (is_string($haystack[$key]) && !strlen($haystack[$key])) ) {
+            if ((is_array($haystack[$key]) && empty($haystack[$key])) || (is_string($haystack[$key]) && !strlen($haystack[$key]))) {
                 unset($haystack[$key]);
             }
         }

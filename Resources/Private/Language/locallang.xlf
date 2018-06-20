@@ -208,7 +208,8 @@
 				<source>Show a “synchronize” link to update to a 1:1 translation with the original language</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.show_all_localization_link">
-				<source>Show the “localize all records” link to fetch untranslated records from the original language</source>
+				<source>Show the “localize all records” link to fetch untranslated records from the original language
+				</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.show_removed_localization_records">
 				<source>Show removed localization records</source>
@@ -468,7 +469,10 @@
 				<source>This is an example code for your frontend template.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.html.line2">
-				<source>On first creation of a contentelement, this code is saved in the target-file into the folder, which you have specified in extensionmanager in mask-configuration. Default is: fileadmin/templates/content/.</source>
+				<source>On first creation of a contentelement, this code is saved in the target-file into the folder,
+					which you have specified in extensionmanager in mask-configuration. Default is:
+					fileadmin/templates/content/.
+				</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.html.line3a">
 				<source>Use the official</source>
@@ -561,7 +565,8 @@
 				<source>Page Templates</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.confirmdelete">
-				<source><![CDATA[<strong>Do you want to delete the content element?</strong> <br /><br />"Delete" only deletes the configuration. "Purge" deletes the configuration and all the corresponding template files. The content in the database can be deleted via the install tool.]]></source>
+				<source>
+					<![CDATA[<strong>Do you want to delete the content element?</strong> <br /><br />"Delete" only deletes the configuration. "Purge" deletes the configuration and all the corresponding template files. The content in the database can be deleted via the install tool.]]></source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.abort">
 				<source>Abort</source>
@@ -576,7 +581,8 @@
 				<source>Field-Key is required!</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.error.missingfolder">
-				<source>Directory is missing. Create missing directory or change configuration in extension manager.</source>
+				<source>Directory is missing. Create missing directory or change configuration in extension manager.
+				</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.createmissingfolders">
 				<source>Create missing directories</source>
