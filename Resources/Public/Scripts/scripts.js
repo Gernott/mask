@@ -255,6 +255,14 @@ jQuery(document).ready(function () {
 
     }
   });
+  // Select Field: Render type specific fields toggle
+  jQuery(document).on("change", ".tx_mask_fieldcontent_select_renderType", function (a) {
+      if (jQuery(this).val() == 'selectMultipleSideBySide') {
+          jQuery(this).closest(".tx_mask_fieldcontent").find('.tx_mask_fieldcontent_renderType_selectMultipleSideBySide').show();
+      } else {
+          jQuery(this).closest(".tx_mask_fieldcontent").find('.tx_mask_fieldcontent_renderType_selectMultipleSideBySide').hide();
+      }
+  });
 
   // initialize font-icon-picker
   jQuery('#meta_icon').fontIconPicker({
