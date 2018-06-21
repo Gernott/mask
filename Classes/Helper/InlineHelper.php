@@ -114,10 +114,17 @@ class InlineHelper
         }
 
         $fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
+        $storage = $this->storageRepository->load();
+        $elementFields = [];
 
-        // load the current element and all its columns
-        $element = $this->storageRepository->loadElement($table, str_replace("mask_", "", $cType));
-        $elementFields = $element["columns"];
+        // if the table is tt_content, load the element and all its columns
+        if ($table == "tt_content" || $table == "pages") {
+            $element = $this->storageRepository->loadElement($table, str_replace("mask_", "", $cType));
+            $elementFields = $element["columns"];
+        } elseif (isset($storage[$table])) {
+            // otherwise check if its a table at all, if yes load all fields
+            $elementFields = array_keys($storage[$table]['tca']);
+        }
 
         // if the element has columns
         if ($elementFields) {
@@ -133,7 +140,6 @@ class InlineHelper
                 if ($type == "Inline") {
                     $elements = $this->getInlineElements($data, $fieldKeyPrefix, $cType, "parentid", $table);
                     $data[$fieldKeyPrefix] = $elements;
-
                     // or if it is of type Content (Nested Content) and has to be filled
                 } elseif ($type == "Content") {
                     $elements = $this->getInlineElements($data, $fieldKeyPrefix, $cType, $fieldKeyPrefix . "_parent",
