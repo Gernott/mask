@@ -439,13 +439,13 @@ class StorageRepository
      */
     private function cleanTable($table, $json)
     {
-        if (count($json[$table]["tca"]) < 1) {
+        if ($json[$table]["tca"] && count($json[$table]["tca"]) < 1) {
             unset($json[$table]["tca"]);
         }
-        if (count($json[$table]["sql"]) < 1) {
+        if ($json[$table]["sql"] && count($json[$table]["sql"]) < 1) {
             unset($json[$table]["sql"]);
         }
-        if (count($json[$table]) < 1) {
+        if ($json[$table] && count($json[$table]) < 1) {
             unset($json[$table]);
         }
         return $json;

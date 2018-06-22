@@ -26,6 +26,9 @@ namespace MASK\Mask\Helper;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Methods for working with inline fields (IRRE)
  *
@@ -47,7 +50,7 @@ class InlineHelper
     public function __construct(\MASK\Mask\Domain\Repository\StorageRepository $storageRepository = null)
     {
         if (!$storageRepository) {
-            $this->storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
+            $this->storageRepository = GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
         } else {
             $this->storageRepository = $storageRepository;
         }
@@ -74,8 +77,8 @@ class InlineHelper
             return;
         }
 
-        $fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
-        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+        $fieldHelper = GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
+        $objectManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
 
         $storage = $this->storageRepository->load();
         /* @var $fileRepository \TYPO3\CMS\Core\Resource\FileRepository */
@@ -99,27 +102,49 @@ class InlineHelper
      * Adds FAL-Files to the data-array if available
      *
      * @param array $data
-     * @param array $table
+     * @param string $table
+     * @param string $cType
      * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function addIrreToData(&$data, $table = "tt_content", $cType = "")
     {
+
         if ($cType == "") {
             $cType = $data["CType"];
         }
-        $fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
-        $storage = $this->storageRepository->load();
-        $contentFields = $storage[$table]["tca"];
 
-        if ($contentFields) {
-            foreach ($contentFields as $fieldname => $field) {
-                if ($fieldHelper->getFormType($field["key"], $cType, $table) == "Inline") {
-                    $elements = $this->getInlineElements($data, $fieldname, $cType, "parentid", $table);
-                    $data[$fieldname] = $elements;
-                } elseif ($fieldHelper->getFormType($field["key"], $cType, $table) == "Content") {
-                    $elements = $this->getInlineElements($data, $fieldname, $cType, $fieldname . "_parent",
+        $fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
+        $storage = $this->storageRepository->load();
+        $elementFields = [];
+
+        // if the table is tt_content, load the element and all its columns
+        if ($table == "tt_content" || $table == "pages") {
+            $element = $this->storageRepository->loadElement($table, str_replace("mask_", "", $cType));
+            $elementFields = $element["columns"];
+        } elseif (isset($storage[$table])) {
+            // otherwise check if its a table at all, if yes load all fields
+            $elementFields = array_keys($storage[$table]['tca']);
+        }
+
+        // if the element has columns
+        if ($elementFields) {
+
+            // check foreach column
+            foreach ($elementFields as $field) {
+
+                $fieldKeyPrefix = $field;
+                $fieldKey = str_replace("tx_mask_", "", $field);
+                $type = $fieldHelper->getFormType($fieldKey, $cType, $table);
+
+                // if it is of type inline and has to be filled (IRRE, FAL)
+                if ($type == "Inline") {
+                    $elements = $this->getInlineElements($data, $fieldKeyPrefix, $cType, "parentid", $table);
+                    $data[$fieldKeyPrefix] = $elements;
+                    // or if it is of type Content (Nested Content) and has to be filled
+                } elseif ($type == "Content") {
+                    $elements = $this->getInlineElements($data, $fieldKeyPrefix, $cType, $fieldKeyPrefix . "_parent",
                         "tt_content", "tt_content");
-                    $data[$fieldname] = $elements;
+                    $data[$fieldKeyPrefix] = $elements;
                 }
             }
         }
@@ -128,7 +153,7 @@ class InlineHelper
     /**
      * Returns Inline-Elements of Data-Object
      *
-     * @param object $data the parent object
+     * @param array $data the parent object
      * @param string $name The name of the irre attribut
      * @param string $cType The name of the irre attribut
      * @param string $parentid The name of the irre parentid
@@ -214,7 +239,7 @@ class InlineHelper
             if (TYPO3_MODE == 'FE') {
                 $GLOBALS['TSFE']->sys_page->versionOL($childTable, $element);
             } else {
-                $element = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecordWSOL($childTable, $element['uid']);
+                $element = BackendUtility::getRecordWSOL($childTable, $element['uid']);
             }
             if ($element && empty($elements[$element['uid']])) {
                 $this->addIrreToData($element, $name, $cType);
