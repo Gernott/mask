@@ -135,6 +135,9 @@ Mask
 	font-weight: normal;
 	margin: 0;
 	padding: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .tx_mask_fieldheader_text P {
@@ -158,6 +161,7 @@ UL.tx_mask_fieldtypes LI .id_labeltext {
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
+	max-width: 220px;
 }
 
 UL.tx_mask_fieldtypes LI .id_keytext {
