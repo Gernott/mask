@@ -32,7 +32,6 @@ class ElementCountViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVi
      */
     public function render($key)
     {
-        $contentElements = $this->contentRepository->findByContentType('mask_' . $key)->toArray();
-        return count($contentElements);
+        return $this->contentRepository->findByContentType('mask_' . $key)->count();
     }
 }
