@@ -81,6 +81,10 @@ class BackendLayoutRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         foreach ($databaseBackendLayouts as $layout) {
             $backendLayout = new \TYPO3\CMS\Backend\View\BackendLayout\BackendLayout($layout->getUid(),
                 $layout->getTitle(), "");
+            if ($layout->getIcon()) {
+                $backendLayout->setIconPath('/uploads/media/' . $layout->getIcon());
+            }
+            $backendLayout->setDescription($layout->getDescription());
             $backendLayouts[$backendLayout->getIdentifier()] = $backendLayout;
         }
         return $backendLayouts;

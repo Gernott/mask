@@ -36,17 +36,18 @@ class HtmlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
      * Generates Fluid HTML for Contentelements
      *
      * @param string $key
+     * @param string $table
      * @return string $html
      * @author Gernot Ploiner <gp@webprofil.at>
      *
      */
-    public function generateHtml($key, $table = "tt_content")
+    public function generateHtml($key, $table)
     {
-        $storage = $this->storageRepository->loadElement('tt_content', $key);
+        $storage = $this->storageRepository->loadElement($table, $key);
         $html = "";
         if ($storage["tca"]) {
             foreach ($storage["tca"] as $fieldKey => $fieldConfig) {
-                $html .= $this->generateFieldHtml($fieldKey, $key);
+                $html .= $this->generateFieldHtml($fieldKey, $key, $table);
             }
         }
         return $html;
@@ -62,7 +63,7 @@ class HtmlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
      * @author Gernot Ploiner <gp@webprofil.at>
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    protected function generateFieldHtml($fieldKey, $elementKey, $table = "tt_content", $datafield = "data")
+    protected function generateFieldHtml($fieldKey, $elementKey, $table, $datafield = "data")
     {
         $html = "";
         $fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');

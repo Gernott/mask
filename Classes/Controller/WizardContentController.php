@@ -92,7 +92,7 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
     {
         $this->storageRepository->add($storage);
         $this->generateAction();
-        $html = $this->htmlCodeGenerator->generateHtml($storage["elements"]["key"]);
+        $html = $this->htmlCodeGenerator->generateHtml($storage["elements"]["key"], 'tt_content');
         $this->saveHtml($storage["elements"]["key"], $html);
         $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.newcontentelement',
             'mask'));
@@ -126,7 +126,7 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
     {
         $this->storageRepository->update($storage);
         $this->generateAction();
-        $html = $this->htmlCodeGenerator->generateHtml($storage["elements"]["key"]);
+        $html = $this->htmlCodeGenerator->generateHtml($storage["elements"]["key"], 'tt_content');
         $this->saveHtml($storage["elements"]["key"], $html);
         $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.updatedcontentelement',
             'mask'));
@@ -221,7 +221,7 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
      */
     protected function createHtmlAction($key)
     {
-        $html = $this->htmlCodeGenerator->generateHtml($key);
+        $html = $this->htmlCodeGenerator->generateHtml($key, 'tt_content');
         $this->saveHtml($key, $html);
         $this->redirect('list');
     }

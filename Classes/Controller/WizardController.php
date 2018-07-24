@@ -145,11 +145,12 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * Generates Fluid HTML for Contentelements
      *
      * @param string $key
+     * @param string $table
      * @author Gernot Ploiner <gp@webprofil.at>
      */
-    protected function showHtmlAction($key)
+    protected function showHtmlAction($key, $table)
     {
-        $html = $this->htmlCodeGenerator->generateHtml($key);
+        $html = $this->htmlCodeGenerator->generateHtml($key, $table);
         $this->view->assign('html', $html);
     }
 

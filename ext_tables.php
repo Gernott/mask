@@ -14,7 +14,7 @@ if (TYPO3_MODE === 'BE') {
         'top', // Position
         array(
             'WizardContent' => 'list, new, create, edit, update, delete, purge, generate, showHtml, createMissingFolders, hide, activate, createHtml',
-            'WizardPage' => 'list, new, create, edit, update, delete',
+            'WizardPage' => 'list, new, create, edit, update, delete, showHtml',
         ), array(
             'access' => 'admin',
             'icon' => 'EXT:' . $_EXTKEY . '/Resources/Public/Icons/module-mask_wizard.svg',
