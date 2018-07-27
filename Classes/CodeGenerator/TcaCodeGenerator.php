@@ -62,7 +62,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                     if (!empty($json["tt_content"]["tca"][$table]["inlineIcon"])) {
                         $GLOBALS["TCA"][$table]["ctrl"]['iconfile'] = $json["tt_content"]["tca"][$table]["inlineIcon"];
                     } else {
-                        $GLOBALS["TCA"][$table]["ctrl"]['iconfile'] = "EXT:mask/ext_icon.svg";
+                        $GLOBALS["TCA"][$table]["ctrl"]['iconfile'] = "EXT:mask/Resources/Public/Icons/Extension.svg";
                     }
 
                     // hide table in list view
