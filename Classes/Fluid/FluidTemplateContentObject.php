@@ -29,6 +29,11 @@ namespace MASK\Mask\Fluid;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use MASK\Mask\Domain\Repository\StorageRepository;
+use MASK\Mask\Helper\InlineHelper;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+
 class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\FluidTemplateContentObject
 {
 
@@ -60,9 +65,8 @@ class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\Fluid
         // Call Parent Function to maintain core functions
         $variables = parent::getContentObjectVariables($conf);
 
-        $this->storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
-        $this->inlineHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\InlineHelper',
-            $this->storageRepository);
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        $this->inlineHelper = $objectManager->get(InlineHelper::class);
 
         // Make some enhancements to data
         $data = $variables['data'];

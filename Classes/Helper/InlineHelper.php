@@ -45,6 +45,15 @@ class InlineHelper
     protected $storageRepository;
 
     /**
+     * BackendLayoutRepository
+     *
+     * @var \MASK\Mask\Domain\Repository\BackendLayoutRepository
+     * @inject
+     */
+    protected $backendLayoutRepository;
+
+
+    /**
      * @param \MASK\Mask\Domain\Repository\StorageRepository $storageRepository
      */
     public function __construct(\MASK\Mask\Domain\Repository\StorageRepository $storageRepository = null)
@@ -60,7 +69,7 @@ class InlineHelper
      * Adds FAL-Files to the data-array if available
      *
      * @param array $data
-     * @param array $table
+     * @param string $table
      * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function addFilesToData(&$data, $table = "tt_content")
@@ -118,9 +127,29 @@ class InlineHelper
         $elementFields = [];
 
         // if the table is tt_content, load the element and all its columns
-        if ($table == "tt_content" || $table == "pages") {
+        if ($table == "tt_content") {
             $element = $this->storageRepository->loadElement($table, str_replace("mask_", "", $cType));
             $elementFields = $element["columns"];
+        } elseif ($table == "pages") {
+            // if the table is pages, then load the pid
+            if (isset($data['uid'])) {
+
+                // find the backendlayout by the pid
+                $backendLayoutIdentifier = $this->backendLayoutRepository->findIdentifierByPid($data['uid']);
+
+                // if a backendlayout was found, then load its elements
+                if ($backendLayoutIdentifier) {
+                    $element = $this->storageRepository->loadElement(
+                        $table,
+                        str_replace('pagets__', '', $backendLayoutIdentifier)
+                    );
+                    $elementFields = $element["columns"];
+                } else {
+
+                    // if no backendlayout was found, just load all field
+                    $elementFields = array_keys($storage[$table]['tca']);
+                }
+            }
         } elseif (isset($storage[$table])) {
             // otherwise check if its a table at all, if yes load all fields
             $elementFields = array_keys($storage[$table]['tca']);
