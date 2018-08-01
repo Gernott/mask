@@ -40,7 +40,7 @@
                                     <f:for each="{backendLayouts}" as="layout" key="key">
                                         <tr>
                                             <td>
-                                                <f:if condition='{f:uri.image(src: layout.iconPath)}'>
+                                                <f:if condition="{layout.iconPath}">
                                                     <f:then>
                                                         <f:image src="{layout.iconPath}" height="30" maxWidth="50"/>
                                                     </f:then>
