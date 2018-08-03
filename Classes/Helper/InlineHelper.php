@@ -146,8 +146,11 @@ class InlineHelper
                     $elementFields = $element["columns"];
                 } else {
 
-                    // if no backendlayout was found, just load all field
-                    $elementFields = array_keys($storage[$table]['tca']);
+                    // if no backendlayout was found, just load all fields, if there are fields
+                    if (isset($storage[$table]['tca'])) {
+                        $elementFields = array_keys($storage[$table]['tca']);
+                    }
+
                 }
             }
         } elseif (isset($storage[$table])) {
