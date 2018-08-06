@@ -92,9 +92,10 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
     {
         $this->storageRepository->add($storage);
         $this->generateAction();
-        $html = $this->htmlCodeGenerator->generateHtml($storage["elements"]["key"]);
+        $html = $this->htmlCodeGenerator->generateHtml($storage["elements"]["key"], 'tt_content');
         $this->saveHtml($storage["elements"]["key"], $html);
-        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.newcontentelement', 'mask'));
+        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.newcontentelement',
+            'mask'));
         $this->redirectByAction();
     }
 
@@ -125,9 +126,10 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
     {
         $this->storageRepository->update($storage);
         $this->generateAction();
-        $html = $this->htmlCodeGenerator->generateHtml($storage["elements"]["key"]);
+        $html = $this->htmlCodeGenerator->generateHtml($storage["elements"]["key"], 'tt_content');
         $this->saveHtml($storage["elements"]["key"], $html);
-        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.updatedcontentelement', 'mask'));
+        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.updatedcontentelement',
+            'mask'));
         $this->redirectByAction();
     }
 
@@ -142,7 +144,8 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
     {
         $this->storageRepository->remove($type, $key);
         $this->generateAction();
-        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.deletedcontentelement', 'mask'));
+        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.deletedcontentelement',
+            'mask'));
         $this->redirect('list');
     }
 
@@ -158,7 +161,8 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
         $this->deleteHtml($key);
         $this->storageRepository->remove($type, $key);
         $this->generateAction();
-        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.deletedcontentelement', 'mask'));
+        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.deletedcontentelement',
+            'mask'));
         $this->redirect('list');
     }
 
@@ -172,7 +176,8 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
     {
         $this->storageRepository->hide("tt_content", $key);
         $this->generateAction();
-        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.hiddencontentelement', 'mask'));
+        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.hiddencontentelement',
+            'mask'));
         $this->redirect('list');
     }
 
@@ -186,7 +191,8 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
     {
         $this->storageRepository->activate("tt_content", $key);
         $this->generateAction();
-        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.activatedcontentelement', 'mask'));
+        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.activatedcontentelement',
+            'mask'));
         $this->redirect('list');
     }
 
@@ -206,4 +212,18 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
             unlink(PATH_site . $this->extSettings["backend"] . $key . ".html");
         }
     }
+
+    /**
+     * Create single Fluid html
+     *
+     * @param string $key
+     * @author Gernot Ploiner <gp@webprofil.at>
+     */
+    protected function createHtmlAction($key)
+    {
+        $html = $this->htmlCodeGenerator->generateHtml($key, 'tt_content');
+        $this->saveHtml($key, $html);
+        $this->redirect('list');
+    }
+
 }

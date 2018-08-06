@@ -16,7 +16,7 @@ $EM_CONF[$_EXTKEY] = array(
     'modify_tables' => '',
     'clearCacheOnLoad' => 1,
     'lockType' => '',
-    'version' => '3.1.1dev',
+    'version' => '3.3.1',
     'constraints' => array(
         'depends' => array(
             'typo3' => '8.7.0-8.7.99',
@@ -27,10 +27,10 @@ $EM_CONF[$_EXTKEY] = array(
         ),
     ),
     'autoload' =>
-    array(
-        'psr-4' =>
         array(
-            "MASK\\Mask\\" => "Classes/"
+            'psr-4' =>
+                array(
+                    "MASK\\Mask\\" => "Classes/"
+                )
         )
-    )
 );

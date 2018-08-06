@@ -38,7 +38,7 @@ class RteTransformViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVi
      * @return string $rte_transform
      * @author Benjamin Butschell bb@webprofil.at>
      */
-    public function render($fieldKey, $elementKey, $field = NULL)
+    public function render($fieldKey, $elementKey, $field = null)
     {
         $this->generalUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Utility\\GeneralUtility');
         $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');

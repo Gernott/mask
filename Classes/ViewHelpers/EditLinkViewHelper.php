@@ -1,4 +1,5 @@
 <?php
+
 namespace MASK\Mask\ViewHelpers;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
@@ -30,7 +31,8 @@ class EditLinkViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBas
      * @param array $element
      * @return mixed
      */
-    public function render($element) {
+    public function render($element)
+    {
         if ($this->doEdit && $this->getBackendUser()->recordEditAccessInternals('tt_content', $element)) {
             $urlParameters = [
                 'edit' => [

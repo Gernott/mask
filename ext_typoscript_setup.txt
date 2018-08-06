@@ -1,20 +1,21 @@
 plugin.tx_mask {
-	view {
-		templateRootPaths.0 = EXT:mask/Resources/Private/Templates/
-		partialRootPaths.0 = EXT:mask/Resources/Private/Partials/
-		layoutRootPaths.0 = EXT:mask/Resources/Private/Layouts/
-	}
+    view {
+        templateRootPaths.0 = EXT:mask/Resources/Private/Templates/
+        partialRootPaths.0 = EXT:mask/Resources/Private/Partials/
+        layoutRootPaths.0 = EXT:mask/Resources/Private/Layouts/
+    }
 }
+
 module.tx_mask {
-	view {
-		templateRootPaths.0 = EXT:mask/Resources/Private/Backend/Templates/
-		partialRootPaths.0 = EXT:mask/Resources/Private/Backend/Partials/
-		layoutRootPaths.0 = EXT:mask/Resources/Private/Backend/Layouts/
-	}
+    view {
+        templateRootPaths.0 = EXT:mask/Resources/Private/Backend/Templates/
+        partialRootPaths.0 = EXT:mask/Resources/Private/Backend/Partials/
+        layoutRootPaths.0 = EXT:mask/Resources/Private/Backend/Layouts/
+    }
 }
 
 config.tx_extbase {
-    persistence{
+    persistence {
         enableAutomaticCacheClearing = 1
         updateReferenceIndex = 0
         classes {

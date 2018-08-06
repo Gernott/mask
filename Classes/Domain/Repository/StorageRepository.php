@@ -29,6 +29,8 @@ namespace MASK\Mask\Domain\Repository;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Repository for \TYPO3\CMS\Extbase\Domain\Model\Tca.
  *
@@ -76,7 +78,7 @@ class StorageRepository
      */
     public function __construct()
     {
-        $this->settingsService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Service\\SettingsService');
+        $this->settingsService = GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Service\\SettingsService');
         $this->extSettings = $this->settingsService->get();
     }
 
@@ -88,10 +90,12 @@ class StorageRepository
     public function load()
     {
         if (self::$json === null) {
-            if (!empty($this->extSettings["json"]) && file_exists(PATH_site . $this->extSettings["json"]) && is_file(PATH_site . $this->extSettings["json"])) {
-                self::$json = json_decode(file_get_contents(PATH_site . $this->extSettings["json"]), true);
-            } else {
-                self::$json = array();
+            self::$json = array();
+            if (!empty($this->extSettings['json'])) {
+                $file = GeneralUtility::getFileAbsFileName($this->extSettings['json']);
+                if (file_exists($file)) {
+                    self::$json = json_decode(file_get_contents($file), true);
+                }
             }
         }
         return self::$json;
@@ -110,7 +114,10 @@ class StorageRepository
         } else {
             $encodedJson = json_encode($json, JSON_PRETTY_PRINT);
         }
-        \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $this->extSettings["json"], $encodedJson);
+        if (!empty($this->extSettings['json'])) {
+            $file = GeneralUtility::getFileAbsFileName($this->extSettings['json']);
+            GeneralUtility::writeFile($file, $encodedJson);
+        }
         self::$json = $json;
     }
 
@@ -350,7 +357,7 @@ class StorageRepository
     private function removeField($table, $field, $json, $remainingFields = array())
     {
 
-        $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
+        $this->fieldHelper = GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
 
         // check if this field is used in any other elements
         $elementsInUse = array();
@@ -395,11 +402,13 @@ class StorageRepository
                     }
                     if ($found) {
                         // was not really deleted => can be deleted temporarly because it will be readded
-                        $json = $this->removeField($inlineField["inlineParent"], "tx_mask_" . $inlineField["key"], $json);
+                        $json = $this->removeField($inlineField["inlineParent"], "tx_mask_" . $inlineField["key"],
+                            $json);
                     } else {
                         // was really deleted and can only be deleted if father is not in use in another element
                         if (($fatherGetsDeleted && count($elementsInUse) == 0) || !$fatherGetsDeleted) {
-                            $json = $this->removeField($inlineField["inlineParent"], "tx_mask_" . $inlineField["key"], $json);
+                            $json = $this->removeField($inlineField["inlineParent"], "tx_mask_" . $inlineField["key"],
+                                $json);
                         }
                     }
                 }
@@ -430,13 +439,13 @@ class StorageRepository
      */
     private function cleanTable($table, $json)
     {
-        if (count($json[$table]["tca"]) < 1) {
+        if ($json[$table]["tca"] && count($json[$table]["tca"]) < 1) {
             unset($json[$table]["tca"]);
         }
-        if (count($json[$table]["sql"]) < 1) {
+        if ($json[$table]["sql"] && count($json[$table]["sql"]) < 1) {
             unset($json[$table]["sql"]);
         }
-        if (count($json[$table]) < 1) {
+        if ($json[$table] && count($json[$table]) < 1) {
             unset($json[$table]);
         }
         return $json;
@@ -459,7 +468,7 @@ class StorageRepository
      */
     private function sortJson(&$json)
     {
-        if(is_array($json["tt_content"]["elements"])) {
+        if (is_array($json["tt_content"]["elements"])) {
             ksort($json["tt_content"]["elements"]);
             foreach ($json["tt_content"]["elements"] as $index => $element) {
                 if ($element["hidden"]) {

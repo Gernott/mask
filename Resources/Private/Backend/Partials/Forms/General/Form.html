@@ -4,11 +4,15 @@
 
 	<!-- field header 3rd column: own/mask fields (eg. tx_mask_text) -->
 	<div class="tx_mask_fieldheader">
-		<div class="tx_mask_fieldheader_icon id_{form}"><core:icon identifier="mask-fieldtype-{form}" size="default" /></div>
+		<div class="tx_mask_fieldheader_icon id_{form}">
+			<core:icon identifier="mask-fieldtype-{form}" size="default"/>
+		</div>
 		<f:alias map="{label: '{mask:label(elementKey: storage.key, fieldKey: key, field: field, table: type)}'}">
 			<div class="tx_mask_fieldheader_text" title="{label}">
 				<h1>
-					<f:format.crop maxCharacters="60" append="..."><mask:translateLabel key="{label}" /></f:format.crop>
+					<f:format.crop maxCharacters="60" append="...">
+						<mask:translateLabel key="{label}"/>
+					</f:format.crop>
 				</h1>
 				<p>{field.key}</p>
 			</div>
@@ -21,7 +25,7 @@
 					<f:translate key="tx_mask.tabs.default"/>
 				</a>
 			</li>
-			<f:render partial="Forms/Tabs/Tabheaders" arguments="{type: form, key: key}" />
+			<f:render partial="Forms/Tabs/Tabheaders" arguments="{type: form, key: key}"/>
 		</ul>
 		<div class="tx_mask_fieldcontent tab-content">
 			<div role="tabpanel" class="tab-pane" id="default_{key}">
@@ -33,29 +37,36 @@
 						<div class="row">
 							<div class="form-group col-sm-6">
 								<label class="t3js-formengine-label" for="form_choosefield">
-									<f:translate key="tx_mask.field.choosefield" />
+									<f:translate key="tx_mask.field.choosefield"/>
 								</label>
 								<div class="t3js-formengine-field-item">
 									<div class="form-control-wrap">
-										<select id="form_choosefield" name="tx_mask_tools_maskmask[storage][elements][columns][--index--]" class="form-control tx_mask_fieldcontent_type">
+										<select id="form_choosefield" name="tx_mask_tools_maskmask[storage][elements][columns][--index--]"
+														class="form-control tx_mask_fieldcontent_type">
 											<optgroup class="c-divider" label="New">
-												<option value="-1"><f:translate key="tx_mask.field.newfield" /></option>
+												<option value="-1">
+													<f:translate key="tx_mask.field.newfield"/>
+												</option>
 											</optgroup>
 											<optgroup class="c-divider" label="Existing">
-											<f:for each="{mask:tca(type: '{form}', table:type)}" as="item">
-												<f:if condition="{item.label}">
-													<f:then>
-														<option value="{item.field}"><f:translate key="{item.label}" /> ({item.field})</option>
-													</f:then>
-													<f:else>
-														<option value="{item.field}">{item.field}</option>
-													</f:else>
-												</f:if>
-											</f:for>
+												<f:for each="{mask:tca(type: '{form}', table:type)}" as="item">
+													<f:if condition="{item.label}">
+														<f:then>
+															<option value="{item.field}">
+																<f:translate key="{item.label}"/>
+																({item.field})
+															</option>
+														</f:then>
+														<f:else>
+															<option value="{item.field}">{item.field}</option>
+														</f:else>
+													</f:if>
+												</f:for>
 											</optgroup>
 										</select>
 										<f:if condition="{form} == 'Richtext'">
-											<input type="hidden" name="tx_mask_tools_maskmask[storage][elements][options][--index--]" value="rte" />
+											<input type="hidden" name="tx_mask_tools_maskmask[storage][elements][options][--index--]"
+														 value="rte"/>
 										</f:if>
 									</div>
 								</div>
@@ -66,11 +77,14 @@
 						<div class="row tx_mask_fieldcontent_existing">
 							<div class="form-group col-sm-12">
 								<label class="t3js-formengine-label" for="form_overwritelabel">
-									<f:translate key="tx_mask.field.overwritelabel" />
+									<f:translate key="tx_mask.field.overwritelabel"/>
 								</label>
 								<div class="t3js-formengine-field-item">
 									<div class="form-control-wrap">
-										<f:form.textfield class="form-control" id="form_overwritelabel" name="tx_mask_tools_maskmask[storage][elements][labels][--index--]" placeholder="{f:translate(key:'tx_mask.all.label')}" title="{f:translate(key:'tx_mask.all.label')}" />
+										<f:form.textfield class="form-control" id="form_overwritelabel"
+																			name="tx_mask_tools_maskmask[storage][elements][labels][--index--]"
+																			placeholder="{f:translate(key:'tx_mask.all.label')}"
+																			title="{f:translate(key:'tx_mask.all.label')}"/>
 									</div>
 								</div>
 							</div>
@@ -83,16 +97,21 @@
 					<div class="row">
 						<f:if condition="{editMode}">
 							<f:then>
-								<input name="tx_mask_tools_maskmask[storage][elements][columns][]" type="hidden" class="tx_mask_newfieldname lowercase tceforms-textfield" required="required" data-error="{f:translate(key:'tx_mask.all.error.key')}" value="{field.key}" />
+								<input name="tx_mask_tools_maskmask[storage][elements][columns][]" type="hidden"
+											 class="tx_mask_newfieldname lowercase tceforms-textfield" required="required"
+											 data-error="{f:translate(key:'tx_mask.all.error.key')}" value="{field.key}"/>
 							</f:then>
 							<f:else>
 								<div class="form-group col-sm-6">
 									<label class="t3js-formengine-label" for="form_key">
-										<f:translate key="tx_mask.field.fieldkey" />
+										<f:translate key="tx_mask.field.fieldkey"/>
 									</label>
 									<div class="t3js-formengine-field-item">
 										<div class="form-control-wrap">
-											<input name="tx_mask_tools_maskmask[storage][elements][columns][]" id="form_key" type="text" class="form-control tx_mask_newfieldname lowercase tceforms-textfield" required="required" data-error="{f:translate(key:'tx_mask.all.error.key')}" value="{field.key}" placeholder="no blanks, no dashes"/>
+											<input name="tx_mask_tools_maskmask[storage][elements][columns][]" id="form_key" type="text"
+														 class="form-control tx_mask_newfieldname lowercase tceforms-textfield" required="required"
+														 data-error="{f:translate(key:'tx_mask.all.error.key')}" value="{field.key}"
+														 placeholder="no blanks, no dashes"/>
 										</div>
 									</div>
 								</div>
@@ -100,24 +119,29 @@
 						</f:if>
 						<div class="form-group col-sm-6">
 							<label class="t3js-formengine-label" for="form_label">
-								<f:translate key="tx_mask.field.label" />
+								<f:translate key="tx_mask.field.label"/>
 							</label>
 							<div class="t3js-formengine-field-item">
 								<div class="form-control-wrap">
-									<input name="tx_mask_tools_maskmask[storage][elements][labels][--index--]" id="form_label" type="text" class="form-control" title="{f:translate(key:'tx_mask.content.label')}" placeholder="name of field" value="{mask:label(elementKey: storage.key, fieldKey: key, field: field, table:type)}"/>
+									<input name="tx_mask_tools_maskmask[storage][elements][labels][--index--]" id="form_label" type="text"
+												 class="form-control" title="{f:translate(key:'tx_mask.content.label')}"
+												 placeholder="name of field"
+												 value="{mask:label(elementKey: storage.key, fieldKey: key, field: field, table:type)}"/>
 								</div>
 							</div>
 						</div>
 					</div>
-					<f:render partial="Forms/Fields/{form}/Default" arguments="{storage: storage, editMode: editMode, field: field, key:key, elementKey: storage.key, type: type}" />
+					<f:render partial="Forms/Fields/{form}/Default"
+										arguments="{storage: storage, editMode: editMode, field: field, key:key, elementKey: storage.key, type: type}"/>
 				</div>
 			</div>
-			<f:render partial="Forms/Fields/{form}/Tabs" arguments="{storage: storage, editMode: editMode, field: field, key:key, elementKey: storage.key, type: type}" />
+			<f:render partial="Forms/Fields/{form}/Tabs"
+								arguments="{storage: storage, editMode: editMode, field: field, key:key, elementKey: storage.key, type: type}"/>
 		</div>
 		<f:if condition="{isInlineField}">
 			<f:then></f:then>
 			<f:else>
-				<f:render partial="WizardContent/Warnings" arguments="{storage: storage, editMode: editMode, key: key}" />
+				<f:render partial="WizardContent/Warnings" arguments="{storage: storage, editMode: editMode, key: key}"/>
 			</f:else>
 		</f:if>
 	</div>

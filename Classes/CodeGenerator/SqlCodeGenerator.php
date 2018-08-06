@@ -60,7 +60,9 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
                                 $databaseConnection->exec($statement);
                             } catch (DBALException $exception) {
                                 $hasErrors = true;
-                                GeneralUtility::devlog('SQL error', 'mask', 0, array('statement' => $statement, 'error' => $exception->getMessage()));
+                                GeneralUtility::devlog('SQL error', 'mask', 0, array(
+                                    'statement' => $statement,
+                                    'error' => $exception->getMessage()));
                             }
                         }
                     }
@@ -98,7 +100,8 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
             $fieldDefinitionsFromFile = $sqlHandler->getFieldDefinitions_fileContent($sqlContent);
             if (count($fieldDefinitionsFromFile)) {
                 $fieldDefinitionsFromCurrentDatabase = $sqlHandler->getFieldDefinitions_database();
-                $updateTableDefinition = $sqlHandler->getDatabaseExtra($fieldDefinitionsFromFile, $fieldDefinitionsFromCurrentDatabase);
+                $updateTableDefinition = $sqlHandler->getDatabaseExtra($fieldDefinitionsFromFile,
+                    $fieldDefinitionsFromCurrentDatabase);
                 $this->updateStatements = $sqlHandler->getUpdateSuggestions($updateTableDefinition);
                 if (!empty($updateTableDefinition['extra']) || !empty($updateTableDefinition['diff']) || !empty($updateTableDefinition['diff_currentValues'])) {
                     $this->dbUpdateNeeded = true;

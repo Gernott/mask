@@ -1,13 +1,23 @@
 {namespace mask=MASK\Mask\ViewHelpers}
 <label class="t3js-formengine-label">
-	<f:translate key="tx_mask.field.inline.localization_mode" />
+	<f:translate key="tx_mask.field.inline.localization_mode"/>
 </label>
 <div class="t3js-formengine-field-item">
 	<div class="form-control-wrap" style="">
-		<select name="tx_mask_tools_maskmask[storage][tca][--index--][l10n_mode]" class="form-control" title="levelLinksPosition" >
-			<option {f:if(condition:'{field.l10n_mode} == \'copy\'', then:'selected=selected')} value="copy"><f:translate key="tx_mask.field.inline.l10n_mode.copy"/></option>
-			<option {f:if(condition:'{field.l10n_mode} == \'prefixLangTitle\'', then:'selected=selected')} value="prefixLangTitle"><f:translate key="tx_mask.field.inline.l10n_mode.prefixLangTitle"/></option>
-			<option {f:if(condition:'{field.l10n_mode} == \'exclude\'', then:'selected=selected')} value="exclude"><f:translate key="tx_mask.field.inline.l10n_mode.exclude"/></option>
+		<select name="tx_mask_tools_maskmask[storage][tca][--index--][l10n_mode]" class="form-control"
+						title="levelLinksPosition">
+			<option {f:if(condition:
+			'{field.l10n_mode} == \'copy\'', then:'selected=selected')} value="copy">
+			<f:translate key="tx_mask.field.inline.l10n_mode.copy"/>
+			</option>
+			<option {f:if(condition:
+			'{field.l10n_mode} == \'prefixLangTitle\'', then:'selected=selected')} value="prefixLangTitle">
+			<f:translate key="tx_mask.field.inline.l10n_mode.prefixLangTitle"/>
+			</option>
+			<option {f:if(condition:
+			'{field.l10n_mode} == \'exclude\'', then:'selected=selected')} value="exclude">
+			<f:translate key="tx_mask.field.inline.l10n_mode.exclude"/>
+			</option>
 		</select>
 	</div>
 </div>

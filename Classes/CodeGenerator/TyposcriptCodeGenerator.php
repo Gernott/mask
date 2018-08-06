@@ -48,7 +48,8 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
         $temp = "";
 
         // Load page.ts Template
-        $template = file_get_contents(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mask') . "Resources/Private/Mask/page.ts", true);
+        $template = file_get_contents(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mask') . "Resources/Private/Mask/page.ts",
+            true);
         $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance("TYPO3\CMS\Core\Imaging\IconRegistry");
 
         // make content-Elements
@@ -58,7 +59,7 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
                 $iconIdentifier = 'mask-ce-' . $element["key"];
                 $iconRegistry->registerIcon(
                     $iconIdentifier, "MASK\Mask\Imaging\IconProvider\ContentElementIconProvider", array(
-                    'contentElementKey' => $element["key"]
+                        'contentElementKey' => $element["key"]
                     )
                 );
                 if (!$element["hidden"]) {
@@ -66,7 +67,7 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
                     $temp = str_replace("###KEY###", $element["key"], $temp);
                     $temp = str_replace("###LABEL###", $element["label"], $temp);
                     $temp = str_replace("###DESCRIPTION###", $element["description"], $temp);
-                    $content.= $temp;
+                    $content .= $temp;
 
                     // Labels
                     $content .= "\n[userFunc = user_mask_contentType(CType|mask_" . $element["key"] . ")]\n";
@@ -159,14 +160,15 @@ module.tx_mask {
 }
 ';
         // Load setup.ts Template
-        $template = file_get_contents(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mask') . "Resources/Private/Mask/setup.ts", true);
+        $template = file_get_contents(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mask') . "Resources/Private/Mask/setup.ts",
+            true);
         // Fill setup.ts:
         if ($configuration["tt_content"]["elements"]) {
             foreach ($configuration["tt_content"]["elements"] as $element) {
                 if (!$element["hidden"]) {
                     $temp = str_replace("###KEY###", $element["key"], $template);
                     $temp = str_replace("###PATH###", $settings['content'] . $element["key"] . '.html', $temp);
-                    $setupContent.= $temp;
+                    $setupContent .= $temp;
                 }
             }
         }

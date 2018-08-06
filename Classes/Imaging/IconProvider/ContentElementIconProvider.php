@@ -74,7 +74,8 @@ class ContentElementIconProvider implements IconProviderInterface
     {
         // error checking
         if (empty($options['contentElementKey'])) {
-            throw new \InvalidArgumentException('The option "contentElementKey" is required and must not be empty', 1440754978);
+            throw new \InvalidArgumentException('The option "contentElementKey" is required and must not be empty',
+                1440754978);
         }
         $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
         $this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
@@ -107,19 +108,24 @@ class ContentElementIconProvider implements IconProviderInterface
                 $styles[] = "color: #" . $color;
             }
             if (count($styles)) {
-                $markup = '<span class="icon-unify" style="' . implode("; ", $styles) . '"><i class="fa fa-' . htmlspecialchars($this->getFontAwesomeKey($this->contentElement)) . '"></i></span>';
+                $markup = '<span class="icon-unify" style="' . implode("; ",
+                        $styles) . '"><i class="fa fa-' . htmlspecialchars($this->getFontAwesomeKey($this->contentElement)) . '"></i></span>';
             } else {
                 $markup = '<span class="icon-unify" ><i class="fa fa-' . htmlspecialchars($this->getFontAwesomeKey($this->contentElement)) . '"></i></span>';
             }
-        } else if ($previewIconAvailable) {
-            $markup = '<img src="' . PathUtility::getAbsoluteWebPath(PATH_site . ltrim($this->getPreviewIconPath($options['contentElementKey']), '/')) . '" alt="' . $this->contentElement["label"] . '" title="' . $this->contentElement["label"] . '"/>';
         } else {
-            $color = $this->getColor($this->contentElement);
-            if ($color) {
-                $styles[] = "background-color: #" . $color;
+            if ($previewIconAvailable) {
+                $markup = '<img src="' . PathUtility::getAbsoluteWebPath(PATH_site . ltrim($this->getPreviewIconPath($options['contentElementKey']),
+                            '/')) . '" alt="' . $this->contentElement["label"] . '" title="' . $this->contentElement["label"] . '"/>';
+            } else {
+                $color = $this->getColor($this->contentElement);
+                if ($color) {
+                    $styles[] = "background-color: #" . $color;
+                }
+                $styles[] = "color: #fff";
+                $markup = '<span class="icon-unify mask-default-icon" style="' . implode("; ",
+                        $styles) . '">' . substr($this->contentElement["label"], 0, 1) . '</span>';
             }
-            $styles[] = "color: #fff";
-            $markup = '<span class="icon-unify mask-default-icon" style="' . implode("; ", $styles) . '">' . substr($this->contentElement["label"], 0, 1) . '</span>';
         }
 
         return $markup;

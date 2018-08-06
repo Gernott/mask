@@ -54,7 +54,8 @@ class ColPosList extends AbstractList
             // and if other itemsProcFunc from other extension was available (e.g. gridelements),
             // then call it now and let it render the items
             if (!empty($params["config"]["m_itemsProcFunc"])) {
-                \TYPO3\CMS\Core\Utility\GeneralUtility::callUserFunction($params["config"]["m_itemsProcFunc"], $params, $this);
+                \TYPO3\CMS\Core\Utility\GeneralUtility::callUserFunction($params["config"]["m_itemsProcFunc"], $params,
+                    $this);
             }
         }
     }
