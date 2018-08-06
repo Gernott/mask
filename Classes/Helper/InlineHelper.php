@@ -12,7 +12,7 @@ namespace MASK\Mask\Helper;
  *  This script is part of the TYPO3 project. The TYPO3 project is
  *  free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
+ *  the Free Software Foundation; either version 2 of the License, or
  *  (at your option) any later version.
  *
  *  The GNU General Public License can be found at
@@ -25,6 +25,9 @@ namespace MASK\Mask\Helper;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
+
+use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Methods for working with inline fields (IRRE)
@@ -42,12 +45,21 @@ class InlineHelper
     protected $storageRepository;
 
     /**
+     * BackendLayoutRepository
+     *
+     * @var \MASK\Mask\Domain\Repository\BackendLayoutRepository
+     * @inject
+     */
+    protected $backendLayoutRepository;
+
+
+    /**
      * @param \MASK\Mask\Domain\Repository\StorageRepository $storageRepository
      */
     public function __construct(\MASK\Mask\Domain\Repository\StorageRepository $storageRepository = null)
     {
         if (!$storageRepository) {
-            $this->storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
+            $this->storageRepository = GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
         } else {
             $this->storageRepository = $storageRepository;
         }
@@ -57,7 +69,7 @@ class InlineHelper
      * Adds FAL-Files to the data-array if available
      *
      * @param array $data
-     * @param array $table
+     * @param string $table
      * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function addFilesToData(&$data, $table = "tt_content")
@@ -67,15 +79,15 @@ class InlineHelper
         } else {
             $uid = $data["uid"];
         }
-        
+
         // using is_numeric in favor to is_int
         // due to some rare cases where uids are provided as strings
-        if(!is_numeric($uid)) {
+        if (!is_numeric($uid)) {
             return;
         }
 
-        $fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
-        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+        $fieldHelper = GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
+        $objectManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
 
         $storage = $this->storageRepository->load();
         /* @var $fileRepository \TYPO3\CMS\Core\Resource\FileRepository */
@@ -99,26 +111,72 @@ class InlineHelper
      * Adds FAL-Files to the data-array if available
      *
      * @param array $data
-     * @param array $table
+     * @param string $table
+     * @param string $cType
      * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function addIrreToData(&$data, $table = "tt_content", $cType = "")
     {
+
         if ($cType == "") {
             $cType = $data["CType"];
         }
-        $fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
-        $storage = $this->storageRepository->load();
-        $contentFields = $storage[$table]["tca"];
 
-        if ($contentFields) {
-            foreach ($contentFields as $fieldname => $field) {
-                if ($fieldHelper->getFormType($field["key"], $cType, $table) == "Inline") {
-                    $elements = $this->getInlineElements($data, $fieldname, $cType, "parentid", $table);
-                    $data[$fieldname] = $elements;
-                } elseif ($fieldHelper->getFormType($field["key"], $cType, $table) == "Content") {
-                    $elements = $this->getInlineElements($data, $fieldname, $cType, $fieldname . "_parent", "tt_content", "tt_content");
-                    $data[$fieldname] = $elements;
+        $fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
+        $storage = $this->storageRepository->load();
+        $elementFields = [];
+
+        // if the table is tt_content, load the element and all its columns
+        if ($table == "tt_content") {
+            $element = $this->storageRepository->loadElement($table, str_replace("mask_", "", $cType));
+            $elementFields = $element["columns"];
+        } elseif ($table == "pages") {
+            // if the table is pages, then load the pid
+            if (isset($data['uid'])) {
+
+                // find the backendlayout by the pid
+                $backendLayoutIdentifier = $this->backendLayoutRepository->findIdentifierByPid($data['uid']);
+
+                // if a backendlayout was found, then load its elements
+                if ($backendLayoutIdentifier) {
+                    $element = $this->storageRepository->loadElement(
+                        $table,
+                        str_replace('pagets__', '', $backendLayoutIdentifier)
+                    );
+                    $elementFields = $element["columns"];
+                } else {
+
+                    // if no backendlayout was found, just load all fields, if there are fields
+                    if (isset($storage[$table]['tca'])) {
+                        $elementFields = array_keys($storage[$table]['tca']);
+                    }
+
+                }
+            }
+        } elseif (isset($storage[$table])) {
+            // otherwise check if its a table at all, if yes load all fields
+            $elementFields = array_keys($storage[$table]['tca']);
+        }
+
+        // if the element has columns
+        if ($elementFields) {
+
+            // check foreach column
+            foreach ($elementFields as $field) {
+
+                $fieldKeyPrefix = $field;
+                $fieldKey = str_replace("tx_mask_", "", $field);
+                $type = $fieldHelper->getFormType($fieldKey, $cType, $table);
+
+                // if it is of type inline and has to be filled (IRRE, FAL)
+                if ($type == "Inline") {
+                    $elements = $this->getInlineElements($data, $fieldKeyPrefix, $cType, "parentid", $table);
+                    $data[$fieldKeyPrefix] = $elements;
+                    // or if it is of type Content (Nested Content) and has to be filled
+                } elseif ($type == "Content") {
+                    $elements = $this->getInlineElements($data, $fieldKeyPrefix, $cType, $fieldKeyPrefix . "_parent",
+                        "tt_content", "tt_content");
+                    $data[$fieldKeyPrefix] = $elements;
                 }
             }
         }
@@ -127,7 +185,7 @@ class InlineHelper
     /**
      * Returns Inline-Elements of Data-Object
      *
-     * @param object $data the parent object
+     * @param array $data the parent object
      * @param string $name The name of the irre attribut
      * @param string $cType The name of the irre attribut
      * @param string $parentid The name of the irre parentid
@@ -136,19 +194,25 @@ class InlineHelper
      * @return array all irre elements of this attribut
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    public function getInlineElements($data, $name, $cType, $parentid = "parentid", $parenttable = "tt_content", $childTable = null)
-    {
+    public function getInlineElements(
+        $data,
+        $name,
+        $cType,
+        $parentid = "parentid",
+        $parenttable = "tt_content",
+        $childTable = null
+    ) {
         // if the name of the child table is not explicitely given, take field key
         if (!$childTable) {
             $childTable = $name;
         }
-        
+
         // If this method is called in backend, there is no $GLOBALS['TSFE']
-        if (isset($GLOBALS['TSFE']->sys_language_uid)) {
+        if (TYPO3_MODE == 'FE' && isset($GLOBALS['TSFE']->sys_language_uid)) {
             $sysLangUid = $GLOBALS['TSFE']->sys_language_uid;
             $enableFields = $GLOBALS['TSFE']->cObj->enableFields($childTable);
         } else {
-            $sysLangUid = 0;
+            $sysLangUid = $data['sys_language_uid'];
             $enableFields = " AND " . $childTable . ".deleted = 0";
         }
 
@@ -169,8 +233,10 @@ class InlineHelper
              * elements and the field _LOCALIZED_UID is available, then use this field
              * Otherwise we have problems with gridelements and translation
              */
-        } else if ($parenttable == "tt_content" && $GLOBALS['TSFE']->sys_language_uid != 0 && $data["_LOCALIZED_UID"] != "") {
-            $parentUid = $data["_LOCALIZED_UID"];
+        } else {
+            if ($parenttable == "tt_content" && $GLOBALS['TSFE']->sys_language_uid != 0 && $data["_LOCALIZED_UID"] != "") {
+                $parentUid = $data["_LOCALIZED_UID"];
+            }
         }
 
         // fetching the inline elements
@@ -178,6 +244,11 @@ class InlineHelper
             $sql = $GLOBALS["TYPO3_DB"]->exec_SELECTquery(
                 "*", $childTable, $parentid . " = '" . $parentUid .
                 "' AND sys_language_uid IN (-1," . $sysLangUid . ")"
+                . ' AND ('
+                . $childTable . '.t3ver_wsid=0 OR '
+                . $childTable . '.t3ver_wsid=' . (int)$GLOBALS['BE_USER']->workspace
+                . ' AND ' . $childTable . '.pid<>-1'
+                . ')'
                 . $enableFields, "", "sorting"
             );
         } else {
@@ -185,15 +256,28 @@ class InlineHelper
                 "*", $childTable, $parentid . " = '" . $parentUid .
                 "' AND parenttable = '" . $parenttable .
                 "' AND sys_language_uid IN (-1," . $sysLangUid . ")"
+                . ' AND ('
+                . $childTable . '.t3ver_wsid=0 OR '
+                . $childTable . '.t3ver_wsid=' . (int)$GLOBALS['BE_USER']->workspace
+                . ' AND ' . $childTable . '.pid<>-1'
+                . ')'
                 . $enableFields, "", "sorting"
             );
         }
 
         // and recursively add them to an array
+        $elements = array();
         while ($element = $GLOBALS["TYPO3_DB"]->sql_fetch_assoc($sql)) {
-            $this->addIrreToData($element, $name, $cType);
-            $this->addFilesToData($element, $name);
-            $elements[] = $element;
+            if (TYPO3_MODE == 'FE') {
+                $GLOBALS['TSFE']->sys_page->versionOL($childTable, $element);
+            } else {
+                $element = BackendUtility::getRecordWSOL($childTable, $element['uid']);
+            }
+            if ($element && empty($elements[$element['uid']])) {
+                $this->addIrreToData($element, $name, $cType);
+                $this->addFilesToData($element, $name);
+                $elements[$element['uid']] = $element;
+            }
         }
 
         return $elements;

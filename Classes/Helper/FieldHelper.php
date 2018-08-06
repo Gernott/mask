@@ -12,7 +12,7 @@ namespace MASK\Mask\Helper;
  *  This script is part of the TYPO3 project. The TYPO3 project is
  *  free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
+ *  the Free Software Foundation; either version 2 of the License, or
  *  (at your option) any later version.
  *
  *  The GNU General Public License can be found at
@@ -44,7 +44,7 @@ class FieldHelper
     /**
      * @param \MASK\Mask\Domain\Repository\StorageRepository $storageRepository
      */
-    public function __construct(\MASK\Mask\Domain\Repository\StorageRepository $storageRepository = NULL)
+    public function __construct(\MASK\Mask\Domain\Repository\StorageRepository $storageRepository = null)
     {
         if (!$storageRepository) {
             $this->storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
@@ -93,7 +93,7 @@ class FieldHelper
     {
         $storage = $this->storageRepository->load();
         $fieldIndex = -1;
-        if (count($storage[$type]["elements"][$elementKey]["columns"]) > 0) {
+        if ($storage[$type]["elements"][$elementKey]["columns"] && count($storage[$type]["elements"][$elementKey]["columns"]) > 0) {
             foreach ($storage[$type]["elements"][$elementKey]["columns"] as $index => $column) {
                 if ($column == $fieldKey) {
                     $fieldIndex = $index;
@@ -154,19 +154,25 @@ class FieldHelper
         switch ($tcaType) {
             case "input":
                 $formType = "String";
-                if (array_search(strtolower("int"), $evals) !== FALSE) {
+                if (array_search(strtolower("int"), $evals) !== false) {
                     $formType = "Integer";
-                } else if (array_search(strtolower("double2"), $evals) !== FALSE) {
-                    $formType = "Float";
-                } else if (array_search(strtolower("date"), $evals) !== FALSE) {
-                    $formType = "Date";
-                } else if (array_search(strtolower("datetime"), $evals) !== FALSE) {
-                    $formType = "Datetime";
                 } else {
-                    if (is_array($tca["config"]["wizards"]["link"])) {
-                        $formType = "Link";
+                    if (array_search(strtolower("double2"), $evals) !== false) {
+                        $formType = "Float";
                     } else {
-                        $formType = "String";
+                        if (array_search(strtolower("date"), $evals) !== false) {
+                            $formType = "Date";
+                        } else {
+                            if (array_search(strtolower("datetime"), $evals) !== false) {
+                                $formType = "Datetime";
+                            } else {
+                                if (isset($tca["config"]["renderType"]) && $tca["config"]["renderType"] === "inputLink") {
+                                    $formType = "Link";
+                                } else {
+                                    $formType = "String";
+                                }
+                            }
+                        }
                     }
                 }
                 break;
@@ -225,10 +231,12 @@ class FieldHelper
                 $formType = "Inline";
                 if ($tca["config"]["foreign_table"] == "sys_file_reference") {
                     $formType = "File";
-                } else if($tca["config"]["foreign_table"] == "tt_content") {
-                    $formType = "Content";
                 } else {
-                    $formType = "Inline";
+                    if ($tca["config"]["foreign_table"] == "tt_content") {
+                        $formType = "Content";
+                    } else {
+                        $formType = "Inline";
+                    }
                 }
                 break;
             case "tab":
@@ -264,7 +272,7 @@ class FieldHelper
         $types = array_unique($types);
 
         $fieldType = "";
-        $found = FALSE;
+        $found = false;
         foreach ($types as $type) {
             if ($storage[$type]["elements"] && !$found) {
                 foreach ($storage[$type]["elements"] as $element) {
@@ -276,16 +284,52 @@ class FieldHelper
                         foreach ($element["columns"] as $column) {
                             if ($column == $fieldKey && !$found) {
                                 $fieldType = $type;
-                                $found = TRUE;
+                                $found = true;
                             }
                         }
                     }
                 }
-            } else if (is_array($storage[$type]["tca"][$fieldKey])) {
-                $fieldType = $type;
-                $found = TRUE;
+            } else {
+                if (is_array($storage[$type]["tca"][$fieldKey])) {
+                    $fieldType = $type;
+                    $found = true;
+                }
             }
         }
         return $fieldType;
+    }
+
+    /**
+     * Returns all fields of a type from a table
+     *
+     * @param string $key TCA Type
+     * @param string $type elementtype
+     * @return array fields
+     */
+    public function getFieldsByType($key, $type)
+    {
+        $storage = $this->storageRepository->load();
+        if (empty($storage[$type]) || empty($storage[$type]['tca'])) {
+            return [];
+        }
+
+        $fields = [];
+        foreach ($storage[$type]['tca'] as $field => $config) {
+            if ($config['config']['type'] !== strtolower($key)) {
+                continue;
+            }
+
+            $elements = $this->getElementsWhichUseField($field, $type);
+            if (empty($elements)) {
+                continue;
+            }
+
+            $fields[] = [
+                'field' => $field,
+                'label' => $this->getLabel($elements[0]['key'], $field, $type),
+            ];
+        }
+
+        return $fields;
     }
 }

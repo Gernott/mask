@@ -11,6 +11,7 @@
 To-Do list
 ==========
 
-If you are interested in our TODO-List, look into TYPO3-Forge:
-https://forge.typo3.org/projects/extension-mask
-Here you find an overview about bugs and featurewishes.
+If you are interested in the current TODO-List, look into the issues on GitHub and the community's wishlist:
+
+* https://github.com/Gernott/mask/issues/
+* https://mask.webprofil.at/featurelist/overview/

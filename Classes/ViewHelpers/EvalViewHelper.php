@@ -6,7 +6,7 @@ namespace MASK\Mask\ViewHelpers;
  *
  * @package TYPO3
  * @subpackage mask
- * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
+ * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
  * @author Benjamin Butschell bb@webprofil.at>
  *
  */
@@ -39,7 +39,7 @@ class EvalViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
      * @return boolean $evalValue is set
      * @author Benjamin Butschell bb@webprofil.at>
      */
-    public function render($fieldKey, $elementKey, $evalValue, $field = NULL)
+    public function render($fieldKey, $elementKey, $evalValue, $field = null)
     {
         $this->generalUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Utility\\GeneralUtility');
         $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');

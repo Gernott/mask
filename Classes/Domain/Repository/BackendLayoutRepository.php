@@ -27,6 +27,9 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Page\PageRepository;
+
 /**
  * Repository for \TYPO3\CMS\Extbase\Domain\Model\BackendLayout.
  *
@@ -35,68 +38,107 @@
 class BackendLayoutRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
 
-   /**
-	* @var MASK\Mask\Backend\BackendLayoutView
-	*/
-   protected $backendLayoutView;
+    /**
+     * @var MASK\Mask\Backend\BackendLayoutView
+     */
+    protected $backendLayoutView;
 
-   /**
-	* Initializes the repository.
-	*
-	* @return void
-	*/
-   public function initializeObject()
-   {
-	  /** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings */
-	  $querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
-	  $querySettings->setRespectStoragePage(FALSE);
-	  $this->setDefaultQuerySettings($querySettings);
-	  $this->backendLayoutView = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\Backend\BackendLayoutView::class);
-   }
+    /**
+     * Initializes the repository.
+     *
+     * @return void
+     */
+    public function initializeObject()
+    {
+        /** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings */
+        $querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
+        $querySettings->setRespectStoragePage(false);
+        $this->setDefaultQuerySettings($querySettings);
+        $this->backendLayoutView = GeneralUtility::makeInstance(\MASK\Mask\Backend\BackendLayoutView::class);
+    }
 
-   /**
-	* Returns all backendlayouts defined, database and pageTs
-	* @param array $pageTsPids
-	* @return array
-	*/
-   public function findAll($pageTsPids = array())
-   {
-	  $backendLayouts = array();
+    /**
+     * Returns all backendlayouts defined, database and pageTs
+     * @param array $pageTsPids
+     * @return array
+     */
+    public function findAll($pageTsPids = array())
+    {
+        $backendLayouts = array();
 
-	  // search all the pids for backend layouts defined in the pageTS
-	  foreach ($pageTsPids as $pid) {
-		 $pageTsConfig = (array) \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig($pid);
-		 $dataProviderContext = $this->backendLayoutView->createDataProviderContext()->setPageTsConfig($pageTsConfig);
-		 $backendLayoutCollections = $this->backendLayoutView->getDataProviderCollection()->getBackendLayoutCollections($dataProviderContext);
-		 foreach ($backendLayoutCollections["default"]->getAll() as $backendLayout) {
-			$backendLayouts[$backendLayout->getIdentifier()] = $backendLayout;
-		 }
-		 foreach ($backendLayoutCollections["pagets"]->getAll() as $backendLayout) {
-			$backendLayouts[$backendLayout->getIdentifier()] = $backendLayout;
-		 }
-	  }
+        // search all the pids for backend layouts defined in the pageTS
+        foreach ($pageTsPids as $pid) {
+            $pageTsConfig = (array)\TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig($pid);
+            $dataProviderContext = $this->backendLayoutView->createDataProviderContext()->setPageTsConfig($pageTsConfig);
+            $backendLayoutCollections = $this->backendLayoutView->getDataProviderCollection()->getBackendLayoutCollections($dataProviderContext);
+            foreach ($backendLayoutCollections["default"]->getAll() as $backendLayout) {
+                $backendLayouts[$backendLayout->getIdentifier()] = $backendLayout;
+            }
+            foreach ($backendLayoutCollections["pagets"]->getAll() as $backendLayout) {
+                $backendLayouts[$backendLayout->getIdentifier()] = $backendLayout;
+            }
+        }
 
-	  // also search in the database for backendlayouts
-	  $databaseBackendLayouts = parent::findAll();
-	  foreach ($databaseBackendLayouts as $layout) {
-		 $backendLayout = new \TYPO3\CMS\Backend\View\BackendLayout\BackendLayout($layout->getUid(), $layout->getTitle(), "");
-		 $backendLayouts[$backendLayout->getIdentifier()] = $backendLayout;
-	  }
-	  return $backendLayouts;
-   }
+        // also search in the database for backendlayouts
+        $databaseBackendLayouts = parent::findAll();
+        foreach ($databaseBackendLayouts as $layout) {
+            $backendLayout = new \TYPO3\CMS\Backend\View\BackendLayout\BackendLayout($layout->getUid(),
+                $layout->getTitle(), "");
+            if ($layout->getIcon()) {
+                $backendLayout->setIconPath('/uploads/media/' . $layout->getIcon());
+            }
+            $backendLayout->setDescription($layout->getDescription());
+            $backendLayouts[$backendLayout->getIdentifier()] = $backendLayout;
+        }
+        return $backendLayouts;
+    }
 
-   /**
-	* Returns a backendlayout or null, if non found
-	*
-	* @return \TYPO3\CMS\Backend\View\BackendLayout\BackendLayout
-	*/
-   public function findByIdentifier($identifier)
-   {
-	  $backendLayouts = $this->findAll();
-	  if (isset($backendLayouts[$identifier])) {
-		 return $backendLayouts[$identifier];
-	  } else {
-		 return null;
-	  }
-   }
+
+    /**
+     * @param $pid
+     * @return bool
+     * @throws \Exception
+     */
+    public function findIdentifierByPid($pid)
+    {
+        $sql = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+            "backend_layout, backend_layout_next_level", "pages", "uid = " . $pid
+        );
+        $data = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($sql);
+        $backend_layout = $data["backend_layout"];
+        $backend_layout_next_level = $data["backend_layout_next_level"];
+        if ($backend_layout !== "") { // If backend_layout is set on current page
+            return $backend_layout;
+        } elseif ($backend_layout_next_level !== "") { // If backend_layout_next_level is set on current page
+            return $backend_layout_next_level;
+        } else { // If backend_layout and backend_layout_next_level is not set on current page, check backend_layout_next_level on rootline
+            $sysPage = GeneralUtility::makeInstance(PageRepository::class);
+            $rootline = $sysPage->getRootLine($pid, '', true);
+            foreach ($rootline as $page) {
+                if ($page["backend_layout_next_level"] !== "") {
+                    return $page["backend_layout_next_level"];
+                }
+            }
+        }
+        return null;
+    }
+
+
+    /**
+     * Returns a backendlayout or null, if non found
+     *
+     * @param $identifier
+     * @param array $pageTsPids
+     * @return \TYPO3\CMS\Backend\View\BackendLayout\BackendLayout
+     */
+    public function findByIdentifier($identifier, $pageTsPids = array())
+    {
+        $backendLayouts = $this->findAll($pageTsPids);
+        if (isset($backendLayouts[$identifier])) {
+            return $backendLayouts[$identifier];
+        } else {
+            return null;
+        }
+    }
+
 }

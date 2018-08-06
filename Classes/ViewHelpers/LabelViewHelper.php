@@ -6,7 +6,7 @@ namespace MASK\Mask\ViewHelpers;
  *
  * @package TYPO3
  * @subpackage mask
- * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
+ * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
  * @author Benjamin Butschell bb@webprofil.at>
  *
  */
@@ -31,7 +31,7 @@ class LabelViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
      * @return string Label
      * @author Benjamin Butschell bb@webprofil.at>
      */
-    public function render($elementKey, $fieldKey, $field = NULL, $table = NULL)
+    public function render($elementKey, $fieldKey, $field = null, $table = null)
     {
         $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
         // if we have the whole field configuration

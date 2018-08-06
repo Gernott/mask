@@ -12,7 +12,7 @@ namespace MASK\Mask\Controller;
  *  This script is part of the TYPO3 project. The TYPO3 project is
  *  free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
+ *  the Free Software Foundation; either version 2 of the License, or
  *  (at your option) any later version.
  *
  *  The GNU General Public License can be found at
@@ -30,7 +30,7 @@ namespace MASK\Mask\Controller;
  *
  *
  * @package mask
- * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
+ * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
  *
  */
 class WizardContentController extends \MASK\Mask\Controller\WizardController
@@ -60,9 +60,9 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
     public function listAction()
     {
         $messages = $this->checkFolders();
-        $missingFolders = FALSE;
+        $missingFolders = false;
         if (count($messages) > 0) {
-            $missingFolders = TRUE;
+            $missingFolders = true;
         }
         $this->view->assign('messages', $messages);
         $this->view->assign('missingFolders', $missingFolders);
@@ -92,9 +92,10 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
     {
         $this->storageRepository->add($storage);
         $this->generateAction();
-        $html = $this->htmlCodeGenerator->generateHtml($storage["elements"]["key"]);
+        $html = $this->htmlCodeGenerator->generateHtml($storage["elements"]["key"], 'tt_content');
         $this->saveHtml($storage["elements"]["key"], $html);
-        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.newcontentelement', 'mask'));
+        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.newcontentelement',
+            'mask'));
         $this->redirectByAction();
     }
 
@@ -125,9 +126,10 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
     {
         $this->storageRepository->update($storage);
         $this->generateAction();
-        $html = $this->htmlCodeGenerator->generateHtml($storage["elements"]["key"]);
+        $html = $this->htmlCodeGenerator->generateHtml($storage["elements"]["key"], 'tt_content');
         $this->saveHtml($storage["elements"]["key"], $html);
-        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.updatedcontentelement', 'mask'));
+        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.updatedcontentelement',
+            'mask'));
         $this->redirectByAction();
     }
 
@@ -142,7 +144,8 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
     {
         $this->storageRepository->remove($type, $key);
         $this->generateAction();
-        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.deletedcontentelement', 'mask'));
+        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.deletedcontentelement',
+            'mask'));
         $this->redirect('list');
     }
 
@@ -158,7 +161,8 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
         $this->deleteHtml($key);
         $this->storageRepository->remove($type, $key);
         $this->generateAction();
-        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.deletedcontentelement', 'mask'));
+        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.deletedcontentelement',
+            'mask'));
         $this->redirect('list');
     }
 
@@ -172,7 +176,8 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
     {
         $this->storageRepository->hide("tt_content", $key);
         $this->generateAction();
-        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.hiddencontentelement', 'mask'));
+        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.hiddencontentelement',
+            'mask'));
         $this->redirect('list');
     }
 
@@ -186,7 +191,8 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
     {
         $this->storageRepository->activate("tt_content", $key);
         $this->generateAction();
-        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.activatedcontentelement', 'mask'));
+        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.activatedcontentelement',
+            'mask'));
         $this->redirect('list');
     }
 
@@ -206,4 +212,18 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
             unlink(PATH_site . $this->extSettings["backend"] . $key . ".html");
         }
     }
+
+    /**
+     * Create single Fluid html
+     *
+     * @param string $key
+     * @author Gernot Ploiner <gp@webprofil.at>
+     */
+    protected function createHtmlAction($key)
+    {
+        $html = $this->htmlCodeGenerator->generateHtml($key, 'tt_content');
+        $this->saveHtml($key, $html);
+        $this->redirect('list');
+    }
+
 }

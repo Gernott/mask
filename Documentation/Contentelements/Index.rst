@@ -54,8 +54,8 @@ In the extensionmanager you find the setting **Folder for Backend Preview Templa
 
 	Default output and fitted preview
 
-Use fontawesome icons as previewimage
---------------------------------------
+Use fontawesome icons as previewimage for a contentelement
+----------------------------------------------------------
 
 If you quickly need a preview icon for your contentelement and don't want to make a graphic, just choose a fontawesome iconcode and choose a colour:
 
@@ -65,3 +65,8 @@ If you quickly need a preview icon for your contentelement and don't want to mak
 	Put the code into the mask wizard
 
 Here you find an overview about all possible icons and their codes: https://fortawesome.github.io/Font-Awesome/icons/
+
+Use a png file as previewimage for a contentelement
+---------------------------------------------------
+
+You can use a 32x32 pixel sized png graphic file as preview image for a content element. It is shown in the new contentelement wizard. Simply name the file with the key from the contentelement (e.g.: mykey.png or contact.png) and upload it to the specified folder in the extension manager settings of mask.

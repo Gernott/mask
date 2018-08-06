@@ -9,7 +9,7 @@ namespace MASK\Mask\ViewHelpers;
  *
  * @package TYPO3
  * @subpackage mask
- * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
+ * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
  *
  */
 class LinkViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
@@ -51,7 +51,8 @@ class LinkViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
         if (!file_exists(PATH_site . $url) || !is_file(PATH_site . $url)) {
             $content = '<div class="typo3-message message-error"><strong>' .
                 \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.error', 'mask') .
-                '</strong> ' . \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.htmlmissing', 'mask') .
+                '</strong> ' . \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.htmlmissing',
+                    'mask') .
                 ': <span style="text-decoration:underline;">' . $url .
                 '</span></div>';
         }

@@ -1,43 +1,35 @@
-<img src="https://forge.typo3.org/headerimages/3021.jpg" width="100%" />
+![Page and Content masks for TYPO3](Documentation/Images/mask_banner.jpg)
 
-mask
-======================
+# mask
 
-Create your own content elements and page templates. Easy to use, even without programming skills because of the comfortable drag&drop system. Stored in structured database tables.
+Create your own content elements and page templates. Easy to use, even without programming skills because of the comfortable drag and drop user interface. All content is stored in structured database tables.
 
-##What does it do?
+## What does it do?
 
-Mask is a TYPO3-extension for creating contentelements and extending pagetemplates. It's possible to add new fields to any element. Fields can have several types, for example: text, file, relations, richtext, ...
+Mask is a TYPO3 extension for creating content elements and extending page templates. It’s possible to add new fields to any element. Fields can have several types, for example: text, file, relations, rich text, ...
 
-##Advantages of Mask
+## Advantages of Mask
 
-* Mask stores the content in columns in databasetables - not in XML (Flexform)
-* Mask reuses existing database-fields to conserve the database
-* Mask works only with existing features of the TYPO3-core: backend_layouts, fluid, typoscript
-* Mask allows repeating content with IRRE-technology
-* Mask supports multilanguage projects and resolves some language-bugs of TYPO3
+* Mask stores the content in columns in database tables – not as XML (Flexform)
+* Mask reuses existing database fields to conserve the database
+* Mask works only with existing features of the TYPO3 core: backend layouts, Fluid, TypoScript
+* Mask allows repeating content with IRRE technology
+* Mask supports multi language projects and resolves some language bugs of TYPO3
 * Mask supports workspaces and versioning
 * Mask is written in Extbase, the modern way to create extensions
 
-Installation
-------------
+## Need help?
 
-To install the extension, perform the following steps:
+* Read how to install, configure and use mask in the [official documentation](https://docs.typo3.org/typo3cms/extensions/mask/)
+* [Visit our website](http://mask.webprofil.at) to find more information about mask.
 
-1. Import and install the Extension in the TYPO3-Backend in Module **Extensionmanager**.
+## Found a bug?
+* first check out the master branch and verify that the issue is not yet solved
+* have a look at the existing [issues](https://github.com/Gernott/mask/issues/), to prevent duplicates
+* if not found, report the bug in our [issue tracker](https://github.com/Gernott/mask/issues/new/)
 
-2. Include static template **Mask** in Module **Template** in your main TypoScript-Template.
-
-3. After installation, check the extension-settings:
-
-  * File with project-specific mask configuration [basic.json]:
-  Mask stores the information, which is needed to generate contentelements and extend pagetemplates, into one file: mask.json. With this setting you can change the path to this file. (Default: _typo3conf/mask.json_)
-
-  * Folder for Content Fluid Templates (with ending slash) [basic.content]:
-  Mask generates a html-file with fluid-tags for each new contentelement. Here you can set the folder of this file. (Default: _fileadmin/templates/content/_)
-
-  * Folder for preview-images (with ending slash) [basic.preview]:
-  Mask takes a copy of the Mask-logo as preview-image for each new contentelement. Yes, afterwards you should change this image to your prefered preview-image or icon. Here you can set the path to the preview-images. (Default: _fileadmin/templates/preview/_)
-
-  * Folder for backend fluid templates (with ending slash) [basic.backend]:
- With mask you can style the backend preview of your content elements. Here you can set the path to your backend fluid templates. (Default: _fileadmin/templates/backend/_)
+## Like a new feature?
+* have a look at our [wishlist](http://mask.webprofil.at/featurelist/overview/)
+* if your idea is not listed here, get in [contact](http://mask.webprofil.at/imprint/) with us
+* if you want to sponsor a feature, get in [contact](http://mask.webprofil.at/imprint/) with us
+* if you want to develop a feature, get in [contact](http://mask.webprofil.at/imprint/) to plan a strategy

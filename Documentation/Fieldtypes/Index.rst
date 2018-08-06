@@ -1,4 +1,4 @@
-﻿.. ==================================================
+.. ==================================================
 .. FOR YOUR INFORMATION
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
@@ -145,6 +145,14 @@ Content
 ---------
 Allow users to add content elements to the content element. This way editors can nest the content elements and can for instance build an accordion in a comfortable way.
 Or if you want to create a media section, where only images, videos and audio elements are allowed, you can allow editors to only add the content elements that fit this requirement.
+
+If you use a Backend Preview for your contentelement, you can add a ViewHelper to show an edit-icon for every child-element:
+::
+
+    {namespace mask=MASK\Mask\ViewHelpers}
+    <f:for each="{data.tx_mask_mycontent}" as="data_item">
+      <mask:editLink element="{data_item}"><img src="/typo3/sysext/core/Resources/Public/Icons/T3Icons/actions/actions-open.svg" width="16" height="16"> Edit element</mask:editLink><br />
+    </f:for>
 
 Tab
 ---------

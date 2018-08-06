@@ -2,6 +2,8 @@
 
 namespace MASK\Mask\ViewHelpers;
 
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+
 /**
  * ViewHelper for rendering any content element
  * @author Paul Beck
@@ -11,13 +13,15 @@ namespace MASK\Mask\ViewHelpers;
 class ContentViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
 
+    protected $escapeOutput = false;
+
     /**
      * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
      */
     protected $configurationManager;
 
     /**
-     * @var Content Object
+     * @var ContentObjectRenderer Object
      */
     protected $cObj;
 
@@ -34,7 +38,7 @@ class ContentViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
             'source' => $uid,
             'dontCheckPid' => 1
         );
-        return $this->cObj->RECORDS($conf);
+        return $this->cObj->cObjGetSingle('RECORDS', $conf);
     }
 
     /**
@@ -43,8 +47,9 @@ class ContentViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
      * @param \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager
      * @return void
      */
-    public function injectConfigurationManager(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager)
-    {
+    public function injectConfigurationManager(
+        \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager
+    ) {
         $this->configurationManager = $configurationManager;
         $this->cObj = $this->configurationManager->getContentObject();
     }

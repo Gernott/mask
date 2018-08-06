@@ -12,7 +12,7 @@ namespace MASK\Mask\Utility;
  *  This script is part of the TYPO3 project. The TYPO3 project is
  *  free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
+ *  the Free Software Foundation; either version 2 of the License, or
  *  (at your option) any later version.
  *
  *  The GNU General Public License can be found at
@@ -44,7 +44,7 @@ class GeneralUtility
     /**
      * @param \MASK\Mask\Domain\Repository\StorageRepository $storageRepository
      */
-    public function __construct(\MASK\Mask\Domain\Repository\StorageRepository $storageRepository = NULL)
+    public function __construct(\MASK\Mask\Domain\Repository\StorageRepository $storageRepository = null)
     {
         if (!$storageRepository) {
             $this->storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
@@ -65,13 +65,13 @@ class GeneralUtility
     public function isEvalValueSet($fieldKey, $evalValue, $type = "tt_content")
     {
         $storage = $this->storageRepository->load();
-        $found = FALSE;
+        $found = false;
         if ($storage[$type]["tca"][$fieldKey]["config"]["eval"] != "") {
             $evals = explode(",", $storage[$type]["tca"][$fieldKey]["config"]["eval"]);
             foreach ($evals as $index => $eval) {
                 $evals[$index] = strtolower($eval);
             }
-            $found = array_search(strtolower($evalValue), $evals) !== FALSE;
+            $found = array_search(strtolower($evalValue), $evals) !== false;
         }
         return $found;
     }
@@ -158,10 +158,11 @@ class GeneralUtility
     public function isBlindLinkOptionSet($fieldKey, $evalValue, $type = "tt_content")
     {
         $storage = $this->storageRepository->load();
-        $found = FALSE;
+        $found = false;
         if ($storage[$type]["tca"][$fieldKey]["config"]["wizards"]["link"]["params"]["blindLinkOptions"] != "") {
-            $evals = explode(",", $storage[$type]["tca"][$fieldKey]["config"]["wizards"]["link"]["params"]["blindLinkOptions"]);
-            $found = array_search(strtolower($evalValue), $evals) !== FALSE;
+            $evals = explode(",",
+                $storage[$type]["tca"][$fieldKey]["config"]["wizards"]["link"]["params"]["blindLinkOptions"]);
+            $found = array_search(strtolower($evalValue), $evals) !== false;
         }
         return $found;
     }
@@ -195,7 +196,7 @@ class GeneralUtility
     {
         if (count($fields)) {
             $potentialFirst = $fields[0];
-            if (strpos($potentialFirst, "--div--") !== FALSE) {
+            if (strpos($potentialFirst, "--div--") !== false) {
                 unset($fields[0]);
                 return $this->getFirstNoneTabField($fields);
             } else {
@@ -217,7 +218,7 @@ class GeneralUtility
             if (is_array($value)) {
                 $haystack[$key] = $this->removeBlankOptions($haystack[$key]);
             }
-            if (empty($haystack[$key])) {
+            if ((is_array($haystack[$key]) && empty($haystack[$key])) || (is_string($haystack[$key]) && !strlen($haystack[$key]))) {
                 unset($haystack[$key]);
             }
         }

@@ -25,7 +25,7 @@ class BackendLayoutView extends \TYPO3\CMS\Backend\View\BackendLayoutView
     {
         return parent::createDataProviderContext();
     }
-    
+
     public function determinePageId($tableName, array $data)
     {
         parent::determinePageId($tableName, $data);

@@ -1,62 +1,74 @@
 {namespace mask=MASK\Mask\ViewHelpers}
 {namespace core = TYPO3\CMS\Core\ViewHelpers}
-<f:layout name="Default" />
+<f:layout name="Default"/>
 <f:section name="content">
-	<f:render partial="General/Tabs" arguments="{active: 'WizardContent'}" />
+	<f:render partial="General/Tabs" arguments="{active: 'WizardContent'}"/>
 
 	<div class="tab-content">
 		<div role="tabpanel" class="tab-pane active" id="DTM-mask-1">
 			<div class="form-section">
-				<f:flashMessages />
+				<f:flashMessages/>
 				<h1 style="margin-bottom: 10px;">{storage.label}</h1>
-				<f:render partial="Forms/General/FormErrors" />
+				<f:render partial="Forms/General/FormErrors"/>
 				<f:form action="update" name="storage" object="{storage}">
-					<f:render partial="WizardContent/Metadata" arguments="{storage:storage, editMode: 1, icons: icons}" />
+					<f:render partial="WizardContent/Metadata" arguments="{storage:storage, editMode: 1, icons: icons}"/>
 					<div class="row bench">
 						<div class="form-group col-sm-3 tx_mask_borderright tx_mask_tabcell1">
 							<ul class="tx_mask_fieldtypes" id="dragstart">
 								<f:render partial="Forms/General/FormTypeButtons"/>
 							</ul>
 							<div>
-								<f:render partial="General/Controls" />
+								<f:render partial="General/Controls"/>
 							</div>
 						</div>
 						<div class="form-group col-sm-3 tx_mask_borderright tx_mask_tabcell2">
 							<ul class="tx_mask_fieldtypes dragtarget">
 								<f:for each="{storage.tca}" as="field" key="key">
-									<li data-type="{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')}" class="id_{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')} tx_mask_btn" data-fieldtype="{f:if(condition: '{mask:substr(string: key, search: \'tx_mask\', from: 0, length: 7)}', then: 'mask', else:'existing')}">
+									<li data-type="{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')}"
+											class="id_{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')} tx_mask_btn"
+											data-fieldtype="{f:if(condition: '{mask:substr(string: key, search: \'tx_mask\', from: 0, length: 7)}', then: 'mask', else:'existing')}">
 										<div class="tx_mask_btn_row">
 											<div class="tx_mask_btn_img">
-												<core:icon identifier="mask-fieldtype-{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')}" size="default" />
+												<core:icon
+													identifier="mask-fieldtype-{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')}"
+													size="default"/>
 											</div>
 											<div class="tx_mask_btn_text">
-												<span class="id_typetext"><f:translate key="tx_mask.field.{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')}" /></span>
-												<f:alias map="{label: '{mask:label(elementKey: \'{storage.key}\', fieldKey: \'{key}\', field: \'{field}\', table: \'tt_content\')}'}">
+												<span class="id_typetext"><f:translate
+													key="tx_mask.field.{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')}"/></span>
+												<f:alias
+													map="{label: '{mask:label(elementKey: \'{storage.key}\', fieldKey: \'{key}\', field: \'{field}\', table: \'tt_content\')}'}">
 													<span class="id_labeltext" title="{label}">
-														<f:format.crop maxCharacters="20" append="..."><mask:translateLabel key="{label}" /></f:format.crop>
+														<f:format.crop maxCharacters="20" append="..."><mask:translateLabel
+															key="{label}"/></f:format.crop>
 													</span>
 												</f:alias>
-												<f:alias map="{keyText: '{f:if(condition: \'{field.key}\', then: \'{field.key}\', else: \'{key}\')}'}">
+												<f:alias
+													map="{keyText: '{f:if(condition: \'{field.key}\', then: \'{field.key}\', else: \'{key}\')}'}">
 													<span class="id_keytext" title="{keyText}">
 														<f:format.crop maxCharacters="60" append="...">{keyText}</f:format.crop>
 													</span>
 												</f:alias>
 											</div>
 											<div class="tx_mask_btn_actions">
-												<span class="id_add" title="{f:translate(key:'tx_mask.field.titleAdd')}"><core:icon identifier="actions-edit-add" size="default" /></span>
-												<span class="id_delete" title="{f:translate(key:'tx_mask.field.titleDelete')}"><core:icon identifier="actions-edit-delete" size="small" /></span>
-												<span class="id_move" title="{f:translate(key:'tx_mask.field.titleMove')}"><core:icon identifier="actions-move-move" size="small" /></span>
+												<span class="id_add" title="{f:translate(key:'tx_mask.field.titleAdd')}"><core:icon
+													identifier="actions-edit-add" size="default"/></span>
+												<span class="id_delete" title="{f:translate(key:'tx_mask.field.titleDelete')}"><core:icon
+													identifier="actions-edit-delete" size="small"/></span>
+												<span class="id_move" title="{f:translate(key:'tx_mask.field.titleMove')}"><core:icon
+													identifier="actions-move-move" size="small"/></span>
 											</div>
 										</div>
-									<f:if condition="{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')} == 'Inline'">
-										<div class="tx_mask_btn_caption">
-											<ul class="dragtarget inline-container">
-												<f:for each="{field.inlineFields}" as="inlineField" key="inlineKey">
-													<f:render partial="Forms/General/Inline" arguments="{elementKey: storage.key, field: inlineField, storage: storage}" />
-												</f:for>
-											</ul>
-										</div>
-									</f:if>
+										<f:if condition="{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')} == 'Inline'">
+											<div class="tx_mask_btn_caption">
+												<ul class="dragtarget inline-container">
+													<f:for each="{field.inlineFields}" as="inlineField" key="inlineKey">
+														<f:render partial="Forms/General/Inline"
+																			arguments="{elementKey: storage.key, field: inlineField, storage: storage}"/>
+													</f:for>
+												</ul>
+											</div>
+										</f:if>
 									</li>
 								</f:for>
 							</ul>
@@ -67,7 +79,8 @@
 								<f:if condition="{mask:substr(string: key, search: 'tx_mask', from: 0, length: 7)}">
 									<f:then>
 										<!--Mask-Field-->
-										<f:render partial="Forms/General/RenderFieldContent" arguments="{form: '{mask:formType(elementKey:storage.key, fieldKey:key)}', storage: storage, field: field, key:key, editMode: 1, type: 'tt_content'}" />
+										<f:render partial="Forms/General/RenderFieldContent"
+															arguments="{form: '{mask:formType(elementKey:storage.key, fieldKey:key)}', storage: storage, field: field, key:key, editMode: 1, type: 'tt_content'}"/>
 									</f:then>
 									<f:else>
 										<!--TYPO3-Standard-Field-->
@@ -75,10 +88,20 @@
 
 											<!-- field header 3rd column: existing/TYPO3 fields (eg. bodytext) -->
 											<div class="tx_mask_fieldheader">
-												<div class="tx_mask_fieldheader_icon id_{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')}"><core:icon identifier="mask-fieldtype-{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')}" size="default" /></div>
-												<f:alias map="{label: '{mask:label(elementKey: \'{storage.key}\', fieldKey: \'{key}\', table: \'tt_content\')}'}">
+												<div
+													class="tx_mask_fieldheader_icon id_{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')}">
+													<core:icon
+														identifier="mask-fieldtype-{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')}"
+														size="default"/>
+												</div>
+												<f:alias
+													map="{label: '{mask:label(elementKey: \'{storage.key}\', fieldKey: \'{key}\', table: \'tt_content\')}'}">
 													<div class="tx_mask_fieldheader_text" title="{label}">
-														<h1><f:format.crop maxCharacters="60" append="..."><mask:translateLabel key="{label}" /></f:format.crop>&nbsp;</h1>
+														<h1>
+															<f:format.crop maxCharacters="60" append="...">
+																<mask:translateLabel key="{label}"/>
+															</f:format.crop>&nbsp;
+														</h1>
 														<p>{key}</p>
 													</div>
 												</f:alias>
@@ -87,17 +110,24 @@
 											<div class="row tx_mask_fieldcontent">
 												<div class="form-group col-sm-12">
 													<label class="t3js-formengine-label" for="all_overwrite">
-														<f:translate key="tx_mask.field.overwritelabel" />
+														<f:translate key="tx_mask.field.overwritelabel"/>
 													</label>
 													<div class="t3js-formengine-field-item">
 														<div class="form-control-wrap" style="">
-															<f:if condition="{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')} == 'Richtext'">
-																<input type="hidden" name="tx_mask_tools_maskmask[storage][elements][options][--index--]" value="rte" />
+															<f:if
+																condition="{mask:formType(elementKey:'{storage.key}', fieldKey:'{key}')} == 'Richtext'">
+																<input type="hidden"
+																			 name="tx_mask_tools_maskmask[storage][elements][options][--index--]"
+																			 value="rte"/>
 															</f:if>
-															<f:form.hidden value="{key}" name="storage[elements][columns][--index--]" />
-															<f:form.textfield id="all_overwrite" class="form-control" value="{mask:label(elementKey: storage.key, fieldKey: key, table:'tt_content', field: field)}" name="storage[elements][labels][--index--]" placeholder="{f:translate(key:'tx_mask.all.label')}" title="{f:translate(key:'tx_mask.all.label')}" />
+															<f:form.hidden value="{key}" name="storage[elements][columns][--index--]"/>
+															<f:form.textfield id="all_overwrite" class="form-control"
+																								value="{mask:label(elementKey: storage.key, fieldKey: key, table:'tt_content', field: field)}"
+																								name="storage[elements][labels][--index--]"
+																								placeholder="{f:translate(key:'tx_mask.all.label')}"
+																								title="{f:translate(key:'tx_mask.all.label')}"/>
 															<!-- Neu -->
-															<div class="tx_mask_fieldcontent_new">	</div>
+															<div class="tx_mask_fieldcontent_new"></div>
 														</div>
 													</div>
 												</div>
@@ -111,7 +141,7 @@
 				</f:form>
 
 				<div style="display:none;" id="templates">
-					<f:render partial="Forms/General/Forms" arguments="{storage: storage, type: 'tt_content'}" />
+					<f:render partial="Forms/General/Forms" arguments="{storage: storage, type: 'tt_content'}"/>
 				</div>
 			</div>
 		</div>
