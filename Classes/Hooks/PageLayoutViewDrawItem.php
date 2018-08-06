@@ -117,7 +117,16 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
 
                 // Render everything
                 $content = $view->render();
-                $headerContent = '<strong>' . $elementLabel . '</strong><br>';
+                $editElementUrlParameters = [
+                    'edit' => [
+                        'tt_content' => [
+                            $row['uid'] => 'edit'
+                        ]
+                    ],
+                    'returnUrl' => \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('REQUEST_URI')
+                ];
+                $editElementUrl = \TYPO3\CMS\Backend\Utility\BackendUtility::getModuleUrl('record_edit', $editElementUrlParameters);
+                $headerContent = '<strong><a href="' . $editElementUrl . '">' . $elementLabel . '</a></strong><br>';
                 $itemContent .= '<div style="display:block; padding: 10px 0 4px 0px;border-top: 1px solid #CACACA;margin-top: 6px;" class="content_preview_' . $elementKey . '">';
                 $itemContent .= $content;
                 $itemContent .= '</div>';
