@@ -466,15 +466,20 @@ class StorageRepository
      * Sorts the json entries
      * @param array $json
      */
-    private function sortJson(&$json)
+    private function sortJson(array &$array)
     {
-        if (is_array($json["tt_content"]["elements"])) {
-            ksort($json["tt_content"]["elements"]);
-            foreach ($json["tt_content"]["elements"] as $index => $element) {
-                if ($element["hidden"]) {
-                    unset($json["tt_content"]["elements"][$index]);
-                    $json["tt_content"]["elements"][$index] = $element;
-                }
+        // check if array is not a hash table, because we only want to sort hash tables
+        if (
+            [] === $array
+            || !(array_keys($array) !== range(0, count($array) - 1))
+        ) {
+            return false;
+        }
+
+        ksort($array);
+        foreach ($array as &$item) {
+            if (is_array($item)) {
+                $this->sortJson($item);
             }
         }
     }
