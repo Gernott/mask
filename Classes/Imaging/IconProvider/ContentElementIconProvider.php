@@ -124,7 +124,7 @@ class ContentElementIconProvider implements IconProviderInterface
                 }
                 $styles[] = "color: #fff";
                 $markup = '<span class="icon-unify mask-default-icon" style="' . implode("; ",
-                        $styles) . '">' . substr($this->contentElement["label"], 0, 1) . '</span>';
+                        $styles) . '">' . mb_substr($this->contentElement["label"], 0, 1) . '</span>';
             }
         }
 
