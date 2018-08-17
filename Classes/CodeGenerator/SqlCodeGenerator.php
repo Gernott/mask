@@ -26,6 +26,10 @@ namespace MASK\Mask\CodeGenerator;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use Doctrine\DBAL\DBALException;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Generates all the sql needed for mask content elements
  *
@@ -42,6 +46,7 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
      */
     protected function performDbUpdates($params, $sql)
     {
+        $databaseConnection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionByName('Default');
 
         $hasErrors = false;
         if (!empty($params['extensionKey'])) {
@@ -51,17 +56,13 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
 
                     foreach ($statements as $statement) {
                         if (in_array($type, array('change', 'add', 'create_table'))) {
-                            $res = $this->getDatabaseConnection()->admin_query($statement);
-
-
-                            if ($res === false) {
+                            try {
+                                $databaseConnection->exec($statement);
+                            } catch (DBALException $exception) {
                                 $hasErrors = true;
-                                \TYPO3\CMS\Core\Utility\GeneralUtility::devlog('SQL error', 'mask', 0, array(
+                                GeneralUtility::devlog('SQL error', 'mask', 0, array(
                                     'statement' => $statement,
-                                    'error' => $this->getDatabaseConnection()->sql_error()
-                                ));
-                            } elseif (is_resource($res) || is_a($res, '\\mysqli_result')) {
-                                $this->getDatabaseConnection()->sql_free_result($res);
+                                    'error' => $exception->getMessage()));
                             }
                         }
                     }
@@ -107,16 +108,6 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
                 }
             }
         }
-    }
-
-    /**
-     * function from extension_builder
-     *
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
-     */
-    protected function getDatabaseConnection()
-    {
-        return $GLOBALS['TYPO3_DB'];
     }
 
     /**

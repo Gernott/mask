@@ -1,6 +1,9 @@
 <?php
 
 namespace MASK\Mask\ViewHelpers;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  *
@@ -27,12 +30,15 @@ class ShuttleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
      */
     public function render($table, $field)
     {
-        $sql = $GLOBALS["TYPO3_DB"]->exec_SELECTquery(
-            "*", $table, "uid IN(" . $field . ") AND deleted = '0'"
-        );
-        while ($element = $GLOBALS["TYPO3_DB"]->sql_fetch_assoc($sql)) {
-            $elements[] = $element;
-        }
-        return $elements;
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
+        $queryBuilder
+            ->select('*')
+            ->where('uid IN (' . $field . ')');
+
+        $queryBuilder->getRestrictions()
+            ->removeAll()
+            ->add(GeneralUtility::makeInstance(DeletedRestriction::class));
+
+        return $queryBuilder->execute()->fetchAll();
     }
 }

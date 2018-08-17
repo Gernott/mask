@@ -72,11 +72,9 @@ if (!function_exists('user_mask_contentType')) {
                 }
             } else { // if element exists
                 $uid = intval(key($_REQUEST["edit"]["tt_content"]));
-                $sql = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-                    $field[0], "tt_content", "uid = " . $uid
-                );
-                $data = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($sql);
-                if ($data[$field[0]] == $field[1]) {
+                $connection = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ConnectionPool::class)->getConnectionForTable('tt_content');
+                $fieldValue = $connection->select([$field[0]], 'tt_content', ['uid' => $uid])->fetchColumn(0);
+                if ($fieldValue == $field[1]) {
                     return true;
                 } else {
                     return false;
@@ -107,11 +105,8 @@ if (!function_exists('user_mask_beLayout')) {
                 $uid = $_REQUEST["data"]["pages_language_overlay"][$po_uid]["pid"];
             } else { // after saving an existing pages_language_overlay
                 $po_uid = intval($po_uid);
-                $sql = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-                    "pid", "pages_language_overlay", "uid = " . $po_uid
-                );
-                $data = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($sql);
-                $uid = $data["pid"];
+                $connection = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ConnectionPool::class)->getConnectionForTable('pages_language_overlay');
+                $uid = $connection->select(['pid'], 'pages_language_overlay', ['uid' => $po_uid])->fetchColumn(0);
             }
         } elseif ($GLOBALS["SOBE"]->editconf["pages"]) { // after opening pages
             $uid = intval(key($GLOBALS["SOBE"]->editconf["pages"]));
@@ -130,10 +125,8 @@ if (!function_exists('user_mask_beLayout')) {
         }
 
         if ($uid) {
-            $sql = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-                "backend_layout, backend_layout_next_level", "pages", "uid = " . $uid
-            );
-            $data = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($sql);
+            $connection = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ConnectionPool::class)->getConnectionForTable('pages');
+            $data = $connection->select(['backend_layout', 'backend_layout_next_level'], 'pages', ['uid' => $uid])->fetch();
 
             $backend_layout = $data["backend_layout"];
             $backend_layout_next_level = $data["backend_layout_next_level"];
