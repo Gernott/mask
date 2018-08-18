@@ -75,7 +75,6 @@ class WizardContentController extends WizardController
     /**
      * action new
      *
-     * @dontvalidate $newContent
      * @return void
      */
     public function newAction()
