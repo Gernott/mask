@@ -35,7 +35,7 @@ use TYPO3\CMS\Extbase\Annotation\Inject;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
  *
  */
-class WizardContentController extends \MASK\Mask\Controller\WizardController
+class WizardContentController extends WizardController
 {
 
     /**

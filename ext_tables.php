@@ -21,14 +21,6 @@ if (TYPO3_MODE === 'BE') {
             'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_mask.xlf',
         )
     );
-
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::registerAjaxHandler(
-        'WizardController::checkFieldKey', 'MASK\Mask\Controller\WizardController->checkFieldKey'
-    );
-
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::registerAjaxHandler(
-        'WizardController::checkElementKey', 'MASK\Mask\Controller\WizardController->checkElementKey'
-    );
 }
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Mask');
 
