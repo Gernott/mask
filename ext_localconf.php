@@ -150,20 +150,17 @@ if (!function_exists('user_mask_beLayout')) {
     }
 }
 
-// set rootlinefields and pageoverlayfields
+// set root line fields
 if ($json['pages']['tca']) {
     $rootlineFields = explode(",", $GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields']);
-    $pageOverlayFields = explode(",", $GLOBALS['TYPO3_CONF_VARS']['FE']['pageOverlayFields']);
     foreach ($json['pages']['tca'] as $fieldKey => $value) {
         $formType = $fieldHelper->getFormType($fieldKey, "", "pages");
         if ($formType !== "Tab") {
-            // Add addRootLineFields and pageOverlayFields for all pagefields
+            // Add addRootLineFields for all page fields
             $rootlineFields[] = $fieldKey;
-            $pageOverlayFields[] = $fieldKey;
         }
     }
     $GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields'] = implode(",", $rootlineFields);
-    $GLOBALS['TYPO3_CONF_VARS']['FE']['pageOverlayFields'] = implode(",", $pageOverlayFields);
 }
 
 // SQL inject:
