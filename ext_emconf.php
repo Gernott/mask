@@ -1,5 +1,5 @@
 <?php
-$EM_CONF[$_EXTKEY] = array(
+$EM_CONF[$_EXTKEY] = [
     'title' => 'Mask',
     'description' => 'Create your own content elements and page templates. Easy to use, even without programming skills because of the comfortable drag and drop system. Stored in structured database tables. Style your frontend with Fluid tags. Ideal, if you want to switch from Templavoila.',
     'category' => 'plugin',
@@ -17,20 +17,22 @@ $EM_CONF[$_EXTKEY] = array(
     'clearCacheOnLoad' => 1,
     'lockType' => '',
     'version' => '3.3.1',
-    'constraints' => array(
-        'depends' => array(
-            'typo3' => '8.7.0-8.7.99',
-        ),
-        'conflicts' => array(),
-        'suggests' => array(
+    'constraints' => [
+        'depends' => [
+            'typo3' => '9.3.0-9.3.99',
+            'extbase' => '*',
+            'fluid' => '*',
+        ],
+        'conflicts' => [],
+        'suggests' => [
             'gridelements' => ''
-        ),
-    ),
+        ],
+    ],
     'autoload' =>
-        array(
+        [
             'psr-4' =>
-                array(
+                [
                     "MASK\\Mask\\" => "Classes/"
-                )
-        )
-);
+                ]
+        ]
+];
