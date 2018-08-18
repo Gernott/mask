@@ -136,7 +136,11 @@ if (!function_exists('user_mask_beLayout')) {
                 }
             } else { // If backend_layout and backend_layout_next_level is not set on current page, check backend_layout_next_level on rootline
                 $sysPage = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Frontend\\Page\\PageRepository');
-                $rootline = $sysPage->getRootLine($uid, '', true);
+                try {
+                    $rootline = $sysPage->getRootLine($uid, '');
+                } catch (Exception $e) {
+                    $rootline = [];
+                }
                 foreach ($rootline as $page) {
                     if (in_array($page["backend_layout_next_level"], [$layout, "pagets__" . $layout])) {
                         return true;

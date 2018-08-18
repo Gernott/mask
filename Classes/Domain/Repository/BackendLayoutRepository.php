@@ -126,7 +126,11 @@ class BackendLayoutRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             return $backend_layout_next_level;
         } else { // If backend_layout and backend_layout_next_level is not set on current page, check backend_layout_next_level on rootline
             $sysPage = GeneralUtility::makeInstance(PageRepository::class);
-            $rootline = $sysPage->getRootLine($pid, '', true);
+            try {
+                $rootline = $sysPage->getRootLine($pid, '');
+            } catch (\RuntimeException $ex) {
+                $rootline = [];
+            }
             foreach ($rootline as $page) {
                 if ($page["backend_layout_next_level"] !== "") {
                     return $page["backend_layout_next_level"];
