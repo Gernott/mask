@@ -26,6 +26,9 @@ namespace MASK\Mask\Domain\Service;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Provides the settings users can make
  *
@@ -62,20 +65,15 @@ class SettingsService
      */
     public function get()
     {
-        $this->extSettings = $this->getExtSettings();
+        if ($this->extSettings === null) {
+            $this->extSettings = $this->getExtSettings();
+        }
+
         return $this->extSettings;
     }
 
-    /**
-     * Returns an array with the settings from $_EXTCONF
-     * @return array
-     */
-    protected function getExtSettings()
+    protected function getExtSettings(): array
     {
-        $extSettings = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mask']);
-        if (empty($extSettings)) {
-            $extSettings = $_EXTCONF;
-        }
-        return $extSettings;
+        return GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('mask');
     }
 }
