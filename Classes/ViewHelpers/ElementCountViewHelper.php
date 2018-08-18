@@ -3,6 +3,7 @@
 namespace MASK\Mask\ViewHelpers;
 
 use TYPO3\CMS\Extbase\Annotation\Inject;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  *
@@ -14,7 +15,7 @@ use TYPO3\CMS\Extbase\Annotation\Inject;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
  *
  */
-class ElementCountViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class ElementCountViewHelper extends AbstractViewHelper
 {
 
     /**
@@ -25,15 +26,19 @@ class ElementCountViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVi
      */
     protected $contentRepository = null;
 
+    public function initializeArguments()
+    {
+        $this->registerArgument('key', 'string', 'key of content element');
+    }
+
     /**
      * Counts the occurences in tt_content
      *
-     * @param string $key key of content element
      * @return int number of uses of this content element
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    public function render($key)
+    public function render()
     {
-        return $this->contentRepository->findByContentType('mask_' . $key)->count();
+        return $this->contentRepository->findByContentType('mask_' . $this->arguments['key'])->count();
     }
 }

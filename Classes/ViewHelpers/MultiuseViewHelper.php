@@ -3,6 +3,7 @@
 namespace MASK\Mask\ViewHelpers;
 
 use TYPO3\CMS\Extbase\Annotation\Inject;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  *
@@ -12,7 +13,7 @@ use TYPO3\CMS\Extbase\Annotation\Inject;
  * @author Benjamin Butschell bb@webprofil.at>
  *
  */
-class MultiuseViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class MultiuseViewHelper extends AbstractViewHelper
 {
 
     /**
@@ -23,18 +24,26 @@ class MultiuseViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
      */
     protected $fieldHelper;
 
+    public function initializeArguments()
+    {
+        $this->registerArgument('key', 'string', 'TCA Type', true);
+        $this->registerArgument('elementKey', 'string', 'Key of element', true);
+    }
+
     /**
      * Returns all elements that use this field
      *
-     * @param string $key TCA Type
-     * @param string $elementKey Key of the element
      * @return array elements in use
      * @author Benjamin Butschell bb@webprofil.at>
      */
-    public function render($key, $elementKey)
+    public function render()
     {
+        $key = $this->arguments['key'];
+        $elementKey = $this->arguments['elementKey'];
+
         $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
         $type = $this->fieldHelper->getFieldType($key, $elementKey);
+
         return $this->fieldHelper->getElementsWhichUseField($key, $type);
     }
 }

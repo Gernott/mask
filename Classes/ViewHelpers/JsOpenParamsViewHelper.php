@@ -3,6 +3,7 @@
 namespace MASK\Mask\ViewHelpers;
 
 use TYPO3\CMS\Extbase\Annotation\Inject;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  *
@@ -12,7 +13,7 @@ use TYPO3\CMS\Extbase\Annotation\Inject;
  * @author Benjamin Butschell bb@webprofil.at>
  *
  */
-class JsOpenParamsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class JsOpenParamsViewHelper extends AbstractViewHelper
 {
 
     /**
@@ -31,18 +32,27 @@ class JsOpenParamsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVi
      */
     protected $fieldHelper;
 
+    public function initializeArguments()
+    {
+        $this->registerArgument('fieldKey', 'string', 'TCA Type', true);
+        $this->registerArgument('elementKey', 'string', 'TCA Type', true);
+        $this->registerArgument('property', 'string', 'value to search for', true);
+        $this->registerArgument('field', 'array', '');
+    }
+
     /**
      * Returns value from jsopenParams
      *
-     * @param string $fieldKey TCA Type
-     * @param string $elementKey TCA Type
-     * @param string $property value to search for
-     * @param array $field
      * @return boolean $evalValue is set
      * @author Benjamin Butschell bb@webprofil.at>
      */
-    public function render($fieldKey, $elementKey, $property, $field = null)
+    public function render()
     {
+        $fieldKey = $this->arguments['fieldKey'];
+        $elementKey = $this->arguments['elementKey'];
+        $property = $this->arguments['property'];
+        $field = $this->arguments['field'];
+
         $this->generalUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Utility\\GeneralUtility');
         $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
 

@@ -3,6 +3,7 @@
 namespace MASK\Mask\ViewHelpers;
 
 use TYPO3\CMS\Extbase\Annotation\Inject;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  *
@@ -12,7 +13,7 @@ use TYPO3\CMS\Extbase\Annotation\Inject;
  * @author Benjamin Butschell <bb@webprofil.at>
  *
  */
-class LinkoptionViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class LinkoptionViewHelper extends AbstractViewHelper
 {
 
     /**
@@ -31,6 +32,13 @@ class LinkoptionViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
      */
     protected $fieldHelper;
 
+    public function initializeArguments()
+    {
+        $this->registerArgument('fieldKey', 'string', 'TCA Type', true);
+        $this->registerArgument('elementKey', 'string', 'Key of element', true);
+        $this->registerArgument('evalValue', 'string', 'value to search for', true);
+    }
+
     /**
      * Checks if a $evalValue is set in a field
      *
@@ -40,8 +48,12 @@ class LinkoptionViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
      * @return boolean $evalValue is set
      * @author Benjamin Butschell bb@webprofil.at>
      */
-    public function render($fieldKey, $elementKey, $evalValue)
+    public function render()
     {
+        $fieldKey = $this->arguments['fieldKey'];
+        $elementKey = $this->arguments['elementKey'];
+        $evalValue = $this->arguments['evalValue'];
+
         $this->generalUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Utility\\GeneralUtility');
         $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
 

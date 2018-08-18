@@ -3,6 +3,7 @@
 namespace MASK\Mask\ViewHelpers;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  *
@@ -12,7 +13,7 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
  * @author Benjamin Butschell bb@webprofil.at>
  *
  */
-class ConfigureExtensionViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class ConfigureExtensionViewHelper extends AbstractViewHelper
 {
 
     /**
@@ -33,8 +34,8 @@ class ConfigureExtensionViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abst
             'tx_extensionmanager_tools_extensionmanagerextensionmanager[action]' => 'showConfigurationForm',
             'tx_extensionmanager_tools_extensionmanagerextensionmanager[controller]' => 'Configuration',
             'returnUrl' => BackendUtility::getModuleUrl('tools_MaskMask', array(
-                'tx_mask_tools_maskmask[controller]' => $this->controllerContext->getRequest()->getControllerName(),
-                'tx_mask_tools_maskmask[action]' => $this->controllerContext->getRequest()->getControllerActionName(),
+                'tx_mask_tools_maskmask[controller]' => $this->renderingContext->getControllerName(),
+                'tx_mask_tools_maskmask[action]' => $this->renderingContext->getControllerAction(),
             )),
         );
         $url = BackendUtility::getModuleUrl('tools_ExtensionmanagerExtensionmanager', $urlParameters);

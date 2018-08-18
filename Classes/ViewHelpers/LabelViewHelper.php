@@ -3,6 +3,7 @@
 namespace MASK\Mask\ViewHelpers;
 
 use TYPO3\CMS\Extbase\Annotation\Inject;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  *
@@ -12,7 +13,7 @@ use TYPO3\CMS\Extbase\Annotation\Inject;
  * @author Benjamin Butschell bb@webprofil.at>
  *
  */
-class LabelViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class LabelViewHelper extends AbstractViewHelper
 {
 
     /**
@@ -23,18 +24,24 @@ class LabelViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
      */
     protected $fieldHelper;
 
+    public function initializeArguments()
+    {
+        $this->registerArgument('elementKey', 'string', 'Key of element', true);
+        $this->registerArgument('fieldKey', 'string', 'Key of field', true);
+        $this->registerArgument('field', 'array', 'Whole field to better determine correct label');
+        $this->registerArgument('table', 'string', 'tt_content or pages to better determine correct label');
+    }
+
     /**
      * Returns the label of a field in an element
-     *
-     * @param string $elementKey Key of Element
-     * @param string $fieldKey Key of Field
-     * @param array $field whole field, to better determine correct label
-     * @param string $table tt_content or pages, to better determine correct label
-     * @return string Label
-     * @author Benjamin Butschell bb@webprofil.at>
      */
-    public function render($elementKey, $fieldKey, $field = null, $table = null)
+    public function render(): string
     {
+        $elementKey = $this->arguments['elementKey'];
+        $fieldKey = $this->arguments['fieldKey'];
+        $field = $this->arguments['field'];
+        $table = $this->arguments['table'];
+
         $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
         // if we have the whole field configuration
         if ($field) {

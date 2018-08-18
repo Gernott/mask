@@ -1,9 +1,11 @@
 <?php
 
 namespace MASK\Mask\ViewHelpers;
+
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  *
@@ -17,19 +19,25 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @todo Test if neccessary in selectbox-shuttle-frontend
  *
  */
-class ShuttleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class ShuttleViewHelper extends AbstractViewHelper
 {
+    public function initializeArguments()
+    {
+        $this->registerArgument('table', 'string', 'The name of the table', true);
+        $this->registerArgument('field', 'string', 'The name of the field', true);
+    }
 
     /**
      * Returns Shuttle-Elements of Data-Object
      *
-     * @param string $table The name of the table
-     * @param string $field The name of the field
      * @return array all irre elements of this attribut
      * @author Gernot Ploiner <gp@webprofil.at>
      */
-    public function render($table, $field)
+    public function render()
     {
+        $table = $this->arguments['table'];
+        $field = $this->arguments['field'];
+
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
         $queryBuilder
             ->select('*')

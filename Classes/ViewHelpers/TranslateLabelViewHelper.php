@@ -3,7 +3,7 @@
 namespace MASK\Mask\ViewHelpers;
 
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View helper that translates a language label, if the result is empty, the label will be returned.
@@ -20,16 +20,22 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class TranslateLabelViewHelper extends AbstractViewHelper
 {
+    public function initializeArguments()
+    {
+        $this->registerArgument('key', 'string', '', true);
+        $this->registerArgument('extensionName', 'string', '');
+    }
 
     /**
      * The given key will be translated. If the result is empty, the key will be returned.
      *
-     * @param string $key
-     * @param string $extensionName
      * @return string
      */
-    public function render($key = null, $extensionName = null)
+    public function render()
     {
+        $key = $this->arguments['key'];
+        $extensionName = $this->arguments['extensionName'];
+
         if (empty($key) || strpos($key, 'LLL') > 0) {
             return $key;
         }
