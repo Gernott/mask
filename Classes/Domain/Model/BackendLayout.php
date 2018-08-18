@@ -29,6 +29,8 @@ namespace MASK\Mask\Domain\Model;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use TYPO3\CMS\Extbase\Annotation\Validate;
+
 /**
  * This model represents a back-end user.
  *
@@ -39,13 +41,13 @@ class BackendLayout extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     /**
      * @var string
-     * @validate notEmpty
+     * @Validate("NotEmpty")
      */
     protected $title = '';
 
     /**
      * @var int
-     * @validate notEmpty
+     * @Validate("NotEmpty")
      */
     protected $uid = '';
 

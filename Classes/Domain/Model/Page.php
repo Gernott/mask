@@ -26,6 +26,8 @@ namespace MASK\Mask\Domain\Model;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use TYPO3\CMS\Extbase\Annotation\Validate;
+
 /**
  *
  *
@@ -40,7 +42,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * Title of the Pagetemplate.
      *
      * @var string
-     * @validate NotEmpty
+     * @Validate("NotEmpty")
      */
     protected $title;
 
@@ -55,7 +57,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * Lowercase internal Key. Not Visible in TYPO3 Backend.
      *
      * @var string
-     * @validate NotEmpty
+     * @Validate("NotEmpty")
      */
     protected $fieldkey;
 
