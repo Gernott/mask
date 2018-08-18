@@ -29,6 +29,7 @@ namespace MASK\Mask\Helper;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Annotation\Inject;
 
 /**
  * Methods for working with inline fields (IRRE)
@@ -49,7 +50,7 @@ class InlineHelper
      * BackendLayoutRepository
      *
      * @var \MASK\Mask\Domain\Repository\BackendLayoutRepository
-     * @inject
+     * @Inject()
      */
     protected $backendLayoutRepository;
 

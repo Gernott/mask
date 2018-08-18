@@ -26,6 +26,8 @@ namespace MASK\Mask\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use TYPO3\CMS\Extbase\Annotation\Inject;
+
 /**
  *
  *
@@ -40,7 +42,7 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
      * StorageRepository
      *
      * @var \MASK\Mask\Domain\Repository\StorageRepository
-     * @inject
+     * @Inject()
      */
     protected $storageRepository;
 
@@ -48,7 +50,7 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
      * IconRepository
      *
      * @var \MASK\Mask\Domain\Repository\IconRepository
-     * @inject
+     * @Inject()
      */
     protected $iconRepository;
 

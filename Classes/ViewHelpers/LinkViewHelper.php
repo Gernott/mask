@@ -2,6 +2,8 @@
 
 namespace MASK\Mask\ViewHelpers;
 
+use TYPO3\CMS\Extbase\Annotation\Inject;
+
 /**
  *
  * Example
@@ -25,7 +27,7 @@ class LinkViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
      * SettingsService
      *
      * @var \MASK\Mask\Domain\Service\SettingsService
-     * @inject
+     * @Inject()
      */
     protected $settingsService;
 

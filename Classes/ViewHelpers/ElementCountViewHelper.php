@@ -2,6 +2,8 @@
 
 namespace MASK\Mask\ViewHelpers;
 
+use TYPO3\CMS\Extbase\Annotation\Inject;
+
 /**
  *
  * Example
@@ -19,7 +21,7 @@ class ElementCountViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVi
      * contentRepository
      *
      * @var \MASK\Mask\Domain\Repository\ContentRepository
-     * @inject
+     * @Inject()
      */
     protected $contentRepository = null;
 

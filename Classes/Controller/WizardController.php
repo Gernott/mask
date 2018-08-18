@@ -26,6 +26,7 @@
 
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Annotation\Inject;
 
 /**
  * ^
@@ -46,7 +47,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * StorageRepository
      *
      * @var \MASK\Mask\Domain\Repository\StorageRepository
-     * @inject
+     * @Inject()
      */
     protected $storageRepository;
 
@@ -54,7 +55,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * BackendLayoutRepository
      *
      * @var \MASK\Mask\Domain\Repository\BackendLayoutRepository
-     * @inject
+     * @Inject()
      */
     protected $backendLayoutRepository;
 
@@ -62,7 +63,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * FieldHelper
      *
      * @var \MASK\Mask\Helper\FieldHelper
-     * @inject
+     * @Inject()
      */
     protected $fieldHelper;
 
@@ -70,7 +71,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * HtmlCodeGenerator
      *
      * @var \MASK\Mask\CodeGenerator\HtmlCodeGenerator
-     * @inject
+     * @Inject()
      */
     protected $htmlCodeGenerator;
 
@@ -78,7 +79,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * SqlCodeGenerator
      *
      * @var \MASK\Mask\CodeGenerator\SqlCodeGenerator
-     * @inject
+     * @Inject()
      */
     protected $sqlCodeGenerator;
 
@@ -86,7 +87,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * SettingsService
      *
      * @var \MASK\Mask\Domain\Service\SettingsService
-     * @inject
+     * @Inject()
      */
     protected $settingsService;
 

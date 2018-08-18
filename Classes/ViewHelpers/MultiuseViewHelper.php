@@ -2,6 +2,8 @@
 
 namespace MASK\Mask\ViewHelpers;
 
+use TYPO3\CMS\Extbase\Annotation\Inject;
+
 /**
  *
  * @package TYPO3
@@ -17,7 +19,7 @@ class MultiuseViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
      * FieldHelper
      *
      * @var \MASK\Mask\Helper\FieldHelper
-     * @inject
+     * @Inject()
      */
     protected $fieldHelper;
 
