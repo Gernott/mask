@@ -99,19 +99,8 @@ if (!function_exists('user_mask_beLayout')) {
         // get current page uid:
         if (is_array($_REQUEST["data"]["pages"])) { // after saving page
             $uid = intval(key($_REQUEST["data"]["pages"]));
-        } elseif (is_array($_REQUEST["data"]["pages_language_overlay"])) {
-            $po_uid = key($_REQUEST["data"]["pages_language_overlay"]);
-            if ($_REQUEST["data"]["pages_language_overlay"][$po_uid]["pid"]) { // after saving a new pages_language_overlay
-                $uid = $_REQUEST["data"]["pages_language_overlay"][$po_uid]["pid"];
-            } else { // after saving an existing pages_language_overlay
-                $po_uid = intval($po_uid);
-                $connection = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ConnectionPool::class)->getConnectionForTable('pages_language_overlay');
-                $uid = $connection->select(['pid'], 'pages_language_overlay', ['uid' => $po_uid])->fetchColumn(0);
-            }
         } elseif ($GLOBALS["SOBE"]->editconf["pages"]) { // after opening pages
             $uid = intval(key($GLOBALS["SOBE"]->editconf["pages"]));
-        } elseif ($GLOBALS["SOBE"]->viewId) { // after opening or creating pages_language_overlay
-            $uid = $GLOBALS["SOBE"]->viewId;
         } else {
             if ($GLOBALS["_SERVER"]["HTTP_REFERER"] != "") {
                 $url = $GLOBALS["_SERVER"]["HTTP_REFERER"];
