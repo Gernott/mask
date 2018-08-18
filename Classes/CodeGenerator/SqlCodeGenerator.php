@@ -194,11 +194,6 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
                                     foreach ($fields as $field => $definition) {
                                         $sql_content[] = "CREATE TABLE " . $table . " (\n\t" . $field . " " . $definition . "\n);\n";
 
-                                        // every statement for pages, also for pages_language_overlay
-                                        if ($table == "pages") {
-                                            $sql_content[] = "CREATE TABLE pages_language_overlay (\n\t" . $field . " " . $definition . "\n);\n";
-                                        }
-
                                         // if this field is a content field, also add parent columns
                                         $fieldType = $fieldHelper->getFormType($field, "", $table);
                                         if ($fieldType == "Content") {

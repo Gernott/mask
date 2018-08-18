@@ -221,24 +221,8 @@ class InlineHelper
         // by default, the uid of the parent is $data["uid"]
         $parentUid = $data["uid"];
 
-        /*
-         * but if the parent table is the pages, and it isn't the default language
-         * then pages_language_overlay becomes the parenttable
-         * and $data["_PAGES_OVERLAY_UID"] becomes the id of the parent
-         */
-        if ($parenttable == "pages" && $GLOBALS['TSFE']->sys_language_uid != 0) {
-            $parenttable = "pages_language_overlay";
-            $parentUid = $data["_PAGES_OVERLAY_UID"];
-
-            /**
-             * else if the parenttable is tt_content and we are looking for translated
-             * elements and the field _LOCALIZED_UID is available, then use this field
-             * Otherwise we have problems with gridelements and translation
-             */
-        } else {
-            if ($parenttable == "tt_content" && $GLOBALS['TSFE']->sys_language_uid != 0 && $data["_LOCALIZED_UID"] != "") {
-                $parentUid = $data["_LOCALIZED_UID"];
-            }
+        if ($GLOBALS['TSFE']->sys_language_uid != 0 && $data["_LOCALIZED_UID"] != "") {
+            $parentUid = $data["_LOCALIZED_UID"];
         }
 
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($childTable);

@@ -176,8 +176,6 @@ class TcaCodeGenerator extends AbstractCodeGenerator
         }
 
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('pages', $pageFieldString);
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('pages_language_overlay',
-            $pageFieldString);
     }
 
     /**
