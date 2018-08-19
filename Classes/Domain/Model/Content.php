@@ -26,6 +26,8 @@ namespace MASK\Mask\Domain\Model;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use TYPO3\CMS\Extbase\Annotation\Validate;
+
 /**
  *
  *
@@ -40,7 +42,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * Title for the New-Contentelement-Wizard.
      *
      * @var string
-     * @validate NotEmpty
+     * @Validate("notEmpty")
      */
     protected $title;
 
@@ -62,7 +64,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * Lowercase internal Key. Not Visible in TYPO3 Backend.
      *
      * @var string
-     * @validate NotEmpty
+     * @Validate("NotEmpty")
      */
     protected $fieldkey;
 
@@ -70,7 +72,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * contentType
      *
      * @var string
-     * @validate NotEmpty
+     * @Validate("NotEmpty")
      */
     protected $contentType;
 

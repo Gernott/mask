@@ -5,6 +5,8 @@ namespace MASK\Mask\Controller;
 /**
  * FrontendController
  */
+
+use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -22,7 +24,7 @@ class FrontendController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
      * StorageRepository
      *
      * @var \MASK\Mask\Domain\Repository\StorageRepository
-     * @inject
+     * @Inject()
      */
     protected $storageRepository;
 
@@ -30,7 +32,7 @@ class FrontendController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
      * InlineHelper
      *
      * @var \MASK\Mask\Helper\InlineHelper
-     * @inject
+     * @Inject()
      */
     protected $inlineHelper;
 
@@ -38,7 +40,7 @@ class FrontendController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
      * settingsService
      *
      * @var \MASK\Mask\Domain\Service\SettingsService
-     * @inject
+     * @Inject()
      */
     protected $settingsService;
 

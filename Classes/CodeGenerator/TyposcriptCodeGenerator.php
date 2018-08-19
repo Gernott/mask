@@ -101,13 +101,11 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
                 if ($element["columns"]) {
                     foreach ($element["columns"] as $index => $column) {
                         $pagesContent .= " TCEFORM.pages." . $column . ".label = " . $element["labels"][$index] . "\n";
-                        $pagesContent .= " TCEFORM.pages_language_overlay." . $column . ".label = " . $element["labels"][$index] . "\n";
                     }
                     $pagesContent .= "\n";
                     foreach ($element["columns"] as $index => $column) {
                         $pageColumns[] = $column;
                         $pagesContent .= " TCEFORM.pages." . $column . ".disabled = 0\n";
-                        $pagesContent .= " TCEFORM.pages_language_overlay." . $column . ".disabled = 0\n";
                     }
                 }
                 $pagesContent .= "[end]\n";
@@ -116,7 +114,6 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
         // disable all fields by default and only activate by condition
         foreach ($pageColumns as $column) {
             $disableColumns .= "TCEFORM.pages." . $column . ".disabled = 1\n";
-            $disableColumns .= "TCEFORM.pages_language_overlay." . $column . ".disabled = 1\n";
         }
         $pagesContent = $disableColumns . "\n" . $pagesContent;
         return $pagesContent;

@@ -215,7 +215,7 @@ UL.tx_mask_fieldtypes .tx_mask_fieldcontent_highlight {
 }
 
 .tx_mask_tabcell1 LI {
-	font-family: Share;
+	font-family: Share, Verdana, Arial, Helvetica, sans-serif;
 	font-size: 1.1em;
 }
 

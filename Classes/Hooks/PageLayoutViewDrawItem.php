@@ -29,6 +29,9 @@ namespace MASK\Mask\Hooks;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Renders the backend preview of mask content elements
  *
@@ -143,9 +146,17 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
      */
     protected function getContentObject($uid)
     {
-        $data = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('*', 'tt_content', 'uid=' . $uid);
-        $this->inlineHelper->addFilesToData($data, "tt_content");
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
+        $queryBuilder
+            ->select('*')
+            ->where($queryBuilder->expr()->eq('uid', $uid))
+        ;
+        $queryBuilder->getRestrictions()->removeAll();
+        $data = $queryBuilder->fetch();
+
+        $this->inlineHelper->addFilesToData($data, 'tt_content');
         $this->inlineHelper->addIrreToData($data);
+
         return $data;
     }
 }

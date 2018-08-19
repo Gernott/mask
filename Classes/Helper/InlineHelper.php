@@ -27,7 +27,9 @@ namespace MASK\Mask\Helper;
  * ************************************************************* */
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Annotation\Inject;
 
 /**
  * Methods for working with inline fields (IRRE)
@@ -48,7 +50,7 @@ class InlineHelper
      * BackendLayoutRepository
      *
      * @var \MASK\Mask\Domain\Repository\BackendLayoutRepository
-     * @inject
+     * @Inject()
      */
     protected $backendLayoutRepository;
 
@@ -188,7 +190,7 @@ class InlineHelper
      * @param array $data the parent object
      * @param string $name The name of the irre attribut
      * @param string $cType The name of the irre attribut
-     * @param string $parentid The name of the irre parentid
+     * @param string $parentFieldName The name of the irre parentid
      * @param string $parenttable The table where the parent element is stored
      * @param string $childTable name of childtable
      * @return array all irre elements of this attribut
@@ -198,7 +200,7 @@ class InlineHelper
         $data,
         $name,
         $cType,
-        $parentid = "parentid",
+        $parentFieldName = "parentid",
         $parenttable = "tt_content",
         $childTable = null
     ) {
@@ -219,55 +221,26 @@ class InlineHelper
         // by default, the uid of the parent is $data["uid"]
         $parentUid = $data["uid"];
 
-        /*
-         * but if the parent table is the pages, and it isn't the default language
-         * then pages_language_overlay becomes the parenttable
-         * and $data["_PAGES_OVERLAY_UID"] becomes the id of the parent
-         */
-        if ($parenttable == "pages" && $GLOBALS['TSFE']->sys_language_uid != 0) {
-            $parenttable = "pages_language_overlay";
-            $parentUid = $data["_PAGES_OVERLAY_UID"];
-
-            /**
-             * else if the parenttable is tt_content and we are looking for translated
-             * elements and the field _LOCALIZED_UID is available, then use this field
-             * Otherwise we have problems with gridelements and translation
-             */
-        } else {
-            if ($parenttable == "tt_content" && $GLOBALS['TSFE']->sys_language_uid != 0 && $data["_LOCALIZED_UID"] != "") {
-                $parentUid = $data["_LOCALIZED_UID"];
-            }
+        if ($GLOBALS['TSFE']->sys_language_uid != 0 && $data["_LOCALIZED_UID"] != "") {
+            $parentUid = $data["_LOCALIZED_UID"];
         }
 
-        // fetching the inline elements
-        if ($childTable == "tt_content") {
-            $sql = $GLOBALS["TYPO3_DB"]->exec_SELECTquery(
-                "*", $childTable, $parentid . " = '" . $parentUid .
-                "' AND sys_language_uid IN (-1," . $sysLangUid . ")"
-                . ' AND ('
-                . $childTable . '.t3ver_wsid=0 OR '
-                . $childTable . '.t3ver_wsid=' . (int)$GLOBALS['BE_USER']->workspace
-                . ' AND ' . $childTable . '.pid<>-1'
-                . ')'
-                . $enableFields, "", "sorting"
-            );
-        } else {
-            $sql = $GLOBALS["TYPO3_DB"]->exec_SELECTquery(
-                "*", $childTable, $parentid . " = '" . $parentUid .
-                "' AND parenttable = '" . $parenttable .
-                "' AND sys_language_uid IN (-1," . $sysLangUid . ")"
-                . ' AND ('
-                . $childTable . '.t3ver_wsid=0 OR '
-                . $childTable . '.t3ver_wsid=' . (int)$GLOBALS['BE_USER']->workspace
-                . ' AND ' . $childTable . '.pid<>-1'
-                . ')'
-                . $enableFields, "", "sorting"
-            );
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($childTable);
+        $queryBuilder
+            ->select('*')
+            ->where($queryBuilder->expr()->eq($parentFieldName, $parentUid))
+            ->orderBy('sorting')
+        ;
+
+        if ($childTable !== 'tt_content') {
+            $queryBuilder->andWhere($queryBuilder->expr()->eq('parenttable', $parenttable));
         }
+
+        $rows = $queryBuilder->execute()->fetchAll();
 
         // and recursively add them to an array
         $elements = array();
-        while ($element = $GLOBALS["TYPO3_DB"]->sql_fetch_assoc($sql)) {
+        foreach ($rows as $element) {
             if (TYPO3_MODE == 'FE') {
                 $GLOBALS['TSFE']->sys_page->versionOL($childTable, $element);
             } else {

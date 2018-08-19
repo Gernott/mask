@@ -27,6 +27,9 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use Doctrine\DBAL\FetchMode;
+use TYPO3\CMS\Core\Database\Connection;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Page\PageRepository;
 
@@ -101,10 +104,20 @@ class BackendLayoutRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      */
     public function findIdentifierByPid($pid)
     {
-        $sql = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-            "backend_layout, backend_layout_next_level", "pages", "uid = " . $pid
-        );
-        $data = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($sql);
+        /** @var Connection $connection */
+        $connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable('pages');
+
+        $queryBuilder = $connection->createQueryBuilder();
+        $queryBuilder
+            ->from('pages')
+            ->select('backend_layout', 'backend_layout_next_level', 'uid')
+            ->where('uid = :pid')
+            ->setParameter('pid', $pid);
+
+        $statement = $queryBuilder->execute();
+        $data = $statement->fetch(FetchMode::ASSOCIATIVE);
+        $statement->closeCursor();
+
         $backend_layout = $data["backend_layout"];
         $backend_layout_next_level = $data["backend_layout_next_level"];
         if ($backend_layout !== "") { // If backend_layout is set on current page
@@ -113,7 +126,11 @@ class BackendLayoutRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             return $backend_layout_next_level;
         } else { // If backend_layout and backend_layout_next_level is not set on current page, check backend_layout_next_level on rootline
             $sysPage = GeneralUtility::makeInstance(PageRepository::class);
-            $rootline = $sysPage->getRootLine($pid, '', true);
+            try {
+                $rootline = $sysPage->getRootLine($pid, '');
+            } catch (\RuntimeException $ex) {
+                $rootline = [];
+            }
             foreach ($rootline as $page) {
                 if ($page["backend_layout_next_level"] !== "") {
                     return $page["backend_layout_next_level"];
