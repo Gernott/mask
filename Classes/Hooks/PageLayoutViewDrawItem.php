@@ -29,8 +29,13 @@ namespace MASK\Mask\Hooks;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use MASK\Mask\Domain\Repository\StorageRepository;
+use MASK\Mask\Domain\Service\SettingsService;
+use MASK\Mask\Helper\InlineHelper;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
  * Renders the backend preview of mask content elements
@@ -42,8 +47,19 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDrawItemHookInterface
 {
 
+    /**
+     * @var ObjectManager
+     */
     protected $objectManager;
+
+    /**
+     * @var InlineHelper
+     */
     protected $inlineHelper;
+
+    /**
+     * @var StorageRepository
+     */
     protected $storageRepository;
 
     /**
@@ -77,32 +93,32 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
         &$itemContent,
         array &$row
     ) {
-        $this->settingsService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Service\\SettingsService');
+        $this->settingsService = GeneralUtility::makeInstance(SettingsService::class);
         $this->extSettings = $this->settingsService->get();
 
         // only render special backend preview if it is a mask element
         if (substr($row['CType'], 0, 4) === "mask") {
             $elementKey = substr($row['CType'], 5);
-            $templateRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($this->extSettings["backend"]);
+            $templateRootPath = GeneralUtility::getFileAbsFileName($this->extSettings["backend"]);
             $templatePathAndFilename = $templateRootPath . $elementKey . '.html';
 
             if (file_exists($templatePathAndFilename)) {
                 // initialize some things we need
-                $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\Object\\ObjectManager');
-                $this->inlineHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\InlineHelper');
-                $this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
-                $view = $this->objectManager->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
+                $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+                $this->inlineHelper = GeneralUtility::makeInstance(InlineHelper::class);
+                $this->storageRepository = $this->objectManager->get(StorageRepository::class);
+                $view = $this->objectManager->get(StandaloneView::class);
 
                 // Load the backend template
                 $view->setTemplatePathAndFilename($templatePathAndFilename);
 
                 // if there are paths for layouts and partials set, add them to view
                 if (!empty($this->extSettings["layouts_backend"])) {
-                    $layoutRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($this->extSettings["layouts_backend"]);
+                    $layoutRootPath = GeneralUtility::getFileAbsFileName($this->extSettings["layouts_backend"]);
                     $view->setLayoutRootPaths(array($layoutRootPath));
                 }
                 if (!empty($this->extSettings["partials_backend"])) {
-                    $partialRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($this->extSettings["partials_backend"]);
+                    $partialRootPath = GeneralUtility::getFileAbsFileName($this->extSettings["partials_backend"]);
                     $view->setPartialRootPaths(array($partialRootPath));
                 }
 
@@ -114,7 +130,7 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
 
                 // if the elementLabel contains LLL: then translate it
                 $elementLabel = $element["label"];
-                if (\TYPO3\CMS\Core\Utility\GeneralUtility::isFirstPartOfStr($elementLabel, 'LLL:')) {
+                if (GeneralUtility::isFirstPartOfStr($elementLabel, 'LLL:')) {
                     $elementLabel = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($elementLabel, "mask");
                 }
 
@@ -126,7 +142,7 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
                             $row['uid'] => 'edit'
                         ]
                     ],
-                    'returnUrl' => \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('REQUEST_URI')
+                    'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI')
                 ];
                 $editElementUrl = \TYPO3\CMS\Backend\Utility\BackendUtility::getModuleUrl('record_edit',
                     $editElementUrlParameters);
@@ -147,12 +163,14 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
      */
     protected function getContentObject($uid)
     {
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
+        $contentTable = 'tt_content';
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($contentTable);
         $queryBuilder
             ->select('*')
+            ->from($contentTable)
             ->where($queryBuilder->expr()->eq('uid', $uid));
         $queryBuilder->getRestrictions()->removeAll();
-        $data = $queryBuilder->fetch();
+        $data = $queryBuilder->execute()->fetch();
 
         $this->inlineHelper->addFilesToData($data, 'tt_content');
         $this->inlineHelper->addIrreToData($data);
