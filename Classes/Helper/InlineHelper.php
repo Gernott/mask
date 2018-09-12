@@ -228,11 +228,13 @@ class InlineHelper
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($childTable);
         $queryBuilder
             ->select('*')
+            ->from($childTable)
             ->where($queryBuilder->expr()->eq($parentFieldName, $parentUid))
             ->orderBy('sorting');
 
         if ($childTable !== 'tt_content') {
-            $queryBuilder->andWhere($queryBuilder->expr()->eq('parenttable', $parenttable));
+            $queryBuilder->andWhere('parenttable LIKE :parenttable');
+            $queryBuilder->setParameter('parenttable', $parenttable);
         }
 
         $rows = $queryBuilder->execute()->fetchAll();
