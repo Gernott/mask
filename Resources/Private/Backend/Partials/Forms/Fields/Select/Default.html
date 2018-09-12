@@ -12,7 +12,7 @@
 			<div class="form-control-wrap" style="">
 				<select id="select_renderType" name="tx_mask_tools_maskmask[storage][tca][--index--][config][renderType]"
 								title="{f:translate(key:'tx_mask.field.select.renderType')}"
-								class="form-control tx_mask_fieldcontent_eval">
+								class="form-control tx_mask_fieldcontent_eval tx_mask_fieldcontent_select_renderType">
 					<option value="selectSingle" {f:if(condition:
 					'{field.config.renderType} == \'selectSingle\'', then: ' selected="selected"')}>
 					<f:translate key="tx_mask.field.select.renderType.selectSingle"/>
@@ -60,5 +60,17 @@ option3,3"><mask:Items items="{field.config.items}"/></textarea>
 				<div class="tx_mask_fieldcontent_itemsresult"></div>
 			</div>
 		</div>
+	</div>
+</div>
+<div class="row tx_mask_fieldcontent_renderType_selectMultipleSideBySide" style="display: {f:if(condition: '{field.config.renderType} == \'selectMultipleSideBySide\'', then: 'block', else: ' none')};">
+	<div class="form-group col-sm-12">
+		<div class="t3js-formengine-field-item check-item">
+			<div class="form-control-wrap">
+				<input class="tx_mask_fieldcontent_search" name="tx_mask_tools_maskmask[storage][tca][--index--][config][enableMultiSelectFilterTextfield]" type="checkbox" {f:if(condition: '{field.config.enableMultiSelectFilterTextfield} == \'1\'', then: 'checked="checked"', else: '')} value="1" />
+			</div>
+		</div>
+		<label class="t3js-formengine-label check-item">
+			<f:translate key="tx_mask.field.select.renderType.selectMultipleSideBySide.search" />
+		</label>
 	</div>
 </div>
