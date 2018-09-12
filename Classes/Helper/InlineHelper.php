@@ -229,8 +229,7 @@ class InlineHelper
         $queryBuilder
             ->select('*')
             ->where($queryBuilder->expr()->eq($parentFieldName, $parentUid))
-            ->orderBy('sorting')
-        ;
+            ->orderBy('sorting');
 
         if ($childTable !== 'tt_content') {
             $queryBuilder->andWhere($queryBuilder->expr()->eq('parenttable', $parenttable));

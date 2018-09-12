@@ -115,7 +115,8 @@ if (!function_exists('user_mask_beLayout')) {
 
         if ($uid) {
             $connection = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ConnectionPool::class)->getConnectionForTable('pages');
-            $data = $connection->select(['backend_layout', 'backend_layout_next_level'], 'pages', ['uid' => $uid])->fetch();
+            $data = $connection->select(['backend_layout', 'backend_layout_next_level'], 'pages',
+                ['uid' => $uid])->fetch();
 
             $backend_layout = $data["backend_layout"];
             $backend_layout_next_level = $data["backend_layout_next_level"];

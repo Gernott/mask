@@ -128,7 +128,8 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
                     ],
                     'returnUrl' => \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('REQUEST_URI')
                 ];
-                $editElementUrl = \TYPO3\CMS\Backend\Utility\BackendUtility::getModuleUrl('record_edit', $editElementUrlParameters);
+                $editElementUrl = \TYPO3\CMS\Backend\Utility\BackendUtility::getModuleUrl('record_edit',
+                    $editElementUrlParameters);
                 $headerContent = '<strong><a href="' . $editElementUrl . '">' . $elementLabel . '</a></strong><br>';
                 $itemContent .= '<div style="display:block; padding: 10px 0 4px 0px;border-top: 1px solid #CACACA;margin-top: 6px;" class="content_preview_' . $elementKey . '">';
                 $itemContent .= $content;
@@ -149,8 +150,7 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
         $queryBuilder
             ->select('*')
-            ->where($queryBuilder->expr()->eq('uid', $uid))
-        ;
+            ->where($queryBuilder->expr()->eq('uid', $uid));
         $queryBuilder->getRestrictions()->removeAll();
         $data = $queryBuilder->fetch();
 

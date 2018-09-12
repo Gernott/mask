@@ -85,17 +85,34 @@
 									<td class="text-nowrap">
 										<div class="btn-group" role="group">
 											<f:link.action action="showHtml" arguments="{key: key, table: 'tt_content'}" onclick="window.open(this.href, 'HTML', 'width=800,height=600,resizable=yes,scrollbars=yes');
-												return false;" class="btn btn-default"><core:icon identifier="sysnote-type-2" /></f:link.action>
-											<f:link.action action="edit" arguments="{type:'tt_content',key:key}" class="btn btn-default"><core:icon identifier="actions-open" /></f:link.action>
+												return false;" class="btn btn-default">
+												<core:icon identifier="sysnote-type-2"/>
+											</f:link.action>
+											<f:link.action action="edit" arguments="{type:'tt_content',key:key}" class="btn btn-default">
+												<core:icon identifier="actions-open"/>
+											</f:link.action>
 											<f:if condition="{storage.hidden}">
 												<f:then>
-													<f:link.action action="activate" arguments="{key:key}" class="btn btn-default"><core:icon identifier="actions-edit-unhide" /></f:link.action>
+													<f:link.action action="activate" arguments="{key:key}" class="btn btn-default">
+														<core:icon identifier="actions-edit-unhide"/>
+													</f:link.action>
 												</f:then>
 												<f:else>
-													<f:link.action action="hide" arguments="{key:key}" class="btn btn-default"><core:icon identifier="actions-edit-hide" /></f:link.action>
+													<f:link.action action="hide" arguments="{key:key}" class="btn btn-default">
+														<core:icon identifier="actions-edit-hide"/>
+													</f:link.action>
 												</f:else>
 											</f:if>
-											<f:link.action action="delete" arguments="{type:'tt_content',key:key}" class="deleteCe btn btn-default" additionalAttributes="{data-purge-url:'{f:uri.action(action:\'purge\', arguments: {type:\'tt_content\',key:key})}', data-title: '{f:translate(key:\"tx_mask.field.titleDelete\")}', data-content: '{f:translate(key:\"tx_mask.all.confirmdelete\")}', data-button-close-text:'{f:translate(key:\"tx_mask.all.abort\")}', data-button-ok-text:'{f:translate(key:\"tx_mask.all.delete\")}', data-button-purge-text:'{f:translate(key:\"tx_mask.all.purge\")}'}"><core:icon identifier="actions-edit-delete" /></f:link.action>
+											<f:link.action action="delete" arguments="{type:'tt_content',key:key}"
+																		 class="deleteCe btn btn-default"
+																		 additionalAttributes="{data-purge-url:'{f:uri.action(action:\'purge\', arguments: {type:\'tt_content\',key:key})}', data-title: '{f:translate(key:\"
+																		 tx_mask.field.titleDelete\
+											")}', data-content: '{f:translate(key:\"tx_mask.all.confirmdelete\")}',
+											data-button-close-text:'{f:translate(key:\"tx_mask.all.abort\")}',
+											data-button-ok-text:'{f:translate(key:\"tx_mask.all.delete\")}',
+											data-button-purge-text:'{f:translate(key:\"tx_mask.all.purge\")}'}">
+											<core:icon identifier="actions-edit-delete"/>
+											</f:link.action>
 										</div>
 									</td>
 								</tr>

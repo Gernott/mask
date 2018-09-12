@@ -29,16 +29,7 @@ class ConfigureExtensionViewHelper extends AbstractViewHelper
      */
     public function render()
     {
-        $urlParameters = array(
-            'tx_extensionmanager_tools_extensionmanagerextensionmanager[extension][key]' => 'mask',
-            'tx_extensionmanager_tools_extensionmanagerextensionmanager[action]' => 'showConfigurationForm',
-            'tx_extensionmanager_tools_extensionmanagerextensionmanager[controller]' => 'Configuration',
-            'returnUrl' => BackendUtility::getModuleUrl('tools_MaskMask', array(
-                'tx_mask_tools_maskmask[controller]' => $this->renderingContext->getControllerName(),
-                'tx_mask_tools_maskmask[action]' => $this->renderingContext->getControllerAction(),
-            )),
-        );
-        $url = BackendUtility::getModuleUrl('tools_ExtensionmanagerExtensionmanager', $urlParameters);
-        return '<a href="' . htmlspecialchars($url) . '">' . $this->renderChildren() . '</a>';
+        $url = BackendUtility::getModuleUrl('tools_toolssettings');
+        return '<a href="' . (string)$url . '">' . $this->renderChildren() . '</a>';
     }
 }
