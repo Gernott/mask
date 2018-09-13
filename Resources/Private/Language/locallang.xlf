@@ -150,6 +150,18 @@
 			<trans-unit id="tx_mask.field.label">
 				<source>Label</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.check.renderType">
+				<source>Rendertype</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.check.renderType.default">
+				<source>Checkbox</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.check.renderType.checkboxToggle">
+				<source>Toggle-Switch</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.check.renderType.checkboxLabeledToggle">
+				<source>Labeled Toggle-Switch</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.content.check.columns">
 				<source>Columns</source>
 			</trans-unit>

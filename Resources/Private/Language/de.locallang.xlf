@@ -157,6 +157,18 @@
 			<trans-unit id="tx_mask.content.check.items">
 				<target>Einträge (Ein Titel je Zeile, max 10)</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.check.renderType">
+				<source>Darstellung</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.check.renderType.default">
+				<source>Checkbox</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.check.renderType.checkboxToggle">
+				<source>Toggle-Schalter</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.check.renderType.checkboxLabeledToggle">
+				<source>Beschrifteter Toggle-Schalter</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.date.default">
 				<target>Standard</target>
 			</trans-unit>
