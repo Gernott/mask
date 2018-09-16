@@ -156,16 +156,13 @@ module.tx_mask {
 	}
 }
 ';
-        // Load setup.ts Template
-        $template = file_get_contents(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mask') . "Resources/Private/Mask/setup.ts",
-            true);
         // Fill setup.ts:
         if ($configuration["tt_content"]["elements"]) {
             foreach ($configuration["tt_content"]["elements"] as $element) {
                 if (!$element["hidden"]) {
-                    $temp = str_replace("###KEY###", $element["key"], $template);
-                    $temp = str_replace("###PATH###", $settings['content'] . $element["key"] . '.html', $temp);
-                    $setupContent .= $temp;
+                    $setupContent .= "tt_content.mask_" . $element["key"] .
+                        " =< lib.maskContentElement\ntt_content.mask_" . $element["key"] .
+                        " {\ntemplateName = " . $element["key"] . "\n}\n\n";
                 }
             }
         }
