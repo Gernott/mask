@@ -90,20 +90,28 @@ class TcaCodeGenerator extends AbstractCodeGenerator
             $gridelements = ', tx_gridelements_container, tx_gridelements_columns';
         }
         if ($tca) {
+
+            // add new group in CType selectbox
+            $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = [
+                'LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:new_content_element_tab',
+                '--div--'
+            ];
+
             foreach ($tca as $elementvalue) {
                 if (!$elementvalue["hidden"]) {
+
                     $prependTabs = "--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,";
                     $fieldArray = array();
-                    $label = $elementvalue["shortLabel"]; // Optional shortLabel
-                    if ($label == "") {
-                        $label = $elementvalue["label"];
-                    }
+                    $label = $elementvalue["shortLabel"] ? $elementvalue["shortLabel"] : $elementvalue["label"]; // Optional shortLabel
+
+                    // add new entry in CType selectbox
                     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(array(
                         $label,
-                        "mask_" . $elementvalue["key"]
+                        "mask_" . $elementvalue["key"],
+                        'mask-ce-' . $elementvalue["key"]
                     ), "CType", "mask");
 
-                    // now add all the fields that should be shown
+                    // add all the fields that should be shown
                     if (is_array($elementvalue["columns"])) {
                         foreach ($elementvalue["columns"] as $index => $fieldKey) {
 
@@ -124,8 +132,8 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                         }
                     }
                     $fields = implode(",", $fieldArray);
-
-//			   $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["columnsOverrides"]["bodytext"]["defaultExtras"] = 'richtext:rte_transform[mode=ts_css]';
+                    
+                    $GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes']["mask_" . $elementvalue["key"]] = 'mask-ce-' . $elementvalue["key"];
                     $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["columnsOverrides"]["bodytext"]["config"]['richtextConfiguration'] = 'default';
                     $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["columnsOverrides"]["bodytext"]["config"]['enableRichtext'] = 1;
                     $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["showitem"] = $prependTabs . $fields . $defaultTabs . $gridelements;
