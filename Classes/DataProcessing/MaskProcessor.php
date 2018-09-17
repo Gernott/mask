@@ -6,8 +6,9 @@ use MASK\Mask\Helper\InlineHelper;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
 
-class MaskProcessor extends \TYPO3\CMS\Frontend\DataProcessing\FilesProcessor
+class MaskProcessor implements DataProcessorInterface
 {
 
     /**
