@@ -147,7 +147,7 @@ class WizardContentController extends WizardController
         $this->generateAction();
         $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.deletedcontentelement',
             'mask'));
-        $this->redirect('list');
+        $this->redirect('list', 'Wizard');
     }
 
     /**
@@ -164,7 +164,7 @@ class WizardContentController extends WizardController
         $this->generateAction();
         $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.deletedcontentelement',
             'mask'));
-        $this->redirect('list');
+        $this->redirect('list', 'Wizard');
     }
 
     /**
@@ -179,7 +179,7 @@ class WizardContentController extends WizardController
         $this->generateAction();
         $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.hiddencontentelement',
             'mask'));
-        $this->redirect('list');
+        $this->redirect('list','Wizard');
     }
 
     /**
@@ -194,7 +194,7 @@ class WizardContentController extends WizardController
         $this->generateAction();
         $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.activatedcontentelement',
             'mask'));
-        $this->redirect('list');
+        $this->redirect('list','Wizard');
     }
 
     /**
@@ -224,7 +224,7 @@ class WizardContentController extends WizardController
     {
         $html = $this->htmlCodeGenerator->generateHtml($key, 'tt_content');
         $this->saveHtml($key, $html);
-        $this->redirect('list');
+        $this->redirect('list', 'Wizard');
     }
 
 }

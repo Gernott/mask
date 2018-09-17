@@ -57,13 +57,13 @@
 								<tr class="{f:if(condition:'{storage.hidden}' then:'element-hidden')}">
 									<td></td>
 									<td>
-										<f:link.action action="edit" arguments="{type:'tt_content',key:key}">
+										<f:link.action action="edit" arguments="{type:'tt_content',key:key}" controller="WizardContent">
 											<core:icon identifier="mask-ce-{key}" size="large"/>
 										</f:link.action>
 									</td>
 									<td class="text-nowrap">
 										<p><strong>
-											<f:link.action action="edit" arguments="{type:'tt_content',key:key}">
+											<f:link.action action="edit" arguments="{type:'tt_content',key:key}" controller="WizardContent">
 												<f:translate key="{storage.label}">{storage.label}</f:translate>
 											</f:link.action>
 										</strong><br/>{key}
@@ -74,7 +74,7 @@
 										<p>{storage.description}</p>
 										<mask:link data="{key}"/>
 										<f:if condition="{mask:link(data:key)}">
-											<f:link.action action="createHtml" arguments="{key:key}">
+											<f:link.action action="createHtml" arguments="{key:key}" controller="WizardContent">
 												<i class="fa fa-plus-circle "></i>
 											</f:link.action>
 										</f:if>
@@ -84,27 +84,27 @@
 									</td>
 									<td class="text-nowrap">
 										<div class="btn-group" role="group">
-											<f:link.action action="showHtml" arguments="{key: key, table: 'tt_content'}" onclick="window.open(this.href, 'HTML', 'width=800,height=600,resizable=yes,scrollbars=yes');
+											<f:link.action action="showHtml" controller="WizardContent" arguments="{key: key, table: 'tt_content'}" onclick="window.open(this.href, 'HTML', 'width=800,height=600,resizable=yes,scrollbars=yes');
 												return false;" class="btn btn-default">
 												<core:icon identifier="sysnote-type-2"/>
 											</f:link.action>
-											<f:link.action action="edit" arguments="{type:'tt_content',key:key}" class="btn btn-default">
+											<f:link.action action="edit" controller="WizardContent" arguments="{type:'tt_content',key:key}" class="btn btn-default">
 												<core:icon identifier="actions-open"/>
 											</f:link.action>
 											<f:if condition="{storage.hidden}">
 												<f:then>
-													<f:link.action action="activate" arguments="{key:key}" class="btn btn-default">
+													<f:link.action action="activate" controller="WizardContent" arguments="{key:key}" class="btn btn-default">
 														<core:icon identifier="actions-edit-unhide"/>
 													</f:link.action>
 												</f:then>
 												<f:else>
-													<f:link.action action="hide" arguments="{key:key}" class="btn btn-default">
+													<f:link.action action="hide" controller="WizardContent" arguments="{key:key}" class="btn btn-default">
 														<core:icon identifier="actions-edit-hide"/>
 													</f:link.action>
 												</f:else>
 											</f:if>
 											<!-- @formatter:off -->
-											<f:link.action action="delete" arguments="{type:'tt_content',key:key}" class="deleteCe btn btn-default" additionalAttributes="{data-purge-url:'{f:uri.action(action:\'purge\', arguments: {type:\'tt_content\',key:key})}', data-title: '{f:translate(key:\"tx_mask.field.titleDelete\")}', data-content: '{f:translate(key:\"tx_mask.all.confirmdelete\")}', data-button-close-text:'{f:translate(key:\"tx_mask.all.abort\")}', data-button-ok-text:'{f:translate(key:\"tx_mask.all.delete\")}', data-button-purge-text:'{f:translate(key:\"tx_mask.all.purge\")}'}"><core:icon identifier="actions-edit-delete" /></f:link.action>
+											<f:link.action action="delete" controller="WizardContent" arguments="{type:'tt_content',key:key}" class="deleteCe btn btn-default" additionalAttributes="{data-purge-url:'{f:uri.action(action:\'purge\', arguments: {type:\'tt_content\',key:key})}', data-title: '{f:translate(key:\"tx_mask.field.titleDelete\")}', data-content: '{f:translate(key:\"tx_mask.all.confirmdelete\")}', data-button-close-text:'{f:translate(key:\"tx_mask.all.abort\")}', data-button-ok-text:'{f:translate(key:\"tx_mask.all.delete\")}', data-button-purge-text:'{f:translate(key:\"tx_mask.all.purge\")}'}"><core:icon identifier="actions-edit-delete" /></f:link.action>
 											<!-- @formatter:on -->
 										</div>
 									</td>

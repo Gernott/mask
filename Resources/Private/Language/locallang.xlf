@@ -451,7 +451,7 @@
 				<source>Title</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.error">
-				<source>Error!</source>
+				<source>Missing folders!</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.image">
 				<source>Image</source>
@@ -542,10 +542,10 @@
 				<source>Extend Backend-Layout</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.page.nobackendlayout">
-				<source>No Backend-Layout found. Create at least one Backend-Layout in module "List".</source>
+				<source>Create at least one Backendlayout in module "List".</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.page.warning">
-				<source>Caution!</source>
+				<source>No Backendlayout found</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.page.updatedpage">
 				<source>Backend-Layout was updated.</source>

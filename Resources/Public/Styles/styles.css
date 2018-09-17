@@ -702,3 +702,32 @@ UL.tx_mask_fieldtypes .tx_mask_fieldcontent_highlight {
 	content: "\f077" !important;
 	font-family: FontAwesome !important;
 }
+
+thead th {
+	height: 42px;
+}
+
+table .btn-add {
+	margin: 8px auto;
+	display: block;
+	width: 270px;
+}
+
+h1 .icon.t3js-icon {
+	margin-right: 10px;
+}
+
+.imprint {
+	text-align: right;
+	margin-top: 70px;
+	letter-spacing: 2px;
+	font-size: 11px;
+	font-family: 'Source Sans Pro', sans-serif;
+	line-height: 11px;
+	color: #797979;
+	filter: saturate(0);
+}
+
+img.brand-logo {
+	width: 100px;
+}

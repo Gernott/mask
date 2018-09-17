@@ -241,7 +241,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             $this->redirect('edit', null, null, $arguments);
         } else {
             if (key_exists("saveAndExit", $formAction)) {
-                $this->redirect('list');
+                $this->redirect('list', 'Wizard');
             }
         }
     }
@@ -254,9 +254,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      */
     protected function checkFolders()
     {
-
         $messages = [];
-
         if (!file_exists(PATH_site . $this->extSettings["content"])) {
             $messages[] = $this->extSettings["content"] . ": " . \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.all.error.missingfolder',
                     'mask');
@@ -296,5 +294,26 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
                 'mask'));
         }
         $this->redirect("list");
+    }
+
+
+    /**
+     * action list
+     *
+     * @return void
+     */
+    public function listAction()
+    {
+        $settings = $this->settingsService->get();
+        $storages = $this->storageRepository->load();
+        $backendLayouts = $this->backendLayoutRepository->findAll(explode(",", $settings['backendlayout_pids']));
+        $messages = $this->checkFolders();
+        $missingFolders = count($messages) > 0;
+
+        $this->view->assign('messages', $messages);
+        $this->view->assign('missingFolders', $missingFolders);
+        $this->view->assign('storages', $storages);
+        $this->view->assign('backendLayouts', $backendLayouts);
+
     }
 }

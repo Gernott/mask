@@ -45,18 +45,6 @@ class WizardPageController extends \MASK\Mask\Controller\WizardController
     protected $storageRepository;
 
     /**
-     * action list
-     *
-     * @return void
-     */
-    public function listAction()
-    {
-        $settings = $this->settingsService->get();
-        $backendLayouts = $this->backendLayoutRepository->findAll(explode(",", $settings['backendlayout_pids']));
-        $this->view->assign('backendLayouts', $backendLayouts);
-    }
-
-    /**
      * action new
      *
      * @return void
