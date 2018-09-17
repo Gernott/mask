@@ -24,8 +24,6 @@ Mask
 	background-color: #efefef;
 	cursor: move;
 	height: 37px;
-	border-radius: 2px;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.13);
 }
 
 .tx_mask_btn_row {
@@ -39,7 +37,7 @@ Mask
 
 .id_Inline .tx_mask_btn_caption {
 	padding-left: 5px;
-	border-left: 2px solid #ddd;
+	border-left: 2px solid #9c97ce;
 	background-color: #ededed;
 }
 
@@ -99,6 +97,7 @@ Mask
 .tx_mask_tabcell2 UL .dragtarget li.tx_mask_btn {
 	margin-top: 3px;
 	margin-bottom: 0px;
+	border-bottom: 2px solid #fafafa;
 }
 
 .tx_mask_tabcell2 UL.tx_mask_fieldtypes LI .id_typetext,
@@ -149,19 +148,20 @@ Mask
 
 /* Texts */
 UL.tx_mask_fieldtypes LI .id_typetext {
-	font-size: 120%;
+	/*font-size: 120%;*/
 	line-height: 220%;
 }
 
 UL.tx_mask_fieldtypes LI .id_labeltext {
 	display: block;
-	font-size: 12px;
+	font-size: 13px;
 	font-weight: bold;
 	color: #525252;
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
 	max-width: 220px;
+	font-family: 'Source Sans-Pro', sans-serif;
 }
 
 UL.tx_mask_fieldtypes LI .id_keytext {
@@ -215,13 +215,18 @@ UL.tx_mask_fieldtypes .tx_mask_fieldcontent_highlight {
 }
 
 .tx_mask_tabcell1 LI {
-	font-family: Share, Verdana, Arial, Helvetica, sans-serif;
-	font-size: 1.1em;
+	font-family: 'Source Sans Pro',sans-serif;
+	font-size: 1.2em;
+	background: #6f6f6f;
+	box-shadow: none;
+	color: #4c4c4c;
+	font-weight: bold;
 }
 
 .tx_mask_tabcell1 LI .tx_mask_btn_actions {
 	cursor: hand;
 	cursor: pointer;
+	display: none;
 }
 
 .row.bench {
@@ -701,4 +706,57 @@ UL.tx_mask_fieldtypes .tx_mask_fieldcontent_highlight {
 .fip-icon-up-dir:before {
 	content: "\f077" !important;
 	font-family: FontAwesome !important;
+}
+
+.tx_mask_tabcell1 .id_String {
+	background: #51b3ad;
+}
+.tx_mask_tabcell1 .id_Integer {
+	background: #f98e71;
+}
+.tx_mask_tabcell1 .id_Float {
+	background: #f4a863;
+}
+.tx_mask_tabcell1 .id_Link {
+	background: #7fbacd;
+}
+.tx_mask_tabcell1 .id_Date {
+	background: #e17764;
+}
+.tx_mask_tabcell1 .id_Datetime {
+	background: #de87b5;
+}
+.tx_mask_tabcell1 .id_Text {
+	background: #6599bc;
+}
+.tx_mask_tabcell1 .id_Richtext {
+	background: #6eb47c;
+}
+.tx_mask_tabcell1 .id_Check {
+	background: #a4ce8d;
+}
+.tx_mask_tabcell1 .id_Radio {
+	background: #f8d760;
+}
+.tx_mask_tabcell1 .id_Select {
+	background: #b9cc70;
+}
+.tx_mask_tabcell1 .id_File {
+	background: #8db3f4;
+}
+.tx_mask_tabcell1 .id_Inline {
+	background: #9c97ce;
+}
+.tx_mask_tabcell1 .id_Content {
+	background: #95a9af;
+}
+.tx_mask_tabcell1 .id_Tab {
+	background: #837e76;
+}
+.tx_mask_tabcell1 .tx_mask_btn_row .tx_mask_btn_text {
+	background: #ffffffba;
+}
+
+#typo3-inner-docbody {
+	max-width: 1500px;
 }
