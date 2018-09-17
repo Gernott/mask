@@ -47,11 +47,6 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
     {
         // generate page TSconfig
         $content = "";
-        $temp = "";
-
-        // Load page.ts Template
-        $template = file_get_contents(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mask') . "Resources/Private/Mask/page.ts",
-            true);
         $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance("TYPO3\CMS\Core\Imaging\IconRegistry");
 
         // make content-Elements
@@ -64,14 +59,28 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
                         'contentElementKey' => $element["key"]
                     )
                 );
-                if (!$element["hidden"]) {
-                    $temp = str_replace("###ICON###", "iconIdentifier = " . $iconIdentifier, $template);
-                    $temp = str_replace("###KEY###", $element["key"], $temp);
-                    $temp = str_replace("###LABEL###", $element["label"], $temp);
-                    $temp = str_replace("###DESCRIPTION###", $element["description"], $temp);
-                    $content .= $temp;
 
-                    // Labels
+                if (!$element["hidden"]) {
+
+                    // add the content element wizard for each content element
+                    $wizard = [
+                        'header' => 'LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:new_content_element_tab',
+                        'elements.mask_' . $element["key"] => [
+                            'iconIdentifier' => $iconIdentifier,
+                            'title' => $element["label"],
+                            'description' => $element["description"],
+                            'tt_content_defValues' => [
+                                'CType' => 'mask_' . $element["key"]
+                            ]
+                        ],
+
+                    ];
+                    $content .= "mod.wizards.newContentElement.wizardItems.mask {\n";
+                    $content .= $this->convertArrayToTypoScript($wizard, '', 1);
+                    $content .= "\tshow := addToList(mask_" . $element["key"] . ");\n";
+                    $content .= "}\n";
+
+                    // and switch the labels depending on which content element is selected
                     $content .= "\n[userFunc = user_mask_contentType(CType|mask_" . $element["key"] . ")]\n";
                     if ($element["columns"]) {
                         foreach ($element["columns"] as $index => $column) {
