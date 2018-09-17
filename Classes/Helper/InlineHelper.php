@@ -40,6 +40,12 @@ class InlineHelper
 {
 
     /**
+     * @var TYPO3\CMS\Extbase\Object\ObjectManager
+     * @Inject()
+     */
+    protected $objectManager;
+
+    /**
      * StorageRepository
      *
      * @var \MASK\Mask\Domain\Repository\StorageRepository
@@ -87,13 +93,14 @@ class InlineHelper
         if (!is_numeric($uid)) {
             return;
         }
-
         $fieldHelper = GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
-        $objectManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+        if (!$this->objectManager) {
+            $this->objectManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+        }
 
         $storage = $this->storageRepository->load();
         /* @var $fileRepository \TYPO3\CMS\Core\Resource\FileRepository */
-        $fileRepository = $objectManager->get("TYPO3\CMS\Core\Resource\FileRepository");
+        $fileRepository = $this->objectManager->get("TYPO3\CMS\Core\Resource\FileRepository");
         $contentFields = array("media", "image", "assets");
         if ($storage[$table]["tca"]) {
             foreach ($storage[$table]["tca"] as $fieldKey => $field) {

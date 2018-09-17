@@ -26,6 +26,8 @@ namespace MASK\Mask\CodeGenerator;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use MASK\Mask\Domain\Model\BackendLayout;
+
 /**
  * Generates all the typoscript needed for mask content elements
  *
@@ -120,55 +122,110 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
     }
 
     /**
-     * Generates the typoscript for the setup.ts
+     * Generates the typoscript for the setup field
      * @param array $configuration
      * @param array $settings
+     * @return string
      */
     public function generateSetupTyposcript($configuration, $settings)
     {
-
         // generate TypoScript setup
-        $setupContent = '
-module.tx_mask {
-	view {
-		templateRootPaths {
-			10 = EXT:mask/Resources/Private/Backend/Templates/
-		}
-		partialRootPaths {
-			10 = EXT:mask/Resources/Private/Backend/Partials/
-		}
-		layoutRootPaths {
-			10 = EXT:mask/Resources/Private/Backend/Layouts/
-		}
-	}
-	persistence{
-		classes {
-			MASK\Mask\Domain\Model\BackendLayout {
-				mapping {
-					tableName = backend_layout
-					columns {
-						uid.mapOnProperty = uid
-						title.mapOnProperty = title
-					}
-				}
-			}
-		}
-	}
-}
-';
-        // Load setup.ts Template
-        $template = file_get_contents(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mask') . "Resources/Private/Mask/setup.ts",
-            true);
-        // Fill setup.ts:
+        $setupContent = [];
+
+        // for backend module
+        $setupContent[] = $this->convertArrayToTypoScript([
+            'view' => [
+                'templateRootPaths' => [
+                    10 => 'EXT:mask/Resources/Private/Backend/Templates/'
+                ],
+                'partialRootPaths' => [
+                    10 => 'EXT:mask/Resources/Private/Backend/Partials/'
+                ],
+                'layoutRootPaths' => [
+                    10 => 'EXT:mask/Resources/Private/Backend/Layouts/'
+                ]
+            ],
+            'persistence' => [
+                'classes' => [
+                    BackendLayout::class => [
+                        'mapping' => [
+                            'tableName' => 'backend_layout',
+                            'columns' => [
+                                'uid.mapOnProperty' => 'uid',
+                                'title.mapOnProperty' => 'title'
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ], 'module.tx_mask');
+
+        // for base paths to fluid templates configured in extension settings
+        $setupContent[] = $this->convertArrayToTypoScript([
+            'templateRootPaths' => [
+                10 => $settings['content']
+            ],
+            'partialRootPaths' => [
+                10 => $settings['partials']
+            ],
+            'layoutRootPaths' => [
+                10 => $settings['layouts']
+            ]
+        ], 'lib.maskContentElement');
+
+        // for each content element
         if ($configuration["tt_content"]["elements"]) {
             foreach ($configuration["tt_content"]["elements"] as $element) {
                 if (!$element["hidden"]) {
-                    $temp = str_replace("###KEY###", $element["key"], $template);
-                    $temp = str_replace("###PATH###", $settings['content'] . $element["key"] . '.html', $temp);
-                    $setupContent .= $temp;
+                    $setupContent[] = "tt_content.mask_" . $element["key"] .
+                        " =< lib.maskContentElement\ntt_content.mask_" . $element["key"] .
+                        " {\ntemplateName = " . ucfirst($element["key"]) . "\n}\n\n";
                 }
             }
         }
-        return $setupContent;
+
+        return implode("\n\n", $setupContent);
+    }
+
+    /**
+     * Converts given array to TypoScript
+     *
+     * @param array $typoScriptArray The array to convert to string
+     * @param string $addKey Prefix given values with given key (eg. lib.whatever = {...})
+     * @param integer $tab Internal
+     * @param boolean $init Internal
+     * @return string TypoScript
+     */
+    protected function convertArrayToTypoScript(array $typoScriptArray, $addKey = '', $tab = 0, $init = true)
+    {
+        $typoScript = '';
+        if ($addKey !== '') {
+            $typoScript .= str_repeat("\t", ($tab === 0) ? $tab : $tab - 1) . $addKey . " {\n";
+            if ($init === true) {
+                $tab++;
+            }
+        }
+        $tab++;
+        foreach ($typoScriptArray as $key => $value) {
+            if (!is_array($value)) {
+                if (strpos($value, "\n") === false) {
+                    $typoScript .= str_repeat("\t", ($tab === 0) ? $tab : $tab - 1) . "$key = $value\n";
+                } else {
+                    $typoScript .= str_repeat("\t",
+                            ($tab === 0) ? $tab : $tab - 1) . "$key (\n$value\n" . str_repeat("\t",
+                            ($tab === 0) ? $tab : $tab - 1) . ")\n";
+                }
+            } else {
+                $typoScript .= $this->convertArrayToTypoScript($value, $key, $tab, false);
+            }
+        }
+        if ($addKey !== '') {
+            $tab--;
+            $typoScript .= str_repeat("\t", ($tab === 0) ? $tab : $tab - 1) . '}';
+            if ($init !== true) {
+                $typoScript .= "\n";
+            }
+        }
+        return $typoScript;
     }
 }

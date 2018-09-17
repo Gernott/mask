@@ -12,11 +12,6 @@ $settingsService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\M
 $configuration = $storageRepository->load();
 $settings = $settingsService->get();
 
-// Register Plugin to render content in the frontend
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-    'MASK.' . $_EXTKEY, 'ContentRenderer', array('Frontend' => 'contentelement'), array('Frontend' => '')
-);
-
 // Register Icons needed in the backend module
 $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance("TYPO3\CMS\Core\Imaging\IconRegistry");
 $maskIcons = array(

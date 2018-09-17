@@ -6,6 +6,15 @@ lib.tx_mask.content {
     dontCheckPid = 1
 }
 
+# mask content elements are rendered with this snippet
+lib.maskContentElement = FLUIDTEMPLATE
+lib.maskContentElement {
+     dataProcessing {
+        100 = MASK\Mask\DataProcessing\MaskProcessor
+    }
+}
+
+
 # Temporary page cObject:
 temp.mask.page = PAGE
 temp.mask.page {
