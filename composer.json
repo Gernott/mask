@@ -2,7 +2,7 @@
 	"name": "mask/mask",
 	"type": "typo3-cms-extension",
 	"description": "Create your own content elements and page templates. Easy to use, even without programming skills because of the comfortable drag and drop user interface. Stored in structured database tables. Style your frontend with Fluid tags. Ideal, if you want to switch from Templavoila.",
-	"homepage": "http://mask.webprofil.at/",
+	"homepage": "https://mask.webprofil.at/",
 	"support": {
 		"source": "https://github.com/Gernott/mask",
 		"docs": "https://docs.typo3.org/typo3cms/extensions/mask/",
@@ -19,7 +19,7 @@
 			"name": "WEBprofil - Gernot Ploiner e.U.",
 			"email": "office@webprofil.at",
 			"role": "Developer",
-			"homepage": "http://www.webprofil.at"
+			"homepage": "https://www.webprofil.at"
 		}
 	],
 	"license": "GPL-2.0-or-later",
