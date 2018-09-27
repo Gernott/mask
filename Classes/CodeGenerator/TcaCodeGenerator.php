@@ -82,7 +82,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
     {
 
         $fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
-        $defaultTabs = ",--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.appearance,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.frames;frames,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.appearanceLinks;appearanceLinks,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,--palette--;;language,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,--palette--;;hidden,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:categories,--div--;LLL:EXT:lang/Resources/Private/Language/locallang_tca.xlf:sys_category.tabs.category,categories,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:notes,rowDescription,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended";
+        $defaultTabs = ",--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.appearance,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.frames;frames,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.appearanceLinks;appearanceLinks,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,--palette--;;language,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,--palette--;;hidden,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:categories,--div--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_category.tabs.category,categories,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:notes,rowDescription,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended";
 
         // add gridelements fields, to make mask work with gridelements out of the box
         $gridelements = '';
@@ -208,22 +208,22 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                                 'overrideChildTca' => array(
                                     'types' => array(
                                         '0' => array(
-                                            'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+                                            'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
                                         ),
                                         '1' => array(
-                                            'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+                                            'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
                                         ),
                                         '2' => array(
-                                            'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+                                            'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
                                         ),
                                         '3' => array(
-                                            'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+                                            'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
                                         ),
                                         '4' => array(
-                                            'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+                                            'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
                                         ),
                                         '5' => array(
-                                            'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+                                            'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
                                         ),
                                     ),
                                 )
@@ -366,12 +366,12 @@ class TcaCodeGenerator extends AbstractCodeGenerator
             'columns' => array(
                 'sys_language_uid' => array(
                     'exclude' => 1,
-                    'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
+                    'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
                     'config' => array(
                         'type' => 'select',
                         'renderType' => 'selectSingle',
                         'items' => array(
-                            array('LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages', -1, 'flags-multiple'),
+                            array('LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.allLanguages', -1, 'flags-multiple'),
                         ),
                         'special' => 'languages',
                         'default' => 0
@@ -380,7 +380,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                 'l10n_parent' => array(
                     'displayCond' => 'FIELD:sys_language_uid:>:0',
                     'exclude' => 1,
-                    'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.l18n_parent',
+                    'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.l18n_parent',
                     'config' => array(
                         'type' => 'select',
                         'renderType' => 'selectSingle',
@@ -398,7 +398,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                     ),
                 ),
                 't3ver_label' => array(
-                    'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.versionLabel',
+                    'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.versionLabel',
                     'config' => array(
                         'type' => 'input',
                         'size' => 30,
@@ -407,14 +407,14 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                 ),
                 'hidden' => array(
                     'exclude' => 1,
-                    'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.hidden',
+                    'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.hidden',
                     'config' => array(
                         'type' => 'check',
                     ),
                 ),
                 'starttime' => array(
                     'exclude' => 1,
-                    'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.starttime',
+                    'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.starttime',
                     'config' => array(
                         'behaviour' => array(
                             'allowLanguageSynchronization' => true
@@ -429,7 +429,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                 ),
                 'endtime' => array(
                     'exclude' => 1,
-                    'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.endtime',
+                    'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.endtime',
                     'config' => array(
                         'behaviour' => array(
                             'allowLanguageSynchronization' => true
