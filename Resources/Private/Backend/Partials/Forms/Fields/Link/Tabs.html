@@ -34,26 +34,18 @@
 	</div>
 	<div class="row">
 		<div class="form-group col-sm-12">
+			<!-- @formatter:off -->
 			<f:translate key="tx_mask.field.link.file"/>
-			<input name="tx_mask_tools_maskmask[dummy][--index--][file]" type="checkbox" value="file" {f:if(condition:
-			'{mask:linkoption(fieldKey:\'{key}\', elementKey:\'{elementKey}\', evalValue:\'file\')}', then:
-			'checked="checked"', else: '')} class="tx_mask_fieldcontent_link" />
+			<input name="tx_mask_tools_maskmask[dummy][--index--][file]" type="checkbox" value="file" {f:if(condition:'{mask:linkoption(fieldKey:\'{key}\', elementKey:\'{elementKey}\', evalValue:\'file\')}', then:'checked="checked"', else: '')} class="tx_mask_fieldcontent_link" />
 			<f:translate key="tx_mask.field.link.mail"/>
-			<input name="tx_mask_tools_maskmask[dummy][--index--][mail]" type="checkbox" value="mail" {f:if(condition:
-			'{mask:linkoption(fieldKey:\'{key}\', elementKey:\'{elementKey}\', evalValue:\'mail\')}', then:
-			'checked="checked"', else: '')} class="tx_mask_fieldcontent_link" />
+			<input name="tx_mask_tools_maskmask[dummy][--index--][mail]" type="checkbox" value="mail" {f:if(condition:'{mask:linkoption(fieldKey:\'{key}\', elementKey:\'{elementKey}\', evalValue:\'mail\')}', then:'checked="checked"', else: '')} class="tx_mask_fieldcontent_link" />
 			<f:translate key="tx_mask.field.link.page"/>
-			<input name="tx_mask_tools_maskmask[dummy][--index--][page]" type="checkbox" value="page" {f:if(condition:
-			'{mask:linkoption(fieldKey:\'{key}\', elementKey:\'{elementKey}\', evalValue:\'page\')}', then:
-			'checked="checked"', else: '')} class="tx_mask_fieldcontent_link" />
+			<input name="tx_mask_tools_maskmask[dummy][--index--][page]" type="checkbox" value="page" {f:if(condition:'{mask:linkoption(fieldKey:\'{key}\', elementKey:\'{elementKey}\', evalValue:\'page\')}', then:'checked="checked"', else: '')} class="tx_mask_fieldcontent_link" />
 			<f:translate key="tx_mask.field.link.folder"/>
-			<input name="tx_mask_tools_maskmask[dummy][--index--][folder]" type="checkbox" value="folder" {f:if(condition:
-			'{mask:linkoption(fieldKey:\'{key}\', elementKey:\'{elementKey}\', evalValue:\'folder\')}', then:
-			'checked="checked"', else: '')} class="tx_mask_fieldcontent_link" />
+			<input name="tx_mask_tools_maskmask[dummy][--index--][folder]" type="checkbox" value="folder" {f:if(condition:'{mask:linkoption(fieldKey:\'{key}\', elementKey:\'{elementKey}\', evalValue:\'folder\')}', then:'checked="checked"', else: '')} class="tx_mask_fieldcontent_link" />
 			<f:translate key="tx_mask.field.link.url"/>
-			<input name="tx_mask_tools_maskmask[dummy][--index--][url]" type="checkbox" value="url" {f:if(condition:
-			'{mask:linkoption(fieldKey:\'{key}\', elementKey:\'{elementKey}\', evalValue:\'url\')}', then:
-			'checked="checked"', else: '')} class="tx_mask_fieldcontent_link" />
+			<input name="tx_mask_tools_maskmask[dummy][--index--][url]" type="checkbox" value="url" {f:if(condition:'{mask:linkoption(fieldKey:\'{key}\', elementKey:\'{elementKey}\', evalValue:\'url\')}', then:'checked="checked"', else: '')} class="tx_mask_fieldcontent_link" />
+			<!-- @formatter:on -->
 		</div>
 	</div>
 </div>
@@ -92,10 +84,11 @@
 		<div class="form-group col-sm-6">
 			<div class="t3js-formengine-field-item check-item">
 				<div class="form-control-wrap" style="">
+					<!-- @formatter:off -->
 					<input class="tx_mask_fieldcontent_jsopenparams" name="tx_mask_tools_maskmask[dummy][--index--][status]"
-								 data-property="status" type="checkbox" {f:if(condition: '{mask:jsOpenParams(fieldKey:\'{key}\', field:
-					field, elementKey:\'{elementKey}\', property:\'status\')}', then: 'checked="checked"', else: '')} value="1"
+								 data-property="status" type="checkbox" {f:if(condition: '{mask:jsOpenParams(fieldKey:\'{key}\', field:field, elementKey:\'{elementKey}\', property:\'status\')}', then: 'checked="checked"', else: '')} value="1"
 					title="status" />
+					<!-- @formatter:on -->
 				</div>
 			</div>
 			<label class="t3js-formengine-label check-item">
@@ -105,10 +98,12 @@
 		<div class="form-group col-sm-6">
 			<div class="t3js-formengine-field-item check-item">
 				<div class="form-control-wrap" style="">
+					<!-- @formatter:off -->
 					<input class="tx_mask_fieldcontent_jsopenparams" name="tx_mask_tools_maskmask[dummy][--index--][menubar]"
-								 data-property="menubar" type="checkbox" {f:if(condition: '{mask:jsOpenParams(fieldKey:\'{key}\', field:
-					field, elementKey:\'{elementKey}\', property:\'menubar\')}', then: 'checked="checked"', else: '')} value="1"
+								 data-property="menubar" type="checkbox" {f:if(condition: '{mask:jsOpenParams(fieldKey:\'{key}\', field:field, elementKey:\'{elementKey}\', property:\'menubar\')}', then: 'checked="checked"', else: '')}
+					value="1"
 					title="menubar" />
+					<!-- @formatter:on -->
 				</div>
 			</div>
 			<label class="t3js-formengine-label check-item">
@@ -120,10 +115,9 @@
 		<div class="form-group col-sm-6">
 			<div class="t3js-formengine-field-item check-item">
 				<div class="form-control-wrap" style="">
-					<input class="tx_mask_fieldcontent_jsopenparams" name="tx_mask_tools_maskmask[dummy][--index--][scrollbars]"
-								 data-property="scrollbars" type="checkbox" {f:if(condition: '{mask:jsOpenParams(fieldKey:\'{key}\',
-					field: field, elementKey:\'{elementKey}\', property:\'scrollbars\')}', then: 'checked="checked"', else: '')}
-					value="1" title="scrollbars" />
+					<!-- @formatter:off -->
+					<input class="tx_mask_fieldcontent_jsopenparams" name="tx_mask_tools_maskmask[dummy][--index--][scrollbars]" data-property="scrollbars" type="checkbox" {f:if(condition: '{mask:jsOpenParams(fieldKey:\'{key}\',field: field, elementKey:\'{elementKey}\', property:\'scrollbars\')}', then: 'checked="checked"', else: '')} value="1" title="scrollbars" />
+					<!-- @formatter:on -->
 				</div>
 			</div>
 			<label class="t3js-formengine-label check-item">
