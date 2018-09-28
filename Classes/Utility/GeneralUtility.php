@@ -106,14 +106,15 @@ class GeneralUtility
      * @return boolean $evalValue is set
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    public function getJsOpenParamValue($fieldKey, $property, $type = "tt_content")
+    public function getJsOpenParamValue($fieldKey, $property, $type = 'tt_content')
     {
         $storage = $this->storageRepository->load();
         $value = null;
-        if ($storage[$type]["tca"][$fieldKey]["config"]["wizards"]["link"]["JSopenParams"] != "") {
-            $properties = explode(",", $storage[$type]["tca"][$fieldKey]["config"]["wizards"]["link"]["JSopenParams"]);
+        $windowOpenParameters = $storage[$type]['tca'][$fieldKey]['config']['fieldControl']['linkPopup']['options']['windowOpenParameters'];
+        if ($windowOpenParameters != '') {
+            $properties = explode(',', $windowOpenParameters);
             foreach ($properties as $setProperty) {
-                $keyPair = explode("=", $setProperty);
+                $keyPair = explode('=', $setProperty);
                 if ($property == $keyPair[0]) {
                     $value = $keyPair[1];
                     break;
@@ -124,19 +125,19 @@ class GeneralUtility
         // if nothing was found, set the default values
         if ($value == null) {
             switch ($property) {
-                case "height":
+                case 'height':
                     $value = 300;
                     break;
-                case "width":
+                case 'width':
                     $value = 500;
                     break;
-                case "status":
+                case 'status':
                     $value = 0;
                     break;
-                case "menubar":
+                case 'menubar':
                     $value = 0;
                     break;
-                case "scrollbars":
+                case 'scrollbars':
                     $value = 1;
                     break;
                 default:
@@ -155,14 +156,14 @@ class GeneralUtility
      * @return boolean $evalValue is set
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    public function isBlindLinkOptionSet($fieldKey, $evalValue, $type = "tt_content")
+    public function isBlindLinkOptionSet($fieldKey, $evalValue, $type = 'tt_content')
     {
         $storage = $this->storageRepository->load();
         $found = false;
-        if ($storage[$type]["tca"][$fieldKey]["config"]["wizards"]["link"]["params"]["blindLinkOptions"] != "") {
-            $evals = explode(",",
-                $storage[$type]["tca"][$fieldKey]["config"]["wizards"]["link"]["params"]["blindLinkOptions"]);
-            $found = array_search(strtolower($evalValue), $evals) !== false;
+        $blindLinkOptions = $storage[$type]['tca'][$fieldKey]['config']['fieldControl']['linkPopup']['options']['blindLinkOptions'];
+        if ($blindLinkOptions != '') {
+            $evals = explode(',',$blindLinkOptions);
+            $found = \in_array(strtolower($evalValue), $evals, true);
         }
         return $found;
     }
