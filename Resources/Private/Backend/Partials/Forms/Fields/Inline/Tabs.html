@@ -41,6 +41,23 @@
 			<f:render partial="Forms/Config/MaxItems" arguments="{key:key, elementKey:storage.key, field: field}"/>
 		</div>
 	</div>
+	<div class="row">
+		<div class="col-sm-12">
+			<f:if condition="{mask:Multiuse(key: key, elementKey: storage.key) -> f:count()} > 1">
+				<f:be.infobox title="{f:translate(key:'tx_mask.content.multiuse.validation.title')}" state="1">
+					<f:translate key="tx_mask.content.multiuse.validation" />
+					<b>
+						<f:for each="{mask:Multiuse(key: key, elementKey: storage.key)}" as="element" iteration="iteration">
+							{element.label}
+							<f:if condition="{iteration.isLast}">
+								<f:else>,</f:else>
+							</f:if>
+						</f:for>
+					</b>
+				</f:be.infobox>
+			</f:if>
+		</div>
+	</div>
 </div>
 <div role="tabpanel" class="tab-pane" id="localization_{key}">
 	<div class="row">

@@ -635,6 +635,14 @@
 				<source>Mask-Nested-Content</source>
 			</trans-unit>
 
+			<trans-unit id="tx_mask.content.multiuse.validation">
+				<source>Mind that changes in the validation also affect already existing content of these elements:
+				</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.multiuse.validation.title">
+				<source>Changes on Validation</source>
+			</trans-unit>
+
 		</body>
 	</file>
 </xliff>

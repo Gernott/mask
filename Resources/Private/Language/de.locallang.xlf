@@ -644,7 +644,14 @@
 			<trans-unit id="mask_content_colpos">
 				<target>Mask-Nested-Content</target>
 			</trans-unit>
-
+			<trans-unit id="tx_mask.content.multiuse.validation">
+				<target>Bedenken Sie, eine Änderung an der Validierung wirkt sich auch auf schon bestehende Inhalte
+					dieses Elements aus und folgender Elemente:
+				</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.multiuse.validation.title">
+				<target>Vorsicht bei Validierungsänderung</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
