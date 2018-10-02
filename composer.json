@@ -26,9 +26,10 @@
 	"require": {
 		"php": "^7.2",
 		"ext-json": "*",
-		"typo3/cms-core": "^9.3 || dev-master",
-		"typo3/cms-fluid": "^9.3 || dev-master",
-		"typo3/cms-extbase": "^9.3 || dev-master"
+		"typo3/cms-core": ">=9.3.0 <9.5.99",
+		"typo3/cms-backend": ">=9.3.0 <9.5.99",
+		"typo3/cms-fluid": ">=9.3.0 <9.5.99",
+		"typo3/cms-extbase": ">=9.3.0 <9.5.99"
 	},
 	"replace": {
 		"mask": "self.version",
