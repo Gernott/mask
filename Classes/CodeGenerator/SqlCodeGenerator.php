@@ -26,6 +26,14 @@ namespace MASK\Mask\CodeGenerator;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use Doctrine\DBAL\DBALException;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Schema\SchemaMigrator;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
+
 /**
  * Generates all the sql needed for mask content elements
  *
@@ -38,85 +46,52 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
      * Performs updates, adjusted function from extension_builder
      *
      * @param array $params
-     * @return type
+     * @param string[] $sql
+     * @return array
+     * @throws DBALException
+     * @throws \Doctrine\DBAL\Schema\SchemaException
+     * @throws \TYPO3\CMS\Core\Database\Schema\Exception\StatementException
+     * @throws \TYPO3\CMS\Core\Database\Schema\Exception\UnexpectedSignalReturnValueTypeException
+     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
+     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
      */
-    protected function performDbUpdates($params, $sql)
+    protected function performDbUpdates(array $sqlStatements)
     {
+        /** @var ConnectionPool $connectionPool */
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        $schemaMigrator = GeneralUtility::makeInstance(SchemaMigrator::class);
 
+        $sqlUpdateSuggestions = $schemaMigrator->getUpdateSuggestions($sqlStatements);
         $hasErrors = false;
-        if (!empty($params['extensionKey'])) {
-            $this->checkForDbUpdate($params['extensionKey'], $sql);
-            if ($this->dbUpdateNeeded) {
-                foreach ($this->updateStatements as $type => $statements) {
 
-                    foreach ($statements as $statement) {
-                        if (in_array($type, array('change', 'add', 'create_table'))) {
-                            $res = $this->getDatabaseConnection()->admin_query($statement);
-
-
-                            if ($res === false) {
-                                $hasErrors = true;
-                                \TYPO3\CMS\Core\Utility\GeneralUtility::devlog('SQL error', 'mask', 0, array(
-                                    'statement' => $statement,
-                                    'error' => $this->getDatabaseConnection()->sql_error()
-                                ));
-                            } elseif (is_resource($res) || is_a($res, '\\mysqli_result')) {
-                                $this->getDatabaseConnection()->sql_free_result($res);
-                            }
-                        }
+        foreach ($sqlUpdateSuggestions as $connectionName => $updateConnection) {
+            $connection = $connectionPool->getConnectionByName($connectionName);
+            foreach ($updateConnection as $updateStatements) {
+                foreach ($updateStatements as $statement) {
+                    try {
+                        $connection->exec($statement);
+                    } catch (DBALException $exception) {
+                        $hasErrors = true;
+                        GeneralUtility::devlog(
+                            'SQL error',
+                            'mask',
+                            0,
+                            [
+                                'statement' => $statement,
+                                'error' => $exception->getMessage()
+                            ]);
                     }
                 }
             }
         }
+
         if ($hasErrors) {
-            return array('error' => 'Database could not be updated. Please check it in the update wizard of the install tool');
-        } else {
-            return array('success' => 'Database was successfully updated');
+            return [
+                'error' => 'Database could not be updated. Please check it in the update wizard of the install tool'
+            ];
         }
-    }
 
-    /**
-     * Checks for DB-Updates, adjusted function from extension_builder
-     *
-     * @param string $extensionKey
-     * @param string $sqlContent
-     * @return void
-     */
-    protected function checkForDbUpdate($extensionKey, $sqlContent)
-    {
-        $this->dbUpdateNeeded = false;
-        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($extensionKey)) {
-            $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-            if (class_exists('TYPO3\\CMS\\Install\\Service\\SqlSchemaMigrationService')) {
-                /* @var \TYPO3\CMS\Install\Service\SqlSchemaMigrationService $sqlHandler */
-                $sqlHandler = $this->objectManager->get('TYPO3\\CMS\\Install\\Service\\SqlSchemaMigrationService');
-            } else {
-                /* @var \TYPO3\CMS\Install\Sql\SchemaMigrator $sqlHandler */
-                $sqlHandler = $this->objectManager->get('TYPO3\\CMS\\Install\\Sql\\SchemaMigrator');
-            }
-            /** @var $cacheManager \TYPO3\CMS\Core\Cache\CacheManager */
-//            \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager')->setCacheConfigurations($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']);
-            $fieldDefinitionsFromFile = $sqlHandler->getFieldDefinitions_fileContent($sqlContent);
-            if (count($fieldDefinitionsFromFile)) {
-                $fieldDefinitionsFromCurrentDatabase = $sqlHandler->getFieldDefinitions_database();
-                $updateTableDefinition = $sqlHandler->getDatabaseExtra($fieldDefinitionsFromFile,
-                    $fieldDefinitionsFromCurrentDatabase);
-                $this->updateStatements = $sqlHandler->getUpdateSuggestions($updateTableDefinition);
-                if (!empty($updateTableDefinition['extra']) || !empty($updateTableDefinition['diff']) || !empty($updateTableDefinition['diff_currentValues'])) {
-                    $this->dbUpdateNeeded = true;
-                }
-            }
-        }
-    }
-
-    /**
-     * function from extension_builder
-     *
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
-     */
-    protected function getDatabaseConnection()
-    {
-        return $GLOBALS['TYPO3_DB'];
+        return ['success' => 'Database was successfully updated'];
     }
 
     /**
@@ -127,12 +102,11 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
      */
     public function updateDatabase()
     {
-        $params["extensionKey"] = "mask";
         $storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
         $json = $storageRepository->load();
         $sqlStatements = $this->getSqlByConfiguration($json);
         if (count($sqlStatements) > 0) {
-            $response = $this->performDbUpdates($params, implode(" ", $sqlStatements));
+            $response = $this->performDbUpdates($sqlStatements);
         }
         return $response;
     }
@@ -202,11 +176,6 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
                                 if ($fields) {
                                     foreach ($fields as $field => $definition) {
                                         $sql_content[] = "CREATE TABLE " . $table . " (\n\t" . $field . " " . $definition . "\n);\n";
-
-                                        // every statement for pages, also for pages_language_overlay
-                                        if ($table == "pages") {
-                                            $sql_content[] = "CREATE TABLE pages_language_overlay (\n\t" . $field . " " . $definition . "\n);\n";
-                                        }
 
                                         // if this field is a content field, also add parent columns
                                         $fieldType = $fieldHelper->getFormType($field, "", $table);

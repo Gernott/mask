@@ -3,6 +3,7 @@
 namespace MASK\Mask\ViewHelpers;
 
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * ViewHelper for rendering any content element
@@ -10,7 +11,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  * @link http://blog.teamgeist-medien.de/2014/01/extbase-fluid-viewhelper-fuer-tt_content-elemente-mit-namespaces.html Source
  *
  */
-class ContentViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class ContentViewHelper extends AbstractViewHelper
 {
 
     protected $escapeOutput = false;
@@ -25,17 +26,21 @@ class ContentViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
      */
     protected $cObj;
 
+    public function initializeArguments()
+    {
+        $this->registerArgument('uid', 'integer', 'Uid of the content element', true);
+    }
+
     /**
      * Parse content element
      *
-     * @param int uid of the content element
      * @return string parsed content element
      */
-    public function render($uid)
+    public function render()
     {
         $conf = array(
             'tables' => 'tt_content',
-            'source' => $uid,
+            'source' => $this->arguments['uid'],
             'dontCheckPid' => 1
         );
         return $this->cObj->cObjGetSingle('RECORDS', $conf);

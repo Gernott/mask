@@ -82,7 +82,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
     {
 
         $fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
-        $defaultTabs = ",--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.appearance,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.frames;frames,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.appearanceLinks;appearanceLinks,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,--palette--;;language,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,--palette--;;hidden,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:categories,--div--;LLL:EXT:lang/Resources/Private/Language/locallang_tca.xlf:sys_category.tabs.category,categories,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:notes,rowDescription,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended";
+        $defaultTabs = ",--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.appearance,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.frames;frames,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.appearanceLinks;appearanceLinks,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,--palette--;;language,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,--palette--;;hidden,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:categories,--div--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_category.tabs.category,categories,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:notes,rowDescription,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended";
 
         // add gridelements fields, to make mask work with gridelements out of the box
         $gridelements = '';
@@ -90,20 +90,28 @@ class TcaCodeGenerator extends AbstractCodeGenerator
             $gridelements = ', tx_gridelements_container, tx_gridelements_columns';
         }
         if ($tca) {
+
+            // add new group in CType selectbox
+            $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = [
+                'LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:new_content_element_tab',
+                '--div--'
+            ];
+
             foreach ($tca as $elementvalue) {
                 if (!$elementvalue["hidden"]) {
+
                     $prependTabs = "--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,";
                     $fieldArray = array();
-                    $label = $elementvalue["shortLabel"]; // Optional shortLabel
-                    if ($label == "") {
-                        $label = $elementvalue["label"];
-                    }
+                    $label = $elementvalue["shortLabel"] ? $elementvalue["shortLabel"] : $elementvalue["label"]; // Optional shortLabel
+
+                    // add new entry in CType selectbox
                     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(array(
                         $label,
-                        "mask_" . $elementvalue["key"]
+                        "mask_" . $elementvalue["key"],
+                        'mask-ce-' . $elementvalue["key"]
                     ), "CType", "mask");
 
-                    // now add all the fields that should be shown
+                    // add all the fields that should be shown
                     if (is_array($elementvalue["columns"])) {
                         foreach ($elementvalue["columns"] as $index => $fieldKey) {
 
@@ -124,8 +132,8 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                         }
                     }
                     $fields = implode(",", $fieldArray);
-
-//			   $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["columnsOverrides"]["bodytext"]["defaultExtras"] = 'richtext:rte_transform[mode=ts_css]';
+                    
+                    $GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes']["mask_" . $elementvalue["key"]] = 'mask-ce-' . $elementvalue["key"];
                     $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["columnsOverrides"]["bodytext"]["config"]['richtextConfiguration'] = 'default';
                     $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["columnsOverrides"]["bodytext"]["config"]['enableRichtext'] = 1;
                     $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["showitem"] = $prependTabs . $fields . $defaultTabs . $gridelements;
@@ -176,8 +184,6 @@ class TcaCodeGenerator extends AbstractCodeGenerator
         }
 
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('pages', $pageFieldString);
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('pages_language_overlay',
-            $pageFieldString);
     }
 
     /**
@@ -202,22 +208,22 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                                 'overrideChildTca' => array(
                                     'types' => array(
                                         '0' => array(
-                                            'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+                                            'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
                                         ),
                                         '1' => array(
-                                            'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+                                            'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
                                         ),
                                         '2' => array(
-                                            'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+                                            'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
                                         ),
                                         '3' => array(
-                                            'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+                                            'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
                                         ),
                                         '4' => array(
-                                            'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+                                            'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
                                         ),
                                         '5' => array(
-                                            'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+                                            'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
                                         ),
                                     ),
                                 )
@@ -360,12 +366,12 @@ class TcaCodeGenerator extends AbstractCodeGenerator
             'columns' => array(
                 'sys_language_uid' => array(
                     'exclude' => 1,
-                    'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
+                    'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
                     'config' => array(
                         'type' => 'select',
                         'renderType' => 'selectSingle',
                         'items' => array(
-                            array('LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages', -1, 'flags-multiple'),
+                            array('LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.allLanguages', -1, 'flags-multiple'),
                         ),
                         'special' => 'languages',
                         'default' => 0
@@ -374,7 +380,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                 'l10n_parent' => array(
                     'displayCond' => 'FIELD:sys_language_uid:>:0',
                     'exclude' => 1,
-                    'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.l18n_parent',
+                    'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.l18n_parent',
                     'config' => array(
                         'type' => 'select',
                         'renderType' => 'selectSingle',
@@ -392,7 +398,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                     ),
                 ),
                 't3ver_label' => array(
-                    'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.versionLabel',
+                    'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.versionLabel',
                     'config' => array(
                         'type' => 'input',
                         'size' => 30,
@@ -401,14 +407,14 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                 ),
                 'hidden' => array(
                     'exclude' => 1,
-                    'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.hidden',
+                    'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.hidden',
                     'config' => array(
                         'type' => 'check',
                     ),
                 ),
                 'starttime' => array(
                     'exclude' => 1,
-                    'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.starttime',
+                    'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.starttime',
                     'config' => array(
                         'behaviour' => array(
                             'allowLanguageSynchronization' => true
@@ -423,7 +429,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                 ),
                 'endtime' => array(
                     'exclude' => 1,
-                    'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.endtime',
+                    'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.endtime',
                     'config' => array(
                         'behaviour' => array(
                             'allowLanguageSynchronization' => true

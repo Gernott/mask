@@ -24,8 +24,15 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use MASK\Mask\Domain\Repository\StorageRepository;
 use TYPO3\CMS\Core\Cache\CacheManager;
+use TYPO3\CMS\Core\Http\JsonResponse;
+use TYPO3\CMS\Core\Http\Response;
+use TYPO3\CMS\Core\Http\ServerRequest;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Annotation\Inject;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * ^
@@ -46,7 +53,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * StorageRepository
      *
      * @var \MASK\Mask\Domain\Repository\StorageRepository
-     * @inject
+     * @Inject()
      */
     protected $storageRepository;
 
@@ -54,7 +61,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * BackendLayoutRepository
      *
      * @var \MASK\Mask\Domain\Repository\BackendLayoutRepository
-     * @inject
+     * @Inject()
      */
     protected $backendLayoutRepository;
 
@@ -62,7 +69,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * FieldHelper
      *
      * @var \MASK\Mask\Helper\FieldHelper
-     * @inject
+     * @Inject()
      */
     protected $fieldHelper;
 
@@ -70,7 +77,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * HtmlCodeGenerator
      *
      * @var \MASK\Mask\CodeGenerator\HtmlCodeGenerator
-     * @inject
+     * @Inject()
      */
     protected $htmlCodeGenerator;
 
@@ -78,7 +85,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * SqlCodeGenerator
      *
      * @var \MASK\Mask\CodeGenerator\SqlCodeGenerator
-     * @inject
+     * @Inject()
      */
     protected $sqlCodeGenerator;
 
@@ -86,7 +93,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * SettingsService
      *
      * @var \MASK\Mask\Domain\Service\SettingsService
-     * @inject
+     * @Inject()
      */
     protected $settingsService;
 
@@ -163,10 +170,10 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      */
     protected function saveHtml($key, $html)
     {
-        if (file_exists(PATH_site . $this->extSettings["content"] . $key . ".html")) {
+        if (file_exists(PATH_site . $this->extSettings["content"] . ucfirst($key) . ".html")) {
             return false;
         } else {
-            \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $this->extSettings["content"] . $key . ".html",
+            \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $this->extSettings["content"] . ucfirst($key) . ".html",
                 $html);
             return true;
         }
@@ -174,57 +181,44 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
     /**
      * Checks if a key for a field is available
-     *
-     * @param array $params Array of parameters from the AJAX interface, not
-     * @param \TYPO3\CMS\Core\Http\AjaxRequestHandler $ajaxObj Object of type AjaxRequestHandler
-     * @author Benjamin Butschell <bb@webprofil.at>
-     * @return void
      */
-    public function checkFieldKey($params = array(), \TYPO3\CMS\Core\Http\AjaxRequestHandler &$ajaxObj = null)
+    public function checkFieldKey(ServerRequest $request, Response $response): Response
     {
-        $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-        $this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
-        // Get parameters, is there a better way? $params is not used yet
-        $fieldKey = $_GET["key"];
-        if ($_GET["table"]) {
-            $table = $_GET["table"];
-        } else {
-            $table = "tt_content";
+        $queryParams = $request->getQueryParams();
+        $fieldKey = $queryParams['key'];
+        $table = 'tt_content';
+        if (isset($queryParams['table'])) {
+            $table = $queryParams['table'];
         }
+
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        $storageRepository = $objectManager->get(StorageRepository::class);
+
         // check if fieldKey is available for this table
         $isAvailable = true;
-        if ($this->storageRepository->loadField($table, $fieldKey)) {
+        if ($storageRepository->loadField($table, $fieldKey)) {
             $isAvailable = false;
         }
-        // return infos as json
-        $ajaxObj->setContentFormat("plain");
-        $ajaxObj->addContent("isAvailable", json_encode($isAvailable));
+
+        return new JsonResponse(['isAvailable' => $isAvailable]);
     }
 
     /**
      * Checks if a key for an element is available
-     *
-     * @param array $params Array of parameters from the AJAX interface, not
-     * @param \TYPO3\CMS\Core\Http\AjaxRequestHandler $ajaxObj Object of type AjaxRequestHandler
-     * @author Benjamin Butschell <bb@webprofil.at>
-     * @return void
      */
-    public function checkElementKey($params = array(), \TYPO3\CMS\Core\Http\AjaxRequestHandler &$ajaxObj = null)
+    public function checkElementKey(ServerRequest $request, Response $response): Response
     {
-        $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-        $this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
-        // Get parameters, is there a better way? $params is not used yet
-        $elementKey = $_GET["key"];
-        // check if elementKey is available
+        $elementKey = $request->getQueryParams()['key'];
+
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        $storageRepository = $objectManager->get(StorageRepository::class);
+
         $isAvailable = true;
-
-        if ($this->storageRepository->loadElement("tt_content", $elementKey)) {
-
+        if ($storageRepository->loadElement('tt_content', $elementKey)) {
             $isAvailable = false;
         }
-        // return infos as json
-        $ajaxObj->setContentFormat("plain");
-        $ajaxObj->addContent("isAvailable", json_encode($isAvailable));
+
+        return new JsonResponse(['isAvailable' => $isAvailable]);
     }
 
     /**

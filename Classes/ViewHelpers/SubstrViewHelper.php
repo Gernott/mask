@@ -2,6 +2,8 @@
 
 namespace MASK\Mask\ViewHelpers;
 
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+
 /**
  *
  * @package TYPO3
@@ -10,19 +12,27 @@ namespace MASK\Mask\ViewHelpers;
  * @author Benjamin Butschell bb@webprofil.at>
  *
  */
-class SubstrViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class SubstrViewHelper extends AbstractViewHelper
 {
+    public function initializeArguments()
+    {
+        $this->registerArgument('string', 'string', 'String to search in', true);
+        $this->registerArgument('search', 'string', 'String to search', true);
+        $this->registerArgument('from', 'integer', 'Startpoint', true);
+        $this->registerArgument('length', 'integer', 'Length', true);
+    }
 
     /**
-     * @param string $string String to search in
-     * @param string $search String to search
-     * @param int $from Integer Startpoint
-     * @param int $length Integer Length
      * @return string the rendered string
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    public function render($string, $search, $from, $length)
+    public function render()
     {
+        $string = $this->arguments['string'];
+        $search = $this->arguments['search'];
+        $from = $this->arguments['from'];
+        $length = $this->arguments['length'];
+
         return (substr($string, $from, $length) === $search);
     }
 }

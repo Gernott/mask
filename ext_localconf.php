@@ -12,11 +12,6 @@ $settingsService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\M
 $configuration = $storageRepository->load();
 $settings = $settingsService->get();
 
-// Register Plugin to render content in the frontend
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-    'MASK.' . $_EXTKEY, 'ContentRenderer', array('Frontend' => 'contentelement'), array('Frontend' => '')
-);
-
 // Register Icons needed in the backend module
 $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance("TYPO3\CMS\Core\Imaging\IconRegistry");
 $maskIcons = array(
@@ -72,11 +67,9 @@ if (!function_exists('user_mask_contentType')) {
                 }
             } else { // if element exists
                 $uid = intval(key($_REQUEST["edit"]["tt_content"]));
-                $sql = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-                    $field[0], "tt_content", "uid = " . $uid
-                );
-                $data = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($sql);
-                if ($data[$field[0]] == $field[1]) {
+                $connection = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ConnectionPool::class)->getConnectionForTable('tt_content');
+                $fieldValue = $connection->select([$field[0]], 'tt_content', ['uid' => $uid])->fetchColumn(0);
+                if ($fieldValue == $field[1]) {
                     return true;
                 } else {
                     return false;
@@ -101,22 +94,8 @@ if (!function_exists('user_mask_beLayout')) {
         // get current page uid:
         if (is_array($_REQUEST["data"]["pages"])) { // after saving page
             $uid = intval(key($_REQUEST["data"]["pages"]));
-        } elseif (is_array($_REQUEST["data"]["pages_language_overlay"])) {
-            $po_uid = key($_REQUEST["data"]["pages_language_overlay"]);
-            if ($_REQUEST["data"]["pages_language_overlay"][$po_uid]["pid"]) { // after saving a new pages_language_overlay
-                $uid = $_REQUEST["data"]["pages_language_overlay"][$po_uid]["pid"];
-            } else { // after saving an existing pages_language_overlay
-                $po_uid = intval($po_uid);
-                $sql = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-                    "pid", "pages_language_overlay", "uid = " . $po_uid
-                );
-                $data = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($sql);
-                $uid = $data["pid"];
-            }
         } elseif ($GLOBALS["SOBE"]->editconf["pages"]) { // after opening pages
             $uid = intval(key($GLOBALS["SOBE"]->editconf["pages"]));
-        } elseif ($GLOBALS["SOBE"]->viewId) { // after opening or creating pages_language_overlay
-            $uid = $GLOBALS["SOBE"]->viewId;
         } else {
             if ($GLOBALS["_SERVER"]["HTTP_REFERER"] != "") {
                 $url = $GLOBALS["_SERVER"]["HTTP_REFERER"];
@@ -130,10 +109,9 @@ if (!function_exists('user_mask_beLayout')) {
         }
 
         if ($uid) {
-            $sql = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-                "backend_layout, backend_layout_next_level", "pages", "uid = " . $uid
-            );
-            $data = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($sql);
+            $connection = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ConnectionPool::class)->getConnectionForTable('pages');
+            $data = $connection->select(['backend_layout', 'backend_layout_next_level'], 'pages',
+                ['uid' => $uid])->fetch();
 
             $backend_layout = $data["backend_layout"];
             $backend_layout_next_level = $data["backend_layout_next_level"];
@@ -154,7 +132,11 @@ if (!function_exists('user_mask_beLayout')) {
                 }
             } else { // If backend_layout and backend_layout_next_level is not set on current page, check backend_layout_next_level on rootline
                 $sysPage = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Frontend\\Page\\PageRepository');
-                $rootline = $sysPage->getRootLine($uid, '', true);
+                try {
+                    $rootline = $sysPage->getRootLine($uid, '');
+                } catch (Exception $e) {
+                    $rootline = [];
+                }
                 foreach ($rootline as $page) {
                     if (in_array($page["backend_layout_next_level"], [$layout, "pagets__" . $layout])) {
                         return true;
@@ -168,20 +150,17 @@ if (!function_exists('user_mask_beLayout')) {
     }
 }
 
-// set rootlinefields and pageoverlayfields
+// set root line fields
 if ($json['pages']['tca']) {
     $rootlineFields = explode(",", $GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields']);
-    $pageOverlayFields = explode(",", $GLOBALS['TYPO3_CONF_VARS']['FE']['pageOverlayFields']);
     foreach ($json['pages']['tca'] as $fieldKey => $value) {
         $formType = $fieldHelper->getFormType($fieldKey, "", "pages");
         if ($formType !== "Tab") {
-            // Add addRootLineFields and pageOverlayFields for all pagefields
+            // Add addRootLineFields for all page fields
             $rootlineFields[] = $fieldKey;
-            $pageOverlayFields[] = $fieldKey;
         }
     }
     $GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields'] = implode(",", $rootlineFields);
-    $GLOBALS['TYPO3_CONF_VARS']['FE']['pageOverlayFields'] = implode(",", $pageOverlayFields);
 }
 
 // SQL inject:
@@ -195,4 +174,6 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Frontend\\ContentObje
 );
 
 // Hook to override tt_content backend_preview
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem'][$_EXTKEY] = 'EXT:' . $_EXTKEY . '/Classes/Hooks/PageLayoutViewDrawItem.php:MASK\Mask\Hooks\PageLayoutViewDrawItem';
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem'][$_EXTKEY] = \MASK\Mask\Hooks\PageLayoutViewDrawItem::class;
+// Hook to override colpos check for unused tt_content elements
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['record_is_used'] [] = MASK\Mask\Hooks\PageLayoutViewHook::class . '->contentIsUsed';

@@ -1,20 +1,21 @@
 # cat=general; type=file [json]; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-json
-json = typo3conf/mask.json
+json = EXT:yoursitepackage/Resources/Private/Mask/mask.json
 # cat=general; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-backendlayout_pids
 backendlayout_pids = 0,1
 
 # cat=frontend; type=folder; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-content
-content = fileadmin/templates/content/
+content = EXT:yoursitepackage/Resources/Private/Mask/Frontend/Templates
 # cat=frontend; type=folder; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-layouts
-layouts = fileadmin/templates/content/Layouts/
+layouts = EXT:yoursitepackage/Resources/Private/Mask/Frontend/Layouts
 # cat=frontend; type=folder; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-partials
-partials = fileadmin/templates/content/Partials/
+partials = EXT:yoursitepackage/Resources/Private/Mask/Frontend/Partials
 
 # cat=backend; type=folder; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-backend
-backend = fileadmin/templates/backend/
+backend = EXT:yoursitepackage/Resources/Private/Mask/Backend/Templates
 # cat=backend; type=folder; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-layouts_backend
-layouts_backend = fileadmin/templates/backend/Layouts/
+layouts_backend = EXT:yoursitepackage/Resources/Private/Mask/Backend/Layouts
 # cat=backend; type=folder; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-partials_backend
-partials_backend = fileadmin/templates/backend/Partials/
+partials_backend = EXT:yoursitepackage/Resources/Private/Mask/Backend/Partials
 # cat=backend; type=folder; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-preview
-preview = fileadmin/templates/preview/
+preview = EXT:yoursitepackage/Resources/Private/Mask/Backend/Previews
+

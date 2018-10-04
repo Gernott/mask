@@ -18,11 +18,11 @@ List of main sponsors
 
 .. figure:: ../Images/SponsorsManual/skidata.jpg
    :alt: Skidata
-   :target: http://www.skidata.com
+   :target: https://www.skidata.com
 
 .. figure:: ../Images/SponsorsManual/mittwald.jpg
    :alt: Mittwald
-   :target: http://www.mittwald.de
+   :target: https://www.mittwald.de
 
 
 List of logo sponsors
@@ -30,7 +30,7 @@ List of logo sponsors
 
 .. figure:: ../Images/SponsorsManual/advancedwebmarketing.jpg
    :alt: Advanced Web Marketing
-   :target: http://advancewebmarketing.com
+   :target: https://advancewebmarketing.com
 
 .. figure:: ../Images/SponsorsManual/checkdomain.jpg
    :alt: checkdomain
@@ -38,7 +38,7 @@ List of logo sponsors
 
 .. figure:: ../Images/SponsorsManual/dkd.jpg
    :alt: dkd Internet Service GmbH
-   :target: http://www.dkd.de/?pk_campaign=mask-crowdfundig
+   :target: https://www.dkd.de/?pk_campaign=mask-crowdfundig
 
 .. figure:: ../Images/SponsorsManual/eovision.jpg
    :alt: eoVision
@@ -50,11 +50,11 @@ List of logo sponsors
 
 .. figure:: ../Images/SponsorsManual/joppnet.jpg
    :alt: joppnet
-   :target: http://www.joppnet.de
+   :target: https://www.joppnet.de
 
 .. figure:: ../Images/SponsorsManual/mbit.jpg
    :alt: MBIT Solutions GMBH
-   :target: http://www.mbit.at
+   :target: https://www.mbit.at
 
 .. figure:: ../Images/SponsorsManual/pinkdata.jpg
    :alt: pinkdata
@@ -62,23 +62,23 @@ List of logo sponsors
 
 .. figure:: ../Images/SponsorsManual/primeit.jpg
    :alt: PrimeIT
-   :target: http://www.primeit.eu
+   :target: https://www.primeit.eu
 
 .. figure:: ../Images/SponsorsManual/profitbricks.jpg
    :alt: ProfitBricks Cloud Computing
-   :target: http://www.profitbricks.de
+   :target: https://www.profitbricks.de
 
 .. figure:: ../Images/SponsorsManual/rackspeed.jpg
    :alt: rack::SPEED
-   :target: http://rackspeed.de
+   :target: https://rackspeed.de
 
 .. figure:: ../Images/SponsorsManual/robhost.jpg
    :alt: RobHost
-   :target: http://www.robhost.de
+   :target: https://www.robhost.de
 
 .. figure:: ../Images/SponsorsManual/schwabe.jpg
    :alt: Schwabe AG
-   :target: http://www.schwabeinformatik.ch
+   :target: https://www.schwabeinformatik.ch
 
 .. figure:: ../Images/SponsorsManual/seminaris.jpg
    :alt: Seminaris
@@ -86,7 +86,7 @@ List of logo sponsors
 
 .. figure:: ../Images/SponsorsManual/sgalinski.jpg
    :alt: Sgalinski Internet Services
-   :target: http://www.sgalinski.de
+   :target: https://www.sgalinski.de
 
 .. figure:: ../Images/SponsorsManual/sitedesign.jpg
    :alt: Sitedesign
@@ -98,7 +98,7 @@ List of logo sponsors
 
 .. figure:: ../Images/SponsorsManual/ttg.jpg
    :alt: Tourismus Technologie GmbH
-   :target: http://www.ttg.at
+   :target: https://www.ttg.at
 
 .. figure:: ../Images/SponsorsManual/webservices.jpg
    :alt: web services

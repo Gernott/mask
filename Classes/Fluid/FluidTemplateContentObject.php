@@ -32,6 +32,7 @@ namespace MASK\Mask\Fluid;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Helper\InlineHelper;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\FluidTemplateContentObject
@@ -41,7 +42,7 @@ class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\Fluid
      * InlineHelper
      *
      * @var \MASK\Mask\Helper\InlineHelper
-     * @inject
+     * @Inject()
      */
     protected $inlineHelper;
 
@@ -49,7 +50,7 @@ class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\Fluid
      * storageRepository
      *
      * @var \MASK\Mask\Domain\Repository\StorageRepository
-     * @inject
+     * @Inject()
      */
     protected $storageRepository;
 

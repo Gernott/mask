@@ -21,7 +21,7 @@ Mask is a TYPO3 extension for creating content elements and extending page templ
 ## Need help?
 
 * Read how to install, configure and use mask in the [official documentation](https://docs.typo3.org/typo3cms/extensions/mask/)
-* [Visit our website](http://mask.webprofil.at) to find more information about mask.
+* [Visit our website](https://mask.webprofil.at) to find more information about mask.
 
 ## Found a bug?
 * first check out the master branch and verify that the issue is not yet solved
@@ -29,7 +29,7 @@ Mask is a TYPO3 extension for creating content elements and extending page templ
 * if not found, report the bug in our [issue tracker](https://github.com/Gernott/mask/issues/new/)
 
 ## Like a new feature?
-* have a look at our [wishlist](http://mask.webprofil.at/featurelist/overview/)
-* if your idea is not listed here, get in [contact](http://mask.webprofil.at/imprint/) with us
-* if you want to sponsor a feature, get in [contact](http://mask.webprofil.at/imprint/) with us
-* if you want to develop a feature, get in [contact](http://mask.webprofil.at/imprint/) to plan a strategy
+* have a look at our [wishlist](https://mask.webprofil.at/featurelist/overview/)
+* if your idea is not listed here, get in [contact](https://mask.webprofil.at/imprint/) with us
+* if you want to sponsor a feature, get in [contact](https://mask.webprofil.at/imprint/) with us
+* if you want to develop a feature, get in [contact](https://mask.webprofil.at/imprint/) to plan a strategy

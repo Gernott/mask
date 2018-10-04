@@ -255,6 +255,14 @@ jQuery(document).ready(function () {
 
     }
   });
+  // Select Field: Render type specific fields toggle
+  jQuery(document).on("change", ".tx_mask_fieldcontent_select_renderType", function (a) {
+      if (jQuery(this).val() == 'selectMultipleSideBySide') {
+          jQuery(this).closest(".tx_mask_fieldcontent").find('.tx_mask_fieldcontent_renderType_selectMultipleSideBySide').show();
+      } else {
+          jQuery(this).closest(".tx_mask_fieldcontent").find('.tx_mask_fieldcontent_renderType_selectMultipleSideBySide').hide();
+      }
+  });
 
   // initialize font-icon-picker
   jQuery('#meta_icon').fontIconPicker({
@@ -661,7 +669,7 @@ function validateFields() {
 function validateKeyField(field, table) {
   if (jQuery(field).val() !== "" && !jQuery(field).attr("readonly")) {
     // Get ajax url from global TYPO3 variable
-    var ajaxUrl = TYPO3.settings.ajaxUrls['WizardController::checkFieldKey'];
+    var ajaxUrl = TYPO3.settings.ajaxUrls['mask_check_field_key'];
     var maskKey = "tx_mask_" + jQuery(field).val();
     var key = "tx_mask_" + jQuery(field).val();
     var params = {
@@ -705,7 +713,7 @@ function validateKeyField(field, table) {
 function validateElementKeyField(field) {
   if (jQuery(field).val() !== "" && !jQuery(field).attr("readonly")) {
     // Get ajax url from global TYPO3 variable
-    var ajaxUrl = TYPO3.settings.ajaxUrls['WizardController::checkElementKey'];
+    var ajaxUrl = TYPO3.settings.ajaxUrls['mask_check_element_key'];
     var key = jQuery(field).val();
     var params = {
       key: key

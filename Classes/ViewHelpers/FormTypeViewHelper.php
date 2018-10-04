@@ -2,6 +2,9 @@
 
 namespace MASK\Mask\ViewHelpers;
 
+use TYPO3\CMS\Extbase\Annotation\Inject;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+
 /**
  *
  * @package TYPO3
@@ -10,28 +13,36 @@ namespace MASK\Mask\ViewHelpers;
  * @author Benjamin Butschell bb@webprofil.at>
  *
  */
-class FormTypeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class FormTypeViewHelper extends AbstractViewHelper
 {
 
     /**
      * FieldHelper
      *
      * @var \MASK\Mask\Helper\FieldHelper
-     * @inject
+     * @Inject()
      */
     protected $fieldHelper;
+
+    public function initializeArguments()
+    {
+        $this->registerArgument('elementKey', 'string', 'Key of element', true);
+        $this->registerArgument('fieldKey', 'string', 'Key if field', true);
+        $this->registerArgument('type', 'string', 'Key of element', false, 'tt_content');
+    }
 
     /**
      * Returns the label of a field in an element
      *
-     * @param string $elementKey Key of Element
-     * @param string $fieldKey Key if Field
-     * @param string $type table
      * @return string formType
      * @author Benjamin Butschell bb@webprofil.at>
      */
-    public function render($elementKey, $fieldKey, $type = "tt_content")
+    public function render()
     {
+        $elementKey = $this->arguments['elementKey'];
+        $fieldKey = $this->arguments['fieldKey'];
+        $type = $this->arguments['type'];
+
         $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
         $formType = $this->fieldHelper->getFormType($fieldKey, $elementKey, $type);
         return $formType;

@@ -26,6 +26,8 @@ namespace MASK\Mask\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use TYPO3\CMS\Extbase\Annotation\Inject;
+
 /**
  *
  *
@@ -33,14 +35,14 @@ namespace MASK\Mask\Controller;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
  *
  */
-class WizardContentController extends \MASK\Mask\Controller\WizardController
+class WizardContentController extends WizardController
 {
 
     /**
      * StorageRepository
      *
      * @var \MASK\Mask\Domain\Repository\StorageRepository
-     * @inject
+     * @Inject()
      */
     protected $storageRepository;
 
@@ -48,7 +50,7 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
      * IconRepository
      *
      * @var \MASK\Mask\Domain\Repository\IconRepository
-     * @inject
+     * @Inject()
      */
     protected $iconRepository;
 
@@ -73,7 +75,6 @@ class WizardContentController extends \MASK\Mask\Controller\WizardController
     /**
      * action new
      *
-     * @dontvalidate $newContent
      * @return void
      */
     public function newAction()
