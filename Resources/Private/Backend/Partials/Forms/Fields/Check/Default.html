@@ -43,7 +43,7 @@ option3"><mask:Items items="{field.config.items}"/></textarea>
 								title="{f:translate(key:'tx_mask.field.check.renderType')}"
 								class="form-control tx_mask_fieldcontent_eval tx_mask_fieldcontent_check_renderType">
 					<!-- @formatter:off -->
-					<option value="default" {f:if(condition:'{field.config.renderType} == \'default\'', then: ' selected="selected"')}>
+					<option value="" {f:if(condition:'{field.config.renderType} == \'\'', then: ' selected="selected"')}>
 						<f:translate key="tx_mask.field.check.renderType.default"/>
 					</option>
 					<option value="checkboxToggle" {f:if(condition:'{field.config.renderType} == \'checkboxToggle\'', then: ' selected="selected"')}>
