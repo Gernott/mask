@@ -513,7 +513,6 @@ function initSortable() {
       }
     },
     stop: function (event, ui) {
-      initSortable();
       if (!sorted) {
         sortFields();
         sorted = true;

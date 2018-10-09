@@ -475,6 +475,12 @@ class TcaCodeGenerator extends AbstractCodeGenerator
         $prependTabs = "sys_language_uid, l10n_parent, l10n_diffsource, hidden, ";
         if ($tca) {
             $i = 0;
+            uasort($tca, function ($columnA, $columnB) {
+                $a = isset($columnA['order']) ? (int)$columnA['order'] : 0;
+                $b = isset($columnB['order']) ? (int)$columnB['order'] : 0;
+                return $a - $b;
+            });
+
             foreach ($tca as $fieldKey => $configuration) {
                 // check if this field is of type tab
                 $formType = $fieldHelper->getFormType($fieldKey, "", $table);
@@ -495,7 +501,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
         }
 
         // take first field for inline label
-        if ($fields) {
+        if (!empty($fields)) {
             $labelField = $generalUtility->getFirstNoneTabField($fields);
         }
 
