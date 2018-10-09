@@ -281,6 +281,11 @@ class StorageRepository
                 }
                 $json[$type]["tca"]["tx_mask_" . $columns[$key]] = $json[$type]["tca"][$columns[$key]];
                 $json[$type]["tca"]["tx_mask_" . $columns[$key]]["key"] = $columns[$key];
+
+                if ($inlineField) {
+                    $json[$type]["tca"]["tx_mask_" . $columns[$key]]["order"] = $key;
+                }
+
                 unset($json[$type]["tca"][$columns[$key]]);
             }
         }
