@@ -188,7 +188,7 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
                 if (!$element["hidden"]) {
                     $setupContent[] = "tt_content.mask_" . $element["key"] .
                         " =< lib.maskContentElement\ntt_content.mask_" . $element["key"] .
-                        " {\ntemplateName = " . ucfirst($element["key"]) . "\n}\n\n";
+                        " {\ntemplateName = " . \TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToUpperCamelCase($element["key"]) . "\n}\n\n";
                 }
             }
         }
