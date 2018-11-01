@@ -175,10 +175,10 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      */
     protected function saveHtml($key, $html)
     {
-        if (file_exists(PATH_site . $this->extSettings["content"] . ucfirst($key) . ".html")) {
+        if (file_exists(GeneralUtility::getFileAbsFileName($this->extSettings["content"]) . ucfirst($key) . ".html")) {
             return false;
         } else {
-            \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(PATH_site . $this->extSettings["content"] . ucfirst($key) . ".html",
+            \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(GeneralUtility::getFileAbsFileName($this->extSettings["content"]) . ucfirst($key) . ".html",
                 $html);
             return true;
         }
@@ -262,11 +262,11 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
         $messages = [];
 
-        if (!file_exists(PATH_site . $this->extSettings["content"])) {
+        if (!file_exists(GeneralUtility::getFileAbsFileName($this->extSettings["content"]))) {
             $messages[] = $this->extSettings["content"] . ": " . \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.all.error.missingfolder',
                     'mask');
         }
-        if (!file_exists(PATH_site . $this->extSettings["preview"])) {
+        if (!file_exists(GeneralUtility::getFileAbsFileName($this->extSettings["preview"]))) {
             $messages[] = $this->extSettings["preview"] . ": " . \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.all.error.missingfolder',
                     'mask');
         }
@@ -281,11 +281,11 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     protected function createMissingFolders()
     {
         $success = true;
-        if (!file_exists(PATH_site . $this->extSettings["content"])) {
-            $success = $success && mkdir(PATH_site . $this->extSettings["content"], 0755, true);
+        if (!file_exists(GeneralUtility::getFileAbsFileName($this->extSettings["content"]))) {
+            $success = $success && mkdir(GeneralUtility::getFileAbsFileName($this->extSettings["content"]), 0755, true);
         }
-        if (!file_exists(PATH_site . $this->extSettings["preview"])) {
-            $success = $success && mkdir(PATH_site . $this->extSettings["preview"], 0755, true);
+        if (!file_exists(GeneralUtility::getFileAbsFileName($this->extSettings["preview"]))) {
+            $success = $success && mkdir(GeneralUtility::getFileAbsFileName($this->extSettings["preview"]), 0755, true);
         }
         return $success;
     }
