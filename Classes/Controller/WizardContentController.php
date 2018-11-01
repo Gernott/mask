@@ -27,6 +27,7 @@ namespace MASK\Mask\Controller;
  * ************************************************************* */
 
 use TYPO3\CMS\Extbase\Annotation\Inject;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  *
@@ -206,11 +207,11 @@ class WizardContentController extends WizardController
      */
     protected function deleteHtml($key)
     {
-        if (file_exists(PATH_site . $this->extSettings["content"] . $key . ".html")) {
-            unlink(PATH_site . $this->extSettings["content"] . $key . ".html");
+        if (file_exists(GeneralUtility::getFileAbsFileName($this->extSettings["content"]) . $key . ".html")) {
+            unlink(GeneralUtility::getFileAbsFileName($this->extSettings["content"]) . $key . ".html");
         }
-        if (file_exists(PATH_site . $this->extSettings["backend"] . $key . ".html")) {
-            unlink(PATH_site . $this->extSettings["backend"] . $key . ".html");
+        if (file_exists(GeneralUtility::getFileAbsFileName($this->extSettings["backend"]) . $key . ".html")) {
+            unlink(GeneralUtility::getFileAbsFileName($this->extSettings["backend"]) . $key . ".html");
         }
     }
 
