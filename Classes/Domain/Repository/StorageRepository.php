@@ -465,21 +465,35 @@ class StorageRepository
     /**
      * Sorts the json entries
      * @param array $json
+     * @param array $path the path the array is located in the mask.json structure
+     *
+     * @return null
      */
-    private function sortJson(array &$array)
+    private function sortJson(array &$array, array $path = [])
     {
+        $sortCurrentByKeys = true;
+
         // check if array is not a hash table, because we only want to sort hash tables
         if (
             [] === $array
             || !(array_keys($array) !== range(0, count($array) - 1))
         ) {
-            return false;
+            return $sortCurrentByKeys;
         }
 
-        ksort($array);
-        foreach ($array as &$item) {
+        if ($sortCurrentByKeys && count($path) >= 2 && $path[1] === 'tca') {
+            $sortCurrentByKeys = false;
+        }
+
+        if ($sortCurrentByKeys) {
+            ksort($array);
+        }
+
+        foreach ($array as $key => &$item) {
             if (is_array($item)) {
-                $this->sortJson($item);
+                $pathToCurrentElement = $path;
+                $pathToCurrentElement[] = $key;
+                $this->sortJson($item, $pathToCurrentElement);
             }
         }
     }
