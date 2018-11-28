@@ -54,6 +54,8 @@ if (!function_exists('user_mask_contentType')) {
 
     function user_mask_contentType($param = "")
     {
+        static $cTypeCache = [];
+
         if (isset($_REQUEST["edit"]["tt_content"]) && is_array($_REQUEST["edit"]["tt_content"])) {
             $field = explode("|", $param);
             $request = $_REQUEST;
@@ -67,13 +69,22 @@ if (!function_exists('user_mask_contentType')) {
                 }
             } else { // if element exists
                 $uid = intval(key($_REQUEST["edit"]["tt_content"]));
-                $connection = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ConnectionPool::class)->getConnectionForTable('tt_content');
-                $fieldValue = $connection->select([$field[0]], 'tt_content', ['uid' => $uid])->fetchColumn(0);
-                if ($fieldValue == $field[1]) {
-                    return true;
-                } else {
-                    return false;
+
+                if (!isset($cTypeCache[$uid])) {
+                    /** @var \TYPO3\CMS\Core\Database\ConnectionPool $connection */
+                    $connection = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ConnectionPool::class);
+                    $queryBuilder = $connection->getQueryBuilderForTable('tt_content');
+                    /** @var \TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction $deletedRestriction */
+                    $deletedRestriction = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction::class);
+                    $queryBuilder->getRestrictions()->removeAll()->add($deletedRestriction);
+                    $cTypeCache[$uid] = $queryBuilder->select($field[0])
+                        ->from('tt_content')
+                        ->where($queryBuilder->expr()->eq('uid', $uid))
+                        ->execute()
+                        ->fetchColumn(0);
                 }
+
+                return $cTypeCache[$uid] == $field[1];
             }
         } else {
             // if content element is loaded by ajax, then it's ok
@@ -109,9 +120,17 @@ if (!function_exists('user_mask_beLayout')) {
         }
 
         if ($uid) {
+            /** @var \TYPO3\CMS\Core\Database\Connection $connection */
             $connection = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ConnectionPool::class)->getConnectionForTable('pages');
-            $data = $connection->select(['backend_layout', 'backend_layout_next_level'], 'pages',
-                ['uid' => $uid])->fetch();
+            $query = $connection->createQueryBuilder();
+            /** @var \TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction $deletedRestriction */
+            $deletedRestriction = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction::class);
+            $query->getRestrictions()->removeAll()->add($deletedRestriction);
+            $data = $query->select('backend_layout', 'backend_layout_next_level')
+                ->from('pages')
+                ->where($query->expr()->eq('uid', $uid))
+                ->execute()
+                ->fetch(\Doctrine\DBAL\FetchMode::ASSOCIATIVE);
 
             $backend_layout = $data["backend_layout"];
             $backend_layout_next_level = $data["backend_layout_next_level"];
