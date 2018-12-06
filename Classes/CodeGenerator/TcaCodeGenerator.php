@@ -422,7 +422,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                         'renderType' => 'inputDateTime',
                         'type' => 'input',
                         'size' => 13,
-                        'eval' => 'datetime',
+                        'eval' => 'datetime,int',
                         'checkbox' => 0,
                         'default' => 0
                     ),
@@ -437,7 +437,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                         'renderType' => 'inputDateTime',
                         'type' => 'input',
                         'size' => 13,
-                        'eval' => 'datetime',
+                        'eval' => 'datetime,int',
                         'checkbox' => 0,
                         'default' => 0
                     ),
