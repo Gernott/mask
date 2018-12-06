@@ -100,7 +100,7 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
         if (substr($row['CType'], 0, 4) === "mask") {
             $elementKey = substr($row['CType'], 5);
             $templateRootPath = GeneralUtility::getFileAbsFileName($this->extSettings["backend"]);
-            $templatePathAndFilename = $templateRootPath . ucfirst($elementKey) . '.html';
+            $templatePathAndFilename = $templateRootPath . GeneralUtility::underscoredToUpperCamelCase($elementKey) . '.html';
 
             if (file_exists($templatePathAndFilename)) {
                 // initialize some things we need

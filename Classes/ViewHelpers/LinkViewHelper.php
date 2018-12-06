@@ -53,7 +53,7 @@ class LinkViewHelper extends AbstractViewHelper
     public function render()
     {
         $this->extSettings = $this->settingsService->get();
-        $url = $this->extSettings['content'] . ucfirst($this->arguments['data']) . '.html';
+        $url = $this->extSettings['content'] . \TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToUpperCamelCase($this->arguments['data']) . '.html';
         if (!file_exists(PATH_site . $url) || !is_file(PATH_site . $url)) {
             $content = '<div class="typo3-message message-error"><strong>' .
                 \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.error', 'mask') .
