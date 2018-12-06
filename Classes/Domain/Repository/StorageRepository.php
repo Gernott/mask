@@ -29,6 +29,8 @@ namespace MASK\Mask\Domain\Repository;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use MASK\Mask\Utility\GeneralUtility as MaskUtility;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -92,7 +94,7 @@ class StorageRepository
         if (self::$json === null) {
             self::$json = array();
             if (!empty($this->extSettings['json'])) {
-                $file = GeneralUtility::getFileAbsFileName($this->extSettings['json']);
+                $file = MaskUtility::getFileAbsFileName($this->extSettings['json']);
                 if (file_exists($file)) {
                     self::$json = json_decode(file_get_contents($file), true);
                 }
@@ -104,19 +106,17 @@ class StorageRepository
     /**
      * Write Storage
      *
-     * @return array
+     * @param $json
+     * @return void
      */
     public function write($json)
     {
-        // Return JSON formatted in PHP 5.4.0 and higher
-        if (version_compare(phpversion(), '5.4.0', '<')) {
-            $encodedJson = json_encode($json);
-        } else {
-            $encodedJson = json_encode($json, JSON_PRETTY_PRINT);
-        }
         if (!empty($this->extSettings['json'])) {
-            $file = GeneralUtility::getFileAbsFileName($this->extSettings['json']);
-            GeneralUtility::writeFile($file, $encodedJson);
+            $file = MaskUtility::getFileAbsFileName($this->extSettings['json']);
+            GeneralUtility::writeFile(
+                $file,
+                json_encode($json, JSON_PRETTY_PRINT)
+            );
         }
         self::$json = $json;
     }

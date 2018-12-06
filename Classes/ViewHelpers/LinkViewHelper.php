@@ -2,7 +2,7 @@
 
 namespace MASK\Mask\ViewHelpers;
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
@@ -52,18 +52,21 @@ class LinkViewHelper extends AbstractViewHelper
      * @return string all irre elements of this attribut
      * @author Gernot Ploiner <gp@webprofil.at>
      */
-    public function render()
+    public function render(): string
     {
-        $this->extSettings = $this->settingsService->get();
-        $url = \MASK\Mask\Utility\GeneralUtility::getTemplatePath($this->extSettings, $this->arguments['data']);
+        $templatePath = MaskUtility::getTemplatePath(
+            $this->settingsService->get(),
+            $this->arguments['data']
+        );
         $content = '';
-        if (!file_exists($url) || !is_file($url)) {
-            $content = '<div class="typo3-message message-error"><strong>' .
-                LocalizationUtility::translate('tx_mask.content.error', 'mask') .
-                '</strong> ' . LocalizationUtility::translate('tx_mask.content.htmlmissing',
-                    'mask') .
-                ': <span style="text-decoration:underline;">' . $url .
-                '</span></div>';
+
+        if (!file_exists($templatePath) || !is_file($templatePath)) {
+            $content = '<div class="alert alert-warning"><div class="media">
+<div class="media-left"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i>
+<i class="fa fa-exclamation fa-stack-1x"></i></span></div>
+<div class="media-body"><h4 class="alert-title">' . LocalizationUtility::translate('tx_mask.content.htmlmissing',
+                    'mask') . '</h4>      <p class="alert-message">' . $templatePath . '
+				</p></div></div></div>';
         }
         return $content;
     }

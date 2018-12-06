@@ -8,12 +8,6 @@
 		<div role="tabpanel" class="tab-pane active" id="DTM-mask-1">
 			<div class="form-section">
 				<f:flashMessages/>
-				<f:for each="{messages}" as="message">
-					<div class="typo3-message message-error"><strong>
-						<f:translate key="tx_mask.content.error"/>
-					</strong> {message}
-					</div>
-				</f:for>
 
 				<f:if condition="{missingFolders}">
 					<f:form action="createMissingFolders" controller="WizardContent">
@@ -74,8 +68,9 @@
 										<p>{storage.description}</p>
 										<mask:link data="{key}"/>
 										<f:if condition="{mask:link(data:key)}">
-											<f:link.action action="createHtml" arguments="{key:key}">
-												<i class="fa fa-plus-circle "></i>
+											<f:link.action action="createHtml" arguments="{key:key}" class="btn btn-default">
+												<i class="fa fa-plus-circle"></i>
+												<f:translate key="tx_mask.all.createmissingtemplate"/>
 											</f:link.action>
 										</f:if>
 									</td>

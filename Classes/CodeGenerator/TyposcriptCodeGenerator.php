@@ -174,13 +174,13 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
         // for base paths to fluid templates configured in extension settings
         $setupContent[] = $this->convertArrayToTypoScript([
             'templateRootPaths' => [
-                10 => $settings['content']
+                10 => rtrim($settings['content'], '/') . '/'
             ],
             'partialRootPaths' => [
-                10 => $settings['partials']
+                10 => rtrim($settings['partials'], '/') . '/'
             ],
             'layoutRootPaths' => [
-                10 => $settings['layouts']
+                10 => rtrim($settings['layouts'], '/') . '/'
             ]
         ], 'lib.maskContentElement');
 

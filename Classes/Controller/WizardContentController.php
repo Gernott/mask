@@ -26,6 +26,7 @@ namespace MASK\Mask\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -62,15 +63,9 @@ class WizardContentController extends WizardController
      */
     public function listAction()
     {
-        $messages = $this->checkFolders();
-        $missingFolders = false;
-        if (count($messages) > 0) {
-            $missingFolders = true;
-        }
-        $this->view->assign('messages', $messages);
-        $this->view->assign('missingFolders', $missingFolders);
-        $storages = $this->storageRepository->load();
-        $this->view->assign('storages', $storages);
+        $this->checkFolders();
+        $this->view->assign('missingFolders', $this->missingFolders);
+        $this->view->assign('storages', $this->storageRepository->load());
     }
 
     /**
@@ -202,16 +197,17 @@ class WizardContentController extends WizardController
      * Deletes Fluid html, if file exists
      *
      * @param string $key
-     * @param string $html
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    protected function deleteHtml($key)
+    protected function deleteHtml($key): void
     {
-        if (file_exists(GeneralUtility::getFileAbsFileName($this->extSettings["content"]) . $key . ".html")) {
-            unlink(GeneralUtility::getFileAbsFileName($this->extSettings["content"]) . $key . ".html");
-        }
-        if (file_exists(GeneralUtility::getFileAbsFileName($this->extSettings["backend"]) . $key . ".html")) {
-            unlink(GeneralUtility::getFileAbsFileName($this->extSettings["backend"]) . $key . ".html");
+        $paths = [];
+        $paths[] = MaskUtility::getTemplatePath($this->extSettings, $key);
+        $paths[] = MaskUtility::getTemplatePath($this->extSettings, $key, false, $this->extSettings['backend']);
+        foreach ($paths as $path) {
+            if (file_exists($path)) {
+                unlink($path);
+            }
         }
     }
 

@@ -106,7 +106,7 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
                 $this->extSettings,
                 $elementKey,
                 false,
-                GeneralUtility::getFileAbsFileName($this->extSettings['backend'])
+                MaskUtility::getFileAbsFileName($this->extSettings['backend'])
             );
 
             if (file_exists($templatePathAndFilename)) {
@@ -121,11 +121,11 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
 
                 // if there are paths for layouts and partials set, add them to view
                 if (!empty($this->extSettings["layouts_backend"])) {
-                    $layoutRootPath = GeneralUtility::getFileAbsFileName($this->extSettings["layouts_backend"]);
+                    $layoutRootPath = MaskUtility::getFileAbsFileName($this->extSettings["layouts_backend"]);
                     $view->setLayoutRootPaths(array($layoutRootPath));
                 }
                 if (!empty($this->extSettings["partials_backend"])) {
-                    $partialRootPath = GeneralUtility::getFileAbsFileName($this->extSettings["partials_backend"]);
+                    $partialRootPath = MaskUtility::getFileAbsFileName($this->extSettings["partials_backend"]);
                     $view->setPartialRootPaths(array($partialRootPath));
                 }
 

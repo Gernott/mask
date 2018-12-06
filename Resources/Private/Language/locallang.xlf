@@ -514,7 +514,7 @@
 				<source>Content element was deleted.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.htmlmissing">
-				<source>Fluid/HTML missing, place here</source>
+				<source>Fluid-Template of this element is missing</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.hiddencontentelement">
 				<source>Content element was deactivated</source>
@@ -598,11 +598,18 @@
 				<source>Directory is missing. Create missing directory or change configuration in extension manager.
 				</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.all.error.missingjson">
+				<source>Mask configuration mask.json is missing. Create missing file or change configuration in extension manager.
+				</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.all.createmissingfolders">
-				<source>Create missing directories</source>
+				<source>Create missing directories and files</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.createmissingtemplate">
+				<source>Create missing template</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.createdmissingfolders">
-				<source>Missing directories were created.</source>
+				<source>Missing directories and files were created.</source>
 			</trans-unit>
 
 			<trans-unit id="tx_mask.tabs.default">

@@ -526,7 +526,7 @@
 				<target>Content-Element wurde gelöscht.</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.htmlmissing">
-				<target>Fluid/HTML fehlt, hier ablegen</target>
+				<target>Fluid-Templates dieses Elements fehlt</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.count">
 				<target>In Verwendung</target>
@@ -609,11 +609,19 @@
 					Erweiterungsmanager angepasst werden.
 				</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.all.error.missingjson">
+				<target>Mask-Konfiguration mask.json fehlt. Die fehlende Datei muss angelegt oder der Pfad zur Dateu im
+					Erweiterungsmanager angepasst werden.
+				</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.createmissingtemplate">
+				<target>Fehlendes Template anlegen</target>
+			</trans-unit>
 			<trans-unit id="tx_mask.all.createmissingfolders">
-				<target>Fehlende Verzeichnisse anlegen</target>
+				<target>Fehlende Verzeichnisse und Dateien anlegen</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.createdmissingfolders">
-				<target>Fehlende Verzeichnisse wurden angelegt.</target>
+				<target>Fehlende Verzeichnisse und Dateien wurden angelegt.</target>
 			</trans-unit>
 
 			<trans-unit id="tx_mask.tabs.default">

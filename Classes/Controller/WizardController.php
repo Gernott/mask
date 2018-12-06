@@ -27,13 +27,16 @@
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Core\Cache\CacheManager;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Http\ServerRequest;
+use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * ^
@@ -104,6 +107,23 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * @var array
      */
     protected $extSettings;
+
+    /**
+     * $pathKeys
+     *
+     * @var array
+     */
+    protected static $folderPathKeys = [
+        'content',
+        'layouts',
+        'partials',
+        'backend',
+        'layouts_backend',
+        'partials_backend',
+        'preview'
+    ];
+
+    protected $missingFolders = false;
 
     /**
      * is called before every action
@@ -256,22 +276,14 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * Check, if folders from extensionmanager-settings are existing
      *
      * @author Gernot Ploiner <gp@webprofil.at>
-     * @return array $messages
+     * @return void
      */
-    protected function checkFolders()
+    protected function checkFolders(): void
     {
-
-        $messages = [];
-
-        if (!file_exists(GeneralUtility::getFileAbsFileName($this->extSettings["content"]))) {
-            $messages[] = $this->extSettings["content"] . ": " . \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.all.error.missingfolder',
-                    'mask');
+        foreach (self::$folderPathKeys as $key) {
+            $this->checkFolder($this->extSettings[$key], 'tx_mask.all.error.missingfolder');
         }
-        if (!file_exists(GeneralUtility::getFileAbsFileName($this->extSettings["preview"]))) {
-            $messages[] = $this->extSettings["preview"] . ": " . \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.all.error.missingfolder',
-                    'mask');
-        }
-        return $messages;
+        $this->checkFolder($this->extSettings['json'], 'tx_mask.all.error.missingjson');
     }
 
     /**
@@ -279,15 +291,13 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * @author Benjamin Butschell <bb@webprofil.at>
      * @return bool $success
      */
-    protected function createMissingFolders()
+    protected function createMissingFolders(): bool
     {
         $success = true;
-        if (!file_exists(GeneralUtility::getFileAbsFileName($this->extSettings["content"]))) {
-            $success = $success && mkdir(GeneralUtility::getFileAbsFileName($this->extSettings["content"]), 0755, true);
+        foreach (self::$folderPathKeys as $key) {
+            $success = $success && $this->createFolder($this->extSettings[$key]);
         }
-        if (!file_exists(GeneralUtility::getFileAbsFileName($this->extSettings["preview"]))) {
-            $success = $success && mkdir(GeneralUtility::getFileAbsFileName($this->extSettings["preview"]), 0755, true);
-        }
+        $success = $success && $this->createFile($this->extSettings['json']);
         return $success;
     }
 
@@ -295,12 +305,62 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * action creates missing folders
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    public function createMissingFoldersAction()
+    public function createMissingFoldersAction(): void
     {
         if ($this->createMissingFolders()) {
-            $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.all.createdmissingfolders',
+            $this->addFlashMessage(LocalizationUtility::translate('tx_mask.all.createdmissingfolders',
                 'mask'));
         }
-        $this->redirect("list");
+        $this->redirect('list');
+    }
+
+    /**
+     * @param $path
+     * @return bool
+     */
+    protected function createFolder($path): bool
+    {
+        $success = true;
+        $path = MaskUtility::getFileAbsFileName($path);
+        if (!file_exists($path)) {
+            $success = mkdir(
+                $path,
+                octdec($GLOBALS['TYPO3_CONF_VARS']['SYS']['folderCreateMask']),
+                true
+            );
+        }
+        return $success;
+    }
+
+    /**
+     * @param $path
+     * @return bool
+     */
+    protected function createFile($path): bool
+    {
+        $success = true;
+        $path = MaskUtility::getFileAbsFileName($path);
+        if (!file_exists($path)) {
+            $success = $this->createFolder(dirname($path));
+            $this->storageRepository->write([]);
+        }
+        return $success;
+    }
+
+    /**
+     * @param string $path
+     * @param string $translationKey
+     * @return void
+     */
+    protected function checkFolder($path, $translationKey = 'tx_mask.all.error.missingjson'): void
+    {
+        if (!file_exists(MaskUtility::getFileAbsFileName($path))) {
+            $this->missingFolders = true;
+            $this->addFlashMessage(
+                LocalizationUtility::translate($translationKey, 'mask'),
+                $path,
+                AbstractMessage::WARNING
+            );
+        }
     }
 }

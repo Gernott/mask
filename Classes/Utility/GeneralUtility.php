@@ -26,6 +26,8 @@ namespace MASK\Mask\Utility;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility as CoreUtility;
 
 /**
@@ -244,23 +246,71 @@ class GeneralUtility
         $path = null
     ): string {
         if (!$path) {
-            $path = CoreUtility::getFileAbsFileName($settings['content']);
+            $path = self::getFileAbsFileName(rtrim($settings['content'], '/') . '/');
         }
-
         $fileExtension = '.html';
 
         // check if an html file with underscores exist
-        if (file_exists($path . ucfirst($elementKey) . $fileExtension)
+        if (file_exists($path . CoreUtility::underscoredToUpperCamelCase($elementKey) . $fileExtension)
         ) {
-            $fileName = ucfirst($elementKey);
-        } else {
             $fileName = CoreUtility::underscoredToUpperCamelCase($elementKey);
+        } else {
+            if (file_exists($path . ucfirst($elementKey) . $fileExtension)
+            ) {
+                $fileName = ucfirst($elementKey);
+            } else {
+                if (file_exists($path . $elementKey . $fileExtension)) {
+                    $fileName = $elementKey;
+                } else {
+                    $fileName = CoreUtility::underscoredToUpperCamelCase($elementKey);
+                }
+            }
         }
 
         if ($onlyTemplateName) {
             return $fileName . $fileExtension;
         }
         return $path . $fileName . $fileExtension;
+    }
+
+    /**
+     * Returns the absolute filename of a relative reference, resolves the "EXT:" prefix
+     * (way of referring to files inside extensions) and checks that the file is inside
+     * the TYPO3's base folder and implies a check with
+     * \TYPO3\CMS\Core\Utility\GeneralUtility::validPathStr().
+     *
+     * "EXT:" prefix is also replaced if the extension is not installed
+     *
+     * @param string $filename The input filename/filepath to evaluate
+     * @return string Returns the absolute filename of $filename if valid, otherwise blank string.
+     */
+    public static function getFileAbsFileName($filename): string
+    {
+        if ((string)$filename === '') {
+            return '';
+        }
+        // Extension
+        if (strpos($filename, 'EXT:') === 0) {
+            [$extKey, $local] = explode('/', substr($filename, 4), 2);
+            $filename = '';
+            if ((string)$extKey !== '' && (string)$local !== '') {
+                $filename = Environment::getPublicPath() . '/typo3conf/ext/' . $extKey . '/' . $local;
+            }
+        } elseif (!CoreUtility::isAbsPath($filename)) {
+            // is relative. Prepended with the public web folder
+            $filename = Environment::getPublicPath() . '/' . $filename;
+        } elseif (!(
+            CoreUtility::isFirstPartOfStr($filename, Environment::getProjectPath())
+            || CoreUtility::isFirstPartOfStr($filename, Environment::getPublicPath())
+        )) {
+            // absolute, but set to blank if not allowed
+            $filename = '';
+        }
+        if ((string)$filename !== '' && CoreUtility::validPathStr($filename)) {
+            // checks backpath.
+            return $filename;
+        }
+        return '';
     }
 
 }
