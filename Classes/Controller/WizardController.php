@@ -175,10 +175,10 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      */
     protected function saveHtml($key, $html)
     {
-        if (file_exists(GeneralUtility::getFileAbsFileName($this->extSettings["content"]) . underscoredToUpperCamelCase($key) . ".html")) {
+        if (file_exists(GeneralUtility::getFileAbsFileName($this->extSettings["content"]) . GeneralUtility::underscoredToUpperCamelCase($key) . ".html")) {
             return false;
         } else {
-            \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(GeneralUtility::getFileAbsFileName($this->extSettings["content"]) . underscoredToUpperCamelCase($key) . ".html",
+            \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(GeneralUtility::getFileAbsFileName($this->extSettings["content"]) . GeneralUtility::underscoredToUpperCamelCase($key) . ".html",
                 $html);
             return true;
         }

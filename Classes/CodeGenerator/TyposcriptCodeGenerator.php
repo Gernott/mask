@@ -27,6 +27,7 @@ namespace MASK\Mask\CodeGenerator;
  * ************************************************************* */
 
 use MASK\Mask\Domain\Model\BackendLayout;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Generates all the typoscript needed for mask content elements
@@ -47,7 +48,7 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
     {
         // generate page TSconfig
         $content = "";
-        $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance("TYPO3\CMS\Core\Imaging\IconRegistry");
+        $iconRegistry = GeneralUtility::makeInstance("TYPO3\CMS\Core\Imaging\IconRegistry");
 
         // make content-Elements
         if ($json["tt_content"]["elements"]) {
@@ -188,7 +189,7 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
                 if (!$element["hidden"]) {
                     $setupContent[] = "tt_content.mask_" . $element["key"] .
                         " =< lib.maskContentElement\ntt_content.mask_" . $element["key"] .
-                        " {\ntemplateName = " . \TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToUpperCamelCase($element["key"]) . "\n}\n\n";
+                        " {\ntemplateName = " . GeneralUtility::underscoredToUpperCamelCase($element["key"]) . "\n}\n\n";
                 }
             }
         }
