@@ -27,6 +27,7 @@ namespace MASK\Mask\CodeGenerator;
  * ************************************************************* */
 
 use MASK\Mask\Domain\Model\BackendLayout;
+use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -189,7 +190,11 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
                 if (!$element["hidden"]) {
                     $setupContent[] = "tt_content.mask_" . $element["key"] .
                         " =< lib.maskContentElement\ntt_content.mask_" . $element["key"] .
-                        " {\ntemplateName = " . GeneralUtility::underscoredToUpperCamelCase($element["key"]) . "\n}\n\n";
+                        " {\ntemplateName = " . MaskUtility::getTemplatePath(
+                            $settings,
+                            $element['key'],
+                            true
+                        ) . "\n}\n\n";
                 }
             }
         }

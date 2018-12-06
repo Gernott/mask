@@ -32,6 +32,7 @@ namespace MASK\Mask\Hooks;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Domain\Service\SettingsService;
 use MASK\Mask\Helper\InlineHelper;
+use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -99,8 +100,14 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
         // only render special backend preview if it is a mask element
         if (substr($row['CType'], 0, 4) === "mask") {
             $elementKey = substr($row['CType'], 5);
-            $templateRootPath = GeneralUtility::getFileAbsFileName($this->extSettings["backend"]);
-            $templatePathAndFilename = $templateRootPath . GeneralUtility::underscoredToUpperCamelCase($elementKey) . '.html';
+
+            # fallback to prevent breaking change
+            $templatePathAndFilename = MaskUtility::getTemplatePath(
+                $this->extSettings,
+                $elementKey,
+                false,
+                GeneralUtility::getFileAbsFileName($this->extSettings['backend'])
+            );
 
             if (file_exists($templatePathAndFilename)) {
                 // initialize some things we need

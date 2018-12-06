@@ -26,6 +26,8 @@ namespace MASK\Mask\Utility;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility as CoreUtility;
+
 /**
  * General useful methods
  *
@@ -162,7 +164,7 @@ class GeneralUtility
         $found = false;
         $blindLinkOptions = $storage[$type]['tca'][$fieldKey]['config']['fieldControl']['linkPopup']['options']['blindLinkOptions'];
         if ($blindLinkOptions != '') {
-            $evals = explode(',',$blindLinkOptions);
+            $evals = explode(',', $blindLinkOptions);
             $found = \in_array(strtolower($evalValue), $evals, true);
         }
         return $found;
@@ -225,4 +227,40 @@ class GeneralUtility
         }
         return $haystack;
     }
+
+    /**
+     * Check which template path to return
+     *
+     * @param $settings
+     * @param $elementKey
+     * @param bool $onlyTemplateName
+     * @param null $path
+     * @return string
+     */
+    public static function getTemplatePath(
+        $settings,
+        $elementKey,
+        $onlyTemplateName = false,
+        $path = null
+    ): string {
+        if (!$path) {
+            $path = CoreUtility::getFileAbsFileName($settings['content']);
+        }
+
+        $fileExtension = '.html';
+
+        // check if an html file with underscores exist
+        if (file_exists($path . ucfirst($elementKey) . $fileExtension)
+        ) {
+            $fileName = ucfirst($elementKey);
+        } else {
+            $fileName = CoreUtility::underscoredToUpperCamelCase($elementKey);
+        }
+
+        if ($onlyTemplateName) {
+            return $fileName . $fileExtension;
+        }
+        return $path . $fileName . $fileExtension;
+    }
+
 }

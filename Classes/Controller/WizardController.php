@@ -25,6 +25,7 @@
  * ************************************************************* */
 
 use MASK\Mask\Domain\Repository\StorageRepository;
+use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Http\Response;
@@ -175,13 +176,13 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      */
     protected function saveHtml($key, $html)
     {
-        if (file_exists(GeneralUtility::getFileAbsFileName($this->extSettings["content"]) . GeneralUtility::underscoredToUpperCamelCase($key) . ".html")) {
+        # fallback to prevent breaking change
+        $path = MaskUtility::getTemplatePath($this->extSettings, $key);
+        if (file_exists($path)) {
             return false;
-        } else {
-            \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile(GeneralUtility::getFileAbsFileName($this->extSettings["content"]) . GeneralUtility::underscoredToUpperCamelCase($key) . ".html",
-                $html);
-            return true;
         }
+        GeneralUtility::writeFile($path, $html);
+        return true;
     }
 
     /**
