@@ -502,15 +502,14 @@
 				<source>Fluid/HTML missing, place here</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.hiddencontentelement">
-				<target>Content element was deactivated</target>
+				<source>Content element was deactivated</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.activatedcontentelement">
-				<target>Content element was activated</target>
+				<source>Content element was activated</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.count">
-				<target>In Usage</target>
+				<source>In Usage</source>
 			</trans-unit>
-
 			<trans-unit id="tx_mask.page.title">
 				<source>Title</source>
 			</trans-unit>
