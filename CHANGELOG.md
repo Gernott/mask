@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.1.0] - 2018-12-07
+
+### Added
+- Added support for "EXT:" paths in LocalConfiguration [#193](https://github.com/Gernott/mask/pull/193)
+
+### Changed
+- Fluid-Templates are now being generated all upperCamelCase, no more underscores, except for fallback[#186](https://github.com/Gernott/mask/pull/186)
+- Default paths in LocalConfiguration now point to EXT:mask_project/...
+
+### Fixed
+- Fixed broken sorting in repeating elements [#181](https://github.com/Gernott/mask/pull/181)
+- Fixed broken default checkboxes [#178](https://github.com/Gernott/mask/pull/178)
+- Fixed TS-Conditions for hidden pages and content elements [#203](https://github.com/Gernott/mask/pull/204)
+- Prevent error in starttime and endtime when using strict_mode
+- Changed default value of date field to null as per MySQL Standard [#197](https://github.com/Gernott/mask/pull/197)
+- Fixed broken 'Activate/Deactivate content element' action [[BUGFIX] fix wrong locallang structure](https://github.com/Gernott/mask/commit/3701f2bdf698f7f2fb266a889ff41c8a255b7318)
+- Fixed broken LocalConfiguration paths when missing trailing slash
+
 ## [4.0.0] - 2018-10-03
 
 ### Added
