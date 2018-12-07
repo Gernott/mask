@@ -135,6 +135,11 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
                 if (is_array($field)) {
                     if ($field["config"]["type"] == "inline") {
                         $storage["tca"][$key]["inlineFields"] = $this->storageRepository->loadInlineFields($key);
+                        uasort($storage["tca"][$key]["inlineFields"], function ($columnA, $columnB) {
+                            $a = isset($columnA['order']) ? (int)$columnA['order'] : 0;
+                            $b = isset($columnB['order']) ? (int)$columnB['order'] : 0;
+                            return $a - $b;
+                        });
                     }
                 }
             }
