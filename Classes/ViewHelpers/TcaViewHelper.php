@@ -28,7 +28,7 @@ class TcaViewHelper extends AbstractViewHelper
     /**
      * @var array
      */
-    protected $forbiddenFields = [
+    protected static $forbiddenFields = [
         'starttime',
         'endtime',
         'hidden',
@@ -110,22 +110,25 @@ class TcaViewHelper extends AbstractViewHelper
         }
 
         $fields = [];
-        if ($table === 'tt_content' && $type !== 'Tab') {
-            foreach ($GLOBALS['TCA']['tt_content']['columns'] as $tcaField => $tcaConfig) {
-                $fieldType = $this->fieldHelper->getFormType($tcaField, '', $table);
-                if (($fieldType === $type || ($fieldType === 'Text' && $type === 'Richtext'))
-                    && !in_array($tcaField, $this->forbiddenFields, true)
-                ) {
-                    $fields[] = [
-                        'field' => $tcaField,
-                        'label' => $tcaConfig['label'],
-                    ];
+        if ($type === 'Tab') {
+            $fields = $this->fieldHelper->getFieldsByType($type, $table);
+        } else {
+            if (in_array($table, ['tt_content', 'pages'])) {
+                foreach ($GLOBALS['TCA'][$table]['columns'] as $tcaField => $tcaConfig) {
+                    if ($table === 'tt_content' || ($table === 'pages' && strpos($tcaField, 'tx_mask_') === 0)) {
+                        $fieldType = $this->fieldHelper->getFormType($tcaField, '', $table);
+                        if (($fieldType === $type || ($fieldType === 'Text' && $type === 'Richtext'))
+                            && !in_array($tcaField, self::$forbiddenFields, true)
+                        ) {
+                            $fields[] = [
+                                'field' => $tcaField,
+                                'label' => $tcaConfig['label'],
+                            ];
+                        }
+                    }
                 }
             }
-        } else {
-            $fields = $this->fieldHelper->getFieldsByType($type, $table);
         }
-
         return $fields;
     }
 }
