@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.1.1] - 2019-08-27
+
+### Changed
+- added banners
+
+### Fixed
+- fixed missing reusable mask fields in extending pages
+- added indexes to tt_content for parent fields
+- fixed wrong default-paths in extension config
+- changed EM paths from EXT:... to typo3conf/ext/....
+
 ## [4.1.0] - 2018-12-07
 
 ### Added
