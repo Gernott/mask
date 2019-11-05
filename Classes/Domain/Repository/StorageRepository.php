@@ -210,7 +210,7 @@ class StorageRepository
                         // If using a mask field with empty label, we have to set the "default" label
                         $label = '';
                         foreach ($json[$content['type']]['elements'] as $element) {
-                            if (in_array($content['elements']['columns'][$index], $element['columns'], true)) {
+                            if (is_array($element['columns']) && in_array($content['elements']['columns'][$index], $element['columns'], true)) {
                                 $i = array_search($content['elements']['columns'][$index], $element['columns'], true);
                                 if (!empty($element['labels'][$i])) {
                                     $label = $element['labels'][$i];
