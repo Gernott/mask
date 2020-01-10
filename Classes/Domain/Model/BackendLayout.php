@@ -87,7 +87,7 @@ class BackendLayout extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return int the uid, will not be empty
      */
-    public function getUid()
+    public function getUid(): ?int
     {
         return $this->uid;
     }

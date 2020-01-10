@@ -27,6 +27,7 @@ namespace MASK\Mask\CodeGenerator;
  * ************************************************************* */
 
 use Doctrine\DBAL\DBALException;
+use MASK\Mask\Domain\Repository\StorageRepository;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Schema\SchemaMigrator;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -102,7 +103,8 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
      */
     public function updateDatabase()
     {
-        $storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
+        /** @var StorageRepository $storageRepository */
+        $storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(MASK\Mask\Domain\Repository\StorageRepository::class);
         $json = $storageRepository->load();
         $sqlStatements = $this->getSqlByConfiguration($json);
         if (count($sqlStatements) > 0) {
@@ -114,7 +116,7 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
     /**
      * returns sql statements of all elements and pages and irre
      * @param array $json
-     * @return string
+     * @return array
      */
     public function getSqlByConfiguration($json)
     {
@@ -170,16 +172,16 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
 						 );\n";
                     }
 
-                    foreach ($json[$type]["sql"] as $field) {
-                        if ($field) {
-                            foreach ($field as $table => $fields) {
+                    foreach ($json[$type]["sql"] as $tables) {
+                        if ($tables) {
+                            foreach ($tables as $table => $fields) {
                                 if ($fields) {
                                     foreach ($fields as $field => $definition) {
                                         $sql_content[] = "CREATE TABLE " . $table . " (\n\t" . $field . " " . $definition . "\n);\n";
 
                                         // if this field is a content field, also add parent columns
                                         $fieldType = $fieldHelper->getFormType($field, "", $table);
-                                        if ($fieldType == "Content") {
+                                        if ($fieldType === "Content") {
                                             $sql_content[] = "CREATE TABLE tt_content (\n\t" . $field . "_parent" . " " . $definition . ",\n\t" . "KEY " . $field . " (" . $field . "_parent,pid,deleted)" . "\n);\n";
                                         }
                                     }
