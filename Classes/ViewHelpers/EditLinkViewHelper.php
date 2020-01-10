@@ -2,6 +2,7 @@
 
 namespace MASK\Mask\ViewHelpers;
 
+use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -50,7 +51,9 @@ class EditLinkViewHelper extends AbstractTagBasedViewHelper
                 ],
                 'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI')
             ];
-            $uri = BackendUtility::getModuleUrl('record_edit', $urlParameters);
+            $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
+            $uri = $uriBuilder->buildUriFromRoute('record_edit', $urlParameters);
+            // $uri = BackendUtility::getModuleUrl('record_edit', $urlParameters);
 
             $this->tag->addAttribute('href', $uri);
         }

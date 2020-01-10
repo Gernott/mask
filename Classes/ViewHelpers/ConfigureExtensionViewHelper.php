@@ -2,7 +2,9 @@
 
 namespace MASK\Mask\ViewHelpers;
 
+use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -29,7 +31,9 @@ class ConfigureExtensionViewHelper extends AbstractViewHelper
      */
     public function render()
     {
-        $url = BackendUtility::getModuleUrl('tools_toolssettings');
+        $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
+        $url = $uriBuilder->buildUriFromRoute('record_edit');
+
         return '<a href="' . (string)$url . '">' . $this->renderChildren() . '</a>';
     }
 }

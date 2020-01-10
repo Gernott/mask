@@ -33,6 +33,7 @@ use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Domain\Service\SettingsService;
 use MASK\Mask\Helper\InlineHelper;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
+use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -151,8 +152,9 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
                     ],
                     'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI')
                 ];
-                $editElementUrl = \TYPO3\CMS\Backend\Utility\BackendUtility::getModuleUrl('record_edit',
-                    $editElementUrlParameters);
+                $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
+                $editElementUrl = $uriBuilder->buildUriFromRoute('record_edit', $editElementUrlParameters);
+
                 $headerContent = '<strong><a href="' . $editElementUrl . '">' . $elementLabel . '</a></strong><br>';
                 $itemContent .= '<div style="display:block; padding: 10px 0 4px 0px;border-top: 1px solid #CACACA;margin-top: 6px;" class="content_preview_' . $elementKey . '">';
                 $itemContent .= $content;
