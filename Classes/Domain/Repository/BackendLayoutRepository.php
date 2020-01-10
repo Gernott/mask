@@ -31,7 +31,8 @@ use Doctrine\DBAL\FetchMode;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Frontend\Page\PageRepository;
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
+use TYPO3\CMS\Core\Utility\RootlineUtility;
 
 /**
  * Repository for \TYPO3\CMS\Extbase\Domain\Model\BackendLayout.
@@ -125,9 +126,15 @@ class BackendLayoutRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         } elseif ($backend_layout_next_level !== "") { // If backend_layout_next_level is set on current page
             return $backend_layout_next_level;
         } else { // If backend_layout and backend_layout_next_level is not set on current page, check backend_layout_next_level on rootline
-            $sysPage = GeneralUtility::makeInstance(PageRepository::class);
+            $rootLineUtility = GeneralUtility::makeInstance(RootlineUtility::class, $pid); // , $MP, $this->context);
+            // try {
+            //     return $rootline->get();
+            // \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController::getPageAndRootline();
+             /** @var PageRepository $sysPage */
+             $sysPage = GeneralUtility::makeInstance(PageRepository::class);
             try {
-                $rootline = $sysPage->getRootLine($pid, '');
+                $rootline = $rootLineUtility->get();
+                // $rootline = $sysPage->getRootLine($pid, '');
             } catch (\RuntimeException $ex) {
                 $rootline = [];
             }
