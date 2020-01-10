@@ -26,10 +26,10 @@
 	"require": {
 		"php": "^7.2",
 		"ext-json": "*",
-		"typo3/cms-core": "^9.5",
-		"typo3/cms-backend": "^9.5",
-		"typo3/cms-fluid": "^9.5",
-		"typo3/cms-extbase": "^9.5"
+		"typo3/cms-core": "10.3.*@dev",
+		"typo3/cms-backend": "10.3.*@dev",
+		"typo3/cms-fluid": "10.3.*@dev",
+		"typo3/cms-extbase": "10.3.*@dev"
 	},
 	"replace": {
 		"mask": "self.version",
