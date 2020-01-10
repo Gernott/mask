@@ -1,40 +1,43 @@
 <?php
-if (!defined('TYPO3_MODE')) {
-    die('Access denied.');
-}
+defined('TYPO3_MODE') or die();
 
-if (TYPO3_MODE === 'BE') {
+(function ($extkey) {
 
-    /**
-     * Registers a Backend Module
-     */
-    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-        'MASK.' . $_EXTKEY, 'tools', // Make module a submodule of 'admin'
-        'mask', // Submodule key
-        'top', // Position
-        array(
-            'WizardContent' => 'list, new, create, edit, update, delete, purge, generate, showHtml, createMissingFolders, hide, activate, createHtml',
-            'WizardPage' => 'list, new, create, edit, update, delete, showHtml',
-        ), array(
-            'access' => 'admin',
-            'icon' => 'EXT:' . $_EXTKEY . '/Resources/Public/Icons/module-mask_wizard.svg',
-            'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_mask.xlf',
-        )
-    );
-}
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Mask');
+    if (TYPO3_MODE === 'BE') {
 
-// include css for styling of backend preview of mask content elements
-$TBE_STYLES['skins']['mask']['name'] = 'mask';
-$TBE_STYLES['skins']['mask']['stylesheetDirectories'][] = 'EXT:mask/Resources/Public/Styles/Backend/';
-//$TBE_STYLES['skins']['mask']['stylesheetDirectories'][] = "/" . $settings["backend"];
+        /**
+         * Registers a Backend Module
+         */
+        \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
+            $extkey,
+            'tools', // Make module a submodule of 'admin'
+            'mask', // Submodule key
+            'top', // Position
+            [
+                \MASK\Mask\Controller\WizardContentController::class => 'list, new, create, edit, update, delete, purge, generate, showHtml, createMissingFolders, hide, activate, createHtml',
+                \MASK\Mask\Controller\WizardPageController::class => 'list, new, create, edit, update, delete, showHtml',
+            ], [
+                'access' => 'admin',
+                'icon' => 'EXT:' . $extkey . '/Resources/Public/Icons/module-mask_wizard.svg',
+                'labels' => 'LLL:EXT:' . $extkey . '/Resources/Private/Language/locallang_mask.xlf',
+            ]
+        );
+    }
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($extkey, 'Configuration/TypoScript', 'Mask');
 
-$storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
-$configuration = $storageRepository->load();
+    // include css for styling of backend preview of mask content elements
+    $TBE_STYLES['skins']['mask']['name'] = 'mask';
+    $TBE_STYLES['skins']['mask']['stylesheetDirectories'][] = 'EXT:' . $extkey . '/Resources/Public/Styles/Backend/';
+    //$TBE_STYLES['skins']['mask']['stylesheetDirectories'][] = "/" . $settings["backend"];
 
-if (!empty($configuration)) {
-    $tcaCodeGenerator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\CodeGenerator\\TcaCodeGenerator');
+    $storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(MASK\Mask\Domain\Repository\StorageRepository::class);
+    $configuration = $storageRepository->load();
 
-    // allow all inline tables on standard pages
-    $tcaCodeGenerator->allowInlineTablesOnStandardPages($configuration);
-}
+    if (!empty($configuration)) {
+        $tcaCodeGenerator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(MASK\Mask\CodeGenerator\TcaCodeGenerator::class);
+
+        // allow all inline tables on standard pages
+        $tcaCodeGenerator->allowInlineTablesOnStandardPages($configuration);
+    }
+
+})('mask');
