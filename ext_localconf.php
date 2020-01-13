@@ -37,8 +37,9 @@ defined('TYPO3_MODE') or die();
         ));
     }
 
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][TYPO3\CMS\Frontend\ContentObject\FluidTemplateContentObject::class] = \MASK\Mask\Fluid\FluidTemplateContentObject::class;
+    // TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\Container\Container::class)->registerImplementation(TYPO3\CMS\Frontend\ContentObject\FluidTemplateContentObject::class,  \MASK\Mask\Fluid\FluidTemplateContentObject::class);
     // Add all the typoscript we need in the correct files
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:mask/Configuration/TypoScript/page.txt">');
     $tsConfig = $typoScriptCodeGenerator->generateTsConfig($configuration);
     $pageTs = $typoScriptCodeGenerator->generatePageTyposcript($configuration);
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig($tsConfig);
