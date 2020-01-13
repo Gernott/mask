@@ -43,7 +43,7 @@ class BackendLayoutRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
 
     /**
-     * @var MASK\Mask\Backend\BackendLayoutView
+     * @var \MASK\Mask\Backend\BackendLayoutView
      */
     protected $backendLayoutView;
 
@@ -75,10 +75,10 @@ class BackendLayoutRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             $pageTsConfig = (array)\TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig($pid);
             $dataProviderContext = $this->backendLayoutView->createDataProviderContext()->setPageTsConfig($pageTsConfig);
             $backendLayoutCollections = $this->backendLayoutView->getDataProviderCollection()->getBackendLayoutCollections($dataProviderContext);
-            foreach ($backendLayoutCollections["default"]->getAll() as $backendLayout) {
+            foreach ($backendLayoutCollections['default']->getAll() as $backendLayout) {
                 $backendLayouts[$backendLayout->getIdentifier()] = $backendLayout;
             }
-            foreach ($backendLayoutCollections["pagets"]->getAll() as $backendLayout) {
+            foreach ($backendLayoutCollections['pagets']->getAll() as $backendLayout) {
                 $backendLayouts[$backendLayout->getIdentifier()] = $backendLayout;
             }
         }

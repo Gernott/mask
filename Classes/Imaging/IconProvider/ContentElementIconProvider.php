@@ -2,9 +2,9 @@
 
 namespace MASK\Mask\Imaging\IconProvider;
 
-use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconProviderInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
 
 /* * *************************************************************
@@ -141,8 +141,7 @@ class ContentElementIconProvider implements IconProviderInterface
      */
     protected function isPreviewIconAvailable($key)
     {
-        $pathSite = Environment::getPublicPath();
-        return file_exists($pathSite . $this->getPreviewIconPath($key));
+        return file_exists($this->getPreviewIconPath($key));
     }
 
     /**
@@ -158,13 +157,15 @@ class ContentElementIconProvider implements IconProviderInterface
     }
 
     /**
+     * Returns public path of icon
+     *
      * @param string $key
      * @author Benjamin Butschell <bb@webprofil.at>
      * @return string
      */
     protected function getPreviewIconPath($key)
     {
-        return $this->extSettings['preview'] . $key . '.png';
+        return GeneralUtility::getFileAbsFileName($this->extSettings['preview'] . $key . '.png');
     }
 
     /**
