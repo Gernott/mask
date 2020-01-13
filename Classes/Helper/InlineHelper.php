@@ -30,6 +30,8 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Annotation\Inject;
+use TYPO3\CMS\Core\Resource\FileRepository;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * Methods for working with inline fields (IRRE)
@@ -40,8 +42,7 @@ class InlineHelper
 {
 
     /**
-     * @var TYPO3\CMS\Extbase\Object\ObjectManager
-     * @Inject()
+     * @var \TYPO3\CMS\Extbase\Object\ObjectManager
      */
     protected $objectManager;
 
@@ -67,7 +68,7 @@ class InlineHelper
     public function __construct(\MASK\Mask\Domain\Repository\StorageRepository $storageRepository = null)
     {
         if (!$storageRepository) {
-            $this->storageRepository = GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
+            $this->storageRepository = GeneralUtility::makeInstance(\MASK\Mask\Domain\Repository\StorageRepository::class);
         } else {
             $this->storageRepository = $storageRepository;
         }
@@ -80,12 +81,12 @@ class InlineHelper
      * @param string $table
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    public function addFilesToData(&$data, $table = "tt_content")
+    public function addFilesToData(&$data, $table = 'tt_content')
     {
-        if ($data["_LOCALIZED_UID"]) {
-            $uid = $data["_LOCALIZED_UID"];
+        if ($data['_LOCALIZED_UID']) {
+            $uid = $data['_LOCALIZED_UID'];
         } else {
-            $uid = $data["uid"];
+            $uid = $data['uid'];
         }
 
         // using is_numeric in favor to is_int
@@ -93,23 +94,23 @@ class InlineHelper
         if (!is_numeric($uid)) {
             return;
         }
-        $fieldHelper = GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
+        $fieldHelper = GeneralUtility::makeInstance(\MASK\Mask\Helper\FieldHelper::class);
         if (!$this->objectManager) {
-            $this->objectManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+            $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         }
 
         $storage = $this->storageRepository->load();
         /* @var $fileRepository \TYPO3\CMS\Core\Resource\FileRepository */
-        $fileRepository = $this->objectManager->get("TYPO3\CMS\Core\Resource\FileRepository");
-        $contentFields = array("media", "image", "assets");
-        if ($storage[$table]["tca"]) {
-            foreach ($storage[$table]["tca"] as $fieldKey => $field) {
+        $fileRepository = $this->objectManager->get(FileRepository::class);
+        $contentFields = array('media', 'image', 'assets');
+        if ($storage[$table]['tca']) {
+            foreach ($storage[$table]['tca'] as $fieldKey => $field) {
                 $contentFields[] = $fieldKey;
             }
         }
         if ($contentFields) {
             foreach ($contentFields as $fieldKey) {
-                if ($fieldHelper->getFormType($fieldKey, "", $table) == "File") {
+                if ($fieldHelper->getFormType($fieldKey, '', $table) === 'File') {
                     $data[$fieldKey] = $fileRepository->findByRelation($table, $fieldKey, $uid);
                 }
             }
@@ -124,11 +125,11 @@ class InlineHelper
      * @param string $cType
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    public function addIrreToData(&$data, $table = "tt_content", $cType = "")
+    public function addIrreToData(&$data, $table = 'tt_content', $cType = '')
     {
 
-        if ($cType == "") {
-            $cType = $data["CType"];
+        if ($cType === '') {
+            $cType = $data['CType'];
         }
 
         $fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
@@ -136,10 +137,10 @@ class InlineHelper
         $elementFields = [];
 
         // if the table is tt_content, load the element and all its columns
-        if ($table == "tt_content") {
-            $element = $this->storageRepository->loadElement($table, str_replace("mask_", "", $cType));
-            $elementFields = $element["columns"];
-        } elseif ($table == "pages") {
+        if ($table === 'tt_content') {
+            $element = $this->storageRepository->loadElement($table, str_replace('mask_', '', $cType));
+            $elementFields = $element['columns'];
+        } elseif ($table === 'pages') {
             // if the table is pages, then load the pid
             if (isset($data['uid'])) {
 
@@ -152,7 +153,7 @@ class InlineHelper
                         $table,
                         str_replace('pagets__', '', $backendLayoutIdentifier)
                     );
-                    $elementFields = $element["columns"];
+                    $elementFields = $element['columns'];
                 } else {
 
                     // if no backendlayout was found, just load all fields, if there are fields
@@ -174,17 +175,16 @@ class InlineHelper
             foreach ($elementFields as $field) {
 
                 $fieldKeyPrefix = $field;
-                $fieldKey = str_replace("tx_mask_", "", $field);
+                $fieldKey = str_replace('tx_mask_', '', $field);
                 $type = $fieldHelper->getFormType($fieldKey, $cType, $table);
 
                 // if it is of type inline and has to be filled (IRRE, FAL)
-                if ($type == "Inline") {
-                    $elements = $this->getInlineElements($data, $fieldKeyPrefix, $cType, "parentid", $table);
+                if ($type === 'Inline') {
+                    $elements = $this->getInlineElements($data, $fieldKeyPrefix, $cType, 'parentid', $table);
                     $data[$fieldKeyPrefix] = $elements;
                     // or if it is of type Content (Nested Content) and has to be filled
-                } elseif ($type == "Content") {
-                    $elements = $this->getInlineElements($data, $fieldKeyPrefix, $cType, $fieldKeyPrefix . "_parent",
-                        "tt_content", "tt_content");
+                } elseif ($type === 'Content') {
+                    $elements = $this->getInlineElements($data, $fieldKeyPrefix, $cType, $fieldKeyPrefix . '_parent', 'tt_content', 'tt_content');
                     $data[$fieldKeyPrefix] = $elements;
                 }
             }
@@ -207,8 +207,8 @@ class InlineHelper
         $data,
         $name,
         $cType,
-        $parentFieldName = "parentid",
-        $parenttable = "tt_content",
+        $parentFieldName = 'parentid',
+        $parenttable = 'tt_content',
         $childTable = null
     ) {
         // if the name of the child table is not explicitely given, take field key
@@ -217,19 +217,20 @@ class InlineHelper
         }
 
         // If this method is called in backend, there is no $GLOBALS['TSFE']
-        if (TYPO3_MODE == 'FE' && isset($GLOBALS['TSFE']->sys_language_uid)) {
+        if (TYPO3_MODE === 'FE' && isset($GLOBALS['TSFE']->sys_language_uid)) {
             $sysLangUid = $GLOBALS['TSFE']->sys_language_uid;
             $enableFields = $GLOBALS['TSFE']->cObj->enableFields($childTable);
         } else {
             $sysLangUid = $data['sys_language_uid'];
-            $enableFields = " AND " . $childTable . ".deleted = 0";
+            $enableFields = ' AND ' . $childTable . '.deleted = 0';
         }
 
         // by default, the uid of the parent is $data["uid"]
-        $parentUid = $data["uid"];
+        $parentUid = $data['uid'];
 
-        if ($GLOBALS['TSFE']->sys_language_uid != 0 && $data["_LOCALIZED_UID"] != "") {
-            $parentUid = $data["_LOCALIZED_UID"];
+        // @todo: JV use language aspect
+        if ($GLOBALS['TSFE']->sys_language_uid != 0 && $data['_LOCALIZED_UID'] != '') {
+            $parentUid = $data['_LOCALIZED_UID'];
         }
 
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($childTable);
@@ -249,7 +250,7 @@ class InlineHelper
         // and recursively add them to an array
         $elements = array();
         foreach ($rows as $element) {
-            if (TYPO3_MODE == 'FE') {
+            if (TYPO3_MODE === 'FE') {
                 $GLOBALS['TSFE']->sys_page->versionOL($childTable, $element);
             } else {
                 $element = BackendUtility::getRecordWSOL($childTable, $element['uid']);

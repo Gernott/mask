@@ -51,7 +51,7 @@ class GeneralUtility
     public function __construct(\MASK\Mask\Domain\Repository\StorageRepository $storageRepository = null)
     {
         if (!$storageRepository) {
-            $this->storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
+            $this->storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\Mask\Domain\Repository\StorageRepository');
         } else {
             $this->storageRepository = $storageRepository;
         }
@@ -94,7 +94,7 @@ class GeneralUtility
         $transformMode = "";
         $matches = array();
         if ($storage[$type]["tca"][$fieldKey]["defaultExtras"] != "") {
-            $re = "/(rte_transform\\[([a-z=_]+)\\])/";
+            $re = "/(rte_transform\[([a-z=_]+)\])/";
             preg_match($re, $storage[$type]["tca"][$fieldKey]["defaultExtras"], $matches);
             $transformMode = end($matches);
         }

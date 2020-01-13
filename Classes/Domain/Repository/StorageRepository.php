@@ -80,7 +80,7 @@ class StorageRepository
      */
     public function __construct()
     {
-        $this->settingsService = GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Service\\SettingsService');
+        $this->settingsService = GeneralUtility::makeInstance(\MASK\Mask\Domain\Service\SettingsService::class);
         $this->extSettings = $this->settingsService->get();
     }
 
@@ -362,7 +362,7 @@ class StorageRepository
     private function removeField($table, $field, $json, $remainingFields = array())
     {
 
-        $this->fieldHelper = GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
+        $this->fieldHelper = GeneralUtility::makeInstance(\MASK\Mask\Helper\FieldHelper::class);
 
         // check if this field is used in any other elements
         $elementsInUse = array();

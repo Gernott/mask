@@ -41,7 +41,7 @@ class MultiuseViewHelper extends AbstractViewHelper
         $key = $this->arguments['key'];
         $elementKey = $this->arguments['elementKey'];
 
-        $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
+        $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\Helper\FieldHelper::class);
         $type = $this->fieldHelper->getFieldType($key, $elementKey);
 
         return $this->fieldHelper->getElementsWhichUseField($key, $type);

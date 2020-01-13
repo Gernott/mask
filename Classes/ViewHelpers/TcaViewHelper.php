@@ -83,7 +83,7 @@ class TcaViewHelper extends AbstractViewHelper
      */
     public function __construct(FieldHelper $fieldHelper = null)
     {
-        $this->fieldHelper = $fieldHelper ?? GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
+        $this->fieldHelper = $fieldHelper ?? GeneralUtility::makeInstance(\MASK\Mask\Helper\FieldHelper::class);
     }
 
     public function initializeArguments()

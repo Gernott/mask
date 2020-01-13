@@ -42,7 +42,7 @@ class LabelViewHelper extends AbstractViewHelper
         $field = $this->arguments['field'];
         $table = $this->arguments['table'];
 
-        $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
+        $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\Helper\FieldHelper::class);
         // if we have the whole field configuration
         if ($field) {
             // check if this field is in an repeating field

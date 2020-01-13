@@ -48,8 +48,8 @@ class CTypeList extends AbstractList
     {
         // if this tt_content element is inline element of mask
         if ($params["row"]["colPos"] == $this->colPos) {
-            $fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
-            $this->storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
+            $fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\Helper\FieldHelper::class);
+            $this->storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\Domain\Repository\StorageRepository::class);
 
             if (isset($_REQUEST["ajax"]["context"])) {
                 $ajaxContext = json_decode($_REQUEST["ajax"]["context"]);

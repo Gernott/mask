@@ -123,7 +123,7 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
         $sql_content = array();
         $types = array_keys($json);
         $nonIrreTables = array("pages", "tt_content");
-        $fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
+        $fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\Helper\FieldHelper::class);
 
         // Generate SQL-Statements
         if ($types) {
@@ -205,7 +205,7 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
      */
     public function addDatabaseTablesDefinition(array $sqlString)
     {
-        $storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
+        $storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\Domain\Repository\StorageRepository::class);
         $json = $storageRepository->load();
         $sql = $this->getSqlByConfiguration($json);
         $mergedSqlString = array_merge($sqlString, $sql);

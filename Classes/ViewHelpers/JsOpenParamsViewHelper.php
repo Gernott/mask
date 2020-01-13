@@ -53,8 +53,8 @@ class JsOpenParamsViewHelper extends AbstractViewHelper
         $property = $this->arguments['property'];
         $field = $this->arguments['field'];
 
-        $this->generalUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Utility\\GeneralUtility');
-        $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
+        $this->generalUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\Utility\GeneralUtility::class);
+        $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\Helper\FieldHelper::class);
 
         if ($field) {
             if ($field["inlineParent"]) {

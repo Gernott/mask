@@ -81,7 +81,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
     public function setElementsTca($tca)
     {
 
-        $fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
+        $fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\Helper\FieldHelper::class);
         $defaultTabs = ",--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.appearance,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.frames;frames,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.appearanceLinks;appearanceLinks,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,--palette--;;language,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,--palette--;;hidden,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:categories,--div--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_category.tabs.category,categories,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:notes,rowDescription,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended";
 
         // add gridelements fields, to make mask work with gridelements out of the box
@@ -132,7 +132,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                         }
                     }
                     $fields = implode(",", $fieldArray);
-                    
+
                     $GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes']["mask_" . $elementvalue["key"]] = 'mask-ce-' . $elementvalue["key"];
                     $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["columnsOverrides"]["bodytext"]["config"]['richtextConfiguration'] = 'default';
                     $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["columnsOverrides"]["bodytext"]["config"]['enableRichtext'] = 1;
@@ -150,7 +150,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
      */
     public function setPageTca($tca)
     {
-        $fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
+        $fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\Helper\FieldHelper::class);
         $prependTabs = "--div--;Content-Fields,";
         if ($tca) {
             $i = 0;
@@ -194,7 +194,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
      */
     public function generateFieldsTca($tca)
     {
-        $generalUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Utility\\GeneralUtility');
+        $generalUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\Utility\GeneralUtility::class);
         $columns = array();
         if ($tca) {
             foreach ($tca as $tcakey => $tcavalue) {
@@ -202,7 +202,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                 if ($tcavalue) {
                     foreach ($tcavalue as $fieldkey => $fieldvalue) {
                         // Add File-Config for file-field
-                        if ($fieldkey == "options" && $fieldvalue == "file") {
+                        if ($fieldkey === "options" && $fieldvalue === "file") {
                             $fieldName = $tcakey;
                             $customSettingOverride = array(
                                 'overrideChildTca' => array(
@@ -468,8 +468,8 @@ class TcaCodeGenerator extends AbstractCodeGenerator
             ),
         );
 
-        $fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
-        $generalUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Utility\\GeneralUtility');
+        $fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\Helper\FieldHelper::class);
+        $generalUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\Utility\GeneralUtility::class);
 
         // now add all the fields that should be shown
         $prependTabs = "sys_language_uid, l10n_parent, l10n_diffsource, hidden, ";

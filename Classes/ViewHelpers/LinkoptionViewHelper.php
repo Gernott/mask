@@ -54,8 +54,8 @@ class LinkoptionViewHelper extends AbstractViewHelper
         $elementKey = $this->arguments['elementKey'];
         $evalValue = $this->arguments['evalValue'];
 
-        $this->generalUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Utility\\GeneralUtility');
-        $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
+        $this->generalUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\Utility\GeneralUtility::class);
+        $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\Helper\FieldHelper::class);
 
         $type = $this->fieldHelper->getFieldType($fieldKey, $elementKey);
         return $this->generalUtility->isBlindLinkOptionSet($fieldKey, $evalValue, $type);

@@ -43,7 +43,7 @@ class FormTypeViewHelper extends AbstractViewHelper
         $fieldKey = $this->arguments['fieldKey'];
         $type = $this->arguments['type'];
 
-        $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
+        $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\Helper\FieldHelper::class);
         $formType = $this->fieldHelper->getFormType($fieldKey, $elementKey, $type);
         return $formType;
     }
