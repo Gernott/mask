@@ -79,8 +79,8 @@ class ContentElementIconProvider implements IconProviderInterface
                 1440754978);
         }
         $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(TYPO3\CMS\Extbase\Object\ObjectManager::class);
-        $this->storageRepository = $this->objectManager->get(MASK\Mask\Domain\Repository\StorageRepository::class);
-        $this->settingsService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(MASK\Mask\Domain\Service\SettingsService::class);
+        $this->storageRepository = $this->objectManager->get(\MASK\Mask\Domain\Repository\StorageRepository::class);
+        $this->settingsService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\Domain\Service\SettingsService::class);
         $this->extSettings = $this->settingsService->get();
         $this->contentElement = $this->storageRepository->loadElement('tt_content', $options['contentElementKey']);
         $icon->setMarkup($this->generateMarkup($icon, $options));

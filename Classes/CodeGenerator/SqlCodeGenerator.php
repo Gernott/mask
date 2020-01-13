@@ -104,7 +104,7 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
     public function updateDatabase()
     {
         /** @var StorageRepository $storageRepository */
-        $storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(MASK\Mask\Domain\Repository\StorageRepository::class);
+        $storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\Domain\Repository\StorageRepository::class);
         $json = $storageRepository->load();
         $sqlStatements = $this->getSqlByConfiguration($json);
         if (count($sqlStatements) > 0) {
