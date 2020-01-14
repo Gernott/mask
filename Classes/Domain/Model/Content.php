@@ -42,7 +42,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * Title for the New-Contentelement-Wizard.
      *
      * @var string
-     * @Validate("notEmpty")
+     * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
      */
     protected $title;
 
@@ -64,7 +64,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * Lowercase internal Key. Not Visible in TYPO3 Backend.
      *
      * @var string
-     * @Validate("NotEmpty")
+     * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
      */
     protected $fieldkey;
 
@@ -72,7 +72,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * contentType
      *
      * @var string
-     * @Validate("NotEmpty")
+     * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
      */
     protected $contentType;
 
