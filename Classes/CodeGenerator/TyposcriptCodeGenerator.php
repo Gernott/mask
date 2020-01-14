@@ -48,42 +48,44 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
     public function generateTsConfig($json)
     {
         // generate page TSconfig
-        $content = "";
-        $iconRegistry = GeneralUtility::makeInstance("TYPO3\CMS\Core\Imaging\IconRegistry");
+        $content = '';
+        $iconRegistry = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
 
         // make content-Elements
-        if ($json["tt_content"]["elements"]) {
-            foreach ($json["tt_content"]["elements"] as $element) {
+        if ($json['tt_content']['elements']) {
+            foreach ($json['tt_content']['elements'] as $element) {
                 // Register icons for contentelements
-                $iconIdentifier = 'mask-ce-' . $element["key"];
+                $iconIdentifier = 'mask-ce-' . $element['key'];
                 $iconRegistry->registerIcon(
-                    $iconIdentifier, "MASK\Mask\Imaging\IconProvider\ContentElementIconProvider", array(
-                        'contentElementKey' => $element["key"]
+                    $iconIdentifier, \MASK\Mask\Imaging\IconProvider\ContentElementIconProvider::class, array(
+                        'contentElementKey' => $element['key']
                     )
                 );
 
-                if (!$element["hidden"]) {
+                if (!$element['hidden']) {
 
                     // add the content element wizard for each content element
                     $wizard = [
                         'header' => 'LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:new_content_element_tab',
-                        'elements.mask_' . $element["key"] => [
+                        'elements.mask_' . $element['key'] => [
                             'iconIdentifier' => $iconIdentifier,
-                            'title' => $element["label"],
-                            'description' => $element["description"],
+                            'title' => $element['label'],
+                            'description' => $element['description'],
                             'tt_content_defValues' => [
-                                'CType' => 'mask_' . $element["key"]
+                                'CType' => 'mask_' . $element['key']
                             ]
                         ],
 
                     ];
                     $content .= "mod.wizards.newContentElement.wizardItems.mask {\n";
                     $content .= $this->convertArrayToTypoScript($wizard, '', 1);
-                    $content .= "\tshow := addToList(mask_" . $element["key"] . ");\n";
+                    $content .= "\tshow := addToList(mask_" . $element['key'] . ");\n";
                     $content .= "}\n";
 
                     // and switch the labels depending on which content element is selected
-                    $content .= "\n[userFunc = user_mask_contentType(CType|mask_" . $element["key"] . ")]\n";
+                    // $content .= "\n[userFunc = user_mask_contentType(CType|mask_" . $element["key"] . ")]\n";
+
+                    $content .= "\n[maskContentType(\"CType|mask_" . $element["key"] . "\")]\n";
                     if ($element["columns"]) {
                         foreach ($element["columns"] as $index => $column) {
                             $content .= " TCEFORM.tt_content." . $column . ".label = " . $element["labels"][$index] . "\n";
@@ -109,7 +111,7 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
         if ($json["pages"]["elements"]) {
             foreach ($json["pages"]["elements"] as $element) {
                 // Labels for pages
-                $pagesContent .= "\n[userFunc = user_mask_beLayout(" . $element["key"] . ")]\n";
+                // todo: debug $pagesContent .= "\n[maskBeLayout(\"" . $element["key"] . "\")]\n";
                 // if page has backendlayout with this element-key
                 if ($element["columns"]) {
                     foreach ($element["columns"] as $index => $column) {
@@ -121,7 +123,7 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
                         $pagesContent .= " TCEFORM.pages." . $column . ".disabled = 0\n";
                     }
                 }
-                $pagesContent .= "[end]\n";
+                // todo: debug $pagesContent .= "[end]\n";
             }
         }
         // disable all fields by default and only activate by condition
