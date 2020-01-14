@@ -45,7 +45,7 @@ defined('TYPO3_MODE') or die();
 
     $setupTs = $typoScriptCodeGenerator->generateSetupTyposcript($configuration, $settings);
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup($setupTs);
-    
+
     // set root line fields
     if ($json['pages']['tca']) {
         $rootlineFields = explode(',', $GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields']);

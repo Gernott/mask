@@ -9,7 +9,7 @@ if (!empty($GLOBALS['TCA']['tt_content']['columns']['CType']['config']['itemsPro
 }
 // and set mask itemsProcFuncs
 $GLOBALS['TCA']['tt_content']['columns']['colPos']['config']['itemsProcFunc'] = 'MASK\Mask\ItemsProcFuncs\ColPosList->itemsProcFunc';
-$GLOBALS['TCA']['tt_content']['columns']['CType']['config']['itemsProcFunc'] = 'MASK\Mask\ItemsProcFuncs\CTypeList->itemsProcFunc';
+$GLOBALS['TCA']['tt_content']['columns']['CType']['config']['itemsProcFunc'] = MASK\Mask\ItemsProcFuncs\CTypeList::class . '->itemsProcFunc';
 
 $storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
 $configuration = $storageRepository->load();

@@ -99,7 +99,7 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
         $this->extSettings = $this->settingsService->get();
 
         // only render special backend preview if it is a mask element
-        if (substr($row['CType'], 0, 4) === "mask") {
+        if (strpos($row['CType'], 'mask') === 0) {
             $elementKey = substr($row['CType'], 5);
 
             # fallback to prevent breaking change
@@ -123,11 +123,11 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
                 // if there are paths for layouts and partials set, add them to view
                 if (!empty($this->extSettings["layouts_backend"])) {
                     $layoutRootPath = MaskUtility::getFileAbsFileName($this->extSettings["layouts_backend"]);
-                    $view->setLayoutRootPaths(array($layoutRootPath));
+                    $view->setLayoutRootPaths([$layoutRootPath]);
                 }
                 if (!empty($this->extSettings["partials_backend"])) {
                     $partialRootPath = MaskUtility::getFileAbsFileName($this->extSettings["partials_backend"]);
-                    $view->setPartialRootPaths(array($partialRootPath));
+                    $view->setPartialRootPaths([$partialRootPath]);
                 }
 
                 // Fetch and assign some useful variables

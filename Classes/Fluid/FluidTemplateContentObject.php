@@ -71,8 +71,8 @@ class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\Fluid
 
         // Make some enhancements to data
         $data = $variables['data'];
-        $this->inlineHelper->addFilesToData($data, "pages");
-        $this->inlineHelper->addIrreToData($data, "pages");
+        $this->inlineHelper->addFilesToData($data, 'pages');
+        $this->inlineHelper->addIrreToData($data, 'pages');
         $variables['data'] = $data;
 
         return $variables;
