@@ -73,14 +73,14 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
                         $connection->exec($statement);
                     } catch (DBALException $exception) {
                         $hasErrors = true;
-                        GeneralUtility::devlog(
-                            'SQL error',
-                            'mask',
-                            0,
-                            [
-                                'statement' => $statement,
-                                'error' => $exception->getMessage()
-                            ]);
+                        // GeneralUtility::devlog(
+                        //     'SQL error',
+                        //     'mask',
+                        //     0,
+                        //     [
+                        //         'statement' => $statement,
+                        //         'error' => $exception->getMessage()
+                        //     ]);
                     }
                 }
             }

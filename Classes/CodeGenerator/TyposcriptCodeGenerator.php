@@ -156,19 +156,6 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
                     10 => 'EXT:mask/Resources/Private/Backend/Layouts/'
                 ]
             ],
-            'persistence' => [
-                'classes' => [
-                    BackendLayout::class => [
-                        'mapping' => [
-                            'tableName' => 'backend_layout',
-                            'columns' => [
-                                'uid.mapOnProperty' => 'uid',
-                                'title.mapOnProperty' => 'title'
-                            ]
-                        ]
-                    ]
-                ]
-            ]
         ], 'module.tx_mask');
 
         // for base paths to fluid templates configured in extension settings
