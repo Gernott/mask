@@ -13,8 +13,9 @@ if (TYPO3_MODE === 'BE') {
         'mask', // Submodule key
         'top', // Position
         array(
-            'WizardContent' => 'list, new, create, edit, update, delete, purge, generate, showHtml, createMissingFolders, hide, activate, createHtml',
-            'WizardPage' => 'list, new, create, edit, update, delete, showHtml',
+            'Wizard' => 'list',
+            'WizardContent' => 'new, create, edit, update, delete, purge, generate, showHtml, createMissingFolders, hide, activate, createHtml',
+            'WizardPage' => 'new, create, edit, update, delete, showHtml',
         ), array(
             'access' => 'admin',
             'icon' => 'EXT:mask/Resources/Public/Icons/module-mask_wizard.svg',

@@ -455,13 +455,13 @@
 				<target>Titel</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.error">
-				<target>Fehler!</target>
+				<target>Fehlende Verzeichnisse!</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.image">
 				<target>Bild</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.titlekey">
-				<target>Titel/Key</target>
+				<target>Titel / Key</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.description">
 				<target>Beschreibung</target>
@@ -540,7 +540,7 @@
 				<target>Bild</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.page.titleuid">
-				<target>Titel/Uid</target>
+				<target>Titel / Uid</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.page.description">
 				<target>Beschreibung</target>
@@ -554,7 +554,7 @@
 				</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.page.warning">
-				<target>Achtung!</target>
+				<target>Kein Backendlayout gefunden</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.page.updatedpage">
 				<target>Backend-Layout wurde aktualisert.</target>
@@ -586,7 +586,7 @@
 				<target>Inhaltselemente</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.pagetemplates">
-				<target>Seitenvorlagen</target>
+				<target>Backendlayouts</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.confirmdelete">
 				<target>
