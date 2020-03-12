@@ -83,7 +83,7 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
                     $content .= "}\n";
 
                     // and switch the labels depending on which content element is selected
-                    $content .= "\n[userFunc = user_mask_contentType(CType|mask_" . $element["key"] . ")]\n";
+                    $content .= "\n[isMaskContentType('" . $element['key'] . "')]\n";
                     if ($element["columns"]) {
                         foreach ($element["columns"] as $index => $column) {
                             $content .= " TCEFORM.tt_content." . $column . ".label = " . $element["labels"][$index] . "\n";
