@@ -149,7 +149,11 @@ class FieldHelper
         }
 
         $tcaType = $tca['config']['type'];
-        $evals = explode(',', $tca['config']['eval']);
+        $evals = [];
+        if (isset($tca['config']['eval'])) {
+            $evals = explode(',', $tca['config']['eval']);
+        }
+
 
         if ($tca['options'] === 'file') {
             $formType = 'File';
