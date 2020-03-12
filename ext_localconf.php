@@ -40,7 +40,7 @@ foreach ($maskIcons as $maskIcon) {
 }
 
 // Add all the typoscript we need in the correct files
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:mask/Configuration/TypoScript/page.txt">');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:mask/Configuration/TypoScript/page.typoscript">');
 $tsConfig = $typoScriptCodeGenerator->generateTsConfig($configuration);
 $pageTs = $typoScriptCodeGenerator->generatePageTyposcript($configuration);
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig($tsConfig);
