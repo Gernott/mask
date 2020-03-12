@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 $storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
 $configuration = $storageRepository->load();
