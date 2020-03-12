@@ -2,7 +2,9 @@
 
 namespace MASK\Mask\ViewHelpers;
 
-use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
+use TYPO3\CMS\Backend\Routing\UriBuilder;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -25,11 +27,13 @@ class ConfigureExtensionViewHelper extends AbstractViewHelper
 
     /**
      * Renders link tag to extension manager configuration
+     * @throws RouteNotFoundException
      * @author Benjamin Butschell bb@webprofil.at>
      */
-    public function render()
+    public function render(): string
     {
-        $url = BackendUtility::getModuleUrl('tools_toolssettings');
-        return '<a href="' . (string)$url . '">' . $this->renderChildren() . '</a>';
+        $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
+        $url = $uriBuilder->buildUriFromRoute('tools_toolssettings');
+        return '<a href="' . $url . '">' . $this->renderChildren() . '</a>';
     }
 }
