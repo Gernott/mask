@@ -40,7 +40,7 @@ class IconRepository
      * Returns an array of all the available
      * @return array
      */
-    public function findAll()
+    public function findAll(): array
     {
         $icons = array(
             'fa-500px',
@@ -830,6 +830,7 @@ class IconRepository
             'fa-youtube-play',
             'fa-youtube-square'
         );
+        $preparedIcons = [];
         foreach ($icons as $icon) {
             $preparedIcons[$icon] = $icon;
         }

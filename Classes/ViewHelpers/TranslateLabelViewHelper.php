@@ -21,7 +21,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class TranslateLabelViewHelper extends AbstractViewHelper
 {
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('key', 'string', '', true);
         $this->registerArgument('extensionName', 'string', '');
@@ -31,8 +31,9 @@ class TranslateLabelViewHelper extends AbstractViewHelper
      * The given key will be translated. If the result is empty, the key will be returned.
      *
      * @return string
+     * @noinspection PhpUndefinedMethodInspection
      */
-    public function render()
+    public function render(): string
     {
         $key = $this->arguments['key'];
         $extensionName = $this->arguments['extensionName'];
@@ -42,7 +43,7 @@ class TranslateLabelViewHelper extends AbstractViewHelper
         }
 
         $request = $this->renderingContext->getControllerContext()->getRequest();
-        $extensionName = $extensionName === null ? $request->getControllerExtensionName() : $extensionName;
+        $extensionName = $extensionName ?? $request->getControllerExtensionName();
         $result = LocalizationUtility::translate($key, $extensionName);
         return (empty($result) ? $key : $result);
     }

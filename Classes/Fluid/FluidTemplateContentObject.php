@@ -34,6 +34,7 @@ use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Helper\InlineHelper;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Annotation\Inject;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\FluidTemplateContentObject
@@ -42,7 +43,7 @@ class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\Fluid
     /**
      * InlineHelper
      *
-     * @var \MASK\Mask\Helper\InlineHelper
+     * @var InlineHelper
      * @Inject()
      */
     protected $inlineHelper;
@@ -50,7 +51,7 @@ class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\Fluid
     /**
      * storageRepository
      *
-     * @var \MASK\Mask\Domain\Repository\StorageRepository
+     * @var StorageRepository
      * @Inject()
      */
     protected $storageRepository;
@@ -59,10 +60,11 @@ class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\Fluid
      * Change variables for view
      *
      * @param array $conf Configuration
-     * @return void
+     * @return array
+     * @throws Exception
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    protected function getContentObjectVariables(array $conf = array())
+    protected function getContentObjectVariables(array $conf = array()): array
     {
         // Call Parent Function to maintain core functions
         $variables = parent::getContentObjectVariables($conf);

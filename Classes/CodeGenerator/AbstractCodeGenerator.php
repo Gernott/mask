@@ -27,6 +27,9 @@ namespace MASK\Mask\CodeGenerator;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use MASK\Mask\Domain\Repository\StorageRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Abstract base class for all the other code generators
  *
@@ -38,17 +41,17 @@ abstract class AbstractCodeGenerator
     /**
      * StorageRepository
      *
-     * @var \MASK\Mask\Domain\Repository\StorageRepository
+     * @var StorageRepository
      */
     protected $storageRepository;
 
     /**
-     * @param \MASK\Mask\Domain\Repository\StorageRepository $storageRepository
+     * @param StorageRepository $storageRepository
      */
-    public function __construct(\MASK\Mask\Domain\Repository\StorageRepository $storageRepository = null)
+    public function __construct(StorageRepository $storageRepository = null)
     {
         if (!$storageRepository) {
-            $this->storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
+            $this->storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
         } else {
             $this->storageRepository = $storageRepository;
         }

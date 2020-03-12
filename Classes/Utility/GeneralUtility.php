@@ -27,8 +27,8 @@ namespace MASK\Mask\Utility;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use MASK\Mask\Domain\Repository\StorageRepository;
 use TYPO3\CMS\Core\Core\Environment;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility as CoreUtility;
 
 /**
@@ -42,17 +42,17 @@ class GeneralUtility
     /**
      * StorageRepository
      *
-     * @var \MASK\Mask\Domain\Repository\StorageRepository
+     * @var StorageRepository
      */
     protected $storageRepository;
 
     /**
-     * @param \MASK\Mask\Domain\Repository\StorageRepository $storageRepository
+     * @param StorageRepository $storageRepository
      */
-    public function __construct(\MASK\Mask\Domain\Repository\StorageRepository $storageRepository = null)
+    public function __construct(StorageRepository $storageRepository = null)
     {
         if (!$storageRepository) {
-            $this->storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
+            $this->storageRepository = CoreUtility::makeInstance(StorageRepository::class);
         } else {
             $this->storageRepository = $storageRepository;
         }
@@ -67,16 +67,16 @@ class GeneralUtility
      * @return boolean $evalValue is set
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    public function isEvalValueSet($fieldKey, $evalValue, $type = 'tt_content')
+    public function isEvalValueSet($fieldKey, $evalValue, $type = 'tt_content'): bool
     {
         $storage = $this->storageRepository->load();
         $found = false;
-        if ($storage[$type]['tca'][$fieldKey]['config']['eval'] != '') {
+        if (isset($storage[$type]['tca'][$fieldKey]['config']['eval'])) {
             $evals = explode(',', $storage[$type]['tca'][$fieldKey]['config']['eval']);
             foreach ($evals as $index => $eval) {
                 $evals[$index] = strtolower($eval);
             }
-            $found = array_search(strtolower($evalValue), $evals) !== false;
+            $found = in_array(strtolower($evalValue), $evals, true);
         }
         return $found;
     }
@@ -89,12 +89,12 @@ class GeneralUtility
      * @return string $rte_transform
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    public function getRteTransformMode($fieldKey, $type = 'tt_content')
+    public function getRteTransformMode($fieldKey, $type = 'tt_content'): string
     {
         $storage = $this->storageRepository->load();
         $transformMode = '';
         $matches = array();
-        if ($storage[$type]['tca'][$fieldKey]['defaultExtras'] != '') {
+        if (isset($storage[$type]['tca'][$fieldKey]['defaultExtras'])) {
             $re = "/(rte_transform\\[([a-z=_]+)\\])/";
             preg_match($re, $storage[$type]['tca'][$fieldKey]['defaultExtras'], $matches);
             $transformMode = end($matches);
@@ -108,19 +108,20 @@ class GeneralUtility
      * @param string $fieldKey TCA Type
      * @param string $property value to search for
      * @param string $type elementtype
-     * @return boolean $evalValue is set
+     * @return int|null $evalValue is set
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    public function getJsOpenParamValue($fieldKey, $property, $type = 'tt_content')
+    public function getJsOpenParamValue($fieldKey, $property, $type = 'tt_content'): ?int
     {
         $storage = $this->storageRepository->load();
         $value = null;
-        $windowOpenParameters = $storage[$type]['tca'][$fieldKey]['config']['fieldControl']['linkPopup']['options']['windowOpenParameters'];
-        if ($windowOpenParameters != '') {
-            $properties = explode(',', $windowOpenParameters);
+        if (isset($storage[$type]['tca'][$fieldKey]['config']['fieldControl']['linkPopup']['options']['windowOpenParameters'])) {
+            $properties = explode(',',
+                $storage[$type]['tca'][$fieldKey]['config']['fieldControl']['linkPopup']['options']['windowOpenParameters']
+            );
             foreach ($properties as $setProperty) {
                 $keyPair = explode('=', $setProperty);
-                if ($property == $keyPair[0]) {
+                if ($property === $keyPair[0]) {
                     $value = $keyPair[1];
                     break;
                 }
@@ -128,7 +129,7 @@ class GeneralUtility
         }
 
         // if nothing was found, set the default values
-        if ($value == null) {
+        if ($value === null) {
             switch ($property) {
                 case 'height':
                     $value = 300;
@@ -136,10 +137,8 @@ class GeneralUtility
                 case 'width':
                     $value = 500;
                     break;
-                case 'status':
-                    $value = 0;
-                    break;
                 case 'menubar':
+                case 'status':
                     $value = 0;
                     break;
                 case 'scrollbars':
@@ -161,14 +160,15 @@ class GeneralUtility
      * @return boolean $evalValue is set
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    public function isBlindLinkOptionSet($fieldKey, $evalValue, $type = 'tt_content')
+    public function isBlindLinkOptionSet($fieldKey, $evalValue, $type = 'tt_content'): bool
     {
         $storage = $this->storageRepository->load();
         $found = false;
-        $blindLinkOptions = $storage[$type]['tca'][$fieldKey]['config']['fieldControl']['linkPopup']['options']['blindLinkOptions'];
-        if ($blindLinkOptions != '') {
-            $evals = explode(',', $blindLinkOptions);
-            $found = \in_array(strtolower($evalValue), $evals, true);
+        if (isset($storage[$type]['tca'][$fieldKey]['config']['fieldControl']['linkPopup']['options']['blindLinkOptions'])) {
+            $evals = explode(',',
+                $storage[$type]['tca'][$fieldKey]['config']['fieldControl']['linkPopup']['options']['blindLinkOptions']
+            );
+            $found = in_array(strtolower($evalValue), $evals, true);
         }
         return $found;
     }
@@ -176,16 +176,19 @@ class GeneralUtility
     /**
      * replace keys
      *
+     * @param $data
+     * @param $replace_key
+     * @param string $key
      * @return array
      * @author Gernot Ploiner <gp@webprofil.at>
      */
-    public function replaceKey($data, $replace_key, $key = '--key--')
+    public function replaceKey($data, $replace_key, $key = '--key--'): array
     {
         foreach ($data as $elem_key => $elem) {
             if (is_array($elem)) {
                 $data[$elem_key] = $this->replaceKey($elem, $replace_key);
             } else {
-                if ($data[$elem_key] == $key) {
+                if ($data[$elem_key] === $key) {
                     $data[$elem_key] = $replace_key;
                 }
             }
@@ -196,21 +199,19 @@ class GeneralUtility
     /**
      * Searches an array of strings and returns the first string, that is not a tab
      * @param array $fields
-     * @return $string
+     * @return string $string
      */
-    public function getFirstNoneTabField($fields)
+    public function getFirstNoneTabField($fields): string
     {
         if (count($fields)) {
             $potentialFirst = $fields[0];
             if (strpos($potentialFirst, '--div--') !== false) {
                 unset($fields[0]);
                 return $this->getFirstNoneTabField($fields);
-            } else {
-                return $potentialFirst;
             }
-        } else {
-            return '';
+            return $potentialFirst;
         }
+        return '';
     }
 
     /**
@@ -218,13 +219,13 @@ class GeneralUtility
      * @param array $haystack
      * @return array
      */
-    public function removeBlankOptions($haystack)
+    public function removeBlankOptions($haystack): array
     {
         foreach ($haystack as $key => $value) {
             if (is_array($value)) {
                 $haystack[$key] = $this->removeBlankOptions($haystack[$key]);
             }
-            if ((is_array($haystack[$key]) && empty($haystack[$key])) || (is_string($haystack[$key]) && !strlen($haystack[$key]))) {
+            if ((is_array($haystack[$key]) && empty($haystack[$key])) || (is_string($haystack[$key]) && $haystack[$key] === '')) {
                 unset($haystack[$key]);
             }
         }
@@ -256,8 +257,7 @@ class GeneralUtility
         ) {
             $fileName = CoreUtility::underscoredToUpperCamelCase($elementKey);
         } else {
-            if (file_exists($path . ucfirst($elementKey) . $fileExtension)
-            ) {
+            if (file_exists($path . ucfirst($elementKey) . $fileExtension)) {
                 $fileName = ucfirst($elementKey);
             } else {
                 if (file_exists($path . $elementKey . $fileExtension)) {

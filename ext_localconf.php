@@ -4,16 +4,16 @@ if (!defined('TYPO3_MODE')) {
 }
 
 // initialize mask utility for various things
-$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-$storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
-$fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
-$typoScriptCodeGenerator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\CodeGenerator\\TyposcriptCodeGenerator');
-$settingsService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Service\\SettingsService');
+$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
+$storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\Domain\Repository\StorageRepository::class);
+$fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\Helper\FieldHelper::class);
+$typoScriptCodeGenerator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\CodeGenerator\TyposcriptCodeGenerator::class);
+$settingsService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\Domain\Service\SettingsService::class);
 $configuration = $storageRepository->load();
 $settings = $settingsService->get();
 
 // Register Icons needed in the backend module
-$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance("TYPO3\CMS\Core\Imaging\IconRegistry");
+$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
 $maskIcons = array(
     'Check',
     'Date',
@@ -33,7 +33,7 @@ $maskIcons = array(
 );
 foreach ($maskIcons as $maskIcon) {
     $iconRegistry->registerIcon(
-        'mask-fieldtype-' . $maskIcon, 'TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider', array(
+        'mask-fieldtype-' . $maskIcon, TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class, array(
             'source' => 'EXT:mask/Resources/Public/Icons/Fieldtypes/' . $maskIcon . '.svg'
         )
     );
@@ -88,21 +88,19 @@ if (!function_exists('user_mask_beLayout')) {
             $backend_layout_next_level = $data['backend_layout_next_level'];
 
             if ($backend_layout !== '') { // If backend_layout is set on current page
-                if (in_array($backend_layout,
-                    [$layout, 'pagets__' . $layout])) { // Check backend_layout of current page
+                if (in_array($backend_layout, [$layout, 'pagets__' . $layout], true)) { // Check backend_layout of current page
                     return true;
                 } else {
                     return false;
                 }
             } elseif ($backend_layout_next_level !== '') { // If backend_layout_next_level is set on current page
-                if (in_array($backend_layout_next_level,
-                    [$layout, 'pagets__' . $layout])) { // Check backend_layout_next_level of current page
+                if (in_array($backend_layout_next_level, [$layout, 'pagets__' . $layout], true)) { // Check backend_layout_next_level of current page
                     return true;
                 } else {
                     return false;
                 }
             } else { // If backend_layout and backend_layout_next_level is not set on current page, check backend_layout_next_level on rootline
-                $sysPage = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Frontend\\Page\\PageRepository');
+                $sysPage = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Page\PageRepository::class);
                 try {
                     $rootline = (\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Utility\RootlineUtility::class,
                         $uid))->get();
@@ -110,7 +108,7 @@ if (!function_exists('user_mask_beLayout')) {
                     $rootline = [];
                 }
                 foreach ($rootline as $page) {
-                    if (in_array($page['backend_layout_next_level'], [$layout, 'pagets__' . $layout])) {
+                    if (in_array($page['backend_layout_next_level'], [$layout, 'pagets__' . $layout], true)) {
                         return true;
                     }
                 }
@@ -136,16 +134,20 @@ if ($json['pages']['tca']) {
 }
 
 // SQL inject:
-$signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\SignalSlot\\Dispatcher');
-$signalSlotDispatcher->connect('TYPO3\\CMS\\Install\\Service\\SqlExpectedSchemaService', 'tablesDefinitionIsBeingBuilt',
-    'MASK\\Mask\\CodeGenerator\\SqlCodeGenerator', 'addDatabaseTablesDefinition');
+$signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\SignalSlot\Dispatcher::class);
+$signalSlotDispatcher->connect(
+    \TYPO3\CMS\Install\Service\SqlExpectedSchemaService::class,
+    'tablesDefinitionIsBeingBuilt',
+    \MASK\Mask\CodeGenerator\SqlCodeGenerator::class,
+    'addDatabaseTablesDefinition'
+);
 
 // Enhance Fluid Output with overridden FluidTemplateContentObject
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Frontend\\ContentObject\\FluidTemplateContentObject'] = array(
-    'className' => 'MASK\\Mask\\Fluid\\FluidTemplateContentObject'
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][\TYPO3\CMS\Frontend\ContentObject\FluidTemplateContentObject::class] = array(
+    'className' => \MASK\Mask\Fluid\FluidTemplateContentObject::class
 );
 
 // Hook to override tt_content backend_preview
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem']['mask'] = \MASK\Mask\Hooks\PageLayoutViewDrawItem::class;
 // Hook to override colpos check for unused tt_content elements
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['record_is_used'] [] = MASK\Mask\Hooks\PageLayoutViewHook::class . '->contentIsUsed';
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['record_is_used'] [] = \MASK\Mask\Hooks\PageLayoutViewHook::class . '->contentIsUsed';

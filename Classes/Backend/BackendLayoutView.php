@@ -16,13 +16,18 @@ namespace MASK\Mask\Backend;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Backend\View\BackendLayout\DataProviderContext;
+
 /**
  * Backend layout for CMS
  */
 class BackendLayoutView extends \TYPO3\CMS\Backend\View\BackendLayoutView
 {
 
-    public function createDataProviderContext()
+    /**
+     * @return DataProviderContext
+     */
+    public function createDataProviderContext(): DataProviderContext
     {
         return parent::createDataProviderContext();
     }

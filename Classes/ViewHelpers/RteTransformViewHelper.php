@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace MASK\Mask\ViewHelpers;
 
+use MASK\Mask\Helper\FieldHelper;
+use MASK\Mask\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -20,7 +22,7 @@ class RteTransformViewHelper extends AbstractViewHelper
     /**
      * Utility
      *
-     * @var \MASK\Mask\Utility\GeneralUtility
+     * @var GeneralUtility
      * @Inject()
      */
     protected $generalUtility;
@@ -28,12 +30,12 @@ class RteTransformViewHelper extends AbstractViewHelper
     /**
      * Utility
      *
-     * @var \MASK\Mask\Helper\FieldHelper
+     * @var FieldHelper
      * @Inject()
      */
     protected $fieldHelper;
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('fieldKey', 'string', 'TCA Type', true);
         $this->registerArgument('elementKey', 'string', 'TCA Type', true);
@@ -52,8 +54,8 @@ class RteTransformViewHelper extends AbstractViewHelper
         $elementKey = $this->arguments['elementKey'];
         $field = $this->arguments['field'];
 
-        $this->generalUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Utility\\GeneralUtility');
-        $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
+        $this->generalUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(GeneralUtility::class);
+        $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(FieldHelper::class);
 
         if ($field) {
             if ($field['inlineParent']) {

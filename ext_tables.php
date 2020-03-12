@@ -29,11 +29,11 @@ $TBE_STYLES['skins']['mask']['name'] = 'mask';
 $TBE_STYLES['skins']['mask']['stylesheetDirectories'][] = 'EXT:mask/Resources/Public/Styles/Backend/';
 //$TBE_STYLES['skins']['mask']['stylesheetDirectories'][] = "/" . $settings["backend"];
 
-$storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
+$storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\Domain\Repository\StorageRepository::class);
 $configuration = $storageRepository->load();
 
 if (!empty($configuration)) {
-    $tcaCodeGenerator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\CodeGenerator\\TcaCodeGenerator');
+    $tcaCodeGenerator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\CodeGenerator\TcaCodeGenerator::class);
 
     // allow all inline tables on standard pages
     $tcaCodeGenerator->allowInlineTablesOnStandardPages($configuration);

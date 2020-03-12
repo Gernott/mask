@@ -30,6 +30,8 @@ namespace MASK\Mask\CodeGenerator;
 use MASK\Mask\Domain\Model\BackendLayout;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Imaging\IconRegistry;
+use MASK\Mask\Imaging\IconProvider\ContentElementIconProvider;
 
 /**
  * Generates all the typoscript needed for mask content elements
@@ -46,11 +48,11 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
      * @param array $json
      * @return string
      */
-    public function generateTsConfig($json)
+    public function generateTsConfig($json): string
     {
         // generate page TSconfig
         $content = '';
-        $iconRegistry = GeneralUtility::makeInstance("TYPO3\CMS\Core\Imaging\IconRegistry");
+        $iconRegistry = GeneralUtility::makeInstance(IconRegistry::class);
 
         // make content-Elements
         if ($json['tt_content']['elements']) {
@@ -58,7 +60,7 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
                 // Register icons for contentelements
                 $iconIdentifier = 'mask-ce-' . $element['key'];
                 $iconRegistry->registerIcon(
-                    $iconIdentifier, "MASK\Mask\Imaging\IconProvider\ContentElementIconProvider", array(
+                    $iconIdentifier, ContentElementIconProvider::class, array(
                         'contentElementKey' => $element['key']
                     )
                 );
@@ -102,7 +104,7 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
      * @param array $json
      * @return string
      */
-    public function generatePageTyposcript($json)
+    public function generatePageTyposcript($json): string
     {
         $pageColumns = array();
         $disableColumns = '';
@@ -138,8 +140,9 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
      * @param array $configuration
      * @param array $settings
      * @return string
+     * @noinspection PhpUnused
      */
-    public function generateSetupTyposcript($configuration, $settings)
+    public function generateSetupTyposcript($configuration, $settings): string
     {
         // generate TypoScript setup
         $setupContent = [];
@@ -212,7 +215,7 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
      * @param boolean $init Internal
      * @return string TypoScript
      */
-    protected function convertArrayToTypoScript(array $typoScriptArray, $addKey = '', $tab = 0, $init = true)
+    protected function convertArrayToTypoScript(array $typoScriptArray, $addKey = '', $tab = 0, $init = true): string
     {
         $typoScript = '';
         if ($addKey !== '') {

@@ -24,12 +24,15 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use MASK\Mask\Helper\FieldHelper;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Generates the html and fluid for mask content elements
  *
  * @author Benjamin Butschell <bb@webprofil.at>
  */
-class HtmlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
+class HtmlCodeGenerator extends AbstractCodeGenerator
 {
 
     /**
@@ -41,7 +44,7 @@ class HtmlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
      * @author Gernot Ploiner <gp@webprofil.at>
      *
      */
-    public function generateHtml($key, $table)
+    public function generateHtml($key, $table): string
     {
         $storage = $this->storageRepository->loadElement($table, $key);
         $html = '';
@@ -63,10 +66,10 @@ class HtmlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
      * @author Gernot Ploiner <gp@webprofil.at>
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    protected function generateFieldHtml($fieldKey, $elementKey, $table, $datafield = 'data')
+    protected function generateFieldHtml($fieldKey, $elementKey, $table, $datafield = 'data'): string
     {
         $html = '';
-        $fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
+        $fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
         switch ($fieldHelper->getFormType($fieldKey, $elementKey, $table)) {
             case 'Check':
                 $html .= '{f:if(condition: ' . $datafield . '.' . $fieldKey . ", then: 'On', else: 'Off')}<br />\n\n";
@@ -116,6 +119,7 @@ class HtmlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
                 $html .= "</ul>\n";
                 $html .= "</f:if>\n\n";
                 break;
+            case 'String':
             case 'Integer':
                 $html .= '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">' . "\n";
                 $html .= '{' . $datafield . '.' . $fieldKey . '}<br />' . "\n";
@@ -126,6 +130,7 @@ class HtmlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
                 $html .= '<f:link.typolink parameter="{' . $datafield . '.' . $fieldKey . '}">{' . $datafield . '.' . $fieldKey . '}</f:link.typolink><br />' . "\n";
                 $html .= "</f:if>\n\n";
                 break;
+            case 'Select':
             case 'Radio':
                 $html .= '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">' . "\n";
                 $html .= '<f:switch expression="{' . $datafield . '.' . $fieldKey . '}">
@@ -138,20 +143,6 @@ class HtmlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
             case 'Richtext':
                 $html .= '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">' . "\n";
                 $html .= '<f:format.html parseFuncTSPath="lib.parseFunc_RTE">{' . $datafield . '.' . $fieldKey . '}</f:format.html><br />' . "\n";
-                $html .= "</f:if>\n\n";
-                break;
-            case 'Select':
-                $html .= '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">' . "\n";
-                $html .= '<f:switch expression="{' . $datafield . '.' . $fieldKey . '}">
-  <f:case value="1">Value is: 1</f:case>
-  <f:case value="2">Value is: 2</f:case>
-  <f:case value="3">Value is: 3</f:case>
-</f:switch><br />' . "\n";
-                $html .= "</f:if>\n\n";
-                break;
-            case 'String':
-                $html .= '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">' . "\n";
-                $html .= '{' . $datafield . '.' . $fieldKey . '}<br />' . "\n";
                 $html .= "</f:if>\n\n";
                 break;
             case 'Text':

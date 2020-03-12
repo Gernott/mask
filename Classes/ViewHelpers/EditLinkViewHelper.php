@@ -24,12 +24,12 @@ class EditLinkViewHelper extends AbstractTagBasedViewHelper
     /**
      * @return BackendUserAuthentication
      */
-    protected function getBackendUser()
+    protected function getBackendUser(): BackendUserAuthentication
     {
         return $GLOBALS['BE_USER'];
     }
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('element', 'array', '', true);
     }

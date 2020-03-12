@@ -15,7 +15,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class SubstrViewHelper extends AbstractViewHelper
 {
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('string', 'string', 'String to search in', true);
         $this->registerArgument('search', 'string', 'String to search', true);
@@ -24,10 +24,10 @@ class SubstrViewHelper extends AbstractViewHelper
     }
 
     /**
-     * @return string the rendered string
+     * @return bool the rendered string
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    public function render()
+    public function render(): bool
     {
         $string = $this->arguments['string'];
         $search = $this->arguments['search'];

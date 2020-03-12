@@ -27,6 +27,8 @@ namespace MASK\Mask\Domain\Repository;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use TYPO3\CMS\Extbase\Persistence\Repository;
+
 /**
  *
  *
@@ -34,7 +36,7 @@ namespace MASK\Mask\Domain\Repository;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
  *
  */
-class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+class PageRepository extends Repository
 {
 
 }

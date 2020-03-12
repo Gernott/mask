@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\ViewHelpers;
 
+use MASK\Mask\Domain\Repository\ContentRepository;
 use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -22,12 +23,12 @@ class ElementCountViewHelper extends AbstractViewHelper
     /**
      * contentRepository
      *
-     * @var \MASK\Mask\Domain\Repository\ContentRepository
+     * @var ContentRepository
      * @Inject()
      */
-    protected $contentRepository = null;
+    protected $contentRepository;
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('key', 'string', 'key of content element');
     }
@@ -37,8 +38,9 @@ class ElementCountViewHelper extends AbstractViewHelper
      *
      * @return int number of uses of this content element
      * @author Benjamin Butschell <bb@webprofil.at>
+     * @noinspection PhpUndefinedMethodInspection
      */
-    public function render()
+    public function render(): int
     {
         return $this->contentRepository->findByContentType('mask_' . $this->arguments['key'])->count();
     }

@@ -1,4 +1,7 @@
-<?php namespace MASK\Mask\CodeGenerator;
+<?php
+declare(strict_types=1);
+
+namespace MASK\Mask\CodeGenerator;
 
 /* * *************************************************************
  *  Copyright notice
@@ -24,6 +27,12 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use Exception;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use MASK\Mask\Helper\FieldHelper;
+
 /**
  * Generates all the tca needed for mask content elements
  *
@@ -36,25 +45,25 @@ class TcaCodeGenerator extends AbstractCodeGenerator
      * Generates and sets the correct tca for all the inline fields
      * @param array $json
      * @author Benjamin Butschell <bb@webprofil.at>
+     * @noinspection PhpUnused
      */
-    public function setInlineTca($json)
+    public function setInlineTca($json): void
     {
         // Generate TCA for IRRE Fields and Tables
         $notIrreTables = array('pages', 'tt_content', 'sys_file_reference');
         if ($json) {
             foreach ($json as $table => $subJson) {
-                $fieldTCA = array();
-                if (array_search($table, $notIrreTables) === false) {
+                if (!in_array($table, $notIrreTables, true)) {
                     // Generate Table TCA
                     $this->generateTableTca($table, $subJson['tca']);
                     // Generate Field TCA
                     $fieldTCA = $this->generateFieldsTca($subJson['tca']);
-                    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns($table, $fieldTCA);
+                    ExtensionManagementUtility::addTCAcolumns($table, $fieldTCA);
 
                     // set label for inline
                     if (!empty($json['tt_content']['tca'][$table]['inlineLabel'])) {
                         $fields = array_keys($subJson['tca']);
-                        if (array_search($json['tt_content']['tca'][$table]['inlineLabel'], $fields) !== false) {
+                        if (in_array($json['tt_content']['tca'][$table]['inlineLabel'], $fields, true)) {
                             $GLOBALS['TCA'][$table]['ctrl']['label'] = $json['tt_content']['tca'][$table]['inlineLabel'];
                         }
                     }
@@ -77,16 +86,17 @@ class TcaCodeGenerator extends AbstractCodeGenerator
      *
      * @param array $tca
      * @author Benjamin Butschell <bb@webprofil.at>
+     * @noinspection PhpUnused
      */
-    public function setElementsTca($tca)
+    public function setElementsTca($tca): void
     {
 
-        $fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
+        $fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
         $defaultTabs = ',--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.appearance,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.frames;frames,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.appearanceLinks;appearanceLinks,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,--palette--;;language,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,--palette--;;hidden,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:categories,--div--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_category.tabs.category,categories,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:notes,rowDescription,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended';
 
         // add gridelements fields, to make mask work with gridelements out of the box
         $gridelements = '';
-        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('gridelements')) {
+        if (ExtensionManagementUtility::isLoaded('gridelements')) {
             $gridelements = ', tx_gridelements_container, tx_gridelements_columns';
         }
         if ($tca) {
@@ -102,10 +112,10 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 
                     $prependTabs = '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,';
                     $fieldArray = array();
-                    $label = $elementvalue['shortLabel'] ? $elementvalue['shortLabel'] : $elementvalue['label']; // Optional shortLabel
+                    $label = $elementvalue['shortLabel'] ?: $elementvalue['label']; // Optional shortLabel
 
                     // add new entry in CType selectbox
-                    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(array(
+                    ExtensionManagementUtility::addPlugin(array(
                         $label,
                         'mask_' . $elementvalue['key'],
                         'mask-ce-' . $elementvalue['key']
@@ -117,7 +127,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 
                             // check if this field is of type tab
                             $formType = $fieldHelper->getFormType($fieldKey, $elementvalue['key'], 'tt_content');
-                            if ($formType == 'Tab') {
+                            if ($formType === 'Tab') {
                                 $label = $fieldHelper->getLabel($elementvalue['key'], $fieldKey, 'tt_content');
                                 // if a tab is in the first position then change the name of the general tab
                                 if ($index === 0) {
@@ -148,9 +158,9 @@ class TcaCodeGenerator extends AbstractCodeGenerator
      * @param array $tca
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    public function setPageTca($tca)
+    public function setPageTca($tca): void
     {
-        $fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
+        $fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
         $prependTabs = '--div--;Content-Fields,';
         if ($tca) {
             $i = 0;
@@ -161,7 +171,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 
                 // check if this field is of type tab
                 $formType = $fieldHelper->getFormType($fieldKey, $element['key'], 'pages');
-                if ($formType == 'Tab') {
+                if ($formType === 'Tab') {
                     $label = $fieldHelper->getLabel($element['key'], $fieldKey, 'pages');
                     // if a tab is in the first position then change the name of the general tab
                     if ($i === 0) {
@@ -182,19 +192,19 @@ class TcaCodeGenerator extends AbstractCodeGenerator
         } else {
             $pageFieldString = $prependTabs;
         }
-
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('pages', $pageFieldString);
+        ExtensionManagementUtility::addToAllTCAtypes('pages', $pageFieldString);
     }
 
     /**
      * Generates the TCA for fields
      *
      * @param array $tca
-     * @return string
+     * @return array
+     * @throws Exception
      */
-    public function generateFieldsTca($tca)
+    public function generateFieldsTca($tca): array
     {
-        $generalUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Utility\\GeneralUtility');
+        $generalUtility = GeneralUtility::makeInstance(\MASK\Mask\Utility\GeneralUtility::class);
         $columns = array();
         if ($tca) {
             foreach ($tca as $tcakey => $tcavalue) {
@@ -202,7 +212,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                 if ($tcavalue) {
                     foreach ($tcavalue as $fieldkey => $fieldvalue) {
                         // Add File-Config for file-field
-                        if ($fieldkey == 'options' && $fieldvalue == 'file') {
+                        if ($fieldkey === 'options' && $fieldvalue === 'file') {
                             $fieldName = $tcakey;
                             $customSettingOverride = array(
                                 'overrideChildTca' => array(
@@ -230,56 +240,56 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                             );
 
                             $customSettingOverride['appearance'] = $tcavalue['config']['appearance'];
-                            if ($customSettingOverride['appearance']['fileUploadAllowed'] == '') {
+                            if ($customSettingOverride['appearance']['fileUploadAllowed'] === '') {
                                 $customSettingOverride['appearance']['fileUploadAllowed'] = false;
                             }
-                            if ($customSettingOverride['appearance']['useSortable'] == '') {
+                            if ($customSettingOverride['appearance']['useSortable'] === '') {
                                 $customSettingOverride['appearance']['useSortable'] = 0;
                             } else {
                                 $customSettingOverride['appearance']['useSortable'] = 1;
                             }
 
-                            if ($tcavalue['config']['filter']['0']['parameters']['allowedFileExtensions'] != '') {
+                            if ($tcavalue['config']['filter']['0']['parameters']['allowedFileExtensions'] !== '') {
                                 $allowedFileExtensions = $tcavalue['config']['filter']['0']['parameters']['allowedFileExtensions'];
                             } else {
                                 $allowedFileExtensions = $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'];
                             }
-                            $columns[$tcakey]['config'] = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig($fieldName,
+                            $columns[$tcakey]['config'] = ExtensionManagementUtility::getFileFieldTCAConfig($fieldName,
                                 $customSettingOverride, $allowedFileExtensions);
                         }
 
                         // check if field is actually a tab
-                        if (isset($fieldvalue['type']) && $fieldvalue['type'] == 'tab') {
+                        if (isset($fieldvalue['type']) && $fieldvalue['type'] === 'tab') {
                             $addToTca = false;
                         }
 
                         // Fill missing tablename in TCA-Config for inline-fields
-                        if ($fieldkey == 'config' && $tcavalue[$fieldkey]['foreign_table'] == '--inlinetable--') {
+                        if ($fieldkey === 'config' && $tcavalue[$fieldkey]['foreign_table'] === '--inlinetable--') {
                             $tcavalue[$fieldkey]['foreign_table'] = $tcakey;
                         }
 
                         // set date ranges if date or datetime field
-                        if ($fieldkey == 'config' && ($tcavalue[$fieldkey]['dbType'] == 'date' || $tcavalue[$fieldkey]['dbType'] == 'datetime')) {
-                            if ($tcavalue[$fieldkey]['range']['upper'] != '') {
+                        if ($fieldkey === 'config' && ($tcavalue[$fieldkey]['dbType'] === 'date' || $tcavalue[$fieldkey]['dbType'] === 'datetime')) {
+                            if ($tcavalue[$fieldkey]['range']['upper'] !== '') {
                                 $date = new \DateTime($tcavalue[$fieldkey]['range']['upper']);
                                 $tcavalue[$fieldkey]['range']['upper'] = $date->getTimestamp() + 86400;
                             }
-                            if ($tcavalue[$fieldkey]['range']['lower'] != '') {
+                            if ($tcavalue[$fieldkey]['range']['lower'] !== '') {
                                 $date = new \DateTime($tcavalue[$fieldkey]['range']['lower']);
                                 $tcavalue[$fieldkey]['range']['lower'] = $date->getTimestamp() + 86400;
                             }
                         }
 
                         // set correct rendertype if format (code highlighting) is set in text tca
-                        if ($fieldkey == 'config' && $tcavalue[$fieldkey]['format'] != '') {
+                        if ($fieldkey === 'config' && $tcavalue[$fieldkey]['format'] !== '') {
                             $tcavalue[$fieldkey]['renderType'] = 't3editor';
                         }
 
                         // make some adjustmens to content fields
                         if (
-                            $fieldkey == 'config' &&
-                            $tcavalue[$fieldkey]['foreign_table'] == 'tt_content' &&
-                            $tcavalue[$fieldkey]['type'] == 'inline'
+                            $fieldkey === 'config' &&
+                            $tcavalue[$fieldkey]['foreign_table'] === 'tt_content' &&
+                            $tcavalue[$fieldkey]['type'] === 'inline'
                         ) {
                             $tcavalue[$fieldkey]['foreign_field'] = $tcakey . '_parent';
                             if ($tcavalue['cTypes']) {
@@ -291,8 +301,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                         if (!is_array($columns[$tcakey])) {
                             $columns[$tcakey] = array();
                         } else {
-                            \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($columns[$tcakey],
-                                $tcavalue);
+                            ArrayUtility::mergeRecursiveWithOverrule($columns[$tcakey], $tcavalue);
                         }
 
                         if (isset($columns[$tcakey]['rte'])) {
@@ -300,17 +309,15 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                         }
 
                         // Unset some values that are not needed in TCA
-                        unset($columns[$tcakey]['options']);
-                        unset($columns[$tcakey]['key']);
-                        unset($columns[$tcakey]['rte']);
-                        unset($columns[$tcakey]['inlineParent']);
-                        unset($columns[$tcakey]['inlineLabel']);
-                        unset($columns[$tcakey]['inlineIcon']);
-                        unset($columns[$tcakey]['cTypes']);
-
-
-//                        $GLOBALS['TCA']["tt_content"]["types"]["mask_asdfsdaf"]["columnsOverrides"]["tx_mask_".$tcakey]["config"]['enableRichtext'] = 1;
-//                        $GLOBALS['TCA']["tt_content"]["types"]["mask_asdfsdaf"]["columnsOverrides"]["tx_mask_".$tcakey]["config"]['richtextConfiguration'] = 'default';
+                        unset(
+                            $columns[$tcakey]['options'],
+                            $columns[$tcakey]['key'],
+                            $columns[$tcakey]['rte'],
+                            $columns[$tcakey]['inlineParent'],
+                            $columns[$tcakey]['inlineLabel'],
+                            $columns[$tcakey]['inlineIcon'],
+                            $columns[$tcakey]['cTypes']
+                        );
 
                         $columns[$tcakey] = $generalUtility->removeBlankOptions($columns[$tcakey]);
                         $columns[$tcakey] = $generalUtility->replaceKey($columns[$tcakey], $tcakey);
@@ -330,10 +337,10 @@ class TcaCodeGenerator extends AbstractCodeGenerator
      *
      * @param string $table
      * @param array $tca
-     * @return string
+     * @return void
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    public function generateTableTca($table, $tca)
+    public function generateTableTca($table, $tca): void
     {
 
         $tcaTemplate = array(
@@ -477,14 +484,15 @@ class TcaCodeGenerator extends AbstractCodeGenerator
             ),
         );
 
-        $fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
-        $generalUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Utility\\GeneralUtility');
+        $fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
+        $generalUtility = GeneralUtility::makeInstance(\MASK\Mask\Utility\GeneralUtility::class);
+        $fields = [];
 
         // now add all the fields that should be shown
         $prependTabs = 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, ';
         if ($tca) {
             $i = 0;
-            uasort($tca, function ($columnA, $columnB) {
+            uasort($tca, static function ($columnA, $columnB) {
                 $a = isset($columnA['order']) ? (int)$columnA['order'] : 0;
                 $b = isset($columnB['order']) ? (int)$columnB['order'] : 0;
                 return $a - $b;
@@ -493,7 +501,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
             foreach ($tca as $fieldKey => $configuration) {
                 // check if this field is of type tab
                 $formType = $fieldHelper->getFormType($fieldKey, '', $table);
-                if ($formType == 'Tab') {
+                if ($formType === 'Tab') {
                     $label = $configuration['label'];
                     // if a tab is in the first position then change the name of the general tab
                     if ($i === 0) {
@@ -510,6 +518,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
         }
 
         // take first field for inline label
+        $labelField = '';
         if (!empty($fields)) {
             $labelField = $generalUtility->getFirstNoneTabField($fields);
         }
@@ -522,11 +531,11 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 
         $tableTca['ctrl']['title'] = $table;
         $tableTca['ctrl']['label'] = $labelField;
-        $tableTca['ctrl']['searchFields'] = implode(',', (array)$fields);
-        $tableTca['interface']['showRecordFieldList'] = 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, ' . implode(', ',
-                (array)$fields);
-        $tableTca['types']['1']['showitem'] = $prependTabs . implode(', ',
-                (array)$fields) . ', --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime';
+        $tableTca['ctrl']['searchFields'] = implode(',', $fields);
+        $tableTca['interface']['showRecordFieldList'] = 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, '
+            . implode(', ', $fields);
+        $tableTca['types']['1']['showitem'] = $prependTabs . implode(', ', $fields)
+            . ', --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime';
 
         $tableTca['columns']['l10n_parent']['config']['foreign_table'] = $table;
         $tableTca['columns']['l10n_parent']['config']['foreign_table_where'] = 'AND ' . $table . '.pid=###CURRENT_PID### AND ' . $table . '.sys_language_uid IN (-1,0)';
@@ -542,14 +551,15 @@ class TcaCodeGenerator extends AbstractCodeGenerator
      * allow all inline tables on standard pages
      *
      * @param array $configuration
+     * @noinspection PhpUnused
      */
-    public function allowInlineTablesOnStandardPages($configuration)
+    public function allowInlineTablesOnStandardPages($configuration): void
     {
         $notIrreTables = array('pages', 'tt_content', 'sys_file_reference');
         if ($configuration) {
             foreach ($configuration as $table => $subJson) {
-                if (array_search($table, $notIrreTables) === false) {
-                    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages($table);
+                if (!in_array($table, $notIrreTables, true)) {
+                    ExtensionManagementUtility::allowTableOnStandardPages($table);
                 }
             }
         }

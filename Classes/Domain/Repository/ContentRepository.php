@@ -27,20 +27,23 @@ namespace MASK\Mask\Domain\Repository;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use TYPO3\CMS\Extbase\Persistence\Repository;
+use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
+
 /**
  *
  *
  * @package mask
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
  *
+ * @method findByContentType(string $string)
  */
-class ContentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+class ContentRepository extends Repository
 {
 
-    public function initializeObject()
+    public function initializeObject(): void
     {
-        /** @var $querySettings TYPO3CMSExtbasePersistenceGenericTypo3QuerySettings */
-        $querySettings = $this->objectManager->get('TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings');
+        $querySettings = $this->objectManager->get(Typo3QuerySettings::class);
         $querySettings->setRespectStoragePage(false);
         $querySettings->setIgnoreEnableFields(false);
         $querySettings->setIncludeDeleted(false);

@@ -3,9 +3,17 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Imaging\IconProvider;
 
+use InvalidArgumentException;
+use MASK\Mask\Domain\Repository\StorageRepository;
+use MASK\Mask\Domain\Service\SettingsService;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconProviderInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
+use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /* * *************************************************************
  *  Copyright notice
@@ -41,7 +49,7 @@ class ContentElementIconProvider implements IconProviderInterface
 
     /**
      * StorageRepository
-     * @var \MASK\Mask\Domain\Repository\StorageRepository
+     * @var StorageRepository
      */
     protected $storageRepository;
 
@@ -54,7 +62,7 @@ class ContentElementIconProvider implements IconProviderInterface
     /**
      * SettingsService
      *
-     * @var \MASK\Mask\Domain\Service\SettingsService
+     * @var SettingsService
      */
     protected $settingsService;
 
@@ -69,18 +77,23 @@ class ContentElementIconProvider implements IconProviderInterface
      *
      * @param Icon $icon
      * @param array $options
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
+     * @throws Exception
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    public function prepareIconMarkup(Icon $icon, array $options = array())
+    public function prepareIconMarkup(Icon $icon, array $options = array()): void
     {
         // error checking
         if (empty($options['contentElementKey'])) {
-            throw new \InvalidArgumentException('The option "contentElementKey" is required and must not be empty',
-                1440754978);
+            throw new InvalidArgumentException(
+                'The option "contentElementKey" is required and must not be empty',
+                1440754978
+            );
         }
-        $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-        $this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
-        $this->settingsService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Service\\SettingsService');
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        $this->storageRepository = $objectManager->get(StorageRepository::class);
+        $this->settingsService = GeneralUtility::makeInstance(SettingsService::class);
         $this->extSettings = $this->settingsService->get();
         $this->contentElement = $this->storageRepository->loadElement('tt_content', $options['contentElementKey']);
         $icon->setMarkup($this->generateMarkup($icon, $options));
@@ -91,20 +104,21 @@ class ContentElementIconProvider implements IconProviderInterface
      * @param Icon $icon
      * @param array $options
      * @return string
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    protected function generateMarkup(Icon $icon, array $options)
+    protected function generateMarkup(Icon $icon, array $options): string
     {
 
         $previewIconAvailable = $this->isPreviewIconAvailable($options['contentElementKey']);
         $fontAwesomeKeyAvailable = $this->isFontAwesomeKeyAvailable($this->contentElement);
 
-
         // decide what kind of icon to render
         if ($fontAwesomeKeyAvailable) {
 
             $color = $this->getColor($this->contentElement);
+            $styles = [];
+
             if ($color) {
                 $styles[] = 'color: #' . $color;
             }
@@ -138,13 +152,12 @@ class ContentElementIconProvider implements IconProviderInterface
      * @return boolean
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    protected function isPreviewIconAvailable($key)
+    protected function isPreviewIconAvailable($key): bool
     {
         if (file_exists(PATH_site . $this->getPreviewIconPath($key))) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -154,9 +167,9 @@ class ContentElementIconProvider implements IconProviderInterface
      * @todo implement
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    protected function isFontAwesomeKeyAvailable($element)
+    protected function isFontAwesomeKeyAvailable($element): bool
     {
-        return trim($element['icon']) != '';
+        return trim($element['icon']) !== '';
     }
 
     /**
@@ -164,7 +177,7 @@ class ContentElementIconProvider implements IconProviderInterface
      * @return string
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    protected function getPreviewIconPath($key)
+    protected function getPreviewIconPath($key): string
     {
         return $this->extSettings['preview'] . $key . '.png';
     }
@@ -175,7 +188,7 @@ class ContentElementIconProvider implements IconProviderInterface
      * @return string
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    protected function getFontAwesomeKey($element)
+    protected function getFontAwesomeKey($element): string
     {
         return trim(str_replace('fa-', '', $element['icon']));
     }
@@ -186,7 +199,7 @@ class ContentElementIconProvider implements IconProviderInterface
      * @return string
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    protected function getColor($element)
+    protected function getColor($element): string
     {
         return trim(str_replace('#', '', $element['color']));
     }

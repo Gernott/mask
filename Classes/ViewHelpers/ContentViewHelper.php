@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\ViewHelpers;
 
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -18,7 +19,7 @@ class ContentViewHelper extends AbstractViewHelper
     protected $escapeOutput = false;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
+     * @var ConfigurationManagerInterface
      */
     protected $configurationManager;
 
@@ -27,7 +28,7 @@ class ContentViewHelper extends AbstractViewHelper
      */
     protected $cObj;
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('uid', 'integer', 'Uid of the content element', true);
     }
@@ -37,7 +38,7 @@ class ContentViewHelper extends AbstractViewHelper
      *
      * @return string parsed content element
      */
-    public function render()
+    public function render(): string
     {
         $conf = array(
             'tables' => 'tt_content',
@@ -50,12 +51,12 @@ class ContentViewHelper extends AbstractViewHelper
     /**
      * Injects Configuration Manager
      *
-     * @param \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager
+     * @param ConfigurationManagerInterface $configurationManager
      * @return void
      */
     public function injectConfigurationManager(
-        \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager
-    ) {
+        ConfigurationManagerInterface $configurationManager
+    ): void {
         $this->configurationManager = $configurationManager;
         $this->cObj = $this->configurationManager->getContentObject();
     }

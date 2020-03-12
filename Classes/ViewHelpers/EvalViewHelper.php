@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace MASK\Mask\ViewHelpers;
 
+use MASK\Mask\Helper\FieldHelper;
+use MASK\Mask\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -20,7 +22,7 @@ class EvalViewHelper extends AbstractViewHelper
     /**
      * Utility
      *
-     * @var \MASK\Mask\Utility\GeneralUtility
+     * @var GeneralUtility
      * @Inject()
      */
     protected $generalUtility;
@@ -28,12 +30,12 @@ class EvalViewHelper extends AbstractViewHelper
     /**
      * Utility
      *
-     * @var \MASK\Mask\Helper\FieldHelper
+     * @var FieldHelper
      * @Inject()
      */
     protected $fieldHelper;
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('fieldKey', 'string', 'TCA type', true);
         $this->registerArgument('elementKey', 'string', 'TCA type', true);
@@ -47,15 +49,15 @@ class EvalViewHelper extends AbstractViewHelper
      * @return boolean $evalValue is set
      * @author Benjamin Butschell bb@webprofil.at>
      */
-    public function render()
+    public function render(): bool
     {
         $fieldKey = $this->arguments['fieldKey'];
         $elementKey = $this->arguments['elementKey'];
         $evalValue = $this->arguments['evalValue'];
         $field = $this->arguments['field'];
 
-        $this->generalUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Utility\\GeneralUtility');
-        $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
+        $this->generalUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(GeneralUtility::class);
+        $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(FieldHelper::class);
 
         if ($field) {
             if ($field['inlineParent']) {

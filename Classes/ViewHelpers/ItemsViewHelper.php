@@ -15,7 +15,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class ItemsViewHelper extends AbstractViewHelper
 {
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('items', 'array', '', true);
     }
@@ -26,7 +26,7 @@ class ItemsViewHelper extends AbstractViewHelper
      * @return string items as string
      * @author Benjamin Butschell bb@webprofil.at>
      */
-    public function render()
+    public function render(): string
     {
         $itemArray = [];
 

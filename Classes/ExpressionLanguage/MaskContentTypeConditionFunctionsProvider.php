@@ -32,6 +32,7 @@ class MaskContentTypeConditionFunctionsProvider implements ExpressionFunctionPro
 
     /**
      * @return ExpressionFunction
+     * @noinspection PhpComposerExtensionStubsInspection
      */
     protected function getMaskContentElementFunction(): ExpressionFunction
     {
@@ -80,7 +81,7 @@ class MaskContentTypeConditionFunctionsProvider implements ExpressionFunctionPro
             // Content element is loaded via ajax (inline)
             $parsedBody = $request->getParsedBody();
             if (isset($parsedBody['ajax']['context'])) {
-                $parsedContext = json_decode($parsedBody['ajax']['context'], true);
+                $parsedContext = json_decode($parsedBody['ajax']['context'], true, 512, JSON_THROW_ON_ERROR);
                 if (isset($parsedContext['config']['overrideChildTca']['columns']['CType']['config']['default'])) {
                     return $parsedContext['config']['overrideChildTca']['columns']['CType']['config']['default'] === 'mask_' . $value;
                 }
