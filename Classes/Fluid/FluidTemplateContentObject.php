@@ -58,8 +58,8 @@ class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\Fluid
      * Change variables for view
      *
      * @param array $conf Configuration
-     * @author Benjamin Butschell <bb@webprofil.at>
      * @return void
+     * @author Benjamin Butschell <bb@webprofil.at>
      */
     protected function getContentObjectVariables(array $conf = array())
     {

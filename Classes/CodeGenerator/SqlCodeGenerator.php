@@ -97,8 +97,8 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
     /**
      * Updates the database if necessary
      *
-     * @author Benjamin Butschell <bb@webprofil.at>
      * @return array
+     * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function updateDatabase()
     {

@@ -175,8 +175,8 @@ class GeneralUtility
     /**
      * replace keys
      *
-     * @author Gernot Ploiner <gp@webprofil.at>
      * @return array
+     * @author Gernot Ploiner <gp@webprofil.at>
      */
     public function replaceKey($data, $replace_key, $key = "--key--")
     {

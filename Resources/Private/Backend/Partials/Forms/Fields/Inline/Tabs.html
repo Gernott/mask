@@ -45,7 +45,7 @@
 		<div class="col-sm-12">
 			<f:if condition="{mask:Multiuse(key: key, elementKey: storage.key) -> f:count()} > 1">
 				<f:be.infobox title="{f:translate(key:'tx_mask.content.multiuse.validation.title')}" state="1">
-					<f:translate key="tx_mask.content.multiuse.validation" />
+					<f:translate key="tx_mask.content.multiuse.validation"/>
 					<b>
 						<f:for each="{mask:Multiuse(key: key, elementKey: storage.key)}" as="element" iteration="iteration">
 							{element.label}

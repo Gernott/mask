@@ -104,7 +104,8 @@ if (!function_exists('user_mask_beLayout')) {
             } else { // If backend_layout and backend_layout_next_level is not set on current page, check backend_layout_next_level on rootline
                 $sysPage = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Frontend\\Page\\PageRepository');
                 try {
-                    $rootline = (\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Utility\RootlineUtility::class, $uid))->get();
+                    $rootline = (\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Utility\RootlineUtility::class,
+                        $uid))->get();
                 } catch (Exception $e) {
                     $rootline = [];
                 }

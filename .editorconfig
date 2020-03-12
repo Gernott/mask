@@ -34,6 +34,7 @@ indent_size = 4
 [*.ts]
 indent_style = space
 indent_size = 2
+
 [*.js]
 indent_style = space
 indent_size = 2
@@ -59,14 +60,14 @@ indent_style = space
 indent_size = 4
 
 # YAML-Files
-[{*.yaml,*.yml}]
+[{*.yaml, *.yml}]
 indent_style = space
 indent_size = 2
 
 # package.json
 # .travis.yml
 # bower.json
-[{package.json,.travis.yml,bower.json}]
+[{package.json, .travis.yml, bower.json}]
 indent_style = space
 indent_size = 2
 
@@ -74,9 +75,11 @@ indent_size = 2
 [*.typoscript]
 indent_style = space
 indent_size = 2
+
 [*.ts]
 indent_style = space
 indent_size = 2
+
 [*.tsconfig]
 indent_style = space
 indent_size = 2

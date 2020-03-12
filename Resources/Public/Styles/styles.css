@@ -702,6 +702,7 @@ UL.tx_mask_fieldtypes .tx_mask_fieldcontent_highlight {
 	content: "\f077" !important;
 	font-family: FontAwesome !important;
 }
+
 .mask_issues_container {
 	float: right !important;
 }
@@ -726,7 +727,7 @@ UL.tx_mask_fieldtypes .tx_mask_fieldcontent_highlight {
 	padding: 0 !important;
 }
 
-.mask_footer_img_0,.mask_footer_img_1 {
+.mask_footer_img_0, .mask_footer_img_1 {
 	max-width: 280px;
 }
 
@@ -748,7 +749,7 @@ UL.tx_mask_fieldtypes .tx_mask_fieldcontent_highlight {
 }
 
 .mask_footer_spacer_top {
-	width:auto;
+	width: auto;
 }
 
 .mask_footer_spacer_3 {
@@ -821,6 +822,7 @@ UL.tx_mask_fieldtypes .tx_mask_fieldcontent_highlight {
 .mask_footer_blue {
 	color: #5F9FD7;
 }
+
 .mask_footer_img_0 {
 	width: 90%;
 	height: auto;

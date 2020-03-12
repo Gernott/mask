@@ -9,7 +9,7 @@ lib.tx_mask.content {
 # mask content elements are rendered with this snippet
 lib.maskContentElement = FLUIDTEMPLATE
 lib.maskContentElement {
-     dataProcessing {
+    dataProcessing {
         100 = MASK\Mask\DataProcessing\MaskProcessor
     }
 }

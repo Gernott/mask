@@ -34,8 +34,8 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 
     /**
      * Generates and sets the correct tca for all the inline fields
-     * @author Benjamin Butschell <bb@webprofil.at>
      * @param array $json
+     * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function setInlineTca($json)
     {
@@ -132,7 +132,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                         }
                     }
                     $fields = implode(",", $fieldArray);
-                    
+
                     $GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes']["mask_" . $elementvalue["key"]] = 'mask-ce-' . $elementvalue["key"];
                     $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["columnsOverrides"]["bodytext"]["config"]['richtextConfiguration'] = 'default';
                     $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["columnsOverrides"]["bodytext"]["config"]['enableRichtext'] = 1;
@@ -294,8 +294,8 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                             \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($columns[$tcakey],
                                 $tcavalue);
                         }
-                        
-                        if (isset($columns[$tcakey]['rte'])){
+
+                        if (isset($columns[$tcakey]['rte'])) {
                             $columns[$tcakey]['config']['softref'] = 'rtehtmlarea_images,typolink_tag,images,email[subst],url';
                         }
 
@@ -375,7 +375,11 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                         'type' => 'select',
                         'renderType' => 'selectSingle',
                         'items' => array(
-                            array('LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.allLanguages', -1, 'flags-multiple'),
+                            array(
+                                'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.allLanguages',
+                                -1,
+                                'flags-multiple'
+                            ),
                         ),
                         'special' => 'languages',
                         'default' => 0

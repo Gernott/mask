@@ -275,8 +275,8 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     /**
      * Check, if folders from extensionmanager-settings are existing
      *
-     * @author Gernot Ploiner <gp@webprofil.at>
      * @return void
+     * @author Gernot Ploiner <gp@webprofil.at>
      */
     protected function checkFolders(): void
     {
@@ -288,8 +288,8 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
     /**
      * Creates missing folders that are needed for the use of mask
-     * @author Benjamin Butschell <bb@webprofil.at>
      * @return bool $success
+     * @author Benjamin Butschell <bb@webprofil.at>
      */
     protected function createMissingFolders(): bool
     {

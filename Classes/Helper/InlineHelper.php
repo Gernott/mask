@@ -234,7 +234,7 @@ class InlineHelper
         }
 
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($childTable);
-        if(TYPO3_MODE=='BE'){
+        if (TYPO3_MODE == 'BE') {
             $queryBuilder
                 ->getRestrictions()
                 ->removeAll()

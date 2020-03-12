@@ -134,8 +134,8 @@ class ContentElementIconProvider implements IconProviderInterface
     /**
      * Checks if a preview icon is available in defined folder
      * @param string $key
-     * @author Benjamin Butschell <bb@webprofil.at>
      * @return boolean
+     * @author Benjamin Butschell <bb@webprofil.at>
      */
     protected function isPreviewIconAvailable($key)
     {
@@ -149,9 +149,9 @@ class ContentElementIconProvider implements IconProviderInterface
     /**
      * Checks if content element has set a fontawesome key
      * @param array $element
-     * @author Benjamin Butschell <bb@webprofil.at>
-     * @todo implement
      * @return boolean
+     * @todo implement
+     * @author Benjamin Butschell <bb@webprofil.at>
      */
     protected function isFontAwesomeKeyAvailable($element)
     {
@@ -160,8 +160,8 @@ class ContentElementIconProvider implements IconProviderInterface
 
     /**
      * @param string $key
-     * @author Benjamin Butschell <bb@webprofil.at>
      * @return string
+     * @author Benjamin Butschell <bb@webprofil.at>
      */
     protected function getPreviewIconPath($key)
     {
@@ -171,8 +171,8 @@ class ContentElementIconProvider implements IconProviderInterface
     /**
      * returns trimmed and unified font-awesome key
      * @param array $element
-     * @author Benjamin Butschell <bb@webprofil.at>
      * @return string
+     * @author Benjamin Butschell <bb@webprofil.at>
      */
     protected function getFontAwesomeKey($element)
     {
@@ -182,8 +182,8 @@ class ContentElementIconProvider implements IconProviderInterface
     /**
      * returns trimmed and unified hex-code
      * @param array $element
-     * @author Benjamin Butschell <bb@webprofil.at>
      * @return string
+     * @author Benjamin Butschell <bb@webprofil.at>
      */
     protected function getColor($element)
     {

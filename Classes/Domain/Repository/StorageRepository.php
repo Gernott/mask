@@ -123,8 +123,8 @@ class StorageRepository
 
     /**
      * Load Field
-     * @author Benjamin Butschell <bb@webprofil.at>
      * @return array
+     * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function loadField($type, $key)
     {
@@ -136,8 +136,8 @@ class StorageRepository
      * Loads all the inline fields of an inline-field, recursively!
      *
      * @param string $parentKey key of the inline-field
-     * @author Benjamin Butschell <bb@webprofil.at>
      * @return array
+     * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function loadInlineFields($parentKey)
     {
@@ -210,7 +210,8 @@ class StorageRepository
                         // If using a mask field with empty label, we have to set the "default" label
                         $label = '';
                         foreach ($json[$content['type']]['elements'] as $element) {
-                            if (is_array($element['columns']) && in_array($content['elements']['columns'][$index], $element['columns'], true)) {
+                            if (is_array($element['columns']) && in_array($content['elements']['columns'][$index],
+                                    $element['columns'], true)) {
                                 $i = array_search($content['elements']['columns'][$index], $element['columns'], true);
                                 if (!empty($element['labels'][$i])) {
                                     $label = $element['labels'][$i];
@@ -351,13 +352,13 @@ class StorageRepository
 
     /**
      * Removes a field from the json, also recursively all inline-fields
-     * @author Benjamin Butschell <bb@webprofil.at>
-     *
      * @param string $table
      * @param string $field
      * @param array $json
      * @param array $remainingFields
      * @return array
+     * @author Benjamin Butschell <bb@webprofil.at>
+     *
      */
     private function removeField($table, $field, $json, $remainingFields = array())
     {
@@ -437,10 +438,10 @@ class StorageRepository
     /**
      * Deletes all the empty settings of a table
      *
-     * @author Benjamin Butschell <bb@webprofil.at>
      * @param string $table
      * @param array $json
      * @return array
+     * @author Benjamin Butschell <bb@webprofil.at>
      */
     private function cleanTable($table, $json)
     {

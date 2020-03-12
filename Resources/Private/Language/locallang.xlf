@@ -599,7 +599,8 @@
 				</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.error.missingjson">
-				<source>Mask configuration mask.json is missing. Create missing file or change configuration in extension manager.
+				<source>Mask configuration mask.json is missing. Create missing file or change configuration in
+					extension manager.
 				</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.createmissingfolders">
