@@ -9,7 +9,7 @@ if (TYPO3_MODE === 'BE') {
      * Registers a Backend Module
      */
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-        'MASK.' . $_EXTKEY, 'tools', // Make module a submodule of 'admin'
+        'MASK.mask', 'tools', // Make module a submodule of 'admin'
         'mask', // Submodule key
         'top', // Position
         array(
@@ -17,12 +17,12 @@ if (TYPO3_MODE === 'BE') {
             'WizardPage' => 'list, new, create, edit, update, delete, showHtml',
         ), array(
             'access' => 'admin',
-            'icon' => 'EXT:' . $_EXTKEY . '/Resources/Public/Icons/module-mask_wizard.svg',
-            'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_mask.xlf',
+            'icon' => 'EXT:mask/Resources/Public/Icons/module-mask_wizard.svg',
+            'labels' => 'LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf',
         )
     );
 }
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Mask');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile('mask', 'Configuration/TypoScript', 'Mask');
 
 // include css for styling of backend preview of mask content elements
 $TBE_STYLES['skins']['mask']['name'] = 'mask';
