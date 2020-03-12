@@ -57,9 +57,9 @@ class EvalViewHelper extends AbstractViewHelper
         $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
 
         if ($field) {
-            if ($field["inlineParent"]) {
-                $type = $field["inlineParent"];
-                $fieldKey = "tx_mask_" . $field["key"];
+            if ($field['inlineParent']) {
+                $type = $field['inlineParent'];
+                $fieldKey = 'tx_mask_' . $field['key'];
             } else {
                 $type = $this->fieldHelper->getFieldType($fieldKey, $elementKey, true);
             }

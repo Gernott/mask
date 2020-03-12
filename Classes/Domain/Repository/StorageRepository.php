@@ -129,7 +129,7 @@ class StorageRepository
     public function loadField($type, $key)
     {
         $json = $this->load();
-        return $json[$type]["tca"][$key];
+        return $json[$type]['tca'][$key];
     }
 
     /**
@@ -144,13 +144,13 @@ class StorageRepository
         $json = $this->load();
         $inlineFields = array();
         foreach ($json as $table) {
-            if ($table["tca"]) {
-                foreach ($table["tca"] as $key => $tca) {
-                    if ($tca["inlineParent"] == $parentKey) {
-                        if ($tca["config"]["type"] == "inline") {
-                            $tca["inlineFields"] = $this->loadInlineFields($key);
+            if ($table['tca']) {
+                foreach ($table['tca'] as $key => $tca) {
+                    if ($tca['inlineParent'] == $parentKey) {
+                        if ($tca['config']['type'] == 'inline') {
+                            $tca['inlineFields'] = $this->loadInlineFields($key);
                         }
-                        $tca["maskKey"] = "tx_mask_" . $tca["key"];
+                        $tca['maskKey'] = 'tx_mask_' . $tca['key'];
                         $inlineFields[] = $tca;
                     }
                 }
@@ -168,18 +168,18 @@ class StorageRepository
     {
         $json = $this->load();
         $fields = array();
-        $columns = $json[$type]["elements"][$key]["columns"];
+        $columns = $json[$type]['elements'][$key]['columns'];
 
         //Check if it is an array before trying to count it
         if (is_array($columns) && count($columns) > 0) {
             foreach ($columns as $fieldName) {
-                $fields[$fieldName] = $json[$type]["tca"][$fieldName];
+                $fields[$fieldName] = $json[$type]['tca'][$fieldName];
             }
         }
         if (count($fields) > 0) {
-            $json[$type]["elements"][$key]["tca"] = $fields;
+            $json[$type]['elements'][$key]['tca'] = $fields;
         }
-        return $json[$type]["elements"][$key];
+        return $json[$type]['elements'][$key];
     }
 
     /**
@@ -193,11 +193,11 @@ class StorageRepository
         $json = $this->load();
 
         // Create JSON elements Array:
-        foreach ($content["elements"] as $key => $value) {
+        foreach ($content['elements'] as $key => $value) {
             // delete columns and labels of irre-fields from elements
-            if ($key == "columns" || $key == "labels") {
+            if ($key == 'columns' || $key == 'labels') {
                 foreach ($value as $index => $column) {
-                    if (!$content["tca"][$index]["inlineParent"]) {
+                    if (!$content['tca'][$index]['inlineParent']) {
                         $contentColumns[] = $column;
                     } else {
                         unset($value[$index]);
@@ -223,71 +223,71 @@ class StorageRepository
                     }
                 }
             }
-            $json[$content["type"]]["elements"][$content["elements"]["key"]][$key] = $value;
+            $json[$content['type']]['elements'][$content['elements']['key']][$key] = $value;
         }
 
         $contentColumns = array();
         $columns = array();
 
         // delete columns and labels of irre-fields from elements
-        if ($content["elements"]["columns"]) {
-            foreach ($content["elements"]["columns"] as $index => $column) {
-                if (!$content["tca"][$index]["inlineParent"]) {
+        if ($content['elements']['columns']) {
+            foreach ($content['elements']['columns'] as $index => $column) {
+                if (!$content['tca'][$index]['inlineParent']) {
                     $contentColumns[] = $column;
                 } else {
-                    unset($content["elements"]["columns"][$index]);
-                    unset($content["elements"]["labels"][$index]);
+                    unset($content['elements']['columns'][$index]);
+                    unset($content['elements']['labels'][$index]);
                 }
                 $columns[] = $column;
             }
         }
 
         // Create JSON sql Array:
-        if (is_array($content["sql"])) {
-            foreach ($content["sql"] as $table => $sqlArray) {
+        if (is_array($content['sql'])) {
+            foreach ($content['sql'] as $table => $sqlArray) {
                 foreach ($sqlArray as $index => $type) {
-                    $fieldname = "tx_mask_" . $columns[$index];
-                    $json[$table]["sql"][$fieldname][$table][$fieldname] = $type;
+                    $fieldname = 'tx_mask_' . $columns[$index];
+                    $json[$table]['sql'][$fieldname][$table][$fieldname] = $type;
                 }
             }
         }
 
         // Create JSON tca Array:
-        if (is_array($content["tca"])) {
+        if (is_array($content['tca'])) {
 
 
-            foreach ($content["tca"] as $key => $value) {
+            foreach ($content['tca'] as $key => $value) {
                 $inlineField = false;
 
                 // if this field is inline-field
-                if ($value["inlineParent"]) {
-                    $type = $value["inlineParent"];
+                if ($value['inlineParent']) {
+                    $type = $value['inlineParent'];
                     $inlineField = true;
                 } else {
-                    $type = $content["type"];
+                    $type = $content['type'];
                 }
 
-                $json[$type]["tca"][$columns[$key]] = $value;
+                $json[$type]['tca'][$columns[$key]] = $value;
 
                 // add rte flag if inline and rte
                 if ($inlineField) {
-                    if ($content["elements"]["options"][$key] == "rte") {
-                        $json[$type]["tca"][$columns[$key]]["rte"] = "1";
+                    if ($content['elements']['options'][$key] == 'rte') {
+                        $json[$type]['tca'][$columns[$key]]['rte'] = '1';
                     }
                 }
 
                 // Only add columns to elements if it is no inlinefield
                 if (!$inlineField) {
-                    $json[$type]["elements"][$content["elements"]["key"]]["columns"][$key] = "tx_mask_" . $columns[$key];
+                    $json[$type]['elements'][$content['elements']['key']]['columns'][$key] = 'tx_mask_' . $columns[$key];
                 }
-                $json[$type]["tca"]["tx_mask_" . $columns[$key]] = $json[$type]["tca"][$columns[$key]];
-                $json[$type]["tca"]["tx_mask_" . $columns[$key]]["key"] = $columns[$key];
+                $json[$type]['tca']['tx_mask_' . $columns[$key]] = $json[$type]['tca'][$columns[$key]];
+                $json[$type]['tca']['tx_mask_' . $columns[$key]]['key'] = $columns[$key];
 
                 if ($inlineField) {
-                    $json[$type]["tca"]["tx_mask_" . $columns[$key]]["order"] = $key;
+                    $json[$type]['tca']['tx_mask_' . $columns[$key]]['order'] = $key;
                 }
 
-                unset($json[$type]["tca"][$columns[$key]]);
+                unset($json[$type]['tca'][$columns[$key]]);
             }
         }
 
@@ -309,8 +309,8 @@ class StorageRepository
         $json = $this->load();
 
         // Remove
-        $columns = $json[$type]["elements"][$key]["columns"];
-        unset($json[$type]["elements"][$key]);
+        $columns = $json[$type]['elements'][$key]['columns'];
+        unset($json[$type]['elements'][$key]);
         if (is_array($columns)) {
             foreach ($columns as $field) {
                 $json = $this->removeField($type, $field, $json, $remainingFields);
@@ -330,7 +330,7 @@ class StorageRepository
     {
         // Load
         $json = $this->load();
-        $json[$type]["elements"][$key]["hidden"] = 1;
+        $json[$type]['elements'][$key]['hidden'] = 1;
         $this->sortJson($json);
         $this->write($json);
     }
@@ -345,7 +345,7 @@ class StorageRepository
     {
         // Load
         $json = $this->load();
-        unset($json[$type]["elements"][$key]["hidden"]);
+        unset($json[$type]['elements'][$key]['hidden']);
         $this->sortJson($json);
         $this->write($json);
     }
@@ -367,10 +367,10 @@ class StorageRepository
 
         // check if this field is used in any other elements
         $elementsInUse = array();
-        if ($json[$table]["elements"]) {
-            foreach ($json[$table]["elements"] as $element) {
-                if ($element["columns"]) {
-                    foreach ($element["columns"] as $column) {
+        if ($json[$table]['elements']) {
+            foreach ($json[$table]['elements'] as $element) {
+                if ($element['columns']) {
+                    foreach ($element['columns'] as $column) {
                         if ($column == $field) {
                             $elementsInUse[] = $element;
                         }
@@ -384,7 +384,7 @@ class StorageRepository
         $fatherFound = false;
         if ($remainingFields) {
             foreach ($remainingFields as $remainingField) {
-                if ($field == "tx_mask_" . $remainingField) {
+                if ($field == 'tx_mask_' . $remainingField) {
                     $fatherFound = true;
                 }
             }
@@ -392,7 +392,7 @@ class StorageRepository
         $fatherGetsDeleted = !$fatherFound;
 
         // if the field is a repeating field, make some exceptions
-        if ($json[$table]["tca"][$field]["config"]["type"] == "inline") {
+        if ($json[$table]['tca'][$field]['config']['type'] == 'inline') {
             $inlineFields = $this->loadInlineFields($field);
             if ($inlineFields) {
                 // Recursively delete all inline-fields if necessary
@@ -401,19 +401,19 @@ class StorageRepository
                     // check if the fields are really deleted, or if they are just deleted temporarly for update action
                     if ($remainingFields) {
                         foreach ($remainingFields as $remainingField) {
-                            if ($inlineField["key"] == $remainingField) {
+                            if ($inlineField['key'] == $remainingField) {
                                 $found = true;
                             }
                         }
                     }
                     if ($found) {
                         // was not really deleted => can be deleted temporarly because it will be readded
-                        $json = $this->removeField($inlineField["inlineParent"], "tx_mask_" . $inlineField["key"],
+                        $json = $this->removeField($inlineField['inlineParent'], 'tx_mask_' . $inlineField['key'],
                             $json);
                     } else {
                         // was really deleted and can only be deleted if father is not in use in another element
                         if (($fatherGetsDeleted && count($elementsInUse) == 0) || !$fatherGetsDeleted) {
-                            $json = $this->removeField($inlineField["inlineParent"], "tx_mask_" . $inlineField["key"],
+                            $json = $this->removeField($inlineField['inlineParent'], 'tx_mask_' . $inlineField['key'],
                                 $json);
                         }
                     }
@@ -423,13 +423,13 @@ class StorageRepository
 
         // then delete the field, if it is not in use in another element
         if (count($elementsInUse) < 1) {
-            unset($json[$table]["tca"][$field]);
-            unset($json[$table]["sql"][$field]);
+            unset($json[$table]['tca'][$field]);
+            unset($json[$table]['sql'][$field]);
 
             // If field is of type file, also delete entry in sys_file_reference
-            if ($this->fieldHelper->getFormType($field) == "File") {
-                unset($json["sys_file_reference"]["sql"][$field]);
-                $json = $this->cleanTable("sys_file_reference", $json);
+            if ($this->fieldHelper->getFormType($field) == 'File') {
+                unset($json['sys_file_reference']['sql'][$field]);
+                $json = $this->cleanTable('sys_file_reference', $json);
             }
         }
         return $this->cleanTable($table, $json);
@@ -445,11 +445,11 @@ class StorageRepository
      */
     private function cleanTable($table, $json)
     {
-        if ($json[$table]["tca"] && count($json[$table]["tca"]) < 1) {
-            unset($json[$table]["tca"]);
+        if ($json[$table]['tca'] && count($json[$table]['tca']) < 1) {
+            unset($json[$table]['tca']);
         }
-        if ($json[$table]["sql"] && count($json[$table]["sql"]) < 1) {
-            unset($json[$table]["sql"]);
+        if ($json[$table]['sql'] && count($json[$table]['sql']) < 1) {
+            unset($json[$table]['sql']);
         }
         if ($json[$table] && count($json[$table]) < 1) {
             unset($json[$table]);
@@ -464,7 +464,7 @@ class StorageRepository
      */
     public function update($content)
     {
-        $this->remove($content["type"], $content["orgkey"], $content["elements"]["columns"]);
+        $this->remove($content['type'], $content['orgkey'], $content['elements']['columns']);
         $this->add($content);
     }
 

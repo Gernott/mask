@@ -120,17 +120,17 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
     {
         $sql_content = array();
         $types = array_keys($json);
-        $nonIrreTables = array("pages", "tt_content");
+        $nonIrreTables = array('pages', 'tt_content');
         $fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
 
         // Generate SQL-Statements
         if ($types) {
             foreach ($types as $type) {
-                if ($json[$type]["sql"]) {
+                if ($json[$type]['sql']) {
 
                     // If type/table is an irre table, then create table for it
                     if (array_search($type, $nonIrreTables) === false) {
-                        $sql_content[] = "CREATE TABLE " . $type . " (
+                        $sql_content[] = 'CREATE TABLE ' . $type . " (
 
 							 uid int(11) NOT NULL auto_increment,
 							 pid int(11) DEFAULT '0' NOT NULL,
@@ -170,17 +170,17 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
 						 );\n";
                     }
 
-                    foreach ($json[$type]["sql"] as $field) {
+                    foreach ($json[$type]['sql'] as $field) {
                         if ($field) {
                             foreach ($field as $table => $fields) {
                                 if ($fields) {
                                     foreach ($fields as $field => $definition) {
-                                        $sql_content[] = "CREATE TABLE " . $table . " (\n\t" . $field . " " . $definition . "\n);\n";
+                                        $sql_content[] = 'CREATE TABLE ' . $table . " (\n\t" . $field . ' ' . $definition . "\n);\n";
 
                                         // if this field is a content field, also add parent columns
-                                        $fieldType = $fieldHelper->getFormType($field, "", $table);
-                                        if ($fieldType == "Content") {
-                                            $sql_content[] = "CREATE TABLE tt_content (\n\t" . $field . "_parent" . " " . $definition . ",\n\t" . "KEY " . $field . " (" . $field . "_parent,pid,deleted)" . "\n);\n";
+                                        $fieldType = $fieldHelper->getFormType($field, '', $table);
+                                        if ($fieldType == 'Content') {
+                                            $sql_content[] = "CREATE TABLE tt_content (\n\t" . $field . '_parent' . ' ' . $definition . ",\n\t" . 'KEY ' . $field . ' (' . $field . '_parent,pid,deleted)' . "\n);\n";
                                         }
                                     }
                                 }

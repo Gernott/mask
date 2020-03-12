@@ -74,10 +74,10 @@ class BackendLayoutRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             $pageTsConfig = (array)\TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig($pid);
             $dataProviderContext = $this->backendLayoutView->createDataProviderContext()->setPageTsConfig($pageTsConfig);
             $backendLayoutCollections = $this->backendLayoutView->getDataProviderCollection()->getBackendLayoutCollections($dataProviderContext);
-            foreach ($backendLayoutCollections["default"]->getAll() as $backendLayout) {
+            foreach ($backendLayoutCollections['default']->getAll() as $backendLayout) {
                 $backendLayouts[$backendLayout->getIdentifier()] = $backendLayout;
             }
-            foreach ($backendLayoutCollections["pagets"]->getAll() as $backendLayout) {
+            foreach ($backendLayoutCollections['pagets']->getAll() as $backendLayout) {
                 $backendLayouts[$backendLayout->getIdentifier()] = $backendLayout;
             }
         }
@@ -86,7 +86,7 @@ class BackendLayoutRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $databaseBackendLayouts = parent::findAll();
         foreach ($databaseBackendLayouts as $layout) {
             $backendLayout = new \TYPO3\CMS\Backend\View\BackendLayout\BackendLayout($layout->getUid(),
-                $layout->getTitle(), "");
+                $layout->getTitle(), '');
             if ($layout->getIcon()) {
                 $backendLayout->setIconPath('/uploads/media/' . $layout->getIcon());
             }
@@ -118,11 +118,11 @@ class BackendLayoutRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $data = $statement->fetch(FetchMode::ASSOCIATIVE);
         $statement->closeCursor();
 
-        $backend_layout = $data["backend_layout"];
-        $backend_layout_next_level = $data["backend_layout_next_level"];
-        if ($backend_layout !== "") { // If backend_layout is set on current page
+        $backend_layout = $data['backend_layout'];
+        $backend_layout_next_level = $data['backend_layout_next_level'];
+        if ($backend_layout !== '') { // If backend_layout is set on current page
             return $backend_layout;
-        } elseif ($backend_layout_next_level !== "") { // If backend_layout_next_level is set on current page
+        } elseif ($backend_layout_next_level !== '') { // If backend_layout_next_level is set on current page
             return $backend_layout_next_level;
         } else { // If backend_layout and backend_layout_next_level is not set on current page, check backend_layout_next_level on rootline
             $sysPage = GeneralUtility::makeInstance(PageRepository::class);
@@ -132,8 +132,8 @@ class BackendLayoutRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                 $rootline = [];
             }
             foreach ($rootline as $page) {
-                if ($page["backend_layout_next_level"] !== "") {
-                    return $page["backend_layout_next_level"];
+                if ($page['backend_layout_next_level'] !== '') {
+                    return $page['backend_layout_next_level'];
                 }
             }
         }

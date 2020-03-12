@@ -66,12 +66,12 @@ class GeneralUtility
      * @return boolean $evalValue is set
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    public function isEvalValueSet($fieldKey, $evalValue, $type = "tt_content")
+    public function isEvalValueSet($fieldKey, $evalValue, $type = 'tt_content')
     {
         $storage = $this->storageRepository->load();
         $found = false;
-        if ($storage[$type]["tca"][$fieldKey]["config"]["eval"] != "") {
-            $evals = explode(",", $storage[$type]["tca"][$fieldKey]["config"]["eval"]);
+        if ($storage[$type]['tca'][$fieldKey]['config']['eval'] != '') {
+            $evals = explode(',', $storage[$type]['tca'][$fieldKey]['config']['eval']);
             foreach ($evals as $index => $eval) {
                 $evals[$index] = strtolower($eval);
             }
@@ -88,14 +88,14 @@ class GeneralUtility
      * @return string $rte_transform
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    public function getRteTransformMode($fieldKey, $type = "tt_content")
+    public function getRteTransformMode($fieldKey, $type = 'tt_content')
     {
         $storage = $this->storageRepository->load();
-        $transformMode = "";
+        $transformMode = '';
         $matches = array();
-        if ($storage[$type]["tca"][$fieldKey]["defaultExtras"] != "") {
+        if ($storage[$type]['tca'][$fieldKey]['defaultExtras'] != '') {
             $re = "/(rte_transform\\[([a-z=_]+)\\])/";
-            preg_match($re, $storage[$type]["tca"][$fieldKey]["defaultExtras"], $matches);
+            preg_match($re, $storage[$type]['tca'][$fieldKey]['defaultExtras'], $matches);
             $transformMode = end($matches);
         }
         return $transformMode;
@@ -178,7 +178,7 @@ class GeneralUtility
      * @return array
      * @author Gernot Ploiner <gp@webprofil.at>
      */
-    public function replaceKey($data, $replace_key, $key = "--key--")
+    public function replaceKey($data, $replace_key, $key = '--key--')
     {
         foreach ($data as $elem_key => $elem) {
             if (is_array($elem)) {
@@ -201,14 +201,14 @@ class GeneralUtility
     {
         if (count($fields)) {
             $potentialFirst = $fields[0];
-            if (strpos($potentialFirst, "--div--") !== false) {
+            if (strpos($potentialFirst, '--div--') !== false) {
                 unset($fields[0]);
                 return $this->getFirstNoneTabField($fields);
             } else {
                 return $potentialFirst;
             }
         } else {
-            return "";
+            return '';
         }
     }
 

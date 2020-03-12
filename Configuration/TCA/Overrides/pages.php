@@ -8,9 +8,9 @@ if (!empty($configuration) && array_key_exists('pages', $configuration)) {
     $tcaCodeGenerator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\CodeGenerator\\TcaCodeGenerator');
 
     // Generate TCA for Pages
-    $pagesColumns = $tcaCodeGenerator->generateFieldsTca($configuration["pages"]["tca"]);
+    $pagesColumns = $tcaCodeGenerator->generateFieldsTca($configuration['pages']['tca']);
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('pages', $pagesColumns);
-    $tcaCodeGenerator->setPageTca($configuration["pages"]["tca"]);
+    $tcaCodeGenerator->setPageTca($configuration['pages']['tca']);
 
     // Generate TCA for Inline-Fields
     $tcaCodeGenerator->setInlineTca($configuration);

@@ -32,7 +32,7 @@ $EM_CONF[$_EXTKEY] = [
         [
             'psr-4' =>
                 [
-                    "MASK\\Mask\\" => "Classes/"
+                    "MASK\\Mask\\" => 'Classes/'
                 ]
         ]
 ];

@@ -37,7 +37,7 @@ class MaskProcessor implements DataProcessorInterface
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         $this->inlineHelper = $objectManager->get(InlineHelper::class);
 
-        $this->inlineHelper->addFilesToData($processedData['data'], "tt_content");
+        $this->inlineHelper->addFilesToData($processedData['data'], 'tt_content');
         $this->inlineHelper->addIrreToData($processedData['data']);
         return $processedData;
     }

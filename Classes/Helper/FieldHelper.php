@@ -61,15 +61,15 @@ class FieldHelper
      * @return array elements in use
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    public function getElementsWhichUseField($key, $type = "tt_content")
+    public function getElementsWhichUseField($key, $type = 'tt_content')
     {
         $storage = $this->storageRepository->load();
 
         $elementsInUse = array();
-        if ($storage[$type]["elements"]) {
-            foreach ($storage[$type]["elements"] as $element) {
-                if ($element["columns"]) {
-                    foreach ($element["columns"] as $column) {
+        if ($storage[$type]['elements']) {
+            foreach ($storage[$type]['elements'] as $element) {
+                if ($element['columns']) {
+                    foreach ($element['columns'] as $column) {
                         if ($column == $key) {
                             $elementsInUse[] = $element;
                         }
@@ -89,21 +89,21 @@ class FieldHelper
      * @return string Label
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    public function getLabel($elementKey, $fieldKey, $type = "tt_content")
+    public function getLabel($elementKey, $fieldKey, $type = 'tt_content')
     {
         $storage = $this->storageRepository->load();
         $fieldIndex = -1;
-        if ($storage[$type]["elements"][$elementKey]["columns"] && count($storage[$type]["elements"][$elementKey]["columns"]) > 0) {
-            foreach ($storage[$type]["elements"][$elementKey]["columns"] as $index => $column) {
+        if ($storage[$type]['elements'][$elementKey]['columns'] && count($storage[$type]['elements'][$elementKey]['columns']) > 0) {
+            foreach ($storage[$type]['elements'][$elementKey]['columns'] as $index => $column) {
                 if ($column == $fieldKey) {
                     $fieldIndex = $index;
                 }
             }
         }
         if ($fieldIndex >= 0) {
-            $label = $storage[$type]["elements"][$elementKey]["labels"][$fieldIndex];
+            $label = $storage[$type]['elements'][$elementKey]['labels'][$fieldIndex];
         } else {
-            $label = "";
+            $label = '';
         }
         return $label;
     }
@@ -117,9 +117,9 @@ class FieldHelper
      * @return string formType
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    public function getFormType($fieldKey, $elementKey = "", $type = "tt_content")
+    public function getFormType($fieldKey, $elementKey = '', $type = 'tt_content')
     {
-        $formType = "String";
+        $formType = 'String';
 
         // Load element and TCA of field
         if ($elementKey) {
@@ -127,62 +127,62 @@ class FieldHelper
         }
 
         // load tca for field from $GLOBALS
-        $tca = $GLOBALS["TCA"][$type]["columns"][$fieldKey];
-        if (!$tca["config"]) {
-            $tca = $GLOBALS["TCA"][$type]["columns"]["tx_mask_" . $fieldKey];
+        $tca = $GLOBALS['TCA'][$type]['columns'][$fieldKey];
+        if (!$tca['config']) {
+            $tca = $GLOBALS['TCA'][$type]['columns']['tx_mask_' . $fieldKey];
         }
-        if (!$tca["config"]) {
-            $tca = $element["tca"][$fieldKey];
+        if (!$tca['config']) {
+            $tca = $element['tca'][$fieldKey];
         }
 
         // if field is in inline table or $GLOBALS["TCA"] is not yet filled, load tca from json
-        if (!in_array($type, array("tt_content", "pages")) || $tca == null) {
+        if (!in_array($type, array('tt_content', 'pages')) || $tca == null) {
             $tca = $this->storageRepository->loadField($type, $fieldKey);
-            if (!$tca["config"]) {
-                $tca = $this->storageRepository->loadField($type, "tx_mask_" . $fieldKey);
+            if (!$tca['config']) {
+                $tca = $this->storageRepository->loadField($type, 'tx_mask_' . $fieldKey);
             }
         }
 
-        $tcaType = $tca["config"]["type"];
-        $evals = explode(",", $tca["config"]["eval"]);
+        $tcaType = $tca['config']['type'];
+        $evals = explode(',', $tca['config']['eval']);
 
-        if ($tca["options"] == "file") {
-            $formType = "File";
+        if ($tca['options'] == 'file') {
+            $formType = 'File';
         }
 
         // And decide via different tca settings which formType it is
         switch ($tcaType) {
-            case "input":
-                $formType = "String";
-                if (array_search(strtolower("int"), $evals) !== false) {
-                    $formType = "Integer";
+            case 'input':
+                $formType = 'String';
+                if (array_search(strtolower('int'), $evals) !== false) {
+                    $formType = 'Integer';
                 } else {
-                    if (array_search(strtolower("double2"), $evals) !== false) {
-                        $formType = "Float";
+                    if (array_search(strtolower('double2'), $evals) !== false) {
+                        $formType = 'Float';
                     } else {
-                        if (array_search(strtolower("date"), $evals) !== false) {
-                            $formType = "Date";
+                        if (array_search(strtolower('date'), $evals) !== false) {
+                            $formType = 'Date';
                         } else {
-                            if (array_search(strtolower("datetime"), $evals) !== false) {
-                                $formType = "Datetime";
+                            if (array_search(strtolower('datetime'), $evals) !== false) {
+                                $formType = 'Datetime';
                             } else {
-                                if (isset($tca["config"]["renderType"]) && $tca["config"]["renderType"] === "inputLink") {
-                                    $formType = "Link";
+                                if (isset($tca['config']['renderType']) && $tca['config']['renderType'] === 'inputLink') {
+                                    $formType = 'Link';
                                 } else {
-                                    $formType = "String";
+                                    $formType = 'String';
                                 }
                             }
                         }
                     }
                 }
                 break;
-            case "text":
-                $formType = "Text";
-                if (in_array($type, array("tt_content", "pages"))) {
+            case 'text':
+                $formType = 'Text';
+                if (in_array($type, array('tt_content', 'pages'))) {
                     if ($elementKey) {
                         $fieldNumberKey = -1;
-                        if (is_array($element["columns"])) {
-                            foreach ($element["columns"] as $numberKey => $column) {
+                        if (is_array($element['columns'])) {
+                            foreach ($element['columns'] as $numberKey => $column) {
                                 if ($column == $fieldKey) {
                                     $fieldNumberKey = $numberKey;
                                 }
@@ -190,57 +190,57 @@ class FieldHelper
                         }
 
                         if ($fieldNumberKey >= 0) {
-                            $option = $element["options"][$fieldNumberKey];
-                            if ($option == "rte") {
-                                $formType = "Richtext";
+                            $option = $element['options'][$fieldNumberKey];
+                            if ($option == 'rte') {
+                                $formType = 'Richtext';
                             } else {
-                                $formType = "Text";
+                                $formType = 'Text';
                             }
                         }
                     } else {
-                        $formType = "Text";
+                        $formType = 'Text';
                     }
                 } else {
-                    if ($tca["rte"]) {
-                        $formType = "Richtext";
+                    if ($tca['rte']) {
+                        $formType = 'Richtext';
                     } else {
-                        $formType = "Text";
+                        $formType = 'Text';
                     }
                 }
                 break;
-            case "check":
-                $formType = "Check";
+            case 'check':
+                $formType = 'Check';
                 break;
-            case "radio":
-                $formType = "Radio";
+            case 'radio':
+                $formType = 'Radio';
                 break;
-            case "select":
-                $formType = "Select";
+            case 'select':
+                $formType = 'Select';
                 break;
-            case "group":
+            case 'group':
                 break;
-            case "none":
+            case 'none':
                 break;
-            case "passthrough":
+            case 'passthrough':
                 break;
-            case "user":
+            case 'user':
                 break;
-            case "flex":
+            case 'flex':
                 break;
-            case "inline":
-                $formType = "Inline";
-                if ($tca["config"]["foreign_table"] == "sys_file_reference") {
-                    $formType = "File";
+            case 'inline':
+                $formType = 'Inline';
+                if ($tca['config']['foreign_table'] == 'sys_file_reference') {
+                    $formType = 'File';
                 } else {
-                    if ($tca["config"]["foreign_table"] == "tt_content") {
-                        $formType = "Content";
+                    if ($tca['config']['foreign_table'] == 'tt_content') {
+                        $formType = 'Content';
                     } else {
-                        $formType = "Inline";
+                        $formType = 'Inline';
                     }
                 }
                 break;
-            case "tab":
-                $formType = "Tab";
+            case 'tab':
+                $formType = 'Tab';
                 break;
             default:
                 break;
@@ -257,7 +257,7 @@ class FieldHelper
      * @return string $excludeInlineFields only search in tt_content and pages
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    public function getFieldType($fieldKey, $elementKey = "", $excludeInlineFields = false)
+    public function getFieldType($fieldKey, $elementKey = '', $excludeInlineFields = false)
     {
         $storage = $this->storageRepository->load();
 
@@ -267,21 +267,21 @@ class FieldHelper
         } else {
             $types = array();
         }
-        $types[] = "pages";
-        $types[] = "tt_content";
+        $types[] = 'pages';
+        $types[] = 'tt_content';
         $types = array_unique($types);
 
-        $fieldType = "";
+        $fieldType = '';
         $found = false;
         foreach ($types as $type) {
-            if ($storage[$type]["elements"] && !$found) {
-                foreach ($storage[$type]["elements"] as $element) {
+            if ($storage[$type]['elements'] && !$found) {
+                foreach ($storage[$type]['elements'] as $element) {
 
                     // if this is the element we search for, or no special element was given,
                     // and the element has columns and the fieldType wasn't found yet
-                    if (($element["key"] == $elementKey || $elementKey == "") && $element["columns"] && !$found) {
+                    if (($element['key'] == $elementKey || $elementKey == '') && $element['columns'] && !$found) {
 
-                        foreach ($element["columns"] as $column) {
+                        foreach ($element['columns'] as $column) {
                             if ($column == $fieldKey && !$found) {
                                 $fieldType = $type;
                                 $found = true;
@@ -290,7 +290,7 @@ class FieldHelper
                     }
                 }
             } else {
-                if (is_array($storage[$type]["tca"][$fieldKey])) {
+                if (is_array($storage[$type]['tca'][$fieldKey])) {
                     $fieldType = $type;
                     $found = true;
                 }

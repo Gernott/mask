@@ -98,7 +98,7 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
         $this->extSettings = $this->settingsService->get();
 
         // only render special backend preview if it is a mask element
-        if (substr($row['CType'], 0, 4) === "mask") {
+        if (substr($row['CType'], 0, 4) === 'mask') {
             $elementKey = substr($row['CType'], 5);
 
             # fallback to prevent breaking change
@@ -120,25 +120,25 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
                 $view->setTemplatePathAndFilename($templatePathAndFilename);
 
                 // if there are paths for layouts and partials set, add them to view
-                if (!empty($this->extSettings["layouts_backend"])) {
-                    $layoutRootPath = MaskUtility::getFileAbsFileName($this->extSettings["layouts_backend"]);
+                if (!empty($this->extSettings['layouts_backend'])) {
+                    $layoutRootPath = MaskUtility::getFileAbsFileName($this->extSettings['layouts_backend']);
                     $view->setLayoutRootPaths(array($layoutRootPath));
                 }
-                if (!empty($this->extSettings["partials_backend"])) {
-                    $partialRootPath = MaskUtility::getFileAbsFileName($this->extSettings["partials_backend"]);
+                if (!empty($this->extSettings['partials_backend'])) {
+                    $partialRootPath = MaskUtility::getFileAbsFileName($this->extSettings['partials_backend']);
                     $view->setPartialRootPaths(array($partialRootPath));
                 }
 
                 // Fetch and assign some useful variables
-                $data = $this->getContentObject($row["uid"]);
-                $element = $this->storageRepository->loadElement("tt_content", $elementKey);
-                $view->assign("row", $row);
-                $view->assign("data", $data);
+                $data = $this->getContentObject($row['uid']);
+                $element = $this->storageRepository->loadElement('tt_content', $elementKey);
+                $view->assign('row', $row);
+                $view->assign('data', $data);
 
                 // if the elementLabel contains LLL: then translate it
-                $elementLabel = $element["label"];
+                $elementLabel = $element['label'];
                 if (GeneralUtility::isFirstPartOfStr($elementLabel, 'LLL:')) {
-                    $elementLabel = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($elementLabel, "mask");
+                    $elementLabel = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($elementLabel, 'mask');
                 }
 
                 // Render everything

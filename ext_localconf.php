@@ -15,21 +15,21 @@ $settings = $settingsService->get();
 // Register Icons needed in the backend module
 $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance("TYPO3\CMS\Core\Imaging\IconRegistry");
 $maskIcons = array(
-    "Check",
-    "Date",
-    "Datetime",
-    "File",
-    "Float",
-    "Inline",
-    "Integer",
-    "Link",
-    "Radio",
-    "Richtext",
-    "Select",
-    "String",
-    "Tab",
-    "Text",
-    "Content"
+    'Check',
+    'Date',
+    'Datetime',
+    'File',
+    'Float',
+    'Inline',
+    'Integer',
+    'Link',
+    'Radio',
+    'Richtext',
+    'Select',
+    'String',
+    'Tab',
+    'Text',
+    'Content'
 );
 foreach ($maskIcons as $maskIcon) {
     $iconRegistry->registerIcon(
@@ -55,18 +55,18 @@ if (!function_exists('user_mask_beLayout')) {
     function user_mask_beLayout($layout = null)
     {
         // get current page uid:
-        if (is_array($_REQUEST["data"]["pages"])) { // after saving page
-            $uid = intval(key($_REQUEST["data"]["pages"]));
-        } elseif ($GLOBALS["SOBE"]->editconf["pages"]) { // after opening pages
-            $uid = intval(key($GLOBALS["SOBE"]->editconf["pages"]));
+        if (is_array($_REQUEST['data']['pages'])) { // after saving page
+            $uid = intval(key($_REQUEST['data']['pages']));
+        } elseif ($GLOBALS['SOBE']->editconf['pages']) { // after opening pages
+            $uid = intval(key($GLOBALS['SOBE']->editconf['pages']));
         } else {
-            if ($GLOBALS["_SERVER"]["HTTP_REFERER"] != "") {
-                $url = $GLOBALS["_SERVER"]["HTTP_REFERER"];
+            if ($GLOBALS['_SERVER']['HTTP_REFERER'] != '') {
+                $url = $GLOBALS['_SERVER']['HTTP_REFERER'];
                 $queryString = parse_url($url, PHP_URL_QUERY);
                 $result = array();
                 parse_str($queryString, $result);
-                if ($result["id"]) {
-                    $uid = (int)$result["id"];
+                if ($result['id']) {
+                    $uid = (int)$result['id'];
                 }
             }
         }
@@ -84,19 +84,19 @@ if (!function_exists('user_mask_beLayout')) {
                 ->execute()
                 ->fetch(\Doctrine\DBAL\FetchMode::ASSOCIATIVE);
 
-            $backend_layout = $data["backend_layout"];
-            $backend_layout_next_level = $data["backend_layout_next_level"];
+            $backend_layout = $data['backend_layout'];
+            $backend_layout_next_level = $data['backend_layout_next_level'];
 
-            if ($backend_layout !== "") { // If backend_layout is set on current page
+            if ($backend_layout !== '') { // If backend_layout is set on current page
                 if (in_array($backend_layout,
-                    [$layout, "pagets__" . $layout])) { // Check backend_layout of current page
+                    [$layout, 'pagets__' . $layout])) { // Check backend_layout of current page
                     return true;
                 } else {
                     return false;
                 }
-            } elseif ($backend_layout_next_level !== "") { // If backend_layout_next_level is set on current page
+            } elseif ($backend_layout_next_level !== '') { // If backend_layout_next_level is set on current page
                 if (in_array($backend_layout_next_level,
-                    [$layout, "pagets__" . $layout])) { // Check backend_layout_next_level of current page
+                    [$layout, 'pagets__' . $layout])) { // Check backend_layout_next_level of current page
                     return true;
                 } else {
                     return false;
@@ -110,7 +110,7 @@ if (!function_exists('user_mask_beLayout')) {
                     $rootline = [];
                 }
                 foreach ($rootline as $page) {
-                    if (in_array($page["backend_layout_next_level"], [$layout, "pagets__" . $layout])) {
+                    if (in_array($page['backend_layout_next_level'], [$layout, 'pagets__' . $layout])) {
                         return true;
                     }
                 }
@@ -124,15 +124,15 @@ if (!function_exists('user_mask_beLayout')) {
 
 // set root line fields
 if ($json['pages']['tca']) {
-    $rootlineFields = explode(",", $GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields']);
+    $rootlineFields = explode(',', $GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields']);
     foreach ($json['pages']['tca'] as $fieldKey => $value) {
-        $formType = $fieldHelper->getFormType($fieldKey, "", "pages");
-        if ($formType !== "Tab") {
+        $formType = $fieldHelper->getFormType($fieldKey, '', 'pages');
+        if ($formType !== 'Tab') {
             // Add addRootLineFields for all page fields
             $rootlineFields[] = $fieldKey;
         }
     }
-    $GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields'] = implode(",", $rootlineFields);
+    $GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields'] = implode(',', $rootlineFields);
 }
 
 // SQL inject:

@@ -81,7 +81,7 @@ class ContentElementIconProvider implements IconProviderInterface
         $this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
         $this->settingsService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Service\\SettingsService');
         $this->extSettings = $this->settingsService->get();
-        $this->contentElement = $this->storageRepository->loadElement("tt_content", $options["contentElementKey"]);
+        $this->contentElement = $this->storageRepository->loadElement('tt_content', $options['contentElementKey']);
         $icon->setMarkup($this->generateMarkup($icon, $options));
     }
 
@@ -105,10 +105,10 @@ class ContentElementIconProvider implements IconProviderInterface
 
             $color = $this->getColor($this->contentElement);
             if ($color) {
-                $styles[] = "color: #" . $color;
+                $styles[] = 'color: #' . $color;
             }
             if (count($styles)) {
-                $markup = '<span class="icon-unify" style="' . implode("; ",
+                $markup = '<span class="icon-unify" style="' . implode('; ',
                         $styles) . '"><i class="fa fa-' . htmlspecialchars($this->getFontAwesomeKey($this->contentElement)) . '"></i></span>';
             } else {
                 $markup = '<span class="icon-unify" ><i class="fa fa-' . htmlspecialchars($this->getFontAwesomeKey($this->contentElement)) . '"></i></span>';
@@ -116,15 +116,15 @@ class ContentElementIconProvider implements IconProviderInterface
         } else {
             if ($previewIconAvailable) {
                 $markup = '<img src="' . PathUtility::getAbsoluteWebPath(PATH_site . ltrim($this->getPreviewIconPath($options['contentElementKey']),
-                            '/')) . '" alt="' . $this->contentElement["label"] . '" title="' . $this->contentElement["label"] . '"/>';
+                            '/')) . '" alt="' . $this->contentElement['label'] . '" title="' . $this->contentElement['label'] . '"/>';
             } else {
                 $color = $this->getColor($this->contentElement);
                 if ($color) {
-                    $styles[] = "background-color: #" . $color;
+                    $styles[] = 'background-color: #' . $color;
                 }
-                $styles[] = "color: #fff";
-                $markup = '<span class="icon-unify mask-default-icon" style="' . implode("; ",
-                        $styles) . '">' . mb_substr($this->contentElement["label"], 0, 1) . '</span>';
+                $styles[] = 'color: #fff';
+                $markup = '<span class="icon-unify mask-default-icon" style="' . implode('; ',
+                        $styles) . '">' . mb_substr($this->contentElement['label'], 0, 1) . '</span>';
             }
         }
 
@@ -155,7 +155,7 @@ class ContentElementIconProvider implements IconProviderInterface
      */
     protected function isFontAwesomeKeyAvailable($element)
     {
-        return trim($element["icon"]) != "";
+        return trim($element['icon']) != '';
     }
 
     /**
@@ -165,7 +165,7 @@ class ContentElementIconProvider implements IconProviderInterface
      */
     protected function getPreviewIconPath($key)
     {
-        return $this->extSettings["preview"] . $key . '.png';
+        return $this->extSettings['preview'] . $key . '.png';
     }
 
     /**
@@ -176,7 +176,7 @@ class ContentElementIconProvider implements IconProviderInterface
      */
     protected function getFontAwesomeKey($element)
     {
-        return trim(str_replace("fa-", "", $element["icon"]));
+        return trim(str_replace('fa-', '', $element['icon']));
     }
 
     /**
@@ -187,6 +187,6 @@ class ContentElementIconProvider implements IconProviderInterface
      */
     protected function getColor($element)
     {
-        return trim(str_replace("#", "", $element["color"]));
+        return trim(str_replace('#', '', $element['color']));
     }
 }

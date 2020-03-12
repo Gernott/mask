@@ -89,8 +89,8 @@ class WizardContentController extends WizardController
     {
         $this->storageRepository->add($storage);
         $this->generateAction();
-        $html = $this->htmlCodeGenerator->generateHtml($storage["elements"]["key"], 'tt_content');
-        $this->saveHtml($storage["elements"]["key"], $html);
+        $html = $this->htmlCodeGenerator->generateHtml($storage['elements']['key'], 'tt_content');
+        $this->saveHtml($storage['elements']['key'], $html);
         $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.newcontentelement',
             'mask'));
         $this->redirectByAction();
@@ -123,8 +123,8 @@ class WizardContentController extends WizardController
     {
         $this->storageRepository->update($storage);
         $this->generateAction();
-        $html = $this->htmlCodeGenerator->generateHtml($storage["elements"]["key"], 'tt_content');
-        $this->saveHtml($storage["elements"]["key"], $html);
+        $html = $this->htmlCodeGenerator->generateHtml($storage['elements']['key'], 'tt_content');
+        $this->saveHtml($storage['elements']['key'], $html);
         $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.updatedcontentelement',
             'mask'));
         $this->redirectByAction();
@@ -171,7 +171,7 @@ class WizardContentController extends WizardController
      */
     public function hideAction($key)
     {
-        $this->storageRepository->hide("tt_content", $key);
+        $this->storageRepository->hide('tt_content', $key);
         $this->generateAction();
         $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.hiddencontentelement',
             'mask'));
@@ -186,7 +186,7 @@ class WizardContentController extends WizardController
      */
     public function activateAction($key)
     {
-        $this->storageRepository->activate("tt_content", $key);
+        $this->storageRepository->activate('tt_content', $key);
         $this->generateAction();
         $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.content.activatedcontentelement',
             'mask'));

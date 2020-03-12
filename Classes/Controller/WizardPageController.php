@@ -52,7 +52,7 @@ class WizardPageController extends \MASK\Mask\Controller\WizardController
     public function listAction()
     {
         $settings = $this->settingsService->get();
-        $backendLayouts = $this->backendLayoutRepository->findAll(explode(",", $settings['backendlayout_pids']));
+        $backendLayouts = $this->backendLayoutRepository->findAll(explode(',', $settings['backendlayout_pids']));
         $this->view->assign('backendLayouts', $backendLayouts);
     }
 
@@ -64,7 +64,7 @@ class WizardPageController extends \MASK\Mask\Controller\WizardController
     public function newAction()
     {
         $settings = $this->settingsService->get();
-        $backendLayouts = $this->backendLayoutRepository->findAll(explode(",", $settings['backendlayout_pids']));
+        $backendLayouts = $this->backendLayoutRepository->findAll(explode(',', $settings['backendlayout_pids']));
         $this->view->assign('backendLayouts', $backendLayouts);
     }
 
@@ -92,10 +92,10 @@ class WizardPageController extends \MASK\Mask\Controller\WizardController
     {
         $settings = $this->settingsService->get();
         $layout = $this->backendLayoutRepository->findByIdentifier($layoutIdentifier,
-            explode(",", $settings['backendlayout_pids']));
+            explode(',', $settings['backendlayout_pids']));
 
         if ($layout) {
-            $storage = $this->storageRepository->loadElement("pages", $layoutIdentifier);
+            $storage = $this->storageRepository->loadElement('pages', $layoutIdentifier);
             $this->prepareStorage($storage);
             $this->view->assign('backendLayout', $layout);
             $this->view->assign('storage', $storage);

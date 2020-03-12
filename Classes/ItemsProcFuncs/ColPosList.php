@@ -40,9 +40,9 @@ class ColPosList extends AbstractList
     public function itemsProcFunc(&$params)
     {
         // if this tt_content element is inline element of mask
-        if ($params["row"]["colPos"] == $this->colPos) {
+        if ($params['row']['colPos'] == $this->colPos) {
             // only allow mask nested element column
-            $params["items"] = array(
+            $params['items'] = array(
                 array(
                     \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('mask_content_colpos', 'mask'),
                     $this->colPos,
@@ -53,8 +53,8 @@ class ColPosList extends AbstractList
         } else { // if it is not inline tt_content element
             // and if other itemsProcFunc from other extension was available (e.g. gridelements),
             // then call it now and let it render the items
-            if (!empty($params["config"]["m_itemsProcFunc"])) {
-                \TYPO3\CMS\Core\Utility\GeneralUtility::callUserFunction($params["config"]["m_itemsProcFunc"], $params,
+            if (!empty($params['config']['m_itemsProcFunc'])) {
+                \TYPO3\CMS\Core\Utility\GeneralUtility::callUserFunction($params['config']['m_itemsProcFunc'], $params,
                     $this);
             }
         }

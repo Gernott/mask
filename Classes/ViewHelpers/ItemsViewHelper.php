@@ -31,7 +31,7 @@ class ItemsViewHelper extends AbstractViewHelper
 
         if ($this->arguments['items']) {
             foreach ($this->arguments['items'] as $item) {
-                $itemArray[] = implode(",", $item);
+                $itemArray[] = implode(',', $item);
             }
         }
 

@@ -158,12 +158,12 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     protected function prepareStorage(&$storage)
     {
         // Fill storage with additional data before assigning to view
-        if ($storage["tca"]) {
-            foreach ($storage["tca"] as $key => $field) {
+        if ($storage['tca']) {
+            foreach ($storage['tca'] as $key => $field) {
                 if (is_array($field)) {
-                    if ($field["config"]["type"] == "inline") {
-                        $storage["tca"][$key]["inlineFields"] = $this->storageRepository->loadInlineFields($key);
-                        uasort($storage["tca"][$key]["inlineFields"], function ($columnA, $columnB) {
+                    if ($field['config']['type'] == 'inline') {
+                        $storage['tca'][$key]['inlineFields'] = $this->storageRepository->loadInlineFields($key);
+                        uasort($storage['tca'][$key]['inlineFields'], function ($columnA, $columnB) {
                             $a = isset($columnA['order']) ? (int)$columnA['order'] : 0;
                             $b = isset($columnB['order']) ? (int)$columnB['order'] : 0;
                             return $a - $b;
@@ -254,19 +254,19 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     protected function redirectByAction()
     {
         $params = $this->request->getArguments();
-        $formAction = $params["formAction"];
+        $formAction = $params['formAction'];
         $arguments = array();
-        if ($params["storage"]["type"] == "pages") {
-            $arguments["layoutIdentifier"] = $this->backendLayoutRepository->findByIdentifier($params["storage"]["elements"]["key"],
-                explode(",", $this->extSettings['backendlayout_pids']))->getIdentifier();
+        if ($params['storage']['type'] == 'pages') {
+            $arguments['layoutIdentifier'] = $this->backendLayoutRepository->findByIdentifier($params['storage']['elements']['key'],
+                explode(',', $this->extSettings['backendlayout_pids']))->getIdentifier();
         } else {
-            $arguments["key"] = $params["storage"]["elements"]["key"];
-            $arguments["type"] = $params["storage"]["type"];
+            $arguments['key'] = $params['storage']['elements']['key'];
+            $arguments['type'] = $params['storage']['type'];
         }
-        if (key_exists("save", $formAction)) {
+        if (key_exists('save', $formAction)) {
             $this->redirect('edit', null, null, $arguments);
         } else {
-            if (key_exists("saveAndExit", $formAction)) {
+            if (key_exists('saveAndExit', $formAction)) {
                 $this->redirect('list');
             }
         }
