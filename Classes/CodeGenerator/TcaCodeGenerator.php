@@ -294,6 +294,10 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                             \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($columns[$tcakey],
                                 $tcavalue);
                         }
+                        
+                        if (isset($columns[$tcakey]['rte'])){
+                            $columns[$tcakey]['config']['softref'] = 'rtehtmlarea_images,typolink_tag,images,email[subst],url';
+                        }
 
                         // Unset some values that are not needed in TCA
                         unset($columns[$tcakey]["options"]);
