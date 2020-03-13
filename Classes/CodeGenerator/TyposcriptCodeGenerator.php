@@ -112,7 +112,7 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
         if ($json['pages']['elements']) {
             foreach ($json['pages']['elements'] as $element) {
                 // Labels for pages
-                $pagesContent .= "\n[userFunc = user_mask_beLayout(" . $element['key'] . ")]\n";
+                $pagesContent .= "\n[userFunc = maskBeLayout(" . $element['key'] . ")]\n";
                 // if page has backendlayout with this element-key
                 if ($element['columns']) {
                     foreach ($element['columns'] as $index => $column) {
