@@ -179,13 +179,12 @@ class SqlCodeGenerator extends AbstractCodeGenerator
                         if ($field) {
                             foreach ($field as $table => $fields) {
                                 if ($fields) {
-                                    foreach ($fields as $field => $definition) {
-                                        $sql_content[] = 'CREATE TABLE ' . $table . " (\n\t" . $field . ' ' . $definition . "\n);\n";
-
+                                    foreach ($fields as $fieldKey => $definition) {
+                                        $sql_content[] = 'CREATE TABLE ' . $table . " (\n\t" . $fieldKey . ' ' . $definition . "\n);\n";
                                         // if this field is a content field, also add parent columns
-                                        $fieldType = $fieldHelper->getFormType($field, '', $table);
+                                        $fieldType = $fieldHelper->getFormType($fieldKey, '', $table);
                                         if ($fieldType === 'Content') {
-                                            $sql_content[] = "CREATE TABLE tt_content (\n\t" . $field . '_parent' . ' ' . $definition . ",\n\t" . 'KEY ' . $field . ' (' . $field . '_parent,pid,deleted)' . "\n);\n";
+                                            $sql_content[] = "CREATE TABLE tt_content (\n\t" . $fieldKey . '_parent' . ' ' . $definition . ",\n\t" . 'KEY ' . $fieldKey . ' (' . $fieldKey . '_parent,pid,deleted)' . "\n);\n";
                                         }
                                     }
                                 }
