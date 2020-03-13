@@ -141,8 +141,8 @@ class BackendLayoutRepository extends Repository
             $rootline = [];
         }
         foreach ($rootline as $page) {
-            if ($page["backend_layout_next_level"] !== "") {
-                return $page["backend_layout_next_level"];
+            if ($page['backend_layout_next_level'] !== '') {
+                return $page['backend_layout_next_level'];
             }
         }
         return null;

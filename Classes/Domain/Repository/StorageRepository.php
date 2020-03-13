@@ -405,12 +405,12 @@ class StorageRepository
                     }
                     if ($found) {
                         // was not really deleted => can be deleted temporarly because it will be readded
-                        $json = $this->removeField($inlineField["inlineParent"], "tx_mask_" . $inlineField["key"],
+                        $json = $this->removeField($inlineField['inlineParent'], 'tx_mask_' . $inlineField['key'],
                             $json);
                     } else {
                         // was really deleted and can only be deleted if father is not in use in another element
                         if (($fatherGetsDeleted && count($elementsInUse) == 0) || !$fatherGetsDeleted) {
-                            $json = $this->removeField($inlineField["inlineParent"], "tx_mask_" . $inlineField["key"],
+                            $json = $this->removeField($inlineField['inlineParent'], 'tx_mask_' . $inlineField['key'],
                                 $json);
                         }
                     }
