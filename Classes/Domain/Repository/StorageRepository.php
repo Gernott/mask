@@ -124,7 +124,6 @@ class StorageRepository
      * @param $type
      * @param $key
      * @return array
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function loadField($type, $key): array
     {
@@ -137,7 +136,6 @@ class StorageRepository
      *
      * @param string $parentKey key of the inline-field
      * @return array
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function loadInlineFields($parentKey): array
     {
@@ -355,7 +353,6 @@ class StorageRepository
      * @param array $json
      * @param array $remainingFields
      * @return array
-     * @author Benjamin Butschell <bb@webprofil.at>
      *
      */
     private function removeField($table, $field, $json, $remainingFields = []): array
@@ -437,7 +434,6 @@ class StorageRepository
      * @param string $table
      * @param array $json
      * @return array
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     private function cleanTable($table, $json): array
     {

@@ -63,7 +63,6 @@ class FieldHelper
      * @param string $key TCA Type
      * @param string $type elementtype
      * @return array elements in use
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function getElementsWhichUseField($key, $type = 'tt_content'): array
     {
@@ -91,7 +90,6 @@ class FieldHelper
      * @param string $fieldKey Key if Field
      * @param string $type elementtype
      * @return string Label
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function getLabel($elementKey, $fieldKey, $type = 'tt_content'): string
     {
@@ -119,7 +117,6 @@ class FieldHelper
      * @param string $elementKey Key of Element
      * @param string $type elementtype
      * @return string formType
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function getFormType($fieldKey, $elementKey = '', $type = 'tt_content'): string
     {
@@ -257,7 +254,6 @@ class FieldHelper
      * @param string $elementKey key of element
      * @param bool $excludeInlineFields
      * @return string $fieldType returns fieldType or null if not found
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function getFieldType($fieldKey, $elementKey = '', $excludeInlineFields = false): string
     {

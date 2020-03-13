@@ -145,7 +145,6 @@ class WizardController extends ActionController
     /**
      * Generates all the necessary files
      * @author Gernot Ploiner <gp@webprofil.at>
-     * @author Benjamin Butschell <bb@webprofil.at>
      * @todo clear typoscript cache after generating
      * @noinspection PhpUnhandledExceptionInspection
      */
@@ -163,7 +162,6 @@ class WizardController extends ActionController
      * Prepares the storage array for fluid view
      *
      * @param array $storage
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     protected function prepareStorage(&$storage): void
     {
@@ -266,7 +264,6 @@ class WizardController extends ActionController
     /**
      * Redirects the request to the correct view
      * @throws StopActionException
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     protected function redirectByAction(): void
     {
@@ -308,7 +305,6 @@ class WizardController extends ActionController
     /**
      * Creates missing folders that are needed for the use of mask
      * @return bool $success
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     protected function createMissingFolders(): bool
     {
@@ -323,7 +319,6 @@ class WizardController extends ActionController
     /**
      * action creates missing folders
      * @throws StopActionException
-     * @author Benjamin Butschell <bb@webprofil.at>
      * @noinspection PhpUnused
      */
     public function createMissingFoldersAction(): void

@@ -99,7 +99,6 @@ class TcaViewHelper extends AbstractViewHelper
      *
      * @return array all TCA elements of this attribut
      * @author Gernot Ploiner <gp@webprofil.at>
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function render(): array
     {

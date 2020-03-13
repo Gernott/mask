@@ -62,7 +62,6 @@ class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\Fluid
      * @param array $conf Configuration
      * @return array
      * @throws Exception
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     protected function getContentObjectVariables(array $conf = []): array
     {

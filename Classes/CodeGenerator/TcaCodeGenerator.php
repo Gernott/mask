@@ -45,7 +45,6 @@ class TcaCodeGenerator extends AbstractCodeGenerator
      * Generates and sets the correct tca for all the inline fields
      * @param array $json
      * @throws Exception
-     * @author Benjamin Butschell <bb@webprofil.at>
      * @noinspection PhpUnused
      */
     public function setInlineTca($json): void
@@ -86,7 +85,6 @@ class TcaCodeGenerator extends AbstractCodeGenerator
      * Generates and sets the tca for all the content-elements
      *
      * @param array $tca
-     * @author Benjamin Butschell <bb@webprofil.at>
      * @noinspection PhpUnused
      */
     public function setElementsTca($tca): void
@@ -157,7 +155,6 @@ class TcaCodeGenerator extends AbstractCodeGenerator
      * Generates and sets the tca for all the extended pages
      *
      * @param array $tca
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function setPageTca($tca): void
     {
@@ -339,7 +336,6 @@ class TcaCodeGenerator extends AbstractCodeGenerator
      * @param string $table
      * @param array $tca
      * @return void
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function generateTableTca($table, $tca): void
     {

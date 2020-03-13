@@ -64,7 +64,6 @@ class HtmlCodeGenerator extends AbstractCodeGenerator
      * @param string $datafield
      * @return string $html
      * @author Gernot Ploiner <gp@webprofil.at>
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     protected function generateFieldHtml($fieldKey, $elementKey, $table, $datafield = 'data'): string
     {

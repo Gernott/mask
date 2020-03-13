@@ -86,7 +86,6 @@ class InlineHelper
      * @param array $data
      * @param string $table
      * @throws Exception
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function addFilesToData(&$data, $table = 'tt_content'): void
     {
@@ -131,7 +130,6 @@ class InlineHelper
      * @param string $table
      * @param string $cType
      * @throws \Exception
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function addIrreToData(&$data, $table = 'tt_content', $cType = ''): void
     {
@@ -218,7 +216,6 @@ class InlineHelper
      * @return array all irre elements of this attribut
      * @throws Exception
      * @throws \Exception
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function getInlineElements(
         $data,

@@ -201,7 +201,6 @@ class WizardContentController extends WizardController
      * Deletes Fluid html, if file exists
      *
      * @param string $key
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     protected function deleteHtml($key): void
     {

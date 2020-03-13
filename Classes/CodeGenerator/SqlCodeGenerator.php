@@ -103,7 +103,6 @@ class SqlCodeGenerator extends AbstractCodeGenerator
      * @throws SchemaException
      * @throws StatementException
      * @throws UnexpectedSignalReturnValueTypeException
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function updateDatabase(): array
     {

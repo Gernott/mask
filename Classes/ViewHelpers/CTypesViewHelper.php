@@ -24,7 +24,6 @@ class CTypesViewHelper extends AbstractViewHelper
      * Returns an array with all content element cTypes
      *
      * @return array $items an array with all content element cTypes
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function render(): array
     {
