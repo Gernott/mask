@@ -36,9 +36,9 @@ use TYPO3\CMS\Backend\View\BackendLayout\BackendLayout;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\RootlineUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Persistence\Repository;
-use TYPO3\CMS\Frontend\Page\PageRepository;
 
 /**
  * Repository for \TYPO3\CMS\Extbase\Domain\Model\BackendLayout.
@@ -133,11 +133,10 @@ class BackendLayoutRepository extends Repository
         if ($backend_layout_next_level !== '') { // If backend_layout_next_level is set on current page
             return $backend_layout_next_level;
         }
-  		$rootLineUtility = GeneralUtility::makeInstance(RootlineUtility::class, $pid); // , $MP, $this->context);
-        $sysPage = GeneralUtility::makeInstance(PageRepository::class);
+        $rootLineUtility = GeneralUtility::makeInstance(RootlineUtility::class, $pid);
         try {
             $rootline = $rootLineUtility->get();
-        } catch (\RuntimeException $ex) {
+        } catch (RuntimeException $ex) {
             $rootline = [];
         }
         foreach ($rootline as $page) {

@@ -2,12 +2,21 @@
 
 namespace MASK\Mask\ExpressionLanguage;
 
+use Doctrine\DBAL\FetchMode;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
+use TYPO3\CMS\Core\Database\Connection;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
 {
-    public function getFunctions()
+    /**
+     * @return array
+     */
+    public function getFunctions(): array
     {
         return [
             $this->maskBeLayout(),
@@ -17,9 +26,10 @@ class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
 
     protected function maskBeLayout(): ExpressionFunction
     {
-        return new ExpressionFunction('maskBeLayout', function ($param) {
+        return new ExpressionFunction('maskBeLayout', static function ($param) {
             // Not implemented, we only use the evaluator
-        }, function ($arguments, $param = null) {
+        }, static function ($arguments, $param = null) {
+            $uid = null;
             $layout = $param;
             // get current page uid:
             if (is_array($_REQUEST['data']['pages'])) { // after saving page
@@ -39,35 +49,41 @@ class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
             }
 
             if ($uid) {
-                /** @var \TYPO3\CMS\Core\Database\Connection $connection */
-                $connection = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ConnectionPool::class)->getConnectionForTable('pages');
+                /** @var Connection $connection */
+                $connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable('pages');
                 $query = $connection->createQueryBuilder();
-                /** @var \TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction $deletedRestriction */
-                $deletedRestriction = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction::class);
+                /** @var DeletedRestriction $deletedRestriction */
+                $deletedRestriction = GeneralUtility::makeInstance(DeletedRestriction::class);
                 $query->getRestrictions()->removeAll()->add($deletedRestriction);
-                $data = $query->select('backend_layout', 'backend_layout_next_level')->from('pages')->where($query->expr()->eq('uid', $uid))->execute()
-                    ->fetch(\Doctrine\DBAL\FetchMode::ASSOCIATIVE);
+                $data = $query->select(
+                    'backend_layout',
+                    'backend_layout_next_level'
+                )->from('pages')
+                    ->where(
+                        $query->expr()->eq('uid', $uid)
+                    )->execute()
+                    ->fetch(FetchMode::ASSOCIATIVE);
 
                 $backend_layout = $data['backend_layout'];
                 $backend_layout_next_level = $data['backend_layout_next_level'];
 
                 if ($backend_layout !== '') { // If backend_layout is set on current page
-                    return in_array($backend_layout, [$layout, 'pagets__' . $layout]);
+                    return in_array($backend_layout, [$layout, 'pagets__' . $layout], true);
                 }
 
                 if ($backend_layout_next_level !== '') { // If backend_layout_next_level is set on current page
-                    return in_array($backend_layout_next_level, [$layout, 'pagets__' . $layout]);
+                    return in_array($backend_layout_next_level, [$layout, 'pagets__' . $layout], true);
                 }
 
                 // If backend_layout and backend_layout_next_level is not set on current page, check backend_layout_next_level on rootline
-                $sysPage = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Domain\Repository\PageRepository::class);
+                $sysPage = GeneralUtility::makeInstance(PageRepository::class);
                 try {
                     $rootline = $sysPage->getRootLine($uid, '');
                 } catch (\Exception $e) {
                     $rootline = [];
                 }
                 foreach ($rootline as $page) {
-                    if (in_array($page['backend_layout_next_level'], [$layout, 'pagets__' . $layout])) {
+                    if (in_array($page['backend_layout_next_level'], [$layout, 'pagets__' . $layout], true)) {
                         return true;
                     }
                 }
@@ -78,9 +94,9 @@ class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
 
     protected function maskContentType(): ExpressionFunction
     {
-        return new ExpressionFunction('maskContentType', function ($param) {
+        return new ExpressionFunction('maskContentType', static function ($param) {
             // Not implemented, we only use the evaluator
-        }, function ($arguments, $param) {
+        }, static function ($arguments, $param) {
             static $cTypeCache = [];
             if (isset($_REQUEST['edit']['tt_content']) && is_array($_REQUEST['edit']['tt_content'])) {
                 $field = explode('|', $param);
@@ -94,15 +110,16 @@ class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
                 $uid = (int)key($_REQUEST['edit']['tt_content']);
 
                 if (!isset($cTypeCache[$uid])) {
-                    /** @var \TYPO3\CMS\Core\Database\ConnectionPool $connection */
-                    $connection = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ConnectionPool::class);
+                    /** @var ConnectionPool $connection */
+                    $connection = GeneralUtility::makeInstance(ConnectionPool::class);
                     $queryBuilder = $connection->getQueryBuilderForTable('tt_content');
-                    /** @var \TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction $deletedRestriction */
-                    $deletedRestriction = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction::class);
+                    /** @var DeletedRestriction $deletedRestriction */
+                    $deletedRestriction = GeneralUtility::makeInstance(DeletedRestriction::class);
                     $queryBuilder->getRestrictions()->removeAll()->add($deletedRestriction);
-                    $cTypeCache[$uid] = $queryBuilder->select($field[0])->from('tt_content')->where($queryBuilder->expr()->eq('uid', $uid))->execute()->fetchColumn(0);
+                    $cTypeCache[$uid] = $queryBuilder->select($field[0])->from('tt_content')->where($queryBuilder->expr()->eq('uid',
+                        $uid))->execute()->fetchColumn(0);
                 }
-                return $cTypeCache[$uid] == $field[1];
+                return (string)$cTypeCache[$uid] === (string)$field[1];
             }
             // if content element is loaded by ajax, then it's ok
             return is_array($_REQUEST['ajax']);
