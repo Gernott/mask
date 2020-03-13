@@ -1,3 +1,19 @@
+plugin.tx_mask {
+    view {
+        templateRootPaths.0 = EXT:mask/Resources/Private/Templates/
+        partialRootPaths.0 = EXT:mask/Resources/Private/Partials/
+        layoutRootPaths.0 = EXT:mask/Resources/Private/Layouts/
+    }
+}
+
+module.tx_mask {
+    view {
+        templateRootPaths.0 = EXT:mask/Resources/Private/Backend/Templates/
+        partialRootPaths.0 = EXT:mask/Resources/Private/Backend/Partials/
+        layoutRootPaths.0 = EXT:mask/Resources/Private/Backend/Layouts/
+    }
+}
+
 # snippet to render content elements
 lib.tx_mask.content = RECORDS
 lib.tx_mask.content {
@@ -27,7 +43,8 @@ temp.mask.page {
             key.override.field = backend_layout
 
             default = TEXT
-            default.value = fileadmin/templates/default.html
+#            default.value = fileadmin/templates/default.html
+            default.value = typo3conf/ext/mask/Resources/Private/Backend/Layouts/Default.html
         }
     }
 

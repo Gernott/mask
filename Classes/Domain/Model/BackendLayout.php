@@ -89,7 +89,7 @@ class BackendLayout extends AbstractEntity
      *
      * @return int the uid, will not be empty
      */
-    public function getUid(): int
+    public function getUid(): ?int
     {
         return $this->uid;
     }
