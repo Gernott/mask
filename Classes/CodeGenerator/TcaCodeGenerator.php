@@ -44,6 +44,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
     /**
      * Generates and sets the correct tca for all the inline fields
      * @param array $json
+     * @throws Exception
      * @author Benjamin Butschell <bb@webprofil.at>
      * @noinspection PhpUnused
      */

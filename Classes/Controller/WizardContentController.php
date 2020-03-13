@@ -88,6 +88,7 @@ class WizardContentController extends WizardController
      *
      * @param array $storage
      * @return void
+     * @throws StopActionException
      */
     public function createAction($storage): void
     {
@@ -121,6 +122,7 @@ class WizardContentController extends WizardController
      *
      * @param array $storage
      * @return void
+     * @throws StopActionException
      */
     public function updateAction($storage): void
     {

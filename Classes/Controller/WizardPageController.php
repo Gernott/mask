@@ -54,6 +54,8 @@ class WizardPageController extends WizardController
      * action list
      *
      * @return void
+     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException
+     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException
      * @noinspection PhpUnused
      */
     public function listAction(): void
@@ -67,6 +69,8 @@ class WizardPageController extends WizardController
      * action new
      *
      * @return void
+     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException
+     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException
      * @noinspection PhpUnused
      */
     public function newAction(): void
@@ -97,6 +101,8 @@ class WizardPageController extends WizardController
      *
      * @param string $layoutIdentifier
      * @return void
+     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException
+     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException
      * @noinspection PhpUnused
      */
     public function editAction($layoutIdentifier = null): void
