@@ -46,14 +46,14 @@ class ColPosList extends AbstractList
         // if this tt_content element is inline element of mask
         if ((int)$params['row']['colPos'] === $this->colPos) {
             // only allow mask nested element column
-            $params['items'] = array(
-                array(
+            $params['items'] = [
+                [
                     LocalizationUtility::translate('mask_content_colpos', 'mask'),
                     $this->colPos,
                     null,
                     null
-                )
-            );
+                ]
+            ];
         } else {
             // if it is not inline tt_content element
             // and if other itemsProcFunc from other extension was available (e.g. gridelements),

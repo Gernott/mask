@@ -40,7 +40,7 @@ class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
                 if ($GLOBALS['_SERVER']['HTTP_REFERER'] !== '') {
                     $url = $GLOBALS['_SERVER']['HTTP_REFERER'];
                     $queryString = parse_url($url, PHP_URL_QUERY);
-                    $result = array();
+                    $result = [];
                     parse_str($queryString, $result);
                     if ($result['id']) {
                         $uid = (int)$result['id'];

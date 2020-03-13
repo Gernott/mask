@@ -42,7 +42,7 @@ class IconRepository
      */
     public function findAll(): array
     {
-        $icons = array(
+        $icons = [
             'fa-500px',
             'fa-address-book',
             'fa-address-book-o',
@@ -829,7 +829,7 @@ class IconRepository
             'fa-youtube',
             'fa-youtube-play',
             'fa-youtube-square'
-        );
+        ];
         $preparedIcons = [];
         foreach ($icons as $icon) {
             $preparedIcons[$icon] = $icon;

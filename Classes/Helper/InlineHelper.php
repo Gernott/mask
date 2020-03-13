@@ -109,7 +109,7 @@ class InlineHelper
         $storage = $this->storageRepository->load();
         $fileRepository = $this->objectManager->get(FileRepository::class);
 
-        $contentFields = array('media', 'image', 'assets');
+        $contentFields = ['media', 'image', 'assets'];
         if ($storage[$table]['tca']) {
             foreach ($storage[$table]['tca'] as $fieldKey => $field) {
                 $contentFields[] = $fieldKey;
@@ -261,7 +261,7 @@ class InlineHelper
         $rows = $queryBuilder->execute()->fetchAll();
 
         // and recursively add them to an array
-        $elements = array();
+        $elements = [];
         foreach ($rows as $element) {
             if (TYPO3_MODE === 'FE') {
                 $GLOBALS['TSFE']->sys_page->versionOL($childTable, $element);

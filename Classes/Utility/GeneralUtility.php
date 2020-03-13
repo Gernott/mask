@@ -93,7 +93,7 @@ class GeneralUtility
     {
         $storage = $this->storageRepository->load();
         $transformMode = '';
-        $matches = array();
+        $matches = [];
         if (isset($storage[$type]['tca'][$fieldKey]['defaultExtras'])) {
             $re = "/(rte_transform\\[([a-z=_]+)\\])/";
             preg_match($re, $storage[$type]['tca'][$fieldKey]['defaultExtras'], $matches);

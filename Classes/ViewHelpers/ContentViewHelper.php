@@ -40,11 +40,11 @@ class ContentViewHelper extends AbstractViewHelper
      */
     public function render(): string
     {
-        $conf = array(
+        $conf = [
             'tables' => 'tt_content',
             'source' => $this->arguments['uid'],
             'dontCheckPid' => 1
-        );
+        ];
         return $this->cObj->cObjGetSingle('RECORDS', $conf);
     }
 

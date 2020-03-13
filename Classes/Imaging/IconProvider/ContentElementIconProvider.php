@@ -83,7 +83,7 @@ class ContentElementIconProvider implements IconProviderInterface
      * @throws Exception
      * @author Benjamin Butschell <bb@webprofil.at>
      */
-    public function prepareIconMarkup(Icon $icon, array $options = array()): void
+    public function prepareIconMarkup(Icon $icon, array $options = []): void
     {
         // error checking
         if (empty($options['contentElementKey'])) {

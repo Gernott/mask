@@ -60,9 +60,9 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
                 // Register icons for contentelements
                 $iconIdentifier = 'mask-ce-' . $element['key'];
                 $iconRegistry->registerIcon(
-                    $iconIdentifier, ContentElementIconProvider::class, array(
+                    $iconIdentifier, ContentElementIconProvider::class, [
                         'contentElementKey' => $element['key']
-                    )
+                    ]
                 );
 
                 if (!$element['hidden']) {
@@ -106,7 +106,7 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
      */
     public function generatePageTyposcript($json): string
     {
-        $pageColumns = array();
+        $pageColumns = [];
         $disableColumns = '';
         $pagesContent = '';
         if ($json['pages']['elements']) {

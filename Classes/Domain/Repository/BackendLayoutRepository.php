@@ -71,9 +71,9 @@ class BackendLayoutRepository extends Repository
      * @param array $pageTsPids
      * @return array
      */
-    public function findAll($pageTsPids = array()): array
+    public function findAll($pageTsPids = []): array
     {
-        $backendLayouts = array();
+        $backendLayouts = [];
 
         // search all the pids for backend layouts defined in the pageTS
         foreach ($pageTsPids as $pid) {
@@ -155,7 +155,7 @@ class BackendLayoutRepository extends Repository
      * @param array $pageTsPids
      * @return BackendLayout|null
      */
-    public function findByIdentifier($identifier, $pageTsPids = array()): ?BackendLayout
+    public function findByIdentifier($identifier, $pageTsPids = []): ?BackendLayout
     {
         $backendLayouts = $this->findAll($pageTsPids);
         return $backendLayouts[$identifier] ?? null;

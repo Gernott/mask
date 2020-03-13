@@ -28,7 +28,7 @@ class CTypesViewHelper extends AbstractViewHelper
      */
     public function render(): array
     {
-        $items = array();
+        $items = [];
         $cTypes = $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'];
         if ($cTypes) {
             foreach ($cTypes as $type) {

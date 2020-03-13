@@ -51,7 +51,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
     public function setInlineTca($json): void
     {
         // Generate TCA for IRRE Fields and Tables
-        $notIrreTables = array('pages', 'tt_content', 'sys_file_reference');
+        $notIrreTables = ['pages', 'tt_content', 'sys_file_reference'];
         if ($json) {
             foreach ($json as $table => $subJson) {
                 if (!in_array($table, $notIrreTables, true)) {
@@ -112,15 +112,15 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                 if (!$elementvalue['hidden']) {
 
                     $prependTabs = '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,';
-                    $fieldArray = array();
+                    $fieldArray = [];
                     $label = $elementvalue['shortLabel'] ?: $elementvalue['label']; // Optional shortLabel
 
                     // add new entry in CType selectbox
-                    ExtensionManagementUtility::addPlugin(array(
+                    ExtensionManagementUtility::addPlugin([
                         $label,
                         'mask_' . $elementvalue['key'],
                         'mask-ce-' . $elementvalue['key']
-                    ), 'CType', 'mask');
+                    ], 'CType', 'mask');
 
                     // add all the fields that should be shown
                     if (is_array($elementvalue['columns'])) {
@@ -206,7 +206,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
     public function generateFieldsTca($tca): array
     {
         $generalUtility = GeneralUtility::makeInstance(\MASK\Mask\Utility\GeneralUtility::class);
-        $columns = array();
+        $columns = [];
         if ($tca) {
             foreach ($tca as $tcakey => $tcavalue) {
                 $addToTca = true;
@@ -215,30 +215,30 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                         // Add File-Config for file-field
                         if ($fieldkey === 'options' && $fieldvalue === 'file') {
                             $fieldName = $tcakey;
-                            $customSettingOverride = array(
-                                'overrideChildTca' => array(
-                                    'types' => array(
-                                        '0' => array(
+                            $customSettingOverride = [
+                                'overrideChildTca' => [
+                                    'types' => [
+                                        '0' => [
                                             'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-                                        ),
-                                        '1' => array(
+                                        ],
+                                        '1' => [
                                             'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-                                        ),
-                                        '2' => array(
+                                        ],
+                                        '2' => [
                                             'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-                                        ),
-                                        '3' => array(
+                                        ],
+                                        '3' => [
                                             'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-                                        ),
-                                        '4' => array(
+                                        ],
+                                        '4' => [
                                             'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-                                        ),
-                                        '5' => array(
+                                        ],
+                                        '5' => [
                                             'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-                                        ),
-                                    ),
-                                )
-                            );
+                                        ],
+                                    ],
+                                ]
+                            ];
 
                             $customSettingOverride['appearance'] = $tcavalue['config']['appearance'];
                             if ($customSettingOverride['appearance']['fileUploadAllowed'] === '') {
@@ -300,7 +300,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 
                         // merge user inputs with file array
                         if (!is_array($columns[$tcakey])) {
-                            $columns[$tcakey] = array();
+                            $columns[$tcakey] = [];
                         } else {
                             ArrayUtility::mergeRecursiveWithOverrule($columns[$tcakey], $tcavalue);
                         }
@@ -344,8 +344,8 @@ class TcaCodeGenerator extends AbstractCodeGenerator
     public function generateTableTca($table, $tca): void
     {
 
-        $tcaTemplate = array(
-            'ctrl' => array(
+        $tcaTemplate = [
+            'ctrl' => [
                 'title' => 'IRRE-Table',
                 'label' => 'uid',
                 'tstamp' => 'tstamp',
@@ -357,133 +357,133 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                 'transOrigPointerField' => 'l10n_parent',
                 'transOrigDiffSourceField' => 'l10n_diffsource',
                 'delete' => 'deleted',
-                'enablecolumns' => array(
+                'enablecolumns' => [
                     'disabled' => 'hidden',
                     'starttime' => 'starttime',
                     'endtime' => 'endtime',
-                ),
+                ],
                 'searchFields' => '',
                 'dynamicConfigFile' => '',
                 'iconfile' => ''
-            ),
-            'interface' => array(
+            ],
+            'interface' => [
                 'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, ',
-            ),
-            'types' => array(
-                '1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
-            ),
-            'palettes' => array(
-                '1' => array('showitem' => ''),
-            ),
-            'columns' => array(
-                'sys_language_uid' => array(
+            ],
+            'types' => [
+                '1' => ['showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'],
+            ],
+            'palettes' => [
+                '1' => ['showitem' => ''],
+            ],
+            'columns' => [
+                'sys_language_uid' => [
                     'exclude' => 1,
                     'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
-                    'config' => array(
+                    'config' => [
                         'type' => 'select',
                         'renderType' => 'selectSingle',
-                        'items' => array(
-                            array(
+                        'items' => [
+                            [
                                 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.allLanguages',
                                 -1,
                                 'flags-multiple'
-                            ),
-                        ),
+                            ],
+                        ],
                         'special' => 'languages',
                         'default' => 0
-                    ),
-                ),
-                'l10n_parent' => array(
+                    ],
+                ],
+                'l10n_parent' => [
                     'displayCond' => 'FIELD:sys_language_uid:>:0',
                     'exclude' => 1,
                     'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.l18n_parent',
-                    'config' => array(
+                    'config' => [
                         'type' => 'select',
                         'renderType' => 'selectSingle',
-                        'items' => array(
-                            array('', 0),
-                        ),
+                        'items' => [
+                            ['', 0],
+                        ],
                         'foreign_table' => 'tx_test_domain_model_murph',
                         'foreign_table_where' => 'AND tx_test_domain_model_murph.pid=###CURRENT_PID### AND tx_test_domain_model_murph.sys_language_uid IN (-1,0)',
                         'default' => 0,
-                    ),
-                ),
-                'l10n_diffsource' => array(
-                    'config' => array(
+                    ],
+                ],
+                'l10n_diffsource' => [
+                    'config' => [
                         'type' => 'passthrough',
-                    ),
-                ),
-                't3ver_label' => array(
+                    ],
+                ],
+                't3ver_label' => [
                     'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.versionLabel',
-                    'config' => array(
+                    'config' => [
                         'type' => 'input',
                         'size' => 30,
                         'max' => 255,
-                    )
-                ),
-                'hidden' => array(
+                    ]
+                ],
+                'hidden' => [
                     'exclude' => 1,
                     'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.hidden',
-                    'config' => array(
+                    'config' => [
                         'type' => 'check',
-                    ),
-                ),
-                'starttime' => array(
+                    ],
+                ],
+                'starttime' => [
                     'exclude' => 1,
                     'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.starttime',
-                    'config' => array(
-                        'behaviour' => array(
+                    'config' => [
+                        'behaviour' => [
                             'allowLanguageSynchronization' => true
-                        ),
+                        ],
                         'renderType' => 'inputDateTime',
                         'type' => 'input',
                         'size' => 13,
                         'eval' => 'datetime,int',
                         'checkbox' => 0,
                         'default' => 0
-                    ),
-                ),
-                'endtime' => array(
+                    ],
+                ],
+                'endtime' => [
                     'exclude' => 1,
                     'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.endtime',
-                    'config' => array(
-                        'behaviour' => array(
+                    'config' => [
+                        'behaviour' => [
                             'allowLanguageSynchronization' => true
-                        ),
+                        ],
                         'renderType' => 'inputDateTime',
                         'type' => 'input',
                         'size' => 13,
                         'eval' => 'datetime,int',
                         'checkbox' => 0,
                         'default' => 0
-                    ),
-                ),
-                'parentid' => array(
-                    'config' => array(
+                    ],
+                ],
+                'parentid' => [
+                    'config' => [
                         'type' => 'select',
                         'renderType' => 'selectSingle',
-                        'items' => array(
-                            array('', 0),
-                        ),
+                        'items' => [
+                            ['', 0],
+                        ],
                         'foreign_table' => 'tt_content',
                         'foreign_table_where' =>
                             'AND tt_content.pid=###CURRENT_PID###
 								AND tt_content.sys_language_uid IN (-1,###REC_FIELD_sys_language_uid###)',
                         'default' => 0
-                    ),
-                ),
-                'parenttable' => array(
-                    'config' => array(
+                    ],
+                ],
+                'parenttable' => [
+                    'config' => [
                         'type' => 'passthrough',
-                    ),
-                ),
-                'sorting' => array(
-                    'config' => array(
+                    ],
+                ],
+                'sorting' => [
+                    'config' => [
                         'type' => 'passthrough',
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
 
         $fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
         $generalUtility = GeneralUtility::makeInstance(\MASK\Mask\Utility\GeneralUtility::class);
@@ -556,7 +556,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
      */
     public function allowInlineTablesOnStandardPages($configuration): void
     {
-        $notIrreTables = array('pages', 'tt_content', 'sys_file_reference');
+        $notIrreTables = ['pages', 'tt_content', 'sys_file_reference'];
         if ($configuration) {
             foreach ($configuration as $table => $subJson) {
                 if (!in_array($table, $notIrreTables, true)) {

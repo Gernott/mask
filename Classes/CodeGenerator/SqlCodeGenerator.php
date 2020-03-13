@@ -123,9 +123,9 @@ class SqlCodeGenerator extends AbstractCodeGenerator
      */
     public function getSqlByConfiguration($json): array
     {
-        $sql_content = array();
+        $sql_content = [];
         $types = array_keys($json);
-        $nonIrreTables = array('pages', 'tt_content');
+        $nonIrreTables = ['pages', 'tt_content'];
         $fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
 
         // Generate SQL-Statements
@@ -211,6 +211,6 @@ class SqlCodeGenerator extends AbstractCodeGenerator
         $json = $storageRepository->load();
         $sql = $this->getSqlByConfiguration($json);
         $mergedSqlString = array_merge($sqlString, $sql);
-        return array('sqlString' => $mergedSqlString);
+        return ['sqlString' => $mergedSqlString];
     }
 }

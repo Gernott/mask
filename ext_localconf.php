@@ -32,9 +32,10 @@ defined('TYPO3_MODE') or die();
         'Content'
     ];
     foreach ($maskIcons as $maskIcon) {
-        $iconRegistry->registerIcon('mask-fieldtype-' . $maskIcon, TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class, [
-            'source' => 'EXT:mask/Resources/Public/Icons/Fieldtypes/' . $maskIcon . '.svg'
-        ]);
+        $iconRegistry->registerIcon('mask-fieldtype-' . $maskIcon,
+            TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class, [
+                'source' => 'EXT:mask/Resources/Public/Icons/Fieldtypes/' . $maskIcon . '.svg'
+            ]);
     }
 
     // Add all the typoscript we need in the correct files
@@ -61,7 +62,8 @@ defined('TYPO3_MODE') or die();
 
     // SQL inject:
     $signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(TYPO3\CMS\Extbase\SignalSlot\Dispatcher::class);
-    $signalSlotDispatcher->connect(TYPO3\CMS\Install\Service\SqlExpectedSchemaService::class, 'tablesDefinitionIsBeingBuilt', MASK\Mask\CodeGenerator\SqlCodeGenerator::class,
+    $signalSlotDispatcher->connect(TYPO3\CMS\Install\Service\SqlExpectedSchemaService::class,
+        'tablesDefinitionIsBeingBuilt', MASK\Mask\CodeGenerator\SqlCodeGenerator::class,
         'addDatabaseTablesDefinition');
 
     // Enhance Fluid Output with overridden FluidTemplateContentObject

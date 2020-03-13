@@ -272,7 +272,7 @@ class WizardController extends ActionController
     {
         $params = $this->request->getArguments();
         $formAction = $params['formAction'];
-        $arguments = array();
+        $arguments = [];
         if ($params['storage']['type'] === 'pages') {
             $arguments['layoutIdentifier'] = $this->backendLayoutRepository->findByIdentifier(
                 $params['storage']['elements']['key'],
