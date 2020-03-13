@@ -133,18 +133,16 @@ class BackendLayoutRepository extends Repository
         if ($backend_layout_next_level !== '') { // If backend_layout_next_level is set on current page
             return $backend_layout_next_level;
         }
-
-        // If backend_layout and backend_layout_next_level is not set on current page, check backend_layout_next_level on rootline
+  		$rootLineUtility = GeneralUtility::makeInstance(RootlineUtility::class, $pid); // , $MP, $this->context);
         $sysPage = GeneralUtility::makeInstance(PageRepository::class);
-
         try {
-            $rootline = $sysPage->getRootLine($pid, '');
-        } catch (RuntimeException $ex) {
+            $rootline = $rootLineUtility->get();
+        } catch (\RuntimeException $ex) {
             $rootline = [];
         }
         foreach ($rootline as $page) {
-            if ($page['backend_layout_next_level'] !== '') {
-                return $page['backend_layout_next_level'];
+            if ($page["backend_layout_next_level"] !== "") {
+                return $page["backend_layout_next_level"];
             }
         }
         return null;

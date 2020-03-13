@@ -8,6 +8,7 @@ use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Domain\Service\SettingsService;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconProviderInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -130,7 +131,7 @@ class ContentElementIconProvider implements IconProviderInterface
             }
         } else {
             if ($previewIconAvailable) {
-                $markup = '<img src="' . PathUtility::getAbsoluteWebPath(PATH_site . ltrim($this->getPreviewIconPath($options['contentElementKey']),
+                $markup = '<img src="' . PathUtility::getAbsoluteWebPath(Environment::getPublicPath() . ltrim($this->getPreviewIconPath($options['contentElementKey']),
                             '/')) . '" alt="' . $this->contentElement['label'] . '" title="' . $this->contentElement['label'] . '"/>';
             } else {
                 $color = $this->getColor($this->contentElement);
@@ -154,7 +155,7 @@ class ContentElementIconProvider implements IconProviderInterface
      */
     protected function isPreviewIconAvailable($key): bool
     {
-        if (file_exists(PATH_site . $this->getPreviewIconPath($key))) {
+        if (file_exists(Environment::getPublicPath() . $this->getPreviewIconPath($key))) {
             return true;
         }
         return false;
