@@ -125,7 +125,7 @@ class StorageRepository
      * @param $key
      * @return array
      */
-    public function loadField($type, $key): array
+    public function loadField($type, $key): ?array
     {
         $json = $this->load();
         return $json[$type]['tca'][$key];
@@ -164,7 +164,7 @@ class StorageRepository
      * @param $key
      * @return array
      */
-    public function loadElement($type, $key): array
+    public function loadElement($type, $key): ?array
     {
         $json = $this->load();
         $fields = [];

@@ -108,7 +108,7 @@ class BackendLayoutRepository extends Repository
      * @return bool
      * @throws Exception
      */
-    public function findIdentifierByPid($pid): bool
+    public function findIdentifierByPid($pid): ?string
     {
         /** @var Connection $connection */
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable('pages');
