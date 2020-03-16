@@ -128,7 +128,7 @@ class WizardPageController extends WizardController
      * @throws StopActionException
      * @noinspection PhpUnused
      */
-    public function updateAtion($storage): void
+    public function updateAction($storage): void
     {
         $this->storageRepository->update($storage);
         $this->generateAction();
