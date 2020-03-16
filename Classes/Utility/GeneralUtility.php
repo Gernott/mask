@@ -119,7 +119,7 @@ class GeneralUtility
             foreach ($properties as $setProperty) {
                 $keyPair = explode('=', $setProperty);
                 if ($property === $keyPair[0]) {
-                    $value = $keyPair[1];
+                    $value = (int)$keyPair[1];
                     break;
                 }
             }
