@@ -7,8 +7,10 @@ use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
+use TYPO3\CMS\Core\ExpressionLanguage\RequestWrapper;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
@@ -24,16 +26,25 @@ class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
         ];
     }
 
+    /**
+     * @return ExpressionFunction
+     */
     protected function maskBeLayout(): ExpressionFunction
     {
         return new ExpressionFunction('maskBeLayout', static function ($param) {
-            // Not implemented, we only use the evaluator
+
         }, static function ($arguments, $param = null) {
+
+            /** @var RequestWrapper $request */
+            $request = $arguments['request'];
+            $requestParameters = $request->getQueryParams();
+
+
             $uid = null;
-            $layout = $param;
+            $layout = (string)$param;
             // get current page uid:
-            if (is_array($_REQUEST['data']['pages'])) { // after saving page
-                $uid = (int)key($_REQUEST['data']['pages']);
+            if (is_array($requestParameters['edit']['pages'])) { // after saving page
+                $uid = (int)key($requestParameters['edit']['pages']);
             } elseif ($GLOBALS['SOBE']->editconf['pages']) { // after opening pages
                 $uid = (int)key($GLOBALS['SOBE']->editconf['pages']);
             } else {
@@ -64,8 +75,8 @@ class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
                     )->execute()
                     ->fetch(FetchMode::ASSOCIATIVE);
 
-                $backend_layout = $data['backend_layout'];
-                $backend_layout_next_level = $data['backend_layout_next_level'];
+                $backend_layout = (string)$data['backend_layout'];
+                $backend_layout_next_level = (string)$data['backend_layout_next_level'];
 
                 if (!empty($backend_layout)) { // If backend_layout is set on current page
                     return in_array($backend_layout, [$layout, 'pagets__' . $layout], true);
@@ -83,7 +94,8 @@ class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
                     $rootline = [];
                 }
                 foreach ($rootline as $page) {
-                    if (in_array($page['backend_layout_next_level'], [$layout, 'pagets__' . $layout], true)) {
+                    if (in_array((string)$page['backend_layout_next_level'], [$layout, 'pagets__' . $layout],
+                        true)) {
                         return true;
                     }
                 }
@@ -92,37 +104,64 @@ class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
         });
     }
 
+    /**
+     * @return ExpressionFunction
+     * @noinspection PhpComposerExtensionStubsInspection
+     */
     protected function maskContentType(): ExpressionFunction
     {
-        return new ExpressionFunction('maskContentType', static function ($param) {
+        $getContentElementType = static function (int $uid): string {
+            /** @var QueryBuilder $queryBuilder */
+            $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+                ->getQueryBuilderForTable('tt_content');
+            /** @var DeletedRestriction $deletedRestriction */
+            $deletedRestriction = GeneralUtility::makeInstance(DeletedRestriction::class);
+            $queryBuilder->getRestrictions()
+                ->removeAll()
+                ->add($deletedRestriction);
+
+            return (string)$queryBuilder->select('CType')
+                ->from('tt_content')
+                ->where($queryBuilder->expr()->eq('uid', $uid))
+                ->execute()
+                ->fetchColumn();
+        };
+
+        return new ExpressionFunction('isMaskContentType', static function () {
             // Not implemented, we only use the evaluator
-        }, static function ($arguments, $param) {
-            static $cTypeCache = [];
-            if (isset($_REQUEST['edit']['tt_content']) && is_array($_REQUEST['edit']['tt_content'])) {
-                $field = explode('|', $param);
-                $request = $_REQUEST;
-                $first = array_shift($request['edit']['tt_content']);
+        }, static function ($arguments, $value) use ($getContentElementType) {
+            static $contentTypeMappingCache = [];
 
-                if ($first === 'new') { // if new element
-                    return $_REQUEST['defVals']['tt_content']['CType'] === $field[1];
-                }
-                // if element exists
-                $uid = (int)key($_REQUEST['edit']['tt_content']);
+            /** @var RequestWrapper $request */
+            $request = $arguments['request'];
+            $requestParameters = $request->getQueryParams();
 
-                if (!isset($cTypeCache[$uid])) {
-                    /** @var ConnectionPool $connection */
-                    $connection = GeneralUtility::makeInstance(ConnectionPool::class);
-                    $queryBuilder = $connection->getQueryBuilderForTable('tt_content');
-                    /** @var DeletedRestriction $deletedRestriction */
-                    $deletedRestriction = GeneralUtility::makeInstance(DeletedRestriction::class);
-                    $queryBuilder->getRestrictions()->removeAll()->add($deletedRestriction);
-                    $cTypeCache[$uid] = $queryBuilder->select($field[0])->from('tt_content')->where($queryBuilder->expr()->eq('uid',
-                        $uid))->execute()->fetchColumn(0);
+            if (isset($requestParameters['edit']['tt_content']) &&
+                is_array($requestParameters['edit']['tt_content'])
+            ) {
+                $formType = (string)current($requestParameters['edit']['tt_content']);
+                $contentType = null;
+                // New record, content type (CType) given as request parameter
+                if ($formType === 'new' && isset($requestParameters['defVals']['tt_content']['CType'])) {
+                    $contentType = (string)$requestParameters['defVals']['tt_content']['CType'];
+                } else {
+                    // Existing record, fetch content type (CType) from database
+                    $uid = (int)key($requestParameters['edit']['tt_content']);
+                    $contentType = $contentTypeMappingCache[$uid] ?? $getContentElementType($uid);
                 }
-                return (string)$cTypeCache[$uid] === (string)$field[1];
+
+                return $contentType === 'mask_' . $value;
             }
-            // if content element is loaded by ajax, then it's ok
-            return is_array($_REQUEST['ajax']);
+
+            // Content element is loaded via ajax (inline)
+            $parsedBody = $request->getParsedBody();
+            if (isset($parsedBody['ajax']['context'])) {
+                $parsedContext = json_decode($parsedBody['ajax']['context'], true, 512, JSON_THROW_ON_ERROR);
+                if (isset($parsedContext['config']['overrideChildTca']['columns']['CType']['config']['default'])) {
+                    return $parsedContext['config']['overrideChildTca']['columns']['CType']['config']['default'] === 'mask_' . $value;
+                }
+            }
+            return false;
         });
     }
 }

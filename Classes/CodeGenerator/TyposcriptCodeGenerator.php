@@ -86,7 +86,7 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
                     $content .= "}\n";
 
                     // and switch the labels depending on which content element is selected
-                    $content .= "\n[maskContentType(\"CType|mask_" . $element['key'] . "\")]\n";
+                    $content .= "\n[isMaskContentType(\"CType|mask_" . $element['key'] . "\")]\n";
                     if ($element['columns']) {
                         foreach ($element['columns'] as $index => $column) {
                             $content .= ' TCEFORM.tt_content.' . $column . '.label = ' . $element['labels'][$index] . "\n";
@@ -112,7 +112,7 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
         if ($json['pages']['elements']) {
             foreach ($json['pages']['elements'] as $element) {
                 // Labels for pages
-                $pagesContent .= "\n[userFunc = maskBeLayout(" . $element['key'] . ")]\n";
+                $pagesContent .= "\n[maskBeLayout(" . $element['key'] . ")]\n";
                 // if page has backendlayout with this element-key
                 if ($element['columns']) {
                     foreach ($element['columns'] as $index => $column) {
