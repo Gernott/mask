@@ -75,5 +75,8 @@ defined('TYPO3_MODE') or die();
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem'][$extkey] = \MASK\Mask\Hooks\PageLayoutViewDrawItem::class;
     // Hook to override colpos check for unused tt_content elements
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['record_is_used'] [] = MASK\Mask\Hooks\PageLayoutViewHook::class . '->contentIsUsed';
-
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][\TYPO3\CMS\Backend\View\BackendLayout\BackendLayout::class] = [
+        'className' => MASK\Mask\Backend\View\BackendLayout\BackendLayout::class
+    ];
+    
 })('mask');
