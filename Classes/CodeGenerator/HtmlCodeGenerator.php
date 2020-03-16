@@ -126,7 +126,7 @@ class HtmlCodeGenerator extends AbstractCodeGenerator
                 break;
             case 'Link':
                 $html .= '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">' . "\n";
-                $html .= '<f:link.typolink parameter="{' . $datafield . '.' . $fieldKey . '}">{' . $datafield . '.' . $fieldKey . '}</f:link.typolink><br />' . "\n";
+                $html .= '<f:link.typolink parameter="{' . $datafield . '.' . $fieldKey . '}"></f:link.typolink><br />' . "\n";
                 $html .= "</f:if>\n\n";
                 break;
             case 'Select':
