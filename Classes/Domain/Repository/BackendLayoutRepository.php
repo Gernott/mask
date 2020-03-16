@@ -126,11 +126,11 @@ class BackendLayoutRepository extends Repository
 
         $backend_layout = $data['backend_layout'];
         $backend_layout_next_level = $data['backend_layout_next_level'];
-        if ($backend_layout !== '') { // If backend_layout is set on current page
+        if (!empty($backend_layout)) { // If backend_layout is set on current page
             return $backend_layout;
         }
 
-        if ($backend_layout_next_level !== '') { // If backend_layout_next_level is set on current page
+        if (!empty($backend_layout_next_level)) { // If backend_layout_next_level is set on current page
             return $backend_layout_next_level;
         }
         $rootLineUtility = GeneralUtility::makeInstance(RootlineUtility::class, $pid);
@@ -140,7 +140,7 @@ class BackendLayoutRepository extends Repository
             $rootline = [];
         }
         foreach ($rootline as $page) {
-            if ($page['backend_layout_next_level'] !== '') {
+            if (!empty($page['backend_layout_next_level'])) {
                 return $page['backend_layout_next_level'];
             }
         }

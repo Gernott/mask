@@ -37,7 +37,7 @@ class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
             } elseif ($GLOBALS['SOBE']->editconf['pages']) { // after opening pages
                 $uid = (int)key($GLOBALS['SOBE']->editconf['pages']);
             } else {
-                if ($GLOBALS['_SERVER']['HTTP_REFERER'] !== '') {
+                if (!empty($GLOBALS['_SERVER']['HTTP_REFERER'])) {
                     $url = $GLOBALS['_SERVER']['HTTP_REFERER'];
                     $queryString = parse_url($url, PHP_URL_QUERY);
                     $result = [];
@@ -67,11 +67,11 @@ class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
                 $backend_layout = $data['backend_layout'];
                 $backend_layout_next_level = $data['backend_layout_next_level'];
 
-                if ($backend_layout !== '') { // If backend_layout is set on current page
+                if (!empty($backend_layout)) { // If backend_layout is set on current page
                     return in_array($backend_layout, [$layout, 'pagets__' . $layout], true);
                 }
 
-                if ($backend_layout_next_level !== '') { // If backend_layout_next_level is set on current page
+                if (!empty($backend_layout_next_level)) { // If backend_layout_next_level is set on current page
                     return in_array($backend_layout_next_level, [$layout, 'pagets__' . $layout], true);
                 }
 

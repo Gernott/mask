@@ -233,7 +233,7 @@ class InlineHelper
         // by default, the uid of the parent is $data["uid"]
         $parentUid = $data['uid'];
 
-        if ($GLOBALS['TSFE']->sys_language_uid !== 0 && $data['_LOCALIZED_UID'] !== '') {
+        if ($GLOBALS['TSFE']->sys_language_uid !== 0 && !empty($data['_LOCALIZED_UID'])) {
             $parentUid = $data['_LOCALIZED_UID'];
         }
 

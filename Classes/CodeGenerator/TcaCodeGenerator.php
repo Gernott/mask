@@ -247,7 +247,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                                 $customSettingOverride['appearance']['useSortable'] = 1;
                             }
 
-                            if ($tcavalue['config']['filter']['0']['parameters']['allowedFileExtensions'] !== '') {
+                            if (!empty($tcavalue['config']['filter']['0']['parameters']['allowedFileExtensions'])) {
                                 $allowedFileExtensions = $tcavalue['config']['filter']['0']['parameters']['allowedFileExtensions'];
                             } else {
                                 $allowedFileExtensions = $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'];
@@ -268,18 +268,18 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 
                         // set date ranges if date or datetime field
                         if ($fieldkey === 'config' && ($tcavalue[$fieldkey]['dbType'] === 'date' || $tcavalue[$fieldkey]['dbType'] === 'datetime')) {
-                            if ($tcavalue[$fieldkey]['range']['upper'] !== '') {
+                            if (!empty($tcavalue[$fieldkey]['range']['upper'])) {
                                 $date = new \DateTime($tcavalue[$fieldkey]['range']['upper']);
                                 $tcavalue[$fieldkey]['range']['upper'] = $date->getTimestamp() + 86400;
                             }
-                            if ($tcavalue[$fieldkey]['range']['lower'] !== '') {
+                            if (!empty($tcavalue[$fieldkey]['range']['lower'] !== '')) {
                                 $date = new \DateTime($tcavalue[$fieldkey]['range']['lower']);
                                 $tcavalue[$fieldkey]['range']['lower'] = $date->getTimestamp() + 86400;
                             }
                         }
 
                         // set correct rendertype if format (code highlighting) is set in text tca
-                        if ($fieldkey === 'config' && $tcavalue[$fieldkey]['format'] !== '') {
+                        if ($fieldkey === 'config' && !empty($tcavalue[$fieldkey]['format'])) {
                             $tcavalue[$fieldkey]['renderType'] = 't3editor';
                         }
 
