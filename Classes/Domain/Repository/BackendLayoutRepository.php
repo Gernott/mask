@@ -90,12 +90,17 @@ class BackendLayoutRepository extends Repository
 
         // also search in the database for backendlayouts
         $databaseBackendLayouts = parent::findAll();
+        /** @var \MASK\Mask\Domain\Model\BackendLayout $layout */
         foreach ($databaseBackendLayouts as $layout) {
-            $backendLayout = new BackendLayout($layout->getUid(),
-                $layout->getTitle(), '');
-            if ($layout->getIcon()) {
-                $backendLayout->setIconPath('/uploads/media/' . $layout->getIcon());
-            }
+            $backendLayout = new BackendLayout(
+                $layout->getUid(),
+                $layout->getTitle(),
+                [
+                    'backend_layout.' => [
+                        'rows.' => []
+                    ]
+                ]
+            );
             $backendLayout->setDescription($layout->getDescription());
             $backendLayouts[$backendLayout->getIdentifier()] = $backendLayout;
         }
