@@ -61,7 +61,6 @@ class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
 
     /**
      * @return ExpressionFunction
-     * @noinspection PhpComposerExtensionStubsInspection
      */
     protected function maskContentType(): ExpressionFunction
     {
@@ -69,7 +68,6 @@ class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
             /** @var QueryBuilder $queryBuilder */
             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
                 ->getQueryBuilderForTable('tt_content');
-            /** @var DeletedRestriction $deletedRestriction */
             $deletedRestriction = GeneralUtility::makeInstance(DeletedRestriction::class);
             $queryBuilder->getRestrictions()
                 ->removeAll()
@@ -86,37 +84,53 @@ class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
             // Not implemented, we only use the evaluator
         }, static function ($arguments, $value) use ($getContentElementType) {
             static $contentTypeMappingCache = [];
+            $uid = null;
 
             /** @var RequestWrapper $request */
             $request = $arguments['request'];
-            $requestParameters = $request->getQueryParams();
+            $params = $request->getQueryParams();
 
-            if (isset($requestParameters['edit']['tt_content']) &&
-                is_array($requestParameters['edit']['tt_content'])
+            // if cType is directly in the params
+            if (isset($params['recordTypeValue'])) {
+                return $params['recordTypeValue'] === $value;
+            }
+
+            // if we have info about content element
+            if (isset($params['edit']['tt_content']) &&
+                is_array($params['edit']['tt_content'])
             ) {
-                $formType = (string)current($requestParameters['edit']['tt_content']);
                 $contentType = null;
                 // New record, content type (CType) given as request parameter
-                if ($formType === 'new' && isset($requestParameters['defVals']['tt_content']['CType'])) {
-                    $contentType = (string)$requestParameters['defVals']['tt_content']['CType'];
+                if (isset($params['defVals']['tt_content']['CType']) && (string)current($params['edit']['tt_content']) === 'new') {
+                    $contentType = (string)$params['defVals']['tt_content']['CType'];
                 } else {
                     // Existing record, fetch content type (CType) from database
-                    $uid = (int)key($requestParameters['edit']['tt_content']);
+                    $uid = (int)key($params['edit']['tt_content']);
                     $contentType = $contentTypeMappingCache[$uid] ?? $getContentElementType($uid);
                 }
-
-                return $contentType === 'mask_' . $value;
+                return $contentType === $value;
             }
 
-            // Content element is loaded via ajax (inline)
+            // if content element is loaded via ajax (inline), there are two ways to find the uid of the element
             $parsedBody = $request->getParsedBody();
-            if (isset($parsedBody['ajax']['context'])) {
-                $parsedContext = json_decode($parsedBody['ajax']['context'], true, 512, JSON_THROW_ON_ERROR);
-                if (isset($parsedContext['config']['overrideChildTca']['columns']['CType']['config']['default'])) {
-                    return $parsedContext['config']['overrideChildTca']['columns']['CType']['config']['default'] === 'mask_' . $value;
-                }
+            if (isset($parsedBody['ajax'][1])) {
+                $uid = (int)$parsedBody['ajax'][1];
             }
+            if (isset($parsedBody['ajax'][0])) {
+                $uidTableString = $parsedBody['ajax'][0];
+                $uidTableStringArray = explode('-', $uidTableString);
+                $uid = (int)array_pop($uidTableStringArray);
+            }
+
+            if ($uid) {
+                // fetch content type (CType) from database
+                $contentType = $contentTypeMappingCache[$uid] ?? $getContentElementType($uid);
+                return $contentType === $value;
+            }
+
+            // if we have found nothing, then return that this is not a mask field
             return false;
+
         });
     }
 }
