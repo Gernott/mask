@@ -35,6 +35,8 @@ use MASK\Mask\Domain\Service\SettingsService;
 use MASK\Mask\Helper\FieldHelper;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Core\Cache\CacheManager;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Http\ServerRequest;
@@ -377,5 +379,22 @@ class WizardController extends ActionController
                 AbstractMessage::WARNING
             );
         }
+    }
+
+    /**
+     * action list
+     *
+     * @return void
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
+     */
+    public function listAction()
+    {
+        $settings = $this->settingsService->get();
+        $storages = $this->storageRepository->load();
+        $backendLayouts = $this->backendLayoutRepository->findAll(explode(',', $settings['backendlayout_pids']));
+        $this->checkFolders();
+        $this->view->assign('storages', $storages);
+        $this->view->assign('backendLayouts', $backendLayouts);
     }
 }
