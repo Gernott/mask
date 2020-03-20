@@ -134,7 +134,7 @@ class WizardController extends ActionController
         'preview'
     ];
 
-    protected $missingFolders = false;
+    protected $missingFolders = [];
 
     /**
      * is called before every action
@@ -372,12 +372,12 @@ class WizardController extends ActionController
     protected function checkFolder($path, $translationKey = 'tx_mask.all.error.missingjson'): void
     {
         if (!file_exists(MaskUtility::getFileAbsFileName($path))) {
-            $this->missingFolders = true;
-            $this->addFlashMessage(
-                LocalizationUtility::translate($translationKey, 'mask'),
-                $path,
-                AbstractMessage::WARNING
-            );
+            $this->missingFolders[] = $path;
+//            $this->addFlashMessage(
+//                LocalizationUtility::translate($translationKey, 'mask'),
+//                $path,
+//                AbstractMessage::WARNING
+//            );
         }
     }
 
@@ -394,6 +394,8 @@ class WizardController extends ActionController
         $storages = $this->storageRepository->load();
         $backendLayouts = $this->backendLayoutRepository->findAll(explode(',', $settings['backendlayout_pids']));
         $this->checkFolders();
+
+        $this->view->assign('missingFolders', $this->missingFolders);
         $this->view->assign('storages', $storages);
         $this->view->assign('backendLayouts', $backendLayouts);
     }
