@@ -64,7 +64,6 @@ class HtmlCodeGenerator extends AbstractCodeGenerator
      * @param string $datafield
      * @return string $html
      * @author Gernot Ploiner <gp@webprofil.at>
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     protected function generateFieldHtml($fieldKey, $elementKey, $table, $datafield = 'data'): string
     {
@@ -127,7 +126,7 @@ class HtmlCodeGenerator extends AbstractCodeGenerator
                 break;
             case 'Link':
                 $html .= '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">' . "\n";
-                $html .= '<f:link.typolink parameter="{' . $datafield . '.' . $fieldKey . '}">{' . $datafield . '.' . $fieldKey . '}</f:link.typolink><br />' . "\n";
+                $html .= '<f:link.typolink parameter="{' . $datafield . '.' . $fieldKey . '}"></f:link.typolink><br />' . "\n";
                 $html .= "</f:if>\n\n";
                 break;
             case 'Select':

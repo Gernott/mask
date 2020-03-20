@@ -136,11 +136,11 @@ class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
                 // if there are paths for layouts and partials set, add them to view
                 if (!empty($this->extSettings['layouts_backend'])) {
                     $layoutRootPath = MaskUtility::getFileAbsFileName($this->extSettings['layouts_backend']);
-                    $view->setLayoutRootPaths(array($layoutRootPath));
+                    $view->setLayoutRootPaths([$layoutRootPath]);
                 }
                 if (!empty($this->extSettings['partials_backend'])) {
                     $partialRootPath = MaskUtility::getFileAbsFileName($this->extSettings['partials_backend']);
-                    $view->setPartialRootPaths(array($partialRootPath));
+                    $view->setPartialRootPaths([$partialRootPath]);
                 }
 
                 // Fetch and assign some useful variables

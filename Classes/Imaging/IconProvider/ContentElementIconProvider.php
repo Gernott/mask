@@ -81,9 +81,8 @@ class ContentElementIconProvider implements IconProviderInterface
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws Exception
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
-    public function prepareIconMarkup(Icon $icon, array $options = array()): void
+    public function prepareIconMarkup(Icon $icon, array $options = []): void
     {
         // error checking
         if (empty($options['contentElementKey'])) {
@@ -106,7 +105,6 @@ class ContentElementIconProvider implements IconProviderInterface
      * @param array $options
      * @return string
      * @throws InvalidArgumentException
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     protected function generateMarkup(Icon $icon, array $options): string
     {
@@ -151,7 +149,6 @@ class ContentElementIconProvider implements IconProviderInterface
      * Checks if a preview icon is available in defined folder
      * @param string $key
      * @return boolean
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     protected function isPreviewIconAvailable($key): bool
     {
@@ -166,7 +163,6 @@ class ContentElementIconProvider implements IconProviderInterface
      * @param array $element
      * @return boolean
      * @todo implement
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     protected function isFontAwesomeKeyAvailable($element): bool
     {
@@ -176,7 +172,6 @@ class ContentElementIconProvider implements IconProviderInterface
     /**
      * @param string $key
      * @return string
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     protected function getPreviewIconPath($key): string
     {
@@ -187,7 +182,6 @@ class ContentElementIconProvider implements IconProviderInterface
      * returns trimmed and unified font-awesome key
      * @param array $element
      * @return string
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     protected function getFontAwesomeKey($element): string
     {
@@ -198,7 +192,6 @@ class ContentElementIconProvider implements IconProviderInterface
      * returns trimmed and unified hex-code
      * @param array $element
      * @return string
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     protected function getColor($element): string
     {

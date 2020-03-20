@@ -65,7 +65,6 @@ class GeneralUtility
      * @param string $evalValue value to search for
      * @param string $type elementtype
      * @return boolean $evalValue is set
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function isEvalValueSet($fieldKey, $evalValue, $type = 'tt_content'): bool
     {
@@ -87,13 +86,12 @@ class GeneralUtility
      * @param string $fieldKey TCA Type
      * @param string $type elementtype
      * @return string $rte_transform
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function getRteTransformMode($fieldKey, $type = 'tt_content'): string
     {
         $storage = $this->storageRepository->load();
         $transformMode = '';
-        $matches = array();
+        $matches = [];
         if (isset($storage[$type]['tca'][$fieldKey]['defaultExtras'])) {
             $re = "/(rte_transform\\[([a-z=_]+)\\])/";
             preg_match($re, $storage[$type]['tca'][$fieldKey]['defaultExtras'], $matches);
@@ -109,7 +107,6 @@ class GeneralUtility
      * @param string $property value to search for
      * @param string $type elementtype
      * @return int|null $evalValue is set
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function getJsOpenParamValue($fieldKey, $property, $type = 'tt_content'): ?int
     {
@@ -122,7 +119,7 @@ class GeneralUtility
             foreach ($properties as $setProperty) {
                 $keyPair = explode('=', $setProperty);
                 if ($property === $keyPair[0]) {
-                    $value = $keyPair[1];
+                    $value = (int)$keyPair[1];
                     break;
                 }
             }
@@ -158,7 +155,6 @@ class GeneralUtility
      * @param string $evalValue value to search for
      * @param string $type elementtype
      * @return boolean $evalValue is set
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function isBlindLinkOptionSet($fieldKey, $evalValue, $type = 'tt_content'): bool
     {

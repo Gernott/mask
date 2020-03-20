@@ -32,9 +32,10 @@ defined('TYPO3_MODE') or die();
         'Content'
     ];
     foreach ($maskIcons as $maskIcon) {
-        $iconRegistry->registerIcon('mask-fieldtype-' . $maskIcon, TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class, [
-            'source' => 'EXT:mask/Resources/Public/Icons/Fieldtypes/' . $maskIcon . '.svg'
-        ]);
+        $iconRegistry->registerIcon('mask-fieldtype-' . $maskIcon,
+            TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class, [
+                'source' => 'EXT:mask/Resources/Public/Icons/Fieldtypes/' . $maskIcon . '.svg'
+            ]);
     }
 
     // Add all the typoscript we need in the correct files
@@ -61,7 +62,8 @@ defined('TYPO3_MODE') or die();
 
     // SQL inject:
     $signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(TYPO3\CMS\Extbase\SignalSlot\Dispatcher::class);
-    $signalSlotDispatcher->connect(TYPO3\CMS\Install\Service\SqlExpectedSchemaService::class, 'tablesDefinitionIsBeingBuilt', MASK\Mask\CodeGenerator\SqlCodeGenerator::class,
+    $signalSlotDispatcher->connect(TYPO3\CMS\Install\Service\SqlExpectedSchemaService::class,
+        'tablesDefinitionIsBeingBuilt', MASK\Mask\CodeGenerator\SqlCodeGenerator::class,
         'addDatabaseTablesDefinition');
 
     // Enhance Fluid Output with overridden FluidTemplateContentObject
@@ -73,5 +75,8 @@ defined('TYPO3_MODE') or die();
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem'][$extkey] = \MASK\Mask\Hooks\PageLayoutViewDrawItem::class;
     // Hook to override colpos check for unused tt_content elements
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['record_is_used'] [] = MASK\Mask\Hooks\PageLayoutViewHook::class . '->contentIsUsed';
-
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][\TYPO3\CMS\Backend\View\BackendLayout\BackendLayout::class] = [
+        'className' => MASK\Mask\Backend\View\BackendLayout\BackendLayout::class
+    ];
+    
 })('mask');

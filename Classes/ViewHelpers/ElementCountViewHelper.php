@@ -37,7 +37,6 @@ class ElementCountViewHelper extends AbstractViewHelper
      * Counts the occurences in tt_content
      *
      * @return int number of uses of this content element
-     * @author Benjamin Butschell <bb@webprofil.at>
      * @noinspection PhpUndefinedMethodInspection
      */
     public function render(): int

@@ -88,6 +88,7 @@ class WizardContentController extends WizardController
      *
      * @param array $storage
      * @return void
+     * @throws StopActionException
      */
     public function createAction($storage): void
     {
@@ -121,6 +122,7 @@ class WizardContentController extends WizardController
      *
      * @param array $storage
      * @return void
+     * @throws StopActionException
      */
     public function updateAction($storage): void
     {
@@ -199,7 +201,6 @@ class WizardContentController extends WizardController
      * Deletes Fluid html, if file exists
      *
      * @param string $key
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     protected function deleteHtml($key): void
     {

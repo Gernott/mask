@@ -86,7 +86,6 @@ class InlineHelper
      * @param array $data
      * @param string $table
      * @throws Exception
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function addFilesToData(&$data, $table = 'tt_content'): void
     {
@@ -109,7 +108,7 @@ class InlineHelper
         $storage = $this->storageRepository->load();
         $fileRepository = $this->objectManager->get(FileRepository::class);
 
-        $contentFields = array('media', 'image', 'assets');
+        $contentFields = ['media', 'image', 'assets'];
         if ($storage[$table]['tca']) {
             foreach ($storage[$table]['tca'] as $fieldKey => $field) {
                 $contentFields[] = $fieldKey;
@@ -131,7 +130,6 @@ class InlineHelper
      * @param string $table
      * @param string $cType
      * @throws \Exception
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function addIrreToData(&$data, $table = 'tt_content', $cType = ''): void
     {
@@ -218,7 +216,6 @@ class InlineHelper
      * @return array all irre elements of this attribut
      * @throws Exception
      * @throws \Exception
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function getInlineElements(
         $data,
@@ -236,7 +233,7 @@ class InlineHelper
         // by default, the uid of the parent is $data["uid"]
         $parentUid = $data['uid'];
 
-        if ($GLOBALS['TSFE']->sys_language_uid !== 0 && $data['_LOCALIZED_UID'] !== '') {
+        if ($GLOBALS['TSFE']->sys_language_uid !== 0 && !empty($data['_LOCALIZED_UID'])) {
             $parentUid = $data['_LOCALIZED_UID'];
         }
 
@@ -261,7 +258,7 @@ class InlineHelper
         $rows = $queryBuilder->execute()->fetchAll();
 
         // and recursively add them to an array
-        $elements = array();
+        $elements = [];
         foreach ($rows as $element) {
             if (TYPO3_MODE === 'FE') {
                 $GLOBALS['TSFE']->sys_page->versionOL($childTable, $element);

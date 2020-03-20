@@ -25,7 +25,6 @@ class SubstrViewHelper extends AbstractViewHelper
 
     /**
      * @return bool the rendered string
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function render(): bool
     {

@@ -54,6 +54,8 @@ class WizardPageController extends WizardController
      * action list
      *
      * @return void
+     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException
+     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException
      * @noinspection PhpUnused
      */
     public function listAction(): void
@@ -67,6 +69,8 @@ class WizardPageController extends WizardController
      * action new
      *
      * @return void
+     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException
+     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException
      * @noinspection PhpUnused
      */
     public function newAction(): void
@@ -97,6 +101,8 @@ class WizardPageController extends WizardController
      *
      * @param string $layoutIdentifier
      * @return void
+     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException
+     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException
      * @noinspection PhpUnused
      */
     public function editAction($layoutIdentifier = null): void
@@ -122,7 +128,7 @@ class WizardPageController extends WizardController
      * @throws StopActionException
      * @noinspection PhpUnused
      */
-    public function updateAtion($storage): void
+    public function updateAction($storage): void
     {
         $this->storageRepository->update($storage);
         $this->generateAction();

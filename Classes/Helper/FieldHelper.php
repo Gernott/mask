@@ -63,13 +63,12 @@ class FieldHelper
      * @param string $key TCA Type
      * @param string $type elementtype
      * @return array elements in use
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function getElementsWhichUseField($key, $type = 'tt_content'): array
     {
         $storage = $this->storageRepository->load();
 
-        $elementsInUse = array();
+        $elementsInUse = [];
         if ($storage[$type]['elements']) {
             foreach ($storage[$type]['elements'] as $element) {
                 if ($element['columns']) {
@@ -91,7 +90,6 @@ class FieldHelper
      * @param string $fieldKey Key if Field
      * @param string $type elementtype
      * @return string Label
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function getLabel($elementKey, $fieldKey, $type = 'tt_content'): string
     {
@@ -119,7 +117,6 @@ class FieldHelper
      * @param string $elementKey Key of Element
      * @param string $type elementtype
      * @return string formType
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function getFormType($fieldKey, $elementKey = '', $type = 'tt_content'): string
     {
@@ -141,7 +138,7 @@ class FieldHelper
         }
 
         // if field is in inline table or $GLOBALS["TCA"] is not yet filled, load tca from json
-        if ($tca === null || !in_array($type, array('tt_content', 'pages'))) {
+        if ($tca === null || !in_array($type, ['tt_content', 'pages'])) {
             $tca = $this->storageRepository->loadField($type, $fieldKey);
             if (!$tca['config']) {
                 $tca = $this->storageRepository->loadField($type, 'tx_mask_' . $fieldKey);
@@ -186,7 +183,7 @@ class FieldHelper
                 break;
             case 'text':
                 $formType = 'Text';
-                if (in_array($type, array('tt_content', 'pages'))) {
+                if (in_array($type, ['tt_content', 'pages'])) {
                     if ($elementKey) {
                         $fieldNumberKey = -1;
                         if (is_array($element['columns'])) {
@@ -257,7 +254,6 @@ class FieldHelper
      * @param string $elementKey key of element
      * @param bool $excludeInlineFields
      * @return string $fieldType returns fieldType or null if not found
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function getFieldType($fieldKey, $elementKey = '', $excludeInlineFields = false): string
     {
@@ -267,7 +263,7 @@ class FieldHelper
         if ($storage && !$excludeInlineFields) {
             $types = array_keys($storage);
         } else {
-            $types = array();
+            $types = [];
         }
         $types[] = 'pages';
         $types[] = 'tt_content';

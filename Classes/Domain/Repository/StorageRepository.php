@@ -89,7 +89,7 @@ class StorageRepository
     public function load(): array
     {
         if (self::$json === null) {
-            self::$json = array();
+            self::$json = [];
             if (!empty($this->extSettings['json'])) {
                 $file = MaskUtility::getFileAbsFileName($this->extSettings['json']);
                 if (file_exists($file)) {
@@ -124,9 +124,8 @@ class StorageRepository
      * @param $type
      * @param $key
      * @return array
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
-    public function loadField($type, $key): array
+    public function loadField($type, $key): ?array
     {
         $json = $this->load();
         return $json[$type]['tca'][$key];
@@ -137,12 +136,11 @@ class StorageRepository
      *
      * @param string $parentKey key of the inline-field
      * @return array
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function loadInlineFields($parentKey): array
     {
         $json = $this->load();
-        $inlineFields = array();
+        $inlineFields = [];
         foreach ($json as $table) {
             if ($table['tca']) {
                 foreach ($table['tca'] as $key => $tca) {
@@ -166,10 +164,10 @@ class StorageRepository
      * @param $key
      * @return array
      */
-    public function loadElement($type, $key): array
+    public function loadElement($type, $key): ?array
     {
         $json = $this->load();
-        $fields = array();
+        $fields = [];
         $columns = $json[$type]['elements'][$key]['columns'];
 
         //Check if it is an array before trying to count it
@@ -226,7 +224,7 @@ class StorageRepository
             $json[$content['type']]['elements'][$content['elements']['key']][$key] = $value;
         }
 
-        $columns = array();
+        $columns = [];
 
         // delete columns and labels of irre-fields from elements
         if ($content['elements']['columns']) {
@@ -301,7 +299,7 @@ class StorageRepository
      * @param string $key
      * @param array $remainingFields
      */
-    public function remove($type, $key, $remainingFields = array()): void
+    public function remove($type, $key, $remainingFields = []): void
     {
         // Load
         $json = $this->load();
@@ -355,15 +353,14 @@ class StorageRepository
      * @param array $json
      * @param array $remainingFields
      * @return array
-     * @author Benjamin Butschell <bb@webprofil.at>
      *
      */
-    private function removeField($table, $field, $json, $remainingFields = array()): array
+    private function removeField($table, $field, $json, $remainingFields = []): array
     {
         $this->fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
 
         // check if this field is used in any other elements
-        $elementsInUse = array();
+        $elementsInUse = [];
         if ($json[$table]['elements']) {
             foreach ($json[$table]['elements'] as $element) {
                 if ($element['columns']) {
@@ -405,12 +402,12 @@ class StorageRepository
                     }
                     if ($found) {
                         // was not really deleted => can be deleted temporarly because it will be readded
-                        $json = $this->removeField($inlineField["inlineParent"], "tx_mask_" . $inlineField["key"],
+                        $json = $this->removeField($inlineField['inlineParent'], 'tx_mask_' . $inlineField['key'],
                             $json);
                     } else {
                         // was really deleted and can only be deleted if father is not in use in another element
                         if (($fatherGetsDeleted && count($elementsInUse) == 0) || !$fatherGetsDeleted) {
-                            $json = $this->removeField($inlineField["inlineParent"], "tx_mask_" . $inlineField["key"],
+                            $json = $this->removeField($inlineField['inlineParent'], 'tx_mask_' . $inlineField['key'],
                                 $json);
                         }
                     }
@@ -437,7 +434,6 @@ class StorageRepository
      * @param string $table
      * @param array $json
      * @return array
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     private function cleanTable($table, $json): array
     {

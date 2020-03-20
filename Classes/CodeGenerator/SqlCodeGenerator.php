@@ -103,7 +103,6 @@ class SqlCodeGenerator extends AbstractCodeGenerator
      * @throws SchemaException
      * @throws StatementException
      * @throws UnexpectedSignalReturnValueTypeException
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
     public function updateDatabase(): array
     {
@@ -123,9 +122,9 @@ class SqlCodeGenerator extends AbstractCodeGenerator
      */
     public function getSqlByConfiguration($json): array
     {
-        $sql_content = array();
+        $sql_content = [];
         $types = array_keys($json);
-        $nonIrreTables = array('pages', 'tt_content');
+        $nonIrreTables = ['pages', 'tt_content'];
         $fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
 
         // Generate SQL-Statements
@@ -179,13 +178,12 @@ class SqlCodeGenerator extends AbstractCodeGenerator
                         if ($field) {
                             foreach ($field as $table => $fields) {
                                 if ($fields) {
-                                    foreach ($fields as $field => $definition) {
-                                        $sql_content[] = 'CREATE TABLE ' . $table . " (\n\t" . $field . ' ' . $definition . "\n);\n";
-
+                                    foreach ($fields as $fieldKey => $definition) {
+                                        $sql_content[] = 'CREATE TABLE ' . $table . " (\n\t" . $fieldKey . ' ' . $definition . "\n);\n";
                                         // if this field is a content field, also add parent columns
-                                        $fieldType = $fieldHelper->getFormType($field, '', $table);
+                                        $fieldType = $fieldHelper->getFormType($fieldKey, '', $table);
                                         if ($fieldType === 'Content') {
-                                            $sql_content[] = "CREATE TABLE tt_content (\n\t" . $field . '_parent' . ' ' . $definition . ",\n\t" . 'KEY ' . $field . ' (' . $field . '_parent,pid,deleted)' . "\n);\n";
+                                            $sql_content[] = "CREATE TABLE tt_content (\n\t" . $fieldKey . '_parent' . ' ' . $definition . ",\n\t" . 'KEY ' . $fieldKey . ' (' . $fieldKey . '_parent,pid,deleted)' . "\n);\n";
                                         }
                                     }
                                 }
@@ -212,6 +210,6 @@ class SqlCodeGenerator extends AbstractCodeGenerator
         $json = $storageRepository->load();
         $sql = $this->getSqlByConfiguration($json);
         $mergedSqlString = array_merge($sqlString, $sql);
-        return array('sqlString' => $mergedSqlString);
+        return ['sqlString' => $mergedSqlString];
     }
 }

@@ -60,9 +60,9 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
                 // Register icons for contentelements
                 $iconIdentifier = 'mask-ce-' . $element['key'];
                 $iconRegistry->registerIcon(
-                    $iconIdentifier, ContentElementIconProvider::class, array(
+                    $iconIdentifier, ContentElementIconProvider::class, [
                         'contentElementKey' => $element['key']
-                    )
+                    ]
                 );
 
                 if (!$element['hidden']) {
@@ -86,10 +86,10 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
                     $content .= "}\n";
 
                     // and switch the labels depending on which content element is selected
-                    $content .= "\n[maskContentType(\"CType|mask_" . $element["key"] . "\")]\n";
-                    if ($element["columns"]) {
-                        foreach ($element["columns"] as $index => $column) {
-                            $content .= " TCEFORM.tt_content." . $column . ".label = " . $element["labels"][$index] . "\n";
+                    $content .= "\n[isMaskContentType(\"mask_" . $element['key'] . "\")]\n";
+                    if ($element['columns']) {
+                        foreach ($element['columns'] as $index => $column) {
+                            $content .= ' TCEFORM.tt_content.' . $column . '.label = ' . $element['labels'][$index] . "\n";
                         }
                     }
                     $content .= "[end]\n\n";
@@ -106,13 +106,13 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
      */
     public function generatePageTyposcript($json): string
     {
-        $pageColumns = array();
+        $pageColumns = [];
         $disableColumns = '';
         $pagesContent = '';
         if ($json['pages']['elements']) {
             foreach ($json['pages']['elements'] as $element) {
                 // Labels for pages
-                $pagesContent .= "\n[userFunc = user_mask_beLayout(" . $element['key'] . ")]\n";
+                $pagesContent .= "\n[maskBeLayout(" . $element['key'] . ")]\n";
                 // if page has backendlayout with this element-key
                 if ($element['columns']) {
                     foreach ($element['columns'] as $index => $column) {

@@ -46,7 +46,7 @@ class SettingsService
      * @var array
      * @api
      */
-    protected $settings = array();
+    protected $settings = [];
 
     /**
      * Contains the settings of the $_EXTCONF
