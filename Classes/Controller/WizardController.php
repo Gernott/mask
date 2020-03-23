@@ -285,7 +285,7 @@ class WizardController extends ActionController
             $this->redirect('edit', null, null, $arguments);
         } else {
             if (key_exists('saveAndExit', $formAction)) {
-                $this->redirect('list');
+                $this->redirect('list', 'Wizard');
             }
         }
     }
