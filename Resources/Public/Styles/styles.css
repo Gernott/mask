@@ -78,6 +78,15 @@
 	margin-top: 3px;
 }
 
+.tx_mask_tabcell4 {
+	padding-top: 10px;
+}
+
+.tx_mask_tabcell4 > label {
+	display: block;
+	color: #495460;
+}
+
 .tx_mask_fieldheader {
 	height: 50px;
 	margin-bottom: 14px;
@@ -813,7 +822,7 @@ img.brand-logo {
 }
 
 .tx_mask_tabcell5 {
-	margin: 12px 0 !important;
+	margin: 0 0 30px 0;
 	padding: 0 !important;
 }
 
@@ -893,4 +902,23 @@ img.brand-logo {
 		max-width: 330px;
 		width: 90%;
 	}
+}
+
+.mask_tooltip {
+	position: relative;
+}
+
+.mask_tooltip .tooltiptext {
+	visibility: hidden;
+	width: 120px;
+	color: #555;
+	text-align: center;
+	position: absolute;
+	z-index: 1;
+	bottom: -27px;
+	left: -41px;
+}
+
+.tx_mask_field_templates .mask_tooltip:hover .tooltiptext {
+	visibility: visible;
 }
