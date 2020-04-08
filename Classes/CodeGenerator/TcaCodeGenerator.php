@@ -362,9 +362,6 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                 'dynamicConfigFile' => '',
                 'iconfile' => ''
             ],
-            'interface' => [
-                'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, ',
-            ],
             'types' => [
                 '1' => ['showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'],
             ],
@@ -391,7 +388,6 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                 ],
                 'l10n_parent' => [
                     'displayCond' => 'FIELD:sys_language_uid:>:0',
-                    'exclude' => 1,
                     'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.l18n_parent',
                     'config' => [
                         'type' => 'select',
@@ -529,8 +525,6 @@ class TcaCodeGenerator extends AbstractCodeGenerator
         $tableTca['ctrl']['title'] = $table;
         $tableTca['ctrl']['label'] = $labelField;
         $tableTca['ctrl']['searchFields'] = implode(',', $fields);
-        $tableTca['interface']['showRecordFieldList'] = 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, '
-            . implode(', ', $fields);
         $tableTca['types']['1']['showitem'] = $prependTabs . implode(', ', $fields)
             . ', --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime';
 
