@@ -246,7 +246,7 @@ class WizardController extends ActionController
      * @throws Exception
      * @noinspection PhpUnused
      */
-    public function checkElementKey(ServerRequest $request, Response $response): Response
+    public function checkElementKey(ServerRequest $request, Response $response = null): Response
     {
         $elementKey = $request->getQueryParams()['key'];
 
@@ -400,7 +400,7 @@ class WizardController extends ActionController
             }
         }
     }
-    
+
     /**
      * action list
      *
