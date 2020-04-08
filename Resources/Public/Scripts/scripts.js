@@ -1,5 +1,6 @@
 jQuery.noConflict();
 jQuery(document).ready(function () {
+  showMessages();
 
   // delete modal of content elements
   jQuery(document).on("click", ".deleteCe", function (event) {
@@ -783,4 +784,14 @@ function showInlineContainer(body) {
     var head = findHeadByBody(body);
     jQuery(head).removeClass("existing_inline");
   }
+}
+
+function showMessages() {
+  require(['TYPO3/CMS/Backend/Notification'], function (Notification) {
+    let messages = jQuery('.typo3-messages > div');
+    jQuery.each(messages, function (index, message) {
+      let text = jQuery(message).find('.alert-message').html();
+      Notification.success(text);
+    });
+  });
 }

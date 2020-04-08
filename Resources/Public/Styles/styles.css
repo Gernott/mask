@@ -819,7 +819,9 @@ img.brand-logo {
 .fa.fa-plus-circle {
 	color: #4c7e3a;
 }
-
+.typo3-messages {
+	display: none;
+}
 .module-body {
 	padding-top: 25px !important;
 }
