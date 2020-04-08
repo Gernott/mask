@@ -35,6 +35,8 @@ use MASK\Mask\Domain\Service\SettingsService;
 use MASK\Mask\Helper\FieldHelper;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Core\Cache\CacheManager;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Http\ServerRequest;
@@ -132,7 +134,7 @@ class WizardController extends ActionController
         'preview'
     ];
 
-    protected $missingFolders = false;
+    protected $missingFolders = [];
 
     /**
      * is called before every action
@@ -165,16 +167,14 @@ class WizardController extends ActionController
      */
     protected function prepareStorage(&$storage): void
     {
-        // Fill storage with additional data before assigning to view
-        if ($storage['tca']) {
-            foreach ($storage['tca'] as $key => $field) {
-                if (is_array($field) && $field['config']['type'] === 'inline') {
-                    $storage['tca'][$key]['inlineFields'] = $this->storageRepository->loadInlineFields($key);
-                    uasort($storage['tca'][$key]['inlineFields'], static function ($columnA, $columnB) {
-                        $a = isset($columnA['order']) ? (int)$columnA['order'] : 0;
-                        $b = isset($columnB['order']) ? (int)$columnB['order'] : 0;
-                        return $a - $b;
-                    });
+         // Fill storage with additional data before assigning to view
+        if ($storage["tca"]) {
+            foreach ($storage["tca"] as $key => $field) {
+                if (is_array($field)) {
+                    if ($field["config"]["type"] == "inline") {
+                        $storage["tca"][$key]["inlineFields"] = $this->storageRepository->loadInlineFields($key);
+                        $this->sortInlineFieldsByOrder($storage["tca"][$key]["inlineFields"]);
+                    }
                 }
             }
         }
@@ -283,7 +283,7 @@ class WizardController extends ActionController
             $this->redirect('edit', null, null, $arguments);
         } else {
             if (key_exists('saveAndExit', $formAction)) {
-                $this->redirect('list');
+                $this->redirect('list', 'Wizard');
             }
         }
     }
@@ -370,12 +370,53 @@ class WizardController extends ActionController
     protected function checkFolder($path, $translationKey = 'tx_mask.all.error.missingjson'): void
     {
         if (!file_exists(MaskUtility::getFileAbsFileName($path))) {
-            $this->missingFolders = true;
-            $this->addFlashMessage(
-                LocalizationUtility::translate($translationKey, 'mask'),
-                $path,
-                AbstractMessage::WARNING
-            );
+            $this->missingFolders[] = $path;
+//            $this->addFlashMessage(
+//                LocalizationUtility::translate($translationKey, 'mask'),
+//                $path,
+//                AbstractMessage::WARNING
+//            );
         }
+    }
+
+  /**
+     * Sort inline fields recursively.
+     *
+     * @param array $inlineFields
+     */
+    public function sortInlineFieldsByOrder(array &$inlineFields)
+    {
+        uasort($inlineFields, function ($columnA, $columnB) {
+            $a = isset($columnA['order']) ? (int)$columnA['order'] : 0;
+            $b = isset($columnB['order']) ? (int)$columnB['order'] : 0;
+            return $a - $b;
+        });
+
+        foreach ($inlineFields as $i => $field) {
+            if ($field["config"]["type"] == "inline") {
+                if (isset($inlineFields[$i]["inlineFields"]) && is_array($inlineFields[$i]["inlineFields"])) {
+                    $this->sortInlineFieldsByOrder($inlineFields[$i]["inlineFields"]);
+                }
+            }
+        }
+    }
+    
+    /**
+     * action list
+     *
+     * @return void
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
+     */
+    public function listAction()
+    {
+        $settings = $this->settingsService->get();
+        $storages = $this->storageRepository->load();
+        $backendLayouts = $this->backendLayoutRepository->findAll(explode(',', $settings['backendlayout_pids']));
+        $this->checkFolders();
+
+        $this->view->assign('missingFolders', $this->missingFolders);
+        $this->view->assign('storages', $storages);
+        $this->view->assign('backendLayouts', $backendLayouts);
     }
 }

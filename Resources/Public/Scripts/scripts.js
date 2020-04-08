@@ -70,7 +70,7 @@ jQuery(document).ready(function () {
   });
 
   // 1st column click
-  jQuery(".tx_mask_tabcell1").on("click", "LI", function (event) {
+  jQuery(".tx_mask_tabcell4 .tx_mask_field_templates").on("click", "LI", function (event) {
 
     // search for active field
     var activeFound = false;

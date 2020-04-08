@@ -1,61 +1,51 @@
-<div class="row">
-	<div class="form-group col-sm-4">
-		<label class="t3js-formengine-label" for="meta_label">
-			<f:translate key="tx_mask.content.title"/>
-			*
-		</label>
-		<div class="t3js-formengine-field-item">
-			<div class="form-control-wrap">
-				<f:form.textfield class="form-control" id="meta_label" required="required" value="{storage.label}"
-													property="elements][label" placeholder="{f:translate(key:'tx_mask.content.title')}"
-													title="{f:translate(key:'tx_mask.content.title')}"/>
-			</div>
-		</div>
+<label class="t3js-formengine-label" for="meta_label">
+	<f:translate key="tx_mask.content.title"/>
+	*
+</label>
+<div class="t3js-formengine-field-item">
+	<div class="form-control-wrap">
+		<f:form.textfield class="form-control" id="meta_label" required="required" value="{storage.label}"
+											property="elements][label" placeholder="{f:translate(key:'tx_mask.content.title')}"
+											title="{f:translate(key:'tx_mask.content.title')}"/>
 	</div>
-	<div class="form-group col-sm-4">
-		<label class="t3js-formengine-label" for="meta_key">
-			<f:translate key="tx_mask.all.fieldkey"/>
-			*
-		</label>
-		<div class="t3js-formengine-field-item">
-			<div class="form-control-wrap">
-				<f:form.textfield class="form-control lowercase" id="meta_key" value="{storage.key}" required="required"
-													property="elements][key" placeholder="{f:translate(key:'tx_mask.all.fieldkey')}"
-													title="{f:translate(key:'tx_mask.all.fieldkey')}"
-													readonly="{f:if(condition: '{editMode}', then: 'readonly', else: '')}"/>
-			</div>
-		</div>
+</div>
+<label class="t3js-formengine-label" for="meta_key">
+	<f:translate key="tx_mask.all.fieldkey"/>
+	*
+</label>
+<div class="t3js-formengine-field-item">
+	<div class="form-control-wrap">
+		<f:form.textfield class="form-control lowercase" id="meta_key" value="{storage.key}" required="required"
+											property="elements][key" placeholder="{f:translate(key:'tx_mask.all.fieldkey')}"
+											title="{f:translate(key:'tx_mask.all.fieldkey')}"
+											readonly="{f:if(condition: '{editMode}', then: 'readonly', else: '')}"/>
 	</div>
-	<div class="form-group col-sm-4">
-		<label class="t3js-formengine-label" for="meta_shortlabel">
-			<f:translate key="tx_mask.all.shorttitle"/>
-		</label>
-		<div class="t3js-formengine-field-item">
-			<div class="form-control-wrap">
-				<f:form.textfield class="form-control" id="meta_shortlabel" property="elements][shortLabel"
-													value="{storage.shortLabel}" placeholder="{f:translate(key:'tx_mask.all.shorttitle')}"
-													title="{f:translate(key:'tx_mask.all.shorttitle')}"/>
-			</div>
-		</div>
+</div>
+<label class="t3js-formengine-label" for="meta_shortlabel">
+	<f:translate key="tx_mask.all.shorttitle"/>
+</label>
+<div class="t3js-formengine-field-item">
+	<div class="form-control-wrap">
+		<f:form.textfield class="form-control" id="meta_shortlabel" property="elements][shortLabel"
+											value="{storage.shortLabel}" placeholder="{f:translate(key:'tx_mask.all.shorttitle')}"
+											title="{f:translate(key:'tx_mask.all.shorttitle')}"/>
+	</div>
+</div>
+<label class="t3js-formengine-label" for="meta_description">
+	<f:translate key="tx_mask.all.description"/>
+</label>
+<div class="t3js-formengine-field-item">
+	<div class="form-control-wrap">
+		<f:form.textfield class="form-control" id="meta_description" property="elements][description"
+											value="{storage.description}" placeholder="{f:translate(key:'tx_mask.all.description')}"
+											title="{f:translate(key:'tx_mask.all.description')}"/>
+		<f:form.hidden property="type" value="tt_content"/>
+		<f:form.hidden property="orgkey" value="{storage.key}"/>
 	</div>
 </div>
 
 <div class="row">
-	<div class="form-group col-sm-6">
-		<label class="t3js-formengine-label" for="meta_description">
-			<f:translate key="tx_mask.all.description"/>
-		</label>
-		<div class="t3js-formengine-field-item">
-			<div class="form-control-wrap">
-				<f:form.textfield class="form-control" id="meta_description" property="elements][description"
-													value="{storage.description}" placeholder="{f:translate(key:'tx_mask.all.description')}"
-													title="{f:translate(key:'tx_mask.all.description')}"/>
-				<f:form.hidden property="type" value="tt_content"/>
-				<f:form.hidden property="orgkey" value="{storage.key}"/>
-			</div>
-		</div>
-	</div>
-	<div class="form-group col-sm-3">
+	<div class="col-sm-6">
 		<label class="t3js-formengine-label" for="meta_icon">
 			<a href="https://fortawesome.github.io/Font-Awesome/icons/" target="_blank">
 				<f:translate key="tx_mask.all.icon"/>
@@ -69,7 +59,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="form-group col-sm-3">
+	<div class="col-sm-6">
 		<label class="t3js-formengine-label" for="meta_color">
 			<f:translate key="tx_mask.all.color"/>
 		</label>
@@ -80,5 +70,7 @@
 													title="{f:translate(key:'tx_mask.all.color')}"/>
 			</div>
 		</div>
+
 	</div>
 </div>
+
