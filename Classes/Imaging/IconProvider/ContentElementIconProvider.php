@@ -166,7 +166,7 @@ class ContentElementIconProvider implements IconProviderInterface
      */
     protected function isFontAwesomeKeyAvailable($element): bool
     {
-        return trim($element['icon']) !== '';
+        return isset($element['icon']) && trim($element['icon']) !== '';
     }
 
     /**
