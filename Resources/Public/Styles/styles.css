@@ -686,8 +686,15 @@ h1 .icon.t3js-icon {
 	font-size: 11px;
 	letter-spacing: 2px;
 	line-height: 11px;
-	margin-top: 70px;
 	text-align: right;
+}
+
+.card-container.sponsor-card-container {
+	margin-top: 70px;
+}
+
+.list-headline {
+	margin-top: 30px;
 }
 
 img.brand-logo {
@@ -819,9 +826,11 @@ img.brand-logo {
 .fa.fa-plus-circle {
 	color: #4c7e3a;
 }
+
 .typo3-messages {
 	display: none;
 }
+
 .module-body {
 	padding-top: 25px !important;
 }
