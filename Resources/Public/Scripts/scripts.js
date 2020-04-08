@@ -790,8 +790,9 @@ function showMessages() {
   require(['TYPO3/CMS/Backend/Notification'], function (Notification) {
     let messages = jQuery('.typo3-messages > div');
     jQuery.each(messages, function (index, message) {
+      let title = jQuery(message).find('.alert-title').html();
       let text = jQuery(message).find('.alert-message').html();
-      Notification.success(text);
+      Notification.success(title, text);
     });
   });
 }
