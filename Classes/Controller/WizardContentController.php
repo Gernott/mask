@@ -224,6 +224,7 @@ class WizardContentController extends WizardController
     protected function createHtmlAction($key): void
     {
         $html = $this->htmlCodeGenerator->generateHtml($key, 'tt_content');
+        $this->addFlashMessage('Datei wurde angelegt');
         $this->saveHtml($key, $html);
         $this->redirect('list', 'Wizard');
     }
