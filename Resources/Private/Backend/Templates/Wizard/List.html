@@ -75,8 +75,8 @@
 									<p>{storage.description}</p>
 									<mask:link data="{key}"/>
 									<f:if condition="{mask:link(data:key)}">
-										<f:link.action action="createHtml" arguments="{key:key}" controller="WizardContent">
-											<i class="fa fa-plus-circle "></i>
+										<f:link.action action="createHtml" arguments="{key:key}" controller="WizardContent" class="btn btn-default">
+											<i class="fa fa-plus-circle "></i> Fehlende HTML-Datei anlegen
 										</f:link.action>
 									</f:if>
 								</td>
