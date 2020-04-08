@@ -75,12 +75,17 @@
 
 .tx_mask_tabcell2 ul .dragtarget {
 	min-height: 38px;
+	padding: 5px;
+	border: 1px dashed #bbb;
 }
-
 .tx_mask_tabcell2 ul .dragtarget li.tx_mask_btn {
 	border-bottom: 2px solid #fafafa;
 	margin-bottom: 0;
 	margin-top: 3px;
+}
+
+.id_Inline .tx_mask_btn_caption {
+	border-left: 4px solid #9e97d1;
 }
 
 .tx_mask_tabcell4 {
