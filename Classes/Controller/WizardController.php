@@ -167,16 +167,14 @@ class WizardController extends ActionController
      */
     protected function prepareStorage(&$storage): void
     {
-        // Fill storage with additional data before assigning to view
-        if ($storage['tca']) {
-            foreach ($storage['tca'] as $key => $field) {
-                if (is_array($field) && $field['config']['type'] === 'inline') {
-                    $storage['tca'][$key]['inlineFields'] = $this->storageRepository->loadInlineFields($key);
-                    uasort($storage['tca'][$key]['inlineFields'], static function ($columnA, $columnB) {
-                        $a = isset($columnA['order']) ? (int)$columnA['order'] : 0;
-                        $b = isset($columnB['order']) ? (int)$columnB['order'] : 0;
-                        return $a - $b;
-                    });
+         // Fill storage with additional data before assigning to view
+        if ($storage["tca"]) {
+            foreach ($storage["tca"] as $key => $field) {
+                if (is_array($field)) {
+                    if ($field["config"]["type"] == "inline") {
+                        $storage["tca"][$key]["inlineFields"] = $this->storageRepository->loadInlineFields($key);
+                        $this->sortInlineFieldsByOrder($storage["tca"][$key]["inlineFields"]);
+                    }
                 }
             }
         }
@@ -381,6 +379,28 @@ class WizardController extends ActionController
         }
     }
 
+  /**
+     * Sort inline fields recursively.
+     *
+     * @param array $inlineFields
+     */
+    public function sortInlineFieldsByOrder(array &$inlineFields)
+    {
+        uasort($inlineFields, function ($columnA, $columnB) {
+            $a = isset($columnA['order']) ? (int)$columnA['order'] : 0;
+            $b = isset($columnB['order']) ? (int)$columnB['order'] : 0;
+            return $a - $b;
+        });
+
+        foreach ($inlineFields as $i => $field) {
+            if ($field["config"]["type"] == "inline") {
+                if (isset($inlineFields[$i]["inlineFields"]) && is_array($inlineFields[$i]["inlineFields"])) {
+                    $this->sortInlineFieldsByOrder($inlineFields[$i]["inlineFields"]);
+                }
+            }
+        }
+    }
+    
     /**
      * action list
      *
