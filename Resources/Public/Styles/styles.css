@@ -45,9 +45,9 @@
 	width: 37px;
 }
 
-/*.tx_mask_btn_row .tx_mask_btn_img img, .tx_mask_fieldheader img {*/
-/*	border-radius: 2px;*/
-/*}*/
+.tx_mask_btn_row .tx_mask_btn_img img, .tx_mask_fieldheader img, .icon-module-tools_MaskMask img {
+	border-radius: 2px;
+}
 
 .tx_mask_btn_row .tx_mask_btn_text {
 	padding-left: 13px;
@@ -78,6 +78,7 @@
 	padding: 5px;
 	border: 1px dashed #bbb;
 }
+
 .tx_mask_tabcell2 ul .dragtarget li.tx_mask_btn {
 	border-bottom: 2px solid #fafafa;
 	margin-bottom: 0;
