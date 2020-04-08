@@ -5,13 +5,18 @@
 }
 
 .tx_mask_btn {
-	background: #fff;
+	background: #f2f2f2;
+	/*border: none !important;*/
 	cursor: move;
 	display: table;
 	height: 37px;
 	margin-bottom: 4px;
 	width: 100%;
 }
+
+/*.tx_mask_tabcell2 .tx_mask_btn {*/
+/*	border: 1px solid #bbb;*/
+/*}*/
 
 .tx_mask_btn_row {
 	display: table-row;
@@ -40,9 +45,9 @@
 	width: 37px;
 }
 
-.tx_mask_btn_row .tx_mask_btn_img img, .tx_mask_fieldheader img {
-	border-radius: 2px;
-}
+/*.tx_mask_btn_row .tx_mask_btn_img img, .tx_mask_fieldheader img {*/
+/*	border-radius: 2px;*/
+/*}*/
 
 .tx_mask_btn_row .tx_mask_btn_text {
 	padding-left: 13px;
@@ -80,6 +85,8 @@
 
 .tx_mask_tabcell4 {
 	padding-top: 10px;
+	height: 100%;
+	overflow: auto;
 }
 
 .tx_mask_tabcell4 > label {
@@ -159,11 +166,13 @@ ul.tx_mask_fieldtypes li .id_keytext {
 }
 
 .tx_mask_tabcell3 {
-	padding: 0 20px;
+	height: 100%;
+	background: #f2f2f2;
+	padding: 30px !important;
 }
 
 .tx_mask_tabcell2 li.active, .tx_mask_tabcell2 li:hover {
-	background: #F2F2F2;
+	background: #eaf4fd;
 }
 
 .icon-size-default {
@@ -197,7 +206,7 @@ ul.tx_mask_fieldtypes .tx_mask_fieldcontent_highlight {
 }
 
 .row.bench {
-	height: calc(100vh - 40px);
+	height: calc(100vh);
 	margin-left: -25px;
 	margin-top: -25px;
 	overflow: hidden;
@@ -809,16 +818,16 @@ img.brand-logo {
 	padding-top: 25px !important;
 }
 
-.tx_mask_tabcell2, .tx_mask_tabcell3 {
+.tx_mask_tabcell2 {
 	padding-top: 65px;
 }
 
 .form-group.col-sm-12.tx_mask_borderright.tx_mask_tabcell2 {
-	background: #e8e8e8;
+	background: none;
 	height: auto;
 	margin: 0;
-	overflow: auto;
 	padding: 11px;
+	border: 1px dashed #bbb;
 }
 
 .tx_mask_tabcell5 {
