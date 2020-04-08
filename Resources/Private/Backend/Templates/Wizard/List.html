@@ -110,7 +110,7 @@
 											</f:else>
 										</f:if>
 										<!-- @formatter:off -->
-									<f:link.action action="delete" controller="WizardContent" arguments="{type:'tt_content',key:key}" class="deleteCe btn btn-default" additionalAttributes="{data-purge-url:'{f:uri.action(action:\'purge\', arguments: {type:\'tt_content\',key:key})}', data-title: '{f:translate(key:\"tx_mask.field.titleDelete\")}', data-content: '{f:translate(key:\"tx_mask.all.confirmdelete\")}', data-button-close-text:'{f:translate(key:\"tx_mask.all.abort\")}', data-button-ok-text:'{f:translate(key:\"tx_mask.all.delete\")}', data-button-purge-text:'{f:translate(key:\"tx_mask.all.purge\")}'}"><core:icon identifier="actions-edit-delete" /></f:link.action>
+									<f:link.action action="delete" controller="WizardContent" arguments="{type:'tt_content',key:key}" class="deleteCe btn btn-default" additionalAttributes="{data-purge-url:'{f:uri.action(action:\'purge\', controller:\'WizardContent\', arguments: {type:\'tt_content\',key:key})}', data-title: '{f:translate(key:\"tx_mask.field.titleDelete\")}', data-content: '{f:translate(key:\"tx_mask.all.confirmdelete\")}', data-button-close-text:'{f:translate(key:\"tx_mask.all.abort\")}', data-button-ok-text:'{f:translate(key:\"tx_mask.all.delete\")}', data-button-purge-text:'{f:translate(key:\"tx_mask.all.purge\")}'}"><core:icon identifier="actions-edit-delete" /></f:link.action>
 									<!-- @formatter:on -->
 									</div>
 								</td>
