@@ -687,6 +687,7 @@ h1 .icon.t3js-icon {
 	letter-spacing: 2px;
 	line-height: 11px;
 	text-align: right;
+	margin-bottom: 50px;
 }
 
 .card-container.sponsor-card-container {
@@ -833,6 +834,7 @@ img.brand-logo {
 
 .module-body {
 	padding-top: 25px !important;
+	overflow-y: hidden !important;
 }
 
 .tx_mask_tabcell2 {
@@ -845,6 +847,9 @@ img.brand-logo {
 	margin: 0;
 	padding: 11px;
 	border: 1px dashed #bbb;
+}
+.icon-size-large .icon-unify {
+	font-size: 35px !important;
 }
 
 .tx_mask_tabcell5 {

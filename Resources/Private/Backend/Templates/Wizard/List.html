@@ -2,6 +2,11 @@
 {namespace core = TYPO3\CMS\Core\ViewHelpers}
 <f:layout name="Default"/>
 <f:section name="content">
+	<style>
+		.module-body {
+			overflow-y: auto !important;
+		}
+	</style>
 	<div class="container">
 		<h1 class="list-headline">
 			<core:icon identifier="module-tools_MaskMask" size="default"/>
