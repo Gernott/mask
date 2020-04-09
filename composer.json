@@ -32,12 +32,16 @@
 		"typo3/cms-extbase": "10.3.*@dev || dev-master"
 	},
 	"replace": {
-		"mask": "self.version",
 		"typo3-ter/mask": "self.version"
 	},
 	"autoload": {
 		"psr-4": {
 			"MASK\\Mask\\": "Classes/"
+		}
+	},
+	"extra": {
+		"typo3/cms": {
+			"extension-key": "mask"
 		}
 	}
 }
