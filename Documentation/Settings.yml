@@ -8,9 +8,9 @@
 
 ---
 conf.py:
-  copyright: 2019
+  copyright: 2020
   project: mask
-  version: 4.1.2
+  version: 5.0.0
   release:
   intersphinx_mapping:
     t3tsref:
