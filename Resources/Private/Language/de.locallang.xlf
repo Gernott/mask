@@ -559,6 +559,21 @@
 			<trans-unit id="tx_mask.page.updatedpage">
 				<target>Backend-Layout wurde aktualisert.</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.all.create">
+				<target>erstellen</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.create_content_element">
+				<target>Neues Inhaltselement anlegen</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.fields_of_element">
+				<target>Felder des Elements</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.add_new_fields">
+				<target>Felder hinzufügen</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.createdHtml">
+				<target>Datei wurde angelegt.</target>
+			</trans-unit>
 
 
 			<trans-unit id="tx_mask.all.label">

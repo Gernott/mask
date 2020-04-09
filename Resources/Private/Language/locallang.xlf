@@ -549,6 +549,24 @@
 			<trans-unit id="tx_mask.page.updatedpage">
 				<source>Backend-Layout was updated.</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.page.extend">
+				<source></source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.create">
+				<source></source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.create_content_element">
+				<source>Create new content element</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.fields_of_element">
+				<source>Fields of this element</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.add_new_fields">
+				<source>Add new fields</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.createdHtml">
+				<source>File was created.</source>
+			</trans-unit>
 
 
 			<trans-unit id="tx_mask.all.label">

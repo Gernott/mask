@@ -34,7 +34,7 @@
 				<h2>
 					<core:icon identifier="mimetypes-x-content-text" size="default"/>
 					<f:translate key="tx_mask.all.contentelements"/>
-					<small>erstellen</small>
+					<small><f:translate key="tx_mask.all.create"/></small>
 				</h2>
 				<div class="table-fit collapse in" data-state="expanded">
 					<table cellspacing="0" cellpadding="0" border="0" class="table table-striped table-hover table-condensed">
@@ -125,7 +125,7 @@
 							<td colspan="6">
 								<f:link.action action="new" controller="WizardContent" class="btn btn-default btn-add">
 									<i class="fa fa-plus-circle "></i>
-									Neues Inhaltselement anlegen
+									<f:translate key="tx_mask.all.create_content_element"/>
 								</f:link.action>
 							</td>
 						</tr>
@@ -137,7 +137,7 @@
 				<h2>
 					<core:icon identifier="mimetypes-x-backend_layout" size="default"/>
 					<f:translate key="tx_mask.all.pagetemplates"/>
-					<small>erweitern</small>
+					<small><f:translate key="tx_mask.page.extend"/></small>
 				</h2>
 				<f:if condition="{backendLayouts -> f:count()}==0">
 					<f:then>
