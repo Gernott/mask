@@ -213,8 +213,7 @@ ul.tx_mask_fieldtypes .tx_mask_fieldcontent_highlight {
 
 .row.bench {
 	height: calc(100vh);
-	margin-left: -25px;
-	margin-top: -25px;
+	margin: 0;
 	overflow: hidden;
 }
 
