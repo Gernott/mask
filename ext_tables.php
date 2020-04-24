@@ -12,7 +12,7 @@ defined('TYPO3_MODE') or die();
             $extkey,
             'tools', // Make module a submodule of 'admin'
             'mask', // Submodule key
-            'top', // Position
+            'bottom', // Position
             [
             	\MASK\Mask\Controller\WizardController::class => 'list,createMissingFolders',
                 \MASK\Mask\Controller\WizardContentController::class => 'list, new, create, edit, update, delete, purge, generate, showHtml, createMissingFolders, hide, activate, createHtml',
