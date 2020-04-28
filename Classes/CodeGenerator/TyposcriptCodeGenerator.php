@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace MASK\Mask\CodeGenerator;
 
@@ -29,6 +30,8 @@ namespace MASK\Mask\CodeGenerator;
 use MASK\Mask\Domain\Model\BackendLayout;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Imaging\IconRegistry;
+use MASK\Mask\Imaging\IconProvider\ContentElementIconProvider;
 
 /**
  * Generates all the typoscript needed for mask content elements
@@ -45,48 +48,48 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
      * @param array $json
      * @return string
      */
-    public function generateTsConfig($json)
+    public function generateTsConfig($json): string
     {
         // generate page TSconfig
-        $content = "";
-        $iconRegistry = GeneralUtility::makeInstance("TYPO3\CMS\Core\Imaging\IconRegistry");
+        $content = '';
+        $iconRegistry = GeneralUtility::makeInstance(IconRegistry::class);
 
         // make content-Elements
-        if ($json["tt_content"]["elements"]) {
-            foreach ($json["tt_content"]["elements"] as $element) {
+        if ($json['tt_content']['elements']) {
+            foreach ($json['tt_content']['elements'] as $element) {
                 // Register icons for contentelements
-                $iconIdentifier = 'mask-ce-' . $element["key"];
+                $iconIdentifier = 'mask-ce-' . $element['key'];
                 $iconRegistry->registerIcon(
-                    $iconIdentifier, "MASK\Mask\Imaging\IconProvider\ContentElementIconProvider", array(
-                        'contentElementKey' => $element["key"]
-                    )
+                    $iconIdentifier, ContentElementIconProvider::class, [
+                        'contentElementKey' => $element['key']
+                    ]
                 );
 
-                if (!$element["hidden"]) {
+                if (!$element['hidden']) {
 
                     // add the content element wizard for each content element
                     $wizard = [
                         'header' => 'LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:new_content_element_tab',
-                        'elements.mask_' . $element["key"] => [
+                        'elements.mask_' . $element['key'] => [
                             'iconIdentifier' => $iconIdentifier,
-                            'title' => $element["label"],
-                            'description' => $element["description"],
+                            'title' => $element['label'],
+                            'description' => $element['description'],
                             'tt_content_defValues' => [
-                                'CType' => 'mask_' . $element["key"]
+                                'CType' => 'mask_' . $element['key']
                             ]
                         ],
 
                     ];
                     $content .= "mod.wizards.newContentElement.wizardItems.mask {\n";
                     $content .= $this->convertArrayToTypoScript($wizard, '', 1);
-                    $content .= "\tshow := addToList(mask_" . $element["key"] . ");\n";
+                    $content .= "\tshow := addToList(mask_" . $element['key'] . ");\n";
                     $content .= "}\n";
 
                     // and switch the labels depending on which content element is selected
-                    $content .= "\n[userFunc = user_mask_contentType(CType|mask_" . $element["key"] . ")]\n";
-                    if ($element["columns"]) {
-                        foreach ($element["columns"] as $index => $column) {
-                            $content .= " TCEFORM.tt_content." . $column . ".label = " . $element["labels"][$index] . "\n";
+                    $content .= "\n[isMaskContentType(\"mask_" . $element['key'] . "\")]\n";
+                    if ($element['columns']) {
+                        foreach ($element['columns'] as $index => $column) {
+                            $content .= ' TCEFORM.tt_content.' . $column . '.label = ' . $element['labels'][$index] . "\n";
                         }
                     }
                     $content .= "[end]\n\n";
@@ -101,24 +104,24 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
      * @param array $json
      * @return string
      */
-    public function generatePageTyposcript($json)
+    public function generatePageTyposcript($json): string
     {
-        $pageColumns = array();
-        $disableColumns = "";
-        $pagesContent = "";
-        if ($json["pages"]["elements"]) {
-            foreach ($json["pages"]["elements"] as $element) {
+        $pageColumns = [];
+        $disableColumns = '';
+        $pagesContent = '';
+        if ($json['pages']['elements']) {
+            foreach ($json['pages']['elements'] as $element) {
                 // Labels for pages
-                $pagesContent .= "\n[userFunc = user_mask_beLayout(" . $element["key"] . ")]\n";
+                $pagesContent .= "\n[maskBeLayout(" . $element['key'] . ")]\n";
                 // if page has backendlayout with this element-key
-                if ($element["columns"]) {
-                    foreach ($element["columns"] as $index => $column) {
-                        $pagesContent .= " TCEFORM.pages." . $column . ".label = " . $element["labels"][$index] . "\n";
+                if ($element['columns']) {
+                    foreach ($element['columns'] as $index => $column) {
+                        $pagesContent .= ' TCEFORM.pages.' . $column . '.label = ' . $element['labels'][$index] . "\n";
                     }
                     $pagesContent .= "\n";
-                    foreach ($element["columns"] as $index => $column) {
+                    foreach ($element['columns'] as $index => $column) {
                         $pageColumns[] = $column;
-                        $pagesContent .= " TCEFORM.pages." . $column . ".disabled = 0\n";
+                        $pagesContent .= ' TCEFORM.pages.' . $column . ".disabled = 0\n";
                     }
                 }
                 $pagesContent .= "[end]\n";
@@ -126,7 +129,7 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
         }
         // disable all fields by default and only activate by condition
         foreach ($pageColumns as $column) {
-            $disableColumns .= "TCEFORM.pages." . $column . ".disabled = 1\n";
+            $disableColumns .= 'TCEFORM.pages.' . $column . ".disabled = 1\n";
         }
         $pagesContent = $disableColumns . "\n" . $pagesContent;
         return $pagesContent;
@@ -137,8 +140,9 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
      * @param array $configuration
      * @param array $settings
      * @return string
+     * @noinspection PhpUnused
      */
-    public function generateSetupTyposcript($configuration, $settings)
+    public function generateSetupTyposcript($configuration, $settings): string
     {
         // generate TypoScript setup
         $setupContent = [];
@@ -185,11 +189,11 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
         ], 'lib.maskContentElement');
 
         // for each content element
-        if ($configuration["tt_content"]["elements"]) {
-            foreach ($configuration["tt_content"]["elements"] as $element) {
-                if (!$element["hidden"]) {
-                    $setupContent[] = "tt_content.mask_" . $element["key"] .
-                        " =< lib.maskContentElement\ntt_content.mask_" . $element["key"] .
+        if ($configuration['tt_content']['elements']) {
+            foreach ($configuration['tt_content']['elements'] as $element) {
+                if (!$element['hidden']) {
+                    $setupContent[] = 'tt_content.mask_' . $element['key'] .
+                        " =< lib.maskContentElement\ntt_content.mask_" . $element['key'] .
                         " {\ntemplateName = " . MaskUtility::getTemplatePath(
                             $settings,
                             $element['key'],
@@ -211,7 +215,7 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
      * @param boolean $init Internal
      * @return string TypoScript
      */
-    protected function convertArrayToTypoScript(array $typoScriptArray, $addKey = '', $tab = 0, $init = true)
+    protected function convertArrayToTypoScript(array $typoScriptArray, $addKey = '', $tab = 0, $init = true): string
     {
         $typoScript = '';
         if ($addKey !== '') {

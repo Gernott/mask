@@ -1,7 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace MASK\Mask\ViewHelpers;
 
+use MASK\Mask\Helper\FieldHelper;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -19,12 +22,12 @@ class FormTypeViewHelper extends AbstractViewHelper
     /**
      * FieldHelper
      *
-     * @var \MASK\Mask\Helper\FieldHelper
+     * @var FieldHelper
      * @Inject()
      */
     protected $fieldHelper;
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('elementKey', 'string', 'Key of element', true);
         $this->registerArgument('fieldKey', 'string', 'Key if field', true);
@@ -37,14 +40,13 @@ class FormTypeViewHelper extends AbstractViewHelper
      * @return string formType
      * @author Benjamin Butschell bb@webprofil.at>
      */
-    public function render()
+    public function render(): string
     {
         $elementKey = $this->arguments['elementKey'];
         $fieldKey = $this->arguments['fieldKey'];
         $type = $this->arguments['type'];
 
-        $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
-        $formType = $this->fieldHelper->getFormType($fieldKey, $elementKey, $type);
-        return $formType;
+        $this->fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
+        return $this->fieldHelper->getFormType($fieldKey, $elementKey, $type);
     }
 }

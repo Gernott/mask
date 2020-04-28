@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace MASK\Mask\Domain\Model;
 
@@ -27,6 +28,7 @@ namespace MASK\Mask\Domain\Model;
  * ************************************************************* */
 
 use TYPO3\CMS\Extbase\Annotation\Validate;
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
  *
@@ -35,14 +37,14 @@ use TYPO3\CMS\Extbase\Annotation\Validate;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
  *
  */
-class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+class Content extends AbstractEntity
 {
 
     /**
      * Title for the New-Contentelement-Wizard.
      *
      * @var string
-     * @Validate("notEmpty")
+     * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
      */
     protected $title;
 
@@ -64,7 +66,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * Lowercase internal Key. Not Visible in TYPO3 Backend.
      *
      * @var string
-     * @Validate("NotEmpty")
+     * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
      */
     protected $fieldkey;
 
@@ -72,16 +74,23 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * contentType
      *
      * @var string
-     * @Validate("NotEmpty")
+     * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
      */
     protected $contentType;
 
-    public function getContentType()
+    /**
+     * @return string
+     */
+    public function getContentType(): string
     {
         return $this->contentType;
     }
 
-    public function setContentType($contentType)
+    /**
+     * @param $contentType
+     * @return Content
+     */
+    public function setContentType($contentType): Content
     {
         $this->contentType = $contentType;
         return $this;
@@ -92,7 +101,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return string $title
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -103,7 +112,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $title
      * @return void
      */
-    public function setTitle($title)
+    public function setTitle($title): void
     {
         $this->title = $title;
     }
@@ -113,7 +122,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return string $description
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -124,7 +133,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $description
      * @return void
      */
-    public function setDescription($description)
+    public function setDescription($description): void
     {
         $this->description = $description;
     }
@@ -134,7 +143,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return string $shorttitle
      */
-    public function getShorttitle()
+    public function getShorttitle(): string
     {
         return $this->shorttitle;
     }
@@ -145,7 +154,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $shorttitle
      * @return void
      */
-    public function setShorttitle($shorttitle)
+    public function setShorttitle($shorttitle): void
     {
         $this->shorttitle = $shorttitle;
     }
@@ -155,7 +164,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return string $fieldkey
      */
-    public function getFieldkey()
+    public function getFieldkey(): string
     {
         return $this->fieldkey;
     }
@@ -166,7 +175,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $fieldkey
      * @return void
      */
-    public function setFieldkey($fieldkey)
+    public function setFieldkey($fieldkey): void
     {
         $this->fieldkey = $fieldkey;
     }

@@ -1,4 +1,7 @@
-<?php namespace MASK\Mask\Controller;
+<?php
+declare(strict_types=1);
+
+namespace MASK\Mask\Controller;
 
 /* * *************************************************************
  *  Copyright notice
@@ -24,7 +27,10 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use MASK\Mask\Domain\Repository\StorageRepository;
 use TYPO3\CMS\Extbase\Annotation\Inject;
+use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  *
@@ -33,13 +39,13 @@ use TYPO3\CMS\Extbase\Annotation\Inject;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
  *
  */
-class WizardPageController extends \MASK\Mask\Controller\WizardController
+class WizardPageController extends WizardController
 {
 
     /**
      * StorageRepository
      *
-     * @var \MASK\Mask\Domain\Repository\StorageRepository
+     * @var StorageRepository
      * @Inject()
      */
     protected $storageRepository;
@@ -48,11 +54,14 @@ class WizardPageController extends \MASK\Mask\Controller\WizardController
      * action list
      *
      * @return void
+     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException
+     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException
+     * @noinspection PhpUnused
      */
-    public function listAction()
+    public function listAction(): void
     {
         $settings = $this->settingsService->get();
-        $backendLayouts = $this->backendLayoutRepository->findAll(explode(",", $settings['backendlayout_pids']));
+        $backendLayouts = $this->backendLayoutRepository->findAll(explode(',', $settings['backendlayout_pids']));
         $this->view->assign('backendLayouts', $backendLayouts);
     }
 
@@ -60,11 +69,14 @@ class WizardPageController extends \MASK\Mask\Controller\WizardController
      * action new
      *
      * @return void
+     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException
+     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException
+     * @noinspection PhpUnused
      */
-    public function newAction()
+    public function newAction(): void
     {
         $settings = $this->settingsService->get();
-        $backendLayouts = $this->backendLayoutRepository->findAll(explode(",", $settings['backendlayout_pids']));
+        $backendLayouts = $this->backendLayoutRepository->findAll(explode(',', $settings['backendlayout_pids']));
         $this->view->assign('backendLayouts', $backendLayouts);
     }
 
@@ -73,8 +85,10 @@ class WizardPageController extends \MASK\Mask\Controller\WizardController
      *
      * @param array $storage
      * @return void
+     * @throws StopActionException
+     * @noinspection PhpUnused
      */
-    public function createAction($storage)
+    public function createAction($storage): void
     {
         $this->storageRepository->add($storage);
         $this->generateAction();
@@ -87,15 +101,18 @@ class WizardPageController extends \MASK\Mask\Controller\WizardController
      *
      * @param string $layoutIdentifier
      * @return void
+     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException
+     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException
+     * @noinspection PhpUnused
      */
-    public function editAction($layoutIdentifier = null)
+    public function editAction($layoutIdentifier = null): void
     {
         $settings = $this->settingsService->get();
         $layout = $this->backendLayoutRepository->findByIdentifier($layoutIdentifier,
-            explode(",", $settings['backendlayout_pids']));
+            explode(',', $settings['backendlayout_pids']));
 
         if ($layout) {
-            $storage = $this->storageRepository->loadElement("pages", $layoutIdentifier);
+            $storage = $this->storageRepository->loadElement('pages', $layoutIdentifier);
             $this->prepareStorage($storage);
             $this->view->assign('backendLayout', $layout);
             $this->view->assign('storage', $storage);
@@ -108,13 +125,14 @@ class WizardPageController extends \MASK\Mask\Controller\WizardController
      *
      * @param array $storage
      * @return void
+     * @throws StopActionException
+     * @noinspection PhpUnused
      */
-    public function updateAction($storage)
+    public function updateAction($storage): void
     {
         $this->storageRepository->update($storage);
         $this->generateAction();
-        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_mask.page.updatedpage',
-            'mask'));
+        $this->addFlashMessage(LocalizationUtility::translate('tx_mask.page.updatedpage', 'mask'));
         $this->redirectByAction();
     }
 
@@ -123,11 +141,10 @@ class WizardPageController extends \MASK\Mask\Controller\WizardController
      *
      * @param array $storage
      * @return void
+     * @throws StopActionException
      */
-    public function deleteAction(array $storage)
+    public function deleteAction(array $storage): void
     {
-        $this->storageRepository->remove($storage);
-        $this->addFlashMessage('Your Page was removed.');
         $this->redirect('list');
     }
 }

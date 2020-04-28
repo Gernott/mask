@@ -1,4 +1,7 @@
-<?php namespace MASK\Mask\Controller;
+<?php
+declare(strict_types=1);
+
+namespace MASK\Mask\Controller;
 
 /* * *************************************************************
  *  Copyright notice
@@ -24,28 +27,36 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use MASK\Mask\CodeGenerator\HtmlCodeGenerator;
+use MASK\Mask\CodeGenerator\SqlCodeGenerator;
+use MASK\Mask\Domain\Repository\BackendLayoutRepository;
 use MASK\Mask\Domain\Repository\StorageRepository;
+use MASK\Mask\Domain\Service\SettingsService;
+use MASK\Mask\Helper\FieldHelper;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Core\Cache\CacheManager;
-use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Http\ServerRequest;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Annotation\Inject;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
- * ^
+ *
  *
  * @package mask
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
  *
  */
-class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+class WizardController extends ActionController
 {
 
     /**
@@ -56,7 +67,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     /**
      * StorageRepository
      *
-     * @var \MASK\Mask\Domain\Repository\StorageRepository
+     * @var StorageRepository
      * @Inject()
      */
     protected $storageRepository;
@@ -64,7 +75,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     /**
      * BackendLayoutRepository
      *
-     * @var \MASK\Mask\Domain\Repository\BackendLayoutRepository
+     * @var BackendLayoutRepository
      * @Inject()
      */
     protected $backendLayoutRepository;
@@ -72,7 +83,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     /**
      * FieldHelper
      *
-     * @var \MASK\Mask\Helper\FieldHelper
+     * @var FieldHelper
      * @Inject()
      */
     protected $fieldHelper;
@@ -80,7 +91,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     /**
      * HtmlCodeGenerator
      *
-     * @var \MASK\Mask\CodeGenerator\HtmlCodeGenerator
+     * @var HtmlCodeGenerator
      * @Inject()
      */
     protected $htmlCodeGenerator;
@@ -88,7 +99,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     /**
      * SqlCodeGenerator
      *
-     * @var \MASK\Mask\CodeGenerator\SqlCodeGenerator
+     * @var SqlCodeGenerator
      * @Inject()
      */
     protected $sqlCodeGenerator;
@@ -96,7 +107,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     /**
      * SettingsService
      *
-     * @var \MASK\Mask\Domain\Service\SettingsService
+     * @var SettingsService
      * @Inject()
      */
     protected $settingsService;
@@ -123,12 +134,12 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         'preview'
     ];
 
-    protected $missingFolders = false;
+    protected $missingFolders = [];
 
     /**
      * is called before every action
      */
-    public function initializeAction()
+    public function initializeAction(): void
     {
         $this->extSettings = $this->settingsService->get();
     }
@@ -136,10 +147,10 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     /**
      * Generates all the necessary files
      * @author Gernot Ploiner <gp@webprofil.at>
-     * @author Benjamin Butschell <bb@webprofil.at>
      * @todo clear typoscript cache after generating
+     * @noinspection PhpUnhandledExceptionInspection
      */
-    public function generateAction()
+    public function generateAction(): void
     {
         // Update Database
         $this->sqlCodeGenerator->updateDatabase();
@@ -153,21 +164,16 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * Prepares the storage array for fluid view
      *
      * @param array $storage
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
-    protected function prepareStorage(&$storage)
+    protected function prepareStorage(&$storage): void
     {
-        // Fill storage with additional data before assigning to view
+         // Fill storage with additional data before assigning to view
         if ($storage["tca"]) {
             foreach ($storage["tca"] as $key => $field) {
                 if (is_array($field)) {
                     if ($field["config"]["type"] == "inline") {
                         $storage["tca"][$key]["inlineFields"] = $this->storageRepository->loadInlineFields($key);
-                        uasort($storage["tca"][$key]["inlineFields"], function ($columnA, $columnB) {
-                            $a = isset($columnA['order']) ? (int)$columnA['order'] : 0;
-                            $b = isset($columnB['order']) ? (int)$columnB['order'] : 0;
-                            return $a - $b;
-                        });
+                        $this->sortInlineFieldsByOrder($storage["tca"][$key]["inlineFields"]);
                     }
                 }
             }
@@ -181,7 +187,7 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * @param string $table
      * @author Gernot Ploiner <gp@webprofil.at>
      */
-    protected function showHtmlAction($key, $table)
+    protected function showHtmlAction($key, $table): void
     {
         $html = $this->htmlCodeGenerator->generateHtml($key, $table);
         $this->view->assign('html', $html);
@@ -192,9 +198,10 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      *
      * @param string $key
      * @param string $html
+     * @return bool
      * @author Gernot Ploiner <gp@webprofil.at>
      */
-    protected function saveHtml($key, $html)
+    protected function saveHtml($key, $html): bool
     {
         # fallback to prevent breaking change
         $path = MaskUtility::getTemplatePath($this->extSettings, $key);
@@ -207,15 +214,17 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
     /**
      * Checks if a key for a field is available
+     * @param ServerRequest $request
+     * @param Response $response
+     * @return Response
+     * @throws Exception
+     * @noinspection PhpUnused
      */
     public function checkFieldKey(ServerRequest $request, Response $response): Response
     {
         $queryParams = $request->getQueryParams();
         $fieldKey = $queryParams['key'];
-        $table = 'tt_content';
-        if (isset($queryParams['table'])) {
-            $table = $queryParams['table'];
-        }
+        $table = $queryParams['table'] ?? 'tt_content';
 
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         $storageRepository = $objectManager->get(StorageRepository::class);
@@ -231,8 +240,13 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
     /**
      * Checks if a key for an element is available
+     * @param ServerRequest $request
+     * @param Response $response
+     * @return Response
+     * @throws Exception
+     * @noinspection PhpUnused
      */
-    public function checkElementKey(ServerRequest $request, Response $response): Response
+    public function checkElementKey(ServerRequest $request, Response $response = null): Response
     {
         $elementKey = $request->getQueryParams()['key'];
 
@@ -249,25 +263,27 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
     /**
      * Redirects the request to the correct view
-     * @author Benjamin Butschell <bb@webprofil.at>
+     * @throws StopActionException
      */
-    protected function redirectByAction()
+    protected function redirectByAction(): void
     {
         $params = $this->request->getArguments();
-        $formAction = $params["formAction"];
-        $arguments = array();
-        if ($params["storage"]["type"] == "pages") {
-            $arguments["layoutIdentifier"] = $this->backendLayoutRepository->findByIdentifier($params["storage"]["elements"]["key"],
-                explode(",", $this->extSettings['backendlayout_pids']))->getIdentifier();
+        $formAction = $params['formAction'];
+        $arguments = [];
+        if ($params['storage']['type'] === 'pages') {
+            $arguments['layoutIdentifier'] = $this->backendLayoutRepository->findByIdentifier(
+                $params['storage']['elements']['key'],
+                explode(',', $this->extSettings['backendlayout_pids'])
+            )->getIdentifier();
         } else {
-            $arguments["key"] = $params["storage"]["elements"]["key"];
-            $arguments["type"] = $params["storage"]["type"];
+            $arguments['key'] = $params['storage']['elements']['key'];
+            $arguments['type'] = $params['storage']['type'];
         }
-        if (key_exists("save", $formAction)) {
+        if (key_exists('save', $formAction)) {
             $this->redirect('edit', null, null, $arguments);
         } else {
-            if (key_exists("saveAndExit", $formAction)) {
-                $this->redirect('list');
+            if (key_exists('saveAndExit', $formAction)) {
+                $this->redirect('list', 'Wizard');
             }
         }
     }
@@ -275,8 +291,8 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     /**
      * Check, if folders from extensionmanager-settings are existing
      *
-     * @author Gernot Ploiner <gp@webprofil.at>
      * @return void
+     * @author Gernot Ploiner <gp@webprofil.at>
      */
     protected function checkFolders(): void
     {
@@ -288,7 +304,6 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
     /**
      * Creates missing folders that are needed for the use of mask
-     * @author Benjamin Butschell <bb@webprofil.at>
      * @return bool $success
      */
     protected function createMissingFolders(): bool
@@ -303,13 +318,13 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
     /**
      * action creates missing folders
-     * @author Benjamin Butschell <bb@webprofil.at>
+     * @throws StopActionException
+     * @noinspection PhpUnused
      */
     public function createMissingFoldersAction(): void
     {
         if ($this->createMissingFolders()) {
-            $this->addFlashMessage(LocalizationUtility::translate('tx_mask.all.createdmissingfolders',
-                'mask'));
+            $this->addFlashMessage(LocalizationUtility::translate('tx_mask.all.createdmissingfolders', 'mask'));
         }
         $this->redirect('list');
     }
@@ -355,12 +370,53 @@ class WizardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     protected function checkFolder($path, $translationKey = 'tx_mask.all.error.missingjson'): void
     {
         if (!file_exists(MaskUtility::getFileAbsFileName($path))) {
-            $this->missingFolders = true;
-            $this->addFlashMessage(
-                LocalizationUtility::translate($translationKey, 'mask'),
-                $path,
-                AbstractMessage::WARNING
-            );
+            $this->missingFolders[] = $path;
+//            $this->addFlashMessage(
+//                LocalizationUtility::translate($translationKey, 'mask'),
+//                $path,
+//                AbstractMessage::WARNING
+//            );
         }
+    }
+
+  /**
+     * Sort inline fields recursively.
+     *
+     * @param array $inlineFields
+     */
+    public function sortInlineFieldsByOrder(array &$inlineFields)
+    {
+        uasort($inlineFields, function ($columnA, $columnB) {
+            $a = isset($columnA['order']) ? (int)$columnA['order'] : 0;
+            $b = isset($columnB['order']) ? (int)$columnB['order'] : 0;
+            return $a - $b;
+        });
+
+        foreach ($inlineFields as $i => $field) {
+            if ($field["config"]["type"] == "inline") {
+                if (isset($inlineFields[$i]["inlineFields"]) && is_array($inlineFields[$i]["inlineFields"])) {
+                    $this->sortInlineFieldsByOrder($inlineFields[$i]["inlineFields"]);
+                }
+            }
+        }
+    }
+
+    /**
+     * action list
+     *
+     * @return void
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
+     */
+    public function listAction()
+    {
+        $settings = $this->settingsService->get();
+        $storages = $this->storageRepository->load();
+        $backendLayouts = $this->backendLayoutRepository->findAll(explode(',', $settings['backendlayout_pids']));
+        $this->checkFolders();
+
+        $this->view->assign('missingFolders', $this->missingFolders);
+        $this->view->assign('storages', $storages);
+        $this->view->assign('backendLayouts', $backendLayouts);
     }
 }

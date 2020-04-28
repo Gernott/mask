@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace MASK\Mask\ViewHelpers;
 
@@ -21,7 +22,7 @@ class TcaViewHelper extends AbstractViewHelper
     /**
      * FieldHelper
      *
-     * @var \MASK\Mask\Helper\FieldHelper
+     * @var FieldHelper
      */
     protected $fieldHelper;
 
@@ -83,10 +84,10 @@ class TcaViewHelper extends AbstractViewHelper
      */
     public function __construct(FieldHelper $fieldHelper = null)
     {
-        $this->fieldHelper = $fieldHelper ?? GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
+        $this->fieldHelper = $fieldHelper ?? GeneralUtility::makeInstance(FieldHelper::class);
     }
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('type', 'string', 'Field type', true);
@@ -98,9 +99,8 @@ class TcaViewHelper extends AbstractViewHelper
      *
      * @return array all TCA elements of this attribut
      * @author Gernot Ploiner <gp@webprofil.at>
-     * @author Benjamin Butschell <bb@webprofil.at>
      */
-    public function render()
+    public function render(): array
     {
         $table = $this->arguments['table'];
         $type = $this->arguments['type'];

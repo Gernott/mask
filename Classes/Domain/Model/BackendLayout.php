@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace MASK\Mask\Domain\Model;
 
@@ -30,24 +31,25 @@ namespace MASK\Mask\Domain\Model;
  * ************************************************************* */
 
 use TYPO3\CMS\Extbase\Annotation\Validate;
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
  * This model represents a back-end user.
  *
  * @api
  */
-class BackendLayout extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+class BackendLayout extends AbstractEntity
 {
 
     /**
      * @var string
-     * @Validate("NotEmpty")
+     * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
      */
     protected $title = '';
 
     /**
      * @var int
-     * @Validate("NotEmpty")
+     * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
      */
     protected $uid = '';
 
@@ -66,7 +68,7 @@ class BackendLayout extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return string the title, will not be empty
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -77,7 +79,7 @@ class BackendLayout extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $title the user name to set, must not be empty
      * @return void
      */
-    public function setTitle($title)
+    public function setTitle($title): void
     {
         $this->title = $title;
     }
@@ -87,7 +89,7 @@ class BackendLayout extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return int the uid, will not be empty
      */
-    public function getUid()
+    public function getUid(): ?int
     {
         return $this->uid;
     }
@@ -97,8 +99,9 @@ class BackendLayout extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @param int $uid the user name to set, must not be empty
      * @return void
+     * @noinspection PhpUnused
      */
-    public function setUid($uid)
+    public function setUid($uid): void
     {
         $this->uid = $uid;
     }
@@ -108,7 +111,7 @@ class BackendLayout extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return string the icon
      */
-    public function getIcon()
+    public function getIcon(): string
     {
         return $this->icon;
     }
@@ -119,7 +122,7 @@ class BackendLayout extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $icon
      * @return void
      */
-    public function setIcon($icon)
+    public function setIcon($icon): void
     {
         $this->icon = $icon;
     }
@@ -129,7 +132,7 @@ class BackendLayout extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return string description
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -140,10 +143,8 @@ class BackendLayout extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $description
      * @return void
      */
-    public function setDescription($description)
+    public function setDescription($description): void
     {
         $this->description = $description;
     }
 }
-
-?>

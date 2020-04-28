@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace MASK\Mask\Domain\Repository;
 
@@ -39,9 +40,9 @@ class IconRepository
      * Returns an array of all the available
      * @return array
      */
-    public function findAll()
+    public function findAll(): array
     {
-        $icons = array(
+        $icons = [
             'fa-500px',
             'fa-address-book',
             'fa-address-book-o',
@@ -828,7 +829,8 @@ class IconRepository
             'fa-youtube',
             'fa-youtube-play',
             'fa-youtube-square'
-        );
+        ];
+        $preparedIcons = [];
         foreach ($icons as $icon) {
             $preparedIcons[$icon] = $icon;
         }

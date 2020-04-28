@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace MASK\Mask\ViewHelpers;
 
@@ -21,7 +22,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class ShuttleViewHelper extends AbstractViewHelper
 {
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('table', 'string', 'The name of the table', true);
         $this->registerArgument('field', 'string', 'The name of the field', true);
@@ -33,7 +34,7 @@ class ShuttleViewHelper extends AbstractViewHelper
      * @return array all irre elements of this attribut
      * @author Gernot Ploiner <gp@webprofil.at>
      */
-    public function render()
+    public function render(): array
     {
         $table = $this->arguments['table'];
         $field = $this->arguments['field'];

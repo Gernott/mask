@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace MASK\Mask\Hooks;
 
@@ -33,9 +34,17 @@ use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Domain\Service\SettingsService;
 use MASK\Mask\Helper\InlineHelper;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
+use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
+use TYPO3\CMS\Backend\Routing\UriBuilder;
+use TYPO3\CMS\Backend\View\PageLayoutView;
+use TYPO3\CMS\Backend\View\PageLayoutViewDrawItemHookInterface;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
@@ -45,7 +54,7 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
  * @package MASK
  * @subpackage mask
  */
-class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDrawItemHookInterface
+class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
 {
 
     /**
@@ -66,7 +75,7 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
     /**
      * SettingsService
      *
-     * @var \MASK\Mask\Domain\Service\SettingsService
+     * @var SettingsService
      */
     protected $settingsService;
 
@@ -80,25 +89,30 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
     /**
      * Preprocesses the preview rendering of a content element.
      *
-     * @param \TYPO3\CMS\Backend\View\PageLayoutView $parentObject Calling parent object
+     * @param PageLayoutView $parentObject Calling parent object
      * @param boolean $drawItem Whether to draw the item using the default functionalities
      * @param string $headerContent Header content
      * @param string $itemContent Item content
      * @param array $row Record row of tt_content
      * @return void
+     * @throws RouteNotFoundException
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
+     * @throws Exception
+     * @noinspection ReferencingObjectsInspection
      */
     public function preProcess(
-        \TYPO3\CMS\Backend\View\PageLayoutView &$parentObject,
+        PageLayoutView &$parentObject,
         &$drawItem,
         &$headerContent,
         &$itemContent,
         array &$row
-    ) {
+    ): void {
         $this->settingsService = GeneralUtility::makeInstance(SettingsService::class);
         $this->extSettings = $this->settingsService->get();
 
         // only render special backend preview if it is a mask element
-        if (substr($row['CType'], 0, 4) === "mask") {
+        if (strpos($row['CType'], 'mask') === 0) {
             $elementKey = substr($row['CType'], 5);
 
             # fallback to prevent breaking change
@@ -120,25 +134,25 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
                 $view->setTemplatePathAndFilename($templatePathAndFilename);
 
                 // if there are paths for layouts and partials set, add them to view
-                if (!empty($this->extSettings["layouts_backend"])) {
-                    $layoutRootPath = MaskUtility::getFileAbsFileName($this->extSettings["layouts_backend"]);
-                    $view->setLayoutRootPaths(array($layoutRootPath));
+                if (!empty($this->extSettings['layouts_backend'])) {
+                    $layoutRootPath = MaskUtility::getFileAbsFileName($this->extSettings['layouts_backend']);
+                    $view->setLayoutRootPaths([$layoutRootPath]);
                 }
-                if (!empty($this->extSettings["partials_backend"])) {
-                    $partialRootPath = MaskUtility::getFileAbsFileName($this->extSettings["partials_backend"]);
-                    $view->setPartialRootPaths(array($partialRootPath));
+                if (!empty($this->extSettings['partials_backend'])) {
+                    $partialRootPath = MaskUtility::getFileAbsFileName($this->extSettings['partials_backend']);
+                    $view->setPartialRootPaths([$partialRootPath]);
                 }
 
                 // Fetch and assign some useful variables
-                $data = $this->getContentObject($row["uid"]);
-                $element = $this->storageRepository->loadElement("tt_content", $elementKey);
-                $view->assign("row", $row);
-                $view->assign("data", $data);
+                $data = $this->getContentObject($row['uid']);
+                $element = $this->storageRepository->loadElement('tt_content', $elementKey);
+                $view->assign('row', $row);
+                $view->assign('data', $data);
 
                 // if the elementLabel contains LLL: then translate it
-                $elementLabel = $element["label"];
+                $elementLabel = $element['label'];
                 if (GeneralUtility::isFirstPartOfStr($elementLabel, 'LLL:')) {
-                    $elementLabel = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($elementLabel, "mask");
+                    $elementLabel = LocalizationUtility::translate($elementLabel, 'mask');
                 }
 
                 // Render everything
@@ -151,8 +165,9 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
                     ],
                     'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI')
                 ];
-                $editElementUrl = \TYPO3\CMS\Backend\Utility\BackendUtility::getModuleUrl('record_edit',
-                    $editElementUrlParameters);
+
+                $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
+                $editElementUrl = $uriBuilder->buildUriFromRoute('record_edit', $editElementUrlParameters);
                 $headerContent = '<strong><a href="' . $editElementUrl . '">' . $elementLabel . '</a></strong><br>';
                 $itemContent .= '<div style="display:block; padding: 10px 0 4px 0px;border-top: 1px solid #CACACA;margin-top: 6px;" class="content_preview_' . $elementKey . '">';
                 $itemContent .= $content;
@@ -167,8 +182,10 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
      *
      * @param int $uid of content element to get
      * @return array with all properties of given content element uid
+     * @throws Exception
+     * @throws \Exception
      */
-    protected function getContentObject($uid)
+    protected function getContentObject($uid): array
     {
         $contentTable = 'tt_content';
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($contentTable);

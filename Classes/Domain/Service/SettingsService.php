@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace MASK\Mask\Domain\Service;
 
@@ -26,6 +27,8 @@ namespace MASK\Mask\Domain\Service;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -43,14 +46,7 @@ class SettingsService
      * @var array
      * @api
      */
-    protected $settings = array();
-
-    /**
-     * Contains the settings of the typoscript
-     *
-     * @var array
-     */
-    protected $typoscriptSettings;
+    protected $settings = [];
 
     /**
      * Contains the settings of the $_EXTCONF
@@ -62,8 +58,10 @@ class SettingsService
     /**
      * Returns the settings
      * @return array
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
-    public function get()
+    public function get(): array
     {
         if ($this->extSettings === null) {
             $this->extSettings = $this->getExtSettings();
@@ -72,6 +70,11 @@ class SettingsService
         return $this->extSettings;
     }
 
+    /**
+     * @return array
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
+     */
     protected function getExtSettings(): array
     {
         return GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('mask');

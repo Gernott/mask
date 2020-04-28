@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace MASK\Mask\CodeGenerator;
 
@@ -27,35 +28,34 @@ namespace MASK\Mask\CodeGenerator;
  * ************************************************************* */
 
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Schema\SchemaException;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Schema\Exception\StatementException;
+use TYPO3\CMS\Core\Database\Schema\Exception\UnexpectedSignalReturnValueTypeException;
 use TYPO3\CMS\Core\Database\Schema\SchemaMigrator;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
+use MASK\Mask\Domain\Repository\StorageRepository;
+use MASK\Mask\Helper\FieldHelper;
 
 /**
  * Generates all the sql needed for mask content elements
  *
  * @author Benjamin Butschell <bb@webprofil.at>
  */
-class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
+class SqlCodeGenerator extends AbstractCodeGenerator
 {
 
     /**
      * Performs updates, adjusted function from extension_builder
      *
-     * @param array $params
-     * @param string[] $sql
+     * @param array $sqlStatements
      * @return array
      * @throws DBALException
-     * @throws \Doctrine\DBAL\Schema\SchemaException
-     * @throws \TYPO3\CMS\Core\Database\Schema\Exception\StatementException
-     * @throws \TYPO3\CMS\Core\Database\Schema\Exception\UnexpectedSignalReturnValueTypeException
-     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
-     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
+     * @throws SchemaException
+     * @throws StatementException
+     * @throws UnexpectedSignalReturnValueTypeException
      */
-    protected function performDbUpdates(array $sqlStatements)
+    protected function performDbUpdates(array $sqlStatements): array
     {
         /** @var ConnectionPool $connectionPool */
         $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
@@ -72,14 +72,15 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
                         $connection->exec($statement);
                     } catch (DBALException $exception) {
                         $hasErrors = true;
-                        GeneralUtility::devlog(
-                            'SQL error',
-                            'mask',
-                            0,
-                            [
-                                'statement' => $statement,
-                                'error' => $exception->getMessage()
-                            ]);
+                        //@todo
+//                        GeneralUtility::devlog(
+//                            'SQL error',
+//                            'mask',
+//                            0,
+//                            [
+//                                'statement' => $statement,
+//                                'error' => $exception->getMessage()
+//                            ]);
                     }
                 }
             }
@@ -97,40 +98,43 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
     /**
      * Updates the database if necessary
      *
-     * @author Benjamin Butschell <bb@webprofil.at>
      * @return array
+     * @throws DBALException
+     * @throws SchemaException
+     * @throws StatementException
+     * @throws UnexpectedSignalReturnValueTypeException
      */
-    public function updateDatabase()
+    public function updateDatabase(): array
     {
-        $storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
+        $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
         $json = $storageRepository->load();
         $sqlStatements = $this->getSqlByConfiguration($json);
         if (count($sqlStatements) > 0) {
-            $response = $this->performDbUpdates($sqlStatements);
+            return $this->performDbUpdates($sqlStatements);
         }
-        return $response;
+        return [];
     }
 
     /**
      * returns sql statements of all elements and pages and irre
      * @param array $json
-     * @return string
+     * @return array
      */
-    public function getSqlByConfiguration($json)
+    public function getSqlByConfiguration($json): array
     {
-        $sql_content = array();
+        $sql_content = [];
         $types = array_keys($json);
-        $nonIrreTables = array("pages", "tt_content");
-        $fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
+        $nonIrreTables = ['pages', 'tt_content'];
+        $fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
 
         // Generate SQL-Statements
         if ($types) {
             foreach ($types as $type) {
-                if ($json[$type]["sql"]) {
+                if ($json[$type]['sql']) {
 
                     // If type/table is an irre table, then create table for it
-                    if (array_search($type, $nonIrreTables) === false) {
-                        $sql_content[] = "CREATE TABLE " . $type . " (
+                    if (!in_array($type, $nonIrreTables, true)) {
+                        $sql_content[] = 'CREATE TABLE ' . $type . " (
 
 							 uid int(11) NOT NULL auto_increment,
 							 pid int(11) DEFAULT '0' NOT NULL,
@@ -170,17 +174,16 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
 						 );\n";
                     }
 
-                    foreach ($json[$type]["sql"] as $field) {
+                    foreach ($json[$type]['sql'] as $field) {
                         if ($field) {
                             foreach ($field as $table => $fields) {
                                 if ($fields) {
-                                    foreach ($fields as $field => $definition) {
-                                        $sql_content[] = "CREATE TABLE " . $table . " (\n\t" . $field . " " . $definition . "\n);\n";
-
+                                    foreach ($fields as $fieldKey => $definition) {
+                                        $sql_content[] = 'CREATE TABLE ' . $table . " (\n\t" . $fieldKey . ' ' . $definition . "\n);\n";
                                         // if this field is a content field, also add parent columns
-                                        $fieldType = $fieldHelper->getFormType($field, "", $table);
-                                        if ($fieldType == "Content") {
-                                            $sql_content[] = "CREATE TABLE tt_content (\n\t" . $field . "_parent" . " " . $definition . ",\n\t" . "KEY " . $field . " (" . $field . "_parent,pid,deleted)" . "\n);\n";
+                                        $fieldType = $fieldHelper->getFormType($fieldKey, '', $table);
+                                        if ($fieldType === 'Content') {
+                                            $sql_content[] = "CREATE TABLE tt_content (\n\t" . $fieldKey . '_parent' . ' ' . $definition . ",\n\t" . 'KEY ' . $fieldKey . ' (' . $fieldKey . '_parent,pid,deleted)' . "\n);\n";
                                         }
                                     }
                                 }
@@ -201,12 +204,12 @@ class SqlCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
      * @param array $sqlString
      * @return array
      */
-    public function addDatabaseTablesDefinition(array $sqlString)
+    public function addDatabaseTablesDefinition(array $sqlString): array
     {
-        $storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
+        $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
         $json = $storageRepository->load();
         $sql = $this->getSqlByConfiguration($json);
         $mergedSqlString = array_merge($sqlString, $sql);
-        return array('sqlString' => $mergedSqlString);
+        return ['sqlString' => $mergedSqlString];
     }
 }

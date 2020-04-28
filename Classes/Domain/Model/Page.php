@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace MASK\Mask\Domain\Model;
 
@@ -27,6 +28,7 @@ namespace MASK\Mask\Domain\Model;
  * ************************************************************* */
 
 use TYPO3\CMS\Extbase\Annotation\Validate;
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
  *
@@ -35,14 +37,14 @@ use TYPO3\CMS\Extbase\Annotation\Validate;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
  *
  */
-class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+class Page extends AbstractEntity
 {
 
     /**
      * Title of the Pagetemplate.
      *
      * @var string
-     * @Validate("NotEmpty")
+     * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
      */
     protected $title;
 
@@ -57,7 +59,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * Lowercase internal Key. Not Visible in TYPO3 Backend.
      *
      * @var string
-     * @Validate("NotEmpty")
+     * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
      */
     protected $fieldkey;
 
@@ -80,7 +82,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return string $title
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -91,7 +93,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $title
      * @return void
      */
-    public function setTitle($title)
+    public function setTitle($title): void
     {
         $this->title = $title;
     }
@@ -101,7 +103,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return integer $belayout
      */
-    public function getBelayout()
+    public function getBelayout(): int
     {
         return $this->belayout;
     }
@@ -112,7 +114,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param integer $belayout
      * @return void
      */
-    public function setBelayout($belayout)
+    public function setBelayout($belayout): void
     {
         $this->belayout = $belayout;
     }
@@ -122,7 +124,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return string $fieldkey
      */
-    public function getFieldkey()
+    public function getFieldkey(): string
     {
         return $this->fieldkey;
     }
@@ -133,7 +135,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $fieldkey
      * @return void
      */
-    public function setFieldkey($fieldkey)
+    public function setFieldkey($fieldkey): void
     {
         $this->fieldkey = $fieldkey;
     }
@@ -143,7 +145,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return string $header
      */
-    public function getHeader()
+    public function getHeader(): string
     {
         return $this->header;
     }
@@ -154,7 +156,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $header
      * @return void
      */
-    public function setHeader($header)
+    public function setHeader($header): void
     {
         $this->header = $header;
     }
@@ -164,7 +166,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return boolean $defaulttemplate
      */
-    public function getDefaulttemplate()
+    public function getDefaulttemplate(): bool
     {
         return $this->defaulttemplate;
     }
@@ -175,7 +177,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param boolean $defaulttemplate
      * @return void
      */
-    public function setDefaulttemplate($defaulttemplate)
+    public function setDefaulttemplate($defaulttemplate): void
     {
         $this->defaulttemplate = $defaulttemplate;
     }
@@ -185,10 +187,8 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return boolean
      */
-    public function isDefaulttemplate()
+    public function isDefaulttemplate(): bool
     {
         return $this->getDefaulttemplate();
     }
 }
-
-?>

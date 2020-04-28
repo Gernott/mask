@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace MASK\Mask\Hooks;
 
@@ -13,7 +14,7 @@ class PageLayoutViewHook
      * @param PageLayoutView $parentObject
      * @return bool
      */
-    public function contentIsUsed(array $params, PageLayoutView $parentObject)
+    public function contentIsUsed(array $params, PageLayoutView $parentObject): bool
     {
         if ($params['used']) {
             return true;

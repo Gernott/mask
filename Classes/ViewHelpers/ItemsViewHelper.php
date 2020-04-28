@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace MASK\Mask\ViewHelpers;
 
@@ -14,7 +15,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class ItemsViewHelper extends AbstractViewHelper
 {
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('items', 'array', '', true);
     }
@@ -25,13 +26,13 @@ class ItemsViewHelper extends AbstractViewHelper
      * @return string items as string
      * @author Benjamin Butschell bb@webprofil.at>
      */
-    public function render()
+    public function render(): string
     {
         $itemArray = [];
 
         if ($this->arguments['items']) {
             foreach ($this->arguments['items'] as $item) {
-                $itemArray[] = implode(",", $item);
+                $itemArray[] = implode(',', $item);
             }
         }
 

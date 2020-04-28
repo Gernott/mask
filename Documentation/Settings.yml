@@ -8,20 +8,20 @@
 
 ---
 conf.py:
-  copyright: 2019
+  copyright: 2020
   project: mask
-  version: 4.1.2
+  version: 5.0.0
   release:
   intersphinx_mapping:
     t3tsref:
-    - http://docs.typo3.org/typo3cms/TyposcriptReference/
-    - null
+      - http://docs.typo3.org/typo3cms/TyposcriptReference/
+      - null
   latex_documents:
-  - - Index
-    - mask.tex
-    - mask
-    -
-    - manual
+    - - Index
+      - mask.tex
+      - mask
+      -
+      - manual
   latex_elements:
     papersize: a4paper
     pointsize: 10pt

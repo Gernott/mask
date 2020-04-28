@@ -9,24 +9,24 @@ if (!empty($GLOBALS['TCA']['tt_content']['columns']['CType']['config']['itemsPro
 }
 // and set mask itemsProcFuncs
 $GLOBALS['TCA']['tt_content']['columns']['colPos']['config']['itemsProcFunc'] = 'MASK\Mask\ItemsProcFuncs\ColPosList->itemsProcFunc';
-$GLOBALS['TCA']['tt_content']['columns']['CType']['config']['itemsProcFunc'] = 'MASK\Mask\ItemsProcFuncs\CTypeList->itemsProcFunc';
+$GLOBALS['TCA']['tt_content']['columns']['CType']['config']['itemsProcFunc'] = MASK\Mask\ItemsProcFuncs\CTypeList::class . '->itemsProcFunc';
 
-$storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
+$storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\Domain\Repository\StorageRepository::class);
 $configuration = $storageRepository->load();
 
 if (!empty($configuration) && array_key_exists('tt_content', $configuration)) {
 
-    $tcaCodeGenerator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\CodeGenerator\\TcaCodeGenerator');
+    $tcaCodeGenerator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\CodeGenerator\TcaCodeGenerator::class);
 
     // Generate TCA for Content-Elements
-    $contentColumns = $tcaCodeGenerator->generateFieldsTca($configuration["tt_content"]["tca"]);
+    $contentColumns = $tcaCodeGenerator->generateFieldsTca($configuration['tt_content']['tca']);
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tt_content', $contentColumns);
-    $tcaCodeGenerator->setElementsTca($configuration["tt_content"]["elements"]);
+    $tcaCodeGenerator->setElementsTca($configuration['tt_content']['elements']);
 }
 
 if (!empty($configuration)) {
 
-    $tcaCodeGenerator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\CodeGenerator\\TcaCodeGenerator');
+    $tcaCodeGenerator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\CodeGenerator\TcaCodeGenerator::class);
     // Generate TCA for Inline-Fields
     $tcaCodeGenerator->setInlineTca($configuration);
 }

@@ -1,5 +1,6 @@
 jQuery.noConflict();
 jQuery(document).ready(function () {
+  showMessages();
 
   // delete modal of content elements
   jQuery(document).on("click", ".deleteCe", function (event) {
@@ -70,7 +71,7 @@ jQuery(document).ready(function () {
   });
 
   // 1st column click
-  jQuery(".tx_mask_tabcell1").on("click", "LI", function (event) {
+  jQuery(".tx_mask_tabcell4 .tx_mask_field_templates").on("click", "LI", function (event) {
 
     // search for active field
     var activeFound = false;
@@ -257,11 +258,11 @@ jQuery(document).ready(function () {
   });
   // Select Field: Render type specific fields toggle
   jQuery(document).on("change", ".tx_mask_fieldcontent_select_renderType", function (a) {
-      if (jQuery(this).val() == 'selectMultipleSideBySide') {
-          jQuery(this).closest(".tx_mask_fieldcontent").find('.tx_mask_fieldcontent_renderType_selectMultipleSideBySide').show();
-      } else {
-          jQuery(this).closest(".tx_mask_fieldcontent").find('.tx_mask_fieldcontent_renderType_selectMultipleSideBySide').hide();
-      }
+    if (jQuery(this).val() == 'selectMultipleSideBySide') {
+      jQuery(this).closest(".tx_mask_fieldcontent").find('.tx_mask_fieldcontent_renderType_selectMultipleSideBySide').show();
+    } else {
+      jQuery(this).closest(".tx_mask_fieldcontent").find('.tx_mask_fieldcontent_renderType_selectMultipleSideBySide').hide();
+    }
   });
 
   // initialize font-icon-picker
@@ -783,4 +784,15 @@ function showInlineContainer(body) {
     var head = findHeadByBody(body);
     jQuery(head).removeClass("existing_inline");
   }
+}
+
+function showMessages() {
+  require(['TYPO3/CMS/Backend/Notification'], function (Notification) {
+    let messages = jQuery('.typo3-messages > div');
+    jQuery.each(messages, function (index, message) {
+      let title = jQuery(message).find('.alert-title').html();
+      let text = jQuery(message).find('.alert-message').html();
+      Notification.success(title, text);
+    });
+  });
 }

@@ -535,8 +535,8 @@
         })
       }
     }, d.pseudos.nth = d.pseudos.eq;
-    for (b in{radio: !0, checkbox: !0, file: !0, password: !0, image: !0}) d.pseudos[b] = jb(b);
-    for (b in{submit: !0, reset: !0}) d.pseudos[b] = kb(b);
+    for (b in {radio: !0, checkbox: !0, file: !0, password: !0, image: !0}) d.pseudos[b] = jb(b);
+    for (b in {submit: !0, reset: !0}) d.pseudos[b] = kb(b);
 
     function nb() {
     }
@@ -1150,7 +1150,7 @@
     a = b = c = null
   }(), function () {
     var b, c, d = z.createElement("div");
-    for (b in{
+    for (b in {
       submit: !0,
       change: !0,
       focusin: !0
@@ -1305,7 +1305,7 @@
     var d = "on" + b;
     a.detachEvent && (typeof a[d] === L && (a[d] = null), a.detachEvent(d, c))
   }, n.Event = function (a, b) {
-    return this instanceof n.Event ? (a && a.type ? (this.originalEvent = a, this.type = a.type, this.isDefaultPrevented = a.defaultPrevented || void 0 === a.defaultPrevented && (a.returnValue === !1 || a.getPreventDefault && a.getPreventDefault()) ? bb : cb) : this.type = a, b && n.extend(this, b), this.timeStamp = a && a.timeStamp || n.now(), void(this[n.expando] = !0)) : new n.Event(a, b)
+    return this instanceof n.Event ? (a && a.type ? (this.originalEvent = a, this.type = a.type, this.isDefaultPrevented = a.defaultPrevented || void 0 === a.defaultPrevented && (a.returnValue === !1 || a.getPreventDefault && a.getPreventDefault()) ? bb : cb) : this.type = a, b && n.extend(this, b), this.timeStamp = a && a.timeStamp || n.now(), void (this[n.expando] = !0)) : new n.Event(a, b)
   }, n.Event.prototype = {
     isDefaultPrevented: cb,
     isPropagationStopped: cb,
@@ -2115,7 +2115,7 @@
     }
   }), sc && rc || (n.attrHooks.value = {
     set: function (a, b, c) {
-      return n.nodeName(a, "input") ? void(a.defaultValue = b) : nc && nc.set(a, b, c)
+      return n.nodeName(a, "input") ? void (a.defaultValue = b) : nc && nc.set(a, b, c)
     }
   }), rc || (nc = {
     set: function (a, b, c) {
@@ -2399,7 +2399,7 @@
       for (d in k.headers) v.setRequestHeader(d, k.headers[d]);
       if (k.beforeSend && (k.beforeSend.call(l, v, k) === !1 || 2 === t)) return v.abort();
       u = "abort";
-      for (d in{success: 1, error: 1, complete: 1}) v[d](k[d]);
+      for (d in {success: 1, error: 1, complete: 1}) v[d](k[d]);
       if (i = Nc(Jc, k, b, v)) {
         v.readyState = 1, h && m.trigger("ajaxSend", [v, k]), k.async && k.timeout > 0 && (g = setTimeout(function () {
           v.abort("timeout")
@@ -2667,7 +2667,7 @@
     n.fn[a] = function (d) {
       return W(this, function (a, d, e) {
         var f = ed(a);
-        return void 0 === e ? f ? b in f ? f[b] : f.document.documentElement[d] : a[d] : void(f ? f.scrollTo(c ? n(f).scrollLeft() : e, c ? e : n(f).scrollTop()) : a[d] = e)
+        return void 0 === e ? f ? b in f ? f[b] : f.document.documentElement[d] : a[d] : void (f ? f.scrollTo(c ? n(f).scrollLeft() : e, c ? e : n(f).scrollTop()) : a[d] = e)
       }, a, d, arguments.length, null)
     }
   }), n.each(["top", "left"], function (a, b) {

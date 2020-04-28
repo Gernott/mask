@@ -1,7 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace MASK\Mask\ViewHelpers;
 
+use MASK\Mask\Helper\FieldHelper;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -19,12 +22,12 @@ class LabelViewHelper extends AbstractViewHelper
     /**
      * FieldHelper
      *
-     * @var \MASK\Mask\Helper\FieldHelper
+     * @var FieldHelper
      * @Inject()
      */
     protected $fieldHelper;
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('elementKey', 'string', 'Key of element', true);
         $this->registerArgument('fieldKey', 'string', 'Key of field', true);
@@ -42,13 +45,13 @@ class LabelViewHelper extends AbstractViewHelper
         $field = $this->arguments['field'];
         $table = $this->arguments['table'];
 
-        $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
+        $this->fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
         // if we have the whole field configuration
         if ($field) {
             // check if this field is in an repeating field
-            if ($field["inlineParent"]) {
+            if ($field['inlineParent']) {
                 // if yes, the label is in the configuration
-                $label = $field["label"];
+                $label = $field['label'];
             } else {
                 // otherwise the type can only be tt_content or pages
                 if ($table) {

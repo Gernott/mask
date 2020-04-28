@@ -1,16 +1,17 @@
 <?php
+declare(strict_types=1);
 
-$storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
+$storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\Domain\Repository\StorageRepository::class);
 $configuration = $storageRepository->load();
 
 if (!empty($configuration) && array_key_exists('pages', $configuration)) {
 
-    $tcaCodeGenerator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\CodeGenerator\\TcaCodeGenerator');
+    $tcaCodeGenerator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\CodeGenerator\TcaCodeGenerator::class);
 
     // Generate TCA for Pages
-    $pagesColumns = $tcaCodeGenerator->generateFieldsTca($configuration["pages"]["tca"]);
+    $pagesColumns = $tcaCodeGenerator->generateFieldsTca($configuration['pages']['tca']);
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('pages', $pagesColumns);
-    $tcaCodeGenerator->setPageTca($configuration["pages"]["tca"]);
+    $tcaCodeGenerator->setPageTca($configuration['pages']['tca']);
 
     // Generate TCA for Inline-Fields
     $tcaCodeGenerator->setInlineTca($configuration);

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace MASK\Mask\CodeGenerator;
 
@@ -32,7 +33,7 @@ namespace MASK\Mask\CodeGenerator;
  *
  * @author Benjamin Butschell <bb@webprofil.at>
  */
-class JsonCodeGenerator extends \MASK\Mask\CodeGenerator\AbstractCodeGenerator
+class JsonCodeGenerator extends AbstractCodeGenerator
 {
     //put your code here
 }
