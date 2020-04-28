@@ -93,7 +93,7 @@ class StorageRepository
             if (!empty($this->extSettings['json'])) {
                 $file = MaskUtility::getFileAbsFileName($this->extSettings['json']);
                 if (file_exists($file)) {
-                    self::$json = json_decode(file_get_contents($file), true, 512, JSON_THROW_ON_ERROR);
+                    self::$json = json_decode(file_get_contents($file), true, 512, 4194304);
                 }
             }
         }
@@ -113,7 +113,7 @@ class StorageRepository
             $file = MaskUtility::getFileAbsFileName($this->extSettings['json']);
             GeneralUtility::writeFile(
                 $file,
-                json_encode($json, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT, 512)
+                json_encode($json, 4194304 | JSON_PRETTY_PRINT, 512)
             );
         }
         self::$json = $json;

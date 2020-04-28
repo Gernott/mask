@@ -59,7 +59,7 @@ class CTypeList extends AbstractList
             $fieldKey = '';
 
             if (isset($_REQUEST['ajax']['context'])) {
-                $ajaxContext = json_decode($_REQUEST['ajax']['context'], true, 512, JSON_THROW_ON_ERROR);
+                $ajaxContext = json_decode($_REQUEST['ajax']['context'], true, 512, 4194304);
                 $fieldKey = str_replace('_parent', '', $ajaxContext->config->foreign_field);
             } else {
                 $fields = $params['row'];
