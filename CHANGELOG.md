@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.0.0] - 2020-04-28
+
+### Added
+- Support for TYPO3 v10. Thank you [Jürgen Venne](https://github.com/juergen-venne)
+
+### Changed
+- basic code cleanup and minor refactoring
+- complete redesign of Mask backend module
+- hidden IRRE elements are now visible in the backend[#262](https://github.com/Gernott/mask/pull/262)
+- declared strict_types in all classes for better code quality
+- replaced deprecated composer option "replace" with extra/extension-key
+- moved the mask backend module to the bottom of the admin tools
+
+### Removed
+- Support for TYPO3 v9 LTS was dropped. Use Mask v4.x.x for TYPO3 v9 LTS
+
+### Fixed
+- Sort inline fields recursively to output correct order of fields in editor [#267](https://github.com/Gernott/mask/pull/267)
+- Added softref-config to rte fields [#266](https://github.com/Gernott/mask/pull/266)
+- Fixed TCA default value of field parentid for Inline-Tables [#249](https://github.com/Gernott/mask/pull/249)
+- Fixed the path resolution in backend preview images
+
+
 ## [4.1.2] - 2019-08-27
 
 ### Changed
