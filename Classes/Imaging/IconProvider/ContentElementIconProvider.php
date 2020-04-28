@@ -6,6 +6,7 @@ namespace MASK\Mask\Imaging\IconProvider;
 use InvalidArgumentException;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Domain\Service\SettingsService;
+use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Core\Environment;
@@ -113,7 +114,7 @@ class ContentElementIconProvider implements IconProviderInterface
         $fontAwesomeKeyAvailable = $this->isFontAwesomeKeyAvailable($this->contentElement);
 
         // decide what kind of icon to render
-        if ($fontAwesomeKeyAvailable) {
+        if ($fontAwesomeKeyAvailable && !$previewIconAvailable) {
 
             $color = $this->getColor($this->contentElement);
             $styles = [];
@@ -129,8 +130,8 @@ class ContentElementIconProvider implements IconProviderInterface
             }
         } else {
             if ($previewIconAvailable) {
-                $markup = '<img src="' . PathUtility::getAbsoluteWebPath(Environment::getPublicPath() . ltrim($this->getPreviewIconPath($options['contentElementKey']),
-                            '/')) . '" alt="' . $this->contentElement['label'] . '" title="' . $this->contentElement['label'] . '"/>';
+                $markup = '<img src="' . str_replace(Environment::getPublicPath(), '',
+                        $this->getPreviewIconPath($options['contentElementKey'])) . '" alt="' . $this->contentElement['label'] . '" title="' . $this->contentElement['label'] . '"/>';
             } else {
                 $color = $this->getColor($this->contentElement);
                 if ($color) {
@@ -152,10 +153,7 @@ class ContentElementIconProvider implements IconProviderInterface
      */
     protected function isPreviewIconAvailable($key): bool
     {
-        if (file_exists(Environment::getPublicPath() . $this->getPreviewIconPath($key))) {
-            return true;
-        }
-        return false;
+        return file_exists($this->getPreviewIconPath($key));
     }
 
     /**
@@ -175,7 +173,9 @@ class ContentElementIconProvider implements IconProviderInterface
      */
     protected function getPreviewIconPath($key): string
     {
-        return $this->extSettings['preview'] . $key . '.png';
+        return MaskUtility::getFileAbsFileName(
+                rtrim($this->extSettings['preview'], '/') . '/'
+            ) . $key . '.png';
     }
 
     /**
