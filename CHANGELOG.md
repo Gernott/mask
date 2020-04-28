@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [5.0.0] - 2020-04-28
 
 ### Added
-- Support for TYPO3 v10. Thank you [Jürgen Venne](https://github.com/juergen-venne)
+- Support for TYPO3 v10. Thank you [Jürgen Venne](https://github.com/juergen-venne) and all the sponsors!
 
 ### Changed
 - basic code cleanup and minor refactoring
