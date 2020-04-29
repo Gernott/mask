@@ -585,10 +585,10 @@
 				<source>Element-key (unique, lowercase)</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.icon">
-				<source>FontAwesome-Icon</source>
+				<source>Icon</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.color">
-				<source>Colour (HEX-Code)</source>
+				<source>Colour</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.configure">
 				<source>Configure</source>

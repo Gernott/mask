@@ -592,10 +592,10 @@
 				<target>Element-Key (Kleinbuchstaben)</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.icon">
-				<target>FontAwesome-Icon</target>
+				<target>Icon</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.color">
-				<target>Farbe (HEX-Code)</target>
+				<target>Farbe</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.configure">
 				<target>Konfigurieren</target>
