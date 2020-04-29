@@ -160,7 +160,6 @@ class ContentElementIconProvider implements IconProviderInterface
      * Checks if content element has set a fontawesome key
      * @param array $element
      * @return boolean
-     * @todo implement
      */
     protected function isFontAwesomeKeyAvailable($element): bool
     {
@@ -173,9 +172,24 @@ class ContentElementIconProvider implements IconProviderInterface
      */
     protected function getPreviewIconPath($key): string
     {
-        return MaskUtility::getFileAbsFileName(
-                rtrim($this->extSettings['preview'], '/') . '/'
-            ) . $key . '.png';
+        // the path to the file
+        $filePath = function ($key) {
+            return MaskUtility::getFileAbsFileName(
+                    rtrim($this->extSettings['preview'], '/') . '/'
+                ) . $key . '.';
+        };
+
+        // search a fitting png or svg file in this path
+        $fileExtensions = ['png', 'svg'];
+        foreach ($fileExtensions as $fileExtension) {
+            $iconPath = $filePath($key) . $fileExtension;
+            if (file_exists($iconPath)) {
+                return $iconPath;
+            }
+        }
+
+        // if nothing found, return the path to the png file
+        return $filePath($key) . '.png';
     }
 
     /**
