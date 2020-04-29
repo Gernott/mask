@@ -125,8 +125,20 @@
 								<div class="form-control-wrap">
 									<input name="tx_mask_tools_maskmask[storage][elements][labels][--index--]" id="form_label" type="text"
 												 class="form-control" title="{f:translate(key:'tx_mask.content.label')}"
-												 placeholder="name of field"
+												 placeholder="{f:translate(key:'tx_mask.placeholder.label')}"
 												 value="{mask:label(elementKey: storage.key, fieldKey: key, field: field, table:type)}"/>
+								</div>
+							</div>
+						</div>
+						<div class="form-group col-sm-6">
+							<label class="t3js-formengine-label" for="form_description">
+								<f:translate key="tx_mask.field.description"/>
+							</label>
+							<div class="t3js-formengine-field-item">
+								<div class="form-control-wrap">
+									<textarea name="tx_mask_tools_maskmask[storage][tca][--index--][description]" id="form_description" type="text"
+												 class="form-control" title="{f:translate(key:'tx_mask.content.description')}"
+												 placeholder="{f:translate(key:'tx_mask.placeholder.description')}">{field.description}</textarea>
 								</div>
 							</div>
 						</div>

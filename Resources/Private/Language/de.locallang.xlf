@@ -151,6 +151,9 @@
 			<trans-unit id="tx_mask.field.label">
 				<target>Titel</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.description">
+				<target>Beschreibung</target>
+			</trans-unit>
 			<trans-unit id="tx_mask.content.check.columns">
 				<target>Spalten</target>
 			</trans-unit>
@@ -675,6 +678,14 @@
 			<trans-unit id="tx_mask.content.multiuse.validation.title">
 				<target>Vorsicht bei Validierungsänderung</target>
 			</trans-unit>
+
+			<trans-unit id="tx_mask.placeholder.label">
+				<target>Titel dieses Feldes</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.placeholder.description">
+				<target>Eine kurze und hilfreiche Beschreibung für Redakteure</target>
+			</trans-unit>
+
 		</body>
 	</file>
 </xliff>

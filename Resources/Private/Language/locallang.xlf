@@ -150,6 +150,9 @@
 			<trans-unit id="tx_mask.field.label">
 				<source>Label</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.description">
+				<source>Description</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.check.renderType">
 				<source>Rendertype</source>
 			</trans-unit>
@@ -666,6 +669,13 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.content.multiuse.validation.title">
 				<source>Changes on Validation</source>
+			</trans-unit>
+
+			<trans-unit id="tx_mask.placeholder.label">
+				<source>The label of this field</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.placeholder.description">
+				<source>Maybe add a short and helpful description for your editors</source>
 			</trans-unit>
 
 		</body>
