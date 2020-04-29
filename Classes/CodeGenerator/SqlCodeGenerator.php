@@ -30,6 +30,7 @@ namespace MASK\Mask\CodeGenerator;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Schema\SchemaException;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Event\AlterTableDefinitionStatementsEvent;
 use TYPO3\CMS\Core\Database\Schema\Exception\StatementException;
 use TYPO3\CMS\Core\Database\Schema\Exception\UnexpectedSignalReturnValueTypeException;
 use TYPO3\CMS\Core\Database\Schema\SchemaMigrator;
@@ -198,18 +199,16 @@ class SqlCodeGenerator extends AbstractCodeGenerator
     }
 
     /**
-     * Returns the SQL of all elements and merges it with already existing
-     * sql statements for the signal slot dispatcher
+     * Adds the SQL for all elements to the psr-14 AlterTableDefinitionStatementsEvent event.
      *
-     * @param array $sqlString
-     * @return array
+     * @param AlterTableDefinitionStatementsEvent $event
+     * @return void
      */
-    public function addDatabaseTablesDefinition(array $sqlString): array
+    public function addDatabaseTablesDefinition(AlterTableDefinitionStatementsEvent $event): void
     {
         $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
         $json = $storageRepository->load();
         $sql = $this->getSqlByConfiguration($json);
-        $mergedSqlString = array_merge($sqlString, $sql);
-        return ['sqlString' => $mergedSqlString];
+        $event->setSqlData(array_merge($event->getSqlData(), $sql));
     }
 }
