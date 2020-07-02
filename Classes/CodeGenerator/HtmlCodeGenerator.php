@@ -141,7 +141,7 @@ class HtmlCodeGenerator extends AbstractCodeGenerator
                 break;
             case 'Richtext':
                 $html .= '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">' . "\n";
-                $html .= '<f:format.html parseFuncTSPath="lib.parseFunc_RTE">{' . $datafield . '.' . $fieldKey . '}</f:format.html><br />' . "\n";
+                $html .= '<f:format.html>{' . $datafield . '.' . $fieldKey . '}</f:format.html><br />' . "\n";
                 $html .= "</f:if>\n\n";
                 break;
             case 'Text':
