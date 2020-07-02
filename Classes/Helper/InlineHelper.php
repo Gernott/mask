@@ -30,6 +30,7 @@ namespace MASK\Mask\Helper;
 use MASK\Mask\Domain\Repository\BackendLayoutRepository;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Annotation\Inject;
@@ -232,8 +233,8 @@ class InlineHelper
 
         // by default, the uid of the parent is $data["uid"]
         $parentUid = $data['uid'];
-
-        if ($GLOBALS['TSFE']->sys_language_uid !== 0 && !empty($data['_LOCALIZED_UID'])) {
+        $languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
+        if ($languageAspect->getId() !== 0 && !empty($data['_LOCALIZED_UID'])) {
             $parentUid = $data['_LOCALIZED_UID'];
         }
 
