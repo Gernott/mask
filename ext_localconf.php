@@ -4,7 +4,6 @@ defined('TYPO3_MODE') or die();
 (function ($extkey) {
 
     // initialize mask utility for various things
-    $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(TYPO3\CMS\Extbase\Object\ObjectManager::class);
     $storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(MASK\Mask\Domain\Repository\StorageRepository::class);
     $fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(MASK\Mask\Helper\FieldHelper::class);
     $typoScriptCodeGenerator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(MASK\Mask\CodeGenerator\TyposcriptCodeGenerator::class);
@@ -48,9 +47,12 @@ defined('TYPO3_MODE') or die();
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup($setupTs);
 
     // set root line fields
-    if ($json['pages']['tca']) {
-        $rootlineFields = explode(',', $GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields']);
-        foreach ($json['pages']['tca'] as $fieldKey => $value) {
+    if (array_key_exists('pages', $configuration) && $configuration['pages']['tca']) {
+        $rootlineFields = [];
+        if ($GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields'] !== '') {
+            $rootlineFields =  \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields']);
+        }
+        foreach ($configuration['pages']['tca'] as $fieldKey => $value) {
             $formType = $fieldHelper->getFormType($fieldKey, '', 'pages');
             if ($formType !== 'Tab') {
                 // Add addRootLineFields for all page fields
