@@ -1,0 +1,7 @@
+services:
+  MASK\Mask\CodeGenerator\SqlCodeGenerator:
+    tags:
+      - name: event.listener
+        identifier: 'sql-code-generator'
+        event: TYPO3\CMS\Core\Database\Event\AlterTableDefinitionStatementsEvent
+        method: addDatabaseTablesDefinition

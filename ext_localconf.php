@@ -62,12 +62,6 @@ defined('TYPO3_MODE') or die();
         $GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields'] = implode(',', $rootlineFields);
     }
 
-    // SQL inject:
-    $signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(TYPO3\CMS\Extbase\SignalSlot\Dispatcher::class);
-    $signalSlotDispatcher->connect(TYPO3\CMS\Install\Service\SqlExpectedSchemaService::class,
-        'tablesDefinitionIsBeingBuilt', MASK\Mask\CodeGenerator\SqlCodeGenerator::class,
-        'addDatabaseTablesDefinition');
-
     // Enhance Fluid Output with overridden FluidTemplateContentObject
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][TYPO3\CMS\Frontend\ContentObject\FluidTemplateContentObject::class] = [
         'className' => MASK\Mask\Fluid\FluidTemplateContentObject::class
