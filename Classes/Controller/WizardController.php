@@ -220,7 +220,7 @@ class WizardController extends ActionController
      * @throws Exception
      * @noinspection PhpUnused
      */
-    public function checkFieldKey(ServerRequest $request, Response $response): Response
+    public function checkFieldKey(ServerRequest $request): Response
     {
         $queryParams = $request->getQueryParams();
         $fieldKey = $queryParams['key'];
@@ -246,7 +246,7 @@ class WizardController extends ActionController
      * @throws Exception
      * @noinspection PhpUnused
      */
-    public function checkElementKey(ServerRequest $request, Response $response = null): Response
+    public function checkElementKey(ServerRequest $request): Response
     {
         $elementKey = $request->getQueryParams()['key'];
 
