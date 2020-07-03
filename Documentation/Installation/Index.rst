@@ -83,7 +83,7 @@ Folder for preview images (with trailing slash). [backend.preview]
   Default is: EXT:yoursitepackage/Resources/Private/Mask/Backend/Previews
 
 
-.. figure:: ../Images/AdministratorManual/ExtensionManager.png
+.. figure:: ../Images/AdministratorManual/ExtensionConfiguration.png
    :alt: Extension Manager options
 
-   Extension Manager options
+   Extension Configuration options in **Settings -> Extension Configuration**

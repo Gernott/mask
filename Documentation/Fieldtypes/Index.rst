@@ -120,7 +120,7 @@ You can display images in the frontend with f:image or with f:cObject:
 
 	<f:for each="{data.tx_mask_image}" as="file">
 		f:image example:
-		<f:image src="{file.uid}" treatIdAsReference="1" width="200" />
+		<f:image image="{file}" width="200" />
 
 		f:cObject example:
 		<f:cObject typoscriptObjectPath="lib.my_image" data="{image: file.uid}" />

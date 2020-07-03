@@ -14,7 +14,7 @@ Pagetemplates
 After installing Mask and including the static TypoScript-template, you can start using Mask. Open the Backend-module **Mask**.
 
 You can not create pagetemplates with mask. This has to be done in **List** module with **Backend Layouts**. First create a Backend Layout for each pagetemplate you need. (Example: Home, Content, 3-Columns,...).
-Now you have the possibilit to extend any of these Backend Layouts with special fields in the Mask backend-module. This works in the same way as described in **Contentelements**.
+Now you have the possibility to extend any of these Backend Layouts with special fields in the Mask backend-module. This works in the same way as described in **Contentelements**.
 
 A preview-image can be set in the Backend Layout record, not in Mask.
 

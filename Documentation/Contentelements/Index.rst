@@ -38,7 +38,7 @@ That is all you have to know - now you can use your new element in the page-modu
 Manage Backend-Preview
 ----------------------
 
-In the extensionmanager you find the setting **Folder for Backend Preview Templates**. If you want to change the look of the contentelements in the TYPO3 backend page-module, create the folder and a .html file with the key from the element as filename. It is the same logic as in **content** folder. So you can also copy your HTML from the content folder as basis. Then modify it for your needs.
+In the extension configuration you will find the setting **Folder for Backend Preview Templates**. If you want to change the look of the contentelements in the TYPO3 backend page-module, create the folder and a .html file with the key from the element as filename. It is the same logic as in **content** folder. So you can also copy your HTML from the content folder as basis. Then modify it for your needs.
 
 .. code-block:: html
 
@@ -57,16 +57,14 @@ In the extensionmanager you find the setting **Folder for Backend Preview Templa
 Use fontawesome icons as previewimage for a contentelement
 ----------------------------------------------------------
 
-If you quickly need a preview icon for your contentelement and don't want to make a graphic, just choose a fontawesome iconcode and choose a colour:
+If you quickly need a preview icon for your contentelement and don't want to make a graphic, just choose a fontawesome icon and a colour:
 
 .. figure:: ../Images/ContentelementsManual/Fontawesome.png
 	:alt: Use a fontawesome icon
 
-	Put the code into the mask wizard
+	Choose a proper icon from a variety of fontawesome icons
 
-Here you find an overview about all possible icons and their codes: https://fortawesome.github.io/Font-Awesome/icons/
-
-Use a png file as previewimage for a contentelement
+Use a png or svg file as previewimage for a contentelement
 ---------------------------------------------------
 
-You can use a 32x32 pixel sized png graphic file as preview image for a content element. It is shown in the new contentelement wizard. Simply name the file with the key from the contentelement (e.g.: mykey.png or contact.png) and upload it to the specified folder in the extension manager settings of mask.
+You can use a 32x32 pixel sized graphic file as preview image for a content element. It is shown in the new contentelement wizard. Simply name the file with the key from the contentelement (e.g.: mykey.png or contact.svg) and upload it to the specified folder in the extension configuration of mask.
