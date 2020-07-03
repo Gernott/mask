@@ -600,8 +600,8 @@
 				<source>Page Templates</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.confirmdelete">
-				<source>
-					<![CDATA[<strong>Do you want to delete the content element?</strong> <br /><br />"Delete" only deletes the configuration. "Purge" deletes the configuration and all the corresponding template files. The content in the database can be deleted via the install tool.]]></source>
+				<source>Do you want to delete the content element?
+					"Delete" only deletes the configuration. "Purge" deletes the configuration and all the corresponding template files. The content in the database can be deleted via the install tool.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.abort">
 				<source>Abort</source>
