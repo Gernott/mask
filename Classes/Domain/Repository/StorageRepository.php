@@ -66,6 +66,11 @@ class StorageRepository
     protected $extSettings;
 
     /**
+     * @var string
+     */
+    protected $currentKey = '';
+
+    /**
      * json configuration
      * @var array
      */
@@ -301,6 +306,7 @@ class StorageRepository
      */
     public function remove($type, $key, $remainingFields = []): void
     {
+        $this->currentKey = $key;
         // Load
         $json = $this->load();
 
@@ -312,6 +318,7 @@ class StorageRepository
                 $json = $this->removeField($type, $field, $json, $remainingFields);
             }
         }
+        $this->currentKey = '';
         $this->sortJson($json);
         $this->write($json);
     }
@@ -417,10 +424,18 @@ class StorageRepository
 
         // then delete the field, if it is not in use in another element
         if (count($elementsInUse) < 1) {
-            unset($json[$table]['tca'][$field], $json[$table]['sql'][$field]);
+            unset($json[$table]['tca'][$field]);
+            unset($json[$table]['sql'][$field]);
+
+            $type = $this->fieldHelper->getFormType($field, $this->currentKey, $table);
+
+            // If field is of type inline, also delete table entry
+            if ($type === 'Inline') {
+                unset($json[$field]);
+            }
 
             // If field is of type file, also delete entry in sys_file_reference
-            if ($this->fieldHelper->getFormType($field) === 'File') {
+            if ($type === 'File') {
                 unset($json['sys_file_reference']['sql'][$field]);
                 $json = $this->cleanTable('sys_file_reference', $json);
             }
