@@ -698,8 +698,8 @@ function validateKeyField(field, table) {
       cache: false,
       dataType: "json",
       data: params
-    }).done(function (isAvailable) {
-      if (!isAvailable) {
+    }).done(function (result) {
+      if (!result.isAvailable) {
         jQuery(field).val("");
         jQuery(field).addClass("not_unique");
       } else {
