@@ -200,9 +200,8 @@ class GeneralUtility
     public function getFirstNoneTabField($fields): string
     {
         if (count($fields)) {
-            $potentialFirst = $fields[0];
+            $potentialFirst = array_shift($fields);
             if (strpos($potentialFirst, '--div--') !== false) {
-                unset($fields[0]);
                 return $this->getFirstNoneTabField($fields);
             }
             return $potentialFirst;
@@ -246,22 +245,20 @@ class GeneralUtility
         if (!$path) {
             $path = self::getFileAbsFileName(rtrim($settings['content'], '/') . '/');
         }
+        if ($path === '' || $elementKey === '') {
+            return '';
+        }
         $fileExtension = '.html';
 
         // check if an html file with underscores exist
-        if (file_exists($path . CoreUtility::underscoredToUpperCamelCase($elementKey) . $fileExtension)
-        ) {
+        if (file_exists($path . CoreUtility::underscoredToUpperCamelCase($elementKey) . $fileExtension)) {
             $fileName = CoreUtility::underscoredToUpperCamelCase($elementKey);
+        } elseif (file_exists($path . ucfirst($elementKey) . $fileExtension)) {
+            $fileName = ucfirst($elementKey);
+        } elseif (file_exists($path . $elementKey . $fileExtension)) {
+            $fileName = $elementKey;
         } else {
-            if (file_exists($path . ucfirst($elementKey) . $fileExtension)) {
-                $fileName = ucfirst($elementKey);
-            } else {
-                if (file_exists($path . $elementKey . $fileExtension)) {
-                    $fileName = $elementKey;
-                } else {
-                    $fileName = CoreUtility::underscoredToUpperCamelCase($elementKey);
-                }
-            }
+            $fileName = CoreUtility::underscoredToUpperCamelCase($elementKey);
         }
 
         if ($onlyTemplateName) {

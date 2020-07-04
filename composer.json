@@ -23,6 +23,14 @@
 		}
 	],
 	"license": "GPL-2.0-or-later",
+	"config": {
+		"vendor-dir": ".Build/vendor",
+		"bin-dir": ".Build/bin"
+	},
+	"require-dev": {
+		"typo3/testing-framework": "^6",
+		"phpunit/phpunit": "^8.4"
+	},
 	"require": {
 		"php": "^7.2",
 		"ext-json": "*",
@@ -40,9 +48,21 @@
 			"MASK\\Mask\\": "Classes/"
 		}
 	},
+	"autoload-dev": {
+		"psr-4": {
+			"MASK\\Mask\\Tests\\": "Tests"
+		}
+	},
+	"scripts": {
+		"post-autoload-dump": [
+			"TYPO3\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare"
+		]
+	},
 	"extra": {
 		"typo3/cms": {
-			"extension-key": "mask"
+			"cms-package-dir": "{$vendor-dir}/typo3/cms",
+			"extension-key": "mask",
+			"web-dir": ".Build/Web"
 		}
 	}
 }
