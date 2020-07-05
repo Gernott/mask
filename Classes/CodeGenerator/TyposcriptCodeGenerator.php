@@ -192,13 +192,13 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
         if ($configuration['tt_content']['elements']) {
             foreach ($configuration['tt_content']['elements'] as $element) {
                 if (!$element['hidden']) {
-                    $setupContent[] = 'tt_content.mask_' . $element['key'] .
-                        " =< lib.maskContentElement\ntt_content.mask_" . $element['key'] .
-                        " {\ntemplateName = " . MaskUtility::getTemplatePath(
-                            $settings,
-                            $element['key'],
-                            true
-                        ) . "\n}\n\n";
+                    $templateName = MaskUtility::getTemplatePath($settings, $element['key'], true);
+                    $elementContent = [];
+                    $elementContent[] = 'tt_content.mask_' . $element['key'] . ' =< lib.maskContentElement' . LF;
+                    $elementContent[] = 'tt_content.mask_' . $element['key'] . " {" . LF;
+                    $elementContent[] = "\t" . 'templateName = ' . $templateName . LF;
+                    $elementContent[] = '}' . LF . LF;
+                    $setupContent[] = implode('', $elementContent);
                 }
             }
         }
