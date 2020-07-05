@@ -151,7 +151,6 @@ jQuery(document).ready(function () {
     // Merge eval fields:
     evalFields();
     linkFields();
-    jsOpenParamsFields();
     rteTransformFields();
 
     // Checkbox items:
@@ -406,35 +405,6 @@ function linkFields() {
     });
     eval = evalValues.join(",");
     jQuery(item).find('.tx_mask_fieldcontent_linkresult').val(eval);
-  });
-}
-
-// Merge jsOpenParams options together
-function jsOpenParamsFields() {
-  var fields = jQuery(".tx_mask_tabcell3 .tx_mask_field");
-  jQuery.each(fields, function (i, item) {
-    evalValues = new Array();
-    jQuery(item).find('.tx_mask_fieldcontent_jsopenparams').each(function (index, value) {
-      var property = jQuery(value).attr("data-property");
-      if (jQuery(value).attr("type") === "checkbox") {
-        if (jQuery(value).is(':checked')) {
-          evalValues[index] = property + "=" + jQuery(value).val();
-        } else {
-          evalValues[index] = property + "=0";
-        }
-      } else if (jQuery(value).attr("type") === "hidden" || jQuery(value).attr("type") === "text" || jQuery(value).attr("type") === "number") {
-        evalValues[index] = property + "=" + jQuery(value).val();
-      } else if (jQuery(value).is("select")) {
-        if (jQuery(value).val() !== undefined) {
-          evalValues[index] = property + "=" + jQuery(value).val();
-        }
-      }
-    });
-    evalValues = jQuery.grep(evalValues, function (n) {
-      return (n);
-    });
-    eval = evalValues.join(",");
-    jQuery(item).find('.tx_mask_fieldcontent_jsopenparams_result').val(eval);
   });
 }
 
