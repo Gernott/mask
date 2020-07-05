@@ -39,6 +39,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Persistence\Repository;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Repository for \TYPO3\CMS\Extbase\Domain\Model\BackendLayout.
@@ -84,6 +85,9 @@ class BackendLayoutRepository extends Repository
                 $backendLayouts[$backendLayout->getIdentifier()] = $backendLayout;
             }
             foreach ($backendLayoutCollections['pagets']->getAll() as $backendLayout) {
+                if (GeneralUtility::isFirstPartOfStr($backendLayout->getTitle(), 'LLL:')) {
+                    $backendLayout->setTitle(LocalizationUtility::translate($backendLayout->getTitle()));
+                }
                 $backendLayouts[$backendLayout->getIdentifier()] = $backendLayout;
             }
         }
