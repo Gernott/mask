@@ -328,9 +328,6 @@
 			<trans-unit id="tx_mask.field.richtext.default">
 				<source>Default</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.richtext.rte_transform">
-				<source>Override rte_transform mode</source>
-			</trans-unit>
 			<trans-unit id="tx_mask.field.select.file_folder">
 				<source>Files from Folder</source>
 			</trans-unit>
