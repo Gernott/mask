@@ -102,56 +102,6 @@ class GeneralUtility
     }
 
     /**
-     * Returns value for jsopenparams property
-     *
-     * @param string $fieldKey TCA Type
-     * @param string $property value to search for
-     * @param string $type elementtype
-     * @return boolean $evalValue is set
-     * @author Benjamin Butschell <bb@webprofil.at>
-     */
-    public function getJsOpenParamValue($fieldKey, $property, $type = 'tt_content')
-    {
-        $storage = $this->storageRepository->load();
-        $value = null;
-        $windowOpenParameters = $storage[$type]['tca'][$fieldKey]['config']['fieldControl']['linkPopup']['options']['windowOpenParameters'];
-        if ($windowOpenParameters != '') {
-            $properties = explode(',', $windowOpenParameters);
-            foreach ($properties as $setProperty) {
-                $keyPair = explode('=', $setProperty);
-                if ($property == $keyPair[0]) {
-                    $value = $keyPair[1];
-                    break;
-                }
-            }
-        }
-
-        // if nothing was found, set the default values
-        if ($value == null) {
-            switch ($property) {
-                case 'height':
-                    $value = 300;
-                    break;
-                case 'width':
-                    $value = 500;
-                    break;
-                case 'status':
-                    $value = 0;
-                    break;
-                case 'menubar':
-                    $value = 0;
-                    break;
-                case 'scrollbars':
-                    $value = 1;
-                    break;
-                default:
-                    $value = null;
-            }
-        }
-        return $value;
-    }
-
-    /**
      * Checks if a $evalValue is set in a field
      *
      * @param string $fieldKey TCA Type
