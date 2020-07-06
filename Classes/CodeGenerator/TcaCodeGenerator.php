@@ -28,6 +28,7 @@ namespace MASK\Mask\CodeGenerator;
  * ************************************************************* */
 
 use Exception;
+use MASK\Mask\Domain\Repository\StorageRepository;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -40,6 +41,20 @@ use MASK\Mask\Helper\FieldHelper;
  */
 class TcaCodeGenerator extends AbstractCodeGenerator
 {
+    /**
+     * @var FieldHelper
+     */
+    protected $fieldHelper;
+
+    public function __construct(StorageRepository $storageRepository = null, FieldHelper $fieldHelper = null)
+    {
+        parent::__construct($storageRepository);
+        if ($fieldHelper) {
+            $this->fieldHelper = $fieldHelper;
+        } else {
+            $this->fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
+        }
+    }
 
     /**
      * Generates and sets the correct tca for all the inline fields
@@ -151,36 +166,30 @@ class TcaCodeGenerator extends AbstractCodeGenerator
     }
 
     /**
-     * Generates and sets the tca for all the extended pages
-     *
-     * @param array $tca
+     * @param string $key
+     * @return string
      */
-    public function setPageTca($tca): void
+    public function getPageTca(string $key)
     {
-        $fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
-        $prependTabs = '--div--;Content-Fields,';
-        if ($tca) {
-            $i = 0;
-            foreach ($tca as $fieldKey => $config) {
-                // no information about which element this field is for at this point
-                $elements = $fieldHelper->getElementsWhichUseField($fieldKey, 'pages');
-                $element = $elements[0];
+        $prependTabs = ',--div--;Content-Fields,';
+        $tca = $this->storageRepository->load();
+        $columns = $tca['pages']['elements'][$key]['columns'] ?? [];
+        for ($i = 0; $i < count($columns); $i++) {
+            $fieldKey = $columns[$i];
 
-                // check if this field is of type tab
-                $formType = $fieldHelper->getFormType($fieldKey, $element['key'], 'pages');
-                if ($formType === 'Tab') {
-                    $label = $fieldHelper->getLabel($element['key'], $fieldKey, 'pages');
-                    // if a tab is in the first position then change the name of the general tab
-                    if ($i === 0) {
-                        $prependTabs = '--div--;' . $label . ',';
-                    } else {
-                        // otherwise just add new tab
-                        $fieldArray[] = '--div--;' . $label;
-                    }
+            // check if this field is of type tab
+            $formType = $this->fieldHelper->getFormType($fieldKey, $key, 'pages');
+            if ($formType === 'Tab') {
+                $label = $this->fieldHelper->getLabel($key, $fieldKey, 'pages');
+                // if a tab is in the first position then change the name of the general tab
+                if ($i === 0) {
+                    $prependTabs = ',--div--;' . $label . ',';
                 } else {
-                    $fieldArray[] = $fieldKey;
+                    // otherwise just add new tab
+                    $fieldArray[] = '--div--;' . $label;
                 }
-                $i++;
+            } else {
+                $fieldArray[] = $fieldKey;
             }
         }
 
@@ -189,7 +198,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
         } else {
             $pageFieldString = $prependTabs;
         }
-        ExtensionManagementUtility::addToAllTCAtypes('pages', $pageFieldString);
+        return $pageFieldString;
     }
 
     /**

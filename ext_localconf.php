@@ -39,9 +39,7 @@ defined('TYPO3_MODE') or die();
 
     // Add all the typoscript we need in the correct files
     $tsConfig = $typoScriptCodeGenerator->generateTsConfig($configuration);
-    $pageTs = $typoScriptCodeGenerator->generatePageTyposcript($configuration);
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig($tsConfig);
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig($pageTs);
 
     $setupTs = $typoScriptCodeGenerator->generateSetupTyposcript($configuration, $settings);
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup($setupTs);
@@ -71,5 +69,13 @@ defined('TYPO3_MODE') or die();
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem'][$extkey] = \MASK\Mask\Hooks\PageLayoutViewDrawItem::class;
     // Hook to override colpos check for unused tt_content elements
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['record_is_used'] [] = MASK\Mask\Hooks\PageLayoutViewHook::class . '->contentIsUsed';
-    
+    // Extend Page Tca Fields specific for backend layout
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRecord'][MASK\Mask\Form\FormDataProvider\TcaTypesShowitemMaskBeLayoutFields::class] = [
+        'depends' => [
+            \TYPO3\CMS\Backend\Form\FormDataProvider\DatabaseRecordTypeValue::class
+        ],
+        'before' => [
+            \TYPO3\CMS\Backend\Form\FormDataProvider\TcaColumnsProcessCommon::class
+        ]
+    ];
 })('mask');
