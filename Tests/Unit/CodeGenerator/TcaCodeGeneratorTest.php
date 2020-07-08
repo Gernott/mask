@@ -288,4 +288,113 @@ class TcaCodeGeneratorTest extends BaseTestCase
         $tcaGenerator = new TcaCodeGenerator($storage, $fieldHelper);
         $this->assertSame($expected, $tcaGenerator->getMaskIrreTables());
     }
+
+    public function processTableTcaDataProvider()
+    {
+        return [
+            'Order is correct and tab is put correctly' => [
+                'tx_mask_repeater',
+                [
+                    'tx_mask_repeater' => [
+                        'tca' => [
+                            'field_2' => [
+                                'label' => 'Field 2',
+                                'order' => '2',
+                                'config' => [
+                                    'type' => 'input'
+                                ]
+                            ],
+                            'field_1' => [
+                                'label' => 'Field 1',
+                                'order' => '1',
+                                'config' => [
+                                    'type' => 'input'
+                                ]
+                            ],
+                            'field_3' => [
+                                'label' => 'Field 3',
+                                'order' => '4',
+                                'config' => [
+                                    'type' => 'input'
+                                ]
+                            ],
+                            'tab_field' => [
+                                'label' => 'New Tab',
+                                'order' => '3',
+                                'config' => [
+                                    'type' => 'tab'
+                                ]
+                            ],
+                        ]
+                    ]
+                ],
+                [
+                    'label' => 'field_1',
+                    'showitem' => '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,field_1,field_2,--div--;New Tab,field_3'
+                ]
+            ],
+            'Tab at first position overrides general tab' => [
+                'tx_mask_repeater',
+                [
+                    'tx_mask_repeater' => [
+                        'tca' => [
+                            'field_2' => [
+                                'label' => 'Field 2',
+                                'order' => '3',
+                                'config' => [
+                                    'type' => 'input'
+                                ]
+                            ],
+                            'field_1' => [
+                                'label' => 'Field 1',
+                                'order' => '2',
+                                'config' => [
+                                    'type' => 'input'
+                                ]
+                            ],
+                            'field_3' => [
+                                'label' => 'Field 3',
+                                'order' => '4',
+                                'config' => [
+                                    'type' => 'input'
+                                ]
+                            ],
+                            'tab_field' => [
+                                'label' => 'New Tab',
+                                'order' => '1',
+                                'config' => [
+                                    'type' => 'tab'
+                                ]
+                            ],
+                        ]
+                    ]
+                ],
+                [
+                    'label' => 'field_1',
+                    'showitem' => '--div--;New Tab,field_1,field_2,field_3'
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider processTableTcaDataProvider
+     * @test
+     * @param $table
+     * @param $json
+     * @param $expected
+     */
+    public function processTableTca($table, $json, $expected)
+    {
+        $settingsService = $this->getMockBuilder(SettingsService::class)->getMock();
+        $storage = $this->getMockBuilder(StorageRepository::class)
+            ->setConstructorArgs([$settingsService])
+            ->onlyMethods(['load'])
+            ->getMock();
+
+        $storage->method('load')->willReturn($json);
+        $fieldHelper = new FieldHelper($storage);
+        $tcaGenerator = new TcaCodeGenerator($storage, $fieldHelper);
+        $this->assertSame($expected, $tcaGenerator->processTableTca($table, $json[$table]['tca']));
+    }
 }

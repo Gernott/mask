@@ -129,12 +129,12 @@ class GeneralUtility
      * @param array $fields
      * @return string $string
      */
-    public function getFirstNoneTabField($fields): string
+    public static function getFirstNoneTabField($fields): string
     {
         if (count($fields)) {
             $potentialFirst = array_shift($fields);
-            if (strpos($potentialFirst, '--div--') !== false) {
-                return $this->getFirstNoneTabField($fields);
+            if (!is_string($potentialFirst) || strpos($potentialFirst, '--div--') !== false) {
+                return self::getFirstNoneTabField($fields);
             }
             return $potentialFirst;
         }

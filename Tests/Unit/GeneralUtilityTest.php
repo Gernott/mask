@@ -412,15 +412,7 @@ class GeneralUtilityTest extends UnitTestCase
      */
     public function getFirstNoneTabField($data, $expected)
     {
-        $storage = $this->getAccessibleMock(
-            StorageRepository::class,
-            [],
-            [],
-            '',
-            false
-        );
-        $utility = new GeneralUtility($storage);
-        $this->assertSame($expected, $utility->getFirstNoneTabField($data));
+        $this->assertSame($expected, GeneralUtility::getFirstNoneTabField($data));
     }
 
     public function isMaskIrreTableDataProvider()
