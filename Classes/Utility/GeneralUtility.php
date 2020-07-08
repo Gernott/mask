@@ -239,4 +239,8 @@ class GeneralUtility
         return '';
     }
 
+    public static function isMaskIrreTable($table)
+    {
+        return strpos($table, 'tx_mask') === 0;
+    }
 }

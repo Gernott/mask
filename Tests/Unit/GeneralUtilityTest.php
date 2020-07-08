@@ -422,4 +422,29 @@ class GeneralUtilityTest extends UnitTestCase
         $utility = new GeneralUtility($storage);
         $this->assertSame($expected, $utility->getFirstNoneTabField($data));
     }
+
+    public function isMaskIrreTableDataProvider()
+    {
+        return [
+            'Not a mask table' => [
+                'pages',
+                false
+            ],
+            'Is a mask table' => [
+                'tx_mask_repeating',
+                true
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider isMaskIrreTableDataProvider
+     * @test
+     * @param $table
+     * @param $expected
+     */
+    public function isMaskIrreTable($table, $expected)
+    {
+        $this->assertSame($expected, GeneralUtility::isMaskIrreTable($table));
+    }
 }

@@ -133,7 +133,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
                                 'key' => '2',
                                 'labels' => [
                                     'In Standard Tab',
-                                    'In Stamdard Tab 2',
+                                    'In Standard Tab 2',
                                 ],
                             ]
                         ],
@@ -253,5 +253,39 @@ class TcaCodeGeneratorTest extends BaseTestCase
         $fieldHelper = new FieldHelper($storage);
         $tcaGenerator = new TcaCodeGenerator($storage, $fieldHelper);
         $this->assertSame($expected, $tcaGenerator->getPageTca($key));
+    }
+
+    public function getMaskIrreTablesDataProvider()
+    {
+        return [
+            'Returns all mask inline tables' => [
+                [
+                    'pages' => [],
+                    'sys_file_reference' => [],
+                    'tx_mask_repeat' => [],
+                    'tx_mask_accordion' => []
+                ],
+                ['tx_mask_repeat', 'tx_mask_accordion']
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider getMaskIrreTablesDataProvider
+     * @test
+     * @param $json
+     * @param $expected
+     */
+    public function getMaskIrreTables($json, $expected)
+    {
+        $settingsService = $this->getMockBuilder(SettingsService::class)->getMock();
+        $storage = $this->getMockBuilder(StorageRepository::class)
+            ->setConstructorArgs([$settingsService])
+            ->getMock();
+
+        $storage->method('load')->willReturn($json);
+        $fieldHelper = new FieldHelper($storage);
+        $tcaGenerator = new TcaCodeGenerator($storage, $fieldHelper);
+        $this->assertSame($expected, $tcaGenerator->getMaskIrreTables());
     }
 }

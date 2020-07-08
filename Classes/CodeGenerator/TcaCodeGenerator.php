@@ -29,6 +29,7 @@ namespace MASK\Mask\CodeGenerator;
 
 use Exception;
 use MASK\Mask\Domain\Repository\StorageRepository;
+use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -210,7 +211,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
      */
     public function generateFieldsTca($tca): array
     {
-        $generalUtility = GeneralUtility::makeInstance(\MASK\Mask\Utility\GeneralUtility::class);
+        $generalUtility = GeneralUtility::makeInstance(MaskUtility::class);
         $columns = [];
         if ($tca) {
             foreach ($tca as $tcakey => $tcavalue) {
@@ -486,7 +487,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
         ];
 
         $fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
-        $generalUtility = GeneralUtility::makeInstance(\MASK\Mask\Utility\GeneralUtility::class);
+        $generalUtility = GeneralUtility::makeInstance(MaskUtility::class);
         $fields = [];
 
         // now add all the fields that should be shown
@@ -547,20 +548,14 @@ class TcaCodeGenerator extends AbstractCodeGenerator
     }
 
     /**
-     * allow all inline tables on standard pages
-     *
-     * @param array $configuration
-     * @noinspection PhpUnused
+     * Return array with mask irre tables.
      */
-    public function allowInlineTablesOnStandardPages($configuration): void
+    public function getMaskIrreTables(): array
     {
-        $notIrreTables = ['pages', 'tt_content', 'sys_file_reference'];
-        if ($configuration) {
-            foreach ($configuration as $table => $subJson) {
-                if (!in_array($table, $notIrreTables, true)) {
-                    ExtensionManagementUtility::allowTableOnStandardPages($table);
-                }
-            }
-        }
+        $configuration = $this->storageRepository->load();
+        $irreTables = array_filter(array_keys($configuration), function ($table) {
+            return MaskUtility::isMaskIrreTable($table);
+        });
+        return array_values($irreTables);
     }
 }
