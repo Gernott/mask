@@ -100,42 +100,6 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
     }
 
     /**
-     * Generates the typoscript for pages
-     * @param array $json
-     * @return string
-     */
-    public function generatePageTyposcript($json): string
-    {
-        $pageColumns = [];
-        $disableColumns = '';
-        $pagesContent = '';
-        if ($json['pages']['elements']) {
-            foreach ($json['pages']['elements'] as $element) {
-                // Labels for pages
-                $pagesContent .= "\n[maskBeLayout('" . $element['key'] . "')]\n";
-                // if page has backendlayout with this element-key
-                if ($element['columns']) {
-                    foreach ($element['columns'] as $index => $column) {
-                        $pagesContent .= ' TCEFORM.pages.' . $column . '.label = ' . $element['labels'][$index] . "\n";
-                    }
-                    $pagesContent .= "\n";
-                    foreach ($element['columns'] as $index => $column) {
-                        $pageColumns[] = $column;
-                        $pagesContent .= ' TCEFORM.pages.' . $column . ".disabled = 0\n";
-                    }
-                }
-                $pagesContent .= "[end]\n";
-            }
-        }
-        // disable all fields by default and only activate by condition
-        foreach ($pageColumns as $column) {
-            $disableColumns .= 'TCEFORM.pages.' . $column . ".disabled = 1\n";
-        }
-        $pagesContent = $disableColumns . "\n" . $pagesContent;
-        return $pagesContent;
-    }
-
-    /**
      * Generates the typoscript for the setup field
      * @param array $configuration
      * @param array $settings

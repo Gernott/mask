@@ -56,4 +56,12 @@ abstract class AbstractCodeGenerator
             $this->storageRepository = $storageRepository;
         }
     }
+
+    /**
+     * @return StorageRepository
+     */
+    public function getStorageRepository(): StorageRepository
+    {
+        return $this->storageRepository;
+    }
 }

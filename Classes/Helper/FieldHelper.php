@@ -129,16 +129,16 @@ class FieldHelper
         }
 
         // load tca for field from $GLOBALS
-        $tca = $GLOBALS['TCA'][$type]['columns'][$fieldKey];
-        if (!$tca['config']) {
-            $tca = $GLOBALS['TCA'][$type]['columns']['tx_mask_' . $fieldKey];
+        $tca = $GLOBALS['TCA'][$type]['columns'][$fieldKey] ?? [];
+        if (array_key_exists('config', $tca) && !$tca['config']) {
+            $tca = $GLOBALS['TCA'][$type]['columns']['tx_mask_' . $fieldKey] ?? [];
         }
-        if (!$tca['config']) {
-            $tca = $element['tca'][$fieldKey];
+        if (array_key_exists('config', $tca) && !$tca['config']) {
+            $tca = $element['tca'][$fieldKey] ?? [];
         }
 
         // if field is in inline table or $GLOBALS["TCA"] is not yet filled, load tca from json
-        if ($tca === null || !in_array($type, ['tt_content', 'pages'])) {
+        if (!$tca || !in_array($type, ['tt_content', 'pages'])) {
             $tca = $this->storageRepository->loadField($type, $fieldKey);
             if (!$tca['config']) {
                 $tca = $this->storageRepository->loadField($type, 'tx_mask_' . $fieldKey);
@@ -152,7 +152,7 @@ class FieldHelper
         }
 
 
-        if ($tca['options'] === 'file') {
+        if (($tca['options'] ?? '') === 'file') {
             $formType = 'File';
         }
 

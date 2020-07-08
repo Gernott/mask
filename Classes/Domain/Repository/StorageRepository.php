@@ -79,9 +79,13 @@ class StorageRepository
     /**
      * is called before every action
      */
-    public function __construct()
+    public function __construct(SettingsService $settingsService = null)
     {
-        $this->settingsService = GeneralUtility::makeInstance(SettingsService::class);
+        if ($settingsService) {
+            $this->settingsService = $settingsService;
+        } else {
+            $this->settingsService = GeneralUtility::makeInstance(SettingsService::class);
+        }
         $this->extSettings = $this->settingsService->get();
     }
 
