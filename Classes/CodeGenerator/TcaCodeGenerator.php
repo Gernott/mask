@@ -106,7 +106,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
             }
 
             // Generate Field TCA
-            $fieldTCA = $this->generateFieldsTca($subJson['tca']);
+            $fieldTCA = $this->generateFieldsTca($table);
             ExtensionManagementUtility::addTCAcolumns($table, $fieldTCA);
         }
     }
@@ -219,136 +219,107 @@ class TcaCodeGenerator extends AbstractCodeGenerator
     /**
      * Generates the TCA for fields
      *
-     * @param array $tca
+     * @param $table
      * @return array
      * @throws Exception
      */
-    public function generateFieldsTca($tca): array
+    public function generateFieldsTca($table): array
     {
-        $generalUtility = GeneralUtility::makeInstance(MaskUtility::class);
+        $json = $this->storageRepository->load();
+        $tca = $json[$table]['tca'] ?? [];
         $columns = [];
-        if ($tca) {
-            foreach ($tca as $tcakey => $tcavalue) {
-                $addToTca = true;
-                if ($tcavalue) {
-                    foreach ($tcavalue as $fieldkey => $fieldvalue) {
-                        // Add File-Config for file-field
-                        if ($fieldkey === 'options' && $fieldvalue === 'file') {
-                            $fieldName = $tcakey;
-                            $customSettingOverride = [
-                                'overrideChildTca' => [
-                                    'types' => [
-                                        '0' => [
-                                            'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-                                        ],
-                                        '1' => [
-                                            'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-                                        ],
-                                        '2' => [
-                                            'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-                                        ],
-                                        '3' => [
-                                            'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-                                        ],
-                                        '4' => [
-                                            'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-                                        ],
-                                        '5' => [
-                                            'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-                                        ],
-                                    ],
-                                ]
-                            ];
+        foreach ($tca as $tcakey => $tcavalue) {
+            // Tabs: Ignore.
+            if (($tcavalue['config']['type'] ?? '') === 'tab') {
+                continue;
+            }
 
-                            $customSettingOverride['appearance'] = $tcavalue['config']['appearance'];
-                            if ($customSettingOverride['appearance']['fileUploadAllowed'] === '') {
-                                $customSettingOverride['appearance']['fileUploadAllowed'] = false;
-                            }
-                            if ($customSettingOverride['appearance']['useSortable'] === '') {
-                                $customSettingOverride['appearance']['useSortable'] = 0;
-                            } else {
-                                $customSettingOverride['appearance']['useSortable'] = 1;
-                            }
+            $columns[$tcakey] = [];
 
-                            if (!empty($tcavalue['config']['filter']['0']['parameters']['allowedFileExtensions'])) {
-                                $allowedFileExtensions = $tcavalue['config']['filter']['0']['parameters']['allowedFileExtensions'];
-                            } else {
-                                $allowedFileExtensions = $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'];
-                            }
-                            $columns[$tcakey]['config'] = ExtensionManagementUtility::getFileFieldTCAConfig($fieldName,
-                                $customSettingOverride, $allowedFileExtensions);
-                        }
+            // File: Add file config.
+            if (($tcavalue['options'] ?? '') === 'file') {
+                $customSettingOverride = [
+                    'overrideChildTca' => [
+                        'types' => [
+                            '0' => [
+                                'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+                            ],
+                            '1' => [
+                                'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+                            ],
+                            '2' => [
+                                'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+                            ],
+                            '3' => [
+                                'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+                            ],
+                            '4' => [
+                                'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+                            ],
+                            '5' => [
+                                'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+                            ],
+                        ],
+                    ]
+                ];
 
-                        // check if field is actually a tab
-                        if (isset($fieldvalue['type']) && $fieldvalue['type'] === 'tab') {
-                            $addToTca = false;
-                        }
-
-                        // Fill missing tablename in TCA-Config for inline-fields
-                        if ($fieldkey === 'config' && $tcavalue[$fieldkey]['foreign_table'] === '--inlinetable--') {
-                            $tcavalue[$fieldkey]['foreign_table'] = $tcakey;
-                        }
-
-                        // set date ranges if date or datetime field
-                        if ($fieldkey === 'config' && ($tcavalue[$fieldkey]['dbType'] === 'date' || $tcavalue[$fieldkey]['dbType'] === 'datetime')) {
-                            if (!empty($tcavalue[$fieldkey]['range']['upper'])) {
-                                $date = new \DateTime($tcavalue[$fieldkey]['range']['upper']);
-                                $tcavalue[$fieldkey]['range']['upper'] = $date->getTimestamp() + 86400;
-                            }
-                            if (!empty($tcavalue[$fieldkey]['range']['lower'] !== '')) {
-                                $date = new \DateTime($tcavalue[$fieldkey]['range']['lower']);
-                                $tcavalue[$fieldkey]['range']['lower'] = $date->getTimestamp() + 86400;
-                            }
-                        }
-
-                        // set correct rendertype if format (code highlighting) is set in text tca
-                        if ($fieldkey === 'config' && !empty($tcavalue[$fieldkey]['format'])) {
-                            $tcavalue[$fieldkey]['renderType'] = 't3editor';
-                        }
-
-                        // make some adjustmens to content fields
-                        if (
-                            $fieldkey === 'config' &&
-                            $tcavalue[$fieldkey]['foreign_table'] === 'tt_content' &&
-                            $tcavalue[$fieldkey]['type'] === 'inline'
-                        ) {
-                            $tcavalue[$fieldkey]['foreign_field'] = $tcakey . '_parent';
-                            if ($tcavalue['cTypes']) {
-                                $tcavalue[$fieldkey]['overrideChildTca']['columns']['CType']['config']['default'] = reset($tcavalue['cTypes']);
-                            }
-                        }
-
-                        // merge user inputs with file array
-                        if (!is_array($columns[$tcakey])) {
-                            $columns[$tcakey] = [];
-                        } else {
-                            ArrayUtility::mergeRecursiveWithOverrule($columns[$tcakey], $tcavalue);
-                        }
-
-                        if (isset($columns[$tcakey]['rte'])) {
-                            $columns[$tcakey]['config']['softref'] = 'rtehtmlarea_images,typolink_tag,images,email[subst],url';
-                        }
-
-                        // Unset some values that are not needed in TCA
-                        unset(
-                            $columns[$tcakey]['options'],
-                            $columns[$tcakey]['key'],
-                            $columns[$tcakey]['rte'],
-                            $columns[$tcakey]['inlineParent'],
-                            $columns[$tcakey]['inlineLabel'],
-                            $columns[$tcakey]['inlineIcon'],
-                            $columns[$tcakey]['cTypes']
-                        );
-
-                        $columns[$tcakey] = $generalUtility->removeBlankOptions($columns[$tcakey]);
-                        $columns[$tcakey] = $generalUtility->replaceKey($columns[$tcakey], $tcakey);
-                    }
+                $customSettingOverride['appearance'] = $tcavalue['config']['appearance'] ?? [];
+                $customSettingOverride['appearance']['fileUploadAllowed'] = (bool)($customSettingOverride['appearance']['fileUploadAllowed'] ?? false);
+                $customSettingOverride['appearance']['useSortable'] = (bool)($customSettingOverride['appearance']['useSortable'] ?? false);
+                $allowedFileExtensions = $tcavalue['config']['filter']['0']['parameters']['allowedFileExtensions'] ?? '';
+                if ($allowedFileExtensions === '') {
+                    $allowedFileExtensions = $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'];
                 }
-                // if this field should not be added to the tca (e.g. tabs)
-                if (!$addToTca) {
-                    unset($columns[$tcakey]);
+                $columns[$tcakey]['config'] = ExtensionManagementUtility::getFileFieldTCAConfig($tcakey, $customSettingOverride, $allowedFileExtensions);
+            }
+
+            // Inline (Repeating): Fill missing foreign_table in tca config.
+            if (($tcavalue['config']['foreign_table'] ?? '') === '--inlinetable--') {
+                $tcavalue['config']['foreign_table'] = $tcakey;
+            }
+
+            // Date / DateTime: Set date ranges
+            $dbType = $tcavalue['config']['dbType'] ?? '';
+            if (($dbType === 'date' || $dbType === 'datetime')) {
+                if ($tcavalue['config']['range']['upper'] ?? false) {
+                    $date = new \DateTime($tcavalue['config']['range']['upper']);
+                    $tcavalue['config']['range']['upper'] = $date->getTimestamp();
+                }
+                if ($tcavalue['config']['range']['lower'] ?? false) {
+                    $date = new \DateTime($tcavalue['config']['range']['lower']);
+                    $tcavalue['config']['range']['lower'] = $date->getTimestamp();
                 }
             }
+
+            // Text: Set correct rendertype if format (code highlighting) is set.
+            if ($tcavalue['config']['format'] ?? false) {
+                $tcavalue['config']['renderType'] = 't3editor';
+            }
+
+            // Content: Set foreign_field and default CType in select if restricted.
+            if (($tcavalue['config']['foreign_table'] ?? '') === 'tt_content' && ($tcavalue['config']['type'] ?? '') === 'inline') {
+                $tcavalue['config']['foreign_field'] = $tcakey . '_parent';
+                if ($tcavalue['cTypes'] ?? false) {
+                    $tcavalue['config']['overrideChildTca']['columns']['CType']['config']['default'] = reset($tcavalue['cTypes']);
+                }
+            }
+
+            // Merge user inputs with file array (for file type overrides)
+            ArrayUtility::mergeRecursiveWithOverrule($columns[$tcakey], $tcavalue);
+
+            // Unset some values that are not needed in TCA
+            unset(
+                $columns[$tcakey]['options'],
+                $columns[$tcakey]['key'],
+                $columns[$tcakey]['rte'],
+                $columns[$tcakey]['inlineParent'],
+                $columns[$tcakey]['inlineLabel'],
+                $columns[$tcakey]['inlineIcon'],
+                $columns[$tcakey]['cTypes']
+            );
+
+            $columns[$tcakey] = MaskUtility::removeBlankOptions($columns[$tcakey]);
+            $columns[$tcakey] = MaskUtility::replaceKey($columns[$tcakey], $tcakey);
         }
         return $columns;
     }

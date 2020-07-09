@@ -100,6 +100,6 @@ class FieldHelperTest extends BaseTestCase
 
         $storage->method('load')->willReturn($json);
         $fieldHelper = new FieldHelper($storage);
-        $this->assertSame($expected, $fieldHelper->getLabel($elementKey, $fieldKey, $type));
+        self::assertSame($expected, $fieldHelper->getLabel($elementKey, $fieldKey, $type));
     }
 }

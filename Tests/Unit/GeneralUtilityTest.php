@@ -104,7 +104,7 @@ class GeneralUtilityTest extends UnitTestCase
     public function getTemplatePath($settings, $elementKey, $onlyTemplateName, $path, $expectedPath)
     {
         $path = GeneralUtility::getTemplatePath($settings, $elementKey, $onlyTemplateName, $path);
-        $this->assertSame($expectedPath, $path);
+        self::assertSame($expectedPath, $path);
     }
 
 
@@ -164,9 +164,7 @@ class GeneralUtilityTest extends UnitTestCase
      */
     public function removeBlankOptions($array, $expected)
     {
-        $storage = $this->getMockBuilder(StorageRepository::class)->disableOriginalConstructor()->getMock();
-        $utility = new GeneralUtility($storage);
-        self::assertSame($expected, $utility->removeBlankOptions($array));
+        self::assertSame($expected, GeneralUtility::removeBlankOptions($array));
     }
 
     public function isEvalValueSetDataProvider()
@@ -297,7 +295,7 @@ class GeneralUtilityTest extends UnitTestCase
         );
         $storage->method('load')->willReturn($json);
         $utility = new GeneralUtility($storage);
-        $this->assertSame($result, $utility->isEvalValueSet($fieldKey, $evalValue, $type));
+        self::assertSame($result, $utility->isEvalValueSet($fieldKey, $evalValue, $type));
     }
 
     public function isBlindLinkOptionSetDataProvider()
@@ -387,7 +385,7 @@ class GeneralUtilityTest extends UnitTestCase
         );
         $storage->method('load')->willReturn($json);
         $utility = new GeneralUtility($storage);
-        $this->assertSame($expected, $utility->isBlindLinkOptionSet($fieldKey, $evalValue, $type));
+        self::assertSame($expected, $utility->isBlindLinkOptionSet($fieldKey, $evalValue, $type));
     }
 
     public function getFirstNoneTabFieldDataProvider()
@@ -412,7 +410,7 @@ class GeneralUtilityTest extends UnitTestCase
      */
     public function getFirstNoneTabField($data, $expected)
     {
-        $this->assertSame($expected, GeneralUtility::getFirstNoneTabField($data));
+        self::assertSame($expected, GeneralUtility::getFirstNoneTabField($data));
     }
 
     public function isMaskIrreTableDataProvider()
@@ -437,6 +435,37 @@ class GeneralUtilityTest extends UnitTestCase
      */
     public function isMaskIrreTable($table, $expected)
     {
-        $this->assertSame($expected, GeneralUtility::isMaskIrreTable($table));
+        self::assertSame($expected, GeneralUtility::isMaskIrreTable($table));
+    }
+
+    public function replaceKeyDataProvider()
+    {
+        return [
+            'Key is replaced recursively' => [
+                [
+                    'value' => '--key--',
+                    'recursive' => [
+                        'value' => '--key--'
+                    ]
+                ],
+                'replace_key',
+                '--key--',
+                [
+                    'value' => 'replace_key',
+                    'recursive' => [
+                        'value' => 'replace_key'
+                    ]
+                ],
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider replaceKeyDataProvider
+     * @test
+     */
+    public function replaceKey($data, $replaceKey, $replaceMarker, $expected)
+    {
+        self::assertSame($expected, GeneralUtility::replaceKey($data, $replaceKey, $replaceMarker));
     }
 }
