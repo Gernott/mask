@@ -383,6 +383,27 @@ class TcaCodeGenerator extends AbstractCodeGenerator
         return array_values($irreTables);
     }
 
+    /**
+     * Add search fields to find mask elements or pages
+     */
+    public function addSearchFields($table): void
+    {
+        $json = $this->storageRepository->load();
+        $tca = $json[$table]['tca'] ?? [];
+        $searchFields = [];
+
+        foreach ($tca as $tcakey => $tcavalue) {
+            $formType = $this->fieldHelper->getFormType($tcakey, '', $table);
+            if (in_array($formType, ['String', 'Text'])) {
+                $searchFields[] = $tcakey;
+            }
+        }
+
+        if ($searchFields) {
+            $GLOBALS['TCA'][$table]['ctrl']['searchFields'] .= ',' . implode(',', $searchFields);
+        }
+    }
+
     public static function getTcaTemplate()
     {
         return [
