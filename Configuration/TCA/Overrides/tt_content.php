@@ -12,13 +12,8 @@ if (!empty($GLOBALS['TCA']['tt_content']['columns']['CType']['config']['itemsPro
 $GLOBALS['TCA']['tt_content']['columns']['colPos']['config']['itemsProcFunc'] = 'MASK\Mask\ItemsProcFuncs\ColPosList->itemsProcFunc';
 $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['itemsProcFunc'] = MASK\Mask\ItemsProcFuncs\CTypeList::class . '->itemsProcFunc';
 
-$storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\Domain\Repository\StorageRepository::class);
-$configuration = $storageRepository->load();
 $tcaCodeGenerator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\CodeGenerator\TcaCodeGenerator::class);
 $contentColumns = $tcaCodeGenerator->generateFieldsTca('tt_content');
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tt_content', $contentColumns);
 $tcaCodeGenerator->setInlineTca();
-
-if (!empty($configuration) && array_key_exists('tt_content', $configuration)) {
-    $tcaCodeGenerator->setElementsTca($configuration['tt_content']['elements']);
-}
+$tcaCodeGenerator->setElementsTca();

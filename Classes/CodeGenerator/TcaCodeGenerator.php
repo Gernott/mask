@@ -113,70 +113,68 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 
     /**
      * Generates and sets the tca for all the content-elements
-     *
-     * @param array $tca
-     * @noinspection PhpUnused
      */
-    public function setElementsTca($tca): void
+    public function setElementsTca(): void
     {
-
-        $fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
+        $json = $this->storageRepository->load();
+        $tca = $json['tt_content']['elements'] ?? [];
         $defaultTabs = ',--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.appearance,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.frames;frames,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.appearanceLinks;appearanceLinks,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,--palette--;;language,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,--palette--;;hidden,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:categories,--div--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_category.tabs.category,categories,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:notes,rowDescription,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended';
 
-        // add gridelements fields, to make mask work with gridelements out of the box
+        // Add gridelements fields, to make mask work with gridelements out of the box
         $gridelements = '';
         if (ExtensionManagementUtility::isLoaded('gridelements')) {
             $gridelements = ', tx_gridelements_container, tx_gridelements_columns';
         }
-        if ($tca) {
 
-            // add new group in CType selectbox
-            $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = [
-                'LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:new_content_element_tab',
-                '--div--'
-            ];
+        // Add new group in CType selectbox
+        $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = [
+            'LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:new_content_element_tab',
+            '--div--'
+        ];
 
-            foreach ($tca as $elementvalue) {
-                if (!$elementvalue['hidden']) {
+        foreach ($tca as $elementvalue) {
+            if ($elementvalue['hidden'] ?? false) {
+                continue;
+            }
 
-                    $prependTabs = '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,';
-                    $fieldArray = [];
-                    $label = $elementvalue['shortLabel'] ?: $elementvalue['label']; // Optional shortLabel
+            $prependTabs = '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,';
+            $fieldArray = [];
+            // Optional shortLabel
+            $label = $elementvalue['shortLabel'] ?: $elementvalue['label'];
 
-                    // add new entry in CType selectbox
-                    ExtensionManagementUtility::addPlugin([
-                        $label,
-                        'mask_' . $elementvalue['key'],
-                        'mask-ce-' . $elementvalue['key']
-                    ], 'CType', 'mask');
+            // Add new entry in CType selectbox
+            ExtensionManagementUtility::addPlugin(
+                [
+                    $label,
+                    'mask_' . $elementvalue['key'],
+                    'mask-ce-' . $elementvalue['key']
+                ],
+                'CType',
+                'mask'
+            );
 
-                    // add all the fields that should be shown
-                    if (is_array($elementvalue['columns'])) {
-                        foreach ($elementvalue['columns'] as $index => $fieldKey) {
-
-                            // check if this field is of type tab
-                            $formType = $fieldHelper->getFormType($fieldKey, $elementvalue['key'], 'tt_content');
-                            if ($formType === 'Tab') {
-                                $label = $fieldHelper->getLabel($elementvalue['key'], $fieldKey, 'tt_content');
-                                // if a tab is in the first position then change the name of the general tab
-                                if ($index === 0) {
-                                    $prependTabs = '--div--;' . $label . ',' . $prependTabs;
-                                } else {
-                                    // otherwise just add new tab
-                                    $fieldArray[] = '--div--;' . $label;
-                                }
-                            } else {
-                                $fieldArray[] = $fieldKey;
-                            }
-                        }
+            // Add all the fields that should be shown
+            foreach ($elementvalue['columns'] ?? [] as $index => $fieldKey) {
+                $formType = $this->fieldHelper->getFormType($fieldKey, $elementvalue['key'], 'tt_content');
+                // Check if this field is of type tab
+                if ($formType === 'Tab') {
+                    $label = $this->fieldHelper->getLabel($elementvalue['key'], $fieldKey, 'tt_content');
+                    // If a tab is in the first position then change the name of the general tab
+                    if ($index === 0) {
+                        $prependTabs = '--div--;' . $label . ',' . $prependTabs;
+                    } else {
+                        // Otherwise just add new tab
+                        $fieldArray[] = '--div--;' . $label;
                     }
-                    $fields = implode(',', $fieldArray);
-
-                    $GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes']['mask_' . $elementvalue['key']] = 'mask-ce-' . $elementvalue['key'];
-                    $GLOBALS['TCA']['tt_content']['types']['mask_' . $elementvalue['key']]['columnsOverrides']['bodytext']['config']['enableRichtext'] = 1;
-                    $GLOBALS['TCA']['tt_content']['types']['mask_' . $elementvalue['key']]['showitem'] = $prependTabs . $fields . $defaultTabs . $gridelements;
+                } else {
+                    $fieldArray[] = $fieldKey;
                 }
             }
+            $fields = implode(',', $fieldArray);
+
+            $GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes']['mask_' . $elementvalue['key']] = 'mask-ce-' . $elementvalue['key'];
+            $GLOBALS['TCA']['tt_content']['types']['mask_' . $elementvalue['key']]['columnsOverrides']['bodytext']['config']['enableRichtext'] = 1;
+            $GLOBALS['TCA']['tt_content']['types']['mask_' . $elementvalue['key']]['showitem'] = $prependTabs . $fields . $defaultTabs . $gridelements;
         }
     }
 
