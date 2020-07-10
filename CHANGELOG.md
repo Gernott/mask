@@ -4,8 +4,39 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-### [5.1.0-dev]
-- Remove richtextConfiguration settings in tca. **NOTE:** It is necessary to save the mask elements which have richtext fields in order to apply this change.
+### [5.1.0] - 2020-07-10
+### Important
+- There are some issues with the new fluid based page layout module. Especially if dealing with languages, please turn off this feature if encountering any issues in Settings -> Feature Toggles -> Fluid based page module.
+- It may be necessary to run the Database Analyzer and/or save your mask elements to apply some changes.
+- If you save your elements, the mask.json may change. Don't forget to put the changes in your version control system.
+
+### Added
+- Mask elements can now be found in TYPO3 global search [#191](https://github.com/Gernott/mask/issues/191)
+- Added fluid_styled_content as dependency
+- Added mask as global fluid namespace
+- Added tests for core functionality of mask
+
+### Changed
+- Migrated Signal slots to PSR-14 events
+- Replaced datepicker with TYPO3 standard
+- General code cleanup and refactoring
+
+### Removed
+- Link element wizard config removed. [#79440](https://forge.typo3.org/issues/79440)
+- rte_transform mode override removed. [#72856](https://forge.typo3.org/issues/72856)
+- Removed parseFuncTSPath attribute in html code generation for RTE fields
+
+### Fixed
+- Fixed order of tabs for backend layout fields. [#315](https://github.com/Gernott/mask/pull/315)
+- Backend Layouts translated correctly if referencing language files.
+- Removed html in delete/purge dialog [#310](https://github.com/Gernott/mask/pull/310)
+- Translation of inline fields in page records fixed [#309](https://github.com/Gernott/mask/pull/309)
+- Deleted inline fields removed in mask.json [#307](https://github.com/Gernott/mask/pull/307)
+- Validation of field keys works again in the element builder
+- RTE presets in TSconfig are now applied [#306](https://github.com/Gernott/mask/pull/306)
+- Removed the inline css in blockquote [#303](https://github.com/Gernott/mask/pull/303)
+- Allowed content elements in nested content work again [#296](https://github.com/Gernott/mask/pull/296)
+- Mask doesn't generate error log entries anymore [#294](https://github.com/Gernott/mask/pull/294)
 
 ## [5.0.0] - 2020-04-28
 
@@ -15,7 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - basic code cleanup and minor refactoring
 - complete redesign of Mask backend module
-- hidden IRRE elements are now visible in the backend[#262](https://github.com/Gernott/mask/pull/262)
+- hidden IRRE elements are now visible in the backend [#262](https://github.com/Gernott/mask/pull/262)
 - declared strict_types in all classes for better code quality
 - replaced deprecated composer option "replace" with extra/extension-key
 - moved the mask backend module to the bottom of the admin tools
