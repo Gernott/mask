@@ -953,6 +953,7 @@ img.brand-logo {
 	display: block;
 	border-radius: 4px;
 	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+	pointer-events: none;
 }
 
 .tx_mask_field_templates .mask_tooltip:hover .tooltiptext {
