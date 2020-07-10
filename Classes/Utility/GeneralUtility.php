@@ -64,7 +64,7 @@ class GeneralUtility
      * @param string $fieldKey TCA Type
      * @param string $evalValue value to search for
      * @param string $type elementtype
-     * @return boolean $evalValue is set
+     * @return bool $evalValue is set
      */
     public function isEvalValueSet($fieldKey, $evalValue, $type = 'tt_content'): bool
     {
@@ -86,7 +86,7 @@ class GeneralUtility
      * @param string $fieldKey TCA Type
      * @param string $evalValue value to search for
      * @param string $type elementtype
-     * @return boolean $evalValue is set
+     * @return bool $evalValue is set
      */
     public function isBlindLinkOptionSet($fieldKey, $evalValue, $type = 'tt_content'): bool
     {
@@ -110,15 +110,13 @@ class GeneralUtility
      * @return array
      * @author Gernot Ploiner <gp@webprofil.at>
      */
-    public function replaceKey($data, $replace_key, $key = '--key--'): array
+    public static function replaceKey($data, $replace_key, $key = '--key--'): array
     {
         foreach ($data as $elem_key => $elem) {
             if (is_array($elem)) {
-                $data[$elem_key] = $this->replaceKey($elem, $replace_key);
-            } else {
-                if ($data[$elem_key] === $key) {
-                    $data[$elem_key] = $replace_key;
-                }
+                $data[$elem_key] = self::replaceKey($elem, $replace_key);
+            } elseif ($data[$elem_key] === $key) {
+                $data[$elem_key] = $replace_key;
             }
         }
         return $data;
@@ -129,12 +127,12 @@ class GeneralUtility
      * @param array $fields
      * @return string $string
      */
-    public function getFirstNoneTabField($fields): string
+    public static function getFirstNoneTabField($fields): string
     {
         if (count($fields)) {
             $potentialFirst = array_shift($fields);
-            if (strpos($potentialFirst, '--div--') !== false) {
-                return $this->getFirstNoneTabField($fields);
+            if (!is_string($potentialFirst) || strpos($potentialFirst, '--div--') !== false) {
+                return self::getFirstNoneTabField($fields);
             }
             return $potentialFirst;
         }
@@ -146,11 +144,11 @@ class GeneralUtility
      * @param array $haystack
      * @return array
      */
-    public function removeBlankOptions($haystack): array
+    public static function removeBlankOptions($haystack): array
     {
         foreach ($haystack as $key => $value) {
             if (is_array($value)) {
-                $haystack[$key] = $this->removeBlankOptions($haystack[$key]);
+                $haystack[$key] = self::removeBlankOptions($haystack[$key]);
             }
             if ((is_array($haystack[$key]) && empty($haystack[$key])) || (is_string($haystack[$key]) && $haystack[$key] === '')) {
                 unset($haystack[$key]);
@@ -239,4 +237,8 @@ class GeneralUtility
         return '';
     }
 
+    public static function isMaskIrreTable($table)
+    {
+        return strpos($table, 'tx_mask') === 0;
+    }
 }

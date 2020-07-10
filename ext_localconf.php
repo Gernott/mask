@@ -39,7 +39,9 @@ defined('TYPO3_MODE') or die();
 
     // Add all the typoscript we need in the correct files
     $tsConfig = $typoScriptCodeGenerator->generateTsConfig($configuration);
+    $pageTs = $typoScriptCodeGenerator->generatePageTyposcript($configuration);
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig($tsConfig);
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig($pageTs);
 
     $setupTs = $typoScriptCodeGenerator->generateSetupTyposcript($configuration, $settings);
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup($setupTs);

@@ -29,6 +29,7 @@ namespace MASK\Mask\CodeGenerator;
 
 use Exception;
 use MASK\Mask\Domain\Repository\StorageRepository;
+use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -58,110 +59,122 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 
     /**
      * Generates and sets the correct tca for all the inline fields
-     * @param array $json
-     * @throws Exception
-     * @noinspection PhpUnused
      */
-    public function setInlineTca($json): void
+    public function setInlineTca(): void
     {
-        // Generate TCA for IRRE Fields and Tables
-        $notIrreTables = ['pages', 'tt_content', 'sys_file_reference'];
-        if ($json) {
-            foreach ($json as $table => $subJson) {
-                if (!in_array($table, $notIrreTables, true)) {
-                    // Generate Table TCA
-                    $this->generateTableTca($table, $subJson['tca']);
-                    // Generate Field TCA
-                    $fieldTCA = $this->generateFieldsTca($subJson['tca']);
-                    ExtensionManagementUtility::addTCAcolumns($table, $fieldTCA);
-
-                    // set label for inline
-                    if (!empty($json['tt_content']['tca'][$table]['inlineLabel'])) {
-                        $fields = array_keys($subJson['tca']);
-                        if (in_array($json['tt_content']['tca'][$table]['inlineLabel'], $fields, true)) {
-                            $GLOBALS['TCA'][$table]['ctrl']['label'] = $json['tt_content']['tca'][$table]['inlineLabel'];
-                        }
-                    }
-                    // set icon for inline
-                    if (!empty($json['tt_content']['tca'][$table]['inlineIcon'])) {
-                        $GLOBALS['TCA'][$table]['ctrl']['iconfile'] = $json['tt_content']['tca'][$table]['inlineIcon'];
-                    } else {
-                        $GLOBALS['TCA'][$table]['ctrl']['iconfile'] = 'EXT:mask/Resources/Public/Icons/Extension.svg';
-                    }
-
-                    // hide table in list view
-                    $GLOBALS['TCA'][$table]['ctrl']['hideTable'] = true;
-                }
+        $json = $this->storageRepository->load();
+        foreach ($json as $table => $subJson) {
+            if (!MaskUtility::isMaskIrreTable($table)) {
+                continue;
             }
+            // Generate Table TCA
+            $processedTca = $this->processTableTca($table, $subJson['tca']);
+            $parentTable = $this->fieldHelper->getFieldType($table);
+
+            // Adjust TCA-Template
+            $tableTca = self::getTcaTemplate();
+            $appendLanguageTab = ',--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,--palette--;;language';
+            $appendAccessTab = ',--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,--palette--;;hidden,--palette--;;access';
+
+            $tableTca['ctrl']['title'] = $table;
+            $tableTca['ctrl']['label'] = $processedTca['label'];
+            $tableTca['ctrl']['iconfile'] = 'EXT:mask/Resources/Public/Icons/Extension.svg';
+
+            // hide table in list view
+            $tableTca['ctrl']['hideTable'] = true;
+            $tableTca['types']['1']['showitem'] = $processedTca['showitem'] . $appendLanguageTab . $appendAccessTab;
+
+            $tableTca['columns']['l10n_parent']['config']['foreign_table'] = $table;
+            $tableTca['columns']['l10n_parent']['config']['foreign_table_where'] = "AND $table.pid=###CURRENT_PID### AND $table.sys_language_uid IN (-1, 0)";
+
+            $tableTca['columns']['parentid']['config']['foreign_table'] = $parentTable;
+            $tableTca['columns']['parentid']['config']['foreign_table_where'] = "AND $parentTable.pid=###CURRENT_PID### AND $parentTable.sys_language_uid IN (-1, ###REC_FIELD_sys_language_uid###)";
+
+            // Add some stuff we need to make irre work like it should
+            $GLOBALS['TCA'][$table] = $tableTca;
+
+            // set label for inline if defined
+            $inlineLabel = $json['tt_content']['tca'][$table]['inlineLabel'] ?? '';
+            if ($inlineLabel && in_array($inlineLabel, array_keys($subJson['tca']))) {
+                $GLOBALS['TCA'][$table]['ctrl']['label'] = $inlineLabel;
+            }
+
+            // set icon for inline
+            $inlineIcon = $json['tt_content']['tca'][$table]['inlineIcon'] ?? '';
+            if ($inlineIcon) {
+                $GLOBALS['TCA'][$table]['ctrl']['iconfile'] = $inlineIcon;
+            }
+
+            // Generate Field TCA
+            $fieldTCA = $this->generateFieldsTca($table);
+            ExtensionManagementUtility::addTCAcolumns($table, $fieldTCA);
         }
     }
 
     /**
      * Generates and sets the tca for all the content-elements
-     *
-     * @param array $tca
-     * @noinspection PhpUnused
      */
-    public function setElementsTca($tca): void
+    public function setElementsTca(): void
     {
-
-        $fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
+        $json = $this->storageRepository->load();
+        $tca = $json['tt_content']['elements'] ?? [];
         $defaultTabs = ',--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.appearance,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.frames;frames,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.appearanceLinks;appearanceLinks,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,--palette--;;language,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,--palette--;;hidden,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:categories,--div--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_category.tabs.category,categories,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:notes,rowDescription,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended';
 
-        // add gridelements fields, to make mask work with gridelements out of the box
+        // Add gridelements fields, to make mask work with gridelements out of the box
         $gridelements = '';
         if (ExtensionManagementUtility::isLoaded('gridelements')) {
             $gridelements = ', tx_gridelements_container, tx_gridelements_columns';
         }
-        if ($tca) {
 
-            // add new group in CType selectbox
-            $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = [
-                'LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:new_content_element_tab',
-                '--div--'
-            ];
+        // Add new group in CType selectbox
+        $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = [
+            'LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:new_content_element_tab',
+            '--div--'
+        ];
 
-            foreach ($tca as $elementvalue) {
-                if (!$elementvalue['hidden']) {
+        foreach ($tca as $elementvalue) {
+            if ($elementvalue['hidden'] ?? false) {
+                continue;
+            }
 
-                    $prependTabs = '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,';
-                    $fieldArray = [];
-                    $label = $elementvalue['shortLabel'] ?: $elementvalue['label']; // Optional shortLabel
+            $prependTabs = '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,';
+            $fieldArray = [];
+            // Optional shortLabel
+            $label = $elementvalue['shortLabel'] ?: $elementvalue['label'];
 
-                    // add new entry in CType selectbox
-                    ExtensionManagementUtility::addPlugin([
-                        $label,
-                        'mask_' . $elementvalue['key'],
-                        'mask-ce-' . $elementvalue['key']
-                    ], 'CType', 'mask');
+            // Add new entry in CType selectbox
+            ExtensionManagementUtility::addPlugin(
+                [
+                    $label,
+                    'mask_' . $elementvalue['key'],
+                    'mask-ce-' . $elementvalue['key']
+                ],
+                'CType',
+                'mask'
+            );
 
-                    // add all the fields that should be shown
-                    if (is_array($elementvalue['columns'])) {
-                        foreach ($elementvalue['columns'] as $index => $fieldKey) {
-
-                            // check if this field is of type tab
-                            $formType = $fieldHelper->getFormType($fieldKey, $elementvalue['key'], 'tt_content');
-                            if ($formType === 'Tab') {
-                                $label = $fieldHelper->getLabel($elementvalue['key'], $fieldKey, 'tt_content');
-                                // if a tab is in the first position then change the name of the general tab
-                                if ($index === 0) {
-                                    $prependTabs = '--div--;' . $label . ',' . $prependTabs;
-                                } else {
-                                    // otherwise just add new tab
-                                    $fieldArray[] = '--div--;' . $label;
-                                }
-                            } else {
-                                $fieldArray[] = $fieldKey;
-                            }
-                        }
+            // Add all the fields that should be shown
+            foreach ($elementvalue['columns'] ?? [] as $index => $fieldKey) {
+                $formType = $this->fieldHelper->getFormType($fieldKey, $elementvalue['key'], 'tt_content');
+                // Check if this field is of type tab
+                if ($formType === 'Tab') {
+                    $label = $this->fieldHelper->getLabel($elementvalue['key'], $fieldKey, 'tt_content');
+                    // If a tab is in the first position then change the name of the general tab
+                    if ($index === 0) {
+                        $prependTabs = '--div--;' . $label . ',' . $prependTabs;
+                    } else {
+                        // Otherwise just add new tab
+                        $fieldArray[] = '--div--;' . $label;
                     }
-                    $fields = implode(',', $fieldArray);
-
-                    $GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes']['mask_' . $elementvalue['key']] = 'mask-ce-' . $elementvalue['key'];
-                    $GLOBALS['TCA']['tt_content']['types']['mask_' . $elementvalue['key']]['columnsOverrides']['bodytext']['config']['enableRichtext'] = 1;
-                    $GLOBALS['TCA']['tt_content']['types']['mask_' . $elementvalue['key']]['showitem'] = $prependTabs . $fields . $defaultTabs . $gridelements;
+                } else {
+                    $fieldArray[] = $fieldKey;
                 }
             }
+            $fields = implode(',', $fieldArray);
+
+            $GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes']['mask_' . $elementvalue['key']] = 'mask-ce-' . $elementvalue['key'];
+            $GLOBALS['TCA']['tt_content']['types']['mask_' . $elementvalue['key']]['columnsOverrides']['bodytext']['config']['enableRichtext'] = 1;
+            $GLOBALS['TCA']['tt_content']['types']['mask_' . $elementvalue['key']]['showitem'] = $prependTabs . $fields . $defaultTabs . $gridelements;
         }
     }
 
@@ -204,185 +217,240 @@ class TcaCodeGenerator extends AbstractCodeGenerator
     /**
      * Generates the TCA for fields
      *
-     * @param array $tca
+     * @param $table
      * @return array
      * @throws Exception
      */
-    public function generateFieldsTca($tca): array
+    public function generateFieldsTca($table): array
     {
-        $generalUtility = GeneralUtility::makeInstance(\MASK\Mask\Utility\GeneralUtility::class);
+        $json = $this->storageRepository->load();
+        $tca = $json[$table]['tca'] ?? [];
         $columns = [];
-        if ($tca) {
-            foreach ($tca as $tcakey => $tcavalue) {
-                $addToTca = true;
-                if ($tcavalue) {
-                    foreach ($tcavalue as $fieldkey => $fieldvalue) {
-                        // Add File-Config for file-field
-                        if ($fieldkey === 'options' && $fieldvalue === 'file') {
-                            $fieldName = $tcakey;
-                            $customSettingOverride = [
-                                'overrideChildTca' => [
-                                    'types' => [
-                                        '0' => [
-                                            'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-                                        ],
-                                        '1' => [
-                                            'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-                                        ],
-                                        '2' => [
-                                            'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-                                        ],
-                                        '3' => [
-                                            'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-                                        ],
-                                        '4' => [
-                                            'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-                                        ],
-                                        '5' => [
-                                            'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-                                        ],
-                                    ],
-                                ]
-                            ];
+        foreach ($tca as $tcakey => $tcavalue) {
+            // Tabs: Ignore.
+            if (($tcavalue['config']['type'] ?? '') === 'tab') {
+                continue;
+            }
 
-                            $customSettingOverride['appearance'] = $tcavalue['config']['appearance'];
-                            if ($customSettingOverride['appearance']['fileUploadAllowed'] === '') {
-                                $customSettingOverride['appearance']['fileUploadAllowed'] = false;
-                            }
-                            if ($customSettingOverride['appearance']['useSortable'] === '') {
-                                $customSettingOverride['appearance']['useSortable'] = 0;
-                            } else {
-                                $customSettingOverride['appearance']['useSortable'] = 1;
-                            }
+            $columns[$tcakey] = [];
 
-                            if (!empty($tcavalue['config']['filter']['0']['parameters']['allowedFileExtensions'])) {
-                                $allowedFileExtensions = $tcavalue['config']['filter']['0']['parameters']['allowedFileExtensions'];
-                            } else {
-                                $allowedFileExtensions = $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'];
-                            }
-                            $columns[$tcakey]['config'] = ExtensionManagementUtility::getFileFieldTCAConfig($fieldName,
-                                $customSettingOverride, $allowedFileExtensions);
-                        }
+            // File: Add file config.
+            if (($tcavalue['options'] ?? '') === 'file') {
+                $customSettingOverride = [
+                    'overrideChildTca' => [
+                        'types' => [
+                            '0' => [
+                                'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+                            ],
+                            '1' => [
+                                'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+                            ],
+                            '2' => [
+                                'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+                            ],
+                            '3' => [
+                                'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+                            ],
+                            '4' => [
+                                'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+                            ],
+                            '5' => [
+                                'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+                            ],
+                        ],
+                    ]
+                ];
 
-                        // check if field is actually a tab
-                        if (isset($fieldvalue['type']) && $fieldvalue['type'] === 'tab') {
-                            $addToTca = false;
-                        }
-
-                        // Fill missing tablename in TCA-Config for inline-fields
-                        if ($fieldkey === 'config' && $tcavalue[$fieldkey]['foreign_table'] === '--inlinetable--') {
-                            $tcavalue[$fieldkey]['foreign_table'] = $tcakey;
-                        }
-
-                        // set date ranges if date or datetime field
-                        if ($fieldkey === 'config' && ($tcavalue[$fieldkey]['dbType'] === 'date' || $tcavalue[$fieldkey]['dbType'] === 'datetime')) {
-                            if (!empty($tcavalue[$fieldkey]['range']['upper'])) {
-                                $date = new \DateTime($tcavalue[$fieldkey]['range']['upper']);
-                                $tcavalue[$fieldkey]['range']['upper'] = $date->getTimestamp() + 86400;
-                            }
-                            if (!empty($tcavalue[$fieldkey]['range']['lower'] !== '')) {
-                                $date = new \DateTime($tcavalue[$fieldkey]['range']['lower']);
-                                $tcavalue[$fieldkey]['range']['lower'] = $date->getTimestamp() + 86400;
-                            }
-                        }
-
-                        // set correct rendertype if format (code highlighting) is set in text tca
-                        if ($fieldkey === 'config' && !empty($tcavalue[$fieldkey]['format'])) {
-                            $tcavalue[$fieldkey]['renderType'] = 't3editor';
-                        }
-
-                        // make some adjustmens to content fields
-                        if (
-                            $fieldkey === 'config' &&
-                            $tcavalue[$fieldkey]['foreign_table'] === 'tt_content' &&
-                            $tcavalue[$fieldkey]['type'] === 'inline'
-                        ) {
-                            $tcavalue[$fieldkey]['foreign_field'] = $tcakey . '_parent';
-                            if ($tcavalue['cTypes']) {
-                                $tcavalue[$fieldkey]['overrideChildTca']['columns']['CType']['config']['default'] = reset($tcavalue['cTypes']);
-                            }
-                        }
-
-                        // merge user inputs with file array
-                        if (!is_array($columns[$tcakey])) {
-                            $columns[$tcakey] = [];
-                        } else {
-                            ArrayUtility::mergeRecursiveWithOverrule($columns[$tcakey], $tcavalue);
-                        }
-
-                        if (isset($columns[$tcakey]['rte'])) {
-                            $columns[$tcakey]['config']['softref'] = 'rtehtmlarea_images,typolink_tag,images,email[subst],url';
-                        }
-
-                        // Unset some values that are not needed in TCA
-                        unset(
-                            $columns[$tcakey]['options'],
-                            $columns[$tcakey]['key'],
-                            $columns[$tcakey]['rte'],
-                            $columns[$tcakey]['inlineParent'],
-                            $columns[$tcakey]['inlineLabel'],
-                            $columns[$tcakey]['inlineIcon'],
-                            $columns[$tcakey]['cTypes']
-                        );
-
-                        $columns[$tcakey] = $generalUtility->removeBlankOptions($columns[$tcakey]);
-                        $columns[$tcakey] = $generalUtility->replaceKey($columns[$tcakey], $tcakey);
-                    }
+                $customSettingOverride['appearance'] = $tcavalue['config']['appearance'] ?? [];
+                $customSettingOverride['appearance']['fileUploadAllowed'] = (bool)($customSettingOverride['appearance']['fileUploadAllowed'] ?? false);
+                $customSettingOverride['appearance']['useSortable'] = (bool)($customSettingOverride['appearance']['useSortable'] ?? false);
+                $allowedFileExtensions = $tcavalue['config']['filter']['0']['parameters']['allowedFileExtensions'] ?? '';
+                if ($allowedFileExtensions === '') {
+                    $allowedFileExtensions = $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'];
                 }
-                // if this field should not be added to the tca (e.g. tabs)
-                if (!$addToTca) {
-                    unset($columns[$tcakey]);
+                $columns[$tcakey]['config'] = ExtensionManagementUtility::getFileFieldTCAConfig($tcakey, $customSettingOverride, $allowedFileExtensions);
+            }
+
+            // Inline (Repeating): Fill missing foreign_table in tca config.
+            if (($tcavalue['config']['foreign_table'] ?? '') === '--inlinetable--') {
+                $tcavalue['config']['foreign_table'] = $tcakey;
+            }
+
+            // Date / DateTime: Set date ranges
+            $dbType = $tcavalue['config']['dbType'] ?? '';
+            if (($dbType === 'date' || $dbType === 'datetime')) {
+                if ($tcavalue['config']['range']['upper'] ?? false) {
+                    $date = new \DateTime($tcavalue['config']['range']['upper']);
+                    $tcavalue['config']['range']['upper'] = $date->getTimestamp();
+                }
+                if ($tcavalue['config']['range']['lower'] ?? false) {
+                    $date = new \DateTime($tcavalue['config']['range']['lower']);
+                    $tcavalue['config']['range']['lower'] = $date->getTimestamp();
                 }
             }
+
+            // Text: Set correct rendertype if format (code highlighting) is set.
+            if ($tcavalue['config']['format'] ?? false) {
+                $tcavalue['config']['renderType'] = 't3editor';
+            }
+
+            // Content: Set foreign_field and default CType in select if restricted.
+            if (($tcavalue['config']['foreign_table'] ?? '') === 'tt_content' && ($tcavalue['config']['type'] ?? '') === 'inline') {
+                $tcavalue['config']['foreign_field'] = $tcakey . '_parent';
+                if ($tcavalue['cTypes'] ?? false) {
+                    $tcavalue['config']['overrideChildTca']['columns']['CType']['config']['default'] = reset($tcavalue['cTypes']);
+                }
+            }
+
+            // Merge user inputs with file array (for file type overrides)
+            ArrayUtility::mergeRecursiveWithOverrule($columns[$tcakey], $tcavalue);
+
+            // Unset some values that are not needed in TCA
+            unset(
+                $columns[$tcakey]['options'],
+                $columns[$tcakey]['key'],
+                $columns[$tcakey]['rte'],
+                $columns[$tcakey]['inlineParent'],
+                $columns[$tcakey]['inlineLabel'],
+                $columns[$tcakey]['inlineIcon'],
+                $columns[$tcakey]['cTypes']
+            );
+
+            $columns[$tcakey] = MaskUtility::removeBlankOptions($columns[$tcakey]);
+            $columns[$tcakey] = MaskUtility::replaceKey($columns[$tcakey], $tcakey);
         }
         return $columns;
     }
 
     /**
-     * Generates the TCA for Inline-Tables
+     * Processes the TCA for Inline-Tables
      *
      * @param string $table
      * @param array $tca
-     * @return void
+     * @return array
      */
-    public function generateTableTca($table, $tca): void
+    public function processTableTca($table, $tca): array
     {
+        $generalTab = '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general';
 
-        $tcaTemplate = [
+        uasort($tca, static function ($columnA, $columnB) {
+            $a = isset($columnA['order']) ? (int)$columnA['order'] : 0;
+            $b = isset($columnB['order']) ? (int)$columnB['order'] : 0;
+            return $a - $b;
+        });
+
+        $fields = [];
+        $i = 0;
+        foreach ($tca as $fieldKey => $configuration) {
+            // check if this field is of type tab
+            $formType = $this->fieldHelper->getFormType($fieldKey, '', $table);
+            if ($formType === 'Tab') {
+                $label = $configuration['label'];
+                // if a tab is in the first position then change the name of the general tab
+                if ($i === 0) {
+                    $generalTab = '--div--;' . $label;
+                } else {
+                    // otherwise just add new tab
+                    $fields[] = '--div--;' . $label;
+                }
+            } else {
+                $fields[] = $fieldKey;
+            }
+            $i++;
+        }
+
+        // take first field for inline label
+        $labelField = '';
+        if ($fields) {
+            $labelField = MaskUtility::getFirstNoneTabField($fields);
+        }
+
+        return [
+            'label' => $labelField,
+            'showitem' => $generalTab . ',' . implode(',', $fields),
+        ];
+    }
+
+    /**
+     * Return array with mask irre tables.
+     */
+    public function getMaskIrreTables(): array
+    {
+        $configuration = $this->storageRepository->load();
+        $irreTables = array_filter(array_keys($configuration), function ($table) {
+            return MaskUtility::isMaskIrreTable($table);
+        });
+        return array_values($irreTables);
+    }
+
+    /**
+     * Add search fields to find mask elements or pages
+     */
+    public function addSearchFields($table): void
+    {
+        $json = $this->storageRepository->load();
+        $tca = $json[$table]['tca'] ?? [];
+        $searchFields = [];
+
+        foreach ($tca as $tcakey => $tcavalue) {
+            $formType = $this->fieldHelper->getFormType($tcakey, '', $table);
+            if (in_array($formType, ['String', 'Text'])) {
+                $searchFields[] = $tcakey;
+            }
+        }
+
+        if ($searchFields) {
+            $GLOBALS['TCA'][$table]['ctrl']['searchFields'] .= ',' . implode(',', $searchFields);
+        }
+    }
+
+    public static function getTcaTemplate()
+    {
+        return [
             'ctrl' => [
-                'title' => 'IRRE-Table',
-                'label' => 'uid',
                 'tstamp' => 'tstamp',
                 'crdate' => 'crdate',
                 'cruser_id' => 'cruser_id',
-                'dividers2tabs' => true,
                 'versioningWS' => true,
+                'origUid' => 't3_origuid',
                 'languageField' => 'sys_language_uid',
                 'transOrigPointerField' => 'l10n_parent',
+                'translationSource' => 'l10n_source',
                 'transOrigDiffSourceField' => 'l10n_diffsource',
                 'delete' => 'deleted',
                 'enablecolumns' => [
                     'disabled' => 'hidden',
                     'starttime' => 'starttime',
-                    'endtime' => 'endtime',
+                    'endtime' => 'endtime'
                 ],
-                'searchFields' => '',
-                'dynamicConfigFile' => '',
-                'iconfile' => ''
-            ],
-            'types' => [
-                '1' => ['showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'],
             ],
             'palettes' => [
-                '1' => ['showitem' => ''],
+                'language' => [
+                    'showitem' => '
+                        sys_language_uid;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:sys_language_uid_formlabel,l18n_parent
+                    ',
+                ],
+                'hidden' => [
+                    'showitem' => '
+                        hidden;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:field.default.hidden
+                    ',
+                ],
+                'access' => [
+                    'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access',
+                    'showitem' => '
+                        starttime;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:starttime_formlabel,
+                        endtime;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:endtime_formlabel
+                    ',
+                ],
             ],
             'columns' => [
                 'sys_language_uid' => [
-                    'exclude' => 1,
+                    'exclude' => true,
                     'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
                     'config' => [
                         'type' => 'select',
                         'renderType' => 'selectSingle',
+                        'special' => 'languages',
                         'items' => [
                             [
                                 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.allLanguages',
@@ -390,9 +458,8 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                                 'flags-multiple'
                             ],
                         ],
-                        'special' => 'languages',
-                        'default' => 0
-                    ],
+                        'default' => 0,
+                    ]
                 ],
                 'l10n_parent' => [
                     'displayCond' => 'FIELD:sys_language_uid:>:0',
@@ -401,62 +468,60 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                         'type' => 'select',
                         'renderType' => 'selectSingle',
                         'items' => [
-                            ['', 0],
+                            [
+                                '',
+                                0
+                            ]
                         ],
-                        'foreign_table' => 'tx_test_domain_model_murph',
-                        'foreign_table_where' => 'AND tx_test_domain_model_murph.pid=###CURRENT_PID### AND tx_test_domain_model_murph.sys_language_uid IN (-1,0)',
-                        'default' => 0,
-                    ],
+                        'default' => 0
+                    ]
                 ],
                 'l10n_diffsource' => [
                     'config' => [
-                        'type' => 'passthrough',
+                        'type' => 'passthrough'
                     ],
-                ],
-                't3ver_label' => [
-                    'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.versionLabel',
-                    'config' => [
-                        'type' => 'input',
-                        'size' => 30,
-                        'max' => 255,
-                    ]
                 ],
                 'hidden' => [
-                    'exclude' => 1,
-                    'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.hidden',
+                    'exclude' => true,
+                    'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.visible',
                     'config' => [
                         'type' => 'check',
-                    ],
+                        'renderType' => 'checkboxToggle',
+                        'items' => [
+                            [
+                                0 => '',
+                                1 => '',
+                                'invertStateDisplay' => true
+                            ]
+                        ],
+                    ]
                 ],
                 'starttime' => [
-                    'exclude' => 1,
+                    'exclude' => true,
                     'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.starttime',
                     'config' => [
-                        'behaviour' => [
-                            'allowLanguageSynchronization' => true
-                        ],
-                        'renderType' => 'inputDateTime',
                         'type' => 'input',
-                        'size' => 13,
+                        'renderType' => 'inputDateTime',
                         'eval' => 'datetime,int',
-                        'checkbox' => 0,
                         'default' => 0
                     ],
+                    'l10n_mode' => 'exclude',
+                    'l10n_display' => 'defaultAsReadonly'
                 ],
                 'endtime' => [
-                    'exclude' => 1,
+                    'exclude' => true,
                     'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.endtime',
                     'config' => [
-                        'behaviour' => [
-                            'allowLanguageSynchronization' => true
-                        ],
-                        'renderType' => 'inputDateTime',
                         'type' => 'input',
-                        'size' => 13,
+                        'renderType' => 'inputDateTime',
                         'eval' => 'datetime,int',
-                        'checkbox' => 0,
-                        'default' => 0
+                        'default' => 0,
+                        'range' => [
+                            'upper' => mktime(0, 0, 0, 1, 1, 2038)
+                        ]
                     ],
+                    'l10n_mode' => 'exclude',
+                    'l10n_display' => 'defaultAsReadonly'
                 ],
                 'parentid' => [
                     'config' => [
@@ -465,10 +530,6 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                         'items' => [
                             ['', 0],
                         ],
-                        'foreign_table' => 'tt_content',
-                        'foreign_table_where' =>
-                            'AND tt_content.pid=###CURRENT_PID###
-								AND tt_content.sys_language_uid IN (-1,###REC_FIELD_sys_language_uid###)',
                         'default' => 0
                     ],
                 ],
@@ -484,83 +545,5 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                 ],
             ],
         ];
-
-        $fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
-        $generalUtility = GeneralUtility::makeInstance(\MASK\Mask\Utility\GeneralUtility::class);
-        $fields = [];
-
-        // now add all the fields that should be shown
-        $prependTabs = 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, ';
-        if ($tca) {
-            $i = 0;
-            uasort($tca, static function ($columnA, $columnB) {
-                $a = isset($columnA['order']) ? (int)$columnA['order'] : 0;
-                $b = isset($columnB['order']) ? (int)$columnB['order'] : 0;
-                return $a - $b;
-            });
-
-            foreach ($tca as $fieldKey => $configuration) {
-                // check if this field is of type tab
-                $formType = $fieldHelper->getFormType($fieldKey, '', $table);
-                if ($formType === 'Tab') {
-                    $label = $configuration['label'];
-                    // if a tab is in the first position then change the name of the general tab
-                    if ($i === 0) {
-                        $prependTabs = '--div--;' . $label . ',' . $prependTabs;
-                    } else {
-                        // otherwise just add new tab
-                        $fields[] = '--div--;' . $label;
-                    }
-                } else {
-                    $fields[] = $fieldKey;
-                }
-                $i++;
-            }
-        }
-
-        // take first field for inline label
-        $labelField = '';
-        if (!empty($fields)) {
-            $labelField = $generalUtility->getFirstNoneTabField($fields);
-        }
-
-        // get parent table of this inline table
-        $parentTable = $fieldHelper->getFieldType($table);
-
-        // Adjust TCA-Template
-        $tableTca = $tcaTemplate;
-
-        $tableTca['ctrl']['title'] = $table;
-        $tableTca['ctrl']['label'] = $labelField;
-        $tableTca['ctrl']['searchFields'] = implode(',', $fields);
-        $tableTca['types']['1']['showitem'] = $prependTabs . implode(', ', $fields)
-            . ', --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime';
-
-        $tableTca['columns']['l10n_parent']['config']['foreign_table'] = $table;
-        $tableTca['columns']['l10n_parent']['config']['foreign_table_where'] = 'AND ' . $table . '.pid=###CURRENT_PID### AND ' . $table . '.sys_language_uid IN (-1,0)';
-
-        $tableTca['columns']['parentid']['config']['foreign_table'] = $parentTable;
-        $tableTca['columns']['parentid']['config']['foreign_table_where'] = 'AND ' . $parentTable . '.pid=###CURRENT_PID### AND ' . $parentTable . '.sys_language_uid IN (-1,###REC_FIELD_sys_language_uid###)';
-
-        // Add some stuff we need to make irre work like it should
-        $GLOBALS['TCA'][$table] = $tableTca;
-    }
-
-    /**
-     * allow all inline tables on standard pages
-     *
-     * @param array $configuration
-     * @noinspection PhpUnused
-     */
-    public function allowInlineTablesOnStandardPages($configuration): void
-    {
-        $notIrreTables = ['pages', 'tt_content', 'sys_file_reference'];
-        if ($configuration) {
-            foreach ($configuration as $table => $subJson) {
-                if (!in_array($table, $notIrreTables, true)) {
-                    ExtensionManagementUtility::allowTableOnStandardPages($table);
-                }
-            }
-        }
     }
 }

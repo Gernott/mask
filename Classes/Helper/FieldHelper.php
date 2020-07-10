@@ -93,19 +93,14 @@ class FieldHelper
      */
     public function getLabel($elementKey, $fieldKey, $type = 'tt_content'): string
     {
-        $storage = $this->storageRepository->load();
-        $fieldIndex = -1;
-        if ($storage[$type]['elements'][$elementKey]['columns'] && count($storage[$type]['elements'][$elementKey]['columns']) > 0) {
-            foreach ($storage[$type]['elements'][$elementKey]['columns'] as $index => $column) {
-                if ($column === $fieldKey) {
-                    $fieldIndex = $index;
-                }
+        $json = $this->storageRepository->load();
+        $label = '';
+        $columns = $json[$type]['elements'][$elementKey]['columns'] ?? false;
+        if ($columns && count($columns) > 0) {
+            $fieldIndex = array_search($fieldKey, $columns);
+            if ($fieldIndex !== false) {
+                $label = $json[$type]['elements'][$elementKey]['labels'][$fieldIndex];
             }
-        }
-        if ($fieldIndex >= 0) {
-            $label = $storage[$type]['elements'][$elementKey]['labels'][$fieldIndex];
-        } else {
-            $label = '';
         }
         return $label;
     }

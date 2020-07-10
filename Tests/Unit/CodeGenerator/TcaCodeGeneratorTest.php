@@ -133,7 +133,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
                                 'key' => '2',
                                 'labels' => [
                                     'In Standard Tab',
-                                    'In Stamdard Tab 2',
+                                    'In Standard Tab 2',
                                 ],
                             ]
                         ],
@@ -252,6 +252,493 @@ class TcaCodeGeneratorTest extends BaseTestCase
         $storage->method('load')->willReturn($json);
         $fieldHelper = new FieldHelper($storage);
         $tcaGenerator = new TcaCodeGenerator($storage, $fieldHelper);
-        $this->assertSame($expected, $tcaGenerator->getPageTca($key));
+        self::assertSame($expected, $tcaGenerator->getPageTca($key));
+    }
+
+    public function getMaskIrreTablesDataProvider()
+    {
+        return [
+            'Returns all mask inline tables' => [
+                [
+                    'pages' => [],
+                    'sys_file_reference' => [],
+                    'tx_mask_repeat' => [],
+                    'tx_mask_accordion' => []
+                ],
+                ['tx_mask_repeat', 'tx_mask_accordion']
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider getMaskIrreTablesDataProvider
+     * @test
+     * @param $json
+     * @param $expected
+     */
+    public function getMaskIrreTables($json, $expected)
+    {
+        $settingsService = $this->getMockBuilder(SettingsService::class)->getMock();
+        $storage = $this->getMockBuilder(StorageRepository::class)
+            ->setConstructorArgs([$settingsService])
+            ->getMock();
+
+        $storage->method('load')->willReturn($json);
+        $fieldHelper = new FieldHelper($storage);
+        $tcaGenerator = new TcaCodeGenerator($storage, $fieldHelper);
+        $this->assertSame($expected, $tcaGenerator->getMaskIrreTables());
+    }
+
+    public function processTableTcaDataProvider()
+    {
+        return [
+            'Order is correct and tab is put correctly' => [
+                'tx_mask_repeater',
+                [
+                    'tx_mask_repeater' => [
+                        'tca' => [
+                            'field_2' => [
+                                'label' => 'Field 2',
+                                'order' => '2',
+                                'config' => [
+                                    'type' => 'input'
+                                ]
+                            ],
+                            'field_1' => [
+                                'label' => 'Field 1',
+                                'order' => '1',
+                                'config' => [
+                                    'type' => 'input'
+                                ]
+                            ],
+                            'field_3' => [
+                                'label' => 'Field 3',
+                                'order' => '4',
+                                'config' => [
+                                    'type' => 'input'
+                                ]
+                            ],
+                            'tab_field' => [
+                                'label' => 'New Tab',
+                                'order' => '3',
+                                'config' => [
+                                    'type' => 'tab'
+                                ]
+                            ],
+                        ]
+                    ]
+                ],
+                [
+                    'label' => 'field_1',
+                    'showitem' => '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,field_1,field_2,--div--;New Tab,field_3'
+                ]
+            ],
+            'Tab at first position overrides general tab' => [
+                'tx_mask_repeater',
+                [
+                    'tx_mask_repeater' => [
+                        'tca' => [
+                            'field_2' => [
+                                'label' => 'Field 2',
+                                'order' => '3',
+                                'config' => [
+                                    'type' => 'input'
+                                ]
+                            ],
+                            'field_1' => [
+                                'label' => 'Field 1',
+                                'order' => '2',
+                                'config' => [
+                                    'type' => 'input'
+                                ]
+                            ],
+                            'field_3' => [
+                                'label' => 'Field 3',
+                                'order' => '4',
+                                'config' => [
+                                    'type' => 'input'
+                                ]
+                            ],
+                            'tab_field' => [
+                                'label' => 'New Tab',
+                                'order' => '1',
+                                'config' => [
+                                    'type' => 'tab'
+                                ]
+                            ],
+                        ]
+                    ]
+                ],
+                [
+                    'label' => 'field_1',
+                    'showitem' => '--div--;New Tab,field_1,field_2,field_3'
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider processTableTcaDataProvider
+     * @test
+     * @param $table
+     * @param $json
+     * @param $expected
+     */
+    public function processTableTca($table, $json, $expected)
+    {
+        $settingsService = $this->getMockBuilder(SettingsService::class)->getMock();
+        $storage = $this->getMockBuilder(StorageRepository::class)
+            ->setConstructorArgs([$settingsService])
+            ->onlyMethods(['load'])
+            ->getMock();
+
+        $storage->method('load')->willReturn($json);
+        $fieldHelper = new FieldHelper($storage);
+        $tcaGenerator = new TcaCodeGenerator($storage, $fieldHelper);
+        self::assertSame($expected, $tcaGenerator->processTableTca($table, $json[$table]['tca']));
+    }
+
+    public function generateFieldsTcaDataProvider()
+    {
+        return [
+            'Input fields are processd correctly' => [
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'tx_mask_field_1' => [
+                                'config' => [
+                                    'type' => 'input',
+                                    'eval' => ''
+                                ],
+                                'key' => 'field_1'
+                            ],
+                            'tx_mask_field_2' => [
+                                'config' => [
+                                    'type' => 'input',
+                                    'eval' => 'trim'
+                                ],
+                                'key' => 'field_2'
+                            ]
+                        ]
+                    ]
+                ],
+                'tt_content',
+                [
+                    'tx_mask_field_1' => [
+                        'config' => [
+                            'type' => 'input'
+                        ],
+                    ],
+                    'tx_mask_field_2' => [
+                        'config' => [
+                            'type' => 'input',
+                            'eval' => 'trim'
+                        ],
+                    ]
+                ]
+            ],
+            'Text fields are processd correctly' => [
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'tx_mask_field_1' => [
+                                'config' => [
+                                    'type' => 'text',
+                                    'eval' => '',
+                                    'format' => 'typoscript'
+                                ],
+                                'key' => 'field_1'
+                            ],
+                            'tx_mask_field_2' => [
+                                'config' => [
+                                    'type' => 'input',
+                                    'eval' => 'trim'
+                                ],
+                                'key' => 'field_2'
+                            ]
+                        ]
+                    ]
+                ],
+                'tt_content',
+                [
+                    'tx_mask_field_1' => [
+                        'config' => [
+                            'type' => 'text',
+                            'format' => 'typoscript',
+                            'renderType' => 't3editor'
+                        ],
+                    ],
+                    'tx_mask_field_2' => [
+                        'config' => [
+                            'type' => 'input',
+                            'eval' => 'trim'
+                        ],
+                    ]
+                ]
+            ],
+            'Tabs are ignored' => [
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'tx_mask_field_1' => [
+                                'config' => [
+                                    'type' => 'input',
+                                    'eval' => ''
+                                ],
+                                'key' => 'field_1'
+                            ],
+                            'tx_mask_tab' => [
+                                'config' => [
+                                    'type' => 'tab'
+                                ]
+                            ],
+                            'tx_mask_field_2' => [
+                                'config' => [
+                                    'type' => 'input',
+                                    'eval' => 'trim'
+                                ],
+                                'key' => 'field_2'
+                            ]
+                        ]
+                    ]
+                ],
+                'tt_content',
+                [
+                    'tx_mask_field_1' => [
+                        'config' => [
+                            'type' => 'input'
+                        ],
+                    ],
+                    'tx_mask_field_2' => [
+                        'config' => [
+                            'type' => 'input',
+                            'eval' => 'trim'
+                        ],
+                    ]
+                ]
+            ],
+            'Foreign table of inline fields is replaced' => [
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'tx_mask_field_1' => [
+                                'config' => [
+                                    'type' => 'inline',
+                                    'foreign_table' => '--inlinetable--'
+                                ],
+                                'key' => 'field_1'
+                            ]
+                        ]
+                    ]
+                ],
+                'tt_content',
+                [
+                    'tx_mask_field_1' => [
+                        'config' => [
+                            'type' => 'inline',
+                            'foreign_table' => 'tx_mask_field_1'
+                        ],
+                    ],
+                ]
+            ],
+            'Date fields ranges are applied' => [
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'tx_mask_field_1' => [
+                                'config' => [
+                                    'type' => 'input',
+                                    'dbType' => 'date',
+                                    'range' => [
+                                        'lower' => '01-01-2021',
+                                        'upper' => '30-12-2021'
+                                    ]
+                                ],
+                                'key' => 'field_1'
+                            ],
+                            'tx_mask_field_2' => [
+                                'config' => [
+                                    'type' => 'input',
+                                    'dbType' => 'datetime',
+                                    'range' => [
+                                        'upper' => '30-12-2021'
+                                    ]
+                                ],
+                                'key' => 'field_2'
+                            ]
+                        ]
+                    ]
+                ],
+                'tt_content',
+                [
+                    'tx_mask_field_1' => [
+                        'config' => [
+                            'type' => 'input',
+                            'dbType' => 'date',
+                            'range' => [
+                                'lower' => 1609459200,
+                                'upper' => 1640822400
+                            ]
+                        ],
+                    ],
+                    'tx_mask_field_2' => [
+                        'config' => [
+                            'type' => 'input',
+                            'dbType' => 'datetime',
+                            'range' => [
+                                'upper' => 1640822400
+                            ]
+                        ],
+                    ]
+                ]
+            ],
+            'Content inline fields are processed correctly' => [
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'tx_mask_field_1' => [
+                                'cTypes' => [
+                                    'text',
+                                    'textmedia'
+                                ],
+                                'config' => [
+                                    'type' => 'inline',
+                                    'foreign_table' => 'tt_content'
+                                ],
+                                'key' => 'field_1'
+                            ]
+                        ]
+                    ]
+                ],
+                'tt_content',
+                [
+                    'tx_mask_field_1' => [
+                        'config' => [
+                            'type' => 'inline',
+                            'foreign_table' => 'tt_content',
+                            'foreign_field' => 'tx_mask_field_1_parent',
+                            'overrideChildTca' => [
+                                'columns' => [
+                                    'CType' => [
+                                        'config' => [
+                                            'default' => 'text'
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ],
+                    ]
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider generateFieldsTcaDataProvider
+     * @test
+     * @param $json
+     * @param $table
+     * @param $expected
+     */
+    public function generateFieldsTca($json, $table, $expected)
+    {
+        $settingsService = $this->getMockBuilder(SettingsService::class)->getMock();
+        $storage = $this->getMockBuilder(StorageRepository::class)
+            ->setConstructorArgs([$settingsService])
+            ->getMock();
+
+        $storage->method('load')->willReturn($json);
+        $fieldHelper = new FieldHelper($storage);
+        $tcaGenerator = new TcaCodeGenerator($storage, $fieldHelper);
+        self::assertSame($expected, $tcaGenerator->generateFieldsTca($table));
+    }
+
+    public function generateFileTcaDataProvider()
+    {
+        return [
+            'Files are processed correctly' => [
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'tx_mask_field_1' => [
+                                'config' => [
+                                    'filter' => [
+                                        [
+                                            'parameters' => [
+                                                'allowedFileExtensions' => 'jpeg',
+                                            ]
+                                        ]
+                                    ],
+                                    'appearance' => [
+                                        'useSortable' => false,
+                                        'fileUploadAllowed' => true,
+                                        'expandSingle' => true
+                                    ],
+                                    'minitems' => '5',
+                                    'maxitems' => '10'
+                                ],
+                                'key' => 'field_1',
+                                'options' => 'file'
+                            ]
+                        ]
+                    ]
+                ],
+                'tt_content',
+                'tx_mask_field_1',
+                [
+                    'type' => 'inline',
+                    'foreign_match_fields' => 'tx_mask_field_1',
+                    'elementBrowserAllowed' => 'jpeg',
+                    'minitems' => '5',
+                    'maxitems' => '10',
+                    'appearance' => [
+                        'useSortable' => false,
+                        'fileUploadAllowed' => true,
+                        'expandSingle' => true,
+                        'headerThumbnail' => [
+                            'field' => 'uid_local',
+                            'width' => '45',
+                            'height' => '45c'
+                        ],
+                        'enabledControls' => [
+                            'info' => true,
+                            'new' => false,
+                            'dragdrop' => true,
+                            'sort' => false,
+                            'hide' => true,
+                            'delete' => true,
+                        ],
+                    ],
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider generateFileTcaDataProvider
+     * @test
+     * @param $json
+     * @param $table
+     * @param $field
+     * @param $expected
+     */
+    public function generateFileTca($json, $table, $field, $expected)
+    {
+        $settingsService = $this->getMockBuilder(SettingsService::class)->getMock();
+        $storage = $this->getMockBuilder(StorageRepository::class)
+            ->setConstructorArgs([$settingsService])
+            ->getMock();
+
+        $storage->method('load')->willReturn($json);
+        $fieldHelper = new FieldHelper($storage);
+        $tcaGenerator = new TcaCodeGenerator($storage, $fieldHelper);
+        $result = $tcaGenerator->generateFieldsTca($table);
+        self::assertSame($expected['type'], $result[$field]['config']['type']);
+        self::assertSame($expected['minitems'], $result[$field]['config']['minitems']);
+        self::assertSame($expected['maxitems'], $result[$field]['config']['maxitems']);
+        self::assertSame($expected['elementBrowserAllowed'], $result[$field]['config']['overrideChildTca']['columns']['uid_local']['config']['appearance']['elementBrowserAllowed']);
+        self::assertEquals($expected['elementBrowserAllowed'], $result[$field]['config']['filter'][0]['parameters']['allowedFileExtensions']);
+        self::assertSame($expected['foreign_match_fields'], $result[$field]['config']['foreign_match_fields']['fieldname']);
+        self::assertEquals($expected['appearance'], $result[$field]['config']['appearance']);
     }
 }

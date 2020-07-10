@@ -25,13 +25,10 @@ defined('TYPO3_MODE') or die();
     $TBE_STYLES['skins']['mask']['name'] = 'mask';
     $TBE_STYLES['skins']['mask']['stylesheetDirectories'][] = 'EXT:mask/Resources/Public/Styles/Backend/';
 
-    $storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(MASK\Mask\Domain\Repository\StorageRepository::class);
-    $configuration = $storageRepository->load();
-
-    if (!empty($configuration)) {
-        $tcaCodeGenerator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(MASK\Mask\CodeGenerator\TcaCodeGenerator::class);
-
-        // allow all inline tables on standard pages
-        $tcaCodeGenerator->allowInlineTablesOnStandardPages($configuration);
+    // Allow all inline tables on standard pages
+    $tcaCodeGenerator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(MASK\Mask\CodeGenerator\TcaCodeGenerator::class);
+    $irreTables = $tcaCodeGenerator->getMaskIrreTables();
+    foreach ($irreTables as $table) {
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages($table);
     }
 })();

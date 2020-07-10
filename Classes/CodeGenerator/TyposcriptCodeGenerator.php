@@ -55,48 +55,67 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
         $iconRegistry = GeneralUtility::makeInstance(IconRegistry::class);
 
         // make content-Elements
-        if ($json['tt_content']['elements']) {
-            foreach ($json['tt_content']['elements'] as $element) {
-                // Register icons for contentelements
-                $iconIdentifier = 'mask-ce-' . $element['key'];
-                $iconRegistry->registerIcon(
-                    $iconIdentifier, ContentElementIconProvider::class, [
-                        'contentElementKey' => $element['key']
-                    ]
-                );
+        foreach ($json['tt_content']['elements'] ?? [] as $element) {
+            // Register icons for contentelements
+            $iconIdentifier = 'mask-ce-' . $element['key'];
+            $iconRegistry->registerIcon(
+                $iconIdentifier, ContentElementIconProvider::class, [
+                    'contentElementKey' => $element['key']
+                ]
+            );
 
-                if (!$element['hidden']) {
-
-                    // add the content element wizard for each content element
-                    $wizard = [
-                        'header' => 'LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:new_content_element_tab',
-                        'elements.mask_' . $element['key'] => [
-                            'iconIdentifier' => $iconIdentifier,
-                            'title' => $element['label'],
-                            'description' => $element['description'],
-                            'tt_content_defValues' => [
-                                'CType' => 'mask_' . $element['key']
-                            ]
-                        ],
-
-                    ];
-                    $content .= "mod.wizards.newContentElement.wizardItems.mask {\n";
-                    $content .= $this->convertArrayToTypoScript($wizard, '', 1);
-                    $content .= "\tshow := addToList(mask_" . $element['key'] . ");\n";
-                    $content .= "}\n";
-
-                    // and switch the labels depending on which content element is selected
-                    $content .= "\n[isMaskContentType(\"mask_" . $element['key'] . "\")]\n";
-                    if ($element['columns']) {
-                        foreach ($element['columns'] as $index => $column) {
-                            $content .= ' TCEFORM.tt_content.' . $column . '.label = ' . $element['labels'][$index] . "\n";
-                        }
-                    }
-                    $content .= "[end]\n\n";
-                }
+            if ($element['hidden']) {
+                continue;
             }
+
+            // add the content element wizard for each content element
+            $wizard = [
+                'header' => 'LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:new_content_element_tab',
+                'elements.mask_' . $element['key'] => [
+                    'iconIdentifier' => $iconIdentifier,
+                    'title' => $element['label'],
+                    'description' => $element['description'],
+                    'tt_content_defValues' => [
+                        'CType' => 'mask_' . $element['key']
+                    ]
+                ],
+
+            ];
+            $content .= "mod.wizards.newContentElement.wizardItems.mask {\n";
+            $content .= $this->convertArrayToTypoScript($wizard, '', 1);
+            $content .= "\tshow := addToList(mask_" . $element['key'] . ");\n";
+            $content .= "}\n";
+
+            // and switch the labels depending on which content element is selected
+            $content .= "\n[isMaskContentType(\"mask_" . $element['key'] . "\")]\n";
+            foreach ($element['columns'] ?? [] as $index => $column) {
+                $content .= ' TCEFORM.tt_content.' . $column . '.label = ' . $element['labels'][$index] . "\n";
+            }
+            $content .= "[end]\n\n";
         }
+
         return $content;
+    }
+
+    /**
+     * Generates the typoscript for pages
+     * @param array $json
+     * @return string
+     */
+    public function generatePageTyposcript($json): string
+    {
+        $pagesContent = '';
+        foreach ($json['pages']['elements'] ?? [] as $element) {
+            // Labels for pages
+            $pagesContent .= "\n[maskBeLayout('" . $element['key'] . "')]\n";
+            // if page has backendlayout with this element-key
+            foreach ($element['columns'] ?? [] as $index => $column) {
+                $pagesContent .= ' TCEFORM.pages.' . $column . '.label = ' . $element['labels'][$index] . "\n";
+            }
+            $pagesContent .= "[end]\n";
+        }
+
+        return $pagesContent;
     }
 
     /**
