@@ -176,6 +176,19 @@ class WizardController extends ActionController
                         $this->sortInlineFieldsByOrder($storage["tca"][$key]["inlineFields"]);
                     }
                 }
+                // Convert old date format Y-m-d to d-m-Y
+                $dbType = $field['config']['dbType'] ?? false;
+                if ($dbType && in_array($dbType, ['date', 'datetime'])) {
+                    $format = ($dbType == 'date') ? 'd-m-Y' : 'H:i d-m-Y';
+                    $lower = $field['config']['range']['lower'] ?? false;
+                    $upper = $field['config']['range']['upper'] ?? false;
+                    if ($lower) {
+                        $storage['tca'][$key]['config']['range']['lower'] = (new \DateTime($lower))->format($format);
+                    }
+                    if ($upper) {
+                        $storage['tca'][$key]['config']['range']['upper'] = (new \DateTime($upper))->format($format);
+                    }
+                }
             }
         }
     }
