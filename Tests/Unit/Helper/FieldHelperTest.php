@@ -93,7 +93,10 @@ class FieldHelperTest extends BaseTestCase
      */
     public function getLabel($json, $elementKey, $fieldKey, $type, $expected)
     {
-        $settingsService = $this->getMockBuilder(SettingsService::class)->getMock();
+        $settingsService = $this->getMockBuilder(SettingsService::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $storage = $this->getMockBuilder(StorageRepository::class)
             ->setConstructorArgs([$settingsService])
             ->getMock();
