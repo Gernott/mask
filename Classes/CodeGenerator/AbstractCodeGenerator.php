@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace MASK\Mask\CodeGenerator;
@@ -28,7 +29,6 @@ namespace MASK\Mask\CodeGenerator;
  * ************************************************************* */
 
 use MASK\Mask\Domain\Repository\StorageRepository;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Abstract base class for all the other code generators
@@ -48,13 +48,9 @@ abstract class AbstractCodeGenerator
     /**
      * @param StorageRepository $storageRepository
      */
-    public function __construct(StorageRepository $storageRepository = null)
+    public function __construct(StorageRepository $storageRepository)
     {
-        if (!$storageRepository) {
-            $this->storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
-        } else {
-            $this->storageRepository = $storageRepository;
-        }
+        $this->storageRepository = $storageRepository;
     }
 
     /**

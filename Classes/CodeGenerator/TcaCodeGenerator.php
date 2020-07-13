@@ -32,7 +32,6 @@ use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use MASK\Mask\Helper\FieldHelper;
 
 /**
@@ -40,21 +39,24 @@ use MASK\Mask\Helper\FieldHelper;
  *
  * @author Benjamin Butschell <bb@webprofil.at>
  */
-class TcaCodeGenerator extends AbstractCodeGenerator
+class TcaCodeGenerator
 {
     /**
      * @var FieldHelper
      */
     protected $fieldHelper;
 
-    public function __construct(StorageRepository $storageRepository = null, FieldHelper $fieldHelper = null)
+    /**
+     * StorageRepository
+     *
+     * @var StorageRepository
+     */
+    protected $storageRepository;
+
+    public function __construct(StorageRepository $storageRepository, FieldHelper $fieldHelper)
     {
-        parent::__construct($storageRepository);
-        if ($fieldHelper) {
-            $this->fieldHelper = $fieldHelper;
-        } else {
-            $this->fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
-        }
+        $this->storageRepository = $storageRepository;
+        $this->fieldHelper = $fieldHelper;
     }
 
     /**
@@ -155,7 +157,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
 
             // Add all the fields that should be shown
             foreach ($elementvalue['columns'] ?? [] as $index => $fieldKey) {
-                $formType = $this->fieldHelper->getFormType($fieldKey, $elementvalue['key'], 'tt_content');
+                $formType = $this->storageRepository->getFormType($fieldKey, $elementvalue['key'], 'tt_content');
                 // Check if this field is of type tab
                 if ($formType === 'Tab') {
                     $label = $this->fieldHelper->getLabel($elementvalue['key'], $fieldKey, 'tt_content');
@@ -191,7 +193,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
             $fieldKey = $columns[$i];
 
             // check if this field is of type tab
-            $formType = $this->fieldHelper->getFormType($fieldKey, $key, 'pages');
+            $formType = $this->storageRepository->getFormType($fieldKey, $key, 'pages');
             if ($formType === 'Tab') {
                 $label = $this->fieldHelper->getLabel($key, $fieldKey, 'pages');
                 // if a tab is in the first position then change the name of the general tab
@@ -351,7 +353,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
         $i = 0;
         foreach ($tca as $fieldKey => $configuration) {
             // check if this field is of type tab
-            $formType = $this->fieldHelper->getFormType($fieldKey, '', $table);
+            $formType = $this->storageRepository->getFormType($fieldKey, '', $table);
             if ($formType === 'Tab') {
                 $label = $configuration['label'];
                 // if a tab is in the first position then change the name of the general tab
@@ -401,7 +403,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
         $searchFields = [];
 
         foreach ($tca as $tcakey => $tcavalue) {
-            $formType = $this->fieldHelper->getFormType($tcakey, '', $table);
+            $formType = $this->storageRepository->getFormType($tcakey, '', $table);
             if (in_array($formType, ['String', 'Text'])) {
                 $searchFields[] = $tcakey;
             }

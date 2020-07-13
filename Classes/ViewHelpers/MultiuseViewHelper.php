@@ -4,8 +4,6 @@ declare(strict_types=1);
 namespace MASK\Mask\ViewHelpers;
 
 use MASK\Mask\Helper\FieldHelper;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -23,9 +21,13 @@ class MultiuseViewHelper extends AbstractViewHelper
      * FieldHelper
      *
      * @var FieldHelper
-     * @Inject()
      */
     protected $fieldHelper;
+
+    public function __construct(FieldHelper $fieldHelper)
+    {
+        $this->fieldHelper = $fieldHelper;
+    }
 
     public function initializeArguments(): void
     {
@@ -44,7 +46,6 @@ class MultiuseViewHelper extends AbstractViewHelper
         $key = $this->arguments['key'];
         $elementKey = $this->arguments['elementKey'];
 
-        $this->fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
         $type = $this->fieldHelper->getFieldType($key, $elementKey);
 
         return $this->fieldHelper->getElementsWhichUseField($key, $type);

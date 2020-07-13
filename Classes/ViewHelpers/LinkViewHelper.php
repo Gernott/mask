@@ -5,9 +5,6 @@ namespace MASK\Mask\ViewHelpers;
 
 use MASK\Mask\Domain\Service\SettingsService;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
-use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
-use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
-use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -34,9 +31,13 @@ class LinkViewHelper extends AbstractViewHelper
      * SettingsService
      *
      * @var SettingsService
-     * @Inject()
      */
     protected $settingsService;
+
+    public function __construct(SettingsService $settingsService)
+    {
+        $this->settingsService = $settingsService;
+    }
 
     public function initializeArguments(): void
     {
@@ -47,8 +48,6 @@ class LinkViewHelper extends AbstractViewHelper
      * Checks Links for BE-module
      *
      * @return string all irre elements of this attribut
-     * @throws ExtensionConfigurationExtensionNotConfiguredException
-     * @throws ExtensionConfigurationPathDoesNotExistException
      * @author Gernot Ploiner <gp@webprofil.at>
      */
     public function render(): string
