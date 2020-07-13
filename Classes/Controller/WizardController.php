@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace MASK\Mask\Controller;
@@ -167,7 +168,7 @@ class WizardController extends ActionController
      */
     protected function prepareStorage(&$storage): void
     {
-         // Fill storage with additional data before assigning to view
+        // Fill storage with additional data before assigning to view
         if ($storage["tca"]) {
             foreach ($storage["tca"] as $key => $field) {
                 if (is_array($field)) {
@@ -182,10 +183,10 @@ class WizardController extends ActionController
                     $format = ($dbType == 'date') ? 'd-m-Y' : 'H:i d-m-Y';
                     $lower = $field['config']['range']['lower'] ?? false;
                     $upper = $field['config']['range']['upper'] ?? false;
-                    if ($lower) {
+                    if ($lower && (bool)preg_match("/^[0-9]{4}]/", $lower)) {
                         $storage['tca'][$key]['config']['range']['lower'] = (new \DateTime($lower))->format($format);
                     }
-                    if ($upper) {
+                    if ($upper && (bool)preg_match("/^[0-9]{4}]/", $upper)) {
                         $storage['tca'][$key]['config']['range']['upper'] = (new \DateTime($upper))->format($format);
                     }
                 }
@@ -392,18 +393,21 @@ class WizardController extends ActionController
         }
     }
 
-  /**
+    /**
      * Sort inline fields recursively.
      *
      * @param array $inlineFields
      */
     public function sortInlineFieldsByOrder(array &$inlineFields)
     {
-        uasort($inlineFields, function ($columnA, $columnB) {
-            $a = isset($columnA['order']) ? (int)$columnA['order'] : 0;
-            $b = isset($columnB['order']) ? (int)$columnB['order'] : 0;
-            return $a - $b;
-        });
+        uasort(
+            $inlineFields,
+            function ($columnA, $columnB) {
+                $a = isset($columnA['order']) ? (int)$columnA['order'] : 0;
+                $b = isset($columnB['order']) ? (int)$columnB['order'] : 0;
+                return $a - $b;
+            }
+        );
 
         foreach ($inlineFields as $i => $field) {
             if ($field["config"]["type"] == "inline") {
