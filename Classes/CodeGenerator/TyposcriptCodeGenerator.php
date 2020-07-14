@@ -28,6 +28,8 @@ namespace MASK\Mask\CodeGenerator;
  * ************************************************************* */
 
 use MASK\Mask\Domain\Model\BackendLayout;
+use MASK\Mask\Domain\Repository\StorageRepository;
+use MASK\Mask\Domain\Service\SettingsService;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Imaging\IconRegistry;
@@ -38,18 +40,41 @@ use MASK\Mask\Imaging\IconProvider\ContentElementIconProvider;
  *
  * @author Benjamin Butschell <bb@webprofil.at>
  */
-class TyposcriptCodeGenerator extends AbstractCodeGenerator
+class TyposcriptCodeGenerator
 {
+    /**
+     * @var SettingsService
+     */
+    protected $settingsService;
+
+    /**
+     * @var array
+     */
+    protected $extSettings;
+
+    /**
+     * StorageRepository
+     *
+     * @var StorageRepository
+     */
+    protected $storageRepository;
+
+    public function __construct(StorageRepository $storageRepository, SettingsService $settingsService)
+    {
+        $this->storageRepository = $storageRepository;
+        $this->settingsService = $settingsService;
+        $this->extSettings = $settingsService->get();
+    }
 
     /**
      * Generates the tsConfig typoscript and registers
      * the icons for the content elements
      *
-     * @param array $json
      * @return string
      */
-    public function generateTsConfig($json): string
+    public function generateTsConfig(): string
     {
+        $json = $this->storageRepository->load();
         // generate page TSconfig
         $content = '';
         $iconRegistry = GeneralUtility::makeInstance(IconRegistry::class);
@@ -99,11 +124,11 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
 
     /**
      * Generates the typoscript for pages
-     * @param array $json
      * @return string
      */
-    public function generatePageTyposcript($json): string
+    public function generatePageTyposcript(): string
     {
+        $json = $this->storageRepository->load();
         $pagesContent = '';
         foreach ($json['pages']['elements'] ?? [] as $element) {
             // Labels for pages
@@ -120,13 +145,11 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
 
     /**
      * Generates the typoscript for the setup field
-     * @param array $configuration
-     * @param array $settings
      * @return string
-     * @noinspection PhpUnused
      */
-    public function generateSetupTyposcript($configuration, $settings): string
+    public function generateSetupTyposcript(): string
     {
+        $configuration = $this->storageRepository->load();
         // generate TypoScript setup
         $setupContent = [];
 
@@ -161,13 +184,13 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
         // for base paths to fluid templates configured in extension settings
         $setupContent[] = $this->convertArrayToTypoScript([
             'templateRootPaths' => [
-                10 => rtrim($settings['content'], '/') . '/'
+                10 => rtrim($this->extSettings['content'], '/') . '/'
             ],
             'partialRootPaths' => [
-                10 => rtrim($settings['partials'], '/') . '/'
+                10 => rtrim($this->extSettings['partials'], '/') . '/'
             ],
             'layoutRootPaths' => [
-                10 => rtrim($settings['layouts'], '/') . '/'
+                10 => rtrim($this->extSettings['layouts'], '/') . '/'
             ]
         ], 'lib.maskContentElement');
 
@@ -175,7 +198,7 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
         if ($configuration['tt_content']['elements']) {
             foreach ($configuration['tt_content']['elements'] as $element) {
                 if (!$element['hidden']) {
-                    $templateName = MaskUtility::getTemplatePath($settings, $element['key'], true);
+                    $templateName = MaskUtility::getTemplatePath($this->extSettings, $element['key'], true);
                     $elementContent = [];
                     $elementContent[] = 'tt_content.mask_' . $element['key'] . ' =< lib.maskContentElement' . LF;
                     $elementContent[] = 'tt_content.mask_' . $element['key'] . " {" . LF;

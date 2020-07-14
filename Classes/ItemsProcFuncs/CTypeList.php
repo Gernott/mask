@@ -46,6 +46,17 @@ class CTypeList extends AbstractList
     protected $storageRepository;
 
     /**
+     * @var FieldHelper
+     */
+    protected $fieldHelper;
+
+    public function __construct(StorageRepository $storageRepository, FieldHelper $fieldHelper)
+    {
+        $this->storageRepository = $storageRepository;
+        $this->fieldHelper = $fieldHelper;
+    }
+
+    /**
      * Render the allowed CTypes for nested content elements
      * @param array $params
      * @noinspection PhpComposerExtensionStubsInspection
@@ -54,8 +65,6 @@ class CTypeList extends AbstractList
     {
         // if this tt_content element is inline element of mask
         if ((int)$params['row']['colPos'] === $this->colPos) {
-            $fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
-            $this->storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
             $fieldKey = '';
 
             if (isset($_REQUEST['ajax']['context'])) {
@@ -78,7 +87,7 @@ class CTypeList extends AbstractList
             }
 
             // load the json configuration of this field
-            $table = $fieldHelper->getFieldType($fieldKey);
+            $table = $this->fieldHelper->getFieldType($fieldKey);
             $fieldConfiguration = $this->storageRepository->loadField($table, $fieldKey);
 
             // if there is a restriction of cTypes specified

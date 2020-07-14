@@ -34,12 +34,9 @@ use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Domain\Service\SettingsService;
 use MASK\Mask\Helper\InlineHelper;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
-use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\View\PageLayoutView;
 use TYPO3\CMS\Backend\View\PageLayoutViewDrawItemHookInterface;
-use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
-use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
@@ -86,20 +83,22 @@ class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
      */
     protected $extSettings;
 
+    public function __construct(SettingsService $settingsService, InlineHelper $inlineHelper, StorageRepository $storageRepository)
+    {
+        $this->settingsService = $settingsService;
+        $this->extSettings = $this->settingsService->get();
+        $this->inlineHelper = $inlineHelper;
+        $this->storageRepository = $storageRepository;
+    }
+
     /**
      * Preprocesses the preview rendering of a content element.
      *
      * @param PageLayoutView $parentObject Calling parent object
-     * @param boolean $drawItem Whether to draw the item using the default functionalities
+     * @param bool $drawItem Whether to draw the item using the default functionalities
      * @param string $headerContent Header content
      * @param string $itemContent Item content
      * @param array $row Record row of tt_content
-     * @return void
-     * @throws RouteNotFoundException
-     * @throws ExtensionConfigurationExtensionNotConfiguredException
-     * @throws ExtensionConfigurationPathDoesNotExistException
-     * @throws Exception
-     * @noinspection ReferencingObjectsInspection
      */
     public function preProcess(
         PageLayoutView &$parentObject,
@@ -108,14 +107,11 @@ class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
         &$itemContent,
         array &$row
     ): void {
-        $this->settingsService = GeneralUtility::makeInstance(SettingsService::class);
-        $this->extSettings = $this->settingsService->get();
-
         // only render special backend preview if it is a mask element
         if (strpos($row['CType'], 'mask') === 0) {
             $elementKey = substr($row['CType'], 5);
 
-            # fallback to prevent breaking change
+            // fallback to prevent breaking change
             $templatePathAndFilename = MaskUtility::getTemplatePath(
                 $this->extSettings,
                 $elementKey,
@@ -124,11 +120,8 @@ class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
             );
 
             if (file_exists($templatePathAndFilename)) {
-                // initialize some things we need
-                $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-                $this->inlineHelper = GeneralUtility::makeInstance(InlineHelper::class);
-                $this->storageRepository = $this->objectManager->get(StorageRepository::class);
-                $view = $this->objectManager->get(StandaloneView::class);
+                // initialize view
+                $view = GeneralUtility::makeInstance(StandaloneView::class);
 
                 // Load the backend template
                 $view->setTemplatePathAndFilename($templatePathAndFilename);

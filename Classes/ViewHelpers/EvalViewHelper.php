@@ -5,7 +5,6 @@ namespace MASK\Mask\ViewHelpers;
 
 use MASK\Mask\Helper\FieldHelper;
 use MASK\Mask\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -23,7 +22,6 @@ class EvalViewHelper extends AbstractViewHelper
      * Utility
      *
      * @var GeneralUtility
-     * @Inject()
      */
     protected $generalUtility;
 
@@ -31,9 +29,14 @@ class EvalViewHelper extends AbstractViewHelper
      * Utility
      *
      * @var FieldHelper
-     * @Inject()
      */
     protected $fieldHelper;
+
+    public function __construct(GeneralUtility $generalUtility, FieldHelper $fieldHelper)
+    {
+        $this->generalUtility = $generalUtility;
+        $this->fieldHelper = $fieldHelper;
+    }
 
     public function initializeArguments(): void
     {
@@ -55,9 +58,6 @@ class EvalViewHelper extends AbstractViewHelper
         $elementKey = $this->arguments['elementKey'];
         $evalValue = $this->arguments['evalValue'];
         $field = $this->arguments['field'];
-
-        $this->generalUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(GeneralUtility::class);
-        $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(FieldHelper::class);
 
         if ($field) {
             if ($field['inlineParent']) {
