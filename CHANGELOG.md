@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+### [5.1.1] - 2020-07-15
+### Important
+- After updating from 5.1.0 or lower, clear the hard caches under Maintenance->Flush cache. Clearing red caches in not enough.
+- Run database analyzer after that.
+
+### Added
+- Mask uses now the symfony DI.
+- Added fe_group and editlock fields for access tab of mask inline records.
+
+### Fixed
+- Labels of inline tt_content records having a mask element as default are now displayed. [#327](https://github.com/Gernott/mask/pull/327)
+
 ### [5.1.0] - 2020-07-10
 ### Important
 - There are some issues with the new fluid based page layout module. Especially if dealing with languages, please turn off this feature if encountering any issues in Settings -> Feature Toggles -> Fluid based page module.
