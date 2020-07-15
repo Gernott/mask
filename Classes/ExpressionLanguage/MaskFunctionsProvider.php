@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\ExpressionLanguage;
 
+use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -10,6 +11,7 @@ use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\ExpressionLanguage\RequestWrapper;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
 {
@@ -117,7 +119,19 @@ class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
             if (isset($parsedBody['ajax'][0])) {
                 $uidTableString = $parsedBody['ajax'][0];
                 $uidTableStringArray = explode('-', $uidTableString);
-                $uid = (int)array_pop($uidTableStringArray);
+                $lastPart = array_pop($uidTableStringArray);
+                if (MathUtility::canBeInterpretedAsInteger($lastPart)) {
+                    $uid = (int)$lastPart;
+                // If ajax is loading an inline tt_content record and the default CType is a mask element
+                } elseif ($lastPart == 'tt_content' && MaskUtility::isMaskIrreTable(end($uidTableStringArray))) {
+                    $context = json_decode($parsedBody['ajax']['context'], true, 512, 4194304);
+                    $config = json_decode($context['config'], true, 512, 4194304);
+                    if (strpos($config['overrideChildTca']['columns']['CType']['config']['default'] ?? '', 'mask_') === 0) {
+                        return true;
+                    }
+                } else {
+                    return false;
+                }
             }
 
             if ($uid) {
