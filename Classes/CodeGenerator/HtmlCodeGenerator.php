@@ -1,4 +1,6 @@
-<?php namespace MASK\Mask\CodeGenerator;
+<?php
+
+namespace MASK\Mask\CodeGenerator;
 
 /* * *************************************************************
  *  Copyright notice
@@ -55,7 +57,6 @@ class HtmlCodeGenerator
      * @param string $table
      * @return string $html
      * @author Gernot Ploiner <gp@webprofil.at>
-     *
      */
     public function generateHtml($key, $table): string
     {
@@ -122,8 +123,12 @@ class HtmlCodeGenerator
                 $inlineFields = $this->storageRepository->loadInlineFields($fieldKey);
                 if ($inlineFields) {
                     foreach ($inlineFields as $inlineField) {
-                        $html .= $this->generateFieldHtml($inlineField['maskKey'], $elementKey, $fieldKey,
-                                $datafield . '_item') . "\n";
+                        $html .= $this->generateFieldHtml(
+                            $inlineField['maskKey'],
+                            $elementKey,
+                            $fieldKey,
+                            $datafield . '_item'
+                        ) . "\n";
                     }
                 }
                 $html .= "</li>\n</f:for>" . "\n";

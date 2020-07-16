@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace MASK\Mask\ViewHelpers;
@@ -9,14 +10,10 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- *
  * Example
  * {namespace mask=MASK\Mask\ViewHelpers}
  *
- * @package TYPO3
- * @subpackage mask
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
- *
  */
 class LinkViewHelper extends AbstractViewHelper
 {
@@ -62,8 +59,10 @@ class LinkViewHelper extends AbstractViewHelper
             $content = '<div class="alert alert-warning"><div class="media">
 <div class="media-left"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i>
 <i class="fa fa-exclamation fa-stack-1x"></i></span></div>
-<div class="media-body"><h4 class="alert-title">' . LocalizationUtility::translate('tx_mask.content.htmlmissing',
-                    'mask') . '</h4>      <p class="alert-message">' . $templatePath . '
+<div class="media-body"><h4 class="alert-title">' . LocalizationUtility::translate(
+                'tx_mask.content.htmlmissing',
+                'mask'
+            ) . '</h4>      <p class="alert-message">' . $templatePath . '
 				</p></div></div></div>';
         }
         return $content;

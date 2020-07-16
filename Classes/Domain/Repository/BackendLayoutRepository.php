@@ -1,4 +1,6 @@
-<?php namespace MASK\Mask\Domain\Repository;
+<?php
+
+namespace MASK\Mask\Domain\Repository;
 
 /* * *************************************************************
  *  Copyright notice
@@ -56,8 +58,6 @@ class BackendLayoutRepository extends Repository
 
     /**
      * Initializes the repository.
-     *
-     * @return void
      */
     public function initializeObject(): void
     {
@@ -111,7 +111,6 @@ class BackendLayoutRepository extends Repository
         return $backendLayouts;
     }
 
-
     /**
      * @param $pid
      * @return bool
@@ -156,7 +155,6 @@ class BackendLayoutRepository extends Repository
         return null;
     }
 
-
     /**
      * Returns a backendlayout or null, if non found
      *
@@ -169,5 +167,4 @@ class BackendLayoutRepository extends Repository
         $backendLayouts = $this->findAll($pageTsPids);
         return $backendLayouts[$identifier] ?? null;
     }
-
 }

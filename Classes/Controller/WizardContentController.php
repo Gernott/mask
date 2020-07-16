@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace MASK\Mask\Controller;
@@ -33,11 +34,7 @@ use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
- *
- *
- * @package mask
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
- *
  */
 class WizardContentController extends WizardController
 {
@@ -58,8 +55,6 @@ class WizardContentController extends WizardController
 
     /**
      * action list
-     *
-     * @return void
      */
     public function listAction(): void
     {
@@ -70,8 +65,6 @@ class WizardContentController extends WizardController
 
     /**
      * action new
-     *
-     * @return void
      */
     public function newAction(): void
     {
@@ -83,7 +76,6 @@ class WizardContentController extends WizardController
      * action create
      *
      * @param array $storage
-     * @return void
      * @throws StopActionException
      */
     public function createAction($storage): void
@@ -101,7 +93,6 @@ class WizardContentController extends WizardController
      *
      * @param string $type
      * @param string $key
-     * @return void
      */
     public function editAction($type, $key): void
     {
@@ -117,7 +108,6 @@ class WizardContentController extends WizardController
      * action update
      *
      * @param array $storage
-     * @return void
      * @throws StopActionException
      */
     public function updateAction($storage): void
@@ -135,7 +125,6 @@ class WizardContentController extends WizardController
      *
      * @param string $key
      * @param string $type
-     * @return void
      * @throws StopActionException
      */
     public function deleteAction($key, $type): void
@@ -151,7 +140,6 @@ class WizardContentController extends WizardController
      *
      * @param string $key
      * @param string $type
-     * @return void
      * @throws StopActionException
      */
     public function purgeAction($key, $type): void
@@ -167,7 +155,6 @@ class WizardContentController extends WizardController
      * action hide
      *
      * @param string $key
-     * @return void
      * @throws StopActionException
      */
     public function hideAction($key): void
@@ -175,14 +162,13 @@ class WizardContentController extends WizardController
         $this->storageRepository->hide('tt_content', $key);
         $this->generateAction();
         $this->addFlashMessage(LocalizationUtility::translate('tx_mask.content.hiddencontentelement', 'mask'));
-        $this->redirect('list','Wizard');
+        $this->redirect('list', 'Wizard');
     }
 
     /**
      * action activate
      *
      * @param string $key
-     * @return void
      * @throws StopActionException
      */
     public function activateAction($key): void
@@ -190,7 +176,7 @@ class WizardContentController extends WizardController
         $this->storageRepository->activate('tt_content', $key);
         $this->generateAction();
         $this->addFlashMessage(LocalizationUtility::translate('tx_mask.content.activatedcontentelement', 'mask'));
-        $this->redirect('list','Wizard');
+        $this->redirect('list', 'Wizard');
     }
 
     /**
@@ -224,5 +210,4 @@ class WizardContentController extends WizardController
         $this->saveHtml($key, $html);
         $this->redirect('list', 'Wizard');
     }
-
 }

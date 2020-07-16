@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace MASK\Mask\Domain\Repository;
@@ -32,16 +33,12 @@ use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
- *
- *
- * @package mask
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
  *
  * @method findByContentType(string $string)
  */
 class ContentRepository extends Repository
 {
-
     public function initializeObject(): void
     {
         $querySettings = GeneralUtility::makeInstance(Typo3QuerySettings::class);

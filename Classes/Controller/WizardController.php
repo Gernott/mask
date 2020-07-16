@@ -46,11 +46,7 @@ use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
- *
- *
- * @package mask
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
- *
  */
 class WizardController extends ActionController
 {
@@ -161,12 +157,12 @@ class WizardController extends ActionController
     protected function prepareStorage(&$storage): void
     {
         // Fill storage with additional data before assigning to view
-        if ($storage["tca"]) {
-            foreach ($storage["tca"] as $key => $field) {
+        if ($storage['tca']) {
+            foreach ($storage['tca'] as $key => $field) {
                 if (is_array($field)) {
-                    if ($field["config"]["type"] == "inline") {
-                        $storage["tca"][$key]["inlineFields"] = $this->storageRepository->loadInlineFields($key);
-                        $this->sortInlineFieldsByOrder($storage["tca"][$key]["inlineFields"]);
+                    if ($field['config']['type'] == 'inline') {
+                        $storage['tca'][$key]['inlineFields'] = $this->storageRepository->loadInlineFields($key);
+                        $this->sortInlineFieldsByOrder($storage['tca'][$key]['inlineFields']);
                     }
                 }
                 // Convert old date format Y-m-d to d-m-Y
@@ -175,10 +171,10 @@ class WizardController extends ActionController
                     $format = ($dbType == 'date') ? 'd-m-Y' : 'H:i d-m-Y';
                     $lower = $field['config']['range']['lower'] ?? false;
                     $upper = $field['config']['range']['upper'] ?? false;
-                    if ($lower && (bool)preg_match("/^[0-9]{4}]/", $lower)) {
+                    if ($lower && (bool)preg_match('/^[0-9]{4}]/', $lower)) {
                         $storage['tca'][$key]['config']['range']['lower'] = (new \DateTime($lower))->format($format);
                     }
-                    if ($upper && (bool)preg_match("/^[0-9]{4}]/", $upper)) {
+                    if ($upper && (bool)preg_match('/^[0-9]{4}]/', $upper)) {
                         $storage['tca'][$key]['config']['range']['upper'] = (new \DateTime($upper))->format($format);
                     }
                 }
@@ -209,7 +205,7 @@ class WizardController extends ActionController
      */
     protected function saveHtml($key, $html): bool
     {
-        # fallback to prevent breaking change
+        // fallback to prevent breaking change
         $path = MaskUtility::getTemplatePath($this->extSettings, $key);
         if (file_exists($path)) {
             return false;
@@ -287,7 +283,6 @@ class WizardController extends ActionController
     /**
      * Check, if folders from extensionmanager-settings are existing
      *
-     * @return void
      * @author Gernot Ploiner <gp@webprofil.at>
      */
     protected function checkFolders(): void
@@ -360,7 +355,6 @@ class WizardController extends ActionController
     /**
      * @param string $path
      * @param string $translationKey
-     * @return void
      */
     protected function checkFolder($path, $translationKey = 'tx_mask.all.error.missingjson'): void
     {
@@ -391,9 +385,9 @@ class WizardController extends ActionController
         );
 
         foreach ($inlineFields as $i => $field) {
-            if ($field["config"]["type"] == "inline") {
-                if (isset($inlineFields[$i]["inlineFields"]) && is_array($inlineFields[$i]["inlineFields"])) {
-                    $this->sortInlineFieldsByOrder($inlineFields[$i]["inlineFields"]);
+            if ($field['config']['type'] == 'inline') {
+                if (isset($inlineFields[$i]['inlineFields']) && is_array($inlineFields[$i]['inlineFields'])) {
+                    $this->sortInlineFieldsByOrder($inlineFields[$i]['inlineFields']);
                 }
             }
         }
@@ -401,8 +395,6 @@ class WizardController extends ActionController
 
     /**
      * action list
-     *
-     * @return void
      */
     public function listAction()
     {

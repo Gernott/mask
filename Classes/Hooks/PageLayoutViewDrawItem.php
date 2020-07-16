@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace MASK\Mask\Hooks;
@@ -48,8 +49,6 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
  * Renders the backend preview of mask content elements
  *
  * @author Benjamin Butschell <bb@webprofil.at>
- * @package MASK
- * @subpackage mask
  */
 class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
 {

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace MASK\Mask\Domain\Model;
@@ -27,15 +28,10 @@ namespace MASK\Mask\Domain\Model;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use TYPO3\CMS\Extbase\Annotation\Validate;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
- *
- *
- * @package mask
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
- *
  */
 class Page extends AbstractEntity
 {
@@ -51,7 +47,7 @@ class Page extends AbstractEntity
     /**
      * Backend layout
      *
-     * @var integer
+     * @var int
      */
     protected $belayout;
 
@@ -73,7 +69,7 @@ class Page extends AbstractEntity
     /**
      * Default Template if no selection.
      *
-     * @var boolean
+     * @var bool
      */
     protected $defaulttemplate = false;
 
@@ -91,7 +87,6 @@ class Page extends AbstractEntity
      * Sets the title
      *
      * @param string $title
-     * @return void
      */
     public function setTitle($title): void
     {
@@ -101,7 +96,7 @@ class Page extends AbstractEntity
     /**
      * Returns the belayout
      *
-     * @return integer $belayout
+     * @return int $belayout
      */
     public function getBelayout(): int
     {
@@ -111,8 +106,7 @@ class Page extends AbstractEntity
     /**
      * Sets the belayout
      *
-     * @param integer $belayout
-     * @return void
+     * @param int $belayout
      */
     public function setBelayout($belayout): void
     {
@@ -133,7 +127,6 @@ class Page extends AbstractEntity
      * Sets the fieldkey
      *
      * @param string $fieldkey
-     * @return void
      */
     public function setFieldkey($fieldkey): void
     {
@@ -154,7 +147,6 @@ class Page extends AbstractEntity
      * Sets the header
      *
      * @param string $header
-     * @return void
      */
     public function setHeader($header): void
     {
@@ -164,7 +156,7 @@ class Page extends AbstractEntity
     /**
      * Returns the defaulttemplate
      *
-     * @return boolean $defaulttemplate
+     * @return bool $defaulttemplate
      */
     public function getDefaulttemplate(): bool
     {
@@ -174,8 +166,7 @@ class Page extends AbstractEntity
     /**
      * Sets the defaulttemplate
      *
-     * @param boolean $defaulttemplate
-     * @return void
+     * @param bool $defaulttemplate
      */
     public function setDefaulttemplate($defaulttemplate): void
     {
@@ -185,7 +176,7 @@ class Page extends AbstractEntity
     /**
      * Returns the boolean state of defaulttemplate
      *
-     * @return boolean
+     * @return bool
      */
     public function isDefaulttemplate(): bool
     {

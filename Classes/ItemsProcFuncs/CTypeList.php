@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace MASK\Mask\ItemsProcFuncs;
@@ -28,8 +29,8 @@ namespace MASK\Mask\ItemsProcFuncs;
  * ************************************************************* */
 
 use MASK\Mask\Domain\Repository\StorageRepository;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use MASK\Mask\Helper\FieldHelper;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Render the allowed CTypes for nested content elements
@@ -107,8 +108,11 @@ class CTypeList extends AbstractList
             // and if other itemsProcFunc from other extension was available (e.g. gridelements),
             // then call it now and let it render the items
             if (!empty($params['config']['m_itemsProcFunc'])) {
-                GeneralUtility::callUserFunction($params['config']['m_itemsProcFunc'], $params,
-                    $this);
+                GeneralUtility::callUserFunction(
+                    $params['config']['m_itemsProcFunc'],
+                    $params,
+                    $this
+                );
             }
         }
     }
@@ -134,7 +138,10 @@ class CTypeList extends AbstractList
     protected function endsWith($haystack, $needle): bool
     {
         // search forward starting from end minus needle length characters
-        return $needle === '' || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle,
-                    $temp) !== false);
+        return $needle === '' || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos(
+            $haystack,
+            $needle,
+            $temp
+        ) !== false);
     }
 }

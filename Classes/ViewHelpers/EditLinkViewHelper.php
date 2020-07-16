@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace MASK\Mask\ViewHelpers;
@@ -17,7 +18,7 @@ class EditLinkViewHelper extends AbstractTagBasedViewHelper
     protected $tagName = 'a';
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $doEdit = 1;
 

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace MASK\Mask\CodeGenerator;
@@ -29,10 +30,10 @@ namespace MASK\Mask\CodeGenerator;
 
 use Exception;
 use MASK\Mask\Domain\Repository\StorageRepository;
+use MASK\Mask\Helper\FieldHelper;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use MASK\Mask\Helper\FieldHelper;
 
 /**
  * Generates all the tca needed for mask content elements
@@ -287,14 +288,14 @@ class TcaCodeGenerator
                 if ($tcavalue['config']['range']['upper'] ?? false) {
                     $date = \DateTime::createFromFormat($format, $tcavalue['config']['range']['upper']);
                     if ($dbType == 'date') {
-                        $date->setTime(0,0);
+                        $date->setTime(0, 0);
                     }
                     $tcavalue['config']['range']['upper'] = $date->getTimestamp();
                 }
                 if ($tcavalue['config']['range']['lower'] ?? false) {
                     $date = \DateTime::createFromFormat($format, $tcavalue['config']['range']['lower']);
                     if ($dbType == 'date') {
-                        $date->setTime(0,0);
+                        $date->setTime(0, 0);
                     }
                     $tcavalue['config']['range']['lower'] = $date->getTimestamp();
                 }

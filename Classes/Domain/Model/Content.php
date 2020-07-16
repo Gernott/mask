@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace MASK\Mask\Domain\Model;
@@ -27,15 +28,10 @@ namespace MASK\Mask\Domain\Model;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use TYPO3\CMS\Extbase\Annotation\Validate;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
- *
- *
- * @package mask
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
- *
  */
 class Content extends AbstractEntity
 {
@@ -110,7 +106,6 @@ class Content extends AbstractEntity
      * Sets the title
      *
      * @param string $title
-     * @return void
      */
     public function setTitle($title): void
     {
@@ -131,7 +126,6 @@ class Content extends AbstractEntity
      * Sets the description
      *
      * @param string $description
-     * @return void
      */
     public function setDescription($description): void
     {
@@ -152,7 +146,6 @@ class Content extends AbstractEntity
      * Sets the shorttitle
      *
      * @param string $shorttitle
-     * @return void
      */
     public function setShorttitle($shorttitle): void
     {
@@ -173,7 +166,6 @@ class Content extends AbstractEntity
      * Sets the fieldkey
      *
      * @param string $fieldkey
-     * @return void
      */
     public function setFieldkey($fieldkey): void
     {

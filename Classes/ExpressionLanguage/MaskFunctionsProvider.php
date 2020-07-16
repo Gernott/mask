@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace MASK\Mask\ExpressionLanguage;
@@ -33,7 +34,6 @@ class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
     {
         return new ExpressionFunction('maskBeLayout', static function ($param) {
         }, static function ($arguments, $param = null) {
-
             $layout = (string)$param;
             $backend_layout = (string)$arguments['page']['backend_layout'];
             $backend_layout_next_level = (string)$arguments['page']['backend_layout_next_level'];
@@ -50,8 +50,11 @@ class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
 
             // If backend_layout and backend_layout_next_level is not set on current page, check backend_layout_next_level on rootline
             foreach ($arguments['tree']->rootLine as $page) {
-                if (in_array((string)$page['backend_layout_next_level'], [$layout, 'pagets__' . $layout],
-                    true)) {
+                if (in_array(
+                    (string)$page['backend_layout_next_level'],
+                    [$layout, 'pagets__' . $layout],
+                    true
+                )) {
                     return true;
                 }
             }
@@ -142,7 +145,6 @@ class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
 
             // if we have found nothing, then return that this is not a mask field
             return false;
-
         });
     }
 }

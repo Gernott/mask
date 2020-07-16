@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace MASK\Mask\Domain\Repository;
@@ -30,13 +31,8 @@ namespace MASK\Mask\Domain\Repository;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
- *
- *
- * @package mask
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
- *
  */
 class PageRepository extends Repository
 {
-
 }

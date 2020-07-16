@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace MASK\Mask\Controller;
@@ -31,18 +32,12 @@ use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
- *
- *
- * @package mask
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
- *
  */
 class WizardPageController extends WizardController
 {
     /**
      * action list
-     *
-     * @return void
      */
     public function listAction(): void
     {
@@ -53,8 +48,6 @@ class WizardPageController extends WizardController
 
     /**
      * action new
-     *
-     * @return void
      */
     public function newAction(): void
     {
@@ -67,7 +60,6 @@ class WizardPageController extends WizardController
      * action create
      *
      * @param array $storage
-     * @return void
      * @throws StopActionException
      */
     public function createAction($storage): void
@@ -82,13 +74,14 @@ class WizardPageController extends WizardController
      * action edit
      *
      * @param string $layoutIdentifier
-     * @return void
      */
     public function editAction($layoutIdentifier = null): void
     {
         $settings = $this->settingsService->get();
-        $layout = $this->backendLayoutRepository->findByIdentifier($layoutIdentifier,
-            explode(',', $settings['backendlayout_pids']));
+        $layout = $this->backendLayoutRepository->findByIdentifier(
+            $layoutIdentifier,
+            explode(',', $settings['backendlayout_pids'])
+        );
 
         if ($layout) {
             $storage = $this->storageRepository->loadElement('pages', $layoutIdentifier);
@@ -103,7 +96,6 @@ class WizardPageController extends WizardController
      * action update
      *
      * @param array $storage
-     * @return void
      * @throws StopActionException
      */
     public function updateAction($storage): void
@@ -118,7 +110,6 @@ class WizardPageController extends WizardController
      * action delete
      *
      * @param array $storage
-     * @return void
      * @throws StopActionException
      */
     public function deleteAction(array $storage): void
