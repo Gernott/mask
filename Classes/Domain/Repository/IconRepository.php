@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace MASK\Mask\Domain\Repository;
@@ -27,9 +28,6 @@ namespace MASK\Mask\Domain\Repository;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 /**
- *
- *
- * @package mask
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
  */
 class IconRepository

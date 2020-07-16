@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace MASK\Mask\Helper;
@@ -32,10 +33,10 @@ use MASK\Mask\Domain\Repository\StorageRepository;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
-use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Core\Resource\FileRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
  * Methods for working with inline fields (IRRE)
@@ -58,7 +59,8 @@ class InlineHelper
      */
     protected $backendLayoutRepository;
 
-    public function __construct(StorageRepository $storageRepository, BackendLayoutRepository $backendLayoutRepository) {
+    public function __construct(StorageRepository $storageRepository, BackendLayoutRepository $backendLayoutRepository)
+    {
         $this->storageRepository = $storageRepository;
         $this->backendLayoutRepository = $backendLayoutRepository;
     }
@@ -112,7 +114,6 @@ class InlineHelper
      */
     public function addIrreToData(&$data, $table = 'tt_content', $cType = ''): void
     {
-
         if ($cType === '') {
             $cType = $data['CType'];
         }
@@ -144,7 +145,6 @@ class InlineHelper
                     if (isset($storage[$table]['tca'])) {
                         $elementFields = array_keys($storage[$table]['tca']);
                     }
-
                 }
             }
         } elseif (isset($storage[$table])) {
@@ -157,7 +157,6 @@ class InlineHelper
 
             // check foreach column
             foreach ($elementFields as $field) {
-
                 $fieldKeyPrefix = $field;
                 $fieldKey = str_replace('tx_mask_', '', $field);
                 $type = $this->storageRepository->getFormType($fieldKey, $cType, $table);
@@ -166,7 +165,7 @@ class InlineHelper
                 if ($type === 'Inline') {
                     $elements = $this->getInlineElements($data, $fieldKeyPrefix, $cType, 'parentid', $table);
                     $data[$fieldKeyPrefix] = $elements;
-                    // or if it is of type Content (Nested Content) and has to be filled
+                // or if it is of type Content (Nested Content) and has to be filled
                 } elseif ($type === 'Content') {
                     $elements = $this->getInlineElements(
                         $data,

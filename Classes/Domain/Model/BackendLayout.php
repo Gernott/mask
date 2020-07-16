@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace MASK\Mask\Domain\Model;
@@ -30,7 +31,6 @@ namespace MASK\Mask\Domain\Model;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use TYPO3\CMS\Extbase\Annotation\Validate;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
@@ -77,7 +77,6 @@ class BackendLayout extends AbstractEntity
      * Sets the title.
      *
      * @param string $title the user name to set, must not be empty
-     * @return void
      */
     public function setTitle($title): void
     {
@@ -98,7 +97,6 @@ class BackendLayout extends AbstractEntity
      * Sets the uid.
      *
      * @param int $uid the user name to set, must not be empty
-     * @return void
      * @noinspection PhpUnused
      */
     public function setUid($uid): void
@@ -120,7 +118,6 @@ class BackendLayout extends AbstractEntity
      * Sets the icon.
      *
      * @param string $icon
-     * @return void
      */
     public function setIcon($icon): void
     {
@@ -141,7 +138,6 @@ class BackendLayout extends AbstractEntity
      * Sets the description.
      *
      * @param string $description
-     * @return void
      */
     public function setDescription($description): void
     {

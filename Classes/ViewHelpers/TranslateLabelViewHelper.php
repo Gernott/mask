@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace MASK\Mask\ViewHelpers;
@@ -13,11 +14,8 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  * {namespace mask=MASK\Mask\ViewHelpers}
  * <mask:translateLabel key="{key}" />
  *
- * @package TYPO3
- * @subpackage mask
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
  * @author Fabian Galinski <fabian@sgalinski.de>
- *
  */
 class TranslateLabelViewHelper extends AbstractViewHelper
 {
@@ -45,6 +43,6 @@ class TranslateLabelViewHelper extends AbstractViewHelper
         $request = $this->renderingContext->getControllerContext()->getRequest();
         $extensionName = $extensionName ?? $request->getControllerExtensionName();
         $result = LocalizationUtility::translate($key, $extensionName);
-        return (empty($result) ? $key : $result);
+        return empty($result) ? $key : $result;
     }
 }

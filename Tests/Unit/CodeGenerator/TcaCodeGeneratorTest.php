@@ -295,7 +295,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
         $storage->method('load')->willReturn($json);
         $fieldHelper = new FieldHelper($storage);
         $tcaGenerator = new TcaCodeGenerator($storage, $fieldHelper);
-        $this->assertSame($expected, $tcaGenerator->getMaskIrreTables());
+        self::assertSame($expected, $tcaGenerator->getMaskIrreTables());
     }
 
     public function processTableTcaDataProvider()

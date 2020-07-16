@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace MASK\Mask\ViewHelpers;
@@ -11,11 +12,9 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  * ViewHelper for rendering any content element
  * @author Paul Beck
  * @link http://blog.teamgeist-medien.de/2014/01/extbase-fluid-viewhelper-fuer-tt_content-elemente-mit-namespaces.html Source
- *
  */
 class ContentViewHelper extends AbstractViewHelper
 {
-
     protected $escapeOutput = false;
 
     /**
@@ -52,7 +51,6 @@ class ContentViewHelper extends AbstractViewHelper
      * Injects Configuration Manager
      *
      * @param ConfigurationManagerInterface $configurationManager
-     * @return void
      */
     public function injectConfigurationManager(
         ConfigurationManagerInterface $configurationManager

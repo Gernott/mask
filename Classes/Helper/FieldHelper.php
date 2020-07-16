@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace MASK\Mask\Helper;
@@ -130,7 +131,6 @@ class FieldHelper
                     // if this is the element we search for, or no special element was given,
                     // and the element has columns and the fieldType wasn't found yet
                     if (($element['key'] === $elementKey || $elementKey === '') && $element['columns'] && !$found) {
-
                         foreach ($element['columns'] as $column) {
                             if ($column === $fieldKey && !$found) {
                                 $fieldType = $type;

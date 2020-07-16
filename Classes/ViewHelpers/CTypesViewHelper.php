@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace MASK\Mask\ViewHelpers;
@@ -8,14 +9,10 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- *
  * Example
  * {namespace mask=MASK\Mask\ViewHelpers}
  *
- * @package TYPO3
- * @subpackage mask
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
- *
  */
 class CTypesViewHelper extends AbstractViewHelper
 {

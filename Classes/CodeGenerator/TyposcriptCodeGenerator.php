@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace MASK\Mask\CodeGenerator;
@@ -30,10 +31,10 @@ namespace MASK\Mask\CodeGenerator;
 use MASK\Mask\Domain\Model\BackendLayout;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Domain\Service\SettingsService;
-use MASK\Mask\Utility\GeneralUtility as MaskUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Imaging\IconRegistry;
 use MASK\Mask\Imaging\IconProvider\ContentElementIconProvider;
+use MASK\Mask\Utility\GeneralUtility as MaskUtility;
+use TYPO3\CMS\Core\Imaging\IconRegistry;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Generates all the typoscript needed for mask content elements
@@ -84,7 +85,9 @@ class TyposcriptCodeGenerator
             // Register icons for contentelements
             $iconIdentifier = 'mask-ce-' . $element['key'];
             $iconRegistry->registerIcon(
-                $iconIdentifier, ContentElementIconProvider::class, [
+                $iconIdentifier,
+                ContentElementIconProvider::class,
+                [
                     'contentElementKey' => $element['key']
                 ]
             );
@@ -201,7 +204,7 @@ class TyposcriptCodeGenerator
                     $templateName = MaskUtility::getTemplatePath($this->extSettings, $element['key'], true);
                     $elementContent = [];
                     $elementContent[] = 'tt_content.mask_' . $element['key'] . ' =< lib.maskContentElement' . LF;
-                    $elementContent[] = 'tt_content.mask_' . $element['key'] . " {" . LF;
+                    $elementContent[] = 'tt_content.mask_' . $element['key'] . ' {' . LF;
                     $elementContent[] = "\t" . 'templateName = ' . $templateName . LF;
                     $elementContent[] = '}' . LF . LF;
                     $setupContent[] = implode('', $elementContent);
@@ -217,8 +220,8 @@ class TyposcriptCodeGenerator
      *
      * @param array $typoScriptArray The array to convert to string
      * @param string $addKey Prefix given values with given key (eg. lib.whatever = {...})
-     * @param integer $tab Internal
-     * @param boolean $init Internal
+     * @param int $tab Internal
+     * @param bool $init Internal
      * @return string TypoScript
      */
     protected function convertArrayToTypoScript(array $typoScriptArray, $addKey = '', $tab = 0, $init = true): string
@@ -236,9 +239,13 @@ class TyposcriptCodeGenerator
                 if (strpos($value, "\n") === false) {
                     $typoScript .= str_repeat("\t", ($tab === 0) ? $tab : $tab - 1) . "$key = $value\n";
                 } else {
-                    $typoScript .= str_repeat("\t",
-                            ($tab === 0) ? $tab : $tab - 1) . "$key (\n$value\n" . str_repeat("\t",
-                            ($tab === 0) ? $tab : $tab - 1) . ")\n";
+                    $typoScript .= str_repeat(
+                        "\t",
+                        ($tab === 0) ? $tab : $tab - 1
+                    ) . "$key (\n$value\n" . str_repeat(
+                                "\t",
+                                ($tab === 0) ? $tab : $tab - 1
+                            ) . ")\n";
                 }
             } else {
                 $typoScript .= $this->convertArrayToTypoScript($value, $key, $tab, false);

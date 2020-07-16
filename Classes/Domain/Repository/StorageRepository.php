@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace MASK\Mask\Domain\Repository;
@@ -37,7 +38,6 @@ use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- *
  * @api
  */
 class StorageRepository implements SingletonInterface
@@ -100,7 +100,6 @@ class StorageRepository implements SingletonInterface
      * Write Storage
      *
      * @param $json
-     * @return void
      * @noinspection PhpComposerExtensionStubsInspection
      */
     public function write($json): void
@@ -203,10 +202,16 @@ class StorageRepository implements SingletonInterface
                         // If using a mask field with empty label, we have to set the "default" label
                         $label = '';
                         foreach ($json[$content['type']]['elements'] as $element) {
-                            if (is_array($element['columns']) && in_array($content['elements']['columns'][$index],
-                                    $element['columns'], true)) {
-                                $i = array_search($content['elements']['columns'][$index], $element['columns'],
-                                    true);
+                            if (is_array($element['columns']) && in_array(
+                                $content['elements']['columns'][$index],
+                                $element['columns'],
+                                true
+                            )) {
+                                $i = array_search(
+                                    $content['elements']['columns'][$index],
+                                    $element['columns'],
+                                    true
+                                );
                                 if (!empty($element['labels'][$i])) {
                                     $label = $element['labels'][$i];
                                     break;
@@ -247,7 +252,6 @@ class StorageRepository implements SingletonInterface
 
         // Create JSON tca Array:
         if (is_array($content['tca'])) {
-
             foreach ($content['tca'] as $key => $value) {
                 $inlineField = false;
 
@@ -351,7 +355,6 @@ class StorageRepository implements SingletonInterface
      * @param array $json
      * @param array $remainingFields
      * @return array
-     *
      */
     private function removeField($table, $field, $json, $remainingFields = []): array
     {
@@ -368,7 +371,6 @@ class StorageRepository implements SingletonInterface
                 }
             }
         }
-
 
         // check if father gets deleted
         $fatherFound = false;
@@ -398,13 +400,19 @@ class StorageRepository implements SingletonInterface
                     }
                     if ($found) {
                         // was not really deleted => can be deleted temporarly because it will be readded
-                        $json = $this->removeField($inlineField['inlineParent'], 'tx_mask_' . $inlineField['key'],
-                            $json);
+                        $json = $this->removeField(
+                            $inlineField['inlineParent'],
+                            'tx_mask_' . $inlineField['key'],
+                            $json
+                        );
                     } else {
                         // was really deleted and can only be deleted if father is not in use in another element
                         if (($fatherGetsDeleted && count($elementsInUse) == 0) || !$fatherGetsDeleted) {
-                            $json = $this->removeField($inlineField['inlineParent'], 'tx_mask_' . $inlineField['key'],
-                                $json);
+                            $json = $this->removeField(
+                                $inlineField['inlineParent'],
+                                'tx_mask_' . $inlineField['key'],
+                                $json
+                            );
                         }
                     }
                 }
@@ -467,7 +475,6 @@ class StorageRepository implements SingletonInterface
     /**
      * Sorts the json entries
      * @param array $array
-     * @return void
      */
     private function sortJson(array &$array): void
     {
@@ -528,7 +535,6 @@ class StorageRepository implements SingletonInterface
         if (isset($tca['config']['eval'])) {
             $evals = explode(',', $tca['config']['eval']);
         }
-
 
         if (($tca['options'] ?? '') === 'file') {
             $formType = 'File';

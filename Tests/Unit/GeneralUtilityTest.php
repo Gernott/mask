@@ -24,7 +24,7 @@ class GeneralUtilityTest extends UnitTestCase
                 'noelement',
                 false,
                 null,
-                Environment::getPublicPath() .'/typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/Noelement.html'
+                Environment::getPublicPath() . '/typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/Noelement.html'
             ],
             'under_scored exists' => [
                 ['content' => 'typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/'],
@@ -106,7 +106,6 @@ class GeneralUtilityTest extends UnitTestCase
         $path = GeneralUtility::getTemplatePath($settings, $elementKey, $onlyTemplateName, $path);
         self::assertSame($expectedPath, $path);
     }
-
 
     public function removeBlankOptionsDataProvider()
     {

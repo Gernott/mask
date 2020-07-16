@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace MASK\Mask\ItemsProcFuncs;
@@ -33,7 +34,5 @@ namespace MASK\Mask\ItemsProcFuncs;
  */
 abstract class AbstractList
 {
-
     protected $colPos = 999;
-
 }

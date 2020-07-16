@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace MASK\Mask\Imaging\IconProvider;
@@ -37,7 +38,6 @@ use TYPO3\CMS\Extbase\Object\Exception;
  * ************************************************************* */
 
 /**
- * @package mask
  * @author Benjamin Butschell <bb@webprofil.at>
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
  */
@@ -78,7 +78,6 @@ class ContentElementIconProvider implements IconProviderInterface
     }
 
     /**
-     *
      * @param Icon $icon
      * @param array $options
      * @throws Exception
@@ -105,37 +104,42 @@ class ContentElementIconProvider implements IconProviderInterface
      */
     protected function generateMarkup(Icon $icon, array $options): string
     {
-
         $styles = [];
         $previewIconAvailable = $this->isPreviewIconAvailable($options['contentElementKey']);
         $fontAwesomeKeyAvailable = $this->isFontAwesomeKeyAvailable($this->contentElement);
 
         // decide what kind of icon to render
         if ($fontAwesomeKeyAvailable && !$previewIconAvailable) {
-
             $color = $this->getColor($this->contentElement);
 
             if ($color) {
                 $styles[] = 'color: #' . $color;
             }
             if (count($styles)) {
-                $markup = '<span class="icon-unify" style="' . implode('; ',
-                        $styles) . '"><i class="fa fa-' . htmlspecialchars($this->getFontAwesomeKey($this->contentElement)) . '"></i></span>';
+                $markup = '<span class="icon-unify" style="' . implode(
+                    '; ',
+                    $styles
+                ) . '"><i class="fa fa-' . htmlspecialchars($this->getFontAwesomeKey($this->contentElement)) . '"></i></span>';
             } else {
                 $markup = '<span class="icon-unify" ><i class="fa fa-' . htmlspecialchars($this->getFontAwesomeKey($this->contentElement)) . '"></i></span>';
             }
         } else {
             if ($previewIconAvailable) {
-                $markup = '<img src="' . str_replace(Environment::getPublicPath(), '',
-                        $this->getPreviewIconPath($options['contentElementKey'])) . '" alt="' . $this->contentElement['label'] . '" title="' . $this->contentElement['label'] . '"/>';
+                $markup = '<img src="' . str_replace(
+                    Environment::getPublicPath(),
+                    '',
+                    $this->getPreviewIconPath($options['contentElementKey'])
+                ) . '" alt="' . $this->contentElement['label'] . '" title="' . $this->contentElement['label'] . '"/>';
             } else {
                 $color = $this->getColor($this->contentElement);
                 if ($color) {
                     $styles[] = 'background-color: #' . $color;
                 }
                 $styles[] = 'color: #fff';
-                $markup = '<span class="icon-unify mask-default-icon" style="' . implode('; ',
-                        $styles) . '">' . mb_substr($this->contentElement['label'], 0, 1) . '</span>';
+                $markup = '<span class="icon-unify mask-default-icon" style="' . implode(
+                    '; ',
+                    $styles
+                ) . '">' . mb_substr($this->contentElement['label'], 0, 1) . '</span>';
             }
         }
 
@@ -145,7 +149,7 @@ class ContentElementIconProvider implements IconProviderInterface
     /**
      * Checks if a preview icon is available in defined folder
      * @param string $key
-     * @return boolean
+     * @return bool
      */
     protected function isPreviewIconAvailable($key): bool
     {
@@ -155,7 +159,7 @@ class ContentElementIconProvider implements IconProviderInterface
     /**
      * Checks if content element has set a fontawesome key
      * @param array $element
-     * @return boolean
+     * @return bool
      */
     protected function isFontAwesomeKeyAvailable($element): bool
     {
@@ -171,8 +175,8 @@ class ContentElementIconProvider implements IconProviderInterface
         // the path to the file
         $filePath = function ($key) {
             return MaskUtility::getFileAbsFileName(
-                    rtrim($this->extSettings['preview'], '/') . '/'
-                ) . $key . '.';
+                rtrim($this->extSettings['preview'], '/') . '/'
+            ) . $key . '.';
         };
 
         // search a fitting png or svg file in this path

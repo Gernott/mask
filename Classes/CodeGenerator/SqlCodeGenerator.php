@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace MASK\Mask\CodeGenerator;
@@ -29,12 +30,12 @@ namespace MASK\Mask\CodeGenerator;
 
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Schema\SchemaException;
+use MASK\Mask\Domain\Repository\StorageRepository;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Event\AlterTableDefinitionStatementsEvent;
 use TYPO3\CMS\Core\Database\Schema\Exception\StatementException;
 use TYPO3\CMS\Core\Database\Schema\Exception\UnexpectedSignalReturnValueTypeException;
 use TYPO3\CMS\Core\Database\Schema\SchemaMigrator;
-use MASK\Mask\Domain\Repository\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -214,7 +215,6 @@ class SqlCodeGenerator
      * Adds the SQL for all elements to the psr-14 AlterTableDefinitionStatementsEvent event.
      *
      * @param AlterTableDefinitionStatementsEvent $event
-     * @return void
      */
     public function addDatabaseTablesDefinition(AlterTableDefinitionStatementsEvent $event): void
     {

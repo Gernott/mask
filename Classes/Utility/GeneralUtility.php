@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace MASK\Mask\Utility;
@@ -86,7 +87,8 @@ class GeneralUtility
         $storage = $this->storageRepository->load();
         $found = false;
         if (isset($storage[$type]['tca'][$fieldKey]['config']['fieldControl']['linkPopup']['options']['blindLinkOptions'])) {
-            $evals = explode(',',
+            $evals = explode(
+                ',',
                 $storage[$type]['tca'][$fieldKey]['config']['fieldControl']['linkPopup']['options']['blindLinkOptions']
             );
             $found = in_array(strtolower($evalValue), $evals, true);
