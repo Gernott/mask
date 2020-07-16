@@ -186,6 +186,7 @@ class TcaCodeGenerator
      */
     public function getPageTca(string $key)
     {
+        $fieldArray = [];
         $prependTabs = ',--div--;Content-Fields,';
         $tca = $this->storageRepository->load();
         $columns = $tca['pages']['elements'][$key]['columns'] ?? [];

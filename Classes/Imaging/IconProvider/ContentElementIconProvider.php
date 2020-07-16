@@ -106,6 +106,7 @@ class ContentElementIconProvider implements IconProviderInterface
     protected function generateMarkup(Icon $icon, array $options): string
     {
 
+        $styles = [];
         $previewIconAvailable = $this->isPreviewIconAvailable($options['contentElementKey']);
         $fontAwesomeKeyAvailable = $this->isFontAwesomeKeyAvailable($this->contentElement);
 
@@ -113,7 +114,6 @@ class ContentElementIconProvider implements IconProviderInterface
         if ($fontAwesomeKeyAvailable && !$previewIconAvailable) {
 
             $color = $this->getColor($this->contentElement);
-            $styles = [];
 
             if ($color) {
                 $styles[] = 'color: #' . $color;
