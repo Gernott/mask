@@ -1,35 +1,39 @@
 <f:layout name="Default"/>
 <f:section name="content">
-	<f:flashMessages/>
-	<f:render partial="Forms/General/FormErrors"/>
-	<f:form action="create" name="storage" object="{storage}">
-		<div class="row bench">
-			<div class="form-group col-sm-2 tx_mask_borderright tx_mask_tabcell1">
-				<h1>
-					<f:translate key="tx_mask.content.newheader"/>
-				</h1>
-				<f:render partial="WizardContent/Metadata" arguments="{storage:storage, icons: icons}"/>
-				<div>
-					<f:render partial="General/Controls"/>
-				</div>
-			</div>
-			<div class="col-sm-4 tx_mask_tabcell4">
-				<label class="t3js-formengine-label"><f:translate key="tx_mask.all.add_new_fields"/></label>
-				<div class="col-sm-12 tx_mask_tabcell5">
-					<ul class="tx_mask_fieldtypes tx_mask_field_templates" id="dragstart">
-						<f:render partial="Forms/General/FormTypeButtons"/>
-					</ul>
-				</div>
-				<label class="t3js-formengine-label"><f:translate key="tx_mask.all.fields_of_element"/></label>
-				<div class="form-group col-sm-12 tx_mask_borderright tx_mask_tabcell2">
-					<ul class="tx_mask_fieldtypes dragtarget"></ul>
-				</div>
-			</div>
-			<div class="form-group col-sm-6 tx_mask_tabcell3"></div>
-		</div>
-	</f:form>
-	<div style="display:none;" id="templates">
-		<f:render partial="Forms/General/Forms" arguments="{storage: storage, type: 'tt_content'}"/>
-	</div>
+    <f:flashMessages/>
+    <f:render partial="Forms/General/FormErrors"/>
+    <f:form action="create" name="storage" object="{storage}">
+        <div class="row bench">
+            <div class="form-group col-sm-2 tx_mask_borderright tx_mask_tabcell1">
+                <h1>
+                    <f:translate key="tx_mask.content.newheader"/>
+                </h1>
+                <f:render partial="WizardContent/Metadata" arguments="{storage:storage, icons: icons}"/>
+                <div>
+                    <f:render partial="General/Controls"/>
+                </div>
+            </div>
+            <div class="col-sm-4 tx_mask_tabcell4">
+                <label class="t3js-formengine-label">
+                    <f:translate key="tx_mask.all.add_new_fields"/>
+                </label>
+                <div class="col-sm-12 tx_mask_tabcell5">
+                    <ul class="tx_mask_fieldtypes tx_mask_field_templates" id="dragstart">
+                        <f:render partial="Forms/General/FormTypeButtons"/>
+                    </ul>
+                </div>
+                <label class="t3js-formengine-label">
+                    <f:translate key="tx_mask.all.fields_of_element"/>
+                </label>
+                <div class="form-group col-sm-12 tx_mask_borderright tx_mask_tabcell2">
+                    <ul class="tx_mask_fieldtypes dragtarget"></ul>
+                </div>
+            </div>
+            <div class="form-group col-sm-6 tx_mask_tabcell3"></div>
+        </div>
+    </f:form>
+    <div style="display:none;" id="templates">
+        <f:render partial="Forms/General/Forms" arguments="{storage: storage, type: 'tt_content'}"/>
+    </div>
 </f:section>
 
