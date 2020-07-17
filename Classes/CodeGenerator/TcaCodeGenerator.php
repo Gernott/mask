@@ -218,6 +218,13 @@ class TcaCodeGenerator
         $tca = $json[$table]['tca'] ?? [];
         $columns = [];
         foreach ($tca as $tcakey => $tcavalue) {
+            $formType = $this->storageRepository->getFormType($tcakey, '', $table);
+
+            // Inline: Ignore empty inline fields
+            if ($formType === 'Inline' && !array_key_exists($tcakey, $json)) {
+                continue;
+            }
+
             // Tabs: Ignore.
             if (($tcavalue['config']['type'] ?? '') === 'tab') {
                 continue;

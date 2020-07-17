@@ -150,6 +150,9 @@ class InlineHelper
 
                 // if it is of type inline and has to be filled (IRRE, FAL)
                 if ($type === 'Inline') {
+                    if (!array_key_exists($field, $storage)) {
+                        continue;
+                    }
                     $elements = $this->getInlineElements($data, $fieldKeyPrefix, $cType, 'parentid', $table);
                     $data[$fieldKeyPrefix] = $elements;
                 // or if it is of type Content (Nested Content) and has to be filled
