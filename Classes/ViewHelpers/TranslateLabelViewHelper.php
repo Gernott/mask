@@ -2,6 +2,19 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
+
 namespace MASK\Mask\ViewHelpers;
 
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
@@ -11,11 +24,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  * View helper that translates a language label, if the result is empty, the label will be returned.
  *
  * Example:
- * {namespace mask=MASK\Mask\ViewHelpers}
  * <mask:translateLabel key="{key}" />
- *
- * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
- * @author Fabian Galinski <fabian@sgalinski.de>
  */
 class TranslateLabelViewHelper extends AbstractViewHelper
 {
@@ -29,7 +38,6 @@ class TranslateLabelViewHelper extends AbstractViewHelper
      * The given key will be translated. If the result is empty, the key will be returned.
      *
      * @return string
-     * @noinspection PhpUndefinedMethodInspection
      */
     public function render(): string
     {
