@@ -26,6 +26,7 @@ use TYPO3\CMS\Core\Database\Event\AlterTableDefinitionStatementsEvent;
 use TYPO3\CMS\Core\Database\Schema\Exception\StatementException;
 use TYPO3\CMS\Core\Database\Schema\Exception\UnexpectedSignalReturnValueTypeException;
 use TYPO3\CMS\Core\Database\Schema\SchemaMigrator;
+use TYPO3\CMS\Core\Database\Schema\SqlReader;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -52,17 +53,18 @@ class SqlCodeGenerator
     }
 
     /**
-     * Performs updates, adjusted function from extension_builder
+     * Updates the database if necessary
      *
-     * @param array $sqlStatements
      * @return array
      * @throws DBALException
      * @throws SchemaException
      * @throws StatementException
      * @throws UnexpectedSignalReturnValueTypeException
      */
-    protected function performDbUpdates(array $sqlStatements): array
+    public function updateDatabase(): array
     {
+        $sqlReader = GeneralUtility::makeInstance(SqlReader::class);
+        $sqlStatements = $sqlReader->getCreateTableStatementArray($sqlReader->getTablesDefinitionString());
         $sqlUpdateSuggestions = $this->schemaMigrator->getUpdateSuggestions($sqlStatements);
         $hasErrors = false;
 
@@ -95,25 +97,6 @@ class SqlCodeGenerator
         }
 
         return ['success' => 'Database was successfully updated'];
-    }
-
-    /**
-     * Updates the database if necessary
-     *
-     * @return array
-     * @throws DBALException
-     * @throws SchemaException
-     * @throws StatementException
-     * @throws UnexpectedSignalReturnValueTypeException
-     */
-    public function updateDatabase(): array
-    {
-        $json = $this->storageRepository->load();
-        $sqlStatements = $this->getSqlByConfiguration($json);
-        if (count($sqlStatements) > 0) {
-            return $this->performDbUpdates($sqlStatements);
-        }
-        return [];
     }
 
     /**
