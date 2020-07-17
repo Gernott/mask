@@ -28,6 +28,7 @@ use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Http\ServerRequest;
+use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
@@ -128,7 +129,12 @@ class WizardController extends ActionController
     public function generateAction(): void
     {
         // Update Database
-        $this->sqlCodeGenerator->updateDatabase();
+        $result = $this->sqlCodeGenerator->updateDatabase();
+        if (array_key_exists('error', $result)) {
+            $this->addFlashMessage($result['error'], '', FlashMessage::ERROR);
+        } else {
+            $this->addFlashMessage($result['success'], '', FlashMessage::INFO);
+        }
 
         // Clear system cache to force new TCA caching
         $cacheManager = GeneralUtility::makeInstance(CacheManager::class);
