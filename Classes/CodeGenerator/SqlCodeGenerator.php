@@ -145,6 +145,8 @@ class SqlCodeGenerator
 							 hidden SMALLINT unsigned DEFAULT '0' NOT NULL,
 							 starttime int(11) unsigned DEFAULT '0' NOT NULL,
 							 endtime int(11) unsigned DEFAULT '0' NOT NULL,
+							 editlock SMALLINT UNSIGNED DEFAULT 0 NOT NULL,
+							 fe_group VARCHAR(255) DEFAULT '0' NOT NULL,
 
 							 t3ver_oid int(11) DEFAULT '0' NOT NULL,
 							 t3ver_id int(11) DEFAULT '0' NOT NULL,
