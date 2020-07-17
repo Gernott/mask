@@ -92,11 +92,11 @@ class SqlCodeGenerator
 
         if ($hasErrors) {
             return [
-                'error' => 'Database could not be updated. Please check it in the update wizard of the install tool'
+                'error' => 'Database could not be updated. Please check it in the update wizard of the install tool.'
             ];
         }
 
-        return ['success' => 'Database was successfully updated'];
+        return ['success' => 'Database was successfully updated.'];
     }
 
     /**
@@ -171,7 +171,7 @@ class SqlCodeGenerator
                          PRIMARY KEY (uid),
                          KEY parent (pid,sorting),
                          KEY t3ver_oid (t3ver_oid,t3ver_wsid),
-                         KEY language (l18n_parent,sys_language_uid)
+                         KEY language (l10n_parent,sys_language_uid)
                      );\n";
             }
         }
