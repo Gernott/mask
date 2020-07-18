@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+### [5.1.2] - 2020-07-20
+### Important
+- Updating database with database analyzer required. The fields `t3ver_label` and `t3ver_uid` will be removed as they are not
+used in TYPO3 anymore.
+
+### Added
+- Option to disable phone links. [#336](https://github.com/Gernott/mask/pull/336)
+- Show error if something went wrong while updating database on save.
+
+### Changed
+- Changed table definitions of inline tables to conform standards.
+- Applied up to date coding standards and formatting of files.
+
+### Removed
+- Fields `t3ver_label` and `t3ver_uid` for inline tables.
+- Database index `language` for inline tables.
+
+### Fixed
+- Fields `editlock` and `fe_group` now generated on element save. [#332](https://github.com/nhovratov/mask/commit/fb31c3cc219f8517559318eae2dcc2d3e993bcf2)
+- Empty repeat fields do not create unused table columns and thereby errors anymore.
+- Mask causes no more changes to tt_content indexes anymore.
+
 ### [5.1.1] - 2020-07-15
 ### Important
 - After updating from 5.1.0 or lower, clear the hard caches under Maintenance->Flush cache. Clearing red caches in not enough.
