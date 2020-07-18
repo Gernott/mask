@@ -414,6 +414,7 @@ class TcaCodeGenerator
     {
         return [
             'ctrl' => [
+                'sortby' => 'sorting',
                 'tstamp' => 'tstamp',
                 'crdate' => 'crdate',
                 'cruser_id' => 'cruser_id',

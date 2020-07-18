@@ -53,9 +53,8 @@ class SqlCodeGenerator
     }
 
     /**
-     * Performs updates, adjusted function from extension_builder
+     * Updates the database if necessary
      *
-     * @param array $sqlStatements
      * @return array
      * @throws DBALException
      * @throws SchemaException
@@ -72,7 +71,6 @@ class SqlCodeGenerator
         $schemaMigrator = GeneralUtility::makeInstance(SchemaMigrator::class);
 
         $sqlUpdateSuggestions = $schemaMigrator->getUpdateSuggestions($sqlStatements);
-        $hasErrors = false;
 
         foreach ($sqlUpdateSuggestions as $connectionName => $updateConnection) {
             $connection = $connectionPool->getConnectionByName($connectionName);
@@ -81,25 +79,12 @@ class SqlCodeGenerator
                     try {
                         $connection->exec($statement);
                     } catch (DBALException $exception) {
-                        $hasErrors = true;
-                        //@todo
-//                        GeneralUtility::devlog(
-//                            'SQL error',
-//                            'mask',
-//                            0,
-//                            [
-//                                'statement' => $statement,
-//                                'error' => $exception->getMessage()
-//                            ]);
+                        return [
+                            'error' => $exception->getMessage()
+                        ];
                     }
                 }
             }
-        }
-
-        if ($hasErrors) {
-            return [
-                'error' => 'Database could not be updated. Please check it in the update wizard of the install tool.'
-            ];
         }
 
         return ['success' => 'Database was successfully updated.'];
@@ -138,47 +123,10 @@ class SqlCodeGenerator
 
             // If type/table is an irre table, then create table for it
             if (MaskUtility::isMaskIrreTable($type)) {
-                $sql_content[] = 'CREATE TABLE ' . $type . " (
-
-                         uid int(11) NOT NULL auto_increment,
-                         pid int(11) DEFAULT '0' NOT NULL,
-
-                         tstamp int(11) unsigned DEFAULT '0' NOT NULL,
-                         crdate int(11) unsigned DEFAULT '0' NOT NULL,
-                         cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
-                         deleted SMALLINT unsigned DEFAULT '0' NOT NULL,
-                         hidden SMALLINT unsigned DEFAULT '0' NOT NULL,
-                         starttime int(11) unsigned DEFAULT '0' NOT NULL,
-                         endtime int(11) unsigned DEFAULT '0' NOT NULL,
-                         editlock SMALLINT UNSIGNED DEFAULT 0 NOT NULL,
-                         fe_group VARCHAR(255) DEFAULT '0' NOT NULL,
-
-                         t3ver_oid int(11) DEFAULT '0' NOT NULL,
-                         t3ver_id int(11) DEFAULT '0' NOT NULL,
-                         t3ver_wsid int(11) DEFAULT '0' NOT NULL,
-                         t3ver_label varchar(255) DEFAULT '' NOT NULL,
-                         t3ver_state SMALLINT DEFAULT '0' NOT NULL,
-                         t3ver_stage int(11) DEFAULT '0' NOT NULL,
-                         t3ver_count int(11) DEFAULT '0' NOT NULL,
-                         t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
-                         t3ver_move_id int(11) DEFAULT '0' NOT NULL,
-                         t3_origuid int(11) UNSIGNED DEFAULT '0' NOT NULL,
-
-                         sys_language_uid int(11) DEFAULT '0' NOT NULL,
-                         l10n_parent int(11) DEFAULT '0' NOT NULL,
-                         l10n_source int(11) UNSIGNED DEFAULT '0' NOT NULL,
-                         l10n_diffsource mediumblob,
-                         l10n_state text,
-
+                $sql_content[] = "CREATE TABLE $type (
                          parentid int(11) DEFAULT '0' NOT NULL,
                          parenttable varchar(255) DEFAULT '',
-                         sorting int(11) DEFAULT '0' NOT NULL,
-
-                         PRIMARY KEY (uid),
-                         KEY parent (pid,sorting),
-                         KEY t3ver_oid (t3ver_oid,t3ver_wsid),
-                         KEY language (l10n_parent,sys_language_uid)
-                     );\n";
+                     );";
             }
         }
 

@@ -19,6 +19,7 @@ namespace MASK\Mask\Controller;
 
 use MASK\Mask\CodeGenerator\HtmlCodeGenerator;
 use MASK\Mask\CodeGenerator\SqlCodeGenerator;
+use MASK\Mask\CodeGenerator\TcaCodeGenerator;
 use MASK\Mask\Domain\Repository\BackendLayoutRepository;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Domain\Service\SettingsService;
@@ -122,12 +123,13 @@ class WizardController extends ActionController
 
     /**
      * Generates all the necessary files
-     * @author Gernot Ploiner <gp@webprofil.at>
-     * @todo clear typoscript cache after generating
-     * @noinspection PhpUnhandledExceptionInspection
      */
     public function generateAction(): void
     {
+        // Set tca to enable DefaultTcaSchema for new inline tables
+        $tcaCodeGenerator = GeneralUtility::makeInstance(TcaCodeGenerator::class);
+        $tcaCodeGenerator->setInlineTca();
+
         // Update Database
         $result = $this->sqlCodeGenerator->updateDatabase();
         if (array_key_exists('error', $result)) {
