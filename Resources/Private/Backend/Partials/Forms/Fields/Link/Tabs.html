@@ -48,6 +48,9 @@
 
             <f:translate key="tx_mask.field.link.url"/>
             <input name="tx_mask_tools_maskmask[dummy][--index--][url]" type="checkbox" value="url" {f:if(condition:'{mask:linkoption(fieldKey:\'{key}\', elementKey:\'{elementKey}\', evalValue:\'url\')}', then:'checked="checked"', else: '')} class="tx_mask_fieldcontent_link" />
+
+            <f:translate key="tx_mask.field.link.telephone"/>
+            <input name="tx_mask_tools_maskmask[dummy][--index--][telephone]" type="checkbox" value="telephone" {f:if(condition:'{mask:linkoption(fieldKey:\'{key}\', elementKey:\'{elementKey}\', evalValue:\'telephone\')}', then:'checked="checked"', else: '')} class="tx_mask_fieldcontent_link" />
         </div>
     </div>
 </div>
