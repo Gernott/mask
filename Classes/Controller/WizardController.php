@@ -132,8 +132,6 @@ class WizardController extends ActionController
         $result = $this->sqlCodeGenerator->updateDatabase();
         if (array_key_exists('error', $result)) {
             $this->addFlashMessage($result['error'], '', FlashMessage::ERROR);
-        } else {
-            $this->addFlashMessage($result['success'], '', FlashMessage::INFO);
         }
 
         // Clear system cache to force new TCA caching
