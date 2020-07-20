@@ -19,7 +19,6 @@ defined('TYPO3_MODE') or die();
             'labels' => 'LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf',
         ]
     );
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile('mask', 'Configuration/TypoScript', 'Mask');
 
     // include css for styling of backend preview of mask content elements
     $GLOBALS['TBE_STYLES']['skins']['mask']['name'] = 'mask';
