@@ -549,6 +549,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
                                 'config' => [
                                     'type' => 'input',
                                     'dbType' => 'date',
+                                    'eval' => 'date',
                                     'range' => [
                                         'lower' => '01-01-2021',
                                         'upper' => '30-12-2021'
@@ -560,8 +561,9 @@ class TcaCodeGeneratorTest extends BaseTestCase
                                 'config' => [
                                     'type' => 'input',
                                     'dbType' => 'datetime',
+                                    'eval' => 'datetime',
                                     'range' => [
-                                        'upper' => '30-12-2021'
+                                        'upper' => '20:30 30-12-2021'
                                     ]
                                 ],
                                 'key' => 'field_2'
@@ -575,6 +577,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
                         'config' => [
                             'type' => 'input',
                             'dbType' => 'date',
+                            'eval' => 'date,null',
                             'range' => [
                                 'lower' => 1609459200,
                                 'upper' => 1640822400
@@ -585,8 +588,9 @@ class TcaCodeGeneratorTest extends BaseTestCase
                         'config' => [
                             'type' => 'input',
                             'dbType' => 'datetime',
+                            'eval' => 'datetime,null',
                             'range' => [
-                                'upper' => 1640822400
+                                'upper' => 1640896200
                             ]
                         ],
                     ]

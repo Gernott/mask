@@ -279,12 +279,20 @@ class TcaCodeGenerator extends AbstractCodeGenerator
             // Date / DateTime: Set date ranges
             $dbType = $tcavalue['config']['dbType'] ?? '';
             if (($dbType === 'date' || $dbType === 'datetime')) {
+                $tcavalue['config']['eval'] .= ',null';
+                $format = ($dbType == 'date') ? 'd-m-Y' : 'H:i d-m-Y';
                 if ($tcavalue['config']['range']['upper'] ?? false) {
-                    $date = new \DateTime($tcavalue['config']['range']['upper']);
+                    $date = \DateTime::createFromFormat($format, $tcavalue['config']['range']['upper']);
+                    if ($dbType == 'date') {
+                        $date->setTime(0,0);
+                    }
                     $tcavalue['config']['range']['upper'] = $date->getTimestamp();
                 }
                 if ($tcavalue['config']['range']['lower'] ?? false) {
-                    $date = new \DateTime($tcavalue['config']['range']['lower']);
+                    $date = \DateTime::createFromFormat($format, $tcavalue['config']['range']['lower']);
+                    if ($dbType == 'date') {
+                        $date->setTime(0,0);
+                    }
                     $tcavalue['config']['range']['lower'] = $date->getTimestamp();
                 }
             }
