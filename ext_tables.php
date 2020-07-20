@@ -22,8 +22,8 @@ defined('TYPO3_MODE') or die();
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile('mask', 'Configuration/TypoScript', 'Mask');
 
     // include css for styling of backend preview of mask content elements
-    $TBE_STYLES['skins']['mask']['name'] = 'mask';
-    $TBE_STYLES['skins']['mask']['stylesheetDirectories'][] = 'EXT:mask/Resources/Public/Styles/Backend/';
+    $GLOBALS['TBE_STYLES']['skins']['mask']['name'] = 'mask';
+    $GLOBALS['TBE_STYLES']['skins']['mask']['stylesheetDirectories'][] = 'EXT:mask/Resources/Public/Styles/Backend/';
 
     // Allow all inline tables on standard pages
     $tcaCodeGenerator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(MASK\Mask\CodeGenerator\TcaCodeGenerator::class);
