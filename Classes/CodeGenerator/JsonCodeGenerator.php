@@ -27,41 +27,13 @@ namespace MASK\Mask\CodeGenerator;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use MASK\Mask\Domain\Repository\StorageRepository;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 /**
- * Abstract base class for all the other code generators
+ * Generates the json for the mask.json which contains the
+ * configuration of the created content elements
  *
  * @author Benjamin Butschell <bb@webprofil.at>
  */
-abstract class AbstractCodeGenerator
+class JsonCodeGenerator extends AbstractCodeGenerator
 {
-
-    /**
-     * StorageRepository
-     *
-     * @var StorageRepository
-     */
-    protected $storageRepository;
-
-    /**
-     * @param StorageRepository $storageRepository
-     */
-    public function __construct(StorageRepository $storageRepository = null)
-    {
-        if (!$storageRepository) {
-            $this->storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
-        } else {
-            $this->storageRepository = $storageRepository;
-        }
-    }
-
-    /**
-     * @return StorageRepository
-     */
-    public function getStorageRepository(): StorageRepository
-    {
-        return $this->storageRepository;
-    }
+    //put your code here
 }

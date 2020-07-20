@@ -240,16 +240,10 @@ class TcaCodeGeneratorTest extends BaseTestCase
     /**
      * @test
      * @dataProvider getPageTcaDataProvider
-     * @param $json
-     * @param $key
-     * @param $expected
      */
     public function getPageTca($json, $key, $expected)
     {
-        $settingsService = $this->getMockBuilder(SettingsService::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $settingsService = $this->getMockBuilder(SettingsService::class)->getMock();
         $storage = $this->getMockBuilder(StorageRepository::class)
             ->setConstructorArgs([$settingsService])
             ->onlyMethods(['load'])
@@ -284,10 +278,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
      */
     public function getMaskIrreTables($json, $expected)
     {
-        $settingsService = $this->getMockBuilder(SettingsService::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $settingsService = $this->getMockBuilder(SettingsService::class)->getMock();
         $storage = $this->getMockBuilder(StorageRepository::class)
             ->setConstructorArgs([$settingsService])
             ->getMock();
@@ -395,10 +386,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
      */
     public function processTableTca($table, $json, $expected)
     {
-        $settingsService = $this->getMockBuilder(SettingsService::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $settingsService = $this->getMockBuilder(SettingsService::class)->getMock();
         $storage = $this->getMockBuilder(StorageRepository::class)
             ->setConstructorArgs([$settingsService])
             ->onlyMethods(['load'])
@@ -561,7 +549,6 @@ class TcaCodeGeneratorTest extends BaseTestCase
                                 'config' => [
                                     'type' => 'input',
                                     'dbType' => 'date',
-                                    'eval' => 'date',
                                     'range' => [
                                         'lower' => '01-01-2021',
                                         'upper' => '30-12-2021'
@@ -573,9 +560,8 @@ class TcaCodeGeneratorTest extends BaseTestCase
                                 'config' => [
                                     'type' => 'input',
                                     'dbType' => 'datetime',
-                                    'eval' => 'datetime',
                                     'range' => [
-                                        'upper' => '20:30 30-12-2021'
+                                        'upper' => '30-12-2021'
                                     ]
                                 ],
                                 'key' => 'field_2'
@@ -589,7 +575,6 @@ class TcaCodeGeneratorTest extends BaseTestCase
                         'config' => [
                             'type' => 'input',
                             'dbType' => 'date',
-                            'eval' => 'date,null',
                             'range' => [
                                 'lower' => 1609459200,
                                 'upper' => 1640822400
@@ -600,9 +585,8 @@ class TcaCodeGeneratorTest extends BaseTestCase
                         'config' => [
                             'type' => 'input',
                             'dbType' => 'datetime',
-                            'eval' => 'datetime,null',
                             'range' => [
-                                'upper' => 1640896200
+                                'upper' => 1640822400
                             ]
                         ],
                     ]
@@ -658,10 +642,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
      */
     public function generateFieldsTca($json, $table, $expected)
     {
-        $settingsService = $this->getMockBuilder(SettingsService::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $settingsService = $this->getMockBuilder(SettingsService::class)->getMock();
         $storage = $this->getMockBuilder(StorageRepository::class)
             ->setConstructorArgs([$settingsService])
             ->getMock();
@@ -743,10 +724,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
      */
     public function generateFileTca($json, $table, $field, $expected)
     {
-        $settingsService = $this->getMockBuilder(SettingsService::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $settingsService = $this->getMockBuilder(SettingsService::class)->getMock();
         $storage = $this->getMockBuilder(StorageRepository::class)
             ->setConstructorArgs([$settingsService])
             ->getMock();

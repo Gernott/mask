@@ -30,12 +30,32 @@ namespace MASK\Mask\Fluid;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Helper\InlineHelper;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\FluidTemplateContentObject
 {
+
+    /**
+     * InlineHelper
+     *
+     * @var InlineHelper
+     * @Inject()
+     */
+    protected $inlineHelper;
+
+    /**
+     * storageRepository
+     *
+     * @var StorageRepository
+     * @Inject()
+     */
+    protected $storageRepository;
+
     /**
      * Change variables for view
      *
@@ -48,11 +68,13 @@ class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\Fluid
         // Call Parent Function to maintain core functions
         $variables = parent::getContentObjectVariables($conf);
 
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        $this->inlineHelper = $objectManager->get(InlineHelper::class);
+
         // Make some enhancements to data
         $data = $variables['data'];
-        $inlineHelper = GeneralUtility::makeInstance(InlineHelper::class);
-        $inlineHelper->addFilesToData($data, 'pages');
-        $inlineHelper->addIrreToData($data, 'pages');
+        $this->inlineHelper->addFilesToData($data, 'pages');
+        $this->inlineHelper->addIrreToData($data, 'pages');
         $variables['data'] = $data;
 
         return $variables;

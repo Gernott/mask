@@ -33,8 +33,10 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Core\Resource\FileRepository;
 
 /**
@@ -44,6 +46,13 @@ use TYPO3\CMS\Core\Resource\FileRepository;
  */
 class InlineHelper
 {
+
+    /**
+     * @var ObjectManager
+     * @Inject()
+     */
+    protected $objectManager;
+
     /**
      * StorageRepository
      *
@@ -55,12 +64,20 @@ class InlineHelper
      * BackendLayoutRepository
      *
      * @var BackendLayoutRepository
+     * @Inject()
      */
     protected $backendLayoutRepository;
 
-    public function __construct(StorageRepository $storageRepository, BackendLayoutRepository $backendLayoutRepository) {
-        $this->storageRepository = $storageRepository;
-        $this->backendLayoutRepository = $backendLayoutRepository;
+    /**
+     * @param StorageRepository $storageRepository
+     */
+    public function __construct(StorageRepository $storageRepository = null)
+    {
+        if (!$storageRepository) {
+            $this->storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
+        } else {
+            $this->storageRepository = $storageRepository;
+        }
     }
 
     /**
@@ -83,9 +100,13 @@ class InlineHelper
         if (!is_numeric($uid)) {
             return;
         }
+        $fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
+        if (!$this->objectManager) {
+            $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        }
 
         $storage = $this->storageRepository->load();
-        $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
+        $fileRepository = $this->objectManager->get(FileRepository::class);
 
         $contentFields = ['media', 'image', 'assets'];
         if ($storage[$table]['tca']) {
@@ -95,7 +116,7 @@ class InlineHelper
         }
         if ($contentFields) {
             foreach ($contentFields as $fieldKey) {
-                if ($this->storageRepository->getFormType($fieldKey, '', $table) === 'File') {
+                if ($fieldHelper->getFormType($fieldKey, '', $table) === 'File') {
                     $data[$fieldKey] = $fileRepository->findByRelation($table, $fieldKey, $uid);
                 }
             }
@@ -117,6 +138,7 @@ class InlineHelper
             $cType = $data['CType'];
         }
 
+        $fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
         $storage = $this->storageRepository->load();
         $elementFields = [];
 
@@ -160,7 +182,7 @@ class InlineHelper
 
                 $fieldKeyPrefix = $field;
                 $fieldKey = str_replace('tx_mask_', '', $field);
-                $type = $this->storageRepository->getFormType($fieldKey, $cType, $table);
+                $type = $fieldHelper->getFormType($fieldKey, $cType, $table);
 
                 // if it is of type inline and has to be filled (IRRE, FAL)
                 if ($type === 'Inline') {

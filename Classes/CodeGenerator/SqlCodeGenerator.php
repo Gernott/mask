@@ -34,33 +34,17 @@ use TYPO3\CMS\Core\Database\Event\AlterTableDefinitionStatementsEvent;
 use TYPO3\CMS\Core\Database\Schema\Exception\StatementException;
 use TYPO3\CMS\Core\Database\Schema\Exception\UnexpectedSignalReturnValueTypeException;
 use TYPO3\CMS\Core\Database\Schema\SchemaMigrator;
-use MASK\Mask\Domain\Repository\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use MASK\Mask\Domain\Repository\StorageRepository;
+use MASK\Mask\Helper\FieldHelper;
 
 /**
  * Generates all the sql needed for mask content elements
  *
  * @author Benjamin Butschell <bb@webprofil.at>
  */
-class SqlCodeGenerator
+class SqlCodeGenerator extends AbstractCodeGenerator
 {
-    /**
-     * StorageRepository
-     *
-     * @var StorageRepository
-     */
-    protected $storageRepository;
-
-    /**
-     * @var SchemaMigrator
-     */
-    protected $schemaMigrator;
-
-    public function __construct(StorageRepository $storageRepository, SchemaMigrator $schemaMigrator)
-    {
-        $this->storageRepository = $storageRepository;
-        $this->schemaMigrator = $schemaMigrator;
-    }
 
     /**
      * Performs updates, adjusted function from extension_builder
@@ -74,11 +58,15 @@ class SqlCodeGenerator
      */
     protected function performDbUpdates(array $sqlStatements): array
     {
-        $sqlUpdateSuggestions = $this->schemaMigrator->getUpdateSuggestions($sqlStatements);
+        /** @var ConnectionPool $connectionPool */
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        $schemaMigrator = GeneralUtility::makeInstance(SchemaMigrator::class);
+
+        $sqlUpdateSuggestions = $schemaMigrator->getUpdateSuggestions($sqlStatements);
         $hasErrors = false;
 
         foreach ($sqlUpdateSuggestions as $connectionName => $updateConnection) {
-            $connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionByName($connectionName);
+            $connection = $connectionPool->getConnectionByName($connectionName);
             foreach ($updateConnection as $updateStatements) {
                 foreach ($updateStatements as $statement) {
                     try {
@@ -119,7 +107,8 @@ class SqlCodeGenerator
      */
     public function updateDatabase(): array
     {
-        $json = $this->storageRepository->load();
+        $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
+        $json = $storageRepository->load();
         $sqlStatements = $this->getSqlByConfiguration($json);
         if (count($sqlStatements) > 0) {
             return $this->performDbUpdates($sqlStatements);
@@ -137,6 +126,7 @@ class SqlCodeGenerator
         $sql_content = [];
         $types = array_keys($json);
         $nonIrreTables = ['pages', 'tt_content'];
+        $fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
 
         // Generate SQL-Statements
         if ($types) {
@@ -194,7 +184,7 @@ class SqlCodeGenerator
                                     foreach ($fields as $fieldKey => $definition) {
                                         $sql_content[] = 'CREATE TABLE ' . $table . " (\n\t" . $fieldKey . ' ' . $definition . "\n);\n";
                                         // if this field is a content field, also add parent columns
-                                        $fieldType = $this->storageRepository->getFormType($fieldKey, '', $table);
+                                        $fieldType = $fieldHelper->getFormType($fieldKey, '', $table);
                                         if ($fieldType === 'Content') {
                                             $sql_content[] = "CREATE TABLE tt_content (\n\t" . $fieldKey . '_parent' . ' ' . $definition . ",\n\t" . 'KEY ' . $fieldKey . ' (' . $fieldKey . '_parent,pid,deleted)' . "\n);\n";
                                         }
@@ -218,7 +208,8 @@ class SqlCodeGenerator
      */
     public function addDatabaseTablesDefinition(AlterTableDefinitionStatementsEvent $event): void
     {
-        $json = $this->storageRepository->load();
+        $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
+        $json = $storageRepository->load();
         $sql = $this->getSqlByConfiguration($json);
         $event->setSqlData(array_merge($event->getSqlData(), $sql));
     }

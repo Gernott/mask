@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace MASK\Mask\ViewHelpers;
 
 use MASK\Mask\Helper\FieldHelper;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -21,13 +23,9 @@ class LabelViewHelper extends AbstractViewHelper
      * FieldHelper
      *
      * @var FieldHelper
+     * @Inject()
      */
     protected $fieldHelper;
-
-    public function __construct(FieldHelper $fieldHelper)
-    {
-        $this->fieldHelper = $fieldHelper;
-    }
 
     public function initializeArguments(): void
     {
@@ -47,6 +45,7 @@ class LabelViewHelper extends AbstractViewHelper
         $field = $this->arguments['field'];
         $table = $this->arguments['table'];
 
+        $this->fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
         // if we have the whole field configuration
         if ($field) {
             // check if this field is in an repeating field

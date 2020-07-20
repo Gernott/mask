@@ -7,10 +7,15 @@ use InvalidArgumentException;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Domain\Service\SettingsService;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconProviderInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /* * *************************************************************
  *  Copyright notice
@@ -70,17 +75,12 @@ class ContentElementIconProvider implements IconProviderInterface
      */
     protected $extSettings;
 
-    public function __construct(StorageRepository $storageRepository, SettingsService $settingsService)
-    {
-        $this->storageRepository = $storageRepository;
-        $this->settingsService = $settingsService;
-        $this->extSettings = $settingsService->get();
-    }
-
     /**
      *
      * @param Icon $icon
      * @param array $options
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      * @throws Exception
      */
     public function prepareIconMarkup(Icon $icon, array $options = []): void
@@ -92,6 +92,10 @@ class ContentElementIconProvider implements IconProviderInterface
                 1440754978
             );
         }
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        $this->storageRepository = $objectManager->get(StorageRepository::class);
+        $this->settingsService = GeneralUtility::makeInstance(SettingsService::class);
+        $this->extSettings = $this->settingsService->get();
         $this->contentElement = $this->storageRepository->loadElement('tt_content', $options['contentElementKey']);
         $icon->setMarkup($this->generateMarkup($icon, $options));
     }

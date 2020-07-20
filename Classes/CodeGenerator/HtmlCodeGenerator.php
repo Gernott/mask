@@ -24,29 +24,16 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use MASK\Mask\Domain\Repository\StorageRepository;
+use MASK\Mask\Helper\FieldHelper;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Generates the html and fluid for mask content elements
  *
  * @author Benjamin Butschell <bb@webprofil.at>
  */
-class HtmlCodeGenerator
+class HtmlCodeGenerator extends AbstractCodeGenerator
 {
-    /**
-     * StorageRepository
-     *
-     * @var StorageRepository
-     */
-    protected $storageRepository;
-
-    /**
-     * @param StorageRepository $storageRepository
-     */
-    public function __construct(StorageRepository $storageRepository)
-    {
-        $this->storageRepository = $storageRepository;
-    }
 
     /**
      * Generates Fluid HTML for Contentelements
@@ -81,7 +68,8 @@ class HtmlCodeGenerator
     protected function generateFieldHtml($fieldKey, $elementKey, $table, $datafield = 'data'): string
     {
         $html = '';
-        switch ($this->storageRepository->getFormType($fieldKey, $elementKey, $table)) {
+        $fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
+        switch ($fieldHelper->getFormType($fieldKey, $elementKey, $table)) {
             case 'Check':
                 $html .= '{f:if(condition: ' . $datafield . '.' . $fieldKey . ", then: 'On', else: 'Off')}<br />\n\n";
                 break;

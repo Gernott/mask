@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace MASK\Mask\ViewHelpers;
 
-use MASK\Mask\Domain\Repository\StorageRepository;
+use MASK\Mask\Helper\FieldHelper;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -18,16 +20,12 @@ class FormTypeViewHelper extends AbstractViewHelper
 {
 
     /**
-     * StorageRepository
+     * FieldHelper
      *
-     * @var StorageRepository
+     * @var FieldHelper
+     * @Inject()
      */
-    protected $storageRepository;
-
-    public function __construct(StorageRepository $storageRepository)
-    {
-        $this->storageRepository = $storageRepository;
-    }
+    protected $fieldHelper;
 
     public function initializeArguments(): void
     {
@@ -48,6 +46,7 @@ class FormTypeViewHelper extends AbstractViewHelper
         $fieldKey = $this->arguments['fieldKey'];
         $type = $this->arguments['type'];
 
-        return $this->storageRepository->getFormType($fieldKey, $elementKey, $type);
+        $this->fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
+        return $this->fieldHelper->getFormType($fieldKey, $elementKey, $type);
     }
 }
