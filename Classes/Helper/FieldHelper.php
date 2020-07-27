@@ -28,6 +28,7 @@ namespace MASK\Mask\Helper;
  * ************************************************************* */
 
 use MASK\Mask\Domain\Repository\StorageRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Methods for types of fields in mask (string, rte, repeating, ...)
@@ -36,6 +37,7 @@ use MASK\Mask\Domain\Repository\StorageRepository;
  */
 class FieldHelper
 {
+
     /**
      * StorageRepository
      *
@@ -46,9 +48,13 @@ class FieldHelper
     /**
      * @param StorageRepository $storageRepository
      */
-    public function __construct(StorageRepository $storageRepository)
+    public function __construct(StorageRepository $storageRepository = null)
     {
-        $this->storageRepository = $storageRepository;
+        if (!$storageRepository) {
+            $this->storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
+        } else {
+            $this->storageRepository = $storageRepository;
+        }
     }
 
     /**
@@ -97,6 +103,143 @@ class FieldHelper
             }
         }
         return $label;
+    }
+
+    /**
+     * Returns the formType of a field in an element
+     *
+     * @param string $fieldKey Key if Field
+     * @param string $elementKey Key of Element
+     * @param string $type elementtype
+     * @return string formType
+     */
+    public function getFormType($fieldKey, $elementKey = '', $type = 'tt_content'): string
+    {
+        $formType = 'String';
+        $element = [];
+
+        // Load element and TCA of field
+        if ($elementKey) {
+            $element = $this->storageRepository->loadElement($type, $elementKey);
+        }
+
+        // load tca for field from $GLOBALS
+        $tca = $GLOBALS['TCA'][$type]['columns'][$fieldKey] ?? [];
+        if (array_key_exists('config', $tca) && !$tca['config']) {
+            $tca = $GLOBALS['TCA'][$type]['columns']['tx_mask_' . $fieldKey] ?? [];
+        }
+        if (array_key_exists('config', $tca) && !$tca['config']) {
+            $tca = $element['tca'][$fieldKey] ?? [];
+        }
+
+        // if field is in inline table or $GLOBALS["TCA"] is not yet filled, load tca from json
+        if (!$tca || !in_array($type, ['tt_content', 'pages'])) {
+            $tca = $this->storageRepository->loadField($type, $fieldKey);
+            if (!$tca['config']) {
+                $tca = $this->storageRepository->loadField($type, 'tx_mask_' . $fieldKey);
+            }
+        }
+
+        $tcaType = $tca['config']['type'];
+        $evals = [];
+        if (isset($tca['config']['eval'])) {
+            $evals = explode(',', $tca['config']['eval']);
+        }
+
+
+        if (($tca['options'] ?? '') === 'file') {
+            $formType = 'File';
+        }
+
+        // And decide via different tca settings which formType it is
+        switch ($tcaType) {
+            case 'input':
+                if (in_array(strtolower('int'), $evals, true)) {
+                    $formType = 'Integer';
+                } else {
+                    if (in_array(strtolower('double2'), $evals, true)) {
+                        $formType = 'Float';
+                    } else {
+                        if (in_array(strtolower('date'), $evals, true)) {
+                            $formType = 'Date';
+                        } else {
+                            if (in_array(strtolower('datetime'), $evals, true)) {
+                                $formType = 'Datetime';
+                            } else {
+                                if (isset($tca['config']['renderType']) && $tca['config']['renderType'] === 'inputLink') {
+                                    $formType = 'Link';
+                                } else {
+                                    $formType = 'String';
+                                }
+                            }
+                        }
+                    }
+                }
+                break;
+            case 'text':
+                $formType = 'Text';
+                if (in_array($type, ['tt_content', 'pages'])) {
+                    if ($elementKey) {
+                        $fieldNumberKey = -1;
+                        if (is_array($element['columns'])) {
+                            foreach ($element['columns'] as $numberKey => $column) {
+                                if ($column === $fieldKey) {
+                                    $fieldNumberKey = $numberKey;
+                                }
+                            }
+                        }
+
+                        if ($fieldNumberKey >= 0) {
+                            $option = $element['options'][$fieldNumberKey];
+                            if ($option === 'rte') {
+                                $formType = 'Richtext';
+                            } else {
+                                $formType = 'Text';
+                            }
+                        }
+                    } else {
+                        $formType = 'Text';
+                    }
+                } else {
+                    if ($tca['rte']) {
+                        $formType = 'Richtext';
+                    } else {
+                        $formType = 'Text';
+                    }
+                }
+                break;
+            case 'check':
+                $formType = 'Check';
+                break;
+            case 'radio':
+                $formType = 'Radio';
+                break;
+            case 'select':
+                $formType = 'Select';
+                break;
+            case 'inline':
+                if ($tca['config']['foreign_table'] === 'sys_file_reference') {
+                    $formType = 'File';
+                } else {
+                    if ($tca['config']['foreign_table'] === 'tt_content') {
+                        $formType = 'Content';
+                    } else {
+                        $formType = 'Inline';
+                    }
+                }
+                break;
+            case 'tab':
+                $formType = 'Tab';
+                break;
+            case 'group':
+            case 'none':
+            case 'passthrough':
+            case 'user':
+            case 'flex':
+            default:
+                break;
+        }
+        return $formType;
     }
 
     /**

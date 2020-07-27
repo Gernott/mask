@@ -6,17 +6,9 @@ $EM_CONF['mask'] = [
     'author' => 'WEBprofil - Gernot Ploiner e.U.',
     'author_email' => 'office@webprofil.at',
     'author_company' => 'WEBprofil - Gernot Ploiner e.U.',
-    'shy' => '',
-    'priority' => '',
-    'module' => '',
     'state' => 'stable',
-    'internal' => '',
-    'uploadfolder' => '0',
-    'createDirs' => '',
-    'modify_tables' => '',
     'clearCacheOnLoad' => 1,
-    'lockType' => '',
-    'version' => '5.1.1',
+    'version' => '5.1.2',
     'constraints' => [
         'depends' => [
             'typo3' => '10.4.0-10.4.99',
@@ -29,11 +21,4 @@ $EM_CONF['mask'] = [
             'gridelements' => ''
         ],
     ],
-    'autoload' =>
-        [
-            'psr-4' =>
-                [
-                    "MASK\\Mask\\" => 'Classes/'
-                ]
-        ]
 ];

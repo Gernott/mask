@@ -27,6 +27,8 @@ namespace MASK\Mask\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use MASK\Mask\Domain\Repository\StorageRepository;
+use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -39,10 +41,22 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  */
 class WizardPageController extends WizardController
 {
+
+    /**
+     * StorageRepository
+     *
+     * @var StorageRepository
+     * @Inject()
+     */
+    protected $storageRepository;
+
     /**
      * action list
      *
      * @return void
+     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException
+     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException
+     * @noinspection PhpUnused
      */
     public function listAction(): void
     {
@@ -55,6 +69,9 @@ class WizardPageController extends WizardController
      * action new
      *
      * @return void
+     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException
+     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException
+     * @noinspection PhpUnused
      */
     public function newAction(): void
     {
@@ -69,6 +86,7 @@ class WizardPageController extends WizardController
      * @param array $storage
      * @return void
      * @throws StopActionException
+     * @noinspection PhpUnused
      */
     public function createAction($storage): void
     {
@@ -83,6 +101,9 @@ class WizardPageController extends WizardController
      *
      * @param string $layoutIdentifier
      * @return void
+     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException
+     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException
+     * @noinspection PhpUnused
      */
     public function editAction($layoutIdentifier = null): void
     {
@@ -105,6 +126,7 @@ class WizardPageController extends WizardController
      * @param array $storage
      * @return void
      * @throws StopActionException
+     * @noinspection PhpUnused
      */
     public function updateAction($storage): void
     {

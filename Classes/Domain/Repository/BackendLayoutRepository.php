@@ -61,7 +61,7 @@ class BackendLayoutRepository extends Repository
      */
     public function initializeObject(): void
     {
-        $querySettings = GeneralUtility::makeInstance(Typo3QuerySettings::class);
+        $querySettings = $this->objectManager->get(Typo3QuerySettings::class);
         $querySettings->setRespectStoragePage(false);
         $this->setDefaultQuerySettings($querySettings);
         $this->backendLayoutView = GeneralUtility::makeInstance(BackendLayoutView::class);

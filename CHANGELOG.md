@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+### [5.1.2] - 2020-07-21
+
+### Added
+- Option to disable phone links. [#336](https://github.com/Gernott/mask/pull/336)
+
+### Changed
+- Undone symfony DI change because of breaking changes
+
+### Fixed
+- Fields `editlock` and `fe_group` now generated on element save. [#332](https://github.com/nhovratov/mask/commit/fb31c3cc219f8517559318eae2dcc2d3e993bcf2)
+
 ### [5.1.1] - 2020-07-15
 ### Important
 - After updating from 5.1.0 or lower, clear the hard caches under Maintenance->Flush cache. Clearing red caches in not enough.

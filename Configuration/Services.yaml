@@ -1,36 +1,4 @@
 services:
-  _defaults:
-    autowire: true
-    autoconfigure: true
-    public: false
-
-  MASK\Mask\:
-    resource: '../Classes/*'
-
-  MASK\Mask\CodeGenerator\TyposcriptCodeGenerator:
-    public: true
-
-  MASK\Mask\CodeGenerator\TcaCodeGenerator:
-    public: true
-
-  MASK\Mask\Helper\InlineHelper:
-    public: true
-
-  MASK\Mask\Imaging\IconProvider\ContentElementIconProvider:
-    public: true
-
-  MASK\Mask\Hooks\PageLayoutViewDrawItem:
-    public: true
-
-  MASK\Mask\Form\FormDataProvider\TcaTypesShowitemMaskBeLayoutFields:
-    public: true
-
-  MASK\Mask\ItemsProcFuncs\CTypeList:
-    public: true
-
-  MASK\Mask\DataProcessing\MaskProcessor:
-    public: true
-
   MASK\Mask\CodeGenerator\SqlCodeGenerator:
     tags:
       - name: event.listener

@@ -1,6 +1,6 @@
 <?php
 
-defined('TYPO3_MODE') or die();
+declare(strict_types=1);
 
 $tcaCodeGenerator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\CodeGenerator\TcaCodeGenerator::class);
 $pagesColumns = $tcaCodeGenerator->generateFieldsTca('pages');

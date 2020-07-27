@@ -323,6 +323,10 @@
 			<trans-unit id="tx_mask.field.link.url">
 				<target>URL:</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.link.telephone">
+				<source>Telephone:</source>
+				<target>Telefon:</target>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.radio.items">
 				<target>Elemente ([label,key], Ein Element je Zeile)</target>
 			</trans-unit>

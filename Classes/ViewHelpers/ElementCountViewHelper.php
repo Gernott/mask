@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace MASK\Mask\ViewHelpers;
 
 use MASK\Mask\Domain\Repository\ContentRepository;
+use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -23,13 +24,9 @@ class ElementCountViewHelper extends AbstractViewHelper
      * contentRepository
      *
      * @var ContentRepository
+     * @Inject()
      */
     protected $contentRepository;
-
-    public function __construct(ContentRepository $contentRepository)
-    {
-        $this->contentRepository = $contentRepository;
-    }
 
     public function initializeArguments(): void
     {
@@ -40,6 +37,7 @@ class ElementCountViewHelper extends AbstractViewHelper
      * Counts the occurences in tt_content
      *
      * @return int number of uses of this content element
+     * @noinspection PhpUndefinedMethodInspection
      */
     public function render(): int
     {

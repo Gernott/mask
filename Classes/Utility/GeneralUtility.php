@@ -46,9 +46,16 @@ class GeneralUtility
      */
     protected $storageRepository;
 
-    public function __construct(StorageRepository $storageRepository)
+    /**
+     * @param StorageRepository $storageRepository
+     */
+    public function __construct(StorageRepository $storageRepository = null)
     {
-        $this->storageRepository = $storageRepository;
+        if (!$storageRepository) {
+            $this->storageRepository = CoreUtility::makeInstance(StorageRepository::class);
+        } else {
+            $this->storageRepository = $storageRepository;
+        }
     }
 
     /**

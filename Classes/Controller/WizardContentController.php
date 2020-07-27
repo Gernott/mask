@@ -28,7 +28,9 @@ namespace MASK\Mask\Controller;
  * ************************************************************* */
 
 use MASK\Mask\Domain\Repository\IconRepository;
+use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
+use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -41,20 +43,22 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  */
 class WizardContentController extends WizardController
 {
+
+    /**
+     * StorageRepository
+     *
+     * @var StorageRepository
+     * @Inject()
+     */
+    protected $storageRepository;
+
     /**
      * IconRepository
      *
      * @var IconRepository
+     * @Inject()
      */
     protected $iconRepository;
-
-    /**
-     * @param IconRepository $iconRepository
-     */
-    public function injectIconRepository(IconRepository $iconRepository)
-    {
-        $this->iconRepository = $iconRepository;
-    }
 
     /**
      * action list
