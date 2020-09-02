@@ -34,6 +34,7 @@ use TYPO3\CMS\Core\Database\Event\AlterTableDefinitionStatementsEvent;
 use TYPO3\CMS\Core\Database\Schema\Exception\StatementException;
 use TYPO3\CMS\Core\Database\Schema\Exception\UnexpectedSignalReturnValueTypeException;
 use TYPO3\CMS\Core\Database\Schema\SchemaMigrator;
+use TYPO3\CMS\Core\Database\Schema\SqlReader;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Helper\FieldHelper;
@@ -56,8 +57,11 @@ class SqlCodeGenerator extends AbstractCodeGenerator
      * @throws StatementException
      * @throws UnexpectedSignalReturnValueTypeException
      */
-    protected function performDbUpdates(array $sqlStatements): array
+    public function updateDatabase(): array
     {
+        $sqlReader = GeneralUtility::makeInstance(SqlReader::class);
+        $sqlStatements = $sqlReader->getCreateTableStatementArray($sqlReader->getTablesDefinitionString());
+
         /** @var ConnectionPool $connectionPool */
         $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
         $schemaMigrator = GeneralUtility::makeInstance(SchemaMigrator::class);
@@ -94,26 +98,6 @@ class SqlCodeGenerator extends AbstractCodeGenerator
         }
 
         return ['success' => 'Database was successfully updated'];
-    }
-
-    /**
-     * Updates the database if necessary
-     *
-     * @return array
-     * @throws DBALException
-     * @throws SchemaException
-     * @throws StatementException
-     * @throws UnexpectedSignalReturnValueTypeException
-     */
-    public function updateDatabase(): array
-    {
-        $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
-        $json = $storageRepository->load();
-        $sqlStatements = $this->getSqlByConfiguration($json);
-        if (count($sqlStatements) > 0) {
-            return $this->performDbUpdates($sqlStatements);
-        }
-        return [];
     }
 
     /**
