@@ -1,45 +1,29 @@
 <?php
+
 declare(strict_types=1);
 
-namespace MASK\Mask\Hooks;
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
 
-/* * *************************************************************
- *  Copyright notice
- *
- *  (c) 2010-2013 Extbase Team (http://forge.typo3.org/projects/typo3v4-mvc)
- *  Extbase is a backport of TYPO3 Flow. All credits go to the TYPO3 Flow team.
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *  A copy is found in the textfile GPL.txt and important notices to the license
- *  from the author is found in LICENSE.txt distributed with these scripts.
- *
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- * ************************************************************* */
+namespace MASK\Mask\Hooks;
 
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Domain\Service\SettingsService;
 use MASK\Mask\Helper\InlineHelper;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
-use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\View\PageLayoutView;
 use TYPO3\CMS\Backend\View\PageLayoutViewDrawItemHookInterface;
-use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
-use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
@@ -51,8 +35,6 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
  * Renders the backend preview of mask content elements
  *
  * @author Benjamin Butschell <bb@webprofil.at>
- * @package MASK
- * @subpackage mask
  */
 class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
 {
@@ -86,20 +68,22 @@ class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
      */
     protected $extSettings;
 
+    public function __construct(SettingsService $settingsService, InlineHelper $inlineHelper, StorageRepository $storageRepository)
+    {
+        $this->settingsService = $settingsService;
+        $this->extSettings = $this->settingsService->get();
+        $this->inlineHelper = $inlineHelper;
+        $this->storageRepository = $storageRepository;
+    }
+
     /**
      * Preprocesses the preview rendering of a content element.
      *
      * @param PageLayoutView $parentObject Calling parent object
-     * @param boolean $drawItem Whether to draw the item using the default functionalities
+     * @param bool $drawItem Whether to draw the item using the default functionalities
      * @param string $headerContent Header content
      * @param string $itemContent Item content
      * @param array $row Record row of tt_content
-     * @return void
-     * @throws RouteNotFoundException
-     * @throws ExtensionConfigurationExtensionNotConfiguredException
-     * @throws ExtensionConfigurationPathDoesNotExistException
-     * @throws Exception
-     * @noinspection ReferencingObjectsInspection
      */
     public function preProcess(
         PageLayoutView &$parentObject,
@@ -108,14 +92,11 @@ class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
         &$itemContent,
         array &$row
     ): void {
-        $this->settingsService = GeneralUtility::makeInstance(SettingsService::class);
-        $this->extSettings = $this->settingsService->get();
-
         // only render special backend preview if it is a mask element
         if (strpos($row['CType'], 'mask') === 0) {
             $elementKey = substr($row['CType'], 5);
 
-            # fallback to prevent breaking change
+            // fallback to prevent breaking change
             $templatePathAndFilename = MaskUtility::getTemplatePath(
                 $this->extSettings,
                 $elementKey,
@@ -124,11 +105,8 @@ class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
             );
 
             if (file_exists($templatePathAndFilename)) {
-                // initialize some things we need
-                $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-                $this->inlineHelper = GeneralUtility::makeInstance(InlineHelper::class);
-                $this->storageRepository = $this->objectManager->get(StorageRepository::class);
-                $view = $this->objectManager->get(StandaloneView::class);
+                // initialize view
+                $view = GeneralUtility::makeInstance(StandaloneView::class);
 
                 // Load the backend template
                 $view->setTemplatePathAndFilename($templatePathAndFilename);

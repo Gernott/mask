@@ -748,7 +748,11 @@ function showMessages() {
     jQuery.each(messages, function (index, message) {
       let title = jQuery(message).find('.alert-title').html();
       let text = jQuery(message).find('.alert-message').html();
-      Notification.success(title, text);
+      if (jQuery(this).hasClass('alert-danger')) {
+        Notification.error(title, text);
+      } else {
+        Notification.success(title, text);
+      }
     });
   });
 }

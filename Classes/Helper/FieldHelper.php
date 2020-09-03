@@ -1,43 +1,29 @@
 <?php
+
 declare(strict_types=1);
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
 
 namespace MASK\Mask\Helper;
 
-/* * *************************************************************
- *  Copyright notice
- *
- *  (c) 2016 Benjamin Butschell <bb@webprofil.at>, WEBprofil - Gernot Ploiner e.U.
- *
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- * ************************************************************* */
-
 use MASK\Mask\Domain\Repository\StorageRepository;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Methods for types of fields in mask (string, rte, repeating, ...)
- *
- * @author Benjamin Butschell <bb@webprofil.at>
  */
 class FieldHelper
 {
-
     /**
      * StorageRepository
      *
@@ -48,13 +34,9 @@ class FieldHelper
     /**
      * @param StorageRepository $storageRepository
      */
-    public function __construct(StorageRepository $storageRepository = null)
+    public function __construct(StorageRepository $storageRepository)
     {
-        if (!$storageRepository) {
-            $this->storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
-        } else {
-            $this->storageRepository = $storageRepository;
-        }
+        $this->storageRepository = $storageRepository;
     }
 
     /**
@@ -106,143 +88,6 @@ class FieldHelper
     }
 
     /**
-     * Returns the formType of a field in an element
-     *
-     * @param string $fieldKey Key if Field
-     * @param string $elementKey Key of Element
-     * @param string $type elementtype
-     * @return string formType
-     */
-    public function getFormType($fieldKey, $elementKey = '', $type = 'tt_content'): string
-    {
-        $formType = 'String';
-        $element = [];
-
-        // Load element and TCA of field
-        if ($elementKey) {
-            $element = $this->storageRepository->loadElement($type, $elementKey);
-        }
-
-        // load tca for field from $GLOBALS
-        $tca = $GLOBALS['TCA'][$type]['columns'][$fieldKey] ?? [];
-        if (array_key_exists('config', $tca) && !$tca['config']) {
-            $tca = $GLOBALS['TCA'][$type]['columns']['tx_mask_' . $fieldKey] ?? [];
-        }
-        if (array_key_exists('config', $tca) && !$tca['config']) {
-            $tca = $element['tca'][$fieldKey] ?? [];
-        }
-
-        // if field is in inline table or $GLOBALS["TCA"] is not yet filled, load tca from json
-        if (!$tca || !in_array($type, ['tt_content', 'pages'])) {
-            $tca = $this->storageRepository->loadField($type, $fieldKey);
-            if (!$tca['config']) {
-                $tca = $this->storageRepository->loadField($type, 'tx_mask_' . $fieldKey);
-            }
-        }
-
-        $tcaType = $tca['config']['type'];
-        $evals = [];
-        if (isset($tca['config']['eval'])) {
-            $evals = explode(',', $tca['config']['eval']);
-        }
-
-
-        if (($tca['options'] ?? '') === 'file') {
-            $formType = 'File';
-        }
-
-        // And decide via different tca settings which formType it is
-        switch ($tcaType) {
-            case 'input':
-                if (in_array(strtolower('int'), $evals, true)) {
-                    $formType = 'Integer';
-                } else {
-                    if (in_array(strtolower('double2'), $evals, true)) {
-                        $formType = 'Float';
-                    } else {
-                        if (in_array(strtolower('date'), $evals, true)) {
-                            $formType = 'Date';
-                        } else {
-                            if (in_array(strtolower('datetime'), $evals, true)) {
-                                $formType = 'Datetime';
-                            } else {
-                                if (isset($tca['config']['renderType']) && $tca['config']['renderType'] === 'inputLink') {
-                                    $formType = 'Link';
-                                } else {
-                                    $formType = 'String';
-                                }
-                            }
-                        }
-                    }
-                }
-                break;
-            case 'text':
-                $formType = 'Text';
-                if (in_array($type, ['tt_content', 'pages'])) {
-                    if ($elementKey) {
-                        $fieldNumberKey = -1;
-                        if (is_array($element['columns'])) {
-                            foreach ($element['columns'] as $numberKey => $column) {
-                                if ($column === $fieldKey) {
-                                    $fieldNumberKey = $numberKey;
-                                }
-                            }
-                        }
-
-                        if ($fieldNumberKey >= 0) {
-                            $option = $element['options'][$fieldNumberKey];
-                            if ($option === 'rte') {
-                                $formType = 'Richtext';
-                            } else {
-                                $formType = 'Text';
-                            }
-                        }
-                    } else {
-                        $formType = 'Text';
-                    }
-                } else {
-                    if ($tca['rte']) {
-                        $formType = 'Richtext';
-                    } else {
-                        $formType = 'Text';
-                    }
-                }
-                break;
-            case 'check':
-                $formType = 'Check';
-                break;
-            case 'radio':
-                $formType = 'Radio';
-                break;
-            case 'select':
-                $formType = 'Select';
-                break;
-            case 'inline':
-                if ($tca['config']['foreign_table'] === 'sys_file_reference') {
-                    $formType = 'File';
-                } else {
-                    if ($tca['config']['foreign_table'] === 'tt_content') {
-                        $formType = 'Content';
-                    } else {
-                        $formType = 'Inline';
-                    }
-                }
-                break;
-            case 'tab':
-                $formType = 'Tab';
-                break;
-            case 'group':
-            case 'none':
-            case 'passthrough':
-            case 'user':
-            case 'flex':
-            default:
-                break;
-        }
-        return $formType;
-    }
-
-    /**
      * Returns type of field (tt_content or pages)
      *
      * @param string $fieldKey key of field
@@ -273,7 +118,6 @@ class FieldHelper
                     // if this is the element we search for, or no special element was given,
                     // and the element has columns and the fieldType wasn't found yet
                     if (($element['key'] === $elementKey || $elementKey === '') && $element['columns'] && !$found) {
-
                         foreach ($element['columns'] as $column) {
                             if ($column === $fieldKey && !$found) {
                                 $fieldType = $type;

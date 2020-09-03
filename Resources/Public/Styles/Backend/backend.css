@@ -1,20 +1,21 @@
-/** This css file is included in the whole typo3 backend.
-*	It can be used to style the mask content elements in the backend.
+/**
+    This css file is included in the whole typo3 backend.
+    It can be used to style the mask content elements in the backend.
 */
 
 .icon-unify {
-	font-family: 'Source Sans Pro', Verdana, Arial, Helvetica, sans-serif;
-	font-weight: bold !important;
-	border-radius: 0 !important;
-	text-transform: uppercase;
+    font-family: 'Source Sans Pro', Verdana, Arial, Helvetica, sans-serif;
+    font-weight: bold !important;
+    border-radius: 0 !important;
+    text-transform: uppercase;
 }
 
 .icon-size-large .icon-unify {
-	line-height: 47px;
-	font-size: 35px;
+    line-height: 47px;
+    font-size: 35px;
 }
 
 .icon-size-default .icon-unify {
-	line-height: 32px !important;
-	font-size: 28px !important;
+    line-height: 32px !important;
+    font-size: 28px !important;
 }

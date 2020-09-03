@@ -1,22 +1,25 @@
 <?php
+
 declare(strict_types=1);
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
 
 namespace MASK\Mask\ViewHelpers;
 
 use MASK\Mask\Domain\Repository\ContentRepository;
-use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-/**
- *
- * Example
- * {namespace mask=MASK\Mask\ViewHelpers}
- *
- * @package TYPO3
- * @subpackage mask
- * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
- *
- */
 class ElementCountViewHelper extends AbstractViewHelper
 {
 
@@ -24,9 +27,13 @@ class ElementCountViewHelper extends AbstractViewHelper
      * contentRepository
      *
      * @var ContentRepository
-     * @Inject()
      */
     protected $contentRepository;
+
+    public function __construct(ContentRepository $contentRepository)
+    {
+        $this->contentRepository = $contentRepository;
+    }
 
     public function initializeArguments(): void
     {
@@ -37,7 +44,6 @@ class ElementCountViewHelper extends AbstractViewHelper
      * Counts the occurences in tt_content
      *
      * @return int number of uses of this content element
-     * @noinspection PhpUndefinedMethodInspection
      */
     public function render(): int
     {

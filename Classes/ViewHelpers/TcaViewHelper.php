@@ -1,22 +1,26 @@
 <?php
+
 declare(strict_types=1);
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
 
 namespace MASK\Mask\ViewHelpers;
 
+use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Helper\FieldHelper;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-/**
- *
- * Example
- * {namespace mask=MASK\Mask\ViewHelpers}
- *
- * @package TYPO3
- * @subpackage mask
- * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
- *
- */
 class TcaViewHelper extends AbstractViewHelper
 {
     /**
@@ -25,6 +29,11 @@ class TcaViewHelper extends AbstractViewHelper
      * @var FieldHelper
      */
     protected $fieldHelper;
+
+    /**
+     * @var StorageRepository
+     */
+    protected $storageRepository;
 
     /**
      * @var array
@@ -79,12 +88,10 @@ class TcaViewHelper extends AbstractViewHelper
         'tx_gridelements_children',
     ];
 
-    /**
-     * @param FieldHelper $fieldHelper
-     */
-    public function __construct(FieldHelper $fieldHelper = null)
+    public function __construct(FieldHelper $fieldHelper, StorageRepository $storageRepository)
     {
-        $this->fieldHelper = $fieldHelper ?? GeneralUtility::makeInstance(FieldHelper::class);
+        $this->fieldHelper = $fieldHelper;
+        $this->storageRepository = $storageRepository;
     }
 
     public function initializeArguments(): void
@@ -116,7 +123,7 @@ class TcaViewHelper extends AbstractViewHelper
             if (in_array($table, ['tt_content', 'pages'])) {
                 foreach ($GLOBALS['TCA'][$table]['columns'] as $tcaField => $tcaConfig) {
                     if ($table === 'tt_content' || ($table === 'pages' && strpos($tcaField, 'tx_mask_') === 0)) {
-                        $fieldType = $this->fieldHelper->getFormType($tcaField, '', $table);
+                        $fieldType = $this->storageRepository->getFormType($tcaField, '', $table);
                         if (($fieldType === $type || ($fieldType === 'Text' && $type === 'Richtext'))
                             && !in_array($tcaField, self::$forbiddenFields, true)
                         ) {

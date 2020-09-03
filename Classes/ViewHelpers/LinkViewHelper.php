@@ -1,26 +1,27 @@
 <?php
+
 declare(strict_types=1);
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
 
 namespace MASK\Mask\ViewHelpers;
 
 use MASK\Mask\Domain\Service\SettingsService;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
-use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
-use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
-use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-/**
- *
- * Example
- * {namespace mask=MASK\Mask\ViewHelpers}
- *
- * @package TYPO3
- * @subpackage mask
- * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
- *
- */
 class LinkViewHelper extends AbstractViewHelper
 {
     /**
@@ -34,9 +35,13 @@ class LinkViewHelper extends AbstractViewHelper
      * SettingsService
      *
      * @var SettingsService
-     * @Inject()
      */
     protected $settingsService;
+
+    public function __construct(SettingsService $settingsService)
+    {
+        $this->settingsService = $settingsService;
+    }
 
     public function initializeArguments(): void
     {
@@ -47,8 +52,6 @@ class LinkViewHelper extends AbstractViewHelper
      * Checks Links for BE-module
      *
      * @return string all irre elements of this attribut
-     * @throws ExtensionConfigurationExtensionNotConfiguredException
-     * @throws ExtensionConfigurationPathDoesNotExistException
      * @author Gernot Ploiner <gp@webprofil.at>
      */
     public function render(): string
@@ -63,8 +66,10 @@ class LinkViewHelper extends AbstractViewHelper
             $content = '<div class="alert alert-warning"><div class="media">
 <div class="media-left"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i>
 <i class="fa fa-exclamation fa-stack-1x"></i></span></div>
-<div class="media-body"><h4 class="alert-title">' . LocalizationUtility::translate('tx_mask.content.htmlmissing',
-                    'mask') . '</h4>      <p class="alert-message">' . $templatePath . '
+<div class="media-body"><h4 class="alert-title">' . LocalizationUtility::translate(
+                'tx_mask.content.htmlmissing',
+                'mask'
+            ) . '</h4>      <p class="alert-message">' . $templatePath . '
 				</p></div></div></div>';
         }
         return $content;

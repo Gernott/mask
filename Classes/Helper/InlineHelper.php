@@ -1,58 +1,37 @@
 <?php
+
 declare(strict_types=1);
 
-namespace MASK\Mask\Helper;
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
 
-/* * *************************************************************
- *  Copyright notice
- *
- *  (c) 2016 Benjamin Butschell <bb@webprofil.at>, WEBprofil - Gernot Ploiner e.U.
- *
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- * ************************************************************* */
+namespace MASK\Mask\Helper;
 
 use MASK\Mask\Domain\Repository\BackendLayoutRepository;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
-use TYPO3\CMS\Extbase\Object\Exception;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Core\Resource\FileRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
  * Methods for working with inline fields (IRRE)
- *
- * @author Benjamin Butschell <bb@webprofil.at>
  */
 class InlineHelper
 {
-
-    /**
-     * @var ObjectManager
-     * @Inject()
-     */
-    protected $objectManager;
-
     /**
      * StorageRepository
      *
@@ -64,20 +43,13 @@ class InlineHelper
      * BackendLayoutRepository
      *
      * @var BackendLayoutRepository
-     * @Inject()
      */
     protected $backendLayoutRepository;
 
-    /**
-     * @param StorageRepository $storageRepository
-     */
-    public function __construct(StorageRepository $storageRepository = null)
+    public function __construct(StorageRepository $storageRepository, BackendLayoutRepository $backendLayoutRepository)
     {
-        if (!$storageRepository) {
-            $this->storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
-        } else {
-            $this->storageRepository = $storageRepository;
-        }
+        $this->storageRepository = $storageRepository;
+        $this->backendLayoutRepository = $backendLayoutRepository;
     }
 
     /**
@@ -100,13 +72,9 @@ class InlineHelper
         if (!is_numeric($uid)) {
             return;
         }
-        $fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
-        if (!$this->objectManager) {
-            $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        }
 
         $storage = $this->storageRepository->load();
-        $fileRepository = $this->objectManager->get(FileRepository::class);
+        $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
 
         $contentFields = ['media', 'image', 'assets'];
         if ($storage[$table]['tca']) {
@@ -116,7 +84,7 @@ class InlineHelper
         }
         if ($contentFields) {
             foreach ($contentFields as $fieldKey) {
-                if ($fieldHelper->getFormType($fieldKey, '', $table) === 'File') {
+                if ($this->storageRepository->getFormType($fieldKey, '', $table) === 'File') {
                     $data[$fieldKey] = $fileRepository->findByRelation($table, $fieldKey, $uid);
                 }
             }
@@ -133,12 +101,10 @@ class InlineHelper
      */
     public function addIrreToData(&$data, $table = 'tt_content', $cType = ''): void
     {
-
         if ($cType === '') {
             $cType = $data['CType'];
         }
 
-        $fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
         $storage = $this->storageRepository->load();
         $elementFields = [];
 
@@ -166,7 +132,6 @@ class InlineHelper
                     if (isset($storage[$table]['tca'])) {
                         $elementFields = array_keys($storage[$table]['tca']);
                     }
-
                 }
             }
         } elseif (isset($storage[$table])) {
@@ -179,16 +144,18 @@ class InlineHelper
 
             // check foreach column
             foreach ($elementFields as $field) {
-
                 $fieldKeyPrefix = $field;
                 $fieldKey = str_replace('tx_mask_', '', $field);
-                $type = $fieldHelper->getFormType($fieldKey, $cType, $table);
+                $type = $this->storageRepository->getFormType($fieldKey, $cType, $table);
 
                 // if it is of type inline and has to be filled (IRRE, FAL)
                 if ($type === 'Inline') {
+                    if (!array_key_exists($field, $storage)) {
+                        continue;
+                    }
                     $elements = $this->getInlineElements($data, $fieldKeyPrefix, $cType, 'parentid', $table);
                     $data[$fieldKeyPrefix] = $elements;
-                    // or if it is of type Content (Nested Content) and has to be filled
+                // or if it is of type Content (Nested Content) and has to be filled
                 } elseif ($type === 'Content') {
                     $elements = $this->getInlineElements(
                         $data,

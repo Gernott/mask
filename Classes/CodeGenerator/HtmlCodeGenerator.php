@@ -1,39 +1,41 @@
-<?php namespace MASK\Mask\CodeGenerator;
+<?php
 
-/* * *************************************************************
- *  Copyright notice
+/*
+ * This file is part of the TYPO3 CMS project.
  *
- *  (c) 2016 Benjamin Butschell <bb@webprofil.at>, WEBprofil - Gernot Ploiner e.U.
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
  *
- *  All rights reserved
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
  *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- * ************************************************************* */
+ * The TYPO3 project - inspiring people to share!
+ */
 
-use MASK\Mask\Helper\FieldHelper;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+namespace MASK\Mask\CodeGenerator;
+
+use MASK\Mask\Domain\Repository\StorageRepository;
 
 /**
  * Generates the html and fluid for mask content elements
- *
- * @author Benjamin Butschell <bb@webprofil.at>
  */
-class HtmlCodeGenerator extends AbstractCodeGenerator
+class HtmlCodeGenerator
 {
+    /**
+     * StorageRepository
+     *
+     * @var StorageRepository
+     */
+    protected $storageRepository;
+
+    /**
+     * @param StorageRepository $storageRepository
+     */
+    public function __construct(StorageRepository $storageRepository)
+    {
+        $this->storageRepository = $storageRepository;
+    }
 
     /**
      * Generates Fluid HTML for Contentelements
@@ -42,7 +44,6 @@ class HtmlCodeGenerator extends AbstractCodeGenerator
      * @param string $table
      * @return string $html
      * @author Gernot Ploiner <gp@webprofil.at>
-     *
      */
     public function generateHtml($key, $table): string
     {
@@ -68,8 +69,7 @@ class HtmlCodeGenerator extends AbstractCodeGenerator
     protected function generateFieldHtml($fieldKey, $elementKey, $table, $datafield = 'data'): string
     {
         $html = '';
-        $fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
-        switch ($fieldHelper->getFormType($fieldKey, $elementKey, $table)) {
+        switch ($this->storageRepository->getFormType($fieldKey, $elementKey, $table)) {
             case 'Check':
                 $html .= '{f:if(condition: ' . $datafield . '.' . $fieldKey . ", then: 'On', else: 'Off')}<br />\n\n";
                 break;
@@ -110,8 +110,12 @@ class HtmlCodeGenerator extends AbstractCodeGenerator
                 $inlineFields = $this->storageRepository->loadInlineFields($fieldKey);
                 if ($inlineFields) {
                     foreach ($inlineFields as $inlineField) {
-                        $html .= $this->generateFieldHtml($inlineField['maskKey'], $elementKey, $fieldKey,
-                                $datafield . '_item') . "\n";
+                        $html .= $this->generateFieldHtml(
+                            $inlineField['maskKey'],
+                            $elementKey,
+                            $fieldKey,
+                            $datafield . '_item'
+                        ) . "\n";
                     }
                 }
                 $html .= "</li>\n</f:for>" . "\n";

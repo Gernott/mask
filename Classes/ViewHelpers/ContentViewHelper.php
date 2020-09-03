@@ -1,5 +1,19 @@
 <?php
+
 declare(strict_types=1);
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
 
 namespace MASK\Mask\ViewHelpers;
 
@@ -9,13 +23,9 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * ViewHelper for rendering any content element
- * @author Paul Beck
- * @link http://blog.teamgeist-medien.de/2014/01/extbase-fluid-viewhelper-fuer-tt_content-elemente-mit-namespaces.html Source
- *
  */
 class ContentViewHelper extends AbstractViewHelper
 {
-
     protected $escapeOutput = false;
 
     /**
@@ -52,7 +62,6 @@ class ContentViewHelper extends AbstractViewHelper
      * Injects Configuration Manager
      *
      * @param ConfigurationManagerInterface $configurationManager
-     * @return void
      */
     public function injectConfigurationManager(
         ConfigurationManagerInterface $configurationManager
