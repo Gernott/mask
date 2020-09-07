@@ -1,11 +1,10 @@
 <f:be.container
     pageTitle="Mask"
-    includeCssFiles="{0: '{f:uri.resource(path:\'Styles/styles.css\')}'}"
+    includeCssFiles="{0: 'EXT:mask/Resources/Public/Styles/styles.css'}"
     includeRequireJsModules="{
-        Modal:'TYPO3/CMS/Backend/Modal',
-        DateTimePicker: 'TYPO3/CMS/Backend/DateTimePicker'
+        0: 'TYPO3/CMS/Backend/DateTimePicker',
+        1: 'TYPO3/CMS/Mask/Mask'
     }"
-    includeJsFiles="{0: '{f:uri.resource(path:\'Scripts/libs.js\')}', 1: '{f:uri.resource(path:\'Scripts/scripts.js\')}'}"
 >
     <f:flashMessages/>
     <f:render section="content"/>
