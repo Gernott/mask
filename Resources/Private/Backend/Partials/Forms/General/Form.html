@@ -45,7 +45,7 @@
                                                 </option>
                                             </optgroup>
                                             <optgroup class="c-divider" label="Existing">
-                                                <f:for each="{mask:tca(type: '{form}', table:type)}" as="item">
+                                                <f:for each="{mask:tca(type: form, table: type)}" as="item">
                                                     <f:if condition="{item.label}">
                                                         <f:then>
                                                             <option value="{item.field}">

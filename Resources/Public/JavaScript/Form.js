@@ -64,6 +64,7 @@ define([
         }
         var fieldType = $(buttonCode).data('type');
         var fieldTemplate = $("#templates div[data-type='" + fieldType + "']").outerHTML();
+        fieldTemplate = Utility.updateIds(fieldTemplate);
         $('.tx_mask_tabcell3 > div').hide(); // Hide all fieldconfigs
 
         // if active field was found, new field is inserted after this
@@ -177,6 +178,8 @@ define([
         }
       });
 
+      $(document).on('change', '.js-internal-type', this.toggleAllowed);
+
       // Form Submit:
       $('form[name=storage]').on('submit', function () {
 
@@ -247,12 +250,12 @@ define([
 
           // Search key of mother field and replace "tt_content" with "tx_mask_motherfieldkey"
           var motherFieldKey = $(motherContent).find('.tx_mask_newfieldname').val();
-          var label = $(fieldContent).find(".tx_mask_fieldcontent_new INPUT[name='tx_mask_tools_maskmask[storage][elements][labels][--index--]']").val();
+          var label = $(fieldContent).find(".tx_mask_fieldcontent_new input[name='tx_mask_tools_maskmask[storage][elements][labels][--index--]']").val();
 
-          $(fieldContent).find('input, select').attr('name', function (i, old) {
+          $(fieldContent).find('input[name], select').attr('name', function (i, old) {
             return old.replace('tt_content', 'tx_mask_' + motherFieldKey);
           });
-          $(fieldContent).find('input, select').attr('name', function (i, old) {
+          $(fieldContent).find('input[name], select').attr('name', function (i, old) {
             return old.replace('pages', 'tx_mask_' + motherFieldKey);
           });
           $(fieldContent).find('.tx_mask_fieldcontent').append('<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][inlineParent]" value="tx_mask_' + motherFieldKey + '" />');
@@ -261,7 +264,7 @@ define([
 
         // Index in Arrays schreiben und inline-elemente zu ihren Eltern zuordnen
         $('.tx_mask_fieldcontent').each(function (index, field) {
-          var inputs = $(this).find('input, select, textarea');
+          var inputs = $(this).find('input[name], select, textarea');
           // If the field is an line-field
           if ($(field).find('.inline-container').length > 0) {
             $.each(inputs, function (inputIndex, input) {
@@ -282,6 +285,17 @@ define([
           }
         });
       });
+    },
+
+    toggleAllowed: function () {
+      var $allowed = $(this).closest('.tx_mask_fieldcontent').find('.js-allowed');
+      if ($(this).val() === 'db') {
+        $allowed.show();
+        $allowed.find('input').attr('required', 'required');
+      } else {
+        $allowed.hide();
+        $allowed.find('input').removeAttr('required');
+      }
     },
 
     validateKeyField: function (field, table) {

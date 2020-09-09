@@ -67,6 +67,7 @@ define([
 
               var fieldType = $(head).data('type');
               var fieldTemplate = $("#templates div[data-type='" + fieldType + "']").outerHTML();
+              fieldTemplate = Utility.updateIds(fieldTemplate);
               $('.tx_mask_tabcell3 > div').hide(); // Hide all fieldconfigs
               var newTemplate = Sortable.prepareInlineFieldForInsert(head, fieldTemplate);
               if (index === 0) {

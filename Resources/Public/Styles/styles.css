@@ -988,3 +988,9 @@ ul.tx_mask_fieldtypes.tx_mask_field_templates li .id_move,
 .form-control-wrap {
     max-width: none !important;
 }
+
+.field-description {
+    min-height: 50px;
+    display: flex;
+    align-items: flex-end;
+}

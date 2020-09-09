@@ -37,6 +37,9 @@
 			<trans-unit id="tx_mask.field.Select">
 				<target>Selectbox</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.Group">
+				<target>Gruppe</target>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.File">
 				<target>Datei</target>
 			</trans-unit>
@@ -390,6 +393,82 @@
 			<trans-unit id="tx_mask.field.select.foreign_table_where">
 				<target>Externe Tabelle / where Bedingung</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.group.internal_type">
+				<source>Internal Type</source>
+				<target>Interner Typ</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.group.allowed">
+				<source>Allowed tables (comma-separated)</source>
+				<target>Erlaubte Tabellen (kommasepariert)</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.group.internalType.folder">
+				<source>Folder</source>
+				<target>Ordner</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.group.internalType.db">
+				<source>Database</source>
+				<target>Datenbank</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.group.minitems">
+				<source>Minitems</source>
+				<target>Minimum Anzahl</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.editPopup">
+				<source>Edit Popup</source>
+				<target>Im Popup bearbeiten</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.addRecord">
+				<source>Add Record</source>
+				<target>Datensatz hinzufügen</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.listModule">
+				<source>List Module</source>
+				<target>Listen-Modul</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.recordsOverview">
+				<source>Records Overview</source>
+				<target>Datensatz Übersicht</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.tableList">
+				<source>Table List</source>
+				<target>Auswahl pro Tabelle</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.elementBrowser">
+				<source>Element Browser</source>
+				<target>Datensatz Browser</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.multiple">
+				<source>Multiple</source>
+				<target>Mehrfachauswahl</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.editPopup.description">
+				<source>Shortcut to edit referenced elements directly in a popup.</source>
+				<target>Referenzierte Datensätze in einem Popup bearbeiten.</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.addRecord.description">
+				<source>Directly create and add a related record.</source>
+				<target>Datensätze direkt neu erstellen und hinzufügen.</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.listModule.description">
+				<source>Open the list module for the first allowed table.</source>
+				<target>Listenansicht für die erste erlaubte Tabelle öffnen.</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.recordsOverview.description">
+				<source>Render an overview of the selected records.</source>
+				<target>Referenzierten Datensätze als Liste anzeigen.</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.tableList.description">
+				<source>Render a list of allowed tables and link to element browser.</source>
+				<target>Erstellt Liste der erlaubten Tabellen und verlinkt sie zur Auswahl.</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.elementBrowser.description">
+				<source>Renders a button to open element browser.</source>
+				<target>Datensatz Auswahl öffnen.</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.multiple.description">
+				<source>Allows the same item more than once in a list.</source>
+				<target>Erlaubt den gleichen Datensatz mehrfach in der Liste.</target>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.string.size">
 				<target>Größe des Feldes</target>
 			</trans-unit>
@@ -663,6 +742,10 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.tabs.appearance">
 				<target>Verhalten und Aussehen</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.tabs.fieldControl">
+				<source>Field Control</source>
+				<target>Funktionen</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.tabs.localization">
 				<target>Lokalisierung</target>

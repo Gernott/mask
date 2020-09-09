@@ -58,5 +58,16 @@ define(['jquery'], function ($) {
         $(tabContents).first().addClass('active');
       }
     },
+
+    updateIds: function (fieldTemplate) {
+      var $updateIds = $(fieldTemplate).find('.js-update-id');
+      var Utility = this;
+      $updateIds.each(function () {
+        var oldId = $(this).find('.checkbox-input').attr('id');
+        var newId = 'new_' + Utility.getUniqueKey();
+        fieldTemplate = fieldTemplate.replaceAll(oldId, newId);
+      });
+      return fieldTemplate;
+    }
   };
 });

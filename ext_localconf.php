@@ -40,6 +40,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRe
         'Radio',
         'Richtext',
         'Select',
+        'Group',
         'String',
         'Tab',
         'Text',

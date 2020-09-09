@@ -36,6 +36,9 @@
 			<trans-unit id="tx_mask.field.Select">
 				<source>Selectbox</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.Group">
+				<source>Group</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.File">
 				<source>File</source>
 			</trans-unit>
@@ -382,6 +385,63 @@
 			<trans-unit id="tx_mask.field.select.foreign_table_where">
 				<source>foreign_table_where</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.group.internal_type">
+				<source>Internal Type</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.group.allowed">
+				<source>Allowed tables (comma-separated)</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.group.internalType.folder">
+				<source>Folder</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.group.internalType.db">
+				<source>Database</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.group.minitems">
+				<source>Minitems</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.editPopup">
+				<source>Edit Popup</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.addRecord">
+				<source>Add Record</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.listModule">
+				<source>List Module</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.recordsOverview">
+				<source>Records Overview</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.tableList">
+				<source>Table List</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.elementBrowser">
+				<source>Element Browser</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.multiple">
+				<source>Multiple</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.editPopup.description">
+				<source>Shortcut to edit referenced elements directly in a popup.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.addRecord.description">
+				<source>Directly create and add a related record.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.listModule.description">
+				<source>Open the list module for the first allowed table.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.recordsOverview.description">
+				<source>Render an overview of the selected records.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.tableList.description">
+				<source>Render a list of allowed tables and link to element browser.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.elementBrowser.description">
+				<source>Renders a button to open element browser.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.multiple.description">
+				<source>Allows the same item more than once in a list.</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.string.size">
 				<source>Size of Formfield</source>
 			</trans-unit>
@@ -651,6 +711,9 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.tabs.appearance">
 				<source>Appearance and Behaviour</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.tabs.fieldControl">
+				<source>Field Control</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.tabs.localization">
 				<source>Localization</source>

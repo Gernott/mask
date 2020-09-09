@@ -607,6 +607,8 @@ class StorageRepository implements SingletonInterface
                 $formType = 'Tab';
                 break;
             case 'group':
+                $formType = 'Group';
+                break;
             case 'none':
             case 'passthrough':
             case 'user':

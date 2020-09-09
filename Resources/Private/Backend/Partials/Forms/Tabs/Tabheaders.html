@@ -52,6 +52,11 @@
         <f:render partial="Forms/Tabs/Localization" arguments="{key: key}"/>
         <f:render partial="Forms/Tabs/Extended" arguments="{key: key}"/>
     </f:case>
+    <f:case value="Group">
+        <f:render partial="Forms/Tabs/FieldControl" arguments="{key: key}"/>
+        <f:render partial="Forms/Tabs/Localization" arguments="{key: key}"/>
+        <f:render partial="Forms/Tabs/Extended" arguments="{key: key}"/>
+    </f:case>
     <f:case value="File">
         <f:render partial="Forms/Tabs/Appearance" arguments="{key: key}"/>
         <f:render partial="Forms/Tabs/Localization" arguments="{key: key}"/>
