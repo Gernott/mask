@@ -57,10 +57,11 @@ class CheckboxViewHelper extends AbstractViewHelper
         $checkedAttr = $checked ? ' checked' : '';
         $checkedValue = $checked ? '1' : '0';
 
-        $random = mt_rand();
+        $random = random_int(0, mt_getrandmax());
         $hash = $hashName . substr(md5($random . $name), 0, 9);
         $label = LocalizationUtility::translate($arguments['translationKey'], 'mask');
 
+        $html = [];
         $html[] = '<div class="js-update-id checkbox checkbox-type-toggle' . $invert . '">';
         $html[] = '<input id="' . $hash . '" type="checkbox" class="checkbox-input" value="1" onclick="document.getElementById(\'' . $hash . '_hidden\').value=this.checked?1:0;"' . $checkedAttr . '>';
         $html[] = '<label class="checkbox-label" for="' . $hash . '">';
