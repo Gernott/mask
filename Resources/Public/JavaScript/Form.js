@@ -169,15 +169,6 @@ define([
         }
       });
 
-      // Select Field: Render type specific fields toggle
-      $(document).on('change', '.tx_mask_fieldcontent_select_renderType', function () {
-        if ($(this).val() === 'selectMultipleSideBySide') {
-          $(this).closest('.tx_mask_fieldcontent').find('.tx_mask_fieldcontent_renderType_selectMultipleSideBySide').show();
-        } else {
-          $(this).closest('.tx_mask_fieldcontent').find('.tx_mask_fieldcontent_renderType_selectMultipleSideBySide').hide();
-        }
-      });
-
       $(document).on('change', '.js-internal-type', this.toggleAllowed);
 
       // Form Submit:

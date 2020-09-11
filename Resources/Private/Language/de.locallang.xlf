@@ -378,9 +378,6 @@
 			<trans-unit id="tx_mask.field.select.renderType.selectMultipleSideBySide">
 				<target>Pendel</target>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.select.renderType.selectMultipleSideBySide.search">
-				<target>Suche aktivieren</target>
-			</trans-unit>
 			<trans-unit id="tx_mask.field.select.renderType.selectTree">
 				<target>Baumauswahl</target>
 			</trans-unit>

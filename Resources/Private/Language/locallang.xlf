@@ -370,9 +370,6 @@
 			<trans-unit id="tx_mask.field.select.renderType.selectMultipleSideBySide">
 				<source>Shuttle</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.select.renderType.selectMultipleSideBySide.search">
-				<source>Enable Search</source>
-			</trans-unit>
 			<trans-unit id="tx_mask.field.select.renderType.selectTree">
 				<source>Tree</source>
 			</trans-unit>
