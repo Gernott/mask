@@ -67,9 +67,5 @@
             <f:render partial="Forms/Config/Appearance/ShowRemovedLocalizationRecords" arguments="{key:key, elementKey:storage.key, field: field}"/>
         </div>
     </div>
-    <div class="row">
-        <div class="form-group col-sm-6">
-            <f:render partial="Forms/Config/Behaviour/LocalizationMode" arguments="{key:key, elementKey:storage.key, field: field}"/>
-        </div>
-    </div>
+    <f:render partial="Forms/Config/Behaviour/LocalizationMode" arguments="{key:key, elementKey:storage.key, field: field, editMode: editMode}"/>
 </div>

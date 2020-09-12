@@ -269,6 +269,14 @@
 			<trans-unit id="tx_mask.field.inline.localize_children_at_parent_localization">
 				<target>Datensätze mit Content-Element lokaliseren</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.allowLanguageSynchronization">
+				<source>Allow language synchronization</source>
+				<target>Erlaube Sprach-Synchronisation</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.allowLanguageSynchronization.description">
+				<source>Allows to select from three options: Copy from default language, copy from source language or set own value.</source>
+				<target>Erzeugt 3 Auswahlmöglichkeiten: Wert von Standardsprache kopieren, Wert von Quellsprache kopieren oder eigenen Wert setzen.</target>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.inline_label">
 				<target>Key des Feldes das für IRRE-Label verwendet wird (tx_mask_..)</target>
 			</trans-unit>

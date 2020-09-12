@@ -262,6 +262,12 @@
 			<trans-unit id="tx_mask.field.inline.localize_children_at_parent_localization">
 				<source>Localize Records when Content Element is localized</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.allowLanguageSynchronization">
+				<source>Allow language synchronization</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.allowLanguageSynchronization.description">
+				<source>Allows to select from three options: Copy from default language, copy from source language or set own value.</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.inline_label">
 				<source>Field that should be used as label for inline element (starting with tx_mask_)</source>
 			</trans-unit>
