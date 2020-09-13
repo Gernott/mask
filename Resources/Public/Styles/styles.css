@@ -1,3 +1,13 @@
+form[name='storage'] {
+    padding: 0 15px;
+}
+
+@media screen and (min-width: 1200px) {
+    form[name='storage'] {
+        padding: 0;
+    }
+}
+
 .tx_mask_btn, .tx_mask_fieldtypes {
     list-style-type: none;
     margin: 0;
@@ -88,13 +98,24 @@
 
 .tx_mask_tabcell4 {
     padding-top: 10px;
-    height: 100%;
-    overflow: auto;
+}
+
+.tx_mask_tabcell4:after {
+    content: '';
+    display: block;
+    clear: both;
 }
 
 .tx_mask_tabcell4 > label {
     display: block;
     color: #495460;
+}
+
+@media screen and (min-width: 1200px) {
+    .tx_mask_tabcell4 {
+        height: 100%;
+        overflow: auto;
+    }
 }
 
 .tx_mask_fieldheader {
@@ -160,18 +181,38 @@ ul.tx_mask_fieldtypes li .id_keytext {
 
 .tx_mask_tabcell1 {
     background: #f2f2f2;
-    height: 100%;
-    padding: 35px 25px !important;
+    padding-bottom: 20px;
+}
+
+.tx_mask_tabcell1:after {
+    content: '';
+    display: block;
+    clear: both;
 }
 
 .tx_mask_tabcell1 .btn-success {
     margin: 5px 0;
 }
 
+@media screen and (min-width: 1200px) {
+    .tx_mask_tabcell1 {
+        height: 100%;
+        padding: 35px 25px !important;
+    }
+}
+
 .tx_mask_tabcell3 {
-    height: 100%;
     background: #f2f2f2;
-    padding: 30px !important;
+    margin-top: 20px;
+    padding-top: 30px;
+}
+
+@media screen and (min-width: 1200px) {
+    .tx_mask_tabcell3 {
+        height: 100%;
+        padding: 30px !important;
+        margin-top: 0;
+    }
 }
 
 .tx_mask_tabcell2 li.active,
@@ -209,10 +250,12 @@ ul.tx_mask_fieldtypes .tx_mask_fieldcontent_highlight {
     display: none;
 }
 
-.row.bench {
-    height: calc(100vh);
-    margin: 0;
-    overflow: hidden;
+@media screen and (min-width: 1200px) {
+    .row.bench {
+        height: calc(100vh);
+        margin: 0;
+        overflow: hidden;
+    }
 }
 
 .panel-space {
@@ -852,8 +895,14 @@ img.brand-logo {
 }
 
 .tx_mask_tabcell5 {
-    margin: 0 0 30px 0;
+    margin: 0 0 30px;
     padding: 0 !important;
+}
+
+.tx_mask_tabcell5:after {
+    content: '';
+    display: block;
+    clear: both;
 }
 
 .form-control-wrap {

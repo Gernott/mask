@@ -4,7 +4,7 @@
     <f:render partial="Forms/General/FormErrors"/>
     <f:form action="update" name="storage" object="{storage}">
         <div class="row bench">
-            <div class="form-group col-sm-2 tx_mask_borderright tx_mask_tabcell1">
+            <div class="form-group col-lg-2 tx_mask_borderright tx_mask_tabcell1">
                 <h1 style="margin-bottom: 10px;">
                     <core:icon identifier="mask-ce-{storage.key}" size="large"/>
                     {storage.label}
@@ -14,7 +14,7 @@
                     <f:render partial="General/Controls"/>
                 </div>
             </div>
-            <div class="col-sm-4 tx_mask_tabcell4">
+            <div class="col-lg-4 tx_mask_tabcell4">
                 <label class="t3js-formengine-label">
                     <f:translate key="tx_mask.all.add_new_fields"/>
                 </label>
@@ -69,7 +69,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="form-group col-sm-6 tx_mask_tabcell3">
+            <div class="form-group col-lg-6 tx_mask_tabcell3">
                 <!--Edit-Mode-Features -->
                 <f:for each="{storage.tca}" as="field" key="key">
                     <f:if condition="{mask:substr(string: key, search: 'tx_mask', from: 0, length: 7)}">
