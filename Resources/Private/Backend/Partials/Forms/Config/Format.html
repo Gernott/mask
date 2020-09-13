@@ -1,8 +1,9 @@
 <label class="t3js-formengine-label">
     <f:translate key="tx_mask.field.text.format"/>
 </label>
+<code>[format]</code>
 <div class="t3js-formengine-field-item">
-    <div class="form-control-wrap" style="">
+    <div class="form-control-wrap">
         <select name="tx_mask_tools_maskmask[storage][tca][--index--][config][format]" class="form-control" title="format">
             <option {f:if(condition: '{field.config.format} == \'\'', then:'selected=selected')} value="">
                 <f:translate key="tx_mask.field.text.format.none"/>
@@ -24,12 +25,6 @@
             </option>
             <option {f:if(condition: '{field.config.format} == \'php\'', then:'selected=selected')} value="php">
                 <f:translate key="tx_mask.field.text.format.php"/>
-            </option>
-            <option {f:if(condition: '{field.config.format} == \'sparql\'', then:'selected=selected')} value="sparql">
-                <f:translate key="tx_mask.field.text.format.sparql"/>
-            </option>
-            <option {f:if(condition: '{field.config.format} == \'mixed\'', then:'selected=selected')} value="mixed">
-                <f:translate key="tx_mask.field.text.format.mixed"/>
             </option>
         </select>
     </div>

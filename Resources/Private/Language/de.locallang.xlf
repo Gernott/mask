@@ -97,6 +97,10 @@
 			<trans-unit id="tx_mask.field.num">
 				<target>Nur Ziffern</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.double2">
+				<source>Convert to floating point</source>
+				<target>In Dezimalzahl konvertieren</target>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.password">
 				<target>Passwortfeld</target>
 			</trans-unit>
@@ -220,24 +224,35 @@
 			<trans-unit id="tx_mask.field.inline.use_sortable">
 				<target>Drag'n'Drop aktivieren</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.show_possible_localization_records.description">
+				<source>Show unlocalized records which are in the original language, but not yet localized</source>
+				<target>Zeige unlokalisierte Records welche in der Originalsprache vorhanden sind, aber noch nicht lokalisiert sind</target>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.show_possible_localization_records">
-				<target>
-					Zeige unlokalisierte Records welche in der Originalsprache vorhanden sind, aber noch nicht
-					lokalisiert sind
-				</target>
+				<source>Show possible localization records</source>
+				<target>Zeige mögliche Übersetzungen</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.show_synchronization_link">
-				<target>
-					Zeige den "Synchronize" Button um auf eine 1:1 Übersetzung mit der Originalsprache upzudaten
-				</target>
+				<source>Show synchronization link</source>
+				<target>Zeige Synchronisations-Link</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.show_synchronization_link_description">
+				<source>Show a “synchronize” link to update to a 1:1 translation with the original language</source>
+				<target>Zeige den "Synchronize" Button, um auf eine 1:1 Übersetzung mit der Originalsprache upzudaten</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.show_all_localization_link.description">
+				<target>Zeige den "Lokalisiere alle Records" Button um unlokalisierte Datensätze zu holen</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.show_all_localization_link">
-				<target>
-					Zeige den "Lokalisiere alle Records" Button um unlokalisierte Datensätze zu holen
-				</target>
+				<source>Show all localization link</source>
+				<target>Zeige "Alle-Lokalisieren" Button</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.show_removed_localization_records">
 				<target>Zeige entfernte lokalisierte Records</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.show_removed_localization_records.description">
+				<source>Show records which were once localized but do not exist in the original language anymore.</source>
+				<target>Zeige Datensätze, die vorher übersetzt waren aber nicht mehr in der originalen Sprache existieren.</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.level_links_position">
 				<target>Position des "Create new" Button</target>
@@ -255,16 +270,16 @@
 				<target>Ausblenden</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.localization_mode">
-				<target>Lokalisierungs-Modus (l10n_mode)</target>
+				<target>Lokalisierungs-Modus</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.l10n_mode.default">
 				<target>Standard</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.l10n_mode.prefixLangTitle">
-				<target>Kopie mit Prefix (prefixLangTitle)</target>
+				<target>Kopie mit Prefix</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.l10n_mode.exclude">
-				<target>Immer den Wert der Ausgangssprache anzeigen (exclude)</target>
+				<target>Immer den Wert der Ausgangssprache anzeigen</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.localize_children_at_parent_localization">
 				<target>Datensätze mit Content-Element lokaliseren</target>
@@ -320,23 +335,24 @@
 				<target>Erlaubte Dateiendungen (Alle wenn leer)</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.link.file">
-				<target>Deaktiviere Datei:</target>
+				<source>File</source>
+				<target>Datei</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.link.mail">
-				<target>Mail:</target>
+				<target>E-Mail</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.link.page">
-				<target>Seite:</target>
+				<target>Seite</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.link.folder">
-				<target>Ordner:</target>
+				<target>Ordner</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.link.url">
-				<target>URL:</target>
+				<target>URL</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.link.telephone">
-				<source>Telephone:</source>
-				<target>Telefon:</target>
+				<source>Telephone</source>
+				<target>Telefon</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.radio.items">
 				<target>Elemente ([label,key], Ein Element je Zeile)</target>
@@ -508,7 +524,7 @@
 				<target>Standard</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.text.wrap">
-				<target>Wrap deaktivieren</target>
+				<target>Virtueller Umbruch</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.text.format">
 				<target>T3-Editor</target>
@@ -540,7 +556,10 @@
 			<trans-unit id="tx_mask.field.text.format.mixed">
 				<target>Mixed</target>
 			</trans-unit>
-
+			<trans-unit id="tx_mask.blindLinkOptions">
+				<source>Link options that should be displayed</source>
+				<target>Link Optionen, die angezeigt werden sollen</target>
+			</trans-unit>
 
 			<trans-unit id="tx_mask.content.title">
 				<target>Titel</target>

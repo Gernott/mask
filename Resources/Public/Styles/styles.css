@@ -990,7 +990,7 @@ ul.tx_mask_fieldtypes.tx_mask_field_templates li .id_move,
 }
 
 .field-description {
-    min-height: 50px;
+    min-height: 33px;
     display: flex;
     align-items: flex-end;
 }

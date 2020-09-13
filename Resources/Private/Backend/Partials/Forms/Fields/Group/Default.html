@@ -7,6 +7,7 @@
         <label class="t3js-formengine-label" for="group_internal_type">
             <f:translate key="tx_mask.field.group.internal_type"/>
         </label>
+        <code>[internal_type]</code>
         <div class="t3js-formengine-field-item">
             <div class="form-control-wrap">
                 <select id="group_internal_type" name="tx_mask_tools_maskmask[storage][tca][--index--][config][internal_type]" title="{f:translate(key:'tx_mask.field.select.internal_type')}" class="form-control js-internal-type">
@@ -24,8 +25,9 @@
         <label class="t3js-formengine-label" for="group_size">
             <f:translate key="tx_mask.field.select.size"/>
         </label>
+        <code>[size]</code>
         <div class="t3js-formengine-field-item">
-            <div class="form-control-wrap" style="">
+            <div class="form-control-wrap">
                 <input id="group_size" name="tx_mask_tools_maskmask[storage][tca][--index--][config][size]" type="number" class="form-control" title="size" placeholder="size of box" min="1" value="{field.config.size}"/>
             </div>
         </div>
@@ -34,6 +36,7 @@
         <label class="t3js-formengine-label" for="group_allowed">
             <f:translate key="tx_mask.field.group.allowed"/>*
         </label>
+        <code>[allowed]</code>
         <div class="t3js-formengine-field-item">
             <div class="form-control-wrap">
                 <input id="group_allowed" name="tx_mask_tools_maskmask[storage][tca][--index--][config][allowed]" class="form-control" title="allowed" placeholder="pages, ..." value="{field.config.allowed}" {f:if(condition: '!{editMode} || {field.config.internal_type} == db', then: 'required')}/>

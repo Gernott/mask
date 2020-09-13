@@ -96,6 +96,9 @@
 			<trans-unit id="tx_mask.field.num">
 				<source>Only "0-9" characters</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.double2">
+				<source>Convert to floating point</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.password">
 				<source>Password Field</source>
 			</trans-unit>
@@ -219,18 +222,29 @@
 			<trans-unit id="tx_mask.field.inline.use_sortable">
 				<source>Activate Drag'n'Drop</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.inline.show_possible_localization_records">
+			<trans-unit id="tx_mask.field.inline.show_possible_localization_records.description">
 				<source>Show unlocalized records which are in the original language, but not yet localized</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.show_possible_localization_records">
+				<source>Show possible localization records</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.show_synchronization_link">
+				<source>Show synchronization link</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.show_synchronization_link_description">
 				<source>Show a “synchronize” link to update to a 1:1 translation with the original language</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.show_all_localization_link.description">
+				<source>Show the “localize all records” link to fetch untranslated records from the original language</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.show_all_localization_link">
-				<source>Show the “localize all records” link to fetch untranslated records from the original language
-				</source>
+				<source>Show all localization link</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.show_removed_localization_records">
 				<source>Show removed localization records</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.show_removed_localization_records.description">
+				<source>Show records which were once localized but do not exist in the original language anymore.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.level_links_position">
 				<source>Where to show "Create new" Button</source>
@@ -248,16 +262,16 @@
 				<source>None</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.localization_mode">
-				<source>Localization Mode (l10n_mode)</source>
+				<source>Localization Mode</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.l10n_mode.default">
 				<source>Default</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.l10n_mode.prefixLangTitle">
-				<source>Copy with prefix (prefixLangTitle)</source>
+				<source>Copy with prefix</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.l10n_mode.exclude">
-				<source>Keep the value or data from original language (exclude)</source>
+				<source>Keep the value or data from original language</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.localize_children_at_parent_localization">
 				<source>Localize Records when Content Element is localized</source>
@@ -311,22 +325,22 @@
 				<source>Allowed File Extensions (all if empty)</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.link.file">
-				<source>Disable File:</source>
+				<source>File</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.link.mail">
-				<source>Mail:</source>
+				<source>Mail</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.link.page">
-				<source>Page:</source>
+				<source>Page</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.link.folder">
-				<source>Folder:</source>
+				<source>Folder</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.link.url">
-				<source>URL:</source>
+				<source>URL</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.link.telephone">
-				<source>Telephone:</source>
+				<source>Telephone</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.radio.items">
 				<source>Items ([label,key], one item each line, key (int) starts with 1)</source>
@@ -479,7 +493,7 @@
 				<source>Default</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.text.wrap">
-				<source>Deactivate Wrap</source>
+				<source>Virtual wrap</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.text.format">
 				<source>T3-Editor</source>
@@ -511,7 +525,9 @@
 			<trans-unit id="tx_mask.field.text.format.mixed">
 				<source>Mixed</source>
 			</trans-unit>
-
+			<trans-unit id="tx_mask.blindLinkOptions">
+				<source>Link options that should be displayed</source>
+			</trans-unit>
 
 			<trans-unit id="tx_mask.content.title">
 				<source>Title</source>

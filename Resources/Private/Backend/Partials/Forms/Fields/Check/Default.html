@@ -7,6 +7,7 @@
         <label class="t3js-formengine-label" for="check_items">
             <f:translate key="tx_mask.content.check.items"/>
         </label>
+        <code>[items]</code>
         <div class="t3js-formengine-field-item">
             <div class="form-control-wrap">
                 <textarea name="tx_mask_tools_maskmask[dummy][--index--][int]" id="check_items" rows="10" class="form-control tx_mask_fieldcontent_items" placeholder="option1
@@ -22,6 +23,7 @@ option3"><mask:Items items="{field.config.items}"/></textarea>
         <label class="t3js-formengine-label" for="check_cols">
             <f:translate key="tx_mask.content.check.columns"/>
         </label>
+        <code>[cols]</code>
         <div class="t3js-formengine-field-item">
             <div class="form-control-wrap">
                 <input name="tx_mask_tools_maskmask[storage][tca][--index--][config][cols]" id="check_cols" type="text" class="form-control" placeholder="split into columns (1 - 31 or inline)" value="{field.config.cols}"/>
@@ -32,6 +34,7 @@ option3"><mask:Items items="{field.config.items}"/></textarea>
         <label class="t3js-formengine-label" for="check_renderType">
             <f:translate key="tx_mask.field.check.renderType"/>
         </label>
+        <code>[renderType]</code>
         <div class="t3js-formengine-field-item">
             <div class="form-control-wrap" style="">
                 <select id="check_renderType" name="tx_mask_tools_maskmask[storage][tca][--index--][config][renderType]" title="{f:translate(key:'tx_mask.field.check.renderType')}" class="form-control tx_mask_fieldcontent_eval tx_mask_fieldcontent_check_renderType">
@@ -39,10 +42,10 @@ option3"><mask:Items items="{field.config.items}"/></textarea>
                         <f:translate key="tx_mask.field.check.renderType.default"/>
                     </option>
                     <option value="checkboxToggle" {f:if(condition: '{field.config.renderType} == \'checkboxToggle\'', then: ' selected="selected"')}>
-                        <f:translate key="tx_mask.field.check.renderType.checkboxToggle"/>
+                        <f:translate key="tx_mask.field.check.renderType.checkboxToggle"/> [checkboxToggle]
                     </option>
                     <option value="checkboxLabeledToggle" {f:if(condition: '{field.config.renderType} == \'checkboxLabeledToggle\'', then: ' selected="selected"')}>
-                        <f:translate key="tx_mask.field.check.renderType.checkboxLabeledToggle"/>
+                        <f:translate key="tx_mask.field.check.renderType.checkboxLabeledToggle"/> [checkboxLabeledToggle]
                     </option>
                 </select>
             </div>

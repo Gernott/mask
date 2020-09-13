@@ -4,6 +4,7 @@
             <label class="t3js-formengine-label">
                 <f:translate key="tx_mask.field.float.range.lower"/>
             </label>
+            <code>[range][lower]</code>
             <div class="t3js-formengine-field-item">
                 <div class="form-control-wrap">
                     <div class="input-group">
@@ -30,6 +31,7 @@
             <label class="t3js-formengine-label">
                 <f:translate key="tx_mask.field.float.range.upper"/>
             </label>
+            <code>[range][upper]</code>
             <div class="t3js-formengine-field-item">
                 <div class="form-control-wrap">
                     <div class="input-group">
@@ -56,18 +58,18 @@
     </div>
     <div class="row">
         <div class="form-group col-sm-6">
-            <f:render partial="Forms/Eval/Required" arguments="{key:key, elementKey: storage.key, field: field}"/>
+            <f:render partial="Forms/Checkbox/EvalCheckbox" arguments="{key: key, field: field, elementKey: elementKey, editMode: editMode, name: 'required'}"/>
         </div>
         <div class="form-group col-sm-6">
-            <f:render partial="Forms/Eval/Trim" arguments="{key:key, elementKey: storage.key, field: field}"/>
+            <f:render partial="Forms/Checkbox/EvalCheckbox" arguments="{key: key, field: field, elementKey: elementKey, editMode: editMode, name: 'trim'}"/>
         </div>
     </div>
     <div class="row">
         <div class="form-group col-sm-6">
-            <f:render partial="Forms/Eval/Unique" arguments="{key:key, elementKey:storage.key, field: field}"/>
+            <f:render partial="Forms/Checkbox/EvalCheckbox" arguments="{key: key, field: field, elementKey: elementKey, editMode: editMode, name: 'unique'}"/>
         </div>
         <div class="form-group col-sm-6">
-            <f:render partial="Forms/Eval/UniqueInPid" arguments="{key:key, elementKey:storage.key, field: field}"/>
+            <f:render partial="Forms/Checkbox/EvalCheckbox" arguments="{key: key, field: field, elementKey: elementKey, editMode: editMode, name: 'uniqueInPid'}"/>
         </div>
     </div>
 </div>
