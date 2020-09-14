@@ -115,7 +115,7 @@ define([
         var fieldIndex;
         var body;
 
-        if ($(this).val() == '0') {
+        if ($(this).val() === '0') {
           // Show correct label and key in tabcell2
           fieldIndex = $(this).closest('.tx_mask_field').index();
           tableCell2Li.eq(fieldIndex).find('.id_keytext').html(
@@ -127,7 +127,7 @@ define([
 
           $(this).closest('.tx_mask_fieldcontent').find('.tx_mask_fieldcontent_existing').hide();
           $(this).closest('.tx_mask_fieldcontent').find('.tx_mask_fieldcontent_new').hide();
-        } else if ($(this).val() == '-1') {
+        } else if ($(this).val() === '-1') {
 
           // Hide inline-container if selected an 'existing inline'
           body = $(this).closest('.tx_mask_field');
@@ -156,7 +156,7 @@ define([
           // Show correct label and key in tabcell2
           fieldIndex = $(this).closest('.tx_mask_field').index();
 
-          $(body).find("INPUT[name*='tx_mask_tools_maskmask[storage][tca]'], select[name*='tx_mask_tools_maskmask[storage][tca]'], textarea[name*='tx_mask_tools_maskmask[storage][tca]']").attr('disabled', 'disabled');
+          $(body).find("input[name*='tx_mask_tools_maskmask[storage][tca]'], select[name*='tx_mask_tools_maskmask[storage][tca]'], textarea[name*='tx_mask_tools_maskmask[storage][tca]']").attr('disabled', 'disabled');
           $(body).find(".t3js-tabmenu-item:not(.active)").hide();
 
           $(this).closest('.tx_mask_field').find("input[name='tx_mask_tools_maskmask[storage][elements][columns][]']").attr('disabled', 'disabled');
@@ -430,7 +430,7 @@ define([
     hideInlineContainer: function (body) {
       var fieldType = $(body).attr('data-type');
       if (fieldType === 'Inline') {
-        var head = findHeadByBody(body);
+        var head = Utility.findHeadByBody(body);
         $(head).addClass('existing_inline');
       }
     },
