@@ -41,50 +41,8 @@ define([
         MaskForm.validateElementKeyField(this);
       });
 
-      // 1st column click
-      $('.tx_mask_tabcell4 .tx_mask_field_templates').on('click', 'li', function () {
-
-        // search for active field
-        var activeFound = false;
-        var activeHead = $('.tx_mask_tabcell2 .tx_mask_btn.active');
-        if ($(activeHead).length > 0) {
-          activeFound = true;
-          var activeBody = Utility.findBodyByHead(activeHead);
-        }
-
-        var buttonCode = $.parseHTML($(this).outerHTML());
-        $('.tx_mask_tabcell2 li').removeClass('active');
-        $(buttonCode).addClass('active');
-
-        // if active field was found, new field is inserted after this
-        if (activeFound) {
-          $(activeHead).after(buttonCode);
-        } else {
-          $('.tx_mask_tabcell2 > ul').append(buttonCode);
-        }
-        var fieldType = $(buttonCode).data('type');
-        var fieldTemplate = $("#templates div[data-type='" + fieldType + "']").outerHTML();
-        fieldTemplate = Utility.updateIds(fieldTemplate);
-        $('.tx_mask_tabcell3 > div').hide(); // Hide all fieldconfigs
-
-        // if active field was found, new field is inserted after this
-        if (activeFound) {
-          if ($(activeHead).hasClass('id_Inline')) {
-            var tempActiveHead = $(activeHead).find('.inline-container > li:last');
-            var tempActiveBody = Utility.findBodyByHead(tempActiveHead);
-            $(tempActiveBody).after(fieldTemplate);
-          } else {
-            $(activeBody).after(fieldTemplate);
-          }
-
-        } else {
-          $('.tx_mask_tabcell3').append(fieldTemplate);
-        }
-        $(buttonCode).click();
-        $('.tx_mask_newfieldname:visible').focus(); // Set focus to key field
-        Sortable.initSortable();
-        Utility.initializeTabs(Utility.findBodyByHead(buttonCode));
-      });
+      // Field button clicked
+      $('.tx_mask_tabcell4 .tx_mask_field_templates').on('click', 'li', this.insertField);
 
       var tablecell2 = $('.tx_mask_tabcell2');
 
@@ -276,6 +234,57 @@ define([
           }
         });
       });
+    },
+
+    insertField: function (e) {
+      var activeFound = false;
+      var activeHead = $('.tx_mask_tabcell2 .tx_mask_btn.active');
+      var activeBody;
+
+      // If there is an active field, remove active status
+      if ($(activeHead).length > 0) {
+        activeFound = true;
+        $(activeHead).removeClass('active');
+        activeBody = Utility.findBodyByHead(activeHead);
+      }
+
+      // Get html of chosen button type and insert it as new active
+      var buttonCode = $.parseHTML($(e.currentTarget).outerHTML());
+      $(buttonCode).addClass('active');
+      if (activeFound) {
+        $(activeHead).after(buttonCode);
+      } else {
+        $('.tx_mask_tabcell2 > ul').append(buttonCode);
+      }
+
+      // Hide last opened field config
+      $('.tx_mask_tabcell3 > div').hide();
+
+      // Get template by type and update ids
+      var fieldType = $(buttonCode).data('type');
+      var fieldTemplate = $("#templates div[data-type='" + fieldType + "']").outerHTML();
+      fieldTemplate = Utility.updateIds(fieldTemplate);
+
+      // if active field was found, new field is inserted after this
+      if (activeFound) {
+        // Place template after last inline element
+        if ($(activeHead).hasClass('id_Inline') && $(activeHead).find('.inline-container').children().length > 0) {
+          var tempActiveHead = $(activeHead).find('.inline-container > li:last');
+          var tempActiveBody = Utility.findBodyByHead(tempActiveHead);
+          $(tempActiveBody).after(fieldTemplate);
+        } else {
+          $(activeBody).after(fieldTemplate);
+        }
+      } else {
+        $('.tx_mask_tabcell3').append(fieldTemplate);
+      }
+
+      // Show field config
+      $(buttonCode).click();
+      // Set focus to key field
+      $('.tx_mask_newfieldname:visible').focus();
+      Sortable.initSortable();
+      Utility.initializeTabs(Utility.findBodyByHead(buttonCode));
     },
 
     toggleAllowed: function () {

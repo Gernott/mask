@@ -7,7 +7,7 @@ define(['jquery'], function ($) {
 
     findBodyByHead: function (head) {
       var fieldIndex = $('.tx_mask_tabcell2 ul li').index(head);
-      return $('.tx_mask_tabcell3 > DIV').eq(fieldIndex);
+      return $('.tx_mask_tabcell3 > div').eq(fieldIndex);
     },
 
     syncBodyToHead: function (body) {
