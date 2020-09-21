@@ -20,7 +20,8 @@ define([
       // for each 2nd column LI, assign correct index to 3rd column DIV
       var transfer = $('.dragtarget li').not('.tx_mask_fieldcontent_highlight');
       $.each(transfer, function (index, e) {
-        $('.tx_mask_tabcell3 > div').eq($(e).attr('data-index')).attr('data-index', index);
+        var indexBeforeSorting = $(e).attr('data-index');
+        $('.tx_mask_tabcell3 > div').eq(indexBeforeSorting).attr('data-index', index);
       });
       // sort via newly assigned data-index
       $('.tx_mask_tabcell3 > div').sort(this.sort_li).appendTo('.tx_mask_tabcell3');
@@ -78,6 +79,7 @@ define([
               fieldTemplate = Utility.updateIds(fieldTemplate);
               $('.tx_mask_tabcell3 > div').hide(); // Hide all fieldconfigs
               var newTemplate = Sortable.prepareInlineFieldForInsert(head, fieldTemplate);
+              $(newTemplate).attr('data-index', index);
               if (index === 0) {
                 $('.tx_mask_tabcell3').prepend(newTemplate); // Add new fieldconfig
               } else {
@@ -87,6 +89,9 @@ define([
                   $('.tx_mask_tabcell3').append(newTemplate); // Add new fieldconfig
                 }
               }
+              $('.tx_mask_tabcell3 > div').each(function (i) {
+                $(this).attr('data-index', i);
+              });
               $('.tx_mask_newfieldname:visible').focus(); // Set focus to key field
             }
           } else {
@@ -114,7 +119,6 @@ define([
         },
 
         receive: function (event, ui) {
-
           Sortable.received = false;
           Sortable.receivedNew = false;
           Sortable.sorted = false;
@@ -153,7 +157,9 @@ define([
             // if not already sorted by stop event and if the element is not from the first column, sort
             if (!Sortable.sorted) {
               Sortable.initSortable();
-              Sortable.sortFields();
+              if (!Sortable.receivedNew) {
+                Sortable.sortFields();
+              }
               Sortable.sorted = true;
             }
 
