@@ -44,7 +44,8 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRe
         'String',
         'Tab',
         'Text',
-        'Content'
+        'Content',
+        'Palette'
     ];
     foreach ($maskIcons as $maskIcon) {
         $iconRegistry->registerIcon(
@@ -69,7 +70,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRe
         }
         foreach ($configuration['pages']['tca'] as $fieldKey => $value) {
             $formType = $storageRepository->getFormType($fieldKey, '', 'pages');
-            if ($formType !== 'Tab') {
+            if ($formType !== 'Tab' && $formType !== 'Palette') {
                 // Add addRootLineFields for all page fields
                 $rootlineFields[] = $fieldKey;
             }

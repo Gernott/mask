@@ -9,7 +9,7 @@
             <div class="tx_mask_fieldheader_text" title="{label}">
                 <h1>
                     <f:format.crop maxCharacters="60" append="...">
-                        <mask:translateLabel key="{label}"/>
+                        <mask:translateLabel key="{label}" element="{storage.key}"/>
                     </f:format.crop>
                 </h1>
                 <p>{field.key}</p>
@@ -49,7 +49,7 @@
                                                     <f:if condition="{item.label}">
                                                         <f:then>
                                                             <option value="{item.field}">
-                                                                <f:translate key="{item.label}"/>({item.field})
+                                                                <mask:translateLabel key="{item.label}" element="{storage.key}"/> ({item.field})
                                                             </option>
                                                         </f:then>
                                                         <f:else>

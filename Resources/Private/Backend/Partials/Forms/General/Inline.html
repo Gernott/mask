@@ -1,12 +1,20 @@
-<li data-type="{mask:formType(elementKey:'{elementKey}', fieldKey:'{field.key}', type: '{field.inlineParent}')}" class="id_{mask:formType(elementKey:'{storage.key}', fieldKey:'{field.key}', type: '{field.inlineParent}')} tx_mask_btn">
+<f:if condition="{field.inPalette}">
+    <f:then>
+        <f:variable name="type" value="{mask:formType(elementKey: elementKey, fieldKey: field.key, type: layoutType)}"/>
+    </f:then>
+    <f:else>
+        <f:variable name="type" value="{mask:formType(elementKey: elementKey, fieldKey: field.key, type: field.inlineParent)}"/>
+    </f:else>
+</f:if>
+<li data-type="{type}" class="id_{type} tx_mask_btn">
     <div class="tx_mask_btn_row">
         <div class="tx_mask_btn_img">
-            <core:icon identifier="mask-fieldtype-{mask:formType(elementKey:'{elementKey}', fieldKey:'{field.key}', type: '{field.inlineParent}')}" size="default"/>
+            <core:icon identifier="mask-fieldtype-{type}" size="default"/>
         </div>
         <div class="tx_mask_btn_text">
-            <span class="id_typetext"><f:translate key="tx_mask.field.{mask:formType(elementKey:'{storage.key}', fieldKey:'{field.key}', type: '{field.inlineParent}')}"/></span>
+            <span class="id_typetext"><f:translate key="tx_mask.field.{type}"/></span>
             <span class="id_labeltext" title="{field.label}">
-                <f:format.crop maxCharacters="20" append="..."><mask:translateLabel key="{field.label}"/></f:format.crop>
+                <f:format.crop maxCharacters="20" append="..."><mask:translateLabel key="{field.label}" element="{elementKey}"/></f:format.crop>
             </span>
             <span class="id_keytext" title="{field.key}">
                 <f:format.crop maxCharacters="20" append="...">{field.key}</f:format.crop>
@@ -18,11 +26,20 @@
             <span class="id_move" title="{f:translate(key:'tx_mask.field.titleMove')}"><core:icon identifier="actions-move-move" size="small"/></span>
         </div>
     </div>
-    <f:if condition="{mask:formType(elementKey:'{elementKey}', fieldKey:'{field.key}', type: '{field.inlineParent}')} == 'Inline'">
+    <f:if condition="{type} == 'Inline'">
         <div class="tx_mask_btn_caption">
             <ul class="dragtarget inline-container">
                 <f:for each="{field.inlineFields}" as="inlineField" key="inlineKey">
-                    <f:render partial="Forms/General/Inline" arguments="{elementKey: field.key, field: inlineField, storage: storage}"/>
+                    <f:render partial="Forms/General/Inline" arguments="{elementKey: field.key, field: inlineField, storage: storage, inlineParent: '1', layoutType: inlineField.inlineParent}"/>
+                </f:for>
+            </ul>
+        </div>
+    </f:if>
+    <f:if condition="{type} == Palette">
+        <div class="tx_mask_btn_caption">
+            <ul class="dragtarget inline-container palette-container{f:if(condition: inlineParent, then: ' palette-inline')}">
+                <f:for each="{field.inlineFields}" as="paletteField">
+                    <f:render partial="Forms/General/Inline" arguments="{elementKey: field.key, field: paletteField, storage: storage, inlineParent: inlineParent, layoutType: layoutType}"/>
                 </f:for>
             </ul>
         </div>

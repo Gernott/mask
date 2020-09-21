@@ -88,7 +88,7 @@ class CheckboxViewHelper extends AbstractViewHelper
         $html[] = '<label class="checkbox-label" for="' . $hash . '">';
         $html[] = '<span class="checkbox-label-text">' . $label . '</span>';
         $html[] = '</label>';
-        $html[] = '<input id="' . $hash . '_hidden" ' . $classTag .' type="hidden" name="tx_mask_tools_maskmask' . $path . $name . '" value="' . $checkedValue . '"/>';
+        $html[] = '<input id="' . $hash . '_hidden" ' . $classTag . ' type="hidden" name="tx_mask_tools_maskmask' . $path . $name . '" value="' . $checkedValue . '"/>';
         $html[] = '</div>';
 
         return implode("\r\n", $html);

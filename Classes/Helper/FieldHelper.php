@@ -40,28 +40,6 @@ class FieldHelper
     }
 
     /**
-     * Returns all elements that use this field
-     *
-     * @param string $key TCA Type
-     * @param string $type elementtype
-     * @return array elements in use
-     */
-    public function getElementsWhichUseField($key, $type = 'tt_content'): array
-    {
-        $storage = $this->storageRepository->load();
-
-        $elementsInUse = [];
-        foreach ($storage[$type]['elements'] ?? [] as $element) {
-            foreach ($element['columns'] ?? [] as $column) {
-                if ($column === $key) {
-                    $elementsInUse[] = $element;
-                }
-            }
-        }
-        return $elementsInUse;
-    }
-
-    /**
      * Returns the label of a field in an element
      *
      * @param string $elementKey Key of Element
@@ -74,11 +52,14 @@ class FieldHelper
         $json = $this->storageRepository->load();
         $label = '';
         $columns = $json[$type]['elements'][$elementKey]['columns'] ?? false;
-        if ($columns && count($columns) > 0) {
+        $maskField = isset($fieldKey) && strpos($fieldKey, 'tx_mask_') === 0;
+        if ($maskField && $columns && count($columns) > 0) {
             $fieldIndex = array_search($fieldKey, $columns);
             if ($fieldIndex !== false) {
                 $label = $json[$type]['elements'][$elementKey]['labels'][$fieldIndex];
             }
+        } else {
+            $label = $json[$type]['tca'][$fieldKey]['label'][$elementKey] ?? '';
         }
         return $label;
     }
@@ -148,7 +129,7 @@ class FieldHelper
                 continue;
             }
 
-            $elements = $this->getElementsWhichUseField($field, $table);
+            $elements = $this->storageRepository->getElementsWhichUseField($field, $table);
             if ($elements) {
                 $fields[] = [
                     'field' => $field,
@@ -158,5 +139,13 @@ class FieldHelper
         }
 
         return $fields;
+    }
+
+    /**
+     * @return StorageRepository
+     */
+    public function getStorageRepository()
+    {
+        return $this->storageRepository;
     }
 }

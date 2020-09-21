@@ -104,7 +104,25 @@ class TyposcriptCodeGenerator
             // and switch the labels depending on which content element is selected
             $content .= "\n[isMaskContentType(\"mask_" . $element['key'] . "\")]\n";
             foreach ($element['columns'] ?? [] as $index => $column) {
-                $content .= ' TCEFORM.tt_content.' . $column . '.label = ' . $element['labels'][$index] . "\n";
+                if ($this->storageRepository->getFormType($column, $element['key']) === 'Palette') {
+                    $items = $this->storageRepository->loadInlineFields($column, $element['key']);
+                    foreach ($items as $item) {
+                        if (is_array($item['label'])) {
+                            $label = $item['label'][$element['key']];
+                        } else {
+                            $label = $item['label'];
+                        }
+                        // With config is custom mask field
+                        if (isset($item['config'])) {
+                            $key = 'tx_mask_' . $item['key'];
+                        } else {
+                            $key = $item['key'];
+                        }
+                        $content .= ' TCEFORM.tt_content.' . $key . '.label = ' . $label . "\n";
+                    }
+                } else {
+                    $content .= ' TCEFORM.tt_content.' . $column . '.label = ' . $element['labels'][$index] . "\n";
+                }
             }
             $content .= "[end]\n\n";
         }

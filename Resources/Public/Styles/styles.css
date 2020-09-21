@@ -92,8 +92,12 @@ form[name='storage'] {
     margin-top: 3px;
 }
 
-.id_Inline .tx_mask_btn_caption {
+.id_Inline > .tx_mask_btn_caption {
     border-left: 4px solid #9e97d1;
+}
+
+.id_Palette > .tx_mask_btn_caption {
+    border-left: 4px solid #4e4e4e;
 }
 
 .tx_mask_tabcell4 {

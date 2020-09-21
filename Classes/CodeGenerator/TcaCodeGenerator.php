@@ -58,7 +58,7 @@ class TcaCodeGenerator
                 continue;
             }
             // Generate Table TCA
-            $processedTca = $this->processTableTca($table, $subJson['tca']);
+            $processedTca = $this->processTableTca($table, $subJson);
             $parentTable = $this->fieldHelper->getFieldType($table);
 
             // Adjust TCA-Template
@@ -79,6 +79,14 @@ class TcaCodeGenerator
 
             $tableTca['columns']['parentid']['config']['foreign_table'] = $parentTable;
             $tableTca['columns']['parentid']['config']['foreign_table_where'] = "AND $parentTable.pid=###CURRENT_PID### AND $parentTable.sys_language_uid IN (-1, ###REC_FIELD_sys_language_uid###)";
+
+            // Add palettes
+            foreach ($subJson['palettes'] ?? [] as $key => $palette) {
+                $tableTca['palettes'][$key] = [
+                    'label' => $palette['label'],
+                    'showitem' => implode(',', $palette['showitem'])
+                ];
+            }
 
             // Add some stuff we need to make irre work like it should
             $GLOBALS['TCA'][$table] = $tableTca;
@@ -109,6 +117,8 @@ class TcaCodeGenerator
         $json = $this->storageRepository->load();
         $tca = $json['tt_content']['elements'] ?? [];
         $defaultTabs = ',--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.appearance,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.frames;frames,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.appearanceLinks;appearanceLinks,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,--palette--;;language,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,--palette--;;hidden,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:categories,--div--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_category.tabs.category,categories,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:notes,rowDescription,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended';
+        $prependTabs = '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,';
+        $defaultPalette = '--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,';
 
         // Add gridelements fields, to make mask work with gridelements out of the box
         $gridelements = '';
@@ -122,13 +132,18 @@ class TcaCodeGenerator
             '--div--'
         ];
 
-        foreach ($tca as $elementvalue) {
+        foreach ($json['tt_content']['palettes'] ?? [] as $key => $palette) {
+            $GLOBALS['TCA']['tt_content']['palettes'][$key] = [
+                'label' => $palette['label'],
+                'showitem' => implode(',', $palette['showitem'])
+            ];
+        }
+
+        foreach ($tca as $key => $elementvalue) {
             if ($elementvalue['hidden'] ?? false) {
                 continue;
             }
 
-            $prependTabs = '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,';
-            $fieldArray = [];
             // Optional shortLabel
             $label = $elementvalue['shortLabel'] ?: $elementvalue['label'];
 
@@ -144,28 +159,29 @@ class TcaCodeGenerator
             );
 
             // Add all the fields that should be shown
-            foreach ($elementvalue['columns'] ?? [] as $index => $fieldKey) {
-                $formType = $this->storageRepository->getFormType($fieldKey, $elementvalue['key'], 'tt_content');
-                // Check if this field is of type tab
-                if ($formType === 'Tab') {
-                    $label = $this->fieldHelper->getLabel($elementvalue['key'], $fieldKey, 'tt_content');
-                    // If a tab is in the first position then change the name of the general tab
-                    if ($index === 0) {
-                        $prependTabs = '--div--;' . $label . ',' . $prependTabs;
-                    } else {
-                        // Otherwise just add new tab
-                        $fieldArray[] = '--div--;' . $label;
-                    }
-                } else {
-                    $fieldArray[] = $fieldKey;
-                }
-            }
-            $fields = implode(',', $fieldArray);
+            [$prependTabs, $fields] = $this->generateShowItem($prependTabs, $key, 'tt_content');
 
             $GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes']['mask_' . $elementvalue['key']] = 'mask-ce-' . $elementvalue['key'];
             $GLOBALS['TCA']['tt_content']['types']['mask_' . $elementvalue['key']]['columnsOverrides']['bodytext']['config']['enableRichtext'] = 1;
-            $GLOBALS['TCA']['tt_content']['types']['mask_' . $elementvalue['key']]['showitem'] = $prependTabs . $fields . $defaultTabs . $gridelements;
+            $GLOBALS['TCA']['tt_content']['types']['mask_' . $elementvalue['key']]['showitem'] = $prependTabs . $defaultPalette . $fields . $defaultTabs . $gridelements;
         }
+    }
+
+    public function getPagePalettes($key)
+    {
+        $palettes = [];
+        $tca = $this->storageRepository->load();
+        $element = $tca['pages']['elements'][$key];
+        foreach ($element['columns'] ?? [] as $column) {
+            if ($this->storageRepository->getFormType($column, $key, 'pages') === 'Palette') {
+                $palette = $tca['pages']['palettes'][$column];
+                $palettes[$column] = [
+                    'label' => $palette['label'],
+                    'showitem' => implode(',', $palette['showitem'])
+                ];
+            }
+        }
+        return $palettes;
     }
 
     /**
@@ -174,35 +190,36 @@ class TcaCodeGenerator
      */
     public function getPageTca(string $key)
     {
-        $fieldArray = [];
-        $prependTabs = ',--div--;Content-Fields,';
-        $tca = $this->storageRepository->load();
-        $columns = $tca['pages']['elements'][$key]['columns'] ?? [];
-        for ($i = 0; $i < count($columns); $i++) {
-            $fieldKey = $columns[$i];
+        $prependTabs = '--div--;Content-Fields,';
+        [$prependTabs, $fields] = $this->generateShowItem($prependTabs, $key, 'pages');
+        return ',' . $prependTabs . $fields;
+    }
 
-            // check if this field is of type tab
-            $formType = $this->storageRepository->getFormType($fieldKey, $key, 'pages');
+    protected function generateShowItem($prependTabs, $key, $table)
+    {
+        $tca = $this->storageRepository->load();
+        $element = $tca[$table]['elements'][$key] ?? [];
+        $fieldArray = [];
+        foreach ($element['columns'] ?? [] as $index => $fieldKey) {
+            $formType = $this->storageRepository->getFormType($fieldKey, $element['key'], $table);
+            // Check if this field is of type tab
             if ($formType === 'Tab') {
-                $label = $this->fieldHelper->getLabel($key, $fieldKey, 'pages');
-                // if a tab is in the first position then change the name of the general tab
-                if ($i === 0) {
-                    $prependTabs = ',--div--;' . $label . ',';
+                $label = $this->fieldHelper->getLabel($element['key'], $fieldKey, $table);
+                // If a tab is in the first position then change the name of the general tab
+                if ($index === 0) {
+                    $prependTabs = '--div--;' . $label . ',';
                 } else {
-                    // otherwise just add new tab
+                    // Otherwise just add new tab
                     $fieldArray[] = '--div--;' . $label;
                 }
+            } elseif ($formType === 'Palette') {
+                $fieldArray[] = '--palette--;;' . $fieldKey;
             } else {
                 $fieldArray[] = $fieldKey;
             }
         }
-
-        if (!empty($fieldArray)) {
-            $pageFieldString = $prependTabs . implode(',', $fieldArray);
-        } else {
-            $pageFieldString = $prependTabs;
-        }
-        return $pageFieldString;
+        $fields = implode(',', $fieldArray);
+        return [$prependTabs, $fields];
     }
 
     /**
@@ -218,15 +235,18 @@ class TcaCodeGenerator
         $tca = $json[$table]['tca'] ?? [];
         $columns = [];
         foreach ($tca as $tcakey => $tcavalue) {
+            if (!isset($tcavalue['config'])) {
+                continue;
+            }
             $formType = $this->storageRepository->getFormType($tcakey, '', $table);
 
             // Inline: Ignore empty inline fields
-            if ($formType === 'Inline' && !array_key_exists($tcakey, $json)) {
+            if (($formType === 'Inline' || $formType === 'Palette') && !array_key_exists($tcakey, $json)) {
                 continue;
             }
 
-            // Tabs: Ignore.
-            if (($tcavalue['config']['type'] ?? '') === 'tab') {
+            // Ignore grouping elements
+            if (in_array(($tcavalue['config']['type'] ?? ''), ['tab', 'palette'])) {
                 continue;
             }
 
@@ -318,9 +338,16 @@ class TcaCodeGenerator
                 $columns[$tcakey]['rte'],
                 $columns[$tcakey]['inlineParent'],
                 $columns[$tcakey]['inlineLabel'],
+                $columns[$tcakey]['inPalette'],
+                $columns[$tcakey]['order'],
                 $columns[$tcakey]['inlineIcon'],
                 $columns[$tcakey]['cTypes']
             );
+
+            // Unset label if it is from palette fields
+            if (is_array($columns[$tcakey]['label'] ?? false)) {
+                unset($columns[$tcakey]['label']);
+            }
 
             $columns[$tcakey] = MaskUtility::removeBlankOptions($columns[$tcakey]);
             $columns[$tcakey] = MaskUtility::replaceKey($columns[$tcakey], $tcakey);
@@ -332,14 +359,14 @@ class TcaCodeGenerator
      * Processes the TCA for Inline-Tables
      *
      * @param string $table
-     * @param array $tca
+     * @param array $json
      * @return array
      */
-    public function processTableTca($table, $tca): array
+    public function processTableTca($table, $json): array
     {
         $generalTab = '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general';
 
-        uasort($tca, static function ($columnA, $columnB) {
+        uasort($json['tca'], static function ($columnA, $columnB) {
             $a = isset($columnA['order']) ? (int)$columnA['order'] : 0;
             $b = isset($columnB['order']) ? (int)$columnB['order'] : 0;
             return $a - $b;
@@ -347,7 +374,11 @@ class TcaCodeGenerator
 
         $fields = [];
         $i = 0;
-        foreach ($tca as $fieldKey => $configuration) {
+        $fieldsInPaletteToIgnore = [];
+        foreach ($json['tca'] as $fieldKey => $configuration) {
+            if (in_array($fieldKey, $fieldsInPaletteToIgnore)) {
+                continue;
+            }
             // check if this field is of type tab
             $formType = $this->storageRepository->getFormType($fieldKey, '', $table);
             if ($formType === 'Tab') {
@@ -359,7 +390,10 @@ class TcaCodeGenerator
                     // otherwise just add new tab
                     $fields[] = '--div--;' . $label;
                 }
-            } else {
+            } elseif ($formType === 'Palette') {
+                $fields[] = '--palette--;;' . $fieldKey;
+                $fieldsInPaletteToIgnore = array_merge($fieldsInPaletteToIgnore, $json['palettes'][$fieldKey]['showitem'] ?? []);
+            } elseif (!($configuration['inPalette'] ?? false)) {
                 $fields[] = $fieldKey;
             }
             $i++;
@@ -369,6 +403,12 @@ class TcaCodeGenerator
         $labelField = '';
         if ($fields) {
             $labelField = MaskUtility::getFirstNoneTabField($fields);
+            // If first field is palette, get label of first field in this palette.
+            if (strpos($labelField, '--palette--;;') === 0) {
+                $palette = str_replace('--palette--;;', '', $labelField);
+                $paletteFields = $json['palettes'][$palette]['showitem'];
+                $labelField = $paletteFields[0];
+            }
         }
 
         return [

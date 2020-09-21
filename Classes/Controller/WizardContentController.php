@@ -66,7 +66,8 @@ class WizardContentController extends WizardController
      */
     public function createAction($storage): void
     {
-        $this->storageRepository->add($storage);
+        $json = $this->storageRepository->add($storage);
+        $this->storageRepository->persist($json);
         $this->generateAction();
         $html = $this->htmlCodeGenerator->generateHtml($storage['elements']['key'], 'tt_content');
         $this->saveHtml($storage['elements']['key'], $html);
@@ -84,7 +85,7 @@ class WizardContentController extends WizardController
     {
         $storage = $this->storageRepository->loadElement($type, $key);
         $icons = $this->iconRepository->findAll();
-        $this->prepareStorage($storage);
+        $this->prepareStorage($storage, $key);
         $this->view->assign('storage', $storage);
         $this->view->assign('icons', $icons);
         $this->view->assign('editMode', 1);

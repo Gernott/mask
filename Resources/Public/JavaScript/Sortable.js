@@ -29,7 +29,8 @@ define([
     prepareInlineFieldForInsert: function (field, template) {
       var newTemplate = $.parseHTML(template);
       // Inline-Fields don't have the option to use existing fields
-      if ($(field).closest('.inline-container').length > 0) {
+      var inLineContainer = $(field).closest('.inline-container');
+      if ((inLineContainer.length > 0 && !inLineContainer.hasClass('palette-container')) || inLineContainer.hasClass('palette-inline')) {
         $(newTemplate).find('.tx_mask_fieldcontent_existing').remove();
         $(newTemplate).find('.tx_mask_fieldcontent_type').closest('label').remove();
         $(newTemplate).find('.tx_mask_fieldcontent_type').closest('.row').remove();
@@ -66,6 +67,13 @@ define([
               var bodyAppender = $('.tx_mask_tabcell3 > div').eq(index - 1);
 
               var fieldType = $(head).data('type');
+
+              // If palette dropped in inline, no existing fields allowed.
+              var isPalette = fieldType === 'Palette';
+              if (isPalette && $(head).closest('.inline-container').length > 0) {
+                $(head).find('.inline-container').addClass('palette-inline');
+              }
+
               var fieldTemplate = $("#templates div[data-type='" + fieldType + "']").outerHTML();
               fieldTemplate = Utility.updateIds(fieldTemplate);
               $('.tx_mask_tabcell3 > div').hide(); // Hide all fieldconfigs
@@ -115,13 +123,23 @@ define([
           var head = ui.item;
 
           // check if field is allowed to be dragged here
+          var message = '';
           var allowed = true;
-          var isMaskField = $(head).attr('data-fieldtype') === 'mask';
-          var isNew = $(head).attr('data-fieldtype') === undefined;
-          var isDraggedIntoInline = $(head).closest('.inline-container').length > 0;
+          var isMaskField = $(head).data('fieldtype') === 'mask';
+          var isNew = $(head).data('fieldtype') === undefined;
+          var isPalette = $(head).data('type') === 'Palette';
+          var draggedIntoPalette = $(event.target).hasClass('palette-container');
+          var container = $(head).closest('.inline-container');
+          var isDraggedIntoInline = container.length > 0 && !draggedIntoPalette;
 
           if (isDraggedIntoInline && !isMaskField && !isNew) {
             allowed = false;
+            message = 'You are trying to drag an element which relies on a tt_content-field into a repeating field. This is not allowed, because it does not make any sense. Create a new field instead.';
+          }
+
+          if (isPalette && draggedIntoPalette) {
+            allowed = false;
+            message = 'You are trying to drag a palette into another palette. Impossible.';
           }
 
           if (allowed) {
@@ -171,7 +189,7 @@ define([
             }
           } else {
             // if dragging is not allowed, abort
-            alert('You are trying to drag an element which relies on a tt_content-field into a repeating field. This is not allowed, because it does not make any sense. Create a new field instead.');
+            alert(message);
             ui.sender.sortable('cancel');
           }
         }

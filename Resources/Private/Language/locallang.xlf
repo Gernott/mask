@@ -48,6 +48,9 @@
 			<trans-unit id="tx_mask.field.Tab">
 				<source>Tab</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.Palette">
+				<source>Palette</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.Content">
 				<source>Content</source>
 			</trans-unit>
@@ -642,6 +645,9 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.all.fields_of_element">
 				<source>Fields of this element</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.fields_of_element_be_layout">
+				<source>Fields of backend layout</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.add_new_fields">
 				<source>Add new fields</source>

@@ -54,6 +54,6 @@ class MultiuseViewHelper extends AbstractViewHelper
 
         $type = $this->fieldHelper->getFieldType($key, $elementKey);
 
-        return $this->fieldHelper->getElementsWhichUseField($key, $type);
+        return $this->fieldHelper->getStorageRepository()->getElementsWhichUseField($key, $type);
     }
 }

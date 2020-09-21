@@ -30,7 +30,8 @@ class TranslateLabelViewHelper extends AbstractViewHelper
 {
     public function initializeArguments(): void
     {
-        $this->registerArgument('key', 'string', '', true);
+        $this->registerArgument('key', 'mixed', '', true);
+        $this->registerArgument('element', 'string', '', true);
         $this->registerArgument('extensionName', 'string', '');
     }
 
@@ -42,7 +43,12 @@ class TranslateLabelViewHelper extends AbstractViewHelper
     public function render(): string
     {
         $key = $this->arguments['key'];
+        $element = $this->arguments['element'];
         $extensionName = $this->arguments['extensionName'];
+
+        if (is_array($key)) {
+            return $key[$element] ?? '';
+        }
 
         if (empty($key) || strpos($key, 'LLL') > 0) {
             return $key;
