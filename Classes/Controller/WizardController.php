@@ -244,11 +244,7 @@ class WizardController extends ActionController
     public function checkElementKey(ServerRequest $request): Response
     {
         $elementKey = $request->getQueryParams()['key'];
-
-        $isAvailable = true;
-        if ($this->storageRepository->loadElement('tt_content', $elementKey)) {
-            $isAvailable = false;
-        }
+        $isAvailable = !$this->storageRepository->loadElement('tt_content', $elementKey);
 
         return new JsonResponse(['isAvailable' => $isAvailable]);
     }

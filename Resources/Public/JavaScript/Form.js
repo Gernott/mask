@@ -369,8 +369,8 @@ define([
           cache: false,
           dataType: 'json',
           data: params
-        }).done(function (isAvailable) {
-          if (!isAvailable) {
+        }).done(function (result) {
+          if (!result.isAvailable) {
             $(field).val('');
             $(field).addClass('not_unique');
           } else {
