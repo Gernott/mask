@@ -1,8 +1,9 @@
 define([
   'jquery',
   'TYPO3/CMS/Mask/Utility',
+  'TYPO3/CMS/Backend/Notification',
   'TYPO3/CMS/Mask/Contrib/jquery-ui/sortable',
-], function ($, Utility) {
+], function ($, Utility, Notification) {
   return {
     received: null,
     receivedNew: null,
@@ -135,6 +136,7 @@ define([
           var draggedIntoPalette = $(event.target).hasClass('palette-container');
           var container = $(head).closest('.inline-container');
           var isDraggedIntoInline = container.length > 0 && !draggedIntoPalette;
+          var removePalette = false;
 
           if (isDraggedIntoInline && !isMaskField && !isNew) {
             allowed = false;
@@ -143,7 +145,8 @@ define([
 
           if (isPalette && draggedIntoPalette) {
             allowed = false;
-            message = 'You are trying to drag a palette into another palette. Impossible.';
+            message = 'You are trying to drag a palette into another palette. That\'s not possible.';
+            removePalette = true;
           }
 
           if (allowed) {
@@ -195,8 +198,14 @@ define([
             }
           } else {
             // if dragging is not allowed, abort
-            alert(message);
-            ui.sender.sortable('cancel');
+            Notification.warning('Field not allowed', message);
+            try {
+              ui.sender.sortable('cancel');
+            } catch (e) {
+              if (removePalette) {
+                $('.id_Palette > .tx_mask_btn_caption > ul > .id_Palette').remove();
+              }
+            }
           }
         }
       }
