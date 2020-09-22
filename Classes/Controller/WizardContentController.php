@@ -116,7 +116,7 @@ class WizardContentController extends WizardController
      */
     public function deleteAction($key, $type): void
     {
-        $this->storageRepository->remove($type, $key);
+        $this->storageRepository->persist($this->storageRepository->remove($type, $key));
         $this->generateAction();
         $this->addFlashMessage(LocalizationUtility::translate('tx_mask.content.deletedcontentelement', 'mask'));
         $this->redirect('list', 'Wizard');
@@ -132,7 +132,7 @@ class WizardContentController extends WizardController
     public function purgeAction($key, $type): void
     {
         $this->deleteHtml($key);
-        $this->storageRepository->remove($type, $key);
+        $this->storageRepository->persist($this->storageRepository->remove($type, $key));
         $this->generateAction();
         $this->addFlashMessage(LocalizationUtility::translate('tx_mask.content.deletedcontentelement', 'mask'));
         $this->redirect('list', 'Wizard');

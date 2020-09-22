@@ -1456,4 +1456,358 @@ class StorageRepositoryTest extends BaseTestCase
         $storageRepository->expects(self::any())->method('load')->willReturn($json);
         self::assertEquals($expected, $storageRepository->add($content));
     }
+
+    public function removeDataProvider()
+    {
+        return [
+            'fields are removed' => [
+                [
+                    'tt_content' => [
+                        'elements' => [
+                            'element1' => [
+                                'columns' => [
+                                    'tx_mask_field',
+                                    'tx_mask_field_2'
+                                ],
+                                'key' => 'element1'
+                            ]
+                        ],
+                        'tca' => [
+                            'tx_mask_field' => [
+                                'config' => [
+                                    'type' => 'input'
+                                ],
+                                'key' => 'field'
+                            ],
+                            'tx_mask_field_2' => [
+                                'config' => [
+                                    'type' => 'input'
+                                ],
+                                'key' => 'field_2'
+                            ]
+                        ],
+                        'sql' => [
+                            'tx_mask_field' => [
+                                'tt_content' => [
+                                    'tx_mask_field' => 'tinytext'
+                                ]
+                            ],
+                            'tx_mask_field_2' => [
+                                'tt_content' => [
+                                    'tx_mask_field_2' => 'tinytext'
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'tt_content',
+                'element1',
+                [
+                    'tt_content' => [
+                        'elements' => [],
+                    ]
+                ]
+            ],
+            'inline fields are removed' => [
+                [
+                    'tt_content' => [
+                        'elements' => [
+                            'element1' => [
+                                'columns' => [
+                                    'tx_mask_inline',
+                                ],
+                                'key' => 'element1'
+                            ]
+                        ],
+                        'tca' => [
+                            'tx_mask_inline' => [
+                                'config' => [
+                                    'type' => 'inline'
+                                ]
+                            ],
+                        ],
+                        'sql' => [
+                            'tx_mask_inline' => [
+                                'tt_content' => [
+                                    'tx_mask_inline' => 'int'
+                                ]
+                            ],
+                        ]
+                    ],
+                    'tx_mask_inline' => [
+                        'tca' => [
+                            'tx_mask_field' => [
+                                'config' => [
+                                    'type' => 'input'
+                                ],
+                                'key' => 'field',
+                                'inlineParent' => 'tx_mask_inline'
+                            ],
+                            'tx_mask_field_2' => [
+                                'config' => [
+                                    'type' => 'input'
+                                ],
+                                'key' => 'field_2',
+                                'inlineParent' => 'tx_mask_inline'
+                            ]
+                        ],
+                        'sql' => [
+                            'tx_mask_field' => [
+                                'tt_content' => [
+                                    'tx_mask_field' => 'tinytext'
+                                ]
+                            ],
+                            'tx_mask_field_2' => [
+                                'tt_content' => [
+                                    'tx_mask_field_2' => 'tinytext'
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'tt_content',
+                'element1',
+                [
+                    'tt_content' => [
+                        'elements' => [],
+                    ]
+                ]
+            ],
+            'palette fields and palettes are removed' => [
+                [
+                    'tt_content' => [
+                        'elements' => [
+                            'element1' => [
+                                'columns' => [
+                                    'tx_mask_palette',
+                                ],
+                                'key' => 'element1'
+                            ]
+                        ],
+                        'tca' => [
+                            'tx_mask_palette' => [
+                                'config' => [
+                                    'type' => 'palette'
+                                ],
+                                'key' => 'palette'
+                            ],
+                            'tx_mask_field' => [
+                                'config' => [
+                                    'type' => 'input'
+                                ],
+                                'key' => 'field',
+                                'inlineParent' => [
+                                    'element1' => 'tx_mask_palette'
+                                ],
+                                'inPalette' => '1'
+                            ],
+                            'tx_mask_field_2' => [
+                                'config' => [
+                                    'type' => 'input'
+                                ],
+                                'key' => 'field_2',
+                                'inlineParent' => [
+                                    'element1' => 'tx_mask_palette'
+                                ],
+                                'inPalette' => '1'
+                            ]
+                        ],
+                        'sql' => [
+                            'tx_mask_field' => [
+                                'tt_content' => [
+                                    'tx_mask_field' => 'tinytext'
+                                ]
+                            ],
+                            'tx_mask_field_2' => [
+                                'tt_content' => [
+                                    'tx_mask_field_2' => 'tinytext'
+                                ]
+                            ]
+                        ],
+                        'palettes' => [
+                            'tx_mask_palette' => [
+                                'label' => 'Palette',
+                                'showitem' => ['tx_mask_field', 'tx_mask_field_2']
+                            ]
+                        ]
+                    ],
+                ],
+                'tt_content',
+                'element1',
+                [
+                    'tt_content' => [
+                        'elements' => [],
+                    ]
+                ]
+            ],
+            'palette fields in use only inlineParent removed' => [
+                [
+                    'tt_content' => [
+                        'elements' => [
+                            'element1' => [
+                                'columns' => [
+                                    'tx_mask_palette',
+                                ],
+                                'key' => 'element1'
+                            ],
+                            'element2' => [
+                                'columns' => [
+                                    'tx_mask_palette2'
+                                ],
+                                'key' => 'element2'
+                            ]
+                        ],
+                        'tca' => [
+                            'tx_mask_palette' => [
+                                'config' => [
+                                    'type' => 'palette'
+                                ],
+                                'key' => 'palette'
+                            ],
+                            'tx_mask_palette2' => [
+                                'config' => [
+                                    'type' => 'palette'
+                                ],
+                                'key' => 'palette'
+                            ],
+                            'tx_mask_field' => [
+                                'config' => [
+                                    'type' => 'input'
+                                ],
+                                'key' => 'field',
+                                'inlineParent' => [
+                                    'element1' => 'tx_mask_palette',
+                                    'element2' => 'tx_mask_palette2'
+                                ],
+                                'label' => [
+                                    'element1' => 'Field',
+                                    'element2' => 'Field'
+                                ],
+                                'order' => [
+                                    'element1' => 1,
+                                    'element2' => 1
+                                ],
+                                'inPalette' => '1'
+                            ],
+                            'header' => [
+                                'coreField' => '1',
+                                'key' => 'header',
+                                'inPalette' => '1',
+                                'inlineParent' => [
+                                    'element1' => 'tx_mask_palette',
+                                    'element2' => 'tx_mask_palette2'
+                                ],
+                                'label' => [
+                                    'element1' => 'Header',
+                                    'element2' => 'Header'
+                                ],
+                                'order' => [
+                                    'element1' => 2,
+                                    'element2' => 2
+                                ],
+                            ]
+                        ],
+                        'sql' => [
+                            'tx_mask_field' => [
+                                'tt_content' => [
+                                    'tx_mask_field' => 'tinytext'
+                                ]
+                            ],
+                        ],
+                        'palettes' => [
+                            'tx_mask_palette' => [
+                                'label' => 'Palette',
+                                'showitem' => ['tx_mask_field', 'header']
+                            ],
+                            'tx_mask_palette2' => [
+                                'label' => 'Palette 2',
+                                'showitem' => ['tx_mask_field', 'header']
+                            ]
+                        ]
+                    ],
+                ],
+                'tt_content',
+                'element1',
+                [
+                    'tt_content' => [
+                        'elements' => [
+                            'element2' => [
+                                'columns' => [
+                                    'tx_mask_palette2'
+                                ],
+                                'key' => 'element2'
+                            ]
+                        ],
+                        'tca' => [
+                            'tx_mask_palette2' => [
+                                'config' => [
+                                    'type' => 'palette'
+                                ],
+                                'key' => 'palette'
+                            ],
+                            'tx_mask_field' => [
+                                'config' => [
+                                    'type' => 'input'
+                                ],
+                                'key' => 'field',
+                                'inlineParent' => [
+                                    'element2' => 'tx_mask_palette2'
+                                ],
+                                'label' => [
+                                    'element2' => 'Field'
+                                ],
+                                'order' => [
+                                    'element2' => 1
+                                ],
+                                'inPalette' => '1'
+                            ],
+                            'header' => [
+                                'coreField' => '1',
+                                'key' => 'header',
+                                'inlineParent' => [
+                                    'element2' => 'tx_mask_palette2'
+                                ],
+                                'label' => [
+                                    'element2' => 'Header'
+                                ],
+                                'order' => [
+                                    'element2' => 2
+                                ],
+                                'inPalette' => '1'
+                            ]
+                        ],
+                        'sql' => [
+                            'tx_mask_field' => [
+                                'tt_content' => [
+                                    'tx_mask_field' => 'tinytext'
+                                ]
+                            ],
+                        ],
+                        'palettes' => [
+                            'tx_mask_palette2' => [
+                                'label' => 'Palette 2',
+                                'showitem' => ['tx_mask_field', 'header']
+                            ]
+                        ]
+                    ],
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * @param $json
+     * @param $table
+     * @param $elementKey
+     * @param $remainingFields
+     * @param $expected
+     * @test
+     * @dataProvider removeDataProvider
+     */
+    public function remove($json, $table, $elementKey, $expected)
+    {
+        $storageRepository = $this->createPartialMock(StorageRepository::class, ['load']);
+        $storageRepository->expects(self::any())->method('load')->willReturn($json);
+        self::assertEquals($expected, $storageRepository->remove($table, $elementKey));
+    }
 }

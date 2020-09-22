@@ -101,6 +101,19 @@ class StorageRepository implements SingletonInterface
     }
 
     /**
+     *
+     * Sort and write json
+     *
+     * @param $json
+     */
+    public function persist($json)
+    {
+        // sort content elements by key before saving
+        $this->sortJson($json);
+        $this->write($json);
+    }
+
+    /**
      * Load Field
      * @param $type
      * @param $key
@@ -141,10 +154,10 @@ class StorageRepository implements SingletonInterface
                     $inlineParent = $tca['inlineParent'] ?? '';
                 }
                 if ($inlineParent === $parentKey) {
-                    if ($tca['config']['type'] === 'inline') {
+                    if (($tca['config']['type'] ?? '') === 'inline') {
                         $tca['inlineFields'] = $this->loadInlineFields($key, $elementKey);
                     }
-                    if ($tca['config']['type'] === 'palette') {
+                    if (($tca['config']['type'] ?? '') === 'palette') {
                         $tca['inlineFields'] = $this->loadInlineFields('tx_mask_' . $tca['key'], $elementKey);
                     }
                     $tca['maskKey'] = 'tx_mask_' . $tca['key'];
@@ -163,13 +176,17 @@ class StorageRepository implements SingletonInterface
      * @param $key
      * @return array
      */
-    public function loadElement($type, $key): ?array
+    public function loadElement($type, $key): array
     {
+        // Only tt_content and pages can have elements
+        if (!in_array($type, ['tt_content', 'pages'])) {
+            return [];
+        }
         $json = $this->load();
         $fields = [];
         $columns = $json[$type]['elements'][$key]['columns'];
 
-        //Check if it is an array before trying to count it
+        // Check if it is an array before trying to count it
         if (is_array($columns) && count($columns) > 0) {
             foreach ($columns as $fieldName) {
                 $fields[$fieldName] = $json[$type]['tca'][$fieldName] ?? [];
@@ -178,7 +195,7 @@ class StorageRepository implements SingletonInterface
         if (count($fields) > 0) {
             $json[$type]['elements'][$key]['tca'] = $fields;
         }
-        return $json[$type]['elements'][$key];
+        return $json[$type]['elements'][$key] ?? [];
     }
 
     /**
@@ -340,9 +357,9 @@ class StorageRepository implements SingletonInterface
      *
      * @param string $type
      * @param string $key
-     * @param array $remainingFields
+     * @return array
      */
-    public function remove($type, $key, $remainingFields = []): void
+    public function remove($type, $key): array
     {
         $this->currentKey = $key;
         // Load
@@ -353,12 +370,11 @@ class StorageRepository implements SingletonInterface
         unset($json[$type]['elements'][$key]);
         if (is_array($columns)) {
             foreach ($columns as $field) {
-                $json = $this->removeField($type, $field, $json, $remainingFields);
+                $json = $this->removeField($type, $field, $json);
             }
         }
         $this->currentKey = '';
-        $this->sortJson($json);
-        $this->write($json);
+        return $json;
     }
 
     /**
@@ -396,86 +412,61 @@ class StorageRepository implements SingletonInterface
      * @param string $table
      * @param string $field
      * @param array $json
-     * @param array $remainingFields
      * @return array
      */
-    private function removeField($table, $field, $json, $remainingFields = []): array
+    private function removeField($table, $field, $json): array
     {
-        // check if this field is used in any other elements
-        $elementsInUse = $this->getElementsWhichUseField($field, $table);
-        foreach ($elementsInUse as $key => $element) {
-            if ($element['key'] === $this->currentKey) {
-                unset($elementsInUse[$key]);
-                break;
-            }
-        }
+        $maskKey = $field;
+        $field = str_replace('tx_mask_', '', $maskKey);
+        $keyToUse = isset($json[$table]['tca'][$field]) ? $field : $maskKey;
 
-        // check if father gets deleted
-        $fatherFound = false;
-        if ($remainingFields) {
-            foreach ($remainingFields as $remainingField) {
-                if ($field === 'tx_mask_' . $remainingField) {
-                    $fatherFound = true;
-                }
-            }
+        // check if this field is used in any other elements
+        $elementsInUse = $this->getElementsWhichUseField($keyToUse, $table);
+        $usedInAnotherElement = count($elementsInUse) > 1;
+
+        // Remove inlineParent, label and order
+        $inlineParent = $json[$table]['tca'][$keyToUse]['inlineParent'] ?? false;
+        if (is_array($inlineParent)) {
+            unset($json[$table]['tca'][$keyToUse]['inlineParent'][$this->currentKey]);
+            unset($json[$table]['tca'][$keyToUse]['label'][$this->currentKey]);
+            unset($json[$table]['tca'][$keyToUse]['order'][$this->currentKey]);
         }
-        $fatherGetsDeleted = !$fatherFound;
 
         // if the field is a repeating field, make some exceptions
-        if (in_array($json[$table]['tca'][$field]['config']['type'], ['inline', 'palette'], true)) {
-            $inlineFields = $this->loadInlineFields($field, $this->currentKey);
-            if ($inlineFields) {
-                // Recursively delete all inline-fields if necessary
-                foreach ($inlineFields as $inlineField) {
-                    $found = false;
-                    // check if the fields are really deleted, or if they are just deleted temporarly for update action
-                    if ($remainingFields) {
-                        foreach ($remainingFields as $remainingField) {
-                            if ($inlineField['key'] === $remainingField) {
-                                $found = true;
-                            }
-                        }
-                    }
-                    if ($found) {
-                        // was not really deleted => can be deleted temporarly because it will be readded
-                        $json = $this->removeField(
-                            $inlineField['inPalette'] ? $table : $inlineField['inlineParent'],
-                            'tx_mask_' . $inlineField['key'],
-                            $json
-                        );
-                    } else {
-                        // was really deleted and can only be deleted if father is not in use in another element
-                        if (($fatherGetsDeleted && count($elementsInUse) == 0) || !$fatherGetsDeleted) {
-                            $json = $this->removeField(
-                                $inlineField['inPalette'] ? $table : $inlineField['inlineParent'],
-                                'tx_mask_' . $inlineField['key'],
-                                $json
-                            );
-                        }
-                    }
+        if (in_array(($json[$table]['tca'][$maskKey]['config']['type'] ?? ''), ['inline', 'palette'])) {
+            $inlineFields = $this->loadInlineFields($maskKey, $this->currentKey);
+            // Recursively delete all inline field if possible
+            foreach ($inlineFields  as $inlineField) {
+                // Only remove if not in use in another element
+                if (!$usedInAnotherElement) {
+                    $parentTable = ($inlineField['inPalette'] ?? false) ? $table : $inlineField['inlineParent'];
+                    $inlineKey = 'tx_mask_' . $inlineField['key'];
+                    $json = $this->removeField($parentTable, $inlineKey, $json);
                 }
             }
         }
 
         // then delete the field, if it is not in use in another element
-        if (count($elementsInUse) < 1) {
+        if (!$usedInAnotherElement) {
+            unset($json[$table]['tca'][$maskKey]);
+            // Unset typo3 core field
             unset($json[$table]['tca'][$field]);
-            unset($json[$table]['sql'][$field]);
+            unset($json[$table]['sql'][$maskKey]);
 
-            $type = $this->getFormType($field, $this->currentKey, $table);
+            $type = $this->getFormType($maskKey, $this->currentKey, $table);
 
             // If field is of type inline, also delete table entry
             if ($type === 'Inline') {
-                unset($json[$field]);
+                unset($json[$maskKey]);
             }
 
             if ($type === 'Palette') {
-                unset($json[$table]['palettes'][$field]);
+                unset($json[$table]['palettes'][$maskKey]);
             }
 
             // If field is of type file, also delete entry in sys_file_reference
             if ($type === 'File') {
-                unset($json['sys_file_reference']['sql'][$field]);
+                unset($json['sys_file_reference']['sql'][$maskKey]);
                 $json = $this->cleanTable('sys_file_reference', $json);
             }
         }
@@ -513,15 +504,9 @@ class StorageRepository implements SingletonInterface
      */
     public function update($content): void
     {
-        $this->remove($content['type'], $content['orgkey'], $content['elements']['columns']);
+        $json = $this->remove($content['type'], $content['orgkey']);
+        $this->persist($json);
         $this->persist($this->add($content));
-    }
-
-    public function persist($json)
-    {
-        // sort content elements by key before saving
-        $this->sortJson($json);
-        $this->write($json);
     }
 
     /**
@@ -658,10 +643,10 @@ class StorageRepository implements SingletonInterface
                 $formType = 'Select';
                 break;
             case 'inline':
-                if ($tca['config']['foreign_table'] === 'sys_file_reference') {
+                if (($tca['config']['foreign_table'] ?? '') === 'sys_file_reference') {
                     $formType = 'File';
                 } else {
-                    if ($tca['config']['foreign_table'] === 'tt_content') {
+                    if (($tca['config']['foreign_table'] ?? '') === 'tt_content') {
                         $formType = 'Content';
                     } else {
                         $formType = 'Inline';
