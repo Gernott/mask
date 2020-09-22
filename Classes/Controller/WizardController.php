@@ -220,13 +220,18 @@ class WizardController extends ActionController
         $table = $queryParams['table'] ?? 'tt_content';
         $type = $queryParams['type'];
 
-        if ($type === 'Inline') {
-            $isAvailable = !array_key_exists($fieldKey, $this->storageRepository->load());
-        } else {
-            $isAvailable = !$this->storageRepository->loadField($table, $fieldKey);
+        $keyExists = false;
+        $fieldExists = false;
+
+        if ($type === 'Inline' || $type === 'Palette') {
+            $keyExists = array_key_exists($fieldKey, $this->storageRepository->load());
         }
 
-        return new JsonResponse(['isAvailable' => $isAvailable]);
+        if ($type !== 'Inline') {
+            $fieldExists = $this->storageRepository->loadField($table, $fieldKey);
+        }
+
+        return new JsonResponse(['isAvailable' => !$keyExists && !$fieldExists]);
     }
 
     /**
