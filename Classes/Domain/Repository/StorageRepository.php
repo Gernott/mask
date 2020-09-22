@@ -309,7 +309,7 @@ class StorageRepository implements SingletonInterface
 
             // If it's an existing field, override with new values but keep other untouched.
             $keyToUse = ($hasConfig || $existingMaskFieldWithNoConfig) ? $maskKey : $columns[$key];
-            if ($this->getElementsWhichUseField($keyToUse, $type)) {
+            if (isset($json[$type]['tca'][$keyToUse])) {
                 ArrayUtility::mergeRecursiveWithOverrule($json[$type]['tca'][$keyToUse], $json[$type]['tca'][$tempKey]);
             } else {
                 $json[$type]['tca'][$keyToUse] = $json[$type]['tca'][$tempKey];
