@@ -6,7 +6,7 @@
         <f:variable name="type" value="{mask:formType(elementKey: elementKey, fieldKey: field.key, type: field.inlineParent)}"/>
     </f:else>
 </f:if>
-<li data-type="{type}" class="id_{type} tx_mask_btn">
+<li data-type="{type}" class="id_{type} tx_mask_btn" data-fieldtype="{f:if(condition: field.coreField, then: 'existing', else: 'mask')}">
     <div class="tx_mask_btn_row">
         <div class="tx_mask_btn_img">
             <core:icon identifier="mask-fieldtype-{type}" size="default"/>

@@ -252,11 +252,6 @@ class StorageRepository implements SingletonInterface
             $existingMaskFieldWithNoConfig = !$hasConfig && strpos($columns[$key], 'tx_mask') === 0;
             $inPalette = (bool)($value['inPalette'] ?? false);
             $coreFieldInPalette = !$existingMaskFieldWithNoConfig && !$hasConfig && $inPalette;
-
-            if (!($hasConfig || $existingMaskFieldWithNoConfig || $coreFieldInPalette)) {
-                continue;
-            }
-
             $isInline = (bool)($value['inlineParent'] ?? false);
             $isPalette = (bool)($value['config']['type'] ?? false) == 'palette';
             $inlineParent = $value['inlineParent'] ?? '';
@@ -281,6 +276,10 @@ class StorageRepository implements SingletonInterface
             $tempKey = 'temp_' . $columns[$key];
             // Set temp entry to modify
             $json[$type]['tca'][$tempKey] = $value;
+
+            if ($coreFieldInPalette) {
+                $json[$type]['tca'][$tempKey]['coreField'] = '1';
+            }
 
             // add rte flag if inline and rte
             if ($isInline && ($content['elements']['options'][$key] ?? '') === 'rte') {

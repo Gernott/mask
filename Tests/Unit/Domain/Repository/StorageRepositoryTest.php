@@ -1039,7 +1039,8 @@ class StorageRepositoryTest extends BaseTestCase
                                 ],
                                 'order' => [
                                     'element1' => 1
-                                ]
+                                ],
+                                'coreField' => '1'
                             ]
                         ]
                     ]
@@ -1107,7 +1108,8 @@ class StorageRepositoryTest extends BaseTestCase
                                 ],
                                 'order' => [
                                     'element1' => 2
-                                ]
+                                ],
+                                'coreField' => '1'
                             ]
                         ]
                     ]
@@ -1234,7 +1236,8 @@ class StorageRepositoryTest extends BaseTestCase
                                 'order' => [
                                     'element1' => 2,
                                     'element2' => 2
-                                ]
+                                ],
+                                'coreField' => '1'
                             ]
                         ]
                     ]
@@ -1378,7 +1381,8 @@ class StorageRepositoryTest extends BaseTestCase
                                 ],
                                 'order' => [
                                     'element1' => 5
-                                ]
+                                ],
+                                'coreField' => '1'
                             ]
                         ]
                     ],
