@@ -321,7 +321,7 @@ ul.tx_mask_fieldtypes .tx_mask_fieldcontent_highlight {
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
     height: 32px;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-    width: 85px;
+    width: 100%;
 }
 
 .icons-selector .selector-button {
@@ -330,7 +330,7 @@ ul.tx_mask_fieldtypes .tx_mask_fieldcontent_highlight {
     float: left;
     height: 100%;
     text-align: center;
-    width: 39px;
+    width: 54px;
 }
 
 .icons-selector .selector-button i {
@@ -1046,4 +1046,14 @@ ul.tx_mask_fieldtypes.tx_mask_field_templates li .id_move,
     min-height: 33px;
     display: flex;
     align-items: flex-end;
+}
+
+#meta_icon {
+    display: none !important;
+}
+
+.icon-field {
+    height: 34px;
+    background-color: #fff;
+    border-radius: 2px;
 }
