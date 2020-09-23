@@ -1,0 +1,3 @@
+<f:variable name="isActive" value="{mask:linkoption(fieldKey: key, elementKey: elementKey, evalValue: name)}"/>
+<code>[{name}]</code>
+<mask:checkbox name="[{name}]" editMode="{editMode}" translationKey="tx_mask.field.link.{name}" invert="1" valueOff="" valueOn="{name}" value="{f:if(condition: isActive, then: name)}" link="1"/>

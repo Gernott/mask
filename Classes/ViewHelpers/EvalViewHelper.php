@@ -67,8 +67,17 @@ class EvalViewHelper extends AbstractViewHelper
 
         if ($field) {
             if ($field['inlineParent']) {
-                $type = $field['inlineParent'];
-                $fieldKey = 'tx_mask_' . $field['key'];
+                if ($field['inPalette']) {
+                    if (is_array($field['inlineParent'])) {
+                        $inlineParent = $field['inlineParent'][$elementKey];
+                    } else {
+                        $inlineParent = $field['inlineParent'];
+                    }
+                    $type = $this->fieldHelper->getFieldType($inlineParent, $elementKey);
+                } else {
+                    $type = $field['inlineParent'];
+                    $fieldKey = 'tx_mask_' . $field['key'];
+                }
             } else {
                 $type = $this->fieldHelper->getFieldType($fieldKey, $elementKey, true);
             }

@@ -4,55 +4,15 @@
             <f:render partial="Forms/Config/Max" arguments="{key:key, elementKey:storage.key, field: field}"/>
         </div>
     </div>
-    <div class="row">
-        <div class="form-group col-sm-6">
-            <f:render partial="Forms/Eval/Required" arguments="{key:key, elementKey:storage.key, field: field}"/>
-        </div>
-        <div class="form-group col-sm-6">
-            <f:render partial="Forms/Eval/Trim" arguments="{key:key, elementKey:storage.key, field: field}"/>
-        </div>
-    </div>
-    <div class="row">
-        <div class="form-group col-sm-6">
-            <f:render partial="Forms/Eval/Alpha" arguments="{key:key, elementKey:storage.key, field: field}"/>
-        </div>
-        <div class="form-group col-sm-6">
-            <f:render partial="Forms/Eval/AlphaNum" arguments="{key:key, elementKey:storage.key, field: field}"/>
-        </div>
-        <div class="form-group col-sm-6">
-            <f:render partial="Forms/Eval/AlphaNumX" arguments="{key:key, elementKey:storage.key, field: field}"/>
-        </div>
-        <div class="form-group col-sm-6">
-            <f:render partial="Forms/Eval/Lower" arguments="{key:key, elementKey:storage.key, field: field}"/>
-        </div>
-        <div class="form-group col-sm-6">
-            <f:render partial="Forms/Eval/NoSpace" arguments="{key:key, elementKey:storage.key, field: field}"/>
-        </div>
-        <div class="form-group col-sm-6">
-            <f:render partial="Forms/Eval/Num" arguments="{key:key, elementKey:storage.key, field: field}"/>
-        </div>
-        <div class="form-group col-sm-6">
-            <f:render partial="Forms/Eval/Unique" arguments="{key:key, elementKey:storage.key, field: field}"/>
-        </div>
-        <div class="form-group col-sm-6">
-            <f:render partial="Forms/Eval/UniqueInPid" arguments="{key:key, elementKey:storage.key, field: field}"/>
-        </div>
-        <div class="form-group col-sm-6">
-            <f:render partial="Forms/Eval/Upper" arguments="{key:key, elementKey:storage.key, field: field}"/>
-        </div>
-    </div>
+    <f:render partial="Forms/Eval/Text" arguments="{key: key, field: field, elementKey: elementKey, editMode: editMode}"/>
 </div>
 <div role="tabpanel" class="tab-pane" id="localization_{key}">
-    <div class="row">
-        <div class="form-group col-sm-6">
-            <f:render partial="Forms/Config/Behaviour/LocalizationMode" arguments="{key:key, elementKey:storage.key, field: field}"/>
-        </div>
-    </div>
+    <f:render partial="Forms/Config/Behaviour/LocalizationMode" arguments="{key:key, elementKey:storage.key, field: field, editMode: editMode}"/>
 </div>
 <div role="tabpanel" class="tab-pane" id="extended_{key}">
     <div class="row">
         <div class="form-group col-sm-6">
-            <f:render partial="Forms/Eval/Null" arguments="{key:key, elementKey:storage.key, field: field}"/>
+            <f:render partial="Forms/Checkbox/EvalCheckbox" arguments="{key: key, field: field, elementKey: elementKey, editMode: editMode, name: 'null'}"/>
         </div>
         <div class="form-group col-sm-6">
             <f:render partial="Forms/Config/Mode" arguments="{key:key, elementKey:storage.key, field: field}"/>

@@ -145,16 +145,18 @@ class WizardController extends ActionController
      * Prepares the storage array for fluid view
      *
      * @param array $storage
+     * @param $elementKey
+     * @throws \Exception
      */
-    protected function prepareStorage(&$storage): void
+    protected function prepareStorage(&$storage, $elementKey): void
     {
         // Fill storage with additional data before assigning to view
         if ($storage['tca']) {
             foreach ($storage['tca'] as $key => $field) {
                 if (is_array($field)) {
-                    if ($field['config']['type'] == 'inline') {
-                        $storage['tca'][$key]['inlineFields'] = $this->storageRepository->loadInlineFields($key);
-                        $this->sortInlineFieldsByOrder($storage['tca'][$key]['inlineFields']);
+                    if (in_array($field['config']['type'], ['inline', 'palette'])) {
+                        $storage['tca'][$key]['inlineFields'] = $this->storageRepository->loadInlineFields($key, $elementKey);
+                        $this->sortInlineFieldsByOrder($storage['tca'][$key]['inlineFields'], $elementKey);
                     }
                 }
                 // Convert old date format Y-m-d to d-m-Y
@@ -216,14 +218,20 @@ class WizardController extends ActionController
         $queryParams = $request->getQueryParams();
         $fieldKey = $queryParams['key'];
         $table = $queryParams['table'] ?? 'tt_content';
+        $type = $queryParams['type'];
 
-        // check if fieldKey is available for this table
-        $isAvailable = true;
-        if ($this->storageRepository->loadField($table, $fieldKey)) {
-            $isAvailable = false;
+        $keyExists = false;
+        $fieldExists = false;
+
+        if ($type === 'Inline' || $type === 'Palette') {
+            $keyExists = array_key_exists($fieldKey, $this->storageRepository->load());
         }
 
-        return new JsonResponse(['isAvailable' => $isAvailable]);
+        if ($type !== 'Inline') {
+            $fieldExists = $this->storageRepository->loadField($table, $fieldKey);
+        }
+
+        return new JsonResponse(['isAvailable' => !$keyExists && !$fieldExists]);
     }
 
     /**
@@ -236,11 +244,7 @@ class WizardController extends ActionController
     public function checkElementKey(ServerRequest $request): Response
     {
         $elementKey = $request->getQueryParams()['key'];
-
-        $isAvailable = true;
-        if ($this->storageRepository->loadElement('tt_content', $elementKey)) {
-            $isAvailable = false;
-        }
+        $isAvailable = !$this->storageRepository->loadElement('tt_content', $elementKey);
 
         return new JsonResponse(['isAvailable' => $isAvailable]);
     }
@@ -364,20 +368,26 @@ class WizardController extends ActionController
      * Sort inline fields recursively.
      *
      * @param array $inlineFields
+     * @param string $elementKey
      */
-    public function sortInlineFieldsByOrder(array &$inlineFields)
+    public function sortInlineFieldsByOrder(array &$inlineFields, $elementKey = '')
     {
         uasort(
             $inlineFields,
-            function ($columnA, $columnB) {
-                $a = isset($columnA['order']) ? (int)$columnA['order'] : 0;
-                $b = isset($columnB['order']) ? (int)$columnB['order'] : 0;
+            function ($columnA, $columnB) use ($elementKey) {
+                if (is_array($columnA['order'])) {
+                    $a = isset($columnA['order'][$elementKey]) ? (int)$columnA['order'][$elementKey] : 0;
+                    $b = isset($columnB['order'][$elementKey]) ? (int)$columnB['order'][$elementKey] : 0;
+                } else {
+                    $a = isset($columnA['order']) ? (int)$columnA['order'] : 0;
+                    $b = isset($columnB['order']) ? (int)$columnB['order'] : 0;
+                }
                 return $a - $b;
             }
         );
 
         foreach ($inlineFields as $i => $field) {
-            if ($field['config']['type'] == 'inline') {
+            if (in_array($field['config']['type'], ['inline', 'palette'])) {
                 if (isset($inlineFields[$i]['inlineFields']) && is_array($inlineFields[$i]['inlineFields'])) {
                     $this->sortInlineFieldsByOrder($inlineFields[$i]['inlineFields']);
                 }

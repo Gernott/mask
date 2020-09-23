@@ -7,7 +7,7 @@ define(['jquery'], function ($) {
 
     findBodyByHead: function (head) {
       var fieldIndex = $('.tx_mask_tabcell2 ul li').index(head);
-      return $('.tx_mask_tabcell3 > DIV').eq(fieldIndex);
+      return $('.tx_mask_tabcell3 > div').eq(fieldIndex);
     },
 
     syncBodyToHead: function (body) {
@@ -58,5 +58,16 @@ define(['jquery'], function ($) {
         $(tabContents).first().addClass('active');
       }
     },
+
+    updateIds: function (fieldTemplate) {
+      var $updateIds = $(fieldTemplate).find('.js-update-id');
+      var Utility = this;
+      $updateIds.each(function () {
+        var oldId = $(this).find('.checkbox-input').attr('id');
+        var newId = 'new_' + Utility.getUniqueKey();
+        fieldTemplate = fieldTemplate.replaceAll(oldId, newId);
+      });
+      return fieldTemplate;
+    }
   };
 });

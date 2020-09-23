@@ -124,6 +124,7 @@ class HtmlCodeGenerator
                 break;
             case 'String':
             case 'Integer':
+            case 'Group':
                 $html .= '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">' . "\n";
                 $html .= '{' . $datafield . '.' . $fieldKey . '}<br />' . "\n";
                 $html .= "</f:if>\n\n";

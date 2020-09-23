@@ -58,7 +58,11 @@ class LabelViewHelper extends AbstractViewHelper
             // check if this field is in an repeating field
             if ($field['inlineParent']) {
                 // if yes, the label is in the configuration
-                $label = $field['label'];
+                if (is_array($field['label'])) {
+                    $label = $field['label'][$elementKey] ?? '';
+                } else {
+                    $label = $field['label'];
+                }
             } else {
                 // otherwise the type can only be tt_content or pages
                 if ($table) {

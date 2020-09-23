@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <g id="Gruppe_5" data-name="Gruppe 5" transform="translate(-718 -456)">
+    <g id="Group" transform="translate(83)">
+      <rect id="Rechteck_1" data-name="Rechteck 1" width="64" height="64" transform="translate(635 456)" fill="#4e4e4e"/>
+    </g>
+    <path id="th-large" d="M0,35.738V63.147a3.738,3.738,0,0,0,3.738,3.738H36.131a3.738,3.738,0,0,0,3.738-3.738V35.738A3.738,3.738,0,0,0,36.131,32H3.738A3.738,3.738,0,0,0,0,35.738Zm18.065,0V47.574H3.738V36.2a.467.467,0,0,1,.467-.467ZM3.738,47.574H18.065V63.147H4.2a.467.467,0,0,1-.467-.467ZM21.8,63.147V47.574H36.131V62.68a.467.467,0,0,1-.467.467ZM36.131,47.574H21.8V35.738h13.86a.467.467,0,0,1,.467.467Z" transform="translate(730.066 438.558)" fill="#fff"/>
+  </g>
+</svg>

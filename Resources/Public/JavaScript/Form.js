@@ -41,49 +41,8 @@ define([
         MaskForm.validateElementKeyField(this);
       });
 
-      // 1st column click
-      $('.tx_mask_tabcell4 .tx_mask_field_templates').on('click', 'li', function () {
-
-        // search for active field
-        var activeFound = false;
-        var activeHead = $('.tx_mask_tabcell2 .tx_mask_btn.active');
-        if ($(activeHead).length > 0) {
-          activeFound = true;
-          var activeBody = Utility.findBodyByHead(activeHead);
-        }
-
-        var buttonCode = $.parseHTML($(this).outerHTML());
-        $('.tx_mask_tabcell2 li').removeClass('active');
-        $(buttonCode).addClass('active');
-
-        // if active field was found, new field is inserted after this
-        if (activeFound) {
-          $(activeHead).after(buttonCode);
-        } else {
-          $('.tx_mask_tabcell2 > ul').append(buttonCode);
-        }
-        var fieldType = $(buttonCode).data('type');
-        var fieldTemplate = $("#templates div[data-type='" + fieldType + "']").outerHTML();
-        $('.tx_mask_tabcell3 > div').hide(); // Hide all fieldconfigs
-
-        // if active field was found, new field is inserted after this
-        if (activeFound) {
-          if ($(activeHead).hasClass('id_Inline')) {
-            var tempActiveHead = $(activeHead).find('.inline-container > li:last');
-            var tempActiveBody = Utility.findBodyByHead(tempActiveHead);
-            $(tempActiveBody).after(fieldTemplate);
-          } else {
-            $(activeBody).after(fieldTemplate);
-          }
-
-        } else {
-          $('.tx_mask_tabcell3').append(fieldTemplate);
-        }
-        $(buttonCode).click();
-        $('.tx_mask_newfieldname:visible').focus(); // Set focus to key field
-        Sortable.initSortable();
-        Utility.initializeTabs(Utility.findBodyByHead(buttonCode));
-      });
+      // Field button clicked
+      $('.tx_mask_tabcell4 .tx_mask_field_templates').on('click', 'li', this.insertField);
 
       var tablecell2 = $('.tx_mask_tabcell2');
 
@@ -114,7 +73,7 @@ define([
         var fieldIndex;
         var body;
 
-        if ($(this).val() == '0') {
+        if ($(this).val() === '0') {
           // Show correct label and key in tabcell2
           fieldIndex = $(this).closest('.tx_mask_field').index();
           tableCell2Li.eq(fieldIndex).find('.id_keytext').html(
@@ -126,7 +85,7 @@ define([
 
           $(this).closest('.tx_mask_fieldcontent').find('.tx_mask_fieldcontent_existing').hide();
           $(this).closest('.tx_mask_fieldcontent').find('.tx_mask_fieldcontent_new').hide();
-        } else if ($(this).val() == '-1') {
+        } else if ($(this).val() === '-1') {
 
           // Hide inline-container if selected an 'existing inline'
           body = $(this).closest('.tx_mask_field');
@@ -154,28 +113,19 @@ define([
 
           // Show correct label and key in tabcell2
           fieldIndex = $(this).closest('.tx_mask_field').index();
-
-          $(body).find("INPUT[name*='tx_mask_tools_maskmask[storage][tca]'], select[name*='tx_mask_tools_maskmask[storage][tca]'], textarea[name*='tx_mask_tools_maskmask[storage][tca]']").attr('disabled', 'disabled');
+          $(body).find("input[name*='tx_mask_tools_maskmask[storage][tca]'], select[name*='tx_mask_tools_maskmask[storage][tca]'], textarea[name*='tx_mask_tools_maskmask[storage][tca]']").attr('disabled', 'disabled');
           $(body).find(".t3js-tabmenu-item:not(.active)").hide();
-
           $(this).closest('.tx_mask_field').find("input[name='tx_mask_tools_maskmask[storage][elements][columns][]']").attr('disabled', 'disabled');
           tableCell2Li.eq(fieldIndex).find('.id_keytext').html($(this).val());
           tableCell2Li.eq(fieldIndex).find('.id_labeltext').html(
-            $(this).closest('.tx_mask_field').find(".tx_mask_fieldcontent_existing INPUT[name='tx_mask_tools_maskmask[storage][elements][labels][--index--]']").val()
+            $(this).closest('.tx_mask_field').find(".tx_mask_fieldcontent_existing input[name='tx_mask_tools_maskmask[storage][elements][labels][--index--]']").val()
           );
           $(this).closest('.tx_mask_fieldcontent').find('.tx_mask_fieldcontent_existing').show();
           $(this).closest('.tx_mask_fieldcontent').find('.tx_mask_fieldcontent_new').hide();
         }
       });
 
-      // Select Field: Render type specific fields toggle
-      $(document).on('change', '.tx_mask_fieldcontent_select_renderType', function () {
-        if ($(this).val() === 'selectMultipleSideBySide') {
-          $(this).closest('.tx_mask_fieldcontent').find('.tx_mask_fieldcontent_renderType_selectMultipleSideBySide').show();
-        } else {
-          $(this).closest('.tx_mask_fieldcontent').find('.tx_mask_fieldcontent_renderType_selectMultipleSideBySide').hide();
-        }
-      });
+      $(document).on('change', '.js-internal-type', this.toggleAllowed);
 
       // Form Submit:
       $('form[name=storage]').on('submit', function () {
@@ -220,11 +170,11 @@ define([
           });
           $(this).parent().find('.tx_mask_fieldcontent_itemsresult').html(output);
         });
-        // Drag and Drop löschen:
+        // Delete Drag and Drop
         $('#dragstart .tx_mask_fieldcontent').remove();
-        // Disable "field" Selectbox or Inputfield:
+        // Disable "field" Selectbox or Inputfield
         $('select.tx_mask_fieldcontent_type').each(function () {
-          if ($(this).val() == -1) {
+          if ($(this).val() === '-1') {
             // Disable Selectbox
             $(this).prop('disabled', true);
           } else {
@@ -233,55 +183,131 @@ define([
           }
         });
 
-        //Do the magic to inline fields
-        var inlineFields = $('.inline-container li');
-        $.each(inlineFields, function (i, field) {
+        // Do the magic to inline fields
+        var inlineContainer = $('.inline-container');
+        $.each(inlineContainer, function () {
+          var isPalette = $(this).hasClass('palette-container');
+          var inlinePalette = $(this).hasClass('palette-inline');
 
-          var mother = $(field).closest('ul').closest('li');
+          $.each($(this).children(), function (i, field) {
+            var mother = $(field).closest('ul').closest('li');
+            var motherIndex = $('.tx_mask_tabcell2 ul li').index(mother);
+            var motherContent = $('.tx_mask_tabcell3 > div:eq(' + motherIndex + ')');
+            var motherFieldKey = $(motherContent).find('.tx_mask_newfieldname').val();
 
-          var motherIndex = $('.tx_mask_tabcell2 ul li').index(mother);
-          var fieldIndex = $('.tx_mask_tabcell2 ul li').index(field);
+            if (inlinePalette) {
+              var motherInline = mother.closest('ul').closest('li');
+              var motherInlineIndex = $('.tx_mask_tabcell2 ul li').index(motherInline);
+              var motherInlineContent = $('.tx_mask_tabcell3 > div:eq(' + motherInlineIndex + ')');
+              var motherInlineFieldKey = $(motherInlineContent).find('.tx_mask_newfieldname').val();
+            }
 
-          var motherContent = $('.tx_mask_tabcell3 > div:eq(' + motherIndex + ')');
-          var fieldContent = $('.tx_mask_tabcell3 > div:eq(' + fieldIndex + ')');
+            var fieldIndex = $('.tx_mask_tabcell2 ul li').index(field);
+            var fieldContent = $('.tx_mask_tabcell3 > div:eq(' + fieldIndex + ')');
+            var fieldContentNew = $(fieldContent).find('.tx_mask_fieldcontent_new');
 
-          // Search key of mother field and replace "tt_content" with "tx_mask_motherfieldkey"
-          var motherFieldKey = $(motherContent).find('.tx_mask_newfieldname').val();
-          var label = $(fieldContent).find(".tx_mask_fieldcontent_new INPUT[name='tx_mask_tools_maskmask[storage][elements][labels][--index--]']").val();
+            var label = '';
+            if (fieldContentNew.length > 0) {
+              label = $(fieldContentNew).find("input[name='tx_mask_tools_maskmask[storage][elements][labels][--index--]']").val();
+            } else {
+              label = fieldContent.find("input[name='tx_mask_tools_maskmask[storage][elements][labels][--index--]']").val();
+            }
+            // Search key of mother field and replace "tt_content" with "tx_mask_motherfieldkey"
+            var replaceKey = motherInlineFieldKey ? motherInlineFieldKey : motherFieldKey;
+            if (!isPalette || inlinePalette) {
+              $(fieldContent).find('input[name], select').attr('name', function (i, old) {
+                return old.replace('tt_content', 'tx_mask_' + replaceKey);
+              });
+              $(fieldContent).find('input[name], select').attr('name', function (i, old) {
+                return old.replace('pages', 'tx_mask_' + replaceKey);
+              });
+            }
 
-          $(fieldContent).find('input, select').attr('name', function (i, old) {
-            return old.replace('tt_content', 'tx_mask_' + motherFieldKey);
+            // Add inlineParent for back reference
+            $(fieldContent).find('.tx_mask_fieldcontent').append('<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][inlineParent]" value="tx_mask_' + motherFieldKey + '" />');
+            // Add label directly to tca as inline children are not listet in columns/labels
+            $(fieldContent).find('.tx_mask_fieldcontent').append('<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][label]" value="' + label + '" />');
+
+            // If palette add additional 'inPalette' attribute to distinguish from normal inline children
+            if (isPalette) {
+              $(fieldContent).find('.tx_mask_fieldcontent').append('<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][inPalette]" value="1" />');
+            }
           });
-          $(fieldContent).find('input, select').attr('name', function (i, old) {
-            return old.replace('pages', 'tx_mask_' + motherFieldKey);
-          });
-          $(fieldContent).find('.tx_mask_fieldcontent').append('<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][inlineParent]" value="tx_mask_' + motherFieldKey + '" />');
-          $(fieldContent).find('.tx_mask_fieldcontent').append('<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][label]" value="' + label + '" />');
         });
 
-        // Index in Arrays schreiben und inline-elemente zu ihren Eltern zuordnen
-        $('.tx_mask_fieldcontent').each(function (index, field) {
-          var inputs = $(this).find('input, select, textarea');
-          // If the field is an line-field
-          if ($(field).find('.inline-container').length > 0) {
-            $.each(inputs, function (inputIndex, input) {
-              // Only change index of inputs not in the inlines
-              if ($(input).closest('.inline-container').length === 0) {
-                $(input).attr('name', function (i, old) {
-                  return old.replace('--index--', index);
-                });
-              }
-            });
-          } else {
+        // Write index to arrays
+        $('.tx_mask_tabcell3 .tx_mask_fieldcontent').each(function (index) {
+          var inputs = $(this).find('input[name], select, textarea');
             // Change all the keys in this field
             $.each(inputs, function (inputIndex, input) {
               $(input).attr('name', function (i, old) {
                 return old.replace('--index--', index);
               });
             });
-          }
         });
       });
+    },
+
+    insertField: function (e) {
+      var activeFound = false;
+      var activeHead = $('.tx_mask_tabcell2 .tx_mask_btn.active');
+      var activeBody;
+
+      // If there is an active field, remove active status
+      if ($(activeHead).length > 0) {
+        activeFound = true;
+        $(activeHead).removeClass('active');
+        activeBody = Utility.findBodyByHead(activeHead);
+      }
+
+      // Get html of chosen button type and insert it as new active
+      var buttonCode = $.parseHTML($(e.currentTarget).outerHTML());
+      $(buttonCode).addClass('active');
+      if (activeFound) {
+        $(activeHead).after(buttonCode);
+      } else {
+        $('.tx_mask_tabcell2 > ul').append(buttonCode);
+      }
+
+      // Hide last opened field config
+      $('.tx_mask_tabcell3 > div').hide();
+
+      // Get template by type and update ids
+      var fieldType = $(buttonCode).data('type');
+      var fieldTemplate = $("#templates div[data-type='" + fieldType + "']").outerHTML();
+      fieldTemplate = Utility.updateIds(fieldTemplate);
+
+      // if active field was found, new field is inserted after this
+      if (activeFound) {
+        // Place template after last inline element
+        if (($(activeHead).hasClass('id_Inline') || $(activeHead).hasClass('id_Palette')) && $(activeHead).find('.inline-container').children().length > 0) {
+          var tempActiveHead = $(activeHead).find('.inline-container > li:last');
+          var tempActiveBody = Utility.findBodyByHead(tempActiveHead);
+          $(tempActiveBody).after(fieldTemplate);
+        } else {
+          $(activeBody).after(fieldTemplate);
+        }
+      } else {
+        $('.tx_mask_tabcell3').append(fieldTemplate);
+      }
+
+      // Show field config
+      $(buttonCode).click();
+      // Set focus to key field
+      $('.tx_mask_newfieldname:visible').focus();
+      Sortable.initSortable();
+      Utility.initializeTabs(Utility.findBodyByHead(buttonCode));
+    },
+
+    toggleAllowed: function () {
+      var $allowed = $(this).closest('.tx_mask_fieldcontent').find('.js-allowed');
+      if ($(this).val() === 'db') {
+        $allowed.show();
+        $allowed.find('input').attr('required', 'required');
+      } else {
+        $allowed.hide();
+        $allowed.find('input').removeAttr('required');
+      }
     },
 
     validateKeyField: function (field, table) {
@@ -291,15 +317,17 @@ define([
         var maskKey = 'tx_mask_' + $(field).val();
         var params = {
           key: maskKey,
-          table: table
+          table: table,
+          type: $(field).closest('.tx_mask_field').data('type')
         };
 
         // check if field is inline-field
         var body = $(field).closest('.tx_mask_field');
         var head = Utility.findHeadByBody(body);
+        var container = $(head).closest('.inline-container');
 
         // if field is not an inline-field
-        if ($(head).closest('.inline-container').length > 0) {
+        if (container.length > 0 && !container.hasClass('palette-container')) {
           // if field is inline-field
           var motherHead = $(head).parent().closest('li');
           var motherBody = Utility.findBodyByHead(motherHead);
@@ -341,8 +369,8 @@ define([
           cache: false,
           dataType: 'json',
           data: params
-        }).done(function (isAvailable) {
-          if (!isAvailable) {
+        }).done(function (result) {
+          if (!result.isAvailable) {
             $(field).val('');
             $(field).addClass('not_unique');
           } else {
@@ -406,13 +434,13 @@ define([
     deleteField: function (field) {
       var MaskForm = this;
       // If this field is inline-field, delete all its children
-      if ($(field).hasClass('id_Inline')) {
+      if ($(field).hasClass('id_Inline') || $(field).hasClass('id_Palette')) {
         var childrenFields = $(field).find(' > .inline-container > li, > .tx_mask_btn_caption > .inline-container > li');
         $.each(childrenFields, function (index, elem) {
           MaskForm.deleteField(elem);
         });
       }
-      var fieldIndex = $('.tx_mask_tabcell2 UL LI').index(field);
+      var fieldIndex = $('.tx_mask_tabcell2 ul li').index(field);
       var newItem = $(field).prev(); // Save item to activate
       if ($(newItem).length === 0) { // Save item to activate, if first is deleted
         newItem = $(field).next();
@@ -425,7 +453,7 @@ define([
     hideInlineContainer: function (body) {
       var fieldType = $(body).attr('data-type');
       if (fieldType === 'Inline') {
-        var head = findHeadByBody(body);
+        var head = Utility.findHeadByBody(body);
         $(head).addClass('existing_inline');
       }
     },

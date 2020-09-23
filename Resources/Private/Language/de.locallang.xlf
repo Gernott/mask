@@ -37,6 +37,9 @@
 			<trans-unit id="tx_mask.field.Select">
 				<target>Selectbox</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.Group">
+				<target>Gruppe</target>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.File">
 				<target>Datei</target>
 			</trans-unit>
@@ -45,6 +48,9 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.field.Tab">
 				<target>Reiter</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.Palette">
+				<source>Palette</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.Content">
 				<target>Content</target>
@@ -93,6 +99,10 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.field.num">
 				<target>Nur Ziffern</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.double2">
+				<source>Convert to floating point</source>
+				<target>In Dezimalzahl konvertieren</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.password">
 				<target>Passwortfeld</target>
@@ -217,24 +227,35 @@
 			<trans-unit id="tx_mask.field.inline.use_sortable">
 				<target>Drag'n'Drop aktivieren</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.show_possible_localization_records.description">
+				<source>Show unlocalized records which are in the original language, but not yet localized</source>
+				<target>Zeige unlokalisierte Records welche in der Originalsprache vorhanden sind, aber noch nicht lokalisiert sind</target>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.show_possible_localization_records">
-				<target>
-					Zeige unlokalisierte Records welche in der Originalsprache vorhanden sind, aber noch nicht
-					lokalisiert sind
-				</target>
+				<source>Show possible localization records</source>
+				<target>Zeige mögliche Übersetzungen</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.show_synchronization_link">
-				<target>
-					Zeige den "Synchronize" Button um auf eine 1:1 Übersetzung mit der Originalsprache upzudaten
-				</target>
+				<source>Show synchronization link</source>
+				<target>Zeige Synchronisations-Link</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.show_synchronization_link_description">
+				<source>Show a “synchronize” link to update to a 1:1 translation with the original language</source>
+				<target>Zeige den "Synchronize" Button, um auf eine 1:1 Übersetzung mit der Originalsprache upzudaten</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.show_all_localization_link.description">
+				<target>Zeige den "Lokalisiere alle Records" Button um unlokalisierte Datensätze zu holen</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.show_all_localization_link">
-				<target>
-					Zeige den "Lokalisiere alle Records" Button um unlokalisierte Datensätze zu holen
-				</target>
+				<source>Show all localization link</source>
+				<target>Zeige "Alle-Lokalisieren" Button</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.show_removed_localization_records">
 				<target>Zeige entfernte lokalisierte Records</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.show_removed_localization_records.description">
+				<source>Show records which were once localized but do not exist in the original language anymore.</source>
+				<target>Zeige Datensätze, die vorher übersetzt waren aber nicht mehr in der originalen Sprache existieren.</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.level_links_position">
 				<target>Position des "Create new" Button</target>
@@ -252,19 +273,27 @@
 				<target>Ausblenden</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.localization_mode">
-				<target>Lokalisierungs-Modus (l10n_mode)</target>
+				<target>Lokalisierungs-Modus</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.l10n_mode.default">
 				<target>Standard</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.l10n_mode.prefixLangTitle">
-				<target>Kopie mit Prefix (prefixLangTitle)</target>
+				<target>Kopie mit Prefix</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.l10n_mode.exclude">
-				<target>Immer den Wert der Ausgangssprache anzeigen (exclude)</target>
+				<target>Immer den Wert der Ausgangssprache anzeigen</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.localize_children_at_parent_localization">
 				<target>Datensätze mit Content-Element lokaliseren</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.allowLanguageSynchronization">
+				<source>Allow language synchronization</source>
+				<target>Erlaube Sprach-Synchronisation</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.allowLanguageSynchronization.description">
+				<source>Allows to select from three options: Copy from default language, copy from source language or set own value.</source>
+				<target>Erzeugt 3 Auswahlmöglichkeiten: Wert von Standardsprache kopieren, Wert von Quellsprache kopieren oder eigenen Wert setzen.</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.inline_label">
 				<target>Key des Feldes das für IRRE-Label verwendet wird (tx_mask_..)</target>
@@ -309,23 +338,24 @@
 				<target>Erlaubte Dateiendungen (Alle wenn leer)</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.link.file">
-				<target>Deaktiviere Datei:</target>
+				<source>File</source>
+				<target>Datei</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.link.mail">
-				<target>Mail:</target>
+				<target>E-Mail</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.link.page">
-				<target>Seite:</target>
+				<target>Seite</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.link.folder">
-				<target>Ordner:</target>
+				<target>Ordner</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.link.url">
-				<target>URL:</target>
+				<target>URL</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.link.telephone">
-				<source>Telephone:</source>
-				<target>Telefon:</target>
+				<source>Telephone</source>
+				<target>Telefon</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.radio.items">
 				<target>Elemente ([label,key], Ein Element je Zeile)</target>
@@ -375,9 +405,6 @@
 			<trans-unit id="tx_mask.field.select.renderType.selectMultipleSideBySide">
 				<target>Pendel</target>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.select.renderType.selectMultipleSideBySide.search">
-				<target>Suche aktivieren</target>
-			</trans-unit>
 			<trans-unit id="tx_mask.field.select.renderType.selectTree">
 				<target>Baumauswahl</target>
 			</trans-unit>
@@ -389,6 +416,82 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.field.select.foreign_table_where">
 				<target>Externe Tabelle / where Bedingung</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.group.internal_type">
+				<source>Internal Type</source>
+				<target>Interner Typ</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.group.allowed">
+				<source>Allowed tables (comma-separated)</source>
+				<target>Erlaubte Tabellen (kommasepariert)</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.group.internalType.folder">
+				<source>Folder</source>
+				<target>Ordner</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.group.internalType.db">
+				<source>Database</source>
+				<target>Datenbank</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.group.minitems">
+				<source>Minitems</source>
+				<target>Minimum Anzahl</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.editPopup">
+				<source>Edit Popup</source>
+				<target>Im Popup bearbeiten</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.addRecord">
+				<source>Add Record</source>
+				<target>Datensatz hinzufügen</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.listModule">
+				<source>List Module</source>
+				<target>Listen-Modul</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.recordsOverview">
+				<source>Records Overview</source>
+				<target>Datensatz Übersicht</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.tableList">
+				<source>Table List</source>
+				<target>Auswahl pro Tabelle</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.elementBrowser">
+				<source>Element Browser</source>
+				<target>Datensatz Browser</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.multiple">
+				<source>Multiple</source>
+				<target>Mehrfachauswahl</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.editPopup.description">
+				<source>Shortcut to edit referenced elements directly in a popup.</source>
+				<target>Referenzierte Datensätze in einem Popup bearbeiten.</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.addRecord.description">
+				<source>Directly create and add a related record.</source>
+				<target>Datensätze direkt neu erstellen und hinzufügen.</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.listModule.description">
+				<source>Open the list module for the first allowed table.</source>
+				<target>Listenansicht für die erste erlaubte Tabelle öffnen.</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.recordsOverview.description">
+				<source>Render an overview of the selected records.</source>
+				<target>Referenzierten Datensätze als Liste anzeigen.</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.tableList.description">
+				<source>Render a list of allowed tables and link to element browser.</source>
+				<target>Erstellt Liste der erlaubten Tabellen und verlinkt sie zur Auswahl.</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.elementBrowser.description">
+				<source>Renders a button to open element browser.</source>
+				<target>Datensatz Auswahl öffnen.</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.multiple.description">
+				<source>Allows the same item more than once in a list.</source>
+				<target>Erlaubt den gleichen Datensatz mehrfach in der Liste.</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.string.size">
 				<target>Größe des Feldes</target>
@@ -424,7 +527,7 @@
 				<target>Standard</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.text.wrap">
-				<target>Wrap deaktivieren</target>
+				<target>Virtueller Umbruch</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.text.format">
 				<target>T3-Editor</target>
@@ -456,7 +559,10 @@
 			<trans-unit id="tx_mask.field.text.format.mixed">
 				<target>Mixed</target>
 			</trans-unit>
-
+			<trans-unit id="tx_mask.blindLinkOptions">
+				<source>Link options that should be displayed</source>
+				<target>Link Optionen, die angezeigt werden sollen</target>
+			</trans-unit>
 
 			<trans-unit id="tx_mask.content.title">
 				<target>Titel</target>
@@ -575,6 +681,10 @@
 			<trans-unit id="tx_mask.all.fields_of_element">
 				<target>Felder des Elements</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.all.fields_of_element_be_layout">
+				<source>Fields of backend layout</source>
+				<target>Felder des Backendlayouts</target>
+			</trans-unit>
 			<trans-unit id="tx_mask.all.add_new_fields">
 				<target>Felder hinzufügen</target>
 			</trans-unit>
@@ -663,6 +773,10 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.tabs.appearance">
 				<target>Verhalten und Aussehen</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.tabs.fieldControl">
+				<source>Field Control</source>
+				<target>Funktionen</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.tabs.localization">
 				<target>Lokalisierung</target>

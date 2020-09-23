@@ -40,32 +40,6 @@ class FieldHelper
     }
 
     /**
-     * Returns all elements that use this field
-     *
-     * @param string $key TCA Type
-     * @param string $type elementtype
-     * @return array elements in use
-     */
-    public function getElementsWhichUseField($key, $type = 'tt_content'): array
-    {
-        $storage = $this->storageRepository->load();
-
-        $elementsInUse = [];
-        if ($storage[$type]['elements']) {
-            foreach ($storage[$type]['elements'] as $element) {
-                if ($element['columns']) {
-                    foreach ($element['columns'] as $column) {
-                        if ($column === $key) {
-                            $elementsInUse[] = $element;
-                        }
-                    }
-                }
-            }
-        }
-        return $elementsInUse;
-    }
-
-    /**
      * Returns the label of a field in an element
      *
      * @param string $elementKey Key of Element
@@ -78,11 +52,14 @@ class FieldHelper
         $json = $this->storageRepository->load();
         $label = '';
         $columns = $json[$type]['elements'][$elementKey]['columns'] ?? false;
-        if ($columns && count($columns) > 0) {
+        $maskField = isset($fieldKey) && strpos($fieldKey, 'tx_mask_') === 0;
+        if ($maskField && $columns && count($columns) > 0) {
             $fieldIndex = array_search($fieldKey, $columns);
             if ($fieldIndex !== false) {
                 $label = $json[$type]['elements'][$elementKey]['labels'][$fieldIndex];
             }
+        } else {
+            $label = $json[$type]['tca'][$fieldKey]['label'][$elementKey] ?? '';
         }
         return $label;
     }
@@ -93,80 +70,82 @@ class FieldHelper
      * @param string $fieldKey key of field
      * @param string $elementKey key of element
      * @param bool $excludeInlineFields
-     * @return string $fieldType returns fieldType or null if not found
+     * @return string $fieldType returns fieldType or empty string if not found
      */
     public function getFieldType($fieldKey, $elementKey = '', $excludeInlineFields = false): string
     {
         $storage = $this->storageRepository->load();
 
-        // get all possible types (tables)
-        if ($storage && !$excludeInlineFields) {
-            $types = array_keys($storage);
-        } else {
-            $types = [];
+        if (!$storage) {
+            return '';
         }
-        $types[] = 'pages';
-        $types[] = 'tt_content';
-        $types = array_unique($types);
 
-        $fieldType = '';
-        $found = false;
+        // get all possible types (tables)
+        if ($excludeInlineFields) {
+            $types = ['pages', 'tt_content'];
+        } else {
+            $types = array_keys($storage);
+        }
+
         foreach ($types as $type) {
-            if ($storage[$type]['elements'] && !$found) {
-                foreach ($storage[$type]['elements'] as $element) {
-
-                    // if this is the element we search for, or no special element was given,
-                    // and the element has columns and the fieldType wasn't found yet
-                    if (($element['key'] === $elementKey || $elementKey === '') && $element['columns'] && !$found) {
-                        foreach ($element['columns'] as $column) {
-                            if ($column === $fieldKey && !$found) {
-                                $fieldType = $type;
-                                $found = true;
-                            }
+            foreach ($storage[$type]['elements'] ?? [] as $element) {
+                // if this is the element we search for, or no special element was given,
+                // and the element has columns and the fieldType wasn't found yet
+                if (($element['key'] === $elementKey || $elementKey === '') && ($element['columns'] ?? false)) {
+                    foreach ($element['columns'] as $column) {
+                        if ($column === $fieldKey) {
+                            return $type;
                         }
                     }
                 }
-            } else {
-                if (is_array($storage[$type]['tca'][$fieldKey])) {
-                    $fieldType = $type;
-                    $found = true;
-                }
+            }
+            if (($storage[$type]['tca'][$fieldKey] ?? false) && is_array($storage[$type]['tca'][$fieldKey])) {
+                return $type;
             }
         }
-        return $fieldType;
+
+        return '';
     }
 
     /**
      * Returns all fields of a type from a table
      *
-     * @param string $key TCA Type
-     * @param string $type elementtype
+     * @param string $tcaType TCA Type
+     * @param string $table elementtype
      * @return array fields
      */
-    public function getFieldsByType($key, $type): array
+    public function getFieldsByType($tcaType, $table): array
     {
         $storage = $this->storageRepository->load();
-        if (empty($storage[$type]) || empty($storage[$type]['tca'])) {
+        $tcaType = strtolower($tcaType);
+
+        if (empty($storage[$table]) || empty($storage[$table]['tca'])) {
             return [];
         }
 
         $fields = [];
-        foreach ($storage[$type]['tca'] as $field => $config) {
-            if ($config['config']['type'] !== strtolower($key)) {
+        foreach ($storage[$table]['tca'] as $field => $config) {
+            if ($config['config']['type'] !== $tcaType) {
                 continue;
             }
 
-            $elements = $this->getElementsWhichUseField($field, $type);
-            if (empty($elements)) {
-                continue;
+            $elements = $this->storageRepository->getElementsWhichUseField($field, $table);
+            if ($elements) {
+                $fields[] = [
+                    'field' => $field,
+                    'label' => $this->getLabel($elements[0]['key'], $field, $table),
+                ];
             }
-
-            $fields[] = [
-                'field' => $field,
-                'label' => $this->getLabel($elements[0]['key'], $field, $type),
-            ];
         }
 
         return $fields;
+    }
+
+    /**
+     * @return StorageRepository
+     */
+    public function getStorageRepository()
+    {
+        return $this->storageRepository;
     }
 }

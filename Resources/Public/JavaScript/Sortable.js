@@ -1,8 +1,9 @@
 define([
   'jquery',
   'TYPO3/CMS/Mask/Utility',
+  'TYPO3/CMS/Backend/Notification',
   'TYPO3/CMS/Mask/Contrib/jquery-ui/sortable',
-], function ($, Utility) {
+], function ($, Utility, Notification) {
   return {
     received: null,
     receivedNew: null,
@@ -20,7 +21,8 @@ define([
       // for each 2nd column LI, assign correct index to 3rd column DIV
       var transfer = $('.dragtarget li').not('.tx_mask_fieldcontent_highlight');
       $.each(transfer, function (index, e) {
-        $('.tx_mask_tabcell3 > div').eq($(e).attr('data-index')).attr('data-index', index);
+        var indexBeforeSorting = $(e).attr('data-index');
+        $('.tx_mask_tabcell3 > div').eq(indexBeforeSorting).attr('data-index', index);
       });
       // sort via newly assigned data-index
       $('.tx_mask_tabcell3 > div').sort(this.sort_li).appendTo('.tx_mask_tabcell3');
@@ -29,7 +31,8 @@ define([
     prepareInlineFieldForInsert: function (field, template) {
       var newTemplate = $.parseHTML(template);
       // Inline-Fields don't have the option to use existing fields
-      if ($(field).closest('.inline-container').length > 0) {
+      var inLineContainer = $(field).closest('.inline-container');
+      if ((inLineContainer.length > 0 && !inLineContainer.hasClass('palette-container')) || inLineContainer.hasClass('palette-inline')) {
         $(newTemplate).find('.tx_mask_fieldcontent_existing').remove();
         $(newTemplate).find('.tx_mask_fieldcontent_type').closest('label').remove();
         $(newTemplate).find('.tx_mask_fieldcontent_type').closest('.row').remove();
@@ -66,9 +69,18 @@ define([
               var bodyAppender = $('.tx_mask_tabcell3 > div').eq(index - 1);
 
               var fieldType = $(head).data('type');
+
+              // If palette dropped in inline, no existing fields allowed.
+              var isPalette = fieldType === 'Palette';
+              if (isPalette && $(head).closest('.inline-container').length > 0) {
+                $(head).find('.inline-container').addClass('palette-inline');
+              }
+
               var fieldTemplate = $("#templates div[data-type='" + fieldType + "']").outerHTML();
+              fieldTemplate = Utility.updateIds(fieldTemplate);
               $('.tx_mask_tabcell3 > div').hide(); // Hide all fieldconfigs
               var newTemplate = Sortable.prepareInlineFieldForInsert(head, fieldTemplate);
+              $(newTemplate).attr('data-index', index);
               if (index === 0) {
                 $('.tx_mask_tabcell3').prepend(newTemplate); // Add new fieldconfig
               } else {
@@ -78,6 +90,9 @@ define([
                   $('.tx_mask_tabcell3').append(newTemplate); // Add new fieldconfig
                 }
               }
+              $('.tx_mask_tabcell3 > div').each(function (i) {
+                $(this).attr('data-index', i);
+              });
               $('.tx_mask_newfieldname:visible').focus(); // Set focus to key field
             }
           } else {
@@ -105,7 +120,6 @@ define([
         },
 
         receive: function (event, ui) {
-
           Sortable.received = false;
           Sortable.receivedNew = false;
           Sortable.sorted = false;
@@ -114,13 +128,25 @@ define([
           var head = ui.item;
 
           // check if field is allowed to be dragged here
+          var message = '';
           var allowed = true;
-          var isMaskField = $(head).attr('data-fieldtype') === 'mask';
-          var isNew = $(head).attr('data-fieldtype') === undefined;
-          var isDraggedIntoInline = $(head).closest('.inline-container').length > 0;
+          var isMaskField = $(head).data('fieldtype') === 'mask';
+          var isNew = $(head).data('fieldtype') === undefined;
+          var isPalette = $(head).data('type') === 'Palette';
+          var draggedIntoPalette = $(event.target).hasClass('palette-container');
+          var container = $(head).closest('.inline-container');
+          var isDraggedIntoInline = container.length > 0 && !draggedIntoPalette;
+          var removePalette = false;
 
           if (isDraggedIntoInline && !isMaskField && !isNew) {
             allowed = false;
+            message = 'You are trying to drag an element which relies on a tt_content-field into a repeating field. This is not allowed, because it does not make any sense. Create a new field instead.';
+          }
+
+          if (isPalette && draggedIntoPalette) {
+            allowed = false;
+            message = 'You are trying to drag a palette into another palette. That\'s not possible.';
+            removePalette = true;
           }
 
           if (allowed) {
@@ -134,7 +160,9 @@ define([
             // if not already sorted by stop event and if the element is not from the first column, sort
             if (!Sortable.sorted) {
               Sortable.initSortable();
-              Sortable.sortFields();
+              if (!Sortable.receivedNew) {
+                Sortable.sortFields();
+              }
               Sortable.sorted = true;
             }
 
@@ -170,8 +198,14 @@ define([
             }
           } else {
             // if dragging is not allowed, abort
-            alert('You are trying to drag an element which relies on a tt_content-field into a repeating field. This is not allowed, because it does not make any sense. Create a new field instead.');
-            ui.sender.sortable('cancel');
+            Notification.warning('Field not allowed', message);
+            try {
+              ui.sender.sortable('cancel');
+            } catch (e) {
+              if (removePalette) {
+                $('.id_Palette > .tx_mask_btn_caption > ul > .id_Palette').remove();
+              }
+            }
           }
         }
       }

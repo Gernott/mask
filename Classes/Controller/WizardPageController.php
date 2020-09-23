@@ -50,7 +50,8 @@ class WizardPageController extends WizardController
      */
     public function createAction($storage): void
     {
-        $this->storageRepository->add($storage);
+        $json = $this->storageRepository->add($storage);
+        $this->storageRepository->persist($json);
         $this->generateAction();
         $this->addFlashMessage('Your new Content-Element was created.');
         $this->redirect('list');
@@ -71,7 +72,7 @@ class WizardPageController extends WizardController
 
         if ($layout) {
             $storage = $this->storageRepository->loadElement('pages', $layoutIdentifier);
-            $this->prepareStorage($storage);
+            $this->prepareStorage($storage, $layoutIdentifier);
             $this->view->assign('backendLayout', $layout);
             $this->view->assign('storage', $storage);
             $this->view->assign('editMode', 1);

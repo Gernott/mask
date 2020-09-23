@@ -57,11 +57,10 @@ class InlineHelper
      *
      * @param array $data
      * @param string $table
-     * @throws Exception
      */
     public function addFilesToData(&$data, $table = 'tt_content'): void
     {
-        if ($data['_LOCALIZED_UID']) {
+        if ($data['_LOCALIZED_UID'] ?? false) {
             $uid = $data['_LOCALIZED_UID'];
         } else {
             $uid = $data['uid'];
@@ -73,20 +72,20 @@ class InlineHelper
             return;
         }
 
+        // Cast to int for findByRelation call
+        $uid = (int)$uid;
+
         $storage = $this->storageRepository->load();
         $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
 
-        $contentFields = ['media', 'image', 'assets'];
-        if ($storage[$table]['tca']) {
-            foreach ($storage[$table]['tca'] as $fieldKey => $field) {
-                $contentFields[] = $fieldKey;
-            }
-        }
-        if ($contentFields) {
-            foreach ($contentFields as $fieldKey) {
-                if ($this->storageRepository->getFormType($fieldKey, '', $table) === 'File') {
-                    $data[$fieldKey] = $fileRepository->findByRelation($table, $fieldKey, $uid);
-                }
+        $contentFields = array_merge(
+            ['media', 'image', 'assets'],
+            array_keys($storage[$table]['tca'] ?? [])
+        );
+
+        foreach ($contentFields as $fieldKey) {
+            if ($this->storageRepository->getFormType($fieldKey, '', $table) === 'File') {
+                $data[$fieldKey] = $fileRepository->findByRelation($table, $fieldKey, $uid);
             }
         }
     }
@@ -115,7 +114,6 @@ class InlineHelper
         } elseif ($table === 'pages') {
             // if the table is pages, then load the pid
             if (isset($data['uid'])) {
-
                 // find the backendlayout by the pid
                 $backendLayoutIdentifier = $this->backendLayoutRepository->findIdentifierByPid($data['uid']);
 
@@ -126,12 +124,9 @@ class InlineHelper
                         str_replace('pagets__', '', $backendLayoutIdentifier)
                     );
                     $elementFields = $element['columns'];
-                } else {
-
-                    // if no backendlayout was found, just load all fields, if there are fields
-                    if (isset($storage[$table]['tca'])) {
-                        $elementFields = array_keys($storage[$table]['tca']);
-                    }
+                // if no backendlayout was found, just load all fields, if there are fields
+                } elseif (isset($storage[$table]['tca'])) {
+                    $elementFields = array_keys($storage[$table]['tca']);
                 }
             }
         } elseif (isset($storage[$table])) {
@@ -141,7 +136,6 @@ class InlineHelper
 
         // if the element has columns
         if ($elementFields) {
-
             // check foreach column
             foreach ($elementFields as $field) {
                 $fieldKeyPrefix = $field;

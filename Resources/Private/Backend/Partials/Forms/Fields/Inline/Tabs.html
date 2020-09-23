@@ -1,10 +1,10 @@
 <div role="tabpanel" class="tab-pane" id="appearance_{key}">
     <div class="row">
         <div class="form-group col-sm-6">
-            <f:render partial="Forms/Config/Appearance/CollapseAll" arguments="{key:key, elementKey:storage.key, field: field}"/>
+            <f:render partial="Forms/Config/Appearance/CollapseAll" arguments="{field: field, editMode: editMode}"/>
         </div>
         <div class="form-group col-sm-6">
-            <f:render partial="Forms/Config/Appearance/ExpandSingle" arguments="{key:key, elementKey:storage.key, field: field}"/>
+            <f:render partial="Forms/Config/Appearance/ExpandSingle" arguments="{field: field, editMode: editMode}"/>
         </div>
     </div>
     <div class="row">
@@ -14,11 +14,10 @@
         <div class="form-group col-sm-6">
             <f:render partial="Forms/Config/Appearance/LevelLinksPosition" arguments="{key:key, elementKey:storage.key, field: field}"/>
         </div>
-
     </div>
     <div class="row">
         <div class="form-group col-sm-6">
-            <f:render partial="Forms/Config/Appearance/UseSortable" arguments="{key:key, elementKey:storage.key, field: field}"/>
+            <f:render partial="Forms/Config/Appearance/UseSortable" arguments="{field: field, editMode: editMode}"/>
         </div>
         <div class="form-group col-sm-6"></div>
     </div>
@@ -53,23 +52,19 @@
 <div role="tabpanel" class="tab-pane" id="localization_{key}">
     <div class="row">
         <div class="form-group col-sm-6">
-            <f:render partial="Forms/Config/Appearance/ShowSynchronizationLink" arguments="{key:key, elementKey:storage.key, field: field}"/>
+            <f:render partial="Forms/Config/Appearance/ShowSynchronizationLink" arguments="{field: field, editMode: editMode}"/>
         </div>
         <div class="form-group col-sm-6">
-            <f:render partial="Forms/Config/Appearance/ShowPossibleLocalizationRecords" arguments="{key:key, elementKey:storage.key, field: field}"/>
+            <f:render partial="Forms/Config/Appearance/ShowPossibleLocalizationRecords" arguments="{field: field, editMode: editMode}"/>
         </div>
     </div>
     <div class="row">
         <div class="form-group col-sm-6">
-            <f:render partial="Forms/Config/Appearance/ShowAllLocalizationLink" arguments="{key:key, elementKey:storage.key, field: field}"/>
+            <f:render partial="Forms/Config/Appearance/ShowAllLocalizationLink" arguments="{field: field, editMode: editMode}"/>
         </div>
         <div class="form-group col-sm-6">
-            <f:render partial="Forms/Config/Appearance/ShowRemovedLocalizationRecords" arguments="{key:key, elementKey:storage.key, field: field}"/>
+            <f:render partial="Forms/Config/Appearance/ShowRemovedLocalizationRecords" arguments="{field: field, editMode: editMode}"/>
         </div>
     </div>
-    <div class="row">
-        <div class="form-group col-sm-6">
-            <f:render partial="Forms/Config/Behaviour/LocalizationMode" arguments="{key:key, elementKey:storage.key, field: field}"/>
-        </div>
-    </div>
+    <f:render partial="Forms/Config/Behaviour/LocalizationMode" arguments="{key:key, elementKey:storage.key, field: field, editMode: editMode}"/>
 </div>
