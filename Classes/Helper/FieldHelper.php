@@ -82,25 +82,21 @@ class FieldHelper
 
         // get all possible types (tables)
         if ($excludeInlineFields) {
-            $types = ['pages', 'tt_content'];
+            $tables = ['tt_content', 'pages'];
         } else {
-            $types = array_keys($storage);
+            $tables = array_keys($storage);
         }
 
-        foreach ($types as $type) {
-            foreach ($storage[$type]['elements'] ?? [] as $element) {
-                // if this is the element we search for, or no special element was given,
-                // and the element has columns and the fieldType wasn't found yet
-                if (($element['key'] === $elementKey || $elementKey === '') && ($element['columns'] ?? false)) {
-                    foreach ($element['columns'] as $column) {
-                        if ($column === $fieldKey) {
-                            return $type;
-                        }
-                    }
+        foreach ($tables as $table) {
+            foreach ($storage[$table]['elements'] ?? [] as $element) {
+                // If element key is set, ignore all other elements
+                if ($elementKey !== '' && ($elementKey !== $element['key'])) {
+                    continue;
                 }
-            }
-            if (($storage[$type]['tca'][$fieldKey] ?? false) && is_array($storage[$type]['tca'][$fieldKey])) {
-                return $type;
+                // If field is listed under columns or it is part of tca keys, it belongs to current table
+                if (in_array($fieldKey, ($element['columns'] ?? [])) || isset($storage[$table]['tca'][$fieldKey])) {
+                    return $table;
+                }
             }
         }
 

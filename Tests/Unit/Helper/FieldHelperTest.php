@@ -236,6 +236,38 @@ class FieldHelperTest extends BaseTestCase
                 false,
                 'tt_content'
             ],
+            'First table is not returned if elementKey is not empty' => [
+                [
+                    'pages' => [
+                        'elements' => [
+                            'element_1' => [
+                                'key' => 'element_1',
+                                'columns' => [
+                                    'tx_mask_column_1',
+                                    'tx_mask_column_2',
+                                    'tx_mask_column_3'
+                                ]
+                            ],
+                        ]
+                    ],
+                    'tt_content' => [
+                        'elements' => [
+                            'element_2' => [
+                                'key' => 'element_2',
+                                'columns' => [
+                                    'tx_mask_column_1',
+                                    'tx_mask_column_2',
+                                    'tx_mask_column_3'
+                                ]
+                            ]
+                        ]
+                    ],
+                ],
+                'tx_mask_column_1',
+                'element_2',
+                false,
+                'tt_content'
+            ],
             'Correct table is returned for field and element' => [
                 [
                     'tt_content' => [
@@ -354,7 +386,7 @@ class FieldHelperTest extends BaseTestCase
                 'tx_mask_column_1',
                 '',
                 true,
-                'pages'
+                'tt_content'
             ],
         ];
     }
@@ -370,14 +402,7 @@ class FieldHelperTest extends BaseTestCase
      */
     public function getFieldType($json, $fieldKey, $elementKey, $excludeInline, $expected)
     {
-        $settingsService = $this->getMockBuilder(SettingsService::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $storage = $this->getMockBuilder(StorageRepository::class)
-            ->setConstructorArgs([$settingsService])
-            ->getMock();
-
+        $storage = $this->createPartialMock(StorageRepository::class, ['load']);
         $storage->method('load')->willReturn($json);
         $fieldHelper = new FieldHelper($storage);
         self::assertSame($expected, $fieldHelper->getFieldType($fieldKey, $elementKey, $excludeInline));
