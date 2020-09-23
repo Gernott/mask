@@ -126,10 +126,10 @@ class HtmlCodeGenerator
                 $paletteFields = $this->storageRepository->loadInlineFields($fieldKey, $elementKey);
                 foreach ($paletteFields ?? [] as $paletteField) {
                     $html .= $this->generateFieldHtml(
-                            $paletteField['maskKey'],
+                        ($paletteField['coreField'] ?? false) ? $paletteField['key'] : $paletteField['maskKey'],
                             $elementKey,
-                            $fieldKey,
-                            $datafield . '_item'
+                            $table,
+                            $datafield
                         ) . "\n";
                 }
                 break;
