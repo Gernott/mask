@@ -40,16 +40,6 @@ class WizardContentController extends WizardController
     }
 
     /**
-     * action list
-     */
-    public function listAction(): void
-    {
-        $this->checkFolders();
-        $this->view->assign('missingFolders', $this->missingFolders);
-        $this->view->assign('storages', $this->storageRepository->load());
-    }
-
-    /**
      * action new
      */
     public function newAction(): void

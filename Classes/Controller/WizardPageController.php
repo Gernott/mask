@@ -23,41 +23,6 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 class WizardPageController extends WizardController
 {
     /**
-     * action list
-     */
-    public function listAction(): void
-    {
-        $settings = $this->settingsService->get();
-        $backendLayouts = $this->backendLayoutRepository->findAll(explode(',', $settings['backendlayout_pids']));
-        $this->view->assign('backendLayouts', $backendLayouts);
-    }
-
-    /**
-     * action new
-     */
-    public function newAction(): void
-    {
-        $settings = $this->settingsService->get();
-        $backendLayouts = $this->backendLayoutRepository->findAll(explode(',', $settings['backendlayout_pids']));
-        $this->view->assign('backendLayouts', $backendLayouts);
-    }
-
-    /**
-     * action create
-     *
-     * @param array $storage
-     * @throws StopActionException
-     */
-    public function createAction($storage): void
-    {
-        $json = $this->storageRepository->add($storage);
-        $this->storageRepository->persist($json);
-        $this->generateAction();
-        $this->addFlashMessage('Your new Content-Element was created.');
-        $this->redirect('list');
-    }
-
-    /**
      * action edit
      *
      * @param string $layoutIdentifier
@@ -91,16 +56,5 @@ class WizardPageController extends WizardController
         $this->generateAction();
         $this->addFlashMessage(LocalizationUtility::translate('tx_mask.page.updatedpage', 'mask'));
         $this->redirectByAction();
-    }
-
-    /**
-     * action delete
-     *
-     * @param array $storage
-     * @throws StopActionException
-     */
-    public function deleteAction(array $storage): void
-    {
-        $this->redirect('list');
     }
 }
