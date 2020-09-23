@@ -19,6 +19,7 @@ namespace MASK\Mask\ViewHelpers;
 
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Helper\FieldHelper;
+use MASK\Mask\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 class TcaViewHelper extends AbstractViewHelper
@@ -35,57 +36,39 @@ class TcaViewHelper extends AbstractViewHelper
      */
     protected $storageRepository;
 
-    /**
-     * @var array
-     */
-    protected static $forbiddenFields = [
-        'starttime',
-        'endtime',
-        'hidden',
-        'sectionIndex',
-        'linkToTop',
-        'fe_group',
-        'CType',
-        'doktype',
-        'title',
-        'TSconfig',
-        'php_tree_stop',
-        'storage_pid',
-        'tx_impexp_origuid',
-        't3ver_label',
-        'editlock',
-        'url_scheme',
-        'extendToSubpages',
-        'nav_title',
-        'nav_hide',
-        'subtitle',
-        'target',
-        'alias',
-        'url',
-        'urltype',
-        'lastUpdated',
-        'newUntil',
-        'cache_timeout',
-        'cache_tags',
-        'no_cache',
-        'no_search',
-        'shortcut',
-        'shortcut_mode',
-        'content_from_pid',
-        'mount_pid',
-        'keywords',
-        'description',
-        'abstract',
-        'author',
-        'author_email',
-        'is_siteroot',
-        'mount_pid_ol',
-        'module',
-        'fe_login_mode',
-        'l18n_cfg',
-        'backend_layout',
-        'backend_layout_next_level',
-        'tx_gridelements_children',
+    protected static $allowedFields = [
+        'tt_content' => [
+            'header',
+            'header_layout',
+            'header_position',
+            'date',
+            'header_link',
+            'subheader',
+            'bodytext',
+            'assets',
+            'image',
+            'media',
+            'imagewidth',
+            'imageheight',
+            'imageborder',
+            'imageorient',
+            'imagecols',
+            'image_zoom',
+            'bullets_type',
+            'table_delimiter',
+            'table_enclosure',
+            'table_caption',
+            'file_collections',
+            'filelink_sorting',
+            'filelink_sorting_direction',
+            'target',
+            'filelink_size',
+            'uploads_description',
+            'uploads_type',
+            'pages',
+            'selected_categories',
+            'category_field',
+        ]
     ];
 
     public function __construct(FieldHelper $fieldHelper, StorageRepository $storageRepository)
@@ -119,20 +102,17 @@ class TcaViewHelper extends AbstractViewHelper
         $fields = [];
         if ($type === 'Tab') {
             $fields = $this->fieldHelper->getFieldsByType($type, $table);
-        } else {
-            if (in_array($table, ['tt_content', 'pages'])) {
-                foreach ($GLOBALS['TCA'][$table]['columns'] as $tcaField => $tcaConfig) {
-                    if ($table === 'tt_content' || ($table === 'pages' && strpos($tcaField, 'tx_mask_') === 0)) {
-                        $fieldType = $this->storageRepository->getFormType($tcaField, '', $table);
-                        if (($fieldType === $type || ($fieldType === 'Text' && $type === 'Richtext'))
-                            && !in_array($tcaField, self::$forbiddenFields, true)
-                        ) {
-                            $fields[] = [
-                                'field' => $tcaField,
-                                'label' => $tcaConfig['label'],
-                            ];
-                        }
-                    }
+        } elseif (!GeneralUtility::isMaskIrreTable($table)) {
+            foreach ($GLOBALS['TCA'][$table]['columns'] as $tcaField => $tcaConfig) {
+                if (!GeneralUtility::isMaskIrreTable($tcaField) && !in_array($tcaField, self::$allowedFields[$table] ?? [])) {
+                    continue;
+                }
+                $fieldType = $this->storageRepository->getFormType($tcaField, '', $table);
+                if ($fieldType === $type || ($fieldType === 'Text' && $type === 'Richtext')) {
+                    $fields[] = [
+                        'field' => $tcaField,
+                        'label' => $tcaConfig['label'],
+                    ];
                 }
             }
         }
