@@ -9,8 +9,8 @@ defined('TYPO3_MODE') or die();
     'bottom',
     [
         \MASK\Mask\Controller\WizardController::class => 'list, createMissingFolders',
-        \MASK\Mask\Controller\WizardContentController::class => 'list, new, create, edit, update, delete, purge, generate, showHtml, createMissingFolders, hide, activate, createHtml',
-        \MASK\Mask\Controller\WizardPageController::class => 'list, new, create, edit, update, delete, showHtml',
+        \MASK\Mask\Controller\WizardContentController::class => 'new, create, edit, update, delete, purge, generate, showHtml, createMissingFolders, hide, activate, createHtml',
+        \MASK\Mask\Controller\WizardPageController::class => 'edit, update, showHtml',
     ],
     [
         'access' => 'admin',

@@ -122,6 +122,17 @@ class HtmlCodeGenerator
                 $html .= "</ul>\n";
                 $html .= "</f:if>\n\n";
                 break;
+            case 'Palette':
+                $paletteFields = $this->storageRepository->loadInlineFields($fieldKey, $elementKey);
+                foreach ($paletteFields ?? [] as $paletteField) {
+                    $html .= $this->generateFieldHtml(
+                            $paletteField['maskKey'],
+                            $elementKey,
+                            $fieldKey,
+                            $datafield . '_item'
+                        ) . "\n";
+                }
+                break;
             case 'String':
             case 'Integer':
             case 'Group':

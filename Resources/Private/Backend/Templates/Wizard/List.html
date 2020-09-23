@@ -78,7 +78,7 @@
                                 </td>
 
                                 <td>
-                                    <p>{storage.description}</p>
+                                    <p>{storage.description -> f:format.nl2br()}</p>
                                     <mask:link data="{key}"/>
                                     <f:if condition="{mask:link(data:key)}">
                                         <f:link.action action="createHtml" arguments="{key:key}" controller="WizardContent" class="btn btn-default">
@@ -212,7 +212,7 @@
                                                 </p>
                                             </f:link.action>
                                         </td>
-                                        <td><p>{layout.description}</p></td>
+                                        <td><p>{layout.description -> f:format.nl2br()}</p></td>
                                         <td class="text-nowrap">
                                             <div class="btn-group" role="group">
                                                 <f:link.action action="showHtml"
