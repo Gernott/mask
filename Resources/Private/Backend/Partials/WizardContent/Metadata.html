@@ -1,17 +1,3 @@
-<label class="t3js-formengine-label" for="meta_label">
-    <f:translate key="tx_mask.content.title"/>*
-</label>
-<div class="t3js-formengine-field-item">
-    <div class="form-control-wrap">
-        <f:form.textfield class="form-control"
-                          id="meta_label"
-                          required="required"
-                          value="{storage.label}"
-                          name="storage[elements][label]"
-                          placeholder="{f:translate(key:'tx_mask.content.title')}"
-                          title="{f:translate(key:'tx_mask.content.title')}"/>
-    </div>
-</div>
 <label class="t3js-formengine-label" for="meta_key">
     <f:translate key="tx_mask.all.fieldkey"/>*
 </label>
@@ -25,6 +11,20 @@
                           placeholder="{f:translate(key:'tx_mask.all.fieldkey')}"
                           title="{f:translate(key:'tx_mask.all.fieldkey')}"
                           readonly="{f:if(condition: '{editMode}', then: 'readonly', else: '')}"/>
+    </div>
+</div>
+<label class="t3js-formengine-label" for="meta_label">
+    <f:translate key="tx_mask.content.title"/>*
+</label>
+<div class="t3js-formengine-field-item">
+    <div class="form-control-wrap">
+        <f:form.textfield class="form-control"
+                          id="meta_label"
+                          required="required"
+                          value="{storage.label}"
+                          name="storage[elements][label]"
+                          placeholder="{f:translate(key:'tx_mask.content.title')}"
+                          title="{f:translate(key:'tx_mask.content.title')}"/>
     </div>
 </div>
 <label class="t3js-formengine-label" for="meta_shortlabel">
@@ -45,7 +45,7 @@
 </label>
 <div class="t3js-formengine-field-item">
     <div class="form-control-wrap">
-        <f:form.textfield class="form-control"
+        <f:form.textarea class="form-control"
                           id="meta_description"
                           name="storage[elements][description]"
                           value="{storage.description}"
@@ -63,7 +63,7 @@
                 <f:translate key="tx_mask.all.icon"/>
             </a>
         </label>
-        <div class="t3js-formengine-field-item">
+        <div class="t3js-formengine-field-item icon-field">
             <div class="form-control-wrap">
                 <f:form.select class="form-control"
                                id="meta_icon"
