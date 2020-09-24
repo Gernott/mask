@@ -397,7 +397,7 @@
 				<source>Tree</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.select.items">
-				<source>Items ([label,id], one item each line, id (int or string))</source>
+				<source>Items ([label,id,icon path,description], one item each line, id (int or string))</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.select.foreign_table">
 				<source>foreign_table</source>
