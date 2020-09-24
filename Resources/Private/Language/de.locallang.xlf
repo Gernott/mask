@@ -22,6 +22,14 @@
 			<trans-unit id="tx_mask.field.Datetime">
 				<target>Datum/Zeit</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.Timestamp">
+				<source>Timestamp</source>
+				<target>Zeitstempel</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.timestamp_eval">
+				<source>Date or Datetime</source>
+				<target>Datum oder Datum/Zeit</target>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.Text">
 				<target>Text</target>
 			</trans-unit>
@@ -73,6 +81,10 @@
 			<trans-unit id="tx_mask.field.alpha">
 				<target>Nur "a-z A-Z" Zeichen</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.int">
+				<source>Value is casted to integer</source>
+				<target>Wert wird zu einer Ganzzahl umgewandelt</target>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.alphanum">
 				<target>Nur "a-z A-Z 0-9" Zeichen</target>
 			</trans-unit>
@@ -112,6 +124,14 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.field.timesec">
 				<target>Uhrzeitfeld (h:m:s)</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.date">
+				<source>Show date selection</source>
+				<target>Datumsauswahl zeigen</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.datetime">
+				<source>Show date and time selection</source>
+				<target>Datum / Zeit - Auswahl zeigen</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.unique">
 				<target>Wert muss einzigartig in der Tabellenspalte sein</target>

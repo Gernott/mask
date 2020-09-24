@@ -81,6 +81,7 @@ class HtmlCodeGenerator
                 $html .= "</f:if>\n\n";
                 break;
             case 'Date':
+            case 'Timestamp':
                 $html .= '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">' . "\n";
                 $html .= '<f:format.date format="d.m.Y">{' . $datafield . '.' . $fieldKey . '}</f:format.date><br />' . "\n";
                 $html .= "</f:if>\n\n";

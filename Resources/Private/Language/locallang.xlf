@@ -21,6 +21,12 @@
 			<trans-unit id="tx_mask.field.Datetime">
 				<source>Datetime</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.Timestamp">
+				<source>Timestamp</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.timestamp_eval">
+				<source>Date or Datetime</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.Text">
 				<source>Text</source>
 			</trans-unit>
@@ -72,6 +78,9 @@
 			<trans-unit id="tx_mask.field.alpha">
 				<source>Only "a-z A-Z" characters</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.int">
+				<source>Value is casted to integer</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.alphanum">
 				<source>Only "a-z A-Z 0-9" characters</source>
 			</trans-unit>
@@ -110,6 +119,12 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.field.timesec">
 				<source>Time field (h:m:s)</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.date">
+				<source>Show date selection</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.datetime">
+				<source>Show date and time selection</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.unique">
 				<source>Field has to be unique in table</source>

@@ -34,6 +34,7 @@ class CheckboxViewHelper extends AbstractViewHelper
         $this->registerArgument('default', 'string', 'default on or off?', false, 'off');
         $this->registerArgument('valueOff', 'string', 'off value', false, '0');
         $this->registerArgument('valueOn', 'string', 'on value', false, '1');
+        $this->registerArgument('readOnly', 'bool', 'readonly', false, false);
         $this->registerArgument('value', 'string', 'current value');
         $this->registerArgument('eval', 'bool', 'is eval field');
         $this->registerArgument('link', 'bool', 'is link field');
@@ -57,6 +58,8 @@ class CheckboxViewHelper extends AbstractViewHelper
         $valueOff = $arguments['valueOff'];
         $editMode = $arguments['editMode'];
         $invert = $arguments['invert'] ? ' checkbox-invert' : '';
+        $readOnly = $arguments['readOnly'] ? ' disabled' : '';
+        $disabled = $arguments['readOnly'] ? ' disabled="disabled"' : '';
 
         // Default values for new fields
         $default = $arguments['default'];
@@ -83,8 +86,8 @@ class CheckboxViewHelper extends AbstractViewHelper
         }
 
         $html = [];
-        $html[] = '<div class="js-update-id checkbox checkbox-type-toggle' . $invert . '">';
-        $html[] = '<input id="' . $hash . '" type="checkbox" class="checkbox-input" value="1" onclick="document.getElementById(\'' . $hash . '_hidden\').value=' . $switchFunction . '"' . $checkedAttr . '>';
+        $html[] = '<div class="js-update-id checkbox checkbox-type-toggle' . $invert . $readOnly . ' ">';
+        $html[] = '<input id="' . $hash . '" type="checkbox" class="checkbox-input" value="1" onclick="document.getElementById(\'' . $hash . '_hidden\').value=' . $switchFunction . '"' . $checkedAttr . $disabled . '>';
         $html[] = '<label class="checkbox-label" for="' . $hash . '">';
         $html[] = '<span class="checkbox-label-text">' . $label . '</span>';
         $html[] = '</label>';
