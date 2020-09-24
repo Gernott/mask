@@ -44,20 +44,30 @@
                                                     <f:translate key="tx_mask.field.newfield"/>
                                                 </option>
                                             </optgroup>
-                                            <optgroup class="c-divider" label="Existing">
-                                                <f:for each="{mask:tca(type: form, table: type)}" as="item">
-                                                    <f:if condition="{item.label}">
-                                                        <f:then>
-                                                            <option value="{item.field}">
-                                                                <mask:translateLabel key="{item.label}" element="{storage.key}"/> ({item.field})
-                                                            </option>
-                                                        </f:then>
-                                                        <f:else>
-                                                            <option value="{item.field}">{item.field}</option>
-                                                        </f:else>
-                                                    </f:if>
-                                                </f:for>
-                                            </optgroup>
+                                            <f:variable name="tcaFields" value="{mask:tca(type: form, table: type)}"/>
+                                            <f:if condition="{tcaFields.core}">
+                                                <optgroup class="c-divider" label="Core fields">
+                                                    <f:for each="{tcaFields.core}" as="item">
+                                                        <f:if condition="{item.label}">
+                                                            <f:then>
+                                                                <option value="{item.field}">
+                                                                    <mask:translateLabel key="{item.label}" element="{storage.key}"/> ({item.field})
+                                                                </option>
+                                                            </f:then>
+                                                            <f:else>
+                                                                <option value="{item.field}">{item.field}</option>
+                                                            </f:else>
+                                                        </f:if>
+                                                    </f:for>
+                                                </optgroup>
+                                            </f:if>
+                                            <f:if condition="{tcaFields.mask}">
+                                                <optgroup class="c-divider" label="Mask fields">
+                                                    <f:for each="{tcaFields.mask}" as="item">
+                                                        <option value="{item.field}">{item.label}</option>
+                                                    </f:for>
+                                                </optgroup>
+                                            </f:if>
                                         </select>
                                         <f:if condition="{form} == 'Richtext'">
                                             <input type="hidden" name="tx_mask_tools_maskmask[storage][elements][options][--index--]" value="rte"/>
