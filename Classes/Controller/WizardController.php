@@ -228,7 +228,11 @@ class WizardController extends ActionController
         }
 
         if ($type !== 'Inline') {
-            $fieldExists = $this->storageRepository->loadField($table, $fieldKey);
+            if ($type === 'Content') {
+                $fieldExists = $this->fieldHelper->getFieldType($fieldKey);
+            } else {
+                $fieldExists = $this->storageRepository->loadField($table, $fieldKey);
+            }
         }
 
         return new JsonResponse(['isAvailable' => !$keyExists && !$fieldExists]);
