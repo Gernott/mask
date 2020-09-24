@@ -104,14 +104,17 @@ class TcaViewHelper extends AbstractViewHelper
             $fields = $this->fieldHelper->getFieldsByType($type, $table);
         } elseif (!GeneralUtility::isMaskIrreTable($table)) {
             foreach ($GLOBALS['TCA'][$table]['columns'] as $tcaField => $tcaConfig) {
-                if (!GeneralUtility::isMaskIrreTable($tcaField) && !in_array($tcaField, self::$allowedFields[$table] ?? [])) {
+                $isMaskField = GeneralUtility::isMaskIrreTable($tcaField);
+                if (!$isMaskField && !in_array($tcaField, self::$allowedFields[$table] ?? [])) {
                     continue;
                 }
                 $fieldType = $this->storageRepository->getFormType($tcaField, '', $table);
                 if ($fieldType === $type || ($fieldType === 'Text' && $type === 'Richtext')) {
-                    $fields[] = [
+                    $key = $isMaskField ? 'mask' : 'core';
+                    $label = $isMaskField ? (str_replace('tx_mask_', '', $tcaField)) : $tcaConfig['label'];
+                    $fields[$key][] = [
                         'field' => $tcaField,
-                        'label' => $tcaConfig['label'],
+                        'label' => $label,
                     ];
                 }
             }
