@@ -119,7 +119,7 @@ class StorageRepository implements SingletonInterface
      * @param $key
      * @return array
      */
-    public function loadField($type, $key): ?array
+    public function loadField($type, $key): array
     {
         $json = $this->load();
         return $json[$type]['tca'][$key] ?? [];
@@ -541,21 +541,19 @@ class StorageRepository implements SingletonInterface
      */
     public function getFormType($fieldKey, $elementKey = '', $type = 'tt_content'): string
     {
-        $formType = 'String';
         $element = [];
-
-        // Load element and TCA of field
-        if ($elementKey) {
-            $element = $this->loadElement($type, $elementKey);
-        }
 
         // load tca for field from $GLOBALS
         $tca = $GLOBALS['TCA'][$type]['columns'][$fieldKey] ?? [];
         if (array_key_exists('config', $tca) && !$tca['config']) {
             $tca = $GLOBALS['TCA'][$type]['columns']['tx_mask_' . $fieldKey] ?? [];
         }
-        if (array_key_exists('config', $tca) && !$tca['config']) {
-            $tca = $element['tca'][$fieldKey] ?? [];
+        if ($elementKey) {
+            // Load element and TCA of field
+            $element = $this->loadElement($type, $elementKey);
+            if (array_key_exists('config', $tca) && !$tca['config']) {
+                $tca = $element['tca'][$fieldKey] ?? [];
+            }
         }
 
         // if field is in inline table or $GLOBALS["TCA"] is not yet filled, load tca from json
@@ -573,63 +571,40 @@ class StorageRepository implements SingletonInterface
         }
 
         if (($tca['options'] ?? '') === 'file') {
-            $formType = 'File';
+            return 'File';
+        }
+
+        if (($tca['rte'] ?? '') === '1') {
+            return 'Richtext';
         }
 
         // And decide via different tca settings which formType it is
         switch ($tcaType) {
             case 'input':
-                if (in_array(strtolower('int'), $evals, true)) {
+                if (in_array('date', $evals, true)) {
+                    $formType = 'Date';
+                } elseif (in_array('datetime', $evals, true)) {
+                    $formType = 'Datetime';
+                } elseif (in_array('int', $evals, true)) {
                     $formType = 'Integer';
+                } elseif (in_array('double2', $evals, true)) {
+                    $formType = 'Float';
+                } elseif (($tca['config']['renderType'] ?? '') === 'inputLink') {
+                    $formType = 'Link';
                 } else {
-                    if (in_array(strtolower('double2'), $evals, true)) {
-                        $formType = 'Float';
-                    } else {
-                        if (in_array(strtolower('date'), $evals, true)) {
-                            $formType = 'Date';
-                        } else {
-                            if (in_array(strtolower('datetime'), $evals, true)) {
-                                $formType = 'Datetime';
-                            } else {
-                                if (isset($tca['config']['renderType']) && $tca['config']['renderType'] === 'inputLink') {
-                                    $formType = 'Link';
-                                } else {
-                                    $formType = 'String';
-                                }
-                            }
-                        }
-                    }
+                    $formType = 'String';
                 }
                 break;
             case 'text':
                 $formType = 'Text';
-                if (in_array($type, ['tt_content', 'pages'])) {
-                    if ($elementKey) {
-                        $fieldNumberKey = -1;
-                        if (is_array($element['columns'])) {
-                            foreach ($element['columns'] as $numberKey => $column) {
-                                if ($column === $fieldKey) {
-                                    $fieldNumberKey = $numberKey;
-                                }
-                            }
-                        }
-
-                        if ($fieldNumberKey >= 0) {
-                            $option = $element['options'][$fieldNumberKey] ?? '';
+                if ($elementKey && in_array($type, ['tt_content', 'pages'])) {
+                    foreach ($element['columns'] ?? [] as $numberKey => $column) {
+                        if ($column === $fieldKey) {
+                            $option = $element['options'][$numberKey] ?? '';
                             if ($option === 'rte') {
                                 $formType = 'Richtext';
-                            } else {
-                                $formType = 'Text';
                             }
                         }
-                    } else {
-                        $formType = 'Text';
-                    }
-                } else {
-                    if ($tca['rte']) {
-                        $formType = 'Richtext';
-                    } else {
-                        $formType = 'Text';
                     }
                 }
                 break;
@@ -645,12 +620,10 @@ class StorageRepository implements SingletonInterface
             case 'inline':
                 if (($tca['config']['foreign_table'] ?? '') === 'sys_file_reference') {
                     $formType = 'File';
+                } elseif (($tca['config']['foreign_table'] ?? '') === 'tt_content') {
+                    $formType = 'Content';
                 } else {
-                    if (($tca['config']['foreign_table'] ?? '') === 'tt_content') {
-                        $formType = 'Content';
-                    } else {
-                        $formType = 'Inline';
-                    }
+                    $formType = 'Inline';
                 }
                 break;
             case 'tab':
@@ -662,11 +635,8 @@ class StorageRepository implements SingletonInterface
             case 'group':
                 $formType = 'Group';
                 break;
-            case 'none':
-            case 'passthrough':
-            case 'user':
-            case 'flex':
             default:
+                $formType = 'String';
                 break;
         }
         return $formType;
