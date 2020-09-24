@@ -1810,4 +1810,419 @@ class StorageRepositoryTest extends BaseTestCase
         $storageRepository->expects(self::any())->method('load')->willReturn($json);
         self::assertEquals($expected, $storageRepository->remove($table, $elementKey));
     }
+
+    public function getFormTypeDataProvider()
+    {
+        return [
+            'Type String is returned' => [
+                [],
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'field1' => [
+                                'config' => [
+                                    'type' => 'input'
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'field1',
+                '',
+                'tt_content',
+                'String'
+            ],
+            'Type Integer is returned' => [
+                [],
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'field1' => [
+                                'config' => [
+                                    'type' => 'input',
+                                    'eval' => 'int'
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'field1',
+                '',
+                'tt_content',
+                'Integer'
+            ],
+            'Type Float is returned' => [
+                [],
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'field1' => [
+                                'config' => [
+                                    'type' => 'input',
+                                    'eval' => 'double2'
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'field1',
+                '',
+                'tt_content',
+                'Float'
+            ],
+            'Type Date is returned' => [
+                [],
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'field1' => [
+                                'config' => [
+                                    'type' => 'input',
+                                    'eval' => 'date'
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'field1',
+                '',
+                'tt_content',
+                'Date'
+            ],
+            'Type Datetime is returned' => [
+                [],
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'field1' => [
+                                'config' => [
+                                    'type' => 'input',
+                                    'eval' => 'datetime'
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'field1',
+                '',
+                'tt_content',
+                'Datetime'
+            ],
+            'Type Link is returned' => [
+                [],
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'field1' => [
+                                'config' => [
+                                    'type' => 'input',
+                                    'renderType' => 'inputLink'
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'field1',
+                '',
+                'tt_content',
+                'Link'
+            ],
+            'Type Text is returned' => [
+                [],
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'field1' => [
+                                'config' => [
+                                    'type' => 'text',
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'field1',
+                '',
+                'tt_content',
+                'Text'
+            ],
+            'Type Richtext is returned' => [
+                [],
+                [
+                    'tt_content' => [
+                        'elements' => [
+                            'element1' => [
+                                'columns' => [
+                                    'field1'
+                                ],
+                                'options' => [
+                                    'rte'
+                                ]
+                            ]
+                        ],
+                        'tca' => [
+                            'field1' => [
+                                'config' => [
+                                    'type' => 'text',
+                                ],
+                                'rte' => '1'
+                            ]
+                        ]
+                    ]
+                ],
+                'field1',
+                'element1',
+                'tt_content',
+                'Richtext'
+            ],
+            'Type Richtext is returned if in inline' => [
+                [],
+                [
+                    'tx_mask_inline' => [
+                        'tca' => [
+                            'field1' => [
+                                'config' => [
+                                    'type' => 'text',
+                                ],
+                                'rte' => '1'
+                            ]
+                        ]
+                    ]
+                ],
+                'field1',
+                '',
+                'tx_mask_inline',
+                'Richtext'
+            ],
+            'Type Check is returned' => [
+                [],
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'field1' => [
+                                'config' => [
+                                    'type' => 'check',
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'field1',
+                '',
+                'tt_content',
+                'Check'
+            ],
+            'Type Radio is returned' => [
+                [],
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'field1' => [
+                                'config' => [
+                                    'type' => 'radio',
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'field1',
+                '',
+                'tt_content',
+                'Radio'
+            ],
+            'Type Select is returned' => [
+                [],
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'field1' => [
+                                'config' => [
+                                    'type' => 'select',
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'field1',
+                '',
+                'tt_content',
+                'Select'
+            ],
+            'Type Inline is returned' => [
+                [],
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'field1' => [
+                                'config' => [
+                                    'type' => 'inline',
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'field1',
+                '',
+                'tt_content',
+                'Inline'
+            ],
+            'Type File is returned' => [
+                [],
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'field1' => [
+                                'config' => [
+                                    'type' => 'inline',
+                                    'foreign_table' => 'sys_file_reference'
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'field1',
+                '',
+                'tt_content',
+                'File'
+            ],
+            'Type File by option is returned' => [
+                [],
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'field1' => [
+                                'config' => [
+                                    'type' => 'inline',
+                                ],
+                                'options' => 'file'
+                            ]
+                        ]
+                    ]
+                ],
+                'field1',
+                '',
+                'tt_content',
+                'File'
+            ],
+            'Type Content is returned' => [
+                [],
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'field1' => [
+                                'config' => [
+                                    'type' => 'inline',
+                                    'foreign_table' => 'tt_content'
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'field1',
+                '',
+                'tt_content',
+                'Content'
+            ],
+            'Type Tab is returned' => [
+                [],
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'field1' => [
+                                'config' => [
+                                    'type' => 'tab',
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'field1',
+                '',
+                'tt_content',
+                'Tab'
+            ],
+            'Type Palette is returned' => [
+                [],
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'field1' => [
+                                'config' => [
+                                    'type' => 'palette',
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'field1',
+                '',
+                'tt_content',
+                'Palette'
+            ],
+            'Type Group is returned' => [
+                [],
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'field1' => [
+                                'config' => [
+                                    'type' => 'group',
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'field1',
+                '',
+                'tt_content',
+                'Group'
+            ],
+            'Type from global tca is returned' => [
+                [
+                    'tt_content' => [
+                        'columns' => [
+                            'date' => [
+                                'config' => [
+                                    'type' => 'input',
+                                    'eval' =>  'date,int'
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'field1' => [
+                                'config' => [
+                                    'type' => 'group',
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'date',
+                '',
+                'tt_content',
+                'Date'
+            ],
+        ];
+    }
+
+    /**
+     * @param $tca
+     * @param $json
+     * @param $fieldKey
+     * @param $elementKey
+     * @param $table
+     * @param $expected
+     * @test
+     * @dataProvider getFormTypeDataProvider
+     */
+    public function getFormType($tca, $json, $fieldKey, $elementKey, $table, $expected)
+    {
+        $GLOBALS['TCA'] = $tca;
+        $storageRepository = $this->createPartialMock(StorageRepository::class, ['load']);
+        $storageRepository->expects(self::any())->method('load')->willReturn($json);
+        self::assertEquals($expected, $storageRepository->getFormType($fieldKey, $elementKey, $table));
+    }
 }
