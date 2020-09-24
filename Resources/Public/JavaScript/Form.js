@@ -3,7 +3,8 @@ define([
   'TYPO3/CMS/Backend/Notification',
   'TYPO3/CMS/Mask/Utility',
   'TYPO3/CMS/Mask/Sortable',
-], function ($, Notification, Utility, Sortable) {
+  'TYPO3/CMS/Backend/DateTimePicker',
+], function ($, Notification, Utility, Sortable, DateTimePicker) {
   return {
     elementTab: $('.tx_mask_tabcell3'),
 
@@ -292,6 +293,11 @@ define([
         $('.tx_mask_tabcell3').append(fieldTemplate);
       }
 
+      // Initialize DateTimePicker
+      if (['Date', 'Datetime', 'Timestamp'].includes(fieldType)) {
+        DateTimePicker.initialize('.t3js-datetimepicker');
+      }
+
       // Show field config
       $(buttonCode).click();
       // Set focus to key field
@@ -415,7 +421,7 @@ define([
       var evalValues = [];
       $(item).find('.' + cssClass).each(function (index, value) {
 
-        if ($(value).attr('type') === 'checkbox') {
+        if ($(value).attr('type') === 'checkbox' || $(value).attr('type') === 'radio') {
           if ($(value).is(':checked')) {
             evalValues[index] = $(value).val();
           }

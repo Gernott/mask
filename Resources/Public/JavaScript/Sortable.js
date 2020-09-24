@@ -2,8 +2,9 @@ define([
   'jquery',
   'TYPO3/CMS/Mask/Utility',
   'TYPO3/CMS/Backend/Notification',
+  'TYPO3/CMS/Backend/DateTimePicker',
   'TYPO3/CMS/Mask/Contrib/jquery-ui/sortable',
-], function ($, Utility, Notification) {
+], function ($, Utility, Notification, DateTimePicker) {
   return {
     received: null,
     receivedNew: null,
@@ -76,20 +77,27 @@ define([
                 $(head).find('.inline-container').addClass('palette-inline');
               }
 
+              // Add new fieldconfig
               var fieldTemplate = $("#templates div[data-type='" + fieldType + "']").outerHTML();
               fieldTemplate = Utility.updateIds(fieldTemplate);
               $('.tx_mask_tabcell3 > div').hide(); // Hide all fieldconfigs
               var newTemplate = Sortable.prepareInlineFieldForInsert(head, fieldTemplate);
               $(newTemplate).attr('data-index', index);
               if (index === 0) {
-                $('.tx_mask_tabcell3').prepend(newTemplate); // Add new fieldconfig
+                $('.tx_mask_tabcell3').prepend(newTemplate);
               } else {
                 if (bodyAppender) {
-                  $(bodyAppender).after(newTemplate); // Add new fieldconfig
+                  $(bodyAppender).after(newTemplate);
                 } else {
-                  $('.tx_mask_tabcell3').append(newTemplate); // Add new fieldconfig
+                  $('.tx_mask_tabcell3').append(newTemplate);
                 }
               }
+
+              // Initialize datepicker after adding new template
+              if (['Date', 'Datetime', 'Timestamp'].includes(fieldType)) {
+                DateTimePicker.initialize('.t3js-datetimepicker');
+              }
+
               $('.tx_mask_tabcell3 > div').each(function (i) {
                 $(this).attr('data-index', i);
               });

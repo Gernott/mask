@@ -32,6 +32,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRe
         'Check',
         'Date',
         'Datetime',
+        'Timestamp',
         'File',
         'Float',
         'Inline',
