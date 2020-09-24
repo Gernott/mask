@@ -409,7 +409,7 @@
 				<target>Baumauswahl</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.select.items">
-				<target>Elemente ([label,id], Ein Element je Zeile, Id ist eine Zahl oder Text)</target>
+				<target>Elemente ([label,id,Icon Pfad,Beschreibung], Ein Element je Zeile, Id ist eine Zahl oder Text)</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.select.foreign_table">
 				<target>Externe Tabelle</target>

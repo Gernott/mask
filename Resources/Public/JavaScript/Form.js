@@ -163,9 +163,10 @@ define([
           var output = '';
           $.each(itemArray, function (key, line) {
             var lineArray = line.split(',');
-            output += '<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][items][' + key + '][0]" value="' + lineArray[0] + '" />';
-            if (lineArray[1] !== undefined) {
-              output += '<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][items][' + key + '][1]" value="' + lineArray[1].trim() + '" />';
+            for (var i = 0; i < 4; i++) {
+              if (lineArray[i] !== undefined) {
+                output += '<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][config][items][' + key + '][' + i + ']" value="' + lineArray[i].trim() + '" />';
+              }
             }
           });
           $(this).parent().find('.tx_mask_fieldcontent_itemsresult').html(output);
