@@ -873,6 +873,78 @@ class StorageRepositoryTest extends BaseTestCase
                     ]
                 ]
             ],
+            'Timestamps range converted to integer' => [
+                [],
+                [
+                    'elements' => [
+                        'label' => 'Element 1',
+                        'key' => 'element1',
+                        'columns' => [
+                            'timestamp',
+                        ],
+                        'labels' => [
+                            'Timestamp',
+                        ],
+                    ],
+                    'type' => 'tt_content',
+                    'orgKey' => 'element1',
+                    'tca' => [
+                        [
+                            'config' => [
+                                'type' => 'input',
+                                'renderType' => 'inputDateTime',
+                                'eval' => 'date,int',
+                                'range' => [
+                                    'lower' => '00:00 01.01.2021',
+                                    'upper' => '00:00 15.01.2021'
+                                ]
+                            ]
+                        ],
+                    ],
+                    'sql' => [
+                        'tt_content' => [
+                            0 => 'int',
+                        ],
+                    ]
+                ],
+                [
+                    'tt_content' => [
+                        'elements' => [
+                            'element1' => [
+                                'label' => 'Element 1',
+                                'key' => 'element1',
+                                'columns' => [
+                                    'tx_mask_timestamp'
+                                ],
+                                'labels' => [
+                                    'Timestamp',
+                                ],
+                            ]
+                        ],
+                        'sql' => [
+                            'tx_mask_timestamp' => [
+                                'tt_content' => [
+                                    'tx_mask_timestamp' => 'int'
+                                ]
+                            ],
+                        ],
+                        'tca' => [
+                            'tx_mask_timestamp' => [
+                                'key' => 'timestamp',
+                                'config' => [
+                                    'type' => 'input',
+                                    'renderType' => 'inputDateTime',
+                                    'eval' => 'date,int',
+                                    'range' => [
+                                        'lower' => 1609459200,
+                                        'upper' => 1610668800
+                                    ]
+                                ]
+                            ],
+                        ]
+                    ],
+                ]
+            ],
             'inline fields with no children are not added as new table' => [
                 [],
                 [
@@ -1878,7 +1950,8 @@ class StorageRepositoryTest extends BaseTestCase
                             'field1' => [
                                 'config' => [
                                     'type' => 'input',
-                                    'eval' => 'date'
+                                    'eval' => 'date',
+                                    'dbType' => 'date'
                                 ]
                             ]
                         ]
@@ -1897,7 +1970,8 @@ class StorageRepositoryTest extends BaseTestCase
                             'field1' => [
                                 'config' => [
                                     'type' => 'input',
-                                    'eval' => 'datetime'
+                                    'eval' => 'datetime',
+                                    'dbType' => 'datetime'
                                 ]
                             ]
                         ]
@@ -2176,6 +2250,26 @@ class StorageRepositoryTest extends BaseTestCase
                 'tt_content',
                 'Group'
             ],
+            'Type Timestamp is returned' => [
+                [],
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'field1' => [
+                                'config' => [
+                                    'type' => 'input',
+                                    'evaĺ' => 'date,int',
+                                    'renderType' => 'inputDateTime'
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'field1',
+                '',
+                'tt_content',
+                'Timestamp'
+            ],
             'Type from global tca is returned' => [
                 [
                     'tt_content' => [
@@ -2183,7 +2277,8 @@ class StorageRepositoryTest extends BaseTestCase
                             'date' => [
                                 'config' => [
                                     'type' => 'input',
-                                    'eval' =>  'date,int'
+                                    'eval' =>  'date',
+                                    'dbType' => 'date'
                                 ]
                             ]
                         ]

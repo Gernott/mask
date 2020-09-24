@@ -303,6 +303,18 @@ class StorageRepository implements SingletonInterface
                 $json[$type]['tca'][$tempKey]['rte'] = '1';
             }
 
+            // Convert range values of timestamp to integers
+            if (($json[$type]['tca'][$tempKey]['config']['renderType'] ?? '') === 'inputDateTime' && !isset($json[$type]['tca'][$tempKey]['config']['dbType'])) {
+                if (isset($json[$type]['tca'][$tempKey]['config']['range']['lower']) && $json[$type]['tca'][$tempKey]['config']['range']['lower']) {
+                    $date = new \DateTime($json[$type]['tca'][$tempKey]['config']['range']['lower']);
+                    $json[$type]['tca'][$tempKey]['config']['range']['lower'] = $date->getTimestamp();
+                }
+                if (isset($json[$type]['tca'][$tempKey]['config']['range']['upper']) && $json[$type]['tca'][$tempKey]['config']['range']['upper']) {
+                    $date = new \DateTime($json[$type]['tca'][$tempKey]['config']['range']['upper']);
+                    $json[$type]['tca'][$tempKey]['config']['range']['upper'] = $date->getTimestamp();
+                }
+            }
+
             // Only add columns to elements if it is no inlinefield
             if (!$isInline) {
                 $json[$type]['elements'][$elementKey]['columns'][$key] = $maskKey;
@@ -581,10 +593,12 @@ class StorageRepository implements SingletonInterface
         // And decide via different tca settings which formType it is
         switch ($tcaType) {
             case 'input':
-                if (in_array('date', $evals, true)) {
+                if (($tca['config']['dbType'] ?? '') == 'date') {
                     $formType = 'Date';
-                } elseif (in_array('datetime', $evals, true)) {
+                } elseif (($tca['config']['dbType'] ?? '') == 'datetime') {
                     $formType = 'Datetime';
+                } elseif (($tca['config']['renderType'] ?? '') == 'inputDateTime') {
+                    $formType = 'Timestamp';
                 } elseif (in_array('int', $evals, true)) {
                     $formType = 'Integer';
                 } elseif (in_array('double2', $evals, true)) {
