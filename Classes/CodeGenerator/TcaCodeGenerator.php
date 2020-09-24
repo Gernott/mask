@@ -297,7 +297,6 @@ class TcaCodeGenerator
             // Date / DateTime: Set date ranges
             $dbType = $tcavalue['config']['dbType'] ?? '';
             if (($dbType === 'date' || $dbType === 'datetime')) {
-                $tcavalue['config']['eval'] .= ',null';
                 $format = ($dbType == 'date') ? 'd-m-Y' : 'H:i d-m-Y';
                 if ($tcavalue['config']['range']['upper'] ?? false) {
                     $date = \DateTime::createFromFormat($format, $tcavalue['config']['range']['upper']);

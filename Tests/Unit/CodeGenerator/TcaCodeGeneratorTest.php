@@ -589,7 +589,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
                         'config' => [
                             'type' => 'input',
                             'dbType' => 'date',
-                            'eval' => 'date,null',
+                            'eval' => 'date',
                             'range' => [
                                 'lower' => 1609459200,
                                 'upper' => 1640822400
@@ -600,7 +600,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
                         'config' => [
                             'type' => 'input',
                             'dbType' => 'datetime',
-                            'eval' => 'datetime,null',
+                            'eval' => 'datetime',
                             'range' => [
                                 'upper' => 1640896200
                             ]
