@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace MASK\Mask\Helper;
 
 use MASK\Mask\Domain\Repository\StorageRepository;
+use MASK\Mask\Utility\GeneralUtility;
 
 /**
  * Methods for types of fields in mask (string, rte, repeating, ...)
@@ -88,14 +89,17 @@ class FieldHelper
         }
 
         foreach ($tables as $table) {
-            foreach ($storage[$table]['elements'] ?? [] as $element) {
-                // If element key is set, ignore all other elements
-                if ($elementKey !== '' && ($elementKey !== $element['key'])) {
-                    continue;
-                }
-                // If field is listed under columns or it is part of tca keys, it belongs to current table
-                if (in_array($fieldKey, ($element['columns'] ?? [])) || isset($storage[$table]['tca'][$fieldKey])) {
-                    return $table;
+            if (GeneralUtility::isMaskIrreTable($table) && isset($storage[$table]['tca'][$fieldKey])) {
+                return $table;
+            } else {
+                foreach ($storage[$table]['elements'] ?? [] as $element) {
+                    // If element key is set, ignore all other elements
+                    if ($elementKey !== '' && ($elementKey !== $element['key'])) {
+                        continue;
+                    }
+                    if (in_array($fieldKey, ($element['columns'] ?? [])) || isset($storage[$table]['tca'][$fieldKey])) {
+                        return $table;
+                    }
                 }
             }
         }

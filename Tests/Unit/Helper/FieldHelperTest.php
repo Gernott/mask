@@ -172,7 +172,7 @@ class FieldHelperTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_column_1',
-                '',
+                'element_1',
                 false,
                 'tt_content'
             ],
@@ -200,7 +200,7 @@ class FieldHelperTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_column_4',
-                '',
+                'element_2',
                 false,
                 'pages'
             ],
@@ -303,15 +303,10 @@ class FieldHelperTest extends BaseTestCase
             'Inline is not excluded by default' => [
                 [
                     'tx_mask_custom_table' => [
-                        'elements' => [
-                            'element_3' => [
-                                'key' => 'element_3',
-                                'columns' => [
-                                    'tx_mask_column_1',
-                                    'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
-                            ]
+                        'tca' => [
+                            'tx_mask_column_1' => [],
+                            'tx_mask_column_2' => [],
+                            'tx_mask_column_3' => [],
                         ]
                     ],
                     'tt_content' => [
@@ -340,22 +335,17 @@ class FieldHelperTest extends BaseTestCase
                     ],
                 ],
                 'tx_mask_column_1',
-                '',
+                'element_1',
                 false,
                 'tx_mask_custom_table'
             ],
-            'Inline is excluded when set to true and pages is first' => [
+            'Inline is excluded when set to true' => [
                 [
                     'tx_mask_custom_table' => [
-                        'elements' => [
-                            'element_3' => [
-                                'key' => 'element_3',
-                                'columns' => [
-                                    'tx_mask_column_1',
-                                    'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
-                            ]
+                        'tca' => [
+                            'tx_mask_column_1' => [],
+                            'tx_mask_column_2' => [],
+                            'tx_mask_column_3' => [],
                         ]
                     ],
                     'tt_content' => [
@@ -384,7 +374,7 @@ class FieldHelperTest extends BaseTestCase
                     ],
                 ],
                 'tx_mask_column_1',
-                '',
+                'element_2',
                 true,
                 'tt_content'
             ],
