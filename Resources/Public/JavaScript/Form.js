@@ -22,17 +22,15 @@ define([
       });
 
       // Add title of field to 2nd column
-      this.elementTab.on('keyup', ".tx_mask_field input[name='tx_mask_tools_maskmask[storage][elements][labels][--index--]']", function () {
-        Utility.syncBodyToHead($(this).closest('.tx_mask_field'));
-      });
+      var labelSelector = ".tx_mask_field input[name='tx_mask_tools_maskmask[storage][elements][labels][--index--]']";
+      this.elementTab.on('keyup blur', labelSelector, this.syncField);
 
       // Add key of field to 2nd column
-      this.elementTab.on('keyup', ".tx_mask_field input[name='tx_mask_tools_maskmask[storage][elements][columns][]']", function () {
-        Utility.syncBodyToHead($(this).closest('.tx_mask_field'));
-      });
+      var keySelector = ".tx_mask_field input[name='tx_mask_tools_maskmask[storage][elements][columns][]']";
+      this.elementTab.on('keyup', keySelector, this.syncField);
 
       // on focusout validate the field-key field
-      $(document).on('focusout', ".tx_mask_field input[name='tx_mask_tools_maskmask[storage][elements][columns][]']", function () {
+      $(document).on('focusout', keySelector, function () {
         var table = $("input[name='tx_mask_tools_maskmask[storage][type]']").val();
         MaskForm.validateKeyField(this, table);
       });
@@ -248,6 +246,10 @@ define([
             });
         });
       });
+    },
+
+    syncField: function () {
+      Utility.syncBodyToHead($(this).closest('.tx_mask_field'));
     },
 
     insertField: function (e) {
