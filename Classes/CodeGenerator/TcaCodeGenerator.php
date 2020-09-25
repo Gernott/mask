@@ -358,7 +358,7 @@ class TcaCodeGenerator
                 $columns[$tcakey]['order'],
                 $columns[$tcakey]['inlineIcon'],
                 $columns[$tcakey]['imageoverlayPalette'],
-                $columns[$tcakey]['cTypes'],
+                $columns[$tcakey]['cTypes']
             );
 
             // Unset label if it is from palette fields
