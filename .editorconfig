@@ -34,10 +34,6 @@ indent_size = 2
 [{package.json,.travis.yml}]
 indent_size = 2
 
-# TypoScript
-[*.{typoscript,tsconfig}]
-indent_size = 2
-
 # XLF-Files
 [*.xlf]
 indent_style = tab
