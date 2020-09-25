@@ -166,7 +166,39 @@ class StorageRepository implements SingletonInterface
             }
         }
 
+        $this->sortInlineFieldsByOrder($inlineFields, $elementKey);
         return $inlineFields;
+    }
+
+    /**
+     * Sort inline fields recursively.
+     *
+     * @param array $inlineFields
+     * @param string $elementKey
+     */
+    protected function sortInlineFieldsByOrder(array &$inlineFields, $elementKey = '')
+    {
+        uasort(
+            $inlineFields,
+            function ($columnA, $columnB) use ($elementKey) {
+                if (is_array($columnA['order'])) {
+                    $a = isset($columnA['order'][$elementKey]) ? (int)$columnA['order'][$elementKey] : 0;
+                    $b = isset($columnB['order'][$elementKey]) ? (int)$columnB['order'][$elementKey] : 0;
+                } else {
+                    $a = isset($columnA['order']) ? (int)$columnA['order'] : 0;
+                    $b = isset($columnB['order']) ? (int)$columnB['order'] : 0;
+                }
+                return $a - $b;
+            }
+        );
+
+        foreach ($inlineFields as $i => $field) {
+            if (in_array(($field['config']['type'] ?? ''), ['inline', 'palette'])) {
+                if (isset($inlineFields[$i]['inlineFields']) && is_array($inlineFields[$i]['inlineFields'])) {
+                    $this->sortInlineFieldsByOrder($inlineFields[$i]['inlineFields']);
+                }
+            }
+        }
     }
 
     /**

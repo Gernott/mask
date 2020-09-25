@@ -156,7 +156,6 @@ class WizardController extends ActionController
                 if (is_array($field)) {
                     if (in_array($field['config']['type'], ['inline', 'palette'])) {
                         $storage['tca'][$key]['inlineFields'] = $this->storageRepository->loadInlineFields($key, $elementKey);
-                        $this->sortInlineFieldsByOrder($storage['tca'][$key]['inlineFields'], $elementKey);
                     }
                 }
                 // Convert old date format Y-m-d to d-m-Y
@@ -360,37 +359,6 @@ class WizardController extends ActionController
     {
         if (!file_exists(MaskUtility::getFileAbsFileName($path))) {
             $this->missingFolders[] = $path;
-        }
-    }
-
-    /**
-     * Sort inline fields recursively.
-     *
-     * @param array $inlineFields
-     * @param string $elementKey
-     */
-    public function sortInlineFieldsByOrder(array &$inlineFields, $elementKey = '')
-    {
-        uasort(
-            $inlineFields,
-            function ($columnA, $columnB) use ($elementKey) {
-                if (is_array($columnA['order'])) {
-                    $a = isset($columnA['order'][$elementKey]) ? (int)$columnA['order'][$elementKey] : 0;
-                    $b = isset($columnB['order'][$elementKey]) ? (int)$columnB['order'][$elementKey] : 0;
-                } else {
-                    $a = isset($columnA['order']) ? (int)$columnA['order'] : 0;
-                    $b = isset($columnB['order']) ? (int)$columnB['order'] : 0;
-                }
-                return $a - $b;
-            }
-        );
-
-        foreach ($inlineFields as $i => $field) {
-            if (in_array($field['config']['type'], ['inline', 'palette'])) {
-                if (isset($inlineFields[$i]['inlineFields']) && is_array($inlineFields[$i]['inlineFields'])) {
-                    $this->sortInlineFieldsByOrder($inlineFields[$i]['inlineFields']);
-                }
-            }
         }
     }
 

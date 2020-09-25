@@ -19,14 +19,16 @@ class StorageRepositoryTest extends BaseTestCase
                                     'type' => 'input'
                                 ],
                                 'key' => 'a',
-                                'inlineParent' => 'tx_mask_a1'
+                                'inlineParent' => 'tx_mask_a1',
+                                'order' => 1
                             ],
                             'tx_mask_b' => [
                                 'config' => [
                                     'type' => 'input'
                                 ],
                                 'key' => 'b',
-                                'inlineParent' => 'tx_mask_a1'
+                                'inlineParent' => 'tx_mask_a1',
+                                'order' => 2
                             ]
                         ]
                     ]
@@ -40,7 +42,8 @@ class StorageRepositoryTest extends BaseTestCase
                         ],
                         'key' => 'a',
                         'inlineParent' => 'tx_mask_a1',
-                        'maskKey' => 'tx_mask_a'
+                        'maskKey' => 'tx_mask_a',
+                        'order' => 1
                     ],
                     [
                         'config' => [
@@ -48,7 +51,8 @@ class StorageRepositoryTest extends BaseTestCase
                         ],
                         'key' => 'b',
                         'inlineParent' => 'tx_mask_a1',
-                        'maskKey' => 'tx_mask_b'
+                        'maskKey' => 'tx_mask_b',
+                        'order' => 2
                     ]
                 ]
             ],
@@ -61,14 +65,16 @@ class StorageRepositoryTest extends BaseTestCase
                                     'type' => 'input'
                                 ],
                                 'key' => 'a',
-                                'inlineParent' => 'tx_mask_a1'
+                                'inlineParent' => 'tx_mask_a1',
+                                'order' => 1
                             ],
                             'tx_mask_b' => [
                                 'config' => [
                                     'type' => 'inline'
                                 ],
                                 'key' => 'b',
-                                'inlineParent' => 'tx_mask_a1'
+                                'inlineParent' => 'tx_mask_a1',
+                                'order' => 3
                             ]
                         ]
                     ],
@@ -79,7 +85,8 @@ class StorageRepositoryTest extends BaseTestCase
                                     'type' => 'input'
                                 ],
                                 'key' => 'c',
-                                'inlineParent' => 'tx_mask_b'
+                                'inlineParent' => 'tx_mask_b',
+                                'order' => 2
                             ]
                         ]
                     ]
@@ -93,7 +100,8 @@ class StorageRepositoryTest extends BaseTestCase
                         ],
                         'key' => 'a',
                         'inlineParent' => 'tx_mask_a1',
-                        'maskKey' => 'tx_mask_a'
+                        'maskKey' => 'tx_mask_a',
+                        'order' => 1
                     ],
                     [
                         'config' => [
@@ -109,9 +117,11 @@ class StorageRepositoryTest extends BaseTestCase
                                 'key' => 'c',
                                 'inlineParent' => 'tx_mask_b',
                                 'maskKey' => 'tx_mask_c',
+                                'order' => 2
                             ]
                         ],
                         'maskKey' => 'tx_mask_b',
+                        'order' => 3
                     ]
                 ]
             ],
@@ -133,7 +143,10 @@ class StorageRepositoryTest extends BaseTestCase
                                 'inPalette' => '1',
                                 'inlineParent' => [
                                     'element1' => 'tx_mask_a'
-                                ]
+                                ],
+                                'order' => [
+                                    'element1' => 2
+                                ],
                             ],
                             'tx_mask_c' => [
                                 'config' => [
@@ -143,7 +156,10 @@ class StorageRepositoryTest extends BaseTestCase
                                 'inPalette' => '1',
                                 'inlineParent' => [
                                     'element1' => 'tx_mask_a'
-                                ]
+                                ],
+                                'order' => [
+                                    'element1' => 3
+                                ],
                             ]
                         ]
                     ],
@@ -160,6 +176,9 @@ class StorageRepositoryTest extends BaseTestCase
                         'inlineParent' => [
                             'element1' => 'tx_mask_a'
                         ],
+                        'order' => [
+                            'element1' => 2
+                        ],
                         'maskKey' => 'tx_mask_b'
                     ],
                     [
@@ -170,6 +189,9 @@ class StorageRepositoryTest extends BaseTestCase
                         'inPalette' => '1',
                         'inlineParent' => [
                             'element1' => 'tx_mask_a'
+                        ],
+                        'order' => [
+                            'element1' => 3
                         ],
                         'maskKey' => 'tx_mask_c'
                     ]
@@ -194,7 +216,8 @@ class StorageRepositoryTest extends BaseTestCase
                                     'type' => 'input'
                                 ],
                                 'key' => 'a',
-                                'inlineParent' => 'tx_mask_repeat'
+                                'inlineParent' => 'tx_mask_repeat',
+                                'order' => 1
                             ],
                             'tx_mask_b' => [
                                 'config' => [
@@ -202,7 +225,12 @@ class StorageRepositoryTest extends BaseTestCase
                                 ],
                                 'key' => 'b',
                                 'inPalette' => '1',
-                                'inlineParent' => 'tx_mask_palette'
+                                'inlineParent' => [
+                                    'element1' => 'tx_mask_palette'
+                                ],
+                                'order' => [
+                                    'element1' => 3
+                                ]
                             ],
                             'tx_mask_c' => [
                                 'config' => [
@@ -210,20 +238,26 @@ class StorageRepositoryTest extends BaseTestCase
                                 ],
                                 'key' => 'c',
                                 'inPalette' => '1',
-                                'inlineParent' => 'tx_mask_palette'
+                                'inlineParent' => [
+                                    'element1' => 'tx_mask_palette'
+                                ],
+                                'order' => [
+                                    'element1' => 4
+                                ]
                             ],
                             'tx_mask_palette' => [
                                 'config' => [
                                     'type' => 'palette'
                                 ],
                                 'key' => 'palette',
-                                'inlineParent' => 'tx_mask_repeat'
+                                'inlineParent' => 'tx_mask_repeat',
+                                'order' => 2
                             ],
                         ]
                     ]
                 ],
                 'tx_mask_repeat',
-                '',
+                'element1',
                 [
                     [
                         'config' => [
@@ -231,7 +265,8 @@ class StorageRepositoryTest extends BaseTestCase
                         ],
                         'key' => 'a',
                         'inlineParent' => 'tx_mask_repeat',
-                        'maskKey' => 'tx_mask_a'
+                        'maskKey' => 'tx_mask_a',
+                        'order' => 1
                     ],
                     [
                         'config' => [
@@ -240,6 +275,7 @@ class StorageRepositoryTest extends BaseTestCase
                         'key' => 'palette',
                         'inlineParent' => 'tx_mask_repeat',
                         'maskKey' => 'tx_mask_palette',
+                        'order' => 2,
                         'inlineFields' => [
                             [
                                 'config' => [
@@ -247,7 +283,12 @@ class StorageRepositoryTest extends BaseTestCase
                                 ],
                                 'key' => 'b',
                                 'inPalette' => '1',
-                                'inlineParent' => 'tx_mask_palette',
+                                'inlineParent' => [
+                                    'element1' => 'tx_mask_palette'
+                                ],
+                                'order' => [
+                                    'element1' => 3
+                                ],
                                 'maskKey' => 'tx_mask_b'
                             ],
                             [
@@ -256,7 +297,12 @@ class StorageRepositoryTest extends BaseTestCase
                                 ],
                                 'key' => 'c',
                                 'inPalette' => '1',
-                                'inlineParent' => 'tx_mask_palette',
+                                'inlineParent' => [
+                                    'element1' => 'tx_mask_palette'
+                                ],
+                                'order' => [
+                                    'element1' => 4
+                                ],
                                 'maskKey' => 'tx_mask_c'
                             ],
                         ]
@@ -1613,14 +1659,16 @@ class StorageRepositoryTest extends BaseTestCase
                                     'type' => 'input'
                                 ],
                                 'key' => 'field',
-                                'inlineParent' => 'tx_mask_inline'
+                                'inlineParent' => 'tx_mask_inline',
+                                'order' => 1
                             ],
                             'tx_mask_field_2' => [
                                 'config' => [
                                     'type' => 'input'
                                 ],
                                 'key' => 'field_2',
-                                'inlineParent' => 'tx_mask_inline'
+                                'inlineParent' => 'tx_mask_inline',
+                                'order' => 2
                             ]
                         ],
                         'sql' => [
@@ -1671,6 +1719,9 @@ class StorageRepositoryTest extends BaseTestCase
                                 'inlineParent' => [
                                     'element1' => 'tx_mask_palette'
                                 ],
+                                'order' => [
+                                    'element1' => 1
+                                ],
                                 'inPalette' => '1'
                             ],
                             'tx_mask_field_2' => [
@@ -1680,6 +1731,9 @@ class StorageRepositoryTest extends BaseTestCase
                                 'key' => 'field_2',
                                 'inlineParent' => [
                                     'element1' => 'tx_mask_palette'
+                                ],
+                                'order' => [
+                                    'element1' => 2
                                 ],
                                 'inPalette' => '1'
                             ]
