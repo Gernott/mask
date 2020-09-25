@@ -761,6 +761,12 @@
 			<trans-unit id="tx_mask.tabs.files">
 				<source>Files</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.imageoverlayPalette">
+				<source>Show Image Overlay Palette</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.imageoverlayPalette.description">
+				<source>Shows additional fields: alternative, link and cropping</source>
+			</trans-unit>
 
 			<trans-unit id="mask_content_colpos">
 				<source>Mask-Nested-Content</source>

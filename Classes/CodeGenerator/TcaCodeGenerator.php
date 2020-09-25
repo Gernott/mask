@@ -21,6 +21,7 @@ use Exception;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Helper\FieldHelper;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
+use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
@@ -254,30 +255,45 @@ class TcaCodeGenerator
 
             // File: Add file config.
             if (($tcavalue['options'] ?? '') === 'file') {
-                $customSettingOverride = [
-                    'overrideChildTca' => [
-                        'types' => [
-                            '0' => [
-                                'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-                            ],
-                            '1' => [
-                                'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-                            ],
-                            '2' => [
-                                'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-                            ],
-                            '3' => [
-                                'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-                            ],
-                            '4' => [
-                                'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
-                            ],
-                            '5' => [
-                                'showitem' => '--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette, --palette--;;filePalette',
+                // If imageoverlayPalette is not set (because of updates to newer version) fallback to default behaviour.
+                if ($tcavalue['imageoverlayPalette'] ?? true) {
+                    $customSettingOverride = [
+                        'overrideChildTca' => [
+                            'types' => [
+                                '0' => [
+                                    'showitem' => '
+                                --palette--;;imageoverlayPalette,
+                                --palette--;;filePalette'
+                                ],
+                                File::FILETYPE_TEXT => [
+                                    'showitem' => '
+                                --palette--;;imageoverlayPalette,
+                                --palette--;;filePalette'
+                                ],
+                                File::FILETYPE_IMAGE => [
+                                    'showitem' => '
+                                --palette--;;imageoverlayPalette,
+                                --palette--;;filePalette'
+                                ],
+                                File::FILETYPE_AUDIO => [
+                                    'showitem' => '
+                                --palette--;;audioOverlayPalette,
+                                --palette--;;filePalette'
+                                ],
+                                File::FILETYPE_VIDEO => [
+                                    'showitem' => '
+                                --palette--;;videoOverlayPalette,
+                                --palette--;;filePalette'
+                                ],
+                                File::FILETYPE_APPLICATION => [
+                                    'showitem' => '
+                                --palette--;;imageoverlayPalette,
+                                --palette--;;filePalette'
+                                ]
                             ],
                         ],
-                    ]
-                ];
+                    ];
+                }
 
                 $customSettingOverride['appearance'] = $tcavalue['config']['appearance'] ?? [];
                 $customSettingOverride['appearance']['fileUploadAllowed'] = (bool)($customSettingOverride['appearance']['fileUploadAllowed'] ?? false);
@@ -287,6 +303,7 @@ class TcaCodeGenerator
                     $allowedFileExtensions = $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'];
                 }
                 $columns[$tcakey]['config'] = ExtensionManagementUtility::getFileFieldTCAConfig($tcakey, $customSettingOverride, $allowedFileExtensions);
+                unset($customSettingOverride);
             }
 
             // Inline (Repeating): Fill missing foreign_table in tca config.
@@ -340,7 +357,8 @@ class TcaCodeGenerator
                 $columns[$tcakey]['inPalette'],
                 $columns[$tcakey]['order'],
                 $columns[$tcakey]['inlineIcon'],
-                $columns[$tcakey]['cTypes']
+                $columns[$tcakey]['imageoverlayPalette'],
+                $columns[$tcakey]['cTypes'],
             );
 
             // Unset label if it is from palette fields

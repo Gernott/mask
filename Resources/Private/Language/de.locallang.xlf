@@ -804,6 +804,14 @@
 			<trans-unit id="tx_mask.tabs.files">
 				<target>Dateien</target>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.imageoverlayPalette">
+				<source>Show Image Overlay Palette</source>
+				<target>Bild Overlay Palette einblenden</target>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.imageoverlayPalette.description">
+				<source>Shows additional fields: alternative, link and cropping</source>
+				<target>Zeigt zusätzliche Felder Alt-Text, Link und Bildauschnitt (cropping)</target>
+			</trans-unit>
 
 			<trans-unit id="mask_content_colpos">
 				<target>Mask-Nested-Content</target>
