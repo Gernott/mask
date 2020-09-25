@@ -219,8 +219,34 @@ class GeneralUtility
         return '';
     }
 
+    /**
+     * @param $table
+     * @return bool
+     */
     public static function isMaskIrreTable($table)
     {
         return strpos($table, 'tx_mask') === 0;
+    }
+
+    /**
+     * Removes the tx_mask_ prefix
+     *
+     * @param $maskKey
+     * @return false|string
+     */
+    public static function removeMaskPrefix($maskKey)
+    {
+        return substr($maskKey, 8);
+    }
+
+    /**
+     * Removes the mask_ prefix used for cType
+     *
+     * @param $maskKey
+     * @return false|string
+     */
+    public static function removeCtypePrefix($maskKey)
+    {
+        return substr($maskKey, 5);
     }
 }

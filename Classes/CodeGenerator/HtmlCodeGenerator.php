@@ -134,9 +134,15 @@ class HtmlCodeGenerator
                         ) . "\n";
                 }
                 break;
+            case 'Group':
+                if (($GLOBALS['TCA'][$table]['columns'][$fieldKey]['config']['internal_type'] ?? '') === 'db') {
+                    $html .= '<f:for each="{' . $datafield . '.' . $fieldKey . '_items}" as="' . $datafield . '_item' . "\">\n";
+                    $html .= '  <div>{' . $datafield . '_item.uid}' . "</div>\n";
+                    $html .= "</f:for>\n\n";
+                    break;
+                }
             case 'String':
             case 'Integer':
-            case 'Group':
                 $html .= '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">' . "\n";
                 $html .= '{' . $datafield . '.' . $fieldKey . '}<br />' . "\n";
                 $html .= "</f:if>\n\n";
@@ -147,6 +153,12 @@ class HtmlCodeGenerator
                 $html .= "</f:if>\n\n";
                 break;
             case 'Select':
+                if (($GLOBALS['TCA'][$table]['columns'][$fieldKey]['config']['foreign_table'] ?? '') !== '') {
+                    $html .= '<f:for each="{' . $datafield . '.' . $fieldKey . '_items}" as="' . $datafield . '_item' . "\">\n";
+                    $html .= '  <div>{' . $datafield . '_item.uid}' . "</div>\n";
+                    $html .= "</f:for>\n\n";
+                    break;
+                }
             case 'Radio':
                 $html .= '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">' . "\n";
                 $html .= '<f:switch expression="{' . $datafield . '.' . $fieldKey . '}">

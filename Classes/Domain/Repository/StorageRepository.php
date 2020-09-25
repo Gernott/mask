@@ -318,7 +318,7 @@ class StorageRepository implements SingletonInterface
 
             // Revert mask key to key without prefix
             if ($existingMaskFieldWithNoConfig) {
-                $columns[$key] = substr($columns[$key], 8);
+                $columns[$key] = MaskUtility::removeMaskPrefix($columns[$key]);
             }
 
             $maskKey = 'tx_mask_' . $columns[$key];
@@ -387,7 +387,7 @@ class StorageRepository implements SingletonInterface
                 if (!in_array($keyToUse, $json[$type]['palettes'][$value['inlineParent']]['showitem'] ?? [])) {
                     $json[$type]['palettes'][$value['inlineParent']]['showitem'][] = $keyToUse;
                 }
-                $labelIndex = array_search(substr($value['inlineParent'], 8), $columns);
+                $labelIndex = array_search(MaskUtility::removeMaskPrefix($value['inlineParent']), $columns);
                 $json[$type]['palettes'][$value['inlineParent']]['label'] = $labels[$labelIndex];
             }
 

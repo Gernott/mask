@@ -19,14 +19,15 @@ namespace MASK\Mask\Helper;
 
 use MASK\Mask\Domain\Repository\BackendLayoutRepository;
 use MASK\Mask\Domain\Repository\StorageRepository;
+use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\WorkspaceRestriction;
+use TYPO3\CMS\Core\Database\RelationHandler;
 use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
 
 /**
  * Methods for working with inline fields (IRRE)
@@ -110,7 +111,7 @@ class InlineHelper
 
         // if the table is tt_content, load the element and all its columns
         if ($table === 'tt_content') {
-            $element = $this->storageRepository->loadElement($table, str_replace('mask_', '', $cType));
+            $element = $this->storageRepository->loadElement($table, MaskUtility::removeCtypePrefix($cType));
             $elementFields = $element['columns'];
         } elseif ($table === 'pages') {
             // if the table is pages, then load the pid
@@ -161,9 +162,38 @@ class InlineHelper
                         'tt_content'
                     );
                     $data[$fieldKeyPrefix] = $elements;
+                } elseif ($type === 'Select' && ($GLOBALS['TCA'][$table]['columns'][$field]['config']['foreign_table'] ?? '') !== '') {
+                    $data[$field . '_items'] = $this->getRelations($data[$field], $GLOBALS['TCA'][$table]['columns'][$field]['config']['foreign_table']);
+                } elseif ($type === 'Group' && ($GLOBALS['TCA'][$table]['columns'][$field]['config']['internal_type'] === 'db')) {
+                    $data[$field . '_items'] = $this->getRelations($data[$field], $GLOBALS['TCA'][$table]['columns'][$field]['config']['allowed']);
                 }
             }
         }
+    }
+
+    /**
+     * Returns the selected relations of select or group element
+     *
+     * @param $uidList
+     * @param $allowed
+     * @return array
+     */
+    protected function getRelations($uidList, $allowed)
+    {
+        $relationHandler = GeneralUtility::makeInstance(RelationHandler::class);
+        $relationHandler->start(
+            $uidList,
+            $allowed
+        );
+        $relationHandler->getFromDB();
+        $relations = $relationHandler->getResolvedItemArray();
+        $records = [];
+        foreach ($relations as $relation) {
+            $tableName = $relation['table'];
+            $uid = $relation['uid'];
+            $records[] = BackendUtility::getRecordWSOL($tableName, $uid);
+        }
+        return $records;
     }
 
     /**
@@ -174,10 +204,9 @@ class InlineHelper
      * @param string $cType The name of the irre attribut
      * @param string $parentFieldName The name of the irre parentid
      * @param string $parenttable The table where the parent element is stored
-     * @param string $childTable name of childtable
+     * @param string|null $childTable name of childtable
      * @return array all irre elements of this attribut
-     * @throws Exception
-     * @throws \Exception
+     * @throws \TYPO3\CMS\Core\Context\Exception\AspectNotFoundException
      */
     public function getInlineElements(
         $data,
