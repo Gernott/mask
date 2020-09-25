@@ -360,11 +360,6 @@ class WizardController extends ActionController
     {
         if (!file_exists(MaskUtility::getFileAbsFileName($path))) {
             $this->missingFolders[] = $path;
-//            $this->addFlashMessage(
-//                LocalizationUtility::translate($translationKey, 'mask'),
-//                $path,
-//                AbstractMessage::WARNING
-//            );
         }
     }
 
