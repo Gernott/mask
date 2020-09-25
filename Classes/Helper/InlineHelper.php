@@ -227,19 +227,31 @@ class InlineHelper
 
         // and recursively add them to an array
         $elements = [];
-        foreach ($rows as $element) {
-            if (TYPO3_MODE === 'FE') {
+        if (TYPO3_MODE === 'FE') {
+            foreach ($rows as $element) {
                 $GLOBALS['TSFE']->sys_page->versionOL($childTable, $element);
-            } else {
-                $element = BackendUtility::getRecordWSOL($childTable, $element['uid']);
+                $elements[] = $element;
             }
-            if ($element && empty($elements[$element['uid']])) {
-                $this->addIrreToData($element, $name, $cType);
-                $this->addFilesToData($element, $name);
-                $elements[$element['uid']] = $element;
+        } else {
+            foreach ($rows as $element) {
+                $elements[] = BackendUtility::getRecordWSOL($childTable, $element['uid']);
             }
         }
 
-        return $elements;
+        // Need to sort overlaid records again, because sorting migth have changed.
+        usort($elements, function ($a, $b) {
+            return $a['sorting'] > $b['sorting'];
+        });
+
+        $result = [];
+        foreach ($elements as $element) {
+            if ($element && empty($elements[$element['uid']])) {
+                $this->addIrreToData($element, $name, $cType);
+                $this->addFilesToData($element, $name);
+                $result[$element['uid']] = $element;
+            }
+        }
+
+        return $result;
     }
 }
