@@ -35,12 +35,14 @@ class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\Fluid
         // Call Parent Function to maintain core functions
         $variables = parent::getContentObjectVariables($conf);
 
-        // Make some enhancements to data
-        $data = $variables['data'];
-        $inlineHelper = GeneralUtility::makeInstance(InlineHelper::class);
-        $inlineHelper->addFilesToData($data, 'pages');
-        $inlineHelper->addIrreToData($data, 'pages');
-        $variables['data'] = $data;
+        // Make some enhancements to data of pages
+        if ($this->cObj->getCurrentTable() === 'pages') {
+            $data = $variables['data'];
+            $inlineHelper = GeneralUtility::makeInstance(InlineHelper::class);
+            $inlineHelper->addFilesToData($data, 'pages');
+            $inlineHelper->addIrreToData($data, 'pages');
+            $variables['data'] = $data;
+        }
 
         return $variables;
     }

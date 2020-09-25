@@ -52,7 +52,7 @@ class MaskProcessor implements DataProcessorInterface
         array $processorConfiguration,
         array $processedData
     ): array {
-        $this->inlineHelper->addFilesToData($processedData['data'], 'tt_content');
+        $this->inlineHelper->addFilesToData($processedData['data']);
         $this->inlineHelper->addIrreToData($processedData['data']);
         return $processedData;
     }
