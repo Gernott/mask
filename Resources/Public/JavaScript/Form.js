@@ -327,7 +327,8 @@ define([
         var params = {
           key: maskKey,
           table: table,
-          type: $(field).closest('.tx_mask_field').data('type')
+          type: $(field).closest('.tx_mask_field').data('type'),
+          elementKey: $('#meta_key').val()
         };
 
         // check if field is inline-field

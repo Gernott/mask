@@ -216,8 +216,12 @@ class WizardController extends ActionController
     {
         $queryParams = $request->getQueryParams();
         $fieldKey = $queryParams['key'];
-        $table = $queryParams['table'] ?? 'tt_content';
+        $table = $queryParams['table'];
+        if (!$table) {
+            $table = 'tt_content';
+        }
         $type = $queryParams['type'];
+        $elementKey = $queryParams['elementKey'];
 
         $keyExists = false;
         $fieldExists = false;
@@ -228,7 +232,14 @@ class WizardController extends ActionController
 
         if ($type !== 'Inline') {
             if ($type === 'Content') {
-                $fieldExists = $this->fieldHelper->getFieldType($fieldKey);
+                $fieldExists = $this->fieldHelper->getFieldType($fieldKey, $elementKey);
+            } elseif ($elementKey) {
+                $elementsUse = $this->storageRepository->getElementsWhichUseField($fieldKey, $table);
+                foreach ($elementsUse as $use) {
+                    if ($use['key'] !== $elementKey) {
+                        $fieldExists = true;
+                    }
+                }
             } else {
                 $fieldExists = $this->storageRepository->loadField($table, $fieldKey);
             }
