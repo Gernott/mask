@@ -70,19 +70,18 @@ class SqlCodeGenerator
         $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
         $schemaMigrator = GeneralUtility::makeInstance(SchemaMigrator::class);
 
-        $sqlUpdateSuggestions = $schemaMigrator->getUpdateSuggestions($sqlStatements);
-
-        foreach ($sqlUpdateSuggestions as $connectionName => $updateConnection) {
+        $sqlUpdateSuggestionsPerConnection = $schemaMigrator->getUpdateSuggestions($sqlStatements);
+        foreach ($sqlUpdateSuggestionsPerConnection as $connectionName => $updateSuggestions) {
+            unset($updateSuggestions['tables_count'], $updateSuggestions['change_currentValue']);
+            $updateSuggestions = array_merge(...array_values($updateSuggestions));
             $connection = $connectionPool->getConnectionByName($connectionName);
-            foreach ($updateConnection as $updateStatements) {
-                foreach ($updateStatements as $statement) {
-                    try {
-                        $connection->exec($statement);
-                    } catch (DBALException $exception) {
-                        return [
-                            'error' => $exception->getMessage()
-                        ];
-                    }
+            foreach ($updateSuggestions as $statement) {
+                try {
+                    $connection->executeUpdate($statement);
+                } catch (DBALException $exception) {
+                    return [
+                        'error' => $exception->getPrevious()->getMessage()
+                    ];
                 }
             }
         }
