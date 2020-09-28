@@ -7,7 +7,7 @@
     <f:render partial="Forms/Eval/Text" arguments="{key: key, field: field, elementKey: elementKey, editMode: editMode}"/>
 </div>
 <div role="tabpanel" class="tab-pane" id="localization_{key}">
-    <f:render partial="Forms/Config/Behaviour/LocalizationMode" arguments="{key:key, elementKey:storage.key, field: field, editMode: editMode}"/>
+    <f:render partial="Forms/Config/Behaviour/LocalizationMode" arguments="{key:key, elementKey: storage.key, includePrefixOption: '1', field: field, editMode: editMode}"/>
 </div>
 <div role="tabpanel" class="tab-pane" id="extended_{key}">
     <div class="row">

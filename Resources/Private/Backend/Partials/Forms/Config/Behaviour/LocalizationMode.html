@@ -10,12 +10,10 @@
                     <option {f:if(condition: '{field.l10n_mode} == \'\'', then:'selected=selected')} value="">
                         <f:translate key="tx_mask.field.inline.l10n_mode.default"/>
                     </option>
-                    <f:if condition="{excludePrefixOption}">
-                        <f:else>
-                            <option {f:if(condition: '{field.l10n_mode} == \'prefixLangTitle\'', then:'selected=selected')} value="prefixLangTitle">
-                                <f:translate key="tx_mask.field.inline.l10n_mode.prefixLangTitle"/> [prefixLangTitle]
-                            </option>
-                        </f:else>
+                    <f:if condition="{includePrefixOption}">
+                        <option {f:if(condition: '{field.l10n_mode} == \'prefixLangTitle\'', then:'selected=selected')} value="prefixLangTitle">
+                            <f:translate key="tx_mask.field.inline.l10n_mode.prefixLangTitle"/> [prefixLangTitle]
+                        </option>
                     </f:if>
                     <option {f:if(condition: '{field.l10n_mode} == \'exclude\'', then:'selected=selected')} value="exclude">
                        <f:translate key="tx_mask.field.inline.l10n_mode.exclude"/> [exclude]
