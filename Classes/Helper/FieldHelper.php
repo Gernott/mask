@@ -51,16 +51,16 @@ class FieldHelper
     public function getLabel($elementKey, $fieldKey, $type = 'tt_content'): string
     {
         $json = $this->storageRepository->load();
-        $label = '';
+        $label = $json[$type]['tca'][$fieldKey]['label'][$elementKey] ?? false;
         $columns = $json[$type]['elements'][$elementKey]['columns'] ?? false;
-        $maskField = isset($fieldKey) && strpos($fieldKey, 'tx_mask_') === 0;
-        if ($maskField && $columns && count($columns) > 0) {
+        if ($label === false && $columns && count($columns) > 0) {
             $fieldIndex = array_search($fieldKey, $columns);
             if ($fieldIndex !== false) {
                 $label = $json[$type]['elements'][$elementKey]['labels'][$fieldIndex];
             }
-        } else {
-            $label = $json[$type]['tca'][$fieldKey]['label'][$elementKey] ?? '';
+        }
+        if ($label === false) {
+            return '';
         }
         return $label;
     }

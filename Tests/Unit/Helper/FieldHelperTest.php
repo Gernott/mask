@@ -84,6 +84,30 @@ class FieldHelperTest extends BaseTestCase
                 'tt_content',
                 ''
             ],
+            'Core field returns correct label' => [
+                [
+                    'tt_content' => [
+                        'elements' => [
+                            'element_1' => [
+                                'labels' => [
+                                    'Header 1',
+                                    'Label 2',
+                                    'Label 3'
+                                ],
+                                'columns' => [
+                                    'header',
+                                    'tx_mask_tx_mask_column_2',
+                                    'tx_mask_tx_mask_column_3'
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'element_1',
+                'header',
+                'tt_content',
+                'Header 1'
+            ],
             'Core field in palette returns correct label' => [
                 [
                     'tt_content' => [
