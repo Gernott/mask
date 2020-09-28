@@ -84,6 +84,7 @@ class TyposcriptCodeGenerator
             }
 
             // add the content element wizard for each content element
+            $element['description'] = trim(preg_replace('/\s+/', ' ', $element['description']));
             $wizard = [
                 'header' => 'LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:new_content_element_tab',
                 'elements.mask_' . $element['key'] => [
@@ -93,8 +94,7 @@ class TyposcriptCodeGenerator
                     'tt_content_defValues' => [
                         'CType' => 'mask_' . $element['key']
                     ]
-                ],
-
+                ]
             ];
             $content .= "mod.wizards.newContentElement.wizardItems.mask {\n";
             $content .= $this->convertArrayToTypoScript($wizard, '', 1);
