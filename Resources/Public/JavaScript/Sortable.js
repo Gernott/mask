@@ -152,6 +152,11 @@ define([
             message = 'You are trying to drag an element which relies on a tt_content-field into a repeating field. This is not allowed, because it does not make any sense. Create a new field instead.';
           }
 
+          if (isDraggedIntoInline && isPalette && $(head).find('.inline-container').children().length > 0) {
+            allowed = false;
+            message = 'You can\'t drag palettes with children into an inline field. Please remove first all children or create a new palette.';
+          }
+
           if (isPalette && draggedIntoPalette) {
             allowed = false;
             message = 'You are trying to drag a palette into another palette. That\'s not possible.';
