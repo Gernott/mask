@@ -60,6 +60,9 @@
 			<trans-unit id="tx_mask.field.Palette">
 				<source>Palette</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.Linebreak">
+				<source>Umbruch</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.Content">
 				<target>Content</target>
 			</trans-unit>

@@ -83,10 +83,7 @@ class TcaCodeGenerator
 
             // Add palettes
             foreach ($subJson['palettes'] ?? [] as $key => $palette) {
-                $tableTca['palettes'][$key] = [
-                    'label' => $palette['label'],
-                    'showitem' => implode(',', $palette['showitem'])
-                ];
+                $tableTca['palettes'][$key] = $this->generatePalettesTca($palette, $table);
             }
 
             // Add some stuff we need to make irre work like it should
@@ -134,10 +131,7 @@ class TcaCodeGenerator
         ];
 
         foreach ($json['tt_content']['palettes'] ?? [] as $key => $palette) {
-            $GLOBALS['TCA']['tt_content']['palettes'][$key] = [
-                'label' => $palette['label'],
-                'showitem' => implode(',', $palette['showitem'])
-            ];
+            $GLOBALS['TCA']['tt_content']['palettes'][$key] = $this->generatePalettesTca($palette, 'tt_content');
         }
 
         foreach ($tca as $key => $elementvalue) {
@@ -175,11 +169,7 @@ class TcaCodeGenerator
         $element = $tca['pages']['elements'][$key];
         foreach ($element['columns'] ?? [] as $column) {
             if ($this->storageRepository->getFormType($column, $key, 'pages') === 'Palette') {
-                $palette = $tca['pages']['palettes'][$column];
-                $palettes[$column] = [
-                    'label' => $palette['label'],
-                    'showitem' => implode(',', $palette['showitem'])
-                ];
+                $palettes[$column] = $this->generatePalettesTca($tca['pages']['palettes'][$column], 'pages');
             }
         }
         return $palettes;
@@ -224,6 +214,27 @@ class TcaCodeGenerator
     }
 
     /**
+     * @param $palette
+     * @param $table
+     * @return array
+     */
+    protected function generatePalettesTca($palette, $table)
+    {
+        $showitem = [];
+        foreach ($palette['showitem'] as $item) {
+            if ($this->storageRepository->getFormType($item, '', $table) === 'Linebreak') {
+                $showitem[] = '--linebreak--';
+            } else {
+                $showitem[] = $item;
+            }
+        }
+        return [
+            'label' => $palette['label'],
+            'showitem' => implode(',', $showitem)
+        ];
+    }
+
+    /**
      * Generates the TCA for fields
      *
      * @param $table
@@ -247,7 +258,7 @@ class TcaCodeGenerator
             }
 
             // Ignore grouping elements
-            if (in_array(($tcavalue['config']['type'] ?? ''), ['tab', 'palette'])) {
+            if (in_array(($tcavalue['config']['type'] ?? ''), ['tab', 'palette', 'linebreak'])) {
                 continue;
             }
 

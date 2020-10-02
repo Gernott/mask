@@ -14,9 +14,16 @@
         <div class="tx_mask_btn_text">
             <span class="id_typetext"><f:translate key="tx_mask.field.{type}"/></span>
             <span class="id_labeltext" title="{field.label}">
-                <f:format.crop maxCharacters="20" append="..."><mask:translateLabel key="{field.label}" element="{elementKey}"/></f:format.crop>
+                <f:if condition="{type} == Linebreak">
+                    <f:then>
+                        Linebreak
+                    </f:then>
+                    <f:else>
+                        <f:format.crop maxCharacters="20" append="..."><mask:translateLabel key="{field.label}" element="{elementKey}"/></f:format.crop>
+                    </f:else>
+                </f:if>
             </span>
-            <span class="id_keytext" title="{field.key}">
+            <span class="id_keytext{f:if(condition: '{type} == Linebreak', then: ' hidden')}" title="{field.key}">
                 <f:format.crop maxCharacters="20" append="...">{field.key}</f:format.crop>
             </span>
         </div>

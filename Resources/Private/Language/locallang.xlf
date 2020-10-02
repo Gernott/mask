@@ -57,6 +57,9 @@
 			<trans-unit id="tx_mask.field.Palette">
 				<source>Palette</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.Linebreak">
+				<source>Linebreak</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.Content">
 				<source>Content</source>
 			</trans-unit>

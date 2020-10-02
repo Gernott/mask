@@ -83,6 +83,15 @@ define([
               $('.tx_mask_tabcell3 > div').hide(); // Hide all fieldconfigs
               var newTemplate = Sortable.prepareInlineFieldForInsert(head, fieldTemplate);
               $(newTemplate).attr('data-index', index);
+
+              var isLinebreak = fieldType === 'Linebreak';
+              if (isLinebreak) {
+                $(newTemplate).find('div[role=tabpanel]').hide();
+                $(newTemplate).find('h1').text('Linebreak');
+                $('li[data-type=Linebreak]').find('.id_labeltext').text('Linebreak');
+                $(newTemplate).find('.tx_mask_newfieldname').val('linebreak-' + Utility.getUniqueKey());
+              }
+
               if (index === 0) {
                 $('.tx_mask_tabcell3').prepend(newTemplate);
               } else {
@@ -142,10 +151,12 @@ define([
           var isNew = $(head).data('fieldtype') === undefined;
           var isPalette = $(head).data('type') === 'Palette';
           var isTab = $(head).data('type') === 'Tab';
+          var isLinebreak = $(head).data('type') === 'Linebreak';
           var draggedIntoPalette = $(event.target).hasClass('palette-container');
           var container = $(head).closest('.inline-container');
           var isDraggedIntoInline = container.length > 0 && !draggedIntoPalette;
-          var removeField = false;
+          var removeFieldFromPalette = false;
+          var removeLinebreak = false;
 
           if (isDraggedIntoInline && !isMaskField && !isNew) {
             allowed = false;
@@ -160,13 +171,19 @@ define([
           if (isPalette && draggedIntoPalette) {
             allowed = false;
             message = 'You are trying to drag a palette into another palette. That\'s not possible.';
-            removeField = true;
+            removeFieldFromPalette = true;
           }
 
           if (isTab && draggedIntoPalette) {
             allowed = false;
             message = 'You are trying to drag a tab into a palette. That\'s not possible.';
-            removeField = true;
+            removeFieldFromPalette = true;
+          }
+
+          if (isLinebreak && !draggedIntoPalette) {
+            allowed = false;
+            message = 'Linebreaks can only be placed into palettes.';
+            removeLinebreak = true;
           }
 
           if (allowed) {
@@ -222,8 +239,12 @@ define([
             try {
               ui.sender.sortable('cancel');
             } catch (e) {
-              if (removeField) {
+              if (removeFieldFromPalette) {
                 $('.id_Palette > .tx_mask_btn_caption > ul > .id_' + $(head).data('type')).remove();
+              }
+              if (removeLinebreak) {
+                $('li[class^=id_]').not('.id_Palette').find('> .tx_mask_btn_caption > ul > .id_Linebreak').remove();
+                $('.tx_mask_tabcell2 > ul > .id_Linebreak').remove();
               }
             }
           }

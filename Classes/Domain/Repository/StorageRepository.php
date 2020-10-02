@@ -678,6 +678,9 @@ class StorageRepository implements SingletonInterface
             case 'palette':
                 $formType = 'Palette';
                 break;
+            case 'linebreak':
+                $formType = 'Linebreak';
+                break;
             case 'group':
                 $formType = 'Group';
                 break;
