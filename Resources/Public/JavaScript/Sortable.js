@@ -141,10 +141,11 @@ define([
           var isMaskField = $(head).data('fieldtype') === 'mask';
           var isNew = $(head).data('fieldtype') === undefined;
           var isPalette = $(head).data('type') === 'Palette';
+          var isTab = $(head).data('type') === 'Tab';
           var draggedIntoPalette = $(event.target).hasClass('palette-container');
           var container = $(head).closest('.inline-container');
           var isDraggedIntoInline = container.length > 0 && !draggedIntoPalette;
-          var removePalette = false;
+          var removeField = false;
 
           if (isDraggedIntoInline && !isMaskField && !isNew) {
             allowed = false;
@@ -154,7 +155,13 @@ define([
           if (isPalette && draggedIntoPalette) {
             allowed = false;
             message = 'You are trying to drag a palette into another palette. That\'s not possible.';
-            removePalette = true;
+            removeField = true;
+          }
+
+          if (isTab && draggedIntoPalette) {
+            allowed = false;
+            message = 'You are trying to drag a tab into a palette. That\'s not possible.';
+            removeField = true;
           }
 
           if (allowed) {
@@ -210,8 +217,8 @@ define([
             try {
               ui.sender.sortable('cancel');
             } catch (e) {
-              if (removePalette) {
-                $('.id_Palette > .tx_mask_btn_caption > ul > .id_Palette').remove();
+              if (removeField) {
+                $('.id_Palette > .tx_mask_btn_caption > ul > .id_' + $(head).data('type')).remove();
               }
             }
           }
