@@ -104,25 +104,7 @@ class TyposcriptCodeGenerator
             // and switch the labels depending on which content element is selected
             $content .= "\n[isMaskContentType(\"mask_" . $element['key'] . "\")]\n";
             foreach ($element['columns'] ?? [] as $index => $column) {
-                if ($this->storageRepository->getFormType($column, $element['key']) === 'Palette') {
-                    $items = $this->storageRepository->loadInlineFields($column, $element['key']);
-                    foreach ($items as $item) {
-                        if (is_array($item['label'])) {
-                            $label = $item['label'][$element['key']];
-                        } else {
-                            $label = $item['label'];
-                        }
-                        // With config is custom mask field
-                        if (isset($item['config'])) {
-                            $key = 'tx_mask_' . $item['key'];
-                        } else {
-                            $key = $item['key'];
-                        }
-                        $content .= ' TCEFORM.tt_content.' . $key . '.label = ' . $label . "\n";
-                    }
-                } else {
-                    $content .= ' TCEFORM.tt_content.' . $column . '.label = ' . $element['labels'][$index] . "\n";
-                }
+                $this->setLabel($column, $index, $element, 'tt_content', $content);
             }
             $content .= "[end]\n\n";
         }
@@ -143,12 +125,42 @@ class TyposcriptCodeGenerator
             $pagesContent .= "\n[maskBeLayout('" . $element['key'] . "')]\n";
             // if page has backendlayout with this element-key
             foreach ($element['columns'] ?? [] as $index => $column) {
-                $pagesContent .= ' TCEFORM.pages.' . $column . '.label = ' . $element['labels'][$index] . "\n";
+                $this->setLabel($column, $index, $element, 'pages', $pagesContent);
             }
             $pagesContent .= "[end]\n";
         }
 
         return $pagesContent;
+    }
+
+    /**
+     * @param $column
+     * @param $index
+     * @param $element
+     * @param $table
+     * @param $content
+     */
+    protected function setLabel($column, $index, $element, $table, &$content)
+    {
+        if ($this->storageRepository->getFormType($column, $element['key'], $table) === 'Palette') {
+            $items = $this->storageRepository->loadInlineFields($column, $element['key']);
+            foreach ($items as $item) {
+                if (is_array($item['label'])) {
+                    $label = $item['label'][$element['key']];
+                } else {
+                    $label = $item['label'];
+                }
+                // With config is custom mask field
+                if (isset($item['config'])) {
+                    $key = 'tx_mask_' . $item['key'];
+                } else {
+                    $key = $item['key'];
+                }
+                $content .= ' TCEFORM.' . $table . '.' . $key . '.label = ' . $label . "\n";
+            }
+        } else {
+            $content .= ' TCEFORM.' . $table . '.' . $column . '.label = ' . $element['labels'][$index] . "\n";
+        }
     }
 
     /**
