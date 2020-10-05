@@ -56,7 +56,7 @@ class LabelViewHelper extends AbstractViewHelper
         // if we have the whole field configuration
         if ($field) {
             // check if this field is in an repeating field
-            if ($field['inlineParent'] && !isset($field['inlineParent'])) {
+            if (isset($field['inlineParent']) && !is_array($field['inlineParent'])) {
                 // if yes, the label is in the configuration
                 $label = $field['label'];
             } else {
