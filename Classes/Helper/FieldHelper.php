@@ -91,15 +91,14 @@ class FieldHelper
         foreach ($tables as $table) {
             if (GeneralUtility::isMaskIrreTable($table) && isset($storage[$table]['tca'][$fieldKey])) {
                 return $table;
-            } else {
-                foreach ($storage[$table]['elements'] ?? [] as $element) {
-                    // If element key is set, ignore all other elements
-                    if ($elementKey !== '' && ($elementKey !== $element['key'])) {
-                        continue;
-                    }
-                    if (in_array($fieldKey, ($element['columns'] ?? [])) || isset($storage[$table]['tca'][$fieldKey])) {
-                        return $table;
-                    }
+            }
+            foreach ($storage[$table]['elements'] ?? [] as $element) {
+                // If element key is set, ignore all other elements
+                if ($elementKey !== '' && ($elementKey !== $element['key'])) {
+                    continue;
+                }
+                if (in_array($fieldKey, ($element['columns'] ?? [])) || isset($storage[$table]['tca'][$fieldKey])) {
+                    return $table;
                 }
             }
         }

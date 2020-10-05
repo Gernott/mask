@@ -101,7 +101,6 @@ class StorageRepository implements SingletonInterface
     }
 
     /**
-     *
      * Sort and write json
      *
      * @param $json

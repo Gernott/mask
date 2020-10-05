@@ -3,7 +3,6 @@
 namespace MASK\Mask\Test\Helper;
 
 use MASK\Mask\Domain\Repository\StorageRepository;
-use MASK\Mask\Domain\Service\SettingsService;
 use MASK\Mask\Helper\FieldHelper;
 use TYPO3\TestingFramework\Core\BaseTestCase;
 
