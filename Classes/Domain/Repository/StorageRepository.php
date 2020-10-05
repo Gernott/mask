@@ -1,56 +1,33 @@
 <?php
+
 declare(strict_types=1);
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
 
 namespace MASK\Mask\Domain\Repository;
 
-/* * *************************************************************
- *  Copyright notice
- *
- *  (c) 2010-2013 Extbase Team (http://forge.typo3.org/projects/typo3v4-mvc)
- *  Extbase is a backport of TYPO3 Flow. All credits go to the TYPO3 Flow team.
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *  A copy is found in the textfile GPL.txt and important notices to the license
- *  from the author is found in LICENSE.txt distributed with these scripts.
- *
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- * ************************************************************* */
-
-use MASK\Mask\CodeGenerator\SqlCodeGenerator;
 use MASK\Mask\Domain\Service\SettingsService;
-use MASK\Mask\Helper\FieldHelper;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Repository for \TYPO3\CMS\Extbase\Domain\Model\Tca.
- *
  * @api
  */
-class StorageRepository
+class StorageRepository implements SingletonInterface
 {
-
-    /**
-     * FieldHelper
-     *
-     * @var FieldHelper
-     */
-    protected $fieldHelper;
-
     /**
      * SettingsService
      *
@@ -77,15 +54,11 @@ class StorageRepository
     private static $json;
 
     /**
-     * is called before every action
+     * @param SettingsService $settingsService
      */
-    public function __construct(SettingsService $settingsService = null)
+    public function __construct(SettingsService $settingsService)
     {
-        if ($settingsService) {
-            $this->settingsService = $settingsService;
-        } else {
-            $this->settingsService = GeneralUtility::makeInstance(SettingsService::class);
-        }
+        $this->settingsService = $settingsService;
         $this->extSettings = $this->settingsService->get();
     }
 
@@ -113,7 +86,6 @@ class StorageRepository
      * Write Storage
      *
      * @param $json
-     * @return void
      * @noinspection PhpComposerExtensionStubsInspection
      */
     public function write($json): void
@@ -129,41 +101,103 @@ class StorageRepository
     }
 
     /**
+     * Sort and write json
+     *
+     * @param $json
+     */
+    public function persist($json)
+    {
+        // sort content elements by key before saving
+        $this->sortJson($json);
+        $this->write($json);
+    }
+
+    /**
      * Load Field
      * @param $type
      * @param $key
      * @return array
      */
-    public function loadField($type, $key): ?array
+    public function loadField($type, $key): array
     {
         $json = $this->load();
-        return $json[$type]['tca'][$key];
+        return $json[$type]['tca'][$key] ?? [];
     }
 
     /**
      * Loads all the inline fields of an inline-field, recursively!
      *
      * @param string $parentKey key of the inline-field
+     * @param $elementKey
      * @return array
      */
-    public function loadInlineFields($parentKey): array
+    public function loadInlineFields($parentKey, $elementKey = ''): array
     {
         $json = $this->load();
         $inlineFields = [];
-        foreach ($json as $table) {
-            if ($table['tca']) {
-                foreach ($table['tca'] as $key => $tca) {
-                    if ($tca['inlineParent'] === $parentKey) {
-                        if ($tca['config']['type'] === 'inline') {
-                            $tca['inlineFields'] = $this->loadInlineFields($key);
-                        }
-                        $tca['maskKey'] = 'tx_mask_' . $tca['key'];
-                        $inlineFields[] = $tca;
+
+        // Load inline fields of own table
+        if (array_key_exists($parentKey, $json)) {
+            $searchTables = [$parentKey];
+        } else {
+            $searchTables = array_keys($json);
+        }
+
+        // Traverse tables and find palette
+        foreach ($searchTables as $table) {
+            foreach ($json[$table]['tca'] ?? [] as $key => $tca) {
+                // if inlineParent is an array, it's in a palette on default table
+                if (is_array(($tca['inlineParent'] ?? ''))) {
+                    $inlineParent = $tca['inlineParent'][$elementKey];
+                } else {
+                    $inlineParent = $tca['inlineParent'] ?? '';
+                }
+                if ($inlineParent === $parentKey) {
+                    if (($tca['config']['type'] ?? '') === 'inline') {
+                        $tca['inlineFields'] = $this->loadInlineFields($key, $elementKey);
                     }
+                    if (($tca['config']['type'] ?? '') === 'palette') {
+                        $tca['inlineFields'] = $this->loadInlineFields('tx_mask_' . $tca['key'], $elementKey);
+                    }
+                    $tca['maskKey'] = 'tx_mask_' . $tca['key'];
+                    $inlineFields[] = $tca;
                 }
             }
         }
+
+        $this->sortInlineFieldsByOrder($inlineFields, $elementKey);
         return $inlineFields;
+    }
+
+    /**
+     * Sort inline fields recursively.
+     *
+     * @param array $inlineFields
+     * @param string $elementKey
+     */
+    protected function sortInlineFieldsByOrder(array &$inlineFields, $elementKey = '')
+    {
+        uasort(
+            $inlineFields,
+            function ($columnA, $columnB) use ($elementKey) {
+                if (is_array($columnA['order'])) {
+                    $a = isset($columnA['order'][$elementKey]) ? (int)$columnA['order'][$elementKey] : 0;
+                    $b = isset($columnB['order'][$elementKey]) ? (int)$columnB['order'][$elementKey] : 0;
+                } else {
+                    $a = isset($columnA['order']) ? (int)$columnA['order'] : 0;
+                    $b = isset($columnB['order']) ? (int)$columnB['order'] : 0;
+                }
+                return $a - $b;
+            }
+        );
+
+        foreach ($inlineFields as $i => $field) {
+            if (in_array(($field['config']['type'] ?? ''), ['inline', 'palette'])) {
+                if (isset($inlineFields[$i]['inlineFields']) && is_array($inlineFields[$i]['inlineFields'])) {
+                    $this->sortInlineFieldsByOrder($inlineFields[$i]['inlineFields']);
+                }
+            }
+        }
     }
 
     /**
@@ -173,22 +207,26 @@ class StorageRepository
      * @param $key
      * @return array
      */
-    public function loadElement($type, $key): ?array
+    public function loadElement($type, $key): array
     {
+        // Only tt_content and pages can have elements
+        if (!in_array($type, ['tt_content', 'pages'])) {
+            return [];
+        }
         $json = $this->load();
         $fields = [];
         $columns = $json[$type]['elements'][$key]['columns'];
 
-        //Check if it is an array before trying to count it
+        // Check if it is an array before trying to count it
         if (is_array($columns) && count($columns) > 0) {
             foreach ($columns as $fieldName) {
-                $fields[$fieldName] = $json[$type]['tca'][$fieldName];
+                $fields[$fieldName] = $json[$type]['tca'][$fieldName] ?? [];
             }
         }
         if (count($fields) > 0) {
             $json[$type]['elements'][$key]['tca'] = $fields;
         }
-        return $json[$type]['elements'][$key];
+        return $json[$type]['elements'][$key] ?? [];
     }
 
     /**
@@ -196,30 +234,27 @@ class StorageRepository
      *
      * @param array $content
      * @noinspection NotOptimalIfConditionsInspection
+     * @return array
      */
-    public function add($content): void
+    public function add($content): array
     {
         // Load
         $json = $this->load();
+        $elementKey = $content['elements']['key'];
 
         // Create JSON elements Array:
         foreach ($content['elements'] as $key => $value) {
             // delete columns and labels of irre-fields from elements
             if ($key === 'columns' || $key === 'labels') {
                 foreach ($value as $index => $column) {
-                    if ($content['tca'][$index]['inlineParent']) {
+                    if ($content['tca'][$index]['inlineParent'] ?? false) {
                         unset($value[$index]);
-                    }
-                    if (($key === 'labels') && empty($column)
-                        && isset($json[$content['type']]['tca'][$content['elements']['columns'][$index]])
-                    ) {
-                        // If using a mask field with empty label, we have to set the "default" label
+                    // If using a mask field with empty label, we have to set the "default" label
+                    } elseif ($key === 'labels' && empty($column) && isset($json[$content['type']]['tca'][$content['elements']['columns'][$index]])) {
                         $label = '';
                         foreach ($json[$content['type']]['elements'] as $element) {
-                            if (is_array($element['columns']) && in_array($content['elements']['columns'][$index],
-                                    $element['columns'], true)) {
-                                $i = array_search($content['elements']['columns'][$index], $element['columns'],
-                                    true);
+                            if (is_array($element['columns']) && in_array($content['elements']['columns'][$index], $element['columns'], true)) {
+                                $i = array_search($content['elements']['columns'][$index], $element['columns'], true);
                                 if (!empty($element['labels'][$i])) {
                                     $label = $element['labels'][$i];
                                     break;
@@ -230,75 +265,134 @@ class StorageRepository
                     }
                 }
             }
-            $json[$content['type']]['elements'][$content['elements']['key']][$key] = $value;
+            $json[$content['type']]['elements'][$elementKey][$key] = $value;
         }
 
         $columns = [];
+        $labels = [];
 
         // delete columns and labels of irre-fields from elements
-        if ($content['elements']['columns']) {
-            foreach ($content['elements']['columns'] as $index => $column) {
-                if ($content['tca'][$index]['inlineParent']) {
-                    unset(
-                        $content['elements']['columns'][$index],
-                        $content['elements']['labels'][$index]
-                    );
-                }
-                $columns[] = $column;
+        foreach ($content['elements']['columns'] ?? [] as $index => $column) {
+            $columns[] = $column;
+            $labels[] = $content['elements']['labels'][$index];
+
+            if ($content['tca'][$index]['inlineParent'] ?? false) {
+                unset(
+                    $content['elements']['columns'][$index],
+                    $content['elements']['labels'][$index]
+                );
             }
         }
 
         // Create JSON sql Array:
-        if (is_array($content['sql'])) {
-            foreach ($content['sql'] as $table => $sqlArray) {
-                foreach ($sqlArray as $index => $type) {
-                    $fieldname = 'tx_mask_' . $columns[$index];
-                    $json[$table]['sql'][$fieldname][$table][$fieldname] = $type;
-                }
+        foreach ($content['sql'] ?? [] as $table => $sqlArray) {
+            foreach ($sqlArray as $index => $type) {
+                $fieldname = 'tx_mask_' . $columns[$index];
+                $json[$table]['sql'][$fieldname][$table][$fieldname] = $type;
             }
         }
 
         // Create JSON tca Array:
-        if (is_array($content['tca'])) {
+        $defaultType = $content['type'];
+        $paletteParents = [];
+        foreach ($content['tca'] ?? [] as $key => $value) {
+            $hasConfig = isset($value['config']);
+            $existingMaskFieldWithNoConfig = !$hasConfig && strpos($columns[$key], 'tx_mask') === 0;
+            $inPalette = (bool)($value['inPalette'] ?? false);
+            $coreFieldInPalette = !$existingMaskFieldWithNoConfig && !$hasConfig && $inPalette;
+            $isInline = (bool)($value['inlineParent'] ?? false);
+            $isPalette = (bool)($value['config']['type'] ?? false) == 'palette';
+            $inlineParent = $value['inlineParent'] ?? '';
 
-            foreach ($content['tca'] as $key => $value) {
-                $inlineField = false;
-
-                // if this field is inline-field
-                if ($value['inlineParent']) {
-                    $type = $value['inlineParent'];
-                    $inlineField = true;
-                } else {
-                    $type = $content['type'];
+            if (!$isInline) {
+                $type = $defaultType;
+            } elseif (!$inPalette) {
+                $type = $inlineParent;
+                if ($isPalette) {
+                    $paletteParents['tx_mask_' . $columns[$key]] = $inlineParent;
                 }
-
-                $json[$type]['tca'][$columns[$key]] = $value;
-
-                // add rte flag if inline and rte
-                if ($inlineField) {
-                    if ($content['elements']['options'][$key] === 'rte') {
-                        $json[$type]['tca'][$columns[$key]]['rte'] = '1';
-                    }
-                }
-
-                // Only add columns to elements if it is no inlinefield
-                if (!$inlineField) {
-                    $json[$type]['elements'][$content['elements']['key']]['columns'][$key] = 'tx_mask_' . $columns[$key];
-                }
-                $json[$type]['tca']['tx_mask_' . $columns[$key]] = $json[$type]['tca'][$columns[$key]];
-                $json[$type]['tca']['tx_mask_' . $columns[$key]]['key'] = $columns[$key];
-
-                if ($inlineField) {
-                    $json[$type]['tca']['tx_mask_' . $columns[$key]]['order'] = $key;
-                }
-
-                unset($json[$type]['tca'][$columns[$key]]);
+            } else {
+                $type = $paletteParents[$inlineParent] ?? $defaultType;
             }
-        }
 
-        // sort content elements by key before saving
-        $this->sortJson($json);
-        $this->write($json);
+            // Revert mask key to key without prefix
+            if ($existingMaskFieldWithNoConfig) {
+                $columns[$key] = MaskUtility::removeMaskPrefix($columns[$key]);
+            }
+
+            $maskKey = 'tx_mask_' . $columns[$key];
+            $tempKey = 'temp_' . $columns[$key];
+            // Set temp entry to modify
+            $json[$type]['tca'][$tempKey] = $value;
+
+            if ($coreFieldInPalette) {
+                $json[$type]['tca'][$tempKey]['coreField'] = '1';
+            }
+
+            // add rte flag if inline and rte
+            if ($isInline && ($content['elements']['options'][$key] ?? '') === 'rte') {
+                $json[$type]['tca'][$tempKey]['rte'] = '1';
+            }
+
+            // Convert range values of timestamp to integers
+            if (($json[$type]['tca'][$tempKey]['config']['renderType'] ?? '') === 'inputDateTime' && !isset($json[$type]['tca'][$tempKey]['config']['dbType'])) {
+                if (isset($json[$type]['tca'][$tempKey]['config']['range']['lower']) && $json[$type]['tca'][$tempKey]['config']['range']['lower']) {
+                    $date = new \DateTime($json[$type]['tca'][$tempKey]['config']['range']['lower']);
+                    $json[$type]['tca'][$tempKey]['config']['range']['lower'] = $date->getTimestamp();
+                }
+                if (isset($json[$type]['tca'][$tempKey]['config']['range']['upper']) && $json[$type]['tca'][$tempKey]['config']['range']['upper']) {
+                    $date = new \DateTime($json[$type]['tca'][$tempKey]['config']['range']['upper']);
+                    $json[$type]['tca'][$tempKey]['config']['range']['upper'] = $date->getTimestamp();
+                }
+            }
+
+            // Only add columns to elements if it is no inlinefield
+            if (!$isInline) {
+                $json[$type]['elements'][$elementKey]['columns'][$key] = $maskKey;
+            }
+
+            // If palette on root (not inline) set inlineParent, label and order to array with element as index
+            if ($type == $defaultType && $inPalette) {
+                // InlineParent
+                $palette = $json[$type]['tca'][$tempKey]['inlineParent'];
+                $json[$type]['tca'][$tempKey]['inlineParent'] = [];
+                $json[$type]['tca'][$tempKey]['inlineParent'][$elementKey] = $palette;
+
+                // Label
+                $paletteLabel = $json[$type]['tca'][$tempKey]['label'];
+                $json[$type]['tca'][$tempKey]['label'] = [];
+                $json[$type]['tca'][$tempKey]['label'][$elementKey] = $paletteLabel;
+
+                // Order
+                $json[$type]['tca'][$tempKey]['order'][$elementKey] = $key;
+            }
+
+            // If it's an existing field, override with new values but keep other untouched.
+            $keyToUse = ($hasConfig || $existingMaskFieldWithNoConfig) ? $maskKey : $columns[$key];
+            if (isset($json[$type]['tca'][$keyToUse])) {
+                ArrayUtility::mergeRecursiveWithOverrule($json[$type]['tca'][$keyToUse], $json[$type]['tca'][$tempKey]);
+            } else {
+                $json[$type]['tca'][$keyToUse] = $json[$type]['tca'][$tempKey];
+                $json[$type]['tca'][$keyToUse]['key'] = $columns[$key];
+            }
+
+            // Inline fields on custom tables need extra order property
+            if ($type !== $defaultType && $isInline) {
+                $json[$type]['tca'][$keyToUse]['order'] = $key;
+            }
+
+            // Fill palette showitem and set label
+            if ($inPalette) {
+                if (!in_array($keyToUse, $json[$type]['palettes'][$value['inlineParent']]['showitem'] ?? [])) {
+                    $json[$type]['palettes'][$value['inlineParent']]['showitem'][] = $keyToUse;
+                }
+                $labelIndex = array_search(MaskUtility::removeMaskPrefix($value['inlineParent']), $columns);
+                $json[$type]['palettes'][$value['inlineParent']]['label'] = $labels[$labelIndex];
+            }
+
+            unset($json[$type]['tca'][$tempKey]);
+        }
+        return $json;
     }
 
     /**
@@ -306,9 +400,9 @@ class StorageRepository
      *
      * @param string $type
      * @param string $key
-     * @param array $remainingFields
+     * @return array
      */
-    public function remove($type, $key, $remainingFields = []): void
+    public function remove($type, $key): array
     {
         $this->currentKey = $key;
         // Load
@@ -319,12 +413,11 @@ class StorageRepository
         unset($json[$type]['elements'][$key]);
         if (is_array($columns)) {
             foreach ($columns as $field) {
-                $json = $this->removeField($type, $field, $json, $remainingFields);
+                $json = $this->removeField($type, $field, $json);
             }
         }
         $this->currentKey = '';
-        $this->sortJson($json);
-        $this->write($json);
+        return $json;
     }
 
     /**
@@ -362,85 +455,61 @@ class StorageRepository
      * @param string $table
      * @param string $field
      * @param array $json
-     * @param array $remainingFields
      * @return array
-     *
      */
-    private function removeField($table, $field, $json, $remainingFields = []): array
+    private function removeField($table, $field, $json): array
     {
-        $this->fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
+        $maskKey = $field;
+        $field = str_replace('tx_mask_', '', $maskKey);
+        $keyToUse = isset($json[$table]['tca'][$field]) ? $field : $maskKey;
 
         // check if this field is used in any other elements
-        $elementsInUse = [];
-        if ($json[$table]['elements']) {
-            foreach ($json[$table]['elements'] as $element) {
-                if ($element['columns']) {
-                    foreach ($element['columns'] as $column) {
-                        if ($column === $field) {
-                            $elementsInUse[] = $element;
-                        }
-                    }
-                }
-            }
-        }
+        $elementsInUse = $this->getElementsWhichUseField($keyToUse, $table);
+        $usedInAnotherElement = count($elementsInUse) > 1;
 
-
-        // check if father gets deleted
-        $fatherFound = false;
-        if ($remainingFields) {
-            foreach ($remainingFields as $remainingField) {
-                if ($field === 'tx_mask_' . $remainingField) {
-                    $fatherFound = true;
-                }
-            }
+        // Remove inlineParent, label and order
+        $inlineParent = $json[$table]['tca'][$keyToUse]['inlineParent'] ?? false;
+        if (is_array($inlineParent)) {
+            unset($json[$table]['tca'][$keyToUse]['inlineParent'][$this->currentKey]);
+            unset($json[$table]['tca'][$keyToUse]['label'][$this->currentKey]);
+            unset($json[$table]['tca'][$keyToUse]['order'][$this->currentKey]);
         }
-        $fatherGetsDeleted = !$fatherFound;
 
         // if the field is a repeating field, make some exceptions
-        if ($json[$table]['tca'][$field]['config']['type'] === 'inline') {
-            $inlineFields = $this->loadInlineFields($field);
-            if ($inlineFields) {
-                // Recursively delete all inline-fields if necessary
-                foreach ($inlineFields as $inlineField) {
-                    $found = false;
-                    // check if the fields are really deleted, or if they are just deleted temporarly for update action
-                    if ($remainingFields) {
-                        foreach ($remainingFields as $remainingField) {
-                            if ($inlineField['key'] === $remainingField) {
-                                $found = true;
-                            }
-                        }
-                    }
-                    if ($found) {
-                        // was not really deleted => can be deleted temporarly because it will be readded
-                        $json = $this->removeField($inlineField['inlineParent'], 'tx_mask_' . $inlineField['key'],
-                            $json);
-                    } else {
-                        // was really deleted and can only be deleted if father is not in use in another element
-                        if (($fatherGetsDeleted && count($elementsInUse) == 0) || !$fatherGetsDeleted) {
-                            $json = $this->removeField($inlineField['inlineParent'], 'tx_mask_' . $inlineField['key'],
-                                $json);
-                        }
-                    }
+        if (in_array(($json[$table]['tca'][$maskKey]['config']['type'] ?? ''), ['inline', 'palette'])) {
+            $inlineFields = $this->loadInlineFields($maskKey, $this->currentKey);
+            // Recursively delete all inline field if possible
+            foreach ($inlineFields  as $inlineField) {
+                // Only remove if not in use in another element
+                if (!$usedInAnotherElement) {
+                    $parentTable = ($inlineField['inPalette'] ?? false) ? $table : $inlineField['inlineParent'];
+                    $inlineKey = 'tx_mask_' . $inlineField['key'];
+                    $json = $this->removeField($parentTable, $inlineKey, $json);
                 }
             }
         }
 
         // then delete the field, if it is not in use in another element
-        if (count($elementsInUse) < 1) {
+        if (!$usedInAnotherElement) {
+            unset($json[$table]['tca'][$maskKey]);
+            // Unset typo3 core field
             unset($json[$table]['tca'][$field]);
-            unset($json[$table]['sql'][$field]);
+            unset($json[$table]['sql'][$maskKey]);
 
-            $type = $this->fieldHelper->getFormType($field, $this->currentKey, $table);
+            $type = $this->getFormType($maskKey, $this->currentKey, $table);
 
             // If field is of type inline, also delete table entry
             if ($type === 'Inline') {
-                unset($json[$field]);
+                unset($json[$maskKey]);
+            }
+
+            if ($type === 'Palette') {
+                unset($json[$table]['palettes'][$maskKey]);
             }
 
             // If field is of type file, also delete entry in sys_file_reference
             if ($type === 'File') {
-                unset($json['sys_file_reference']['sql'][$field]);
+                unset($json['sys_file_reference']['sql'][$maskKey]);
                 $json = $this->cleanTable('sys_file_reference', $json);
             }
         }
@@ -456,13 +525,16 @@ class StorageRepository
      */
     private function cleanTable($table, $json): array
     {
-        if ($json[$table]['tca'] && count($json[$table]['tca']) < 1) {
+        if (isset($json[$table]['tca']) && count($json[$table]['tca']) < 1) {
             unset($json[$table]['tca']);
         }
-        if ($json[$table]['sql'] && count($json[$table]['sql']) < 1) {
+        if (isset($json[$table]['sql']) && count($json[$table]['sql']) < 1) {
             unset($json[$table]['sql']);
         }
-        if ($json[$table] && count($json[$table]) < 1) {
+        if (isset($json[$table]['palettes']) && count($json[$table]['palettes']) < 1) {
+            unset($json[$table]['palettes']);
+        }
+        if (isset($json[$table]) && count($json[$table]) < 1) {
             unset($json[$table]);
         }
         return $json;
@@ -475,14 +547,14 @@ class StorageRepository
      */
     public function update($content): void
     {
-        $this->remove($content['type'], $content['orgkey'], $content['elements']['columns']);
-        $this->add($content);
+        $json = $this->remove($content['type'], $content['orgkey']);
+        $this->persist($json);
+        $this->persist($this->add($content));
     }
 
     /**
      * Sorts the json entries
      * @param array $array
-     * @return void
      */
     private function sortJson(array &$array): void
     {
@@ -500,5 +572,149 @@ class StorageRepository
                 $this->sortJson($item);
             }
         }
+    }
+
+    /**
+     * Returns the formType of a field in an element
+     *
+     * @param string $fieldKey Key if Field
+     * @param string $elementKey Key of Element
+     * @param string $type elementtype
+     * @return string formType
+     */
+    public function getFormType($fieldKey, $elementKey = '', $type = 'tt_content'): string
+    {
+        $element = [];
+
+        // load tca for field from $GLOBALS
+        $tca = $GLOBALS['TCA'][$type]['columns'][$fieldKey] ?? [];
+        if (array_key_exists('config', $tca) && !$tca['config']) {
+            $tca = $GLOBALS['TCA'][$type]['columns']['tx_mask_' . $fieldKey] ?? [];
+        }
+        if ($elementKey) {
+            // Load element and TCA of field
+            $element = $this->loadElement($type, $elementKey);
+            if (array_key_exists('config', $tca) && !$tca['config']) {
+                $tca = $element['tca'][$fieldKey] ?? [];
+            }
+        }
+
+        // if field is in inline table or $GLOBALS["TCA"] is not yet filled, load tca from json
+        if (!$tca || !in_array($type, ['tt_content', 'pages'])) {
+            $tca = $this->loadField($type, $fieldKey);
+            if (!($tca['config'] ?? false)) {
+                $tca = $this->loadField($type, 'tx_mask_' . $fieldKey);
+            }
+        }
+
+        $tcaType = $tca['config']['type'] ?? '';
+        $evals = [];
+        if (isset($tca['config']['eval'])) {
+            $evals = explode(',', $tca['config']['eval']);
+        }
+
+        if (($tca['options'] ?? '') === 'file') {
+            return 'File';
+        }
+
+        if (($tca['rte'] ?? '') === '1') {
+            return 'Richtext';
+        }
+
+        // And decide via different tca settings which formType it is
+        switch ($tcaType) {
+            case 'input':
+                if (($tca['config']['dbType'] ?? '') == 'date') {
+                    $formType = 'Date';
+                } elseif (($tca['config']['dbType'] ?? '') == 'datetime') {
+                    $formType = 'Datetime';
+                } elseif (($tca['config']['renderType'] ?? '') == 'inputDateTime') {
+                    $formType = 'Timestamp';
+                } elseif (in_array('int', $evals, true)) {
+                    $formType = 'Integer';
+                } elseif (in_array('double2', $evals, true)) {
+                    $formType = 'Float';
+                } elseif (($tca['config']['renderType'] ?? '') === 'inputLink') {
+                    $formType = 'Link';
+                } else {
+                    $formType = 'String';
+                }
+                break;
+            case 'text':
+                $formType = 'Text';
+                if ($elementKey && in_array($type, ['tt_content', 'pages'])) {
+                    foreach ($element['columns'] ?? [] as $numberKey => $column) {
+                        if ($column === $fieldKey) {
+                            $option = $element['options'][$numberKey] ?? '';
+                            if ($option === 'rte') {
+                                $formType = 'Richtext';
+                            }
+                        }
+                    }
+                }
+                break;
+            case 'check':
+                $formType = 'Check';
+                break;
+            case 'radio':
+                $formType = 'Radio';
+                break;
+            case 'select':
+                $formType = 'Select';
+                break;
+            case 'inline':
+                if (($tca['config']['foreign_table'] ?? '') === 'sys_file_reference') {
+                    $formType = 'File';
+                } elseif (($tca['config']['foreign_table'] ?? '') === 'tt_content') {
+                    $formType = 'Content';
+                } else {
+                    $formType = 'Inline';
+                }
+                break;
+            case 'tab':
+                $formType = 'Tab';
+                break;
+            case 'palette':
+                $formType = 'Palette';
+                break;
+            case 'linebreak':
+                $formType = 'Linebreak';
+                break;
+            case 'group':
+                $formType = 'Group';
+                break;
+            default:
+                $formType = 'String';
+                break;
+        }
+        return $formType;
+    }
+
+    /**
+     * Returns all elements that use this field
+     *
+     * @param string $key TCA Type
+     * @param string $type elementtype
+     * @return array elements in use
+     */
+    public function getElementsWhichUseField($key, $type = 'tt_content'): array
+    {
+        $storage = $this->load();
+
+        $elementsInUse = [];
+        foreach ($storage[$type]['elements'] ?? [] as $element) {
+            foreach ($element['columns'] ?? [] as $column) {
+                if ($this->getFormType($column, $element['key'], $type) === 'Palette') {
+                    foreach ($storage[$type]['palettes'][$column]['showitem'] ?? [] as $item) {
+                        if ($item === $key) {
+                            $elementsInUse[] = $element;
+                        }
+                    }
+                } elseif ($column === $key) {
+                    $elementsInUse[] = $element;
+                }
+            }
+        }
+        return $elementsInUse;
     }
 }

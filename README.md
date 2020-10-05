@@ -8,6 +8,10 @@ Create your own content elements and page templates. Easy to use, even without p
 
 Mask is a TYPO3 extension for creating content elements and extending page templates. It’s possible to add new fields to any element. Fields can have several types, for example: text, file, relations, rich text, ...
 
+## Read what's new in mask version 6
+
+[Mask version 6 changes](https://github.com/gernott/mask/blob/master/Documentation/ChangeLog/6.0/Index.rst)
+
 ## Advantages of Mask
 
 * Mask stores the content in columns in database tables – not as XML (Flexform)

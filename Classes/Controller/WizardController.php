@@ -1,74 +1,47 @@
 <?php
+
 declare(strict_types=1);
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
 
 namespace MASK\Mask\Controller;
 
-/* * *************************************************************
- *  Copyright notice
- *
- *  (c) 2014 Gernot Ploiner <gp@webprofil.at>, WEBprofil - Gernot Ploiner e.U.
- *
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- * ************************************************************* */
-
 use MASK\Mask\CodeGenerator\HtmlCodeGenerator;
 use MASK\Mask\CodeGenerator\SqlCodeGenerator;
+use MASK\Mask\CodeGenerator\TcaCodeGenerator;
 use MASK\Mask\Domain\Repository\BackendLayoutRepository;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Domain\Service\SettingsService;
 use MASK\Mask\Helper\FieldHelper;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Core\Cache\CacheManager;
-use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
-use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Http\ServerRequest;
-use TYPO3\CMS\Core\Messaging\AbstractMessage;
+use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
 use TYPO3\CMS\Extbase\Object\Exception;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
-/**
- *
- *
- * @package mask
- * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
- *
- */
 class WizardController extends ActionController
 {
-
-    /**
-     * @var bool
-     */
-    protected $dbUpdateNeeded = false;
-
     /**
      * StorageRepository
      *
      * @var StorageRepository
-     * @Inject()
      */
     protected $storageRepository;
 
@@ -76,7 +49,6 @@ class WizardController extends ActionController
      * BackendLayoutRepository
      *
      * @var BackendLayoutRepository
-     * @Inject()
      */
     protected $backendLayoutRepository;
 
@@ -84,7 +56,6 @@ class WizardController extends ActionController
      * FieldHelper
      *
      * @var FieldHelper
-     * @Inject()
      */
     protected $fieldHelper;
 
@@ -92,7 +63,6 @@ class WizardController extends ActionController
      * HtmlCodeGenerator
      *
      * @var HtmlCodeGenerator
-     * @Inject()
      */
     protected $htmlCodeGenerator;
 
@@ -100,7 +70,6 @@ class WizardController extends ActionController
      * SqlCodeGenerator
      *
      * @var SqlCodeGenerator
-     * @Inject()
      */
     protected $sqlCodeGenerator;
 
@@ -108,7 +77,6 @@ class WizardController extends ActionController
      * SettingsService
      *
      * @var SettingsService
-     * @Inject()
      */
     protected $settingsService;
 
@@ -136,24 +104,37 @@ class WizardController extends ActionController
 
     protected $missingFolders = [];
 
-    /**
-     * is called before every action
-     */
-    public function initializeAction(): void
-    {
+    public function __construct(
+        StorageRepository $storageRepository,
+        SettingsService $settingsService,
+        BackendLayoutRepository $backendLayoutRepository,
+        FieldHelper $fieldHelper,
+        SqlCodeGenerator $sqlCodeGenerator,
+        HtmlCodeGenerator $htmlCodeGenerator
+    ) {
+        $this->storageRepository = $storageRepository;
+        $this->settingsService = $settingsService;
+        $this->backendLayoutRepository = $backendLayoutRepository;
+        $this->fieldHelper = $fieldHelper;
+        $this->sqlCodeGenerator = $sqlCodeGenerator;
+        $this->htmlCodeGenerator = $htmlCodeGenerator;
         $this->extSettings = $this->settingsService->get();
     }
 
     /**
      * Generates all the necessary files
-     * @author Gernot Ploiner <gp@webprofil.at>
-     * @todo clear typoscript cache after generating
-     * @noinspection PhpUnhandledExceptionInspection
      */
     public function generateAction(): void
     {
+        // Set tca to enable DefaultTcaSchema for new inline tables
+        $tcaCodeGenerator = GeneralUtility::makeInstance(TcaCodeGenerator::class);
+        $tcaCodeGenerator->setInlineTca();
+
         // Update Database
-        $this->sqlCodeGenerator->updateDatabase();
+        $result = $this->sqlCodeGenerator->updateDatabase();
+        if (array_key_exists('error', $result)) {
+            $this->addFlashMessage($result['error'], '', FlashMessage::ERROR);
+        }
 
         // Clear system cache to force new TCA caching
         $cacheManager = GeneralUtility::makeInstance(CacheManager::class);
@@ -164,16 +145,17 @@ class WizardController extends ActionController
      * Prepares the storage array for fluid view
      *
      * @param array $storage
+     * @param $elementKey
+     * @throws \Exception
      */
-    protected function prepareStorage(&$storage): void
+    protected function prepareStorage(&$storage, $elementKey): void
     {
-         // Fill storage with additional data before assigning to view
-        if ($storage["tca"]) {
-            foreach ($storage["tca"] as $key => $field) {
+        // Fill storage with additional data before assigning to view
+        if ($storage['tca']) {
+            foreach ($storage['tca'] as $key => $field) {
                 if (is_array($field)) {
-                    if ($field["config"]["type"] == "inline") {
-                        $storage["tca"][$key]["inlineFields"] = $this->storageRepository->loadInlineFields($key);
-                        $this->sortInlineFieldsByOrder($storage["tca"][$key]["inlineFields"]);
+                    if (in_array($field['config']['type'], ['inline', 'palette'])) {
+                        $storage['tca'][$key]['inlineFields'] = $this->storageRepository->loadInlineFields($key, $elementKey);
                     }
                 }
                 // Convert old date format Y-m-d to d-m-Y
@@ -182,10 +164,10 @@ class WizardController extends ActionController
                     $format = ($dbType == 'date') ? 'd-m-Y' : 'H:i d-m-Y';
                     $lower = $field['config']['range']['lower'] ?? false;
                     $upper = $field['config']['range']['upper'] ?? false;
-                    if ($lower) {
+                    if ($lower && (bool)preg_match('/^[0-9]{4}]/', $lower)) {
                         $storage['tca'][$key]['config']['range']['lower'] = (new \DateTime($lower))->format($format);
                     }
-                    if ($upper) {
+                    if ($upper && (bool)preg_match('/^[0-9]{4}]/', $upper)) {
                         $storage['tca'][$key]['config']['range']['upper'] = (new \DateTime($upper))->format($format);
                     }
                 }
@@ -198,7 +180,6 @@ class WizardController extends ActionController
      *
      * @param string $key
      * @param string $table
-     * @author Gernot Ploiner <gp@webprofil.at>
      */
     protected function showHtmlAction($key, $table): void
     {
@@ -212,11 +193,10 @@ class WizardController extends ActionController
      * @param string $key
      * @param string $html
      * @return bool
-     * @author Gernot Ploiner <gp@webprofil.at>
      */
     protected function saveHtml($key, $html): bool
     {
-        # fallback to prevent breaking change
+        // fallback to prevent breaking change
         $path = MaskUtility::getTemplatePath($this->extSettings, $key);
         if (file_exists($path)) {
             return false;
@@ -228,33 +208,47 @@ class WizardController extends ActionController
     /**
      * Checks if a key for a field is available
      * @param ServerRequest $request
-     * @param Response $response
      * @return Response
-     * @throws Exception
-     * @noinspection PhpUnused
      */
     public function checkFieldKey(ServerRequest $request): Response
     {
         $queryParams = $request->getQueryParams();
         $fieldKey = $queryParams['key'];
-        $table = $queryParams['table'] ?? 'tt_content';
+        $table = $queryParams['table'];
+        if (!$table) {
+            $table = 'tt_content';
+        }
+        $type = $queryParams['type'];
+        $elementKey = $queryParams['elementKey'];
 
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $storageRepository = $objectManager->get(StorageRepository::class);
+        $keyExists = false;
+        $fieldExists = false;
 
-        // check if fieldKey is available for this table
-        $isAvailable = true;
-        if ($storageRepository->loadField($table, $fieldKey)) {
-            $isAvailable = false;
+        if ($type === 'Inline' || $type === 'Palette') {
+            $keyExists = array_key_exists($fieldKey, $this->storageRepository->load());
         }
 
-        return new JsonResponse(['isAvailable' => $isAvailable]);
+        if ($type !== 'Inline') {
+            if ($type === 'Content') {
+                $fieldExists = $this->fieldHelper->getFieldType($fieldKey, $elementKey);
+            } elseif ($elementKey) {
+                $elementsUse = $this->storageRepository->getElementsWhichUseField($fieldKey, $table);
+                foreach ($elementsUse as $use) {
+                    if ($use['key'] !== $elementKey) {
+                        $fieldExists = true;
+                    }
+                }
+            } else {
+                $fieldExists = $this->storageRepository->loadField($table, $fieldKey);
+            }
+        }
+
+        return new JsonResponse(['isAvailable' => !$keyExists && !$fieldExists]);
     }
 
     /**
      * Checks if a key for an element is available
      * @param ServerRequest $request
-     * @param Response $response
      * @return Response
      * @throws Exception
      * @noinspection PhpUnused
@@ -262,14 +256,7 @@ class WizardController extends ActionController
     public function checkElementKey(ServerRequest $request): Response
     {
         $elementKey = $request->getQueryParams()['key'];
-
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $storageRepository = $objectManager->get(StorageRepository::class);
-
-        $isAvailable = true;
-        if ($storageRepository->loadElement('tt_content', $elementKey)) {
-            $isAvailable = false;
-        }
+        $isAvailable = !$this->storageRepository->loadElement('tt_content', $elementKey);
 
         return new JsonResponse(['isAvailable' => $isAvailable]);
     }
@@ -292,10 +279,10 @@ class WizardController extends ActionController
             $arguments['key'] = $params['storage']['elements']['key'];
             $arguments['type'] = $params['storage']['type'];
         }
-        if (key_exists('save', $formAction)) {
+        if (array_key_exists('save', $formAction)) {
             $this->redirect('edit', null, null, $arguments);
         } else {
-            if (key_exists('saveAndExit', $formAction)) {
+            if (array_key_exists('saveAndExit', $formAction)) {
                 $this->redirect('list', 'Wizard');
             }
         }
@@ -303,9 +290,6 @@ class WizardController extends ActionController
 
     /**
      * Check, if folders from extensionmanager-settings are existing
-     *
-     * @return void
-     * @author Gernot Ploiner <gp@webprofil.at>
      */
     protected function checkFolders(): void
     {
@@ -332,7 +316,6 @@ class WizardController extends ActionController
     /**
      * action creates missing folders
      * @throws StopActionException
-     * @noinspection PhpUnused
      */
     public function createMissingFoldersAction(): void
     {
@@ -378,48 +361,16 @@ class WizardController extends ActionController
     /**
      * @param string $path
      * @param string $translationKey
-     * @return void
      */
     protected function checkFolder($path, $translationKey = 'tx_mask.all.error.missingjson'): void
     {
         if (!file_exists(MaskUtility::getFileAbsFileName($path))) {
             $this->missingFolders[] = $path;
-//            $this->addFlashMessage(
-//                LocalizationUtility::translate($translationKey, 'mask'),
-//                $path,
-//                AbstractMessage::WARNING
-//            );
-        }
-    }
-
-  /**
-     * Sort inline fields recursively.
-     *
-     * @param array $inlineFields
-     */
-    public function sortInlineFieldsByOrder(array &$inlineFields)
-    {
-        uasort($inlineFields, function ($columnA, $columnB) {
-            $a = isset($columnA['order']) ? (int)$columnA['order'] : 0;
-            $b = isset($columnB['order']) ? (int)$columnB['order'] : 0;
-            return $a - $b;
-        });
-
-        foreach ($inlineFields as $i => $field) {
-            if ($field["config"]["type"] == "inline") {
-                if (isset($inlineFields[$i]["inlineFields"]) && is_array($inlineFields[$i]["inlineFields"])) {
-                    $this->sortInlineFieldsByOrder($inlineFields[$i]["inlineFields"]);
-                }
-            }
         }
     }
 
     /**
      * action list
-     *
-     * @return void
-     * @throws ExtensionConfigurationExtensionNotConfiguredException
-     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     public function listAction()
     {

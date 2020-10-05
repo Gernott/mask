@@ -1,58 +1,39 @@
 <?php
+
 declare(strict_types=1);
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
 
 namespace MASK\Mask\Helper;
 
-/* * *************************************************************
- *  Copyright notice
- *
- *  (c) 2016 Benjamin Butschell <bb@webprofil.at>, WEBprofil - Gernot Ploiner e.U.
- *
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- * ************************************************************* */
-
 use MASK\Mask\Domain\Repository\BackendLayoutRepository;
 use MASK\Mask\Domain\Repository\StorageRepository;
+use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
-use TYPO3\CMS\Extbase\Object\Exception;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Core\Database\Query\Restriction\WorkspaceRestriction;
+use TYPO3\CMS\Core\Database\RelationHandler;
 use TYPO3\CMS\Core\Resource\FileRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Methods for working with inline fields (IRRE)
- *
- * @author Benjamin Butschell <bb@webprofil.at>
  */
 class InlineHelper
 {
-
-    /**
-     * @var ObjectManager
-     * @Inject()
-     */
-    protected $objectManager;
-
     /**
      * StorageRepository
      *
@@ -64,20 +45,13 @@ class InlineHelper
      * BackendLayoutRepository
      *
      * @var BackendLayoutRepository
-     * @Inject()
      */
     protected $backendLayoutRepository;
 
-    /**
-     * @param StorageRepository $storageRepository
-     */
-    public function __construct(StorageRepository $storageRepository = null)
+    public function __construct(StorageRepository $storageRepository, BackendLayoutRepository $backendLayoutRepository)
     {
-        if (!$storageRepository) {
-            $this->storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
-        } else {
-            $this->storageRepository = $storageRepository;
-        }
+        $this->storageRepository = $storageRepository;
+        $this->backendLayoutRepository = $backendLayoutRepository;
     }
 
     /**
@@ -85,11 +59,10 @@ class InlineHelper
      *
      * @param array $data
      * @param string $table
-     * @throws Exception
      */
     public function addFilesToData(&$data, $table = 'tt_content'): void
     {
-        if ($data['_LOCALIZED_UID']) {
+        if ($data['_LOCALIZED_UID'] ?? false) {
             $uid = $data['_LOCALIZED_UID'];
         } else {
             $uid = $data['uid'];
@@ -100,25 +73,21 @@ class InlineHelper
         if (!is_numeric($uid)) {
             return;
         }
-        $fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
-        if (!$this->objectManager) {
-            $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        }
+
+        // Cast to int for findByRelation call
+        $uid = (int)$uid;
 
         $storage = $this->storageRepository->load();
-        $fileRepository = $this->objectManager->get(FileRepository::class);
+        $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
 
-        $contentFields = ['media', 'image', 'assets'];
-        if ($storage[$table]['tca']) {
-            foreach ($storage[$table]['tca'] as $fieldKey => $field) {
-                $contentFields[] = $fieldKey;
-            }
-        }
-        if ($contentFields) {
-            foreach ($contentFields as $fieldKey) {
-                if ($fieldHelper->getFormType($fieldKey, '', $table) === 'File') {
-                    $data[$fieldKey] = $fileRepository->findByRelation($table, $fieldKey, $uid);
-                }
+        $contentFields = array_merge(
+            ['media', 'image', 'assets'],
+            array_keys($storage[$table]['tca'] ?? [])
+        );
+
+        foreach ($contentFields as $fieldKey) {
+            if ($this->storageRepository->getFormType($fieldKey, '', $table) === 'File') {
+                $data[$fieldKey] = $fileRepository->findByRelation($table, $fieldKey, $uid);
             }
         }
     }
@@ -133,23 +102,20 @@ class InlineHelper
      */
     public function addIrreToData(&$data, $table = 'tt_content', $cType = ''): void
     {
-
         if ($cType === '') {
             $cType = $data['CType'];
         }
 
-        $fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
         $storage = $this->storageRepository->load();
         $elementFields = [];
 
         // if the table is tt_content, load the element and all its columns
         if ($table === 'tt_content') {
-            $element = $this->storageRepository->loadElement($table, str_replace('mask_', '', $cType));
+            $element = $this->storageRepository->loadElement($table, MaskUtility::removeCtypePrefix($cType));
             $elementFields = $element['columns'];
         } elseif ($table === 'pages') {
             // if the table is pages, then load the pid
             if (isset($data['uid'])) {
-
                 // find the backendlayout by the pid
                 $backendLayoutIdentifier = $this->backendLayoutRepository->findIdentifierByPid($data['uid']);
 
@@ -160,13 +126,9 @@ class InlineHelper
                         str_replace('pagets__', '', $backendLayoutIdentifier)
                     );
                     $elementFields = $element['columns'];
-                } else {
-
-                    // if no backendlayout was found, just load all fields, if there are fields
-                    if (isset($storage[$table]['tca'])) {
-                        $elementFields = array_keys($storage[$table]['tca']);
-                    }
-
+                // if no backendlayout was found, just load all fields, if there are fields
+                } elseif (isset($storage[$table]['tca'])) {
+                    $elementFields = array_keys($storage[$table]['tca']);
                 }
             }
         } elseif (isset($storage[$table])) {
@@ -176,19 +138,20 @@ class InlineHelper
 
         // if the element has columns
         if ($elementFields) {
-
             // check foreach column
             foreach ($elementFields as $field) {
-
                 $fieldKeyPrefix = $field;
                 $fieldKey = str_replace('tx_mask_', '', $field);
-                $type = $fieldHelper->getFormType($fieldKey, $cType, $table);
+                $type = $this->storageRepository->getFormType($fieldKey, $cType, $table);
 
                 // if it is of type inline and has to be filled (IRRE, FAL)
                 if ($type === 'Inline') {
+                    if (!array_key_exists($field, $storage)) {
+                        continue;
+                    }
                     $elements = $this->getInlineElements($data, $fieldKeyPrefix, $cType, 'parentid', $table);
                     $data[$fieldKeyPrefix] = $elements;
-                    // or if it is of type Content (Nested Content) and has to be filled
+                // or if it is of type Content (Nested Content) and has to be filled
                 } elseif ($type === 'Content') {
                     $elements = $this->getInlineElements(
                         $data,
@@ -199,9 +162,38 @@ class InlineHelper
                         'tt_content'
                     );
                     $data[$fieldKeyPrefix] = $elements;
+                } elseif ($type === 'Select' && ($GLOBALS['TCA'][$table]['columns'][$field]['config']['foreign_table'] ?? '') !== '') {
+                    $data[$field . '_items'] = $this->getRelations($data[$field], $GLOBALS['TCA'][$table]['columns'][$field]['config']['foreign_table']);
+                } elseif ($type === 'Group' && ($GLOBALS['TCA'][$table]['columns'][$field]['config']['internal_type'] === 'db')) {
+                    $data[$field . '_items'] = $this->getRelations($data[$field], $GLOBALS['TCA'][$table]['columns'][$field]['config']['allowed']);
                 }
             }
         }
+    }
+
+    /**
+     * Returns the selected relations of select or group element
+     *
+     * @param $uidList
+     * @param $allowed
+     * @return array
+     */
+    protected function getRelations($uidList, $allowed)
+    {
+        $relationHandler = GeneralUtility::makeInstance(RelationHandler::class);
+        $relationHandler->start(
+            $uidList,
+            $allowed
+        );
+        $relationHandler->getFromDB();
+        $relations = $relationHandler->getResolvedItemArray();
+        $records = [];
+        foreach ($relations as $relation) {
+            $tableName = $relation['table'];
+            $uid = $relation['uid'];
+            $records[] = BackendUtility::getRecordWSOL($tableName, $uid);
+        }
+        return $records;
     }
 
     /**
@@ -212,10 +204,9 @@ class InlineHelper
      * @param string $cType The name of the irre attribut
      * @param string $parentFieldName The name of the irre parentid
      * @param string $parenttable The table where the parent element is stored
-     * @param string $childTable name of childtable
+     * @param string|null $childTable name of childtable
      * @return array all irre elements of this attribut
-     * @throws Exception
-     * @throws \Exception
+     * @throws \TYPO3\CMS\Core\Context\Exception\AspectNotFoundException
      */
     public function getInlineElements(
         $data,
@@ -247,6 +238,9 @@ class InlineHelper
                 ->removeAll()
                 ->add(GeneralUtility::makeInstance(DeletedRestriction::class));
         }
+        if (BackendUtility::isTableWorkspaceEnabled($childTable)) {
+            $queryBuilder->getRestrictions()->add(GeneralUtility::makeInstance(WorkspaceRestriction::class, (int)$GLOBALS['BE_USER']->workspace));
+        }
         $queryBuilder
             ->select('*')
             ->from($childTable)
@@ -262,19 +256,31 @@ class InlineHelper
 
         // and recursively add them to an array
         $elements = [];
-        foreach ($rows as $element) {
-            if (TYPO3_MODE === 'FE') {
+        if (TYPO3_MODE === 'FE') {
+            foreach ($rows as $element) {
                 $GLOBALS['TSFE']->sys_page->versionOL($childTable, $element);
-            } else {
-                $element = BackendUtility::getRecordWSOL($childTable, $element['uid']);
+                $elements[] = $element;
             }
-            if ($element && empty($elements[$element['uid']])) {
-                $this->addIrreToData($element, $name, $cType);
-                $this->addFilesToData($element, $name);
-                $elements[$element['uid']] = $element;
+        } else {
+            foreach ($rows as $element) {
+                $elements[] = BackendUtility::getRecordWSOL($childTable, $element['uid']);
             }
         }
 
-        return $elements;
+        // Need to sort overlaid records again, because sorting migth have changed.
+        usort($elements, function ($a, $b) {
+            return $a['sorting'] > $b['sorting'];
+        });
+
+        $result = [];
+        foreach ($elements as $element) {
+            if ($element && empty($elements[$element['uid']])) {
+                $this->addIrreToData($element, $name, $cType);
+                $this->addFilesToData($element, $name);
+                $result[$element['uid']] = $element;
+            }
+        }
+
+        return $result;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 $EM_CONF['mask'] = [
     'title' => 'Mask',
     'description' => 'Create your own content elements and page templates. Easy to use, even without programming skills because of the comfortable drag and drop system. Stored in structured database tables. Style your frontend with Fluid tags. Ideal, if you want to switch from Templavoila.',
@@ -8,7 +9,7 @@ $EM_CONF['mask'] = [
     'author_company' => 'WEBprofil - Gernot Ploiner e.U.',
     'state' => 'stable',
     'clearCacheOnLoad' => 1,
-    'version' => '5.1.3',
+    'version' => '6.0.0',
     'constraints' => [
         'depends' => [
             'typo3' => '10.4.0-10.4.99',

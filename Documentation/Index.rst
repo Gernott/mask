@@ -17,7 +17,7 @@ Mask
    		mask
 
    	:Version:
-   		|5.1.3|
+   		|6.0.0|
 
 	:Language:
    		en
@@ -26,7 +26,7 @@ Mask
    		mask
 
    	:Copyright:
-   		2018
+   		2020
 
    	:Author:
            WEBprofil - Gernot Ploiner e.U.

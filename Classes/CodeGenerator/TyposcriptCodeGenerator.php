@@ -1,55 +1,68 @@
 <?php
+
 declare(strict_types=1);
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
 
 namespace MASK\Mask\CodeGenerator;
 
-/* * *************************************************************
- *  Copyright notice
- *
- *  (c) 2016 Benjamin Butschell <bb@webprofil.at>, WEBprofil - Gernot Ploiner e.U.
- *
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- * ************************************************************* */
-
 use MASK\Mask\Domain\Model\BackendLayout;
-use MASK\Mask\Utility\GeneralUtility as MaskUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Imaging\IconRegistry;
+use MASK\Mask\Domain\Repository\StorageRepository;
+use MASK\Mask\Domain\Service\SettingsService;
 use MASK\Mask\Imaging\IconProvider\ContentElementIconProvider;
+use MASK\Mask\Utility\GeneralUtility as MaskUtility;
+use TYPO3\CMS\Core\Imaging\IconRegistry;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Generates all the typoscript needed for mask content elements
- *
- * @author Benjamin Butschell <bb@webprofil.at>
  */
-class TyposcriptCodeGenerator extends AbstractCodeGenerator
+class TyposcriptCodeGenerator
 {
+    /**
+     * @var SettingsService
+     */
+    protected $settingsService;
+
+    /**
+     * @var array
+     */
+    protected $extSettings;
+
+    /**
+     * StorageRepository
+     *
+     * @var StorageRepository
+     */
+    protected $storageRepository;
+
+    public function __construct(StorageRepository $storageRepository, SettingsService $settingsService)
+    {
+        $this->storageRepository = $storageRepository;
+        $this->settingsService = $settingsService;
+        $this->extSettings = $settingsService->get();
+    }
 
     /**
      * Generates the tsConfig typoscript and registers
      * the icons for the content elements
      *
-     * @param array $json
      * @return string
      */
-    public function generateTsConfig($json): string
+    public function generateTsConfig(): string
     {
+        $json = $this->storageRepository->load();
         // generate page TSconfig
         $content = '';
         $iconRegistry = GeneralUtility::makeInstance(IconRegistry::class);
@@ -59,7 +72,9 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
             // Register icons for contentelements
             $iconIdentifier = 'mask-ce-' . $element['key'];
             $iconRegistry->registerIcon(
-                $iconIdentifier, ContentElementIconProvider::class, [
+                $iconIdentifier,
+                ContentElementIconProvider::class,
+                [
                     'contentElementKey' => $element['key']
                 ]
             );
@@ -69,6 +84,7 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
             }
 
             // add the content element wizard for each content element
+            $element['description'] = trim(preg_replace('/\s+/', ' ', $element['description']));
             $wizard = [
                 'header' => 'LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:new_content_element_tab',
                 'elements.mask_' . $element['key'] => [
@@ -78,8 +94,7 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
                     'tt_content_defValues' => [
                         'CType' => 'mask_' . $element['key']
                     ]
-                ],
-
+                ]
             ];
             $content .= "mod.wizards.newContentElement.wizardItems.mask {\n";
             $content .= $this->convertArrayToTypoScript($wizard, '', 1);
@@ -89,7 +104,7 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
             // and switch the labels depending on which content element is selected
             $content .= "\n[isMaskContentType(\"mask_" . $element['key'] . "\")]\n";
             foreach ($element['columns'] ?? [] as $index => $column) {
-                $content .= ' TCEFORM.tt_content.' . $column . '.label = ' . $element['labels'][$index] . "\n";
+                $this->setLabel($column, $index, $element, 'tt_content', $content);
             }
             $content .= "[end]\n\n";
         }
@@ -99,18 +114,18 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
 
     /**
      * Generates the typoscript for pages
-     * @param array $json
      * @return string
      */
-    public function generatePageTyposcript($json): string
+    public function generatePageTyposcript(): string
     {
+        $json = $this->storageRepository->load();
         $pagesContent = '';
         foreach ($json['pages']['elements'] ?? [] as $element) {
             // Labels for pages
             $pagesContent .= "\n[maskBeLayout('" . $element['key'] . "')]\n";
             // if page has backendlayout with this element-key
             foreach ($element['columns'] ?? [] as $index => $column) {
-                $pagesContent .= ' TCEFORM.pages.' . $column . '.label = ' . $element['labels'][$index] . "\n";
+                $this->setLabel($column, $index, $element, 'pages', $pagesContent);
             }
             $pagesContent .= "[end]\n";
         }
@@ -119,14 +134,42 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
     }
 
     /**
-     * Generates the typoscript for the setup field
-     * @param array $configuration
-     * @param array $settings
-     * @return string
-     * @noinspection PhpUnused
+     * @param $column
+     * @param $index
+     * @param $element
+     * @param $table
+     * @param $content
      */
-    public function generateSetupTyposcript($configuration, $settings): string
+    protected function setLabel($column, $index, $element, $table, &$content)
     {
+        if ($this->storageRepository->getFormType($column, $element['key'], $table) === 'Palette') {
+            $items = $this->storageRepository->loadInlineFields($column, $element['key']);
+            foreach ($items as $item) {
+                if (is_array($item['label'])) {
+                    $label = $item['label'][$element['key']];
+                } else {
+                    $label = $item['label'];
+                }
+                // With config is custom mask field
+                if (isset($item['config'])) {
+                    $key = 'tx_mask_' . $item['key'];
+                } else {
+                    $key = $item['key'];
+                }
+                $content .= ' TCEFORM.' . $table . '.' . $key . '.label = ' . $label . "\n";
+            }
+        } else {
+            $content .= ' TCEFORM.' . $table . '.' . $column . '.label = ' . $element['labels'][$index] . "\n";
+        }
+    }
+
+    /**
+     * Generates the typoscript for the setup field
+     * @return string
+     */
+    public function generateSetupTyposcript(): string
+    {
+        $configuration = $this->storageRepository->load();
         // generate TypoScript setup
         $setupContent = [];
 
@@ -161,13 +204,13 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
         // for base paths to fluid templates configured in extension settings
         $setupContent[] = $this->convertArrayToTypoScript([
             'templateRootPaths' => [
-                10 => rtrim($settings['content'], '/') . '/'
+                10 => rtrim($this->extSettings['content'], '/') . '/'
             ],
             'partialRootPaths' => [
-                10 => rtrim($settings['partials'], '/') . '/'
+                10 => rtrim($this->extSettings['partials'], '/') . '/'
             ],
             'layoutRootPaths' => [
-                10 => rtrim($settings['layouts'], '/') . '/'
+                10 => rtrim($this->extSettings['layouts'], '/') . '/'
             ]
         ], 'lib.maskContentElement');
 
@@ -175,10 +218,10 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
         if ($configuration['tt_content']['elements']) {
             foreach ($configuration['tt_content']['elements'] as $element) {
                 if (!$element['hidden']) {
-                    $templateName = MaskUtility::getTemplatePath($settings, $element['key'], true);
+                    $templateName = MaskUtility::getTemplatePath($this->extSettings, $element['key'], true);
                     $elementContent = [];
                     $elementContent[] = 'tt_content.mask_' . $element['key'] . ' =< lib.maskContentElement' . LF;
-                    $elementContent[] = 'tt_content.mask_' . $element['key'] . " {" . LF;
+                    $elementContent[] = 'tt_content.mask_' . $element['key'] . ' {' . LF;
                     $elementContent[] = "\t" . 'templateName = ' . $templateName . LF;
                     $elementContent[] = '}' . LF . LF;
                     $setupContent[] = implode('', $elementContent);
@@ -194,8 +237,8 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
      *
      * @param array $typoScriptArray The array to convert to string
      * @param string $addKey Prefix given values with given key (eg. lib.whatever = {...})
-     * @param integer $tab Internal
-     * @param boolean $init Internal
+     * @param int $tab Internal
+     * @param bool $init Internal
      * @return string TypoScript
      */
     protected function convertArrayToTypoScript(array $typoScriptArray, $addKey = '', $tab = 0, $init = true): string
@@ -213,9 +256,13 @@ class TyposcriptCodeGenerator extends AbstractCodeGenerator
                 if (strpos($value, "\n") === false) {
                     $typoScript .= str_repeat("\t", ($tab === 0) ? $tab : $tab - 1) . "$key = $value\n";
                 } else {
-                    $typoScript .= str_repeat("\t",
-                            ($tab === 0) ? $tab : $tab - 1) . "$key (\n$value\n" . str_repeat("\t",
-                            ($tab === 0) ? $tab : $tab - 1) . ")\n";
+                    $typoScript .= str_repeat(
+                        "\t",
+                        ($tab === 0) ? $tab : $tab - 1
+                    ) . "$key (\n$value\n" . str_repeat(
+                        "\t",
+                        ($tab === 0) ? $tab : $tab - 1
+                    ) . ")\n";
                 }
             } else {
                 $typoScript .= $this->convertArrayToTypoScript($value, $key, $tab, false);

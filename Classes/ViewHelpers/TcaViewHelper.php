@@ -1,22 +1,27 @@
 <?php
+
 declare(strict_types=1);
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
 
 namespace MASK\Mask\ViewHelpers;
 
+use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Helper\FieldHelper;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use MASK\Mask\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-/**
- *
- * Example
- * {namespace mask=MASK\Mask\ViewHelpers}
- *
- * @package TYPO3
- * @subpackage mask
- * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
- *
- */
 class TcaViewHelper extends AbstractViewHelper
 {
     /**
@@ -27,64 +32,49 @@ class TcaViewHelper extends AbstractViewHelper
     protected $fieldHelper;
 
     /**
-     * @var array
+     * @var StorageRepository
      */
-    protected static $forbiddenFields = [
-        'starttime',
-        'endtime',
-        'hidden',
-        'sectionIndex',
-        'linkToTop',
-        'fe_group',
-        'CType',
-        'doktype',
-        'title',
-        'TSconfig',
-        'php_tree_stop',
-        'storage_pid',
-        'tx_impexp_origuid',
-        't3ver_label',
-        'editlock',
-        'url_scheme',
-        'extendToSubpages',
-        'nav_title',
-        'nav_hide',
-        'subtitle',
-        'target',
-        'alias',
-        'url',
-        'urltype',
-        'lastUpdated',
-        'newUntil',
-        'cache_timeout',
-        'cache_tags',
-        'no_cache',
-        'no_search',
-        'shortcut',
-        'shortcut_mode',
-        'content_from_pid',
-        'mount_pid',
-        'keywords',
-        'description',
-        'abstract',
-        'author',
-        'author_email',
-        'is_siteroot',
-        'mount_pid_ol',
-        'module',
-        'fe_login_mode',
-        'l18n_cfg',
-        'backend_layout',
-        'backend_layout_next_level',
-        'tx_gridelements_children',
+    protected $storageRepository;
+
+    protected static $allowedFields = [
+        'tt_content' => [
+            'header',
+            'header_layout',
+            'header_position',
+            'date',
+            'header_link',
+            'subheader',
+            'bodytext',
+            'assets',
+            'image',
+            'media',
+            'imagewidth',
+            'imageheight',
+            'imageborder',
+            'imageorient',
+            'imagecols',
+            'image_zoom',
+            'bullets_type',
+            'table_delimiter',
+            'table_enclosure',
+            'table_caption',
+            'file_collections',
+            'filelink_sorting',
+            'filelink_sorting_direction',
+            'target',
+            'filelink_size',
+            'uploads_description',
+            'uploads_type',
+            'pages',
+            'selected_categories',
+            'category_field',
+        ]
     ];
 
-    /**
-     * @param FieldHelper $fieldHelper
-     */
-    public function __construct(FieldHelper $fieldHelper = null)
+    public function __construct(FieldHelper $fieldHelper, StorageRepository $storageRepository)
     {
-        $this->fieldHelper = $fieldHelper ?? GeneralUtility::makeInstance(FieldHelper::class);
+        $this->fieldHelper = $fieldHelper;
+        $this->storageRepository = $storageRepository;
     }
 
     public function initializeArguments(): void
@@ -98,7 +88,6 @@ class TcaViewHelper extends AbstractViewHelper
      * Generates TCA Selectbox-Options-Array for a specific TCA-type.
      *
      * @return array all TCA elements of this attribut
-     * @author Gernot Ploiner <gp@webprofil.at>
      */
     public function render(): array
     {
@@ -112,20 +101,24 @@ class TcaViewHelper extends AbstractViewHelper
         $fields = [];
         if ($type === 'Tab') {
             $fields = $this->fieldHelper->getFieldsByType($type, $table);
-        } else {
-            if (in_array($table, ['tt_content', 'pages'])) {
-                foreach ($GLOBALS['TCA'][$table]['columns'] as $tcaField => $tcaConfig) {
-                    if ($table === 'tt_content' || ($table === 'pages' && strpos($tcaField, 'tx_mask_') === 0)) {
-                        $fieldType = $this->fieldHelper->getFormType($tcaField, '', $table);
-                        if (($fieldType === $type || ($fieldType === 'Text' && $type === 'Richtext'))
-                            && !in_array($tcaField, self::$forbiddenFields, true)
-                        ) {
-                            $fields[] = [
-                                'field' => $tcaField,
-                                'label' => $tcaConfig['label'],
-                            ];
-                        }
-                    }
+        } elseif (!GeneralUtility::isMaskIrreTable($table)) {
+            foreach ($GLOBALS['TCA'][$table]['columns'] as $tcaField => $tcaConfig) {
+                $isMaskField = GeneralUtility::isMaskIrreTable($tcaField);
+                if (!$isMaskField && !in_array($tcaField, self::$allowedFields[$table] ?? [])) {
+                    continue;
+                }
+                if ($tcaField === 'bodytext' && $table === 'tt_content') {
+                    $fieldType = 'Richtext';
+                } else {
+                    $fieldType = $this->storageRepository->getFormType($tcaField, '', $table);
+                }
+                if ($fieldType === $type) {
+                    $key = $isMaskField ? 'mask' : 'core';
+                    $label = $isMaskField ? (str_replace('tx_mask_', '', $tcaField)) : $tcaConfig['label'];
+                    $fields[$key][] = [
+                        'field' => $tcaField,
+                        'label' => $label,
+                    ];
                 }
             }
         }

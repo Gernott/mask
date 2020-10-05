@@ -1,0 +1,87 @@
+<f:variable name="isDatetime" value="{mask:eval(fieldKey: key, field: field, elementKey: storage.key, evalValue: 'datetime')}"/>
+<div role="tabpanel" class="tab-pane" id="validation_{key}">
+    <div class="row">
+        <div class="form-group col-sm-6">
+            <label class="t3js-formengine-label">
+                <f:translate key="tx_mask.field.float.range.lower"/>
+            </label>
+            <code>[range][lower]</code>
+            <f:variable name="lower" value=""/>
+            <f:if condition="{field.config.range.lower}">
+                <f:variable name="lower" value="{f:format.date(date: field.config.range.lower, format: 'hh:ii d.m.Y')}"/>
+            </f:if>
+            <div class="t3js-formengine-field-item">
+                <div class="form-control-wrap">
+                    <div class="input-group">
+                        <input
+                            class="t3js-datetimepicker form-control t3js-clearable"
+                            data-date-type="{f:if(condition: isDatetime,  then: 'datetime', else: 'date')}"
+                            name="tx_mask_tools_maskmask[storage][tca][--index--][config][range][lower]"
+                            value="{lower}"
+                        >
+                        <span class="input-group-btn">
+                            <label class="btn btn-default">
+                                <span class="t3js-icon icon icon-size-small icon-state-default icon-actions-edit-pick-date" data-identifier="actions-edit-pick-date">
+                                    <span class="icon-markup">
+                                        <img src="/typo3/sysext/core/Resources/Public/Icons/T3Icons/actions/actions-edit-pick-date.svg" alt="" width="16" height="16">
+                                    </span>
+                                </span>
+                            </label>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-sm-6">
+            <label class="t3js-formengine-label">
+                <f:translate key="tx_mask.field.float.range.upper"/>
+            </label>
+            <code>[range][upper]</code>
+            <f:variable name="upper" value=""/>
+            <f:if condition="{field.config.range.upper}">
+                <f:variable name="lower" value="{f:format.date(date: field.config.range.upper, format: 'hh:ii d.m.Y')}"/>
+            </f:if>
+            <div class="t3js-formengine-field-item">
+                <div class="form-control-wrap">
+                    <div class="input-group">
+                        <input
+                            class="t3js-datetimepicker form-control t3js-clearable"
+                            data-date-type="{f:if(condition: isDatetime,  then: 'datetime', else: 'date')}"
+                            name="tx_mask_tools_maskmask[storage][tca][--index--][config][range][upper]"
+                            value="{upper}"
+                        >
+                        <span class="input-group-btn">
+                            <label class="btn btn-default">
+                                <span class="t3js-icon icon icon-size-small icon-state-default icon-actions-edit-pick-date" data-identifier="actions-edit-pick-date">
+                                    <span class="icon-markup">
+                                        <img
+                                            src="/typo3/sysext/core/Resources/Public/Icons/T3Icons/actions/actions-edit-pick-date.svg" alt="" width="16" height="16">
+                                    </span>
+                                </span>
+                            </label>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-sm-6">
+            <f:render partial="Forms/Checkbox/EvalCheckbox" arguments="{key: key, field: field, elementKey: elementKey, editMode: editMode, name: 'required'}"/>
+        </div>
+        <div class="form-group col-sm-6">
+            <f:render partial="Forms/Checkbox/EvalCheckbox" arguments="{key: key, field: field, elementKey: elementKey, editMode: editMode, default: 'on', readOnly: '1', name: 'int'}"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-sm-6">
+            <f:render partial="Forms/Checkbox/EvalCheckbox" arguments="{key: key, field: field, elementKey: elementKey, editMode: editMode, name: 'unique'}"/>
+        </div>
+        <div class="form-group col-sm-6">
+            <f:render partial="Forms/Checkbox/EvalCheckbox" arguments="{key: key, field: field, elementKey: elementKey, editMode: editMode, name: 'uniqueInPid'}"/>
+        </div>
+    </div>
+</div>
+<div role="tabpanel" class="tab-pane" id="localization_{key}">
+    <f:render partial="Forms/Config/Behaviour/LocalizationMode" arguments="{key:key, elementKey:storage.key, field: field, editMode: editMode}"/>
+</div>

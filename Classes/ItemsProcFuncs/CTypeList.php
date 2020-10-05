@@ -1,39 +1,28 @@
 <?php
+
 declare(strict_types=1);
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
 
 namespace MASK\Mask\ItemsProcFuncs;
 
-/* * *************************************************************
- *  Copyright notice
- *
- *  (c) 2016 Benjamin Butschell <bb@webprofil.at>, WEBprofil - Gernot Ploiner e.U.
- *
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- * ************************************************************* */
-
 use MASK\Mask\Domain\Repository\StorageRepository;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use MASK\Mask\Helper\FieldHelper;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Render the allowed CTypes for nested content elements
- * @author Benjamin Butschell <bb@webprofil.at>
  */
 class CTypeList extends AbstractList
 {
@@ -46,6 +35,17 @@ class CTypeList extends AbstractList
     protected $storageRepository;
 
     /**
+     * @var FieldHelper
+     */
+    protected $fieldHelper;
+
+    public function __construct(StorageRepository $storageRepository, FieldHelper $fieldHelper)
+    {
+        $this->storageRepository = $storageRepository;
+        $this->fieldHelper = $fieldHelper;
+    }
+
+    /**
      * Render the allowed CTypes for nested content elements
      * @param array $params
      * @noinspection PhpComposerExtensionStubsInspection
@@ -54,8 +54,6 @@ class CTypeList extends AbstractList
     {
         // if this tt_content element is inline element of mask
         if ((int)$params['row']['colPos'] === $this->colPos) {
-            $fieldHelper = GeneralUtility::makeInstance(FieldHelper::class);
-            $this->storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
             $fieldKey = '';
 
             if (isset($_REQUEST['ajax']['context'])) {
@@ -78,7 +76,7 @@ class CTypeList extends AbstractList
             }
 
             // load the json configuration of this field
-            $table = $fieldHelper->getFieldType($fieldKey);
+            $table = $this->fieldHelper->getFieldType($fieldKey);
             $fieldConfiguration = $this->storageRepository->loadField($table, $fieldKey);
 
             // if there is a restriction of cTypes specified
@@ -98,8 +96,11 @@ class CTypeList extends AbstractList
             // and if other itemsProcFunc from other extension was available (e.g. gridelements),
             // then call it now and let it render the items
             if (!empty($params['config']['m_itemsProcFunc'])) {
-                GeneralUtility::callUserFunction($params['config']['m_itemsProcFunc'], $params,
-                    $this);
+                GeneralUtility::callUserFunction(
+                    $params['config']['m_itemsProcFunc'],
+                    $params,
+                    $this
+                );
             }
         }
     }
@@ -125,7 +126,10 @@ class CTypeList extends AbstractList
     protected function endsWith($haystack, $needle): bool
     {
         // search forward starting from end minus needle length characters
-        return $needle === '' || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle,
-                    $temp) !== false);
+        return $needle === '' || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos(
+            $haystack,
+            $needle,
+            $temp
+        ) !== false);
     }
 }

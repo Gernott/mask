@@ -3,3 +3,4 @@
 composer.lock
 var/
 Build/testing-docker/.env
+.php_cs.cache

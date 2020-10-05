@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+### [6.0.0] - 2020-10-05
+
+### Added
+- Support for palettes and linebreaks
+- TCA group element
+- timestamp element
+
+There should be no problem to upgrade from 5 to 6 in most cases.
+For more details read the [release notes](https://github.com/gernott/mask/blob/master/Documentation/ChangeLog/6.0/Index.rst)
+
 ### [5.1.3] - 2020-09-02
 
 ### Fixed

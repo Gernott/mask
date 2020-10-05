@@ -1,43 +1,30 @@
 <?php
+
 declare(strict_types=1);
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
 
 namespace MASK\Mask\Helper;
 
-/* * *************************************************************
- *  Copyright notice
- *
- *  (c) 2016 Benjamin Butschell <bb@webprofil.at>, WEBprofil - Gernot Ploiner e.U.
- *
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- * ************************************************************* */
-
 use MASK\Mask\Domain\Repository\StorageRepository;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use MASK\Mask\Utility\GeneralUtility;
 
 /**
  * Methods for types of fields in mask (string, rte, repeating, ...)
- *
- * @author Benjamin Butschell <bb@webprofil.at>
  */
 class FieldHelper
 {
-
     /**
      * StorageRepository
      *
@@ -48,39 +35,9 @@ class FieldHelper
     /**
      * @param StorageRepository $storageRepository
      */
-    public function __construct(StorageRepository $storageRepository = null)
+    public function __construct(StorageRepository $storageRepository)
     {
-        if (!$storageRepository) {
-            $this->storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
-        } else {
-            $this->storageRepository = $storageRepository;
-        }
-    }
-
-    /**
-     * Returns all elements that use this field
-     *
-     * @param string $key TCA Type
-     * @param string $type elementtype
-     * @return array elements in use
-     */
-    public function getElementsWhichUseField($key, $type = 'tt_content'): array
-    {
-        $storage = $this->storageRepository->load();
-
-        $elementsInUse = [];
-        if ($storage[$type]['elements']) {
-            foreach ($storage[$type]['elements'] as $element) {
-                if ($element['columns']) {
-                    foreach ($element['columns'] as $column) {
-                        if ($column === $key) {
-                            $elementsInUse[] = $element;
-                        }
-                    }
-                }
-            }
-        }
-        return $elementsInUse;
+        $this->storageRepository = $storageRepository;
     }
 
     /**
@@ -94,152 +51,18 @@ class FieldHelper
     public function getLabel($elementKey, $fieldKey, $type = 'tt_content'): string
     {
         $json = $this->storageRepository->load();
-        $label = '';
+        $label = $json[$type]['tca'][$fieldKey]['label'][$elementKey] ?? false;
         $columns = $json[$type]['elements'][$elementKey]['columns'] ?? false;
-        if ($columns && count($columns) > 0) {
+        if ($label === false && $columns && count($columns) > 0) {
             $fieldIndex = array_search($fieldKey, $columns);
             if ($fieldIndex !== false) {
                 $label = $json[$type]['elements'][$elementKey]['labels'][$fieldIndex];
             }
         }
+        if ($label === false) {
+            return '';
+        }
         return $label;
-    }
-
-    /**
-     * Returns the formType of a field in an element
-     *
-     * @param string $fieldKey Key if Field
-     * @param string $elementKey Key of Element
-     * @param string $type elementtype
-     * @return string formType
-     */
-    public function getFormType($fieldKey, $elementKey = '', $type = 'tt_content'): string
-    {
-        $formType = 'String';
-        $element = [];
-
-        // Load element and TCA of field
-        if ($elementKey) {
-            $element = $this->storageRepository->loadElement($type, $elementKey);
-        }
-
-        // load tca for field from $GLOBALS
-        $tca = $GLOBALS['TCA'][$type]['columns'][$fieldKey] ?? [];
-        if (array_key_exists('config', $tca) && !$tca['config']) {
-            $tca = $GLOBALS['TCA'][$type]['columns']['tx_mask_' . $fieldKey] ?? [];
-        }
-        if (array_key_exists('config', $tca) && !$tca['config']) {
-            $tca = $element['tca'][$fieldKey] ?? [];
-        }
-
-        // if field is in inline table or $GLOBALS["TCA"] is not yet filled, load tca from json
-        if (!$tca || !in_array($type, ['tt_content', 'pages'])) {
-            $tca = $this->storageRepository->loadField($type, $fieldKey);
-            if (!$tca['config']) {
-                $tca = $this->storageRepository->loadField($type, 'tx_mask_' . $fieldKey);
-            }
-        }
-
-        $tcaType = $tca['config']['type'];
-        $evals = [];
-        if (isset($tca['config']['eval'])) {
-            $evals = explode(',', $tca['config']['eval']);
-        }
-
-
-        if (($tca['options'] ?? '') === 'file') {
-            $formType = 'File';
-        }
-
-        // And decide via different tca settings which formType it is
-        switch ($tcaType) {
-            case 'input':
-                if (in_array(strtolower('int'), $evals, true)) {
-                    $formType = 'Integer';
-                } else {
-                    if (in_array(strtolower('double2'), $evals, true)) {
-                        $formType = 'Float';
-                    } else {
-                        if (in_array(strtolower('date'), $evals, true)) {
-                            $formType = 'Date';
-                        } else {
-                            if (in_array(strtolower('datetime'), $evals, true)) {
-                                $formType = 'Datetime';
-                            } else {
-                                if (isset($tca['config']['renderType']) && $tca['config']['renderType'] === 'inputLink') {
-                                    $formType = 'Link';
-                                } else {
-                                    $formType = 'String';
-                                }
-                            }
-                        }
-                    }
-                }
-                break;
-            case 'text':
-                $formType = 'Text';
-                if (in_array($type, ['tt_content', 'pages'])) {
-                    if ($elementKey) {
-                        $fieldNumberKey = -1;
-                        if (is_array($element['columns'])) {
-                            foreach ($element['columns'] as $numberKey => $column) {
-                                if ($column === $fieldKey) {
-                                    $fieldNumberKey = $numberKey;
-                                }
-                            }
-                        }
-
-                        if ($fieldNumberKey >= 0) {
-                            $option = $element['options'][$fieldNumberKey];
-                            if ($option === 'rte') {
-                                $formType = 'Richtext';
-                            } else {
-                                $formType = 'Text';
-                            }
-                        }
-                    } else {
-                        $formType = 'Text';
-                    }
-                } else {
-                    if ($tca['rte']) {
-                        $formType = 'Richtext';
-                    } else {
-                        $formType = 'Text';
-                    }
-                }
-                break;
-            case 'check':
-                $formType = 'Check';
-                break;
-            case 'radio':
-                $formType = 'Radio';
-                break;
-            case 'select':
-                $formType = 'Select';
-                break;
-            case 'inline':
-                if ($tca['config']['foreign_table'] === 'sys_file_reference') {
-                    $formType = 'File';
-                } else {
-                    if ($tca['config']['foreign_table'] === 'tt_content') {
-                        $formType = 'Content';
-                    } else {
-                        $formType = 'Inline';
-                    }
-                }
-                break;
-            case 'tab':
-                $formType = 'Tab';
-                break;
-            case 'group':
-            case 'none':
-            case 'passthrough':
-            case 'user':
-            case 'flex':
-            default:
-                break;
-        }
-        return $formType;
     }
 
     /**
@@ -248,81 +71,80 @@ class FieldHelper
      * @param string $fieldKey key of field
      * @param string $elementKey key of element
      * @param bool $excludeInlineFields
-     * @return string $fieldType returns fieldType or null if not found
+     * @return string $fieldType returns fieldType or empty string if not found
      */
     public function getFieldType($fieldKey, $elementKey = '', $excludeInlineFields = false): string
     {
         $storage = $this->storageRepository->load();
 
-        // get all possible types (tables)
-        if ($storage && !$excludeInlineFields) {
-            $types = array_keys($storage);
-        } else {
-            $types = [];
+        if (!$storage) {
+            return '';
         }
-        $types[] = 'pages';
-        $types[] = 'tt_content';
-        $types = array_unique($types);
 
-        $fieldType = '';
-        $found = false;
-        foreach ($types as $type) {
-            if ($storage[$type]['elements'] && !$found) {
-                foreach ($storage[$type]['elements'] as $element) {
+        // get all possible types (tables)
+        if ($excludeInlineFields) {
+            $tables = ['tt_content', 'pages'];
+        } else {
+            $tables = array_keys($storage);
+        }
 
-                    // if this is the element we search for, or no special element was given,
-                    // and the element has columns and the fieldType wasn't found yet
-                    if (($element['key'] === $elementKey || $elementKey === '') && $element['columns'] && !$found) {
-
-                        foreach ($element['columns'] as $column) {
-                            if ($column === $fieldKey && !$found) {
-                                $fieldType = $type;
-                                $found = true;
-                            }
-                        }
-                    }
+        foreach ($tables as $table) {
+            if (GeneralUtility::isMaskIrreTable($table) && isset($storage[$table]['tca'][$fieldKey])) {
+                return $table;
+            }
+            foreach ($storage[$table]['elements'] ?? [] as $element) {
+                // If element key is set, ignore all other elements
+                if ($elementKey !== '' && ($elementKey !== $element['key'])) {
+                    continue;
                 }
-            } else {
-                if (is_array($storage[$type]['tca'][$fieldKey])) {
-                    $fieldType = $type;
-                    $found = true;
+                if (in_array($fieldKey, ($element['columns'] ?? [])) || isset($storage[$table]['tca'][$fieldKey])) {
+                    return $table;
                 }
             }
         }
-        return $fieldType;
+
+        return '';
     }
 
     /**
      * Returns all fields of a type from a table
      *
-     * @param string $key TCA Type
-     * @param string $type elementtype
+     * @param string $tcaType TCA Type
+     * @param string $table elementtype
      * @return array fields
      */
-    public function getFieldsByType($key, $type): array
+    public function getFieldsByType($tcaType, $table): array
     {
         $storage = $this->storageRepository->load();
-        if (empty($storage[$type]) || empty($storage[$type]['tca'])) {
+        $tcaType = strtolower($tcaType);
+
+        if (empty($storage[$table]) || empty($storage[$table]['tca'])) {
             return [];
         }
 
         $fields = [];
-        foreach ($storage[$type]['tca'] as $field => $config) {
-            if ($config['config']['type'] !== strtolower($key)) {
+        foreach ($storage[$table]['tca'] as $field => $config) {
+            if ($config['config']['type'] !== $tcaType) {
                 continue;
             }
 
-            $elements = $this->getElementsWhichUseField($field, $type);
-            if (empty($elements)) {
-                continue;
+            $elements = $this->storageRepository->getElementsWhichUseField($field, $table);
+            if ($elements) {
+                $fields[] = [
+                    'field' => $field,
+                    'label' => $this->getLabel($elements[0]['key'], $field, $table),
+                ];
             }
-
-            $fields[] = [
-                'field' => $field,
-                'label' => $this->getLabel($elements[0]['key'], $field, $type),
-            ];
         }
 
         return $fields;
+    }
+
+    /**
+     * @return StorageRepository
+     */
+    public function getStorageRepository()
+    {
+        return $this->storageRepository;
     }
 }

@@ -3,78 +3,55 @@
 <input type="hidden" name="tx_mask_tools_maskmask[storage][sql][{type}][--index--]" value="tinytext"/>
 
 <div class="row">
-	<div class="form-group col-sm-6">
-		<label class="t3js-formengine-label" for="select_renderType">
-			<f:translate key="tx_mask.field.select.renderType"/>
-		</label>
-		<div class="t3js-formengine-field-item">
-			<div class="form-control-wrap" style="">
-				<select id="select_renderType" name="tx_mask_tools_maskmask[storage][tca][--index--][config][renderType]"
-								title="{f:translate(key:'tx_mask.field.select.renderType')}"
-								class="form-control tx_mask_fieldcontent_eval tx_mask_fieldcontent_select_renderType">
-					<!-- @formatter:off -->
-					<option value="selectSingle" {f:if(condition:'{field.config.renderType} == \'selectSingle\'', then: ' selected="selected"')}>
-						<f:translate key="tx_mask.field.select.renderType.selectSingle"/>
-					</option>
-					<option value="selectSingleBox" {f:if(condition:'{field.config.renderType} == \'selectSingleBox\'', then: ' selected="selected"')}>
-						<f:translate key="tx_mask.field.select.renderType.selectSingleBox"/>
-					</option>
-					<option value="selectCheckBox" {f:if(condition:'{field.config.renderType} == \'selectCheckBox\'', then: ' selected="selected"')}>
-						<f:translate key="tx_mask.field.select.renderType.selectCheckBox"/>
-					</option>
-					<option value="selectMultipleSideBySide" {f:if(condition:'{field.config.renderType} == \'selectMultipleSideBySide\'', then: ' selected="selected"')}>
-						<f:translate key="tx_mask.field.select.renderType.selectMultipleSideBySide"/>
-					</option>
-					<!--option value="selectTree"{f:if(condition: '{field.config.renderType} == \'selectTree\'', then: ' selected="selected"')}><f:translate key="tx_mask.field.select.renderType.selectTree" /></option-->
-					<!-- @formatter:on -->
-				</select>
-			</div>
-		</div>
-	</div>
-	<div class="form-group col-sm-6">
-		<label class="t3js-formengine-label" for="select_size">
-			<f:translate key="tx_mask.field.select.size"/>
-		</label>
-		<div class="t3js-formengine-field-item">
-			<div class="form-control-wrap" style="">
-				<input id="select_size" name="tx_mask_tools_maskmask[storage][tca][--index--][config][size]" type="number"
-							 class="form-control" title="size" placeholder="size of selectbox" min="1" value="{field.config.size}"/>
-			</div>
-		</div>
-	</div>
+    <div class="form-group col-sm-6">
+        <label class="t3js-formengine-label" for="select_renderType">
+            <f:translate key="tx_mask.field.select.renderType"/>
+        </label>
+        <code>[renderType]</code>
+        <div class="t3js-formengine-field-item">
+            <div class="form-control-wrap">
+                <select id="select_renderType" name="tx_mask_tools_maskmask[storage][tca][--index--][config][renderType]" title="{f:translate(key:'tx_mask.field.select.renderType')}" class="form-control tx_mask_fieldcontent_eval tx_mask_fieldcontent_select_renderType">
+                    <option value="selectSingle" {f:if(condition: '{field.config.renderType} == \'selectSingle\'', then: ' selected="selected"')}>
+                        <f:translate key="tx_mask.field.select.renderType.selectSingle"/> [selectSingle]
+                    </option>
+                    <option value="selectSingleBox" {f:if(condition: '{field.config.renderType} == \'selectSingleBox\'', then: ' selected="selected"')}>
+                        <f:translate key="tx_mask.field.select.renderType.selectSingleBox"/> [selectSingleBox]
+                    </option>
+                    <option value="selectCheckBox" {f:if(condition: '{field.config.renderType} == \'selectCheckBox\'', then: ' selected="selected"')}>
+                        <f:translate key="tx_mask.field.select.renderType.selectCheckBox"/> [selectCheckBox]
+                    </option>
+                    <option value="selectMultipleSideBySide" {f:if(condition: '{field.config.renderType} == \'selectMultipleSideBySide\'', then: ' selected="selected"')}>
+                        <f:translate key="tx_mask.field.select.renderType.selectMultipleSideBySide"/> [selectMultipleSideBySide]
+                    </option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="t3js-formengine-label" for="select_size">
+            <f:translate key="tx_mask.field.select.size"/>
+        </label>
+        <code>[size]</code>
+        <div class="t3js-formengine-field-item">
+            <div class="form-control-wrap">
+                <input id="select_size" name="tx_mask_tools_maskmask[storage][tca][--index--][config][size]" type="number" class="form-control" title="size" placeholder="size of selectbox" min="1" value="{field.config.size}"/>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="row">
-	<div class="form-group col-sm-12">
-		<label class="t3js-formengine-label" for="select_int">
-			<f:translate key="tx_mask.field.select.items"/>
-		</label>
-		<div class="t3js-formengine-field-item">
-			<div class="form-control-wrap" style="">
-				<textarea id="select_int" name="tx_mask_tools_maskmask[dummy][--index--][int]"
-									class="form-control tx_mask_fieldcontent_items" rows="10" placeholder="option1,1
+    <div class="form-group col-sm-12">
+        <label class="t3js-formengine-label" for="select_int">
+            <f:translate key="tx_mask.field.select.items"/>
+        </label>
+        <code>[items]</code>
+        <div class="t3js-formengine-field-item">
+            <div class="form-control-wrap">
+                <textarea id="select_int" name="tx_mask_tools_maskmask[dummy][--index--][int]" class="form-control tx_mask_fieldcontent_items" rows="10" placeholder="option1,1
 option2,2
 option3,3"><mask:Items items="{field.config.items}"/></textarea>
-				<div class="tx_mask_fieldcontent_itemsresult"></div>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="row tx_mask_fieldcontent_renderType_selectMultipleSideBySide"
-		 style="display: {f:if(condition: '{field.config.renderType} == \'selectMultipleSideBySide\'', then: 'block', else: ' none')};">
-	<div class="form-group col-sm-12">
-		<div class="t3js-formengine-field-item check-item">
-			<div class="form-control-wrap">
-
-				<!-- @formatter:off -->
-				<input class="tx_mask_fieldcontent_search"
-							 name="tx_mask_tools_maskmask[storage][tca][--index--][config][enableMultiSelectFilterTextfield]"
-							 type="checkbox" {f:if(condition: '{field.config.enableMultiSelectFilterTextfield} == \'1\'', then:'checked="checked"', else: '')} value="1" />
-				<!-- @formatter:on -->
-
-			</div>
-		</div>
-		<label class="t3js-formengine-label check-item">
-			<f:translate key="tx_mask.field.select.renderType.selectMultipleSideBySide.search"/>
-		</label>
-	</div>
+                <div class="tx_mask_fieldcontent_itemsresult"></div>
+            </div>
+        </div>
+    </div>
 </div>
