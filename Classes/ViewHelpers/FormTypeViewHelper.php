@@ -53,6 +53,10 @@ class FormTypeViewHelper extends AbstractViewHelper
         $fieldKey = $this->arguments['fieldKey'];
         $type = $this->arguments['type'];
 
+        if ($fieldKey === 'bodytext' && $type === 'tt_content') {
+            return 'Richtext';
+        }
+
         return $this->storageRepository->getFormType($fieldKey, $elementKey, $type);
     }
 }
