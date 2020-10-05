@@ -259,11 +259,11 @@ class InlineHelper
         if (TYPO3_MODE === 'FE') {
             foreach ($rows as $element) {
                 $GLOBALS['TSFE']->sys_page->versionOL($childTable, $element);
-                $elements[] = $element;
+                $elements[$element['uid']] = $element;
             }
         } else {
             foreach ($rows as $element) {
-                $elements[] = BackendUtility::getRecordWSOL($childTable, $element['uid']);
+                $elements[$element['uid']] = BackendUtility::getRecordWSOL($childTable, $element['uid']);
             }
         }
 
@@ -272,15 +272,14 @@ class InlineHelper
             return $a['sorting'] > $b['sorting'];
         });
 
-        $result = [];
-        foreach ($elements as $element) {
-            if ($element && empty($elements[$element['uid']])) {
+        foreach ($elements as $key => $element) {
+            if ($element) {
                 $this->addIrreToData($element, $name, $cType);
                 $this->addFilesToData($element, $name);
-                $result[$element['uid']] = $element;
+                $elements[$key] = $element;
             }
         }
 
-        return $result;
+        return $elements;
     }
 }
