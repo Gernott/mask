@@ -178,7 +178,6 @@ class WizardContentController extends WizardController
      *
      * @param string $key
      * @throws StopActionException
-     * @author Gernot Ploiner <gp@webprofil.at>
      */
     protected function createHtmlAction($key): void
     {

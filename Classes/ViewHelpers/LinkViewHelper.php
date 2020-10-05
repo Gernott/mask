@@ -52,7 +52,6 @@ class LinkViewHelper extends AbstractViewHelper
      * Checks Links for BE-module
      *
      * @return string all irre elements of this attribut
-     * @author Gernot Ploiner <gp@webprofil.at>
      */
     public function render(): string
     {

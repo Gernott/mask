@@ -45,7 +45,6 @@ class MultiuseViewHelper extends AbstractViewHelper
      * Returns all elements that use this field
      *
      * @return array elements in use
-     * @author Benjamin Butschell bb@webprofil.at>
      */
     public function render(): array
     {

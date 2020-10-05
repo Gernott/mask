@@ -88,7 +88,6 @@ class TcaViewHelper extends AbstractViewHelper
      * Generates TCA Selectbox-Options-Array for a specific TCA-type.
      *
      * @return array all TCA elements of this attribut
-     * @author Gernot Ploiner <gp@webprofil.at>
      */
     public function render(): array
     {

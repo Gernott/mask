@@ -90,7 +90,6 @@ class GeneralUtility
      * @param $replace_key
      * @param string $key
      * @return array
-     * @author Gernot Ploiner <gp@webprofil.at>
      */
     public static function replaceKey($data, $replace_key, $key = '--key--'): array
     {

@@ -56,7 +56,6 @@ class EvalViewHelper extends AbstractViewHelper
      * Checks if a $evalValue is set in a field
      *
      * @return bool $evalValue is set
-     * @author Benjamin Butschell bb@webprofil.at>
      */
     public function render(): bool
     {

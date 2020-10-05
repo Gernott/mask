@@ -46,7 +46,6 @@ class FormTypeViewHelper extends AbstractViewHelper
      * Returns the label of a field in an element
      *
      * @return string formType
-     * @author Benjamin Butschell bb@webprofil.at>
      */
     public function render(): string
     {

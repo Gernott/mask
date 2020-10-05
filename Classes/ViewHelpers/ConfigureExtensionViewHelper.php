@@ -35,7 +35,6 @@ class ConfigureExtensionViewHelper extends AbstractViewHelper
     /**
      * Renders link tag to extension manager configuration
      * @throws RouteNotFoundException
-     * @author Benjamin Butschell bb@webprofil.at>
      */
     public function render(): string
     {

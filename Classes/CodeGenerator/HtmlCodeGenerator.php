@@ -50,7 +50,6 @@ class HtmlCodeGenerator
      * @param string $key
      * @param string $table
      * @return string $html
-     * @author Gernot Ploiner <gp@webprofil.at>
      */
     public function generateHtml($key, $table): string
     {
@@ -73,7 +72,6 @@ class HtmlCodeGenerator
      * @param string $datafield
      * @param int $depth
      * @return string
-     * @author Gernot Ploiner <gp@webprofil.at>
      */
     protected function generateFieldHtml($fieldKey, $elementKey, $table, $datafield = 'data', $depth = 0): string
     {

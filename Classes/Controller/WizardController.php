@@ -180,7 +180,6 @@ class WizardController extends ActionController
      *
      * @param string $key
      * @param string $table
-     * @author Gernot Ploiner <gp@webprofil.at>
      */
     protected function showHtmlAction($key, $table): void
     {
@@ -194,7 +193,6 @@ class WizardController extends ActionController
      * @param string $key
      * @param string $html
      * @return bool
-     * @author Gernot Ploiner <gp@webprofil.at>
      */
     protected function saveHtml($key, $html): bool
     {
@@ -292,8 +290,6 @@ class WizardController extends ActionController
 
     /**
      * Check, if folders from extensionmanager-settings are existing
-     *
-     * @author Gernot Ploiner <gp@webprofil.at>
      */
     protected function checkFolders(): void
     {

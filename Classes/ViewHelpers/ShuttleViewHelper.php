@@ -37,7 +37,6 @@ class ShuttleViewHelper extends AbstractViewHelper
      * Returns Shuttle-Elements of Data-Object
      *
      * @return array all irre elements of this attribut
-     * @author Gernot Ploiner <gp@webprofil.at>
      */
     public function render(): array
     {

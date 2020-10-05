@@ -30,7 +30,6 @@ class ItemsViewHelper extends AbstractViewHelper
      * Returns all elements that use this field
      *
      * @return string items as string
-     * @author Benjamin Butschell bb@webprofil.at>
      */
     public function render(): string
     {

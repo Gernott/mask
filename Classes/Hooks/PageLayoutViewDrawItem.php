@@ -33,8 +33,6 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
  * Renders the backend preview of mask content elements
- *
- * @author Benjamin Butschell <bb@webprofil.at>
  */
 class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
 {
