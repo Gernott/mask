@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\CodeGenerator;
 
+use MASK\Mask\DataStructure\FieldType;
 use MASK\Mask\Domain\Model\BackendLayout;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Domain\Service\SettingsService;
@@ -142,7 +143,7 @@ class TyposcriptCodeGenerator
      */
     protected function setLabel($column, $index, $element, $table, &$content)
     {
-        if ($this->storageRepository->getFormType($column, $element['key'], $table) === 'Palette') {
+        if ($this->storageRepository->getFormType($column, $element['key'], $table) == FieldType::PALETTE) {
             $items = $this->storageRepository->loadInlineFields($column, $element['key']);
             foreach ($items as $item) {
                 if (is_array($item['label'])) {

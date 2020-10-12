@@ -14,7 +14,7 @@
         <div class="tx_mask_btn_text">
             <span class="id_typetext"><f:translate key="tx_mask.field.{type}"/></span>
             <span class="id_labeltext" title="{field.label}">
-                <f:if condition="{type} == Linebreak">
+                <f:if condition="{type} == linebreak">
                     <f:then>
                         Linebreak
                     </f:then>
@@ -23,7 +23,7 @@
                     </f:else>
                 </f:if>
             </span>
-            <span class="id_keytext{f:if(condition: '{type} == Linebreak', then: ' hidden')}" title="{field.key}">
+            <span class="id_keytext{f:if(condition: '{type} == linebreak', then: ' hidden')}" title="{field.key}">
                 <f:format.crop maxCharacters="20" append="...">{field.key}</f:format.crop>
             </span>
         </div>
@@ -33,7 +33,7 @@
             <span class="id_move" title="{f:translate(key:'tx_mask.field.titleMove')}"><core:icon identifier="actions-move-move" size="small"/></span>
         </div>
     </div>
-    <f:if condition="{type} == 'Inline'">
+    <f:if condition="{type} == 'inline'">
         <div class="tx_mask_btn_caption">
             <ul class="dragtarget inline-container">
                 <f:for each="{field.inlineFields}" as="inlineField" key="inlineKey">
@@ -42,7 +42,7 @@
             </ul>
         </div>
     </f:if>
-    <f:if condition="{type} == Palette">
+    <f:if condition="{type} == palette">
         <div class="tx_mask_btn_caption">
             <ul class="dragtarget inline-container palette-container{f:if(condition: inlineParent, then: ' palette-inline')}">
                 <f:for each="{field.inlineFields}" as="paletteField">

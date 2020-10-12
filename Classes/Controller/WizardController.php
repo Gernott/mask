@@ -20,6 +20,7 @@ namespace MASK\Mask\Controller;
 use MASK\Mask\CodeGenerator\HtmlCodeGenerator;
 use MASK\Mask\CodeGenerator\SqlCodeGenerator;
 use MASK\Mask\CodeGenerator\TcaCodeGenerator;
+use MASK\Mask\DataStructure\FieldType;
 use MASK\Mask\Domain\Repository\BackendLayoutRepository;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Domain\Service\SettingsService;
@@ -224,12 +225,12 @@ class WizardController extends ActionController
         $keyExists = false;
         $fieldExists = false;
 
-        if ($type === 'Inline' || $type === 'Palette') {
+        if (FieldType::cast($type)->isParentField()) {
             $keyExists = array_key_exists($fieldKey, $this->storageRepository->load());
         }
 
-        if ($type !== 'Inline') {
-            if ($type === 'Content') {
+        if ($type != FieldType::INLINE) {
+            if ($type == FieldType::CONTENT) {
                 $fieldExists = $this->fieldHelper->getFieldType($fieldKey, $elementKey);
             } elseif ($elementKey) {
                 $elementsUse = $this->storageRepository->getElementsWhichUseField($fieldKey, $table);

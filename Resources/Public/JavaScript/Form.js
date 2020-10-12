@@ -284,7 +284,7 @@ define([
       // if active field was found, new field is inserted after this
       if (activeFound) {
         // Place template after last inline element
-        if (($(activeHead).hasClass('id_Inline') || $(activeHead).hasClass('id_Palette')) && $(activeHead).find('.inline-container').children().length > 0) {
+        if (($(activeHead).hasClass('id_inline') || $(activeHead).hasClass('id_palette')) && $(activeHead).find('.inline-container').children().length > 0) {
           var tempActiveHead = $(activeHead).find('.inline-container > li:last');
           var tempActiveBody = Utility.findBodyByHead(tempActiveHead);
           $(tempActiveBody).after(fieldTemplate);
@@ -296,7 +296,7 @@ define([
       }
 
       // Initialize DateTimePicker
-      if (['Date', 'Datetime', 'Timestamp'].includes(fieldType)) {
+      if (['date', 'datetime', 'timestamp'].includes(fieldType)) {
         DateTimePicker.initialize('.t3js-datetimepicker');
       }
 
@@ -444,7 +444,7 @@ define([
     deleteField: function (field) {
       var MaskForm = this;
       // If this field is inline-field, delete all its children
-      if ($(field).hasClass('id_Inline') || $(field).hasClass('id_Palette')) {
+      if ($(field).hasClass('id_inline') || $(field).hasClass('id_palette')) {
         var childrenFields = $(field).find(' > .inline-container > li, > .tx_mask_btn_caption > .inline-container > li');
         $.each(childrenFields, function (index, elem) {
           MaskForm.deleteField(elem);
@@ -462,7 +462,7 @@ define([
 
     hideInlineContainer: function (body) {
       var fieldType = $(body).attr('data-type');
-      if (fieldType === 'Inline') {
+      if (fieldType === 'inline') {
         var head = Utility.findHeadByBody(body);
         $(head).addClass('existing_inline');
       }

@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\ViewHelpers;
 
+use MASK\Mask\DataStructure\FieldType;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -54,7 +55,7 @@ class FormTypeViewHelper extends AbstractViewHelper
         $type = $this->arguments['type'];
 
         if ($fieldKey === 'bodytext' && $type === 'tt_content') {
-            return 'Richtext';
+            return FieldType::RICHTEXT;
         }
 
         return $this->storageRepository->getFormType($fieldKey, $elementKey, $type);

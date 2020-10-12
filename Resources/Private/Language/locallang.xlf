@@ -3,64 +3,64 @@
 	<file source-language="en" datatype="plaintext" original="messages" date="2015-02-12T18:53:00Z" product-name="mask">
 		<header/>
 		<body>
-			<trans-unit id="tx_mask.field.String">
+			<trans-unit id="tx_mask.field.string">
 				<source>String</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Integer">
+			<trans-unit id="tx_mask.field.integer">
 				<source>Integer</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Float">
+			<trans-unit id="tx_mask.field.float">
 				<source>Float</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Link">
+			<trans-unit id="tx_mask.field.link">
 				<source>Link</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Date">
+			<trans-unit id="tx_mask.field.date">
 				<source>Date</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Datetime">
+			<trans-unit id="tx_mask.field.datetime">
 				<source>Datetime</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Timestamp">
+			<trans-unit id="tx_mask.field.timestamp">
 				<source>Timestamp</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.timestamp_eval">
 				<source>Date or Datetime</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Text">
+			<trans-unit id="tx_mask.field.text">
 				<source>Text</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Richtext">
+			<trans-unit id="tx_mask.field.richtext">
 				<source>Richtext</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Check">
+			<trans-unit id="tx_mask.field.check">
 				<source>Checkbox</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Radio">
+			<trans-unit id="tx_mask.field.radio">
 				<source>Radiobutton</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Select">
+			<trans-unit id="tx_mask.field.select">
 				<source>Selectbox</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Group">
+			<trans-unit id="tx_mask.field.group">
 				<source>Group</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.File">
+			<trans-unit id="tx_mask.field.file">
 				<source>File</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Inline">
+			<trans-unit id="tx_mask.field.inline">
 				<source>Repeating</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Tab">
+			<trans-unit id="tx_mask.field.tab">
 				<source>Tab</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Palette">
+			<trans-unit id="tx_mask.field.palette">
 				<source>Palette</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Linebreak">
+			<trans-unit id="tx_mask.field.linebreak">
 				<source>Linebreak</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Content">
+			<trans-unit id="tx_mask.field.content">
 				<source>Content</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.titleAdd">
@@ -123,10 +123,10 @@
 			<trans-unit id="tx_mask.field.timesec">
 				<source>Time field (h:m:s)</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.date">
+			<trans-unit id="tx_mask.field.date_selection">
 				<source>Show date selection</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.datetime">
+			<trans-unit id="tx_mask.field.datetime_selection">
 				<source>Show date and time selection</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.unique">

@@ -28,32 +28,11 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRe
 (function () {
     // Register Icons needed in the backend module
     $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
-    $maskIcons = [
-        'Check',
-        'Date',
-        'Datetime',
-        'Timestamp',
-        'File',
-        'Float',
-        'Inline',
-        'Integer',
-        'Link',
-        'Radio',
-        'Richtext',
-        'Select',
-        'Group',
-        'String',
-        'Tab',
-        'Text',
-        'Content',
-        'Palette',
-        'Linebreak'
-    ];
-    foreach ($maskIcons as $maskIcon) {
+    foreach (\MASK\Mask\DataStructure\FieldType::getConstants() as $maskIcon) {
         $iconRegistry->registerIcon(
             'mask-fieldtype-' . $maskIcon,
             \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
-            ['source' => 'EXT:mask/Resources/Public/Icons/Fieldtypes/' . $maskIcon . '.svg']
+            ['source' => 'EXT:mask/Resources/Public/Icons/Fieldtypes/' . \TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToUpperCamelCase($maskIcon) . '.svg']
         );
     }
 
@@ -72,7 +51,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRe
         }
         foreach ($configuration['pages']['tca'] as $fieldKey => $value) {
             $formType = $storageRepository->getFormType($fieldKey, '', 'pages');
-            if (!in_array($formType, ['Tab', 'Palette', 'Linebreak'])) {
+            if (!(\MASK\Mask\DataStructure\FieldType::cast($formType)->isGroupingField())) {
                 // Add addRootLineFields for all page fields
                 $rootlineFields[] = $fieldKey;
             }

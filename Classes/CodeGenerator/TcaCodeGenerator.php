@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace MASK\Mask\CodeGenerator;
 
 use Exception;
+use MASK\Mask\DataStructure\FieldType;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Helper\FieldHelper;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
@@ -168,7 +169,7 @@ class TcaCodeGenerator
         $tca = $this->storageRepository->load();
         $element = $tca['pages']['elements'][$key];
         foreach ($element['columns'] ?? [] as $column) {
-            if ($this->storageRepository->getFormType($column, $key, 'pages') === 'Palette') {
+            if ($this->storageRepository->getFormType($column, $key, 'pages') == FieldType::PALETTE) {
                 $palettes[$column] = $this->generatePalettesTca($tca['pages']['palettes'][$column], 'pages');
             }
         }
@@ -194,7 +195,7 @@ class TcaCodeGenerator
         foreach ($element['columns'] ?? [] as $index => $fieldKey) {
             $formType = $this->storageRepository->getFormType($fieldKey, $element['key'], $table);
             // Check if this field is of type tab
-            if ($formType === 'Tab') {
+            if ($formType == FieldType::TAB) {
                 $label = $this->fieldHelper->getLabel($element['key'], $fieldKey, $table);
                 // If a tab is in the first position then change the name of the general tab
                 if ($index === 0) {
@@ -203,7 +204,7 @@ class TcaCodeGenerator
                     // Otherwise just add new tab
                     $fieldArray[] = '--div--;' . $label;
                 }
-            } elseif ($formType === 'Palette') {
+            } elseif ($formType == FieldType::PALETTE) {
                 $fieldArray[] = '--palette--;;' . $fieldKey;
             } else {
                 $fieldArray[] = $fieldKey;
@@ -222,7 +223,7 @@ class TcaCodeGenerator
     {
         $showitem = [];
         foreach ($palette['showitem'] as $item) {
-            if ($this->storageRepository->getFormType($item, '', $table) === 'Linebreak') {
+            if ($this->storageRepository->getFormType($item, '', $table) == FieldType::LINEBREAK) {
                 $showitem[] = '--linebreak--';
             } else {
                 $showitem[] = $item;
@@ -250,15 +251,15 @@ class TcaCodeGenerator
             if (!isset($tcavalue['config'])) {
                 continue;
             }
-            $formType = $this->storageRepository->getFormType($tcakey, '', $table);
 
             // Inline: Ignore empty inline fields
-            if (($formType === 'Inline' || $formType === 'Palette') && !array_key_exists($tcakey, $json)) {
+            $formType = $this->storageRepository->getFormType($tcakey, '', $table);
+            if ($formType != '' && FieldType::cast($formType)->isParentField() && !array_key_exists($tcakey, $json)) {
                 continue;
             }
 
             // Ignore grouping elements
-            if (in_array(($tcavalue['config']['type'] ?? ''), ['tab', 'palette', 'linebreak'])) {
+            if (in_array(($tcavalue['config']['type'] ?? ''), FieldType::getConstants()) && FieldType::cast(($tcavalue['config']['type']))->isGroupingField()) {
                 continue;
             }
 
@@ -409,7 +410,7 @@ class TcaCodeGenerator
             }
             // check if this field is of type tab
             $formType = $this->storageRepository->getFormType($fieldKey, '', $table);
-            if ($formType === 'Tab') {
+            if ($formType == FieldType::TAB) {
                 $label = $configuration['label'];
                 // if a tab is in the first position then change the name of the general tab
                 if ($i === 0) {
@@ -418,7 +419,7 @@ class TcaCodeGenerator
                     // otherwise just add new tab
                     $fields[] = '--div--;' . $label;
                 }
-            } elseif ($formType === 'Palette') {
+            } elseif ($formType == FieldType::PALETTE) {
                 $fields[] = '--palette--;;' . $fieldKey;
                 $fieldsInPaletteToIgnore = array_merge($fieldsInPaletteToIgnore, $json['palettes'][$fieldKey]['showitem'] ?? []);
             } elseif (!($configuration['inPalette'] ?? false)) {
@@ -468,7 +469,7 @@ class TcaCodeGenerator
 
         foreach ($tca as $tcakey => $tcavalue) {
             $formType = $this->storageRepository->getFormType($tcakey, '', $table);
-            if (in_array($formType, ['String', 'Text'])) {
+            if (in_array($formType, [FieldType::STRING, FieldType::TEXT])) {
                 $searchFields[] = $tcakey;
             }
         }

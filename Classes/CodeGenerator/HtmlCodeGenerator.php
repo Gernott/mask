@@ -15,6 +15,7 @@
 
 namespace MASK\Mask\CodeGenerator;
 
+use MASK\Mask\DataStructure\FieldType;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -77,11 +78,11 @@ class HtmlCodeGenerator
     {
         $html = [];
         $formType = $this->storageRepository->getFormType($fieldKey, $elementKey, $table);
-        if (in_array($formType, ['Tab', 'Linebreak'])) {
+        if (in_array($formType, [FieldType::TAB, FieldType::LINEBREAK])) {
             return '';
         }
         switch ($formType) {
-            case 'Select':
+            case FieldType::SELECT:
                 if (($GLOBALS['TCA'][$table]['columns'][$fieldKey]['config']['foreign_table'] ?? '') !== '') {
                     $html[] =  $this->drawWhitespace(0 + $depth) . '<f:for each="{' . $datafield . '.' . $fieldKey . '_items}" as="' . $datafield . '_item' . '">';
                     $html[] = $this->drawWhitespace(1 + $depth) . '<div>{' . $datafield . '_item.uid}' . '</div>';
@@ -90,29 +91,29 @@ class HtmlCodeGenerator
                     $html[] = $this->drawWhitespace(0 + $depth) . $this->getVariable($datafield, $fieldKey);
                 }
                 break;
-            case 'Radio':
-            case 'Check':
+            case FieldType::RADIO:
+            case FieldType::CHECK:
                 $html[] = $this->drawWhitespace(0 + $depth) . $this->getVariable($datafield, $fieldKey);
                 break;
-            case 'Content':
+            case FieldType::CONTENT:
                 $html[] = $this->drawWhitespace(0 + $depth) . '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">';
                 $html[] = $this->drawWhitespace(1 + $depth) . '<f:for each="{' . $datafield . '.' . $fieldKey . '}" as="' . $datafield . '_item' . '">';
                 $html[] = $this->drawWhitespace(2 + $depth) . '<f:cObject typoscriptObjectPath="lib.tx_mask.content">{' . $datafield . '_item.uid}</f:cObject>';
                 $html[] = $this->drawWhitespace(1 + $depth) . '</f:for>';
                 $html[] = $this->drawWhitespace(0 + $depth) . '</f:if>';
                 break;
-            case 'Date':
-            case 'Timestamp':
+            case FieldType::DATE:
+            case FieldType::TIMESTAMP:
                 $html[] = $this->drawWhitespace(0 + $depth) . '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">';
                 $html[] = $this->drawWhitespace(1 + $depth) . '<f:format.date format="d.m.Y">{' . $datafield . '.' . $fieldKey . '}</f:format.date>';
                 $html[] = $this->drawWhitespace(0 + $depth) . '</f:if>';
                 break;
-            case 'Datetime':
+            case FieldType::DATETIME:
                 $html[] = $this->drawWhitespace(0 + $depth) . '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">';
                 $html[] = $this->drawWhitespace(1 + $depth) . '<f:format.date format="d.m.Y - H:i:s">{' . $datafield . '.' . $fieldKey . '}</f:format.date>';
                 $html[] = $this->drawWhitespace(0 + $depth) . '</f:if>';
                 break;
-            case 'File':
+            case FieldType::FILE:
                 $html[] = $this->drawWhitespace(0 + $depth) . '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">';
                 $html[] = $this->drawWhitespace(1 + $depth) . '<f:for each="{' . $datafield . '.' . $fieldKey . '}" as="file">';
                 $html[] = $this->drawWhitespace(2 + $depth) . '<f:image image="{file}" alt="{file.alternative}" title="{file.title}" width="200" />';
@@ -120,12 +121,12 @@ class HtmlCodeGenerator
                 $html[] = $this->drawWhitespace(1 + $depth) . '</f:for>';
                 $html[] = $this->drawWhitespace(0 + $depth) . '</f:if>';
                 break;
-            case 'Float':
+            case FieldType::FLOAT:
                 $html[] = $this->drawWhitespace(0 + $depth) . '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">';
                 $html[] = $this->drawWhitespace(1 + $depth) . '<f:format.number decimals="2" decimalSeparator="," thousandsSeparator=".">{' . $datafield . '.' . $fieldKey . '}</f:format.number>';
                 $html[] = $this->drawWhitespace(0 + $depth) . '</f:if>';
                 break;
-            case 'Inline':
+            case FieldType::INLINE:
                 $html[] = $this->drawWhitespace(0 + $depth) . '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">';
                 $html[] = $this->drawWhitespace(1 + $depth) . '<ul>';
                 $html[] = $this->drawWhitespace(2 + $depth) . '<f:for each="{' . $datafield . '.' . $fieldKey . '}" as="' . $datafield . '_item' . '">';
@@ -141,7 +142,7 @@ class HtmlCodeGenerator
                 $html[] = $this->drawWhitespace(1 + $depth) . '</ul>';
                 $html[] = $this->drawWhitespace(0 + $depth) . '</f:if>';
                 break;
-            case 'Palette':
+            case FieldType::PALETTE:
                 $paletteFields = $this->storageRepository->loadInlineFields($fieldKey, $elementKey);
                 foreach ($paletteFields ?? [] as $paletteField) {
                     $part = $this->generateFieldHtml(($paletteField['coreField'] ?? false) ? $paletteField['key'] : $paletteField['maskKey'], $elementKey, $table, $datafield, $depth);
@@ -150,7 +151,7 @@ class HtmlCodeGenerator
                     }
                 }
                 break;
-            case 'Group':
+            case FieldType::GROUP:
                 if (($GLOBALS['TCA'][$table]['columns'][$fieldKey]['config']['internal_type'] ?? '') === 'db') {
                     $html[] = $this->drawWhitespace(0 + $depth) . '<f:for each="{' . $datafield . '.' . $fieldKey . '_items}" as="' . $datafield . '_item' . '">';
                     $html[] = $this->drawWhitespace(1 + $depth) . '<div>{' . $datafield . '_item.uid}' . '</div>';
@@ -158,23 +159,23 @@ class HtmlCodeGenerator
                     break;
                 }
                 // no break intended.
-            case 'String':
-            case 'Integer':
+            case FieldType::STRING:
+            case FieldType::INTEGER:
                 $html[] = $this->drawWhitespace(0 + $depth) . '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">';
                 $html[] = $this->drawWhitespace(1 + $depth) . '{' . $datafield . '.' . $fieldKey . '}';
                 $html[] = $this->drawWhitespace(0 + $depth) . '</f:if>';
                 break;
-            case 'Link':
+            case FieldType::LINK:
                 $html[] = $this->drawWhitespace(0 + $depth) . '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">';
                 $html[] = $this->drawWhitespace(1 + $depth) . '<f:link.typolink parameter="{' . $datafield . '.' . $fieldKey . '}"></f:link.typolink>';
                 $html[] = $this->drawWhitespace(0 + $depth) . '</f:if>';
                 break;
-            case 'Richtext':
+            case FieldType::RICHTEXT:
                 $html[] = $this->drawWhitespace(0 + $depth) . '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">';
                 $html[] = $this->drawWhitespace(1 + $depth) . '<f:format.html>{' . $datafield . '.' . $fieldKey . '}</f:format.html>';
                 $html[] = $this->drawWhitespace(0 + $depth) . '</f:if>';
                 break;
-            case 'Text':
+            case FieldType::TEXT:
                 $html[] = $this->drawWhitespace(0 + $depth) . '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">';
                 $html[] = $this->drawWhitespace(1 + $depth) . '<f:format.nl2br>{' . $datafield . '.' . $fieldKey . '}</f:format.nl2br>';
                 $html[] = $this->drawWhitespace(0 + $depth) . '</f:if>';

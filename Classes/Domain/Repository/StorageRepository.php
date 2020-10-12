@@ -17,9 +17,11 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Domain\Repository;
 
+use MASK\Mask\DataStructure\FieldType;
 use MASK\Mask\Domain\Service\SettingsService;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Type\Exception\InvalidEnumerationValueException;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -499,16 +501,16 @@ class StorageRepository implements SingletonInterface
             $type = $this->getFormType($maskKey, $this->currentKey, $table);
 
             // If field is of type inline, also delete table entry
-            if ($type === 'Inline') {
+            if ($type == FieldType::INLINE) {
                 unset($json[$maskKey]);
             }
 
-            if ($type === 'Palette') {
+            if ($type == FieldType::PALETTE) {
                 unset($json[$table]['palettes'][$maskKey]);
             }
 
             // If field is of type file, also delete entry in sys_file_reference
-            if ($type === 'File') {
+            if ($type == FieldType::FILE) {
                 unset($json['sys_file_reference']['sql'][$maskKey]);
                 $json = $this->cleanTable('sys_file_reference', $json);
             }
@@ -614,77 +616,61 @@ class StorageRepository implements SingletonInterface
         }
 
         if (($tca['options'] ?? '') === 'file') {
-            return 'File';
+            return FieldType::FILE;
         }
 
         if (($tca['rte'] ?? '') === '1') {
-            return 'Richtext';
+            return FieldType::RICHTEXT;
         }
 
         // And decide via different tca settings which formType it is
         switch ($tcaType) {
             case 'input':
                 if (($tca['config']['dbType'] ?? '') == 'date') {
-                    $formType = 'Date';
+                    $formType = FieldType::DATE;
                 } elseif (($tca['config']['dbType'] ?? '') == 'datetime') {
-                    $formType = 'Datetime';
+                    $formType = FieldType::DATETIME;
                 } elseif (($tca['config']['renderType'] ?? '') == 'inputDateTime') {
-                    $formType = 'Timestamp';
+                    $formType = FieldType::TIMESTAMP;
                 } elseif (in_array('int', $evals, true)) {
-                    $formType = 'Integer';
+                    $formType = FieldType::INTEGER;
                 } elseif (in_array('double2', $evals, true)) {
-                    $formType = 'Float';
+                    $formType = FieldType::FLOAT;
                 } elseif (($tca['config']['renderType'] ?? '') === 'inputLink') {
-                    $formType = 'Link';
+                    $formType = FieldType::LINK;
                 } else {
-                    $formType = 'String';
+                    $formType = FieldType::STRING;
                 }
                 break;
             case 'text':
-                $formType = 'Text';
+                $formType = FieldType::TEXT;
                 if ($elementKey && in_array($type, ['tt_content', 'pages'])) {
                     foreach ($element['columns'] ?? [] as $numberKey => $column) {
                         if ($column === $fieldKey) {
                             $option = $element['options'][$numberKey] ?? '';
                             if ($option === 'rte') {
-                                $formType = 'Richtext';
+                                $formType = FieldType::RICHTEXT;
                             }
                         }
                     }
                 }
                 break;
-            case 'check':
-                $formType = 'Check';
-                break;
-            case 'radio':
-                $formType = 'Radio';
-                break;
-            case 'select':
-                $formType = 'Select';
-                break;
             case 'inline':
                 if (($tca['config']['foreign_table'] ?? '') === 'sys_file_reference') {
-                    $formType = 'File';
+                    $formType = FieldType::FILE;
                 } elseif (($tca['config']['foreign_table'] ?? '') === 'tt_content') {
-                    $formType = 'Content';
+                    $formType = FieldType::CONTENT;
                 } else {
-                    $formType = 'Inline';
+                    $formType = FieldType::INLINE;
                 }
                 break;
-            case 'tab':
-                $formType = 'Tab';
-                break;
-            case 'palette':
-                $formType = 'Palette';
-                break;
-            case 'linebreak':
-                $formType = 'Linebreak';
-                break;
-            case 'group':
-                $formType = 'Group';
-                break;
             default:
-                $formType = 'String';
+                try {
+                    FieldType::cast($tcaType);
+                    $formType = $tcaType;
+                } catch (InvalidEnumerationValueException $e) {
+                    return '';
+                }
                 break;
         }
         return $formType;
@@ -704,7 +690,7 @@ class StorageRepository implements SingletonInterface
         $elementsInUse = [];
         foreach ($storage[$type]['elements'] ?? [] as $element) {
             foreach ($element['columns'] ?? [] as $column) {
-                if ($this->getFormType($column, $element['key'], $type) === 'Palette') {
+                if ($this->getFormType($column, $element['key'], $type) == FieldType::PALETTE) {
                     foreach ($storage[$type]['palettes'][$column]['showitem'] ?? [] as $item) {
                         if ($item === $key) {
                             $elementsInUse[] = $element;

@@ -6,7 +6,7 @@
         </div>
         <f:alias map="{label: '{mask:label(elementKey: storage.key, fieldKey: key, field: field, table: type)}'}">
             <div class="tx_mask_fieldheader_text" title="{label}">
-                <f:if condition="{form} == Linebreak">
+                <f:if condition="{form} == linebreak">
                     <f:then>
                         <h1>Linebreak</h1>
                     </f:then>
@@ -18,7 +18,7 @@
             </div>
         </f:alias>
     </div>
-    <div role="tabpanel" class="{f:if(condition: '{form} == Linebreak', then: 'hidden')}">
+    <div role="tabpanel" class="{f:if(condition: '{form} == linebreak', then: 'hidden')}">
         <ul class="nav nav-tabs t3js-tabs" role="tablist" id="tabs-{key}" data-store-last-tab="1">
             <li role="presentation" class="t3js-tabmenu-item">
                 <a href="#default_{key}" title="" role="tab" data-toggle="tab" aria-expanded="true">
@@ -70,7 +70,7 @@
                                             </optgroup>
                                         </f:if>
                                     </select>
-                                    <f:if condition="{form} == 'Richtext'">
+                                    <f:if condition="{form} == 'richtext'">
                                         <input type="hidden" name="tx_mask_tools_maskmask[storage][elements][options][--index--]" value="rte"/>
                                     </f:if>
                                 </div>
@@ -157,10 +157,10 @@
                             </div>
                         </div>
                     </div>
-                    <f:render partial="Forms/Fields/{form}/Default" arguments="{storage: storage, editMode: editMode, field: field, key:key, elementKey: storage.key, type: type}"/>
+                    <f:render partial="Forms/Fields/{mask:ucFirst(string: form)}/Default" arguments="{storage: storage, editMode: editMode, field: field, key:key, elementKey: storage.key, type: type}"/>
                 </div>
             </div>
-            <f:render partial="Forms/Fields/{form}/Tabs" arguments="{storage: storage, editMode: editMode, field: field, key:key, elementKey: storage.key, type: type}"/>
+            <f:render partial="Forms/Fields/{mask:ucFirst(string: form)}/Tabs" arguments="{storage: storage, editMode: editMode, field: field, key:key, elementKey: storage.key, type: type}"/>
         </div>
         <f:if condition="{isInlineField}">
             <f:else>

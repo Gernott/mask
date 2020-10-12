@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\ViewHelpers;
 
+use MASK\Mask\DataStructure\FieldType;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Helper\FieldHelper;
 use MASK\Mask\Utility\GeneralUtility;
@@ -99,7 +100,7 @@ class TcaViewHelper extends AbstractViewHelper
         }
 
         $fields = [];
-        if ($type === 'Tab') {
+        if ($type == FieldType::TAB) {
             $fields = $this->fieldHelper->getFieldsByType($type, $table);
         } elseif (!GeneralUtility::isMaskIrreTable($table)) {
             foreach ($GLOBALS['TCA'][$table]['columns'] as $tcaField => $tcaConfig) {
@@ -108,7 +109,7 @@ class TcaViewHelper extends AbstractViewHelper
                     continue;
                 }
                 if ($tcaField === 'bodytext' && $table === 'tt_content') {
-                    $fieldType = 'Richtext';
+                    $fieldType = FieldType::RICHTEXT;
                 } else {
                     $fieldType = $this->storageRepository->getFormType($tcaField, '', $table);
                 }

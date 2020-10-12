@@ -4,25 +4,25 @@
 		  product-name="mask">
 		<header/>
 		<body>
-			<trans-unit id="tx_mask.field.String">
+			<trans-unit id="tx_mask.field.string">
 				<target>Textfeld</target>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Integer">
+			<trans-unit id="tx_mask.field.integer">
 				<target>Zahlfeld</target>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Float">
+			<trans-unit id="tx_mask.field.float">
 				<target>Kommazahl</target>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Link">
+			<trans-unit id="tx_mask.field.link">
 				<target>Link</target>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Date">
+			<trans-unit id="tx_mask.field.date">
 				<target>Datum</target>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Datetime">
+			<trans-unit id="tx_mask.field.datetime">
 				<target>Datum/Zeit</target>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Timestamp">
+			<trans-unit id="tx_mask.field.timestamp">
 				<source>Timestamp</source>
 				<target>Zeitstempel</target>
 			</trans-unit>
@@ -30,40 +30,40 @@
 				<source>Date or Datetime</source>
 				<target>Datum oder Datum/Zeit</target>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Text">
+			<trans-unit id="tx_mask.field.text">
 				<target>Text</target>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Richtext">
+			<trans-unit id="tx_mask.field.richtext">
 				<target>Richtext</target>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Check">
+			<trans-unit id="tx_mask.field.check">
 				<target>Checkbox</target>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Radio">
+			<trans-unit id="tx_mask.field.radio">
 				<target>Radiobutton</target>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Select">
+			<trans-unit id="tx_mask.field.select">
 				<target>Selectbox</target>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Group">
+			<trans-unit id="tx_mask.field.group">
 				<target>Gruppe</target>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.File">
+			<trans-unit id="tx_mask.field.file">
 				<target>Datei</target>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Inline">
+			<trans-unit id="tx_mask.field.inline">
 				<target>Wiederholung</target>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Tab">
+			<trans-unit id="tx_mask.field.tab">
 				<target>Reiter</target>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Palette">
+			<trans-unit id="tx_mask.field.palette">
 				<source>Palette</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Linebreak">
+			<trans-unit id="tx_mask.field.linebreak">
 				<source>Umbruch</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Content">
+			<trans-unit id="tx_mask.field.content">
 				<target>Content</target>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.titleAdd">

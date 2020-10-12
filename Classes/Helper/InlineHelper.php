@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Helper;
 
+use MASK\Mask\DataStructure\FieldType;
 use MASK\Mask\Domain\Repository\BackendLayoutRepository;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
@@ -86,7 +87,7 @@ class InlineHelper
         );
 
         foreach ($contentFields as $fieldKey) {
-            if ($this->storageRepository->getFormType($fieldKey, '', $table) === 'File') {
+            if ($this->storageRepository->getFormType($fieldKey, '', $table) == FieldType::FILE) {
                 $data[$fieldKey] = $fileRepository->findByRelation($table, $fieldKey, $uid);
             }
         }
@@ -145,14 +146,14 @@ class InlineHelper
                 $type = $this->storageRepository->getFormType($fieldKey, $cType, $table);
 
                 // if it is of type inline and has to be filled (IRRE, FAL)
-                if ($type === 'Inline') {
+                if ($type == FieldType::INLINE) {
                     if (!array_key_exists($field, $storage)) {
                         continue;
                     }
                     $elements = $this->getInlineElements($data, $fieldKeyPrefix, $cType, 'parentid', $table);
                     $data[$fieldKeyPrefix] = $elements;
                 // or if it is of type Content (Nested Content) and has to be filled
-                } elseif ($type === 'Content') {
+                } elseif ($type == FieldType::CONTENT) {
                     $elements = $this->getInlineElements(
                         $data,
                         $fieldKeyPrefix,
@@ -162,9 +163,9 @@ class InlineHelper
                         'tt_content'
                     );
                     $data[$fieldKeyPrefix] = $elements;
-                } elseif ($type === 'Select' && ($GLOBALS['TCA'][$table]['columns'][$field]['config']['foreign_table'] ?? '') !== '') {
+                } elseif ($type === FieldType::SELECT && ($GLOBALS['TCA'][$table]['columns'][$field]['config']['foreign_table'] ?? '') !== '') {
                     $data[$field . '_items'] = $this->getRelations($data[$field], $GLOBALS['TCA'][$table]['columns'][$field]['config']['foreign_table']);
-                } elseif ($type === 'Group' && ($GLOBALS['TCA'][$table]['columns'][$field]['config']['internal_type'] === 'db')) {
+                } elseif ($type === FieldType::GROUP && ($GLOBALS['TCA'][$table]['columns'][$field]['config']['internal_type'] === 'db')) {
                     $data[$field . '_items'] = $this->getRelations($data[$field], $GLOBALS['TCA'][$table]['columns'][$field]['config']['allowed']);
                 }
             }

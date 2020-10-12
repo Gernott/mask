@@ -19,6 +19,7 @@ namespace MASK\Mask\CodeGenerator;
 
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Schema\SchemaException;
+use MASK\Mask\DataStructure\FieldType;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -108,12 +109,12 @@ class SqlCodeGenerator
                 foreach ($field ?? [] as $table => $fields) {
                     foreach ($fields ?? [] as $fieldKey => $definition) {
                         $fieldType = $this->storageRepository->getFormType($fieldKey, '', $table);
-                        if ($fieldType === 'Inline' && !array_key_exists($fieldKey, $json)) {
+                        if ($fieldType == FieldType::INLINE && !array_key_exists($fieldKey, $json)) {
                             continue;
                         }
                         $sql_content[] = 'CREATE TABLE ' . $table . " (\n\t" . $fieldKey . ' ' . $definition . "\n);\n";
                         // if this field is a content field, also add parent columns
-                        if ($fieldType === 'Content') {
+                        if ($fieldType == FieldType::CONTENT) {
                             $sql_content[] = "CREATE TABLE tt_content (\n\t" . $fieldKey . '_parent' . ' ' . $definition . ",\n\t" . 'KEY ' . $fieldKey . ' (' . $fieldKey . '_parent,pid)' . "\n);\n";
                         }
                     }

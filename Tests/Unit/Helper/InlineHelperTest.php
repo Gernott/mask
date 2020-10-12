@@ -2,6 +2,7 @@
 
 namespace MASK\Mask\Test\Helper;
 
+use MASK\Mask\DataStructure\FieldType;
 use MASK\Mask\Domain\Repository\BackendLayoutRepository;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Domain\Service\SettingsService;
@@ -93,7 +94,7 @@ class InlineHelperTest extends BaseTestCase
         $storage->expects(self::any())->method('getFormType')
             ->willReturnCallback(
                 function ($arg1) use ($key) {
-                    return $arg1 === $key ? 'File' : '';
+                    return $arg1 === $key ? FieldType::FILE : '';
                 }
             );
 
@@ -135,7 +136,7 @@ class InlineHelperTest extends BaseTestCase
                         'tca' => [
                             'tx_mask_repeat' => [
                                 'config' => [
-                                    'type' => 'Inline'
+                                    'type' => 'inline'
                                 ]
                             ]
                         ]
@@ -194,7 +195,7 @@ class InlineHelperTest extends BaseTestCase
 
         $storage->expects(self::once())->method('load')->willReturn($json);
         $storage->expects(self::once())->method('loadElement')->willReturn($json[$table]['elements'][$element]);
-        $storage->expects(self::once())->method('getFormType')->willReturn('Inline');
+        $storage->expects(self::once())->method('getFormType')->willReturn('inline');
 
         $backendLayoutRepository = $this->getMockBuilder(BackendLayoutRepository::class)
             ->disableOriginalConstructor()
@@ -289,7 +290,7 @@ class InlineHelperTest extends BaseTestCase
 
         $storage->expects(self::once())->method('load')->willReturn($json);
         $storage->expects(self::once())->method('loadElement')->willReturn($json[$table]['elements'][$element]);
-        $storage->expects(self::once())->method('getFormType')->willReturn('Inline');
+        $storage->expects(self::once())->method('getFormType')->willReturn('inline');
 
         $backendLayoutRepository = $this->getMockBuilder(BackendLayoutRepository::class)
             ->disableOriginalConstructor()
@@ -383,7 +384,7 @@ class InlineHelperTest extends BaseTestCase
             ->getMock();
 
         $storage->expects(self::once())->method('load')->willReturn($json);
-        $storage->expects(self::once())->method('getFormType')->willReturn('Inline');
+        $storage->expects(self::once())->method('getFormType')->willReturn('inline');
 
         $backendLayoutRepository = $this->getMockBuilder(BackendLayoutRepository::class)
             ->disableOriginalConstructor()
@@ -479,7 +480,7 @@ class InlineHelperTest extends BaseTestCase
             ->getMock();
 
         $storage->expects(self::once())->method('load')->willReturn($json);
-        $storage->expects(self::once())->method('getFormType')->willReturn('Inline');
+        $storage->expects(self::once())->method('getFormType')->willReturn('inline');
 
         $backendLayoutRepository = $this->getMockBuilder(BackendLayoutRepository::class)
             ->disableOriginalConstructor()

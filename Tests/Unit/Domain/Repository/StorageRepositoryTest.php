@@ -2,6 +2,7 @@
 
 namespace Domain\Repository;
 
+use MASK\Mask\DataStructure\FieldType;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use TYPO3\TestingFramework\Core\BaseTestCase;
 
@@ -1956,7 +1957,7 @@ class StorageRepositoryTest extends BaseTestCase
                 'field1',
                 '',
                 'tt_content',
-                'String'
+                FieldType::STRING
             ],
             'Type Integer is returned' => [
                 [],
@@ -1975,7 +1976,7 @@ class StorageRepositoryTest extends BaseTestCase
                 'field1',
                 '',
                 'tt_content',
-                'Integer'
+                FieldType::INTEGER
             ],
             'Type Float is returned' => [
                 [],
@@ -1994,7 +1995,7 @@ class StorageRepositoryTest extends BaseTestCase
                 'field1',
                 '',
                 'tt_content',
-                'Float'
+                FieldType::FLOAT
             ],
             'Type Date is returned' => [
                 [],
@@ -2014,7 +2015,7 @@ class StorageRepositoryTest extends BaseTestCase
                 'field1',
                 '',
                 'tt_content',
-                'Date'
+                FieldType::DATE
             ],
             'Type Datetime is returned' => [
                 [],
@@ -2034,7 +2035,7 @@ class StorageRepositoryTest extends BaseTestCase
                 'field1',
                 '',
                 'tt_content',
-                'Datetime'
+                FieldType::DATETIME
             ],
             'Type Link is returned' => [
                 [],
@@ -2053,7 +2054,7 @@ class StorageRepositoryTest extends BaseTestCase
                 'field1',
                 '',
                 'tt_content',
-                'Link'
+                FieldType::LINK
             ],
             'Type Text is returned' => [
                 [],
@@ -2071,7 +2072,7 @@ class StorageRepositoryTest extends BaseTestCase
                 'field1',
                 '',
                 'tt_content',
-                'Text'
+                FieldType::TEXT
             ],
             'Type Richtext is returned' => [
                 [],
@@ -2100,7 +2101,7 @@ class StorageRepositoryTest extends BaseTestCase
                 'field1',
                 'element1',
                 'tt_content',
-                'Richtext'
+                FieldType::RICHTEXT
             ],
             'Type Richtext is returned if in inline' => [
                 [],
@@ -2119,7 +2120,7 @@ class StorageRepositoryTest extends BaseTestCase
                 'field1',
                 '',
                 'tx_mask_inline',
-                'Richtext'
+                FieldType::RICHTEXT
             ],
             'Type Check is returned' => [
                 [],
@@ -2137,7 +2138,7 @@ class StorageRepositoryTest extends BaseTestCase
                 'field1',
                 '',
                 'tt_content',
-                'Check'
+                FieldType::CHECK
             ],
             'Type Radio is returned' => [
                 [],
@@ -2155,7 +2156,7 @@ class StorageRepositoryTest extends BaseTestCase
                 'field1',
                 '',
                 'tt_content',
-                'Radio'
+                FieldType::RADIO
             ],
             'Type Select is returned' => [
                 [],
@@ -2173,7 +2174,7 @@ class StorageRepositoryTest extends BaseTestCase
                 'field1',
                 '',
                 'tt_content',
-                'Select'
+                FieldType::SELECT
             ],
             'Type Inline is returned' => [
                 [],
@@ -2191,7 +2192,7 @@ class StorageRepositoryTest extends BaseTestCase
                 'field1',
                 '',
                 'tt_content',
-                'Inline'
+                FieldType::INLINE
             ],
             'Type File is returned' => [
                 [],
@@ -2210,7 +2211,7 @@ class StorageRepositoryTest extends BaseTestCase
                 'field1',
                 '',
                 'tt_content',
-                'File'
+                FieldType::FILE
             ],
             'Type File by option is returned' => [
                 [],
@@ -2229,7 +2230,7 @@ class StorageRepositoryTest extends BaseTestCase
                 'field1',
                 '',
                 'tt_content',
-                'File'
+                FieldType::FILE
             ],
             'Type Content is returned' => [
                 [],
@@ -2248,7 +2249,7 @@ class StorageRepositoryTest extends BaseTestCase
                 'field1',
                 '',
                 'tt_content',
-                'Content'
+                FieldType::CONTENT
             ],
             'Type Tab is returned' => [
                 [],
@@ -2266,7 +2267,7 @@ class StorageRepositoryTest extends BaseTestCase
                 'field1',
                 '',
                 'tt_content',
-                'Tab'
+                FieldType::TAB
             ],
             'Type Palette is returned' => [
                 [],
@@ -2284,7 +2285,7 @@ class StorageRepositoryTest extends BaseTestCase
                 'field1',
                 '',
                 'tt_content',
-                'Palette'
+                FieldType::PALETTE
             ],
             'Type Group is returned' => [
                 [],
@@ -2302,7 +2303,7 @@ class StorageRepositoryTest extends BaseTestCase
                 'field1',
                 '',
                 'tt_content',
-                'Group'
+                FieldType::GROUP
             ],
             'Type Timestamp is returned' => [
                 [],
@@ -2322,7 +2323,7 @@ class StorageRepositoryTest extends BaseTestCase
                 'field1',
                 '',
                 'tt_content',
-                'Timestamp'
+                FieldType::TIMESTAMP
             ],
             'Type from global tca is returned' => [
                 [
@@ -2352,7 +2353,7 @@ class StorageRepositoryTest extends BaseTestCase
                 'date',
                 '',
                 'tt_content',
-                'Date'
+                FieldType::DATE
             ],
         ];
     }

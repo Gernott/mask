@@ -72,7 +72,7 @@ define([
               var fieldType = $(head).data('type');
 
               // If palette dropped in inline, no existing fields allowed.
-              var isPalette = fieldType === 'Palette';
+              var isPalette = fieldType === 'palette';
               if (isPalette && $(head).closest('.inline-container').length > 0) {
                 $(head).find('.inline-container').addClass('palette-inline');
               }
@@ -84,11 +84,11 @@ define([
               var newTemplate = Sortable.prepareInlineFieldForInsert(head, fieldTemplate);
               $(newTemplate).attr('data-index', index);
 
-              var isLinebreak = fieldType === 'Linebreak';
+              var isLinebreak = fieldType === 'linebreak';
               if (isLinebreak) {
                 $(newTemplate).find('div[role=tabpanel]').hide();
                 $(newTemplate).find('h1').text('Linebreak');
-                $('li[data-type=Linebreak]').find('.id_labeltext').text('Linebreak');
+                $('li[data-type=linebreak]').find('.id_labeltext').text('Linebreak');
                 $(newTemplate).find('.tx_mask_newfieldname').val('linebreak-' + Utility.getUniqueKey());
               }
 
@@ -103,7 +103,7 @@ define([
               }
 
               // Initialize datepicker after adding new template
-              if (['Date', 'Datetime', 'Timestamp'].includes(fieldType)) {
+              if (['date', 'datetime', 'timestamp'].includes(fieldType)) {
                 DateTimePicker.initialize('.t3js-datetimepicker');
               }
 
@@ -149,9 +149,9 @@ define([
           var allowed = true;
           var isMaskField = $(head).data('fieldtype') === 'mask';
           var isNew = $(head).data('fieldtype') === undefined;
-          var isPalette = $(head).data('type') === 'Palette';
-          var isTab = $(head).data('type') === 'Tab';
-          var isLinebreak = $(head).data('type') === 'Linebreak';
+          var isPalette = $(head).data('type') === 'palette';
+          var isTab = $(head).data('type') === 'tab';
+          var isLinebreak = $(head).data('type') === 'linebreak';
           var draggedIntoPalette = $(event.target).hasClass('palette-container');
           var container = $(head).closest('.inline-container');
           var isDraggedIntoInline = container.length > 0 && !draggedIntoPalette;
@@ -240,11 +240,11 @@ define([
               ui.sender.sortable('cancel');
             } catch (e) {
               if (removeFieldFromPalette) {
-                $('.id_Palette > .tx_mask_btn_caption > ul > .id_' + $(head).data('type')).remove();
+                $('.id_palette > .tx_mask_btn_caption > ul > .id_' + $(head).data('type')).remove();
               }
               if (removeLinebreak) {
-                $('li[class^=id_]').not('.id_Palette').find('> .tx_mask_btn_caption > ul > .id_Linebreak').remove();
-                $('.tx_mask_tabcell2 > ul > .id_Linebreak').remove();
+                $('li[class^=id_]').not('.id_palette').find('> .tx_mask_btn_caption > ul > .id_linebreak').remove();
+                $('.tx_mask_tabcell2 > ul > .id_linebreak').remove();
               }
             }
           }

@@ -32,12 +32,6 @@ form[name='storage'] {
     display: table-caption;
 }
 
-.id_inline .tx_mask_btn_caption {
-    background: #ededed;
-    border-left: 2px solid #9c97ce;
-    padding-left: 5px;
-}
-
 .tx_mask_btn_row > div {
     display: table-cell;
 }
@@ -92,11 +86,11 @@ form[name='storage'] {
     margin-top: 3px;
 }
 
-.id_Inline > .tx_mask_btn_caption {
+.id_inline > .tx_mask_btn_caption {
     border-left: 4px solid #9e97d1;
 }
 
-.id_Palette > .tx_mask_btn_caption {
+.id_palette > .tx_mask_btn_caption {
     border-left: 4px solid #4e4e4e;
 }
 
@@ -670,34 +664,6 @@ ul.tx_mask_fieldtypes .tx_mask_fieldcontent_highlight {
     content: "\f077" !important;
     /*noinspection CssNoGenericFontName*/
     font-family: FontAwesome !important;
-}
-
-.tx_mask_field_templates .id_integer {
-    background: #f98e71;
-}
-
-.tx_mask_field_templates .id_float {
-    background: #f4a863;
-}
-
-.tx_mask_field_templates .id_date {
-    background: #e17764;
-}
-
-.tx_mask_field_templates .id_datetime {
-    background: #de87b5;
-}
-
-.tx_mask_field_templates .id_check {
-    background: #a4ce8d;
-}
-
-.tx_mask_field_templates .id_radio {
-    background: #f8d760;
-}
-
-.tx_mask_field_templates .id_select {
-    background: #b9cc70;
 }
 
 .tx_mask_field_templates .tx_mask_btn_row .tx_mask_btn_text {
