@@ -20,6 +20,12 @@
 			"email": "office@webprofil.at",
 			"role": "Developer",
 			"homepage": "https://www.webprofil.at"
+		},
+		{
+			"name": "Nikita Hovratov",
+			"email": "info@nikita-hovratov.de",
+			"role": "Developer",
+			"homepage": "https://www.nikita-hovratov.de"
 		}
 	],
 	"license": "GPL-2.0-or-later",

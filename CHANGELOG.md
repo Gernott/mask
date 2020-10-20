@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+### [6.1.0] - 2020-10-21
+
+### Fixed
+
+- Tabs / palettes for page templates only override pages table now.
+- page templates with numeric keys don't cause type errors anymore.
+- Inline fields added to frontend data array if in palette.
+
+### Added
+
+- Enumeration for field types added and replaced across all code.
+
 ### [6.0.1] - 2020-10-06
 
 ### Fixed
