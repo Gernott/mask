@@ -43,6 +43,9 @@ class TcaTypesShowitemMaskBeLayoutFields implements FormDataProviderInterface
 
     public function addData(array $result)
     {
+        if ($result['tableName'] != 'pages') {
+            return $result;
+        }
         $json = $this->storageRepository->load();
         if ($json['pages']['elements'] ?? false) {
             $conditionMatcher = GeneralUtility::makeInstance(ConditionMatcher::class, null, $result['vanillaUid'], $result['rootline']);
