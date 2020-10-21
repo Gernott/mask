@@ -150,7 +150,7 @@ class StorageRepository implements SingletonInterface
             foreach ($json[$table]['tca'] ?? [] as $key => $tca) {
                 // if inlineParent is an array, it's in a palette on default table
                 if (is_array(($tca['inlineParent'] ?? ''))) {
-                    $inlineParent = $tca['inlineParent'][$elementKey];
+                    $inlineParent = $tca['inlineParent'][$elementKey] ?? '';
                 } else {
                     $inlineParent = $tca['inlineParent'] ?? '';
                 }

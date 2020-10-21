@@ -137,38 +137,44 @@ class InlineHelper
             $elementFields = array_keys($storage[$table]['tca']);
         }
 
-        // if the element has columns
-        if ($elementFields) {
-            // check foreach column
-            foreach ($elementFields as $field) {
-                $fieldKeyPrefix = $field;
-                $fieldKey = str_replace('tx_mask_', '', $field);
-                $type = $this->storageRepository->getFormType($fieldKey, $cType, $table);
+        // Check type of all element columns
+        foreach ($elementFields ?? [] as $field) {
+            $fieldKey = str_replace('tx_mask_', '', $field);
+            $type = $this->storageRepository->getFormType($fieldKey, ($element['key'] ?? ''), $table);
 
-                // if it is of type inline and has to be filled (IRRE, FAL)
-                if ($type == FieldType::INLINE) {
-                    if (!array_key_exists($field, $storage)) {
-                        continue;
-                    }
-                    $elements = $this->getInlineElements($data, $fieldKeyPrefix, $cType, 'parentid', $table);
-                    $data[$fieldKeyPrefix] = $elements;
-                // or if it is of type Content (Nested Content) and has to be filled
-                } elseif ($type == FieldType::CONTENT) {
-                    $elements = $this->getInlineElements(
-                        $data,
-                        $fieldKeyPrefix,
-                        $cType,
-                        $fieldKeyPrefix . '_parent',
-                        'tt_content',
-                        'tt_content'
-                    );
-                    $data[$fieldKeyPrefix] = $elements;
-                } elseif ($type === FieldType::SELECT && ($GLOBALS['TCA'][$table]['columns'][$field]['config']['foreign_table'] ?? '') !== '') {
-                    $data[$field . '_items'] = $this->getRelations($data[$field], $GLOBALS['TCA'][$table]['columns'][$field]['config']['foreign_table']);
-                } elseif ($type === FieldType::GROUP && ($GLOBALS['TCA'][$table]['columns'][$field]['config']['internal_type'] === 'db')) {
-                    $data[$field . '_items'] = $this->getRelations($data[$field], $GLOBALS['TCA'][$table]['columns'][$field]['config']['allowed']);
+            if ($type == FieldType::PALETTE) {
+                $paletteFields = $this->storageRepository->loadInlineFields($field, ($element['key'] ?? ''));
+                foreach ($paletteFields as $paletteField) {
+                    $type = $this->storageRepository->getFormType($paletteField['key'], ($element['key'] ?? ''), $table);
+                    $this->fillInlineField($data, $storage, $type, $paletteField['maskKey'], $cType, $table);
                 }
+            } else {
+                $this->fillInlineField($data, $storage, $type, $field, $cType, $table);
             }
+        }
+    }
+
+    protected function fillInlineField(&$data, $storage, $type, $field, $cType, $table)
+    {
+        // if it is of type inline and has to be filled (IRRE, FAL)
+        if ($type == FieldType::INLINE && array_key_exists($field, $storage)) {
+            $elements = $this->getInlineElements($data, $field, $cType, 'parentid', $table);
+            $data[$field] = $elements;
+            // or if it is of type Content (Nested Content) and has to be filled
+        } elseif ($type == FieldType::CONTENT) {
+            $elements = $this->getInlineElements(
+                $data,
+                $field,
+                $cType,
+                $field . '_parent',
+                'tt_content',
+                'tt_content'
+            );
+            $data[$field] = $elements;
+        } elseif ($type === FieldType::SELECT && ($GLOBALS['TCA'][$table]['columns'][$field]['config']['foreign_table'] ?? '') !== '') {
+            $data[$field . '_items'] = $this->getRelations($data[$field], $GLOBALS['TCA'][$table]['columns'][$field]['config']['foreign_table']);
+        } elseif ($type === FieldType::GROUP && ($GLOBALS['TCA'][$table]['columns'][$field]['config']['internal_type'] === 'db')) {
+            $data[$field . '_items'] = $this->getRelations($data[$field], $GLOBALS['TCA'][$table]['columns'][$field]['config']['allowed']);
         }
     }
 
@@ -268,7 +274,7 @@ class InlineHelper
             }
         }
 
-        // Need to sort overlaid records again, because sorting migth have changed.
+        // Need to sort overlaid records again, because sorting might have changed.
         usort($elements, function ($a, $b) {
             return $a['sorting'] > $b['sorting'];
         });

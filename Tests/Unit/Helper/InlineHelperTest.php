@@ -157,7 +157,75 @@ class InlineHelperTest extends BaseTestCase
                 'tx_mask_repeat',
                 [
                     'uid' => 1,
-                    'CType' => 'tx_mask_element_1',
+                    'CType' => 'mask_element_1',
+                    'tx_mask_repeat' => 2
+                ],
+                'tt_content',
+                [
+                    [
+                        'uid' => 123,
+                    ],
+                    [
+                        'uid' => 123,
+                    ]
+                ]
+            ],
+            'Inline field is added if in palette' => [
+                [
+                    'tt_content' => [
+                        'elements' => [
+                            'element_1' => [
+                                'key' => 'element_1',
+                                'columns' => [
+                                    'tx_mask_palette'
+                                ],
+                                'labels' => [
+                                    ''
+                                ]
+                            ]
+                        ],
+                        'tca' => [
+                            'tx_mask_palette' => [
+                                'config' => [
+                                    'type' => 'palette'
+                                ],
+                                'key' => 'palette'
+                            ],
+                            'tx_mask_repeat' => [
+                                'config' => [
+                                    'type' => 'inline',
+                                ],
+                                'inlineParent' => [
+                                    'element_1' => 'tx_mask_palette'
+                                ],
+                                'key' => 'repeat'
+                            ]
+                        ],
+                        'palettes' => [
+                            'tx_mask_palette' => [
+                                'showitem' => [
+                                    'tx_mask_repeat'
+                                ]
+                            ]
+                        ]
+                    ],
+                    'tx_mask_repeat' => [
+                        'tca' => [
+                            'children_1' => [
+                                'config' => [
+                                    'type' => 'input'
+                                ],
+                                'key' => 'children_1',
+                                'label' => 'Children 1'
+                            ]
+                        ]
+                    ]
+                ],
+                'element_1',
+                'tx_mask_repeat',
+                [
+                    'uid' => 1,
+                    'CType' => 'mask_element_1',
                     'tx_mask_repeat' => 2
                 ],
                 'tt_content',
@@ -185,17 +253,8 @@ class InlineHelperTest extends BaseTestCase
      */
     public function addIrreToData_tt_content($json, $element, $key, $data, $table, $inlineElements)
     {
-        $settingsService = $this->getMockBuilder(SettingsService::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $storage = $this->getMockBuilder(StorageRepository::class)
-            ->setConstructorArgs([$settingsService])
-            ->getMock();
-
-        $storage->expects(self::once())->method('load')->willReturn($json);
-        $storage->expects(self::once())->method('loadElement')->willReturn($json[$table]['elements'][$element]);
-        $storage->expects(self::once())->method('getFormType')->willReturn('inline');
+        $storage = $this->createPartialMock(StorageRepository::class, ['load']);
+        $storage->expects(self::any())->method('load')->willReturn($json);
 
         $backendLayoutRepository = $this->getMockBuilder(BackendLayoutRepository::class)
             ->disableOriginalConstructor()
@@ -206,7 +265,7 @@ class InlineHelperTest extends BaseTestCase
             ['getInlineElements'],
             [$storage, $backendLayoutRepository]
         );
-        $inlineHelper->expects(self::once())->method('getInlineElements')->willReturn($inlineElements);
+        $inlineHelper->expects(self::any())->method('getInlineElements')->willReturn($inlineElements);
         $inlineHelper->addIrreToData($data, $table);
         self::assertSame($inlineElements, $data[$key]);
     }
