@@ -65,7 +65,8 @@ define(['jquery'], function ($) {
       $updateIds.each(function () {
         var oldId = $(this).find('.checkbox-input').attr('id');
         var newId = 'new_' + Utility.getUniqueKey();
-        fieldTemplate = fieldTemplate.replaceAll(oldId, newId);
+        var regExp = new RegExp(oldId, 'g');
+        fieldTemplate = fieldTemplate.replace(regExp, newId);
       });
       return fieldTemplate;
     }
