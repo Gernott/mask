@@ -25,6 +25,9 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRe
     ]
 ];
 
+// Update wizards
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['removeRichtextConfiguration'] = \MASK\Mask\Updates\RemoveRichtextConfiguration::class;
+
 (function () {
     // Register Icons needed in the backend module
     $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
