@@ -619,7 +619,7 @@ class StorageRepository implements SingletonInterface
             return FieldType::FILE;
         }
 
-        if (($tca['rte'] ?? '') === '1') {
+        if (($tca['rte'] ?? '') === '1' || ($tca['config']['enableRichtext'] ?? '') === '1') {
             return FieldType::RICHTEXT;
         }
 
