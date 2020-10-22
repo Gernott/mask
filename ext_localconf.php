@@ -27,6 +27,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRe
 
 // Update wizards
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['removeRichtextConfiguration'] = \MASK\Mask\Updates\RemoveRichtextConfiguration::class;
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['convertTemplatesToUppercase'] = \MASK\Mask\Updates\ConvertTemplatesToUppercase::class;
 
 (function () {
     // Register Icons needed in the backend module
