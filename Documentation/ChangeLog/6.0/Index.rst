@@ -13,6 +13,10 @@ Nevertheless, a bit of dust has gathered over the years. Many TCA options have
 changed, lots of old issues were never resolved and some frequently requested
 features were never implemented. This changes with Mask version 6!
 
+.. contents::
+        :local:
+        :depth: 3
+
 Group fields with palettes
 ==========================
 
