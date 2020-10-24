@@ -1,59 +1,52 @@
-.. ==================================================
-.. FOR YOUR INFORMATION
-.. --------------------------------------------------
-.. -*- coding: utf-8 -*- with BOM.
-
 .. include:: Includes.txt
 
-.. _start:
-
-=============================================================
+====
 Mask
-=============================================================
+====
 
 .. only:: html
 
-	:Classification:
-   		mask
+   :Classification:
+      mask
 
-   	:Version:
-   		|6.2.0|
+   :Version:
+      |release|
 
-	:Language:
-   		en
+   :Language:
+      en
 
-   	:Keywords:
-   		mask
+   :Keywords:
+      mask
 
-   	:Copyright:
-   		2020
+   :Copyright:
+      2020
 
-   	:Author:
-           WEBprofil - Gernot Ploiner e.U.
+   :Author:
+     WEBprofil - Gernot Ploiner e.U.
 
-   	:License:
-   		This document is published under the Open Content License
-   		available from http://www.opencontent.org/opl.shtml
+   :License:
+      This document is published under the Open Content License
+      available from http://www.opencontent.org/opl.shtml
 
-	:Rendered:
-   		|today|
+   :Rendered:
+      |today|
 
-	The content of this document is related to TYPO3,
-	a GNU/GPL CMS/Framework available from `www.typo3.org <https://www.typo3.org/>`_.
+   The content of this document is related to TYPO3,
+   a GNU/GPL CMS/Framework available from `www.typo3.org <https://www.typo3.org/>`_.
 
-	**Table of Contents**
+   **Table of Contents**
 
 .. toctree::
-	:maxdepth: 5
-	:titlesonly:
-   	:glob:
+   :maxdepth: 5
+   :titlesonly:
+      :glob:
 
-   	Introduction/Index
-   	Installation/Index
-   	Contentelements/Index
-   	Pagetemplates/Index
-   	Fieldtypes/Index
-   	Sponsors/Index
-   	ToDoList/Index
-   	ChangeLog/Index
-   	Targets
+      Introduction/Index
+      Installation/Index
+      Contentelements/Index
+      Pagetemplates/Index
+      Fieldtypes/Index
+      Sponsors/Index
+      ToDoList/Index
+      ChangeLog/Index
+      Targets
