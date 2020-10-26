@@ -68,8 +68,11 @@ class ConvertTemplatesToUppercase implements UpgradeWizardInterface
     protected function getTemplates(): Finder
     {
         $settings = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('mask');
-        $templatePath = strpos($settings['content'], 'EXT:') === 0 ? MaskUtility::getFileAbsFileName($settings['content']) : $settings['content'];
-        $absolutePath = Environment::getPublicPath() . '/' . $templatePath;
+        if (strpos($settings['content'], 'EXT:') === 0) {
+           $absolutePath = MaskUtility::getFileAbsFileName($settings['content']);
+        } else {
+            $absolutePath = Environment::getPublicPath() . '/' . $settings['content'];
+        }
         return (new Finder())->files()->in($absolutePath)->filter(function (SplFileInfo $info) {
             $filename = $info->getFilename();
             return ctype_lower(substr($filename, 0, 1)) || strpos($filename, '_') !== false;
