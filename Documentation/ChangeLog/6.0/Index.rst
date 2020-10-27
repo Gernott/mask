@@ -1,3 +1,7 @@
+.. contents::
+        :local:
+        :depth: 1
+
 ==============
 Mask version 6
 ==============

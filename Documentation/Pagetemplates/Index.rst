@@ -28,6 +28,7 @@ in defining html layouts, css, JavaScript, typoscript, ... so basically it's a
 Theme-Extension.
 
 There are many resources out there to get started. These are a few of those:
+
 - https://www.sitepackagebuilder.com/
 - https://extensions.typo3.org/extension/bootstrap_package/
 - https://docs.typo3.org/m/typo3/tutorial-sitepackage/master/en-us/
