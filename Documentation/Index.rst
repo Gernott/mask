@@ -17,7 +17,7 @@ Mask
    		mask
 
    	:Version:
-   		|4.1.2|
+   		|release|
 
 	:Language:
    		en
