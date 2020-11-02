@@ -32,7 +32,6 @@
 		"typo3/cms-extbase": "^9.5"
 	},
 	"replace": {
-		"mask": "self.version",
 		"typo3-ter/mask": "self.version"
 	},
 	"autoload": {
