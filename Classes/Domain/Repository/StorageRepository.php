@@ -588,11 +588,12 @@ class StorageRepository implements SingletonInterface
     {
         $element = [];
 
-        // load tca for field from $GLOBALS
-        $tca = $GLOBALS['TCA'][$type]['columns'][$fieldKey] ?? [];
-        if (array_key_exists('config', $tca) && !$tca['config']) {
-            $tca = $GLOBALS['TCA'][$type]['columns']['tx_mask_' . $fieldKey] ?? [];
+        // Check if TCA for mask key exists, else assume it's a core field.
+        $tca = $GLOBALS['TCA'][$type]['columns']['tx_mask_' . $fieldKey] ?? [];
+        if (!$tca) {
+            $tca = $GLOBALS['TCA'][$type]['columns'][$fieldKey] ?? [];
         }
+
         if ($elementKey) {
             // Load element and TCA of field
             $element = $this->loadElement($type, $elementKey);
