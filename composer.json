@@ -4,9 +4,10 @@
 	"description": "Create your own content elements and page templates. Easy to use, even without programming skills because of the comfortable drag and drop user interface. Stored in structured database tables. Style your frontend with Fluid tags. Ideal, if you want to switch from Templavoila.",
 	"homepage": "https://mask.webprofil.at/",
 	"support": {
-		"source": "https://github.com/Gernott/mask",
-		"docs": "https://docs.typo3.org/typo3cms/extensions/mask/",
-		"issues": "https://github.com/Gernott/mask/issues/"
+		"source": "https://github.com/gernott/mask",
+		"docs": "https://docs.typo3.org/p/mask/mask/master/en-us/",
+		"issues": "https://github.com/gernott/mask/issues/",
+		"chat": "https://typo3.org/community/meet/chat-slack"
 	},
 	"keywords": [
 		"TYPO3 CMS",
