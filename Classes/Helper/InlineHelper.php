@@ -29,6 +29,7 @@ namespace MASK\Mask\Helper;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\Restriction\WorkspaceRestriction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Annotation\Inject;
 
@@ -235,6 +236,10 @@ class InlineHelper
             ->from($childTable)
             ->where($queryBuilder->expr()->eq($parentFieldName, $parentUid))
             ->orderBy('sorting');
+
+        if (BackendUtility::isTableWorkspaceEnabled($childTable)) {
+            $queryBuilder->getRestrictions()->add(GeneralUtility::makeInstance(WorkspaceRestriction::class, (int)$GLOBALS['BE_USER']->workspace));
+        }
 
         if ($childTable !== 'tt_content') {
             $queryBuilder->andWhere('parenttable LIKE :parenttable');
