@@ -33,7 +33,7 @@ use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Domain\Service\SettingsService;
 use MASK\Mask\Helper\InlineHelper;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
-use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Fluid\View\StandaloneView;
@@ -170,16 +170,8 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
      */
     protected function getContentObject($uid)
     {
-        $contentTable = 'tt_content';
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($contentTable);
-        $queryBuilder
-            ->select('*')
-            ->from($contentTable)
-            ->where($queryBuilder->expr()->eq('uid', $uid));
-        $queryBuilder->getRestrictions()->removeAll();
-        $data = $queryBuilder->execute()->fetch();
-
-        $this->inlineHelper->addFilesToData($data, 'tt_content');
+        $data = BackendUtility::getRecordWSOL('tt_content', $uid);
+        $this->inlineHelper->addFilesToData($data);
         $this->inlineHelper->addIrreToData($data);
 
         return $data;
