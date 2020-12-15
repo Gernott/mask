@@ -92,6 +92,10 @@ List of logo sponsors
    :alt: Sitedesign
    :target: http://www.sitedesign.at
 
+.. figure:: ../Images/SponsorsManual/t3premium.svg
+   :alt: T3 Premium Internetagentur
+   :target: https://www.t3premium.de/
+
 .. figure:: ../Images/SponsorsManual/tommoko.jpg
    :alt: Tommoko UG
    :target: http://www.tommoko.com
