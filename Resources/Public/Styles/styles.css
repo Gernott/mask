@@ -1023,3 +1023,19 @@ ul.tx_mask_fieldtypes.tx_mask_field_templates li .id_move,
     background-color: #fff;
     border-radius: 2px;
 }
+
+.icons-selector  {
+    display: block;
+}
+
+.icons-selector .selector {
+    display: flex;
+}
+
+.icons-selector .selected-icon {
+    width: 50%;
+}
+
+.icons-selector .selector-button  {
+    width: 50%;
+}
