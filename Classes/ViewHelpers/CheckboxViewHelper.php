@@ -53,7 +53,7 @@ class CheckboxViewHelper extends AbstractViewHelper
             $path = '[dummy][--index--]';
         }
         $hashName = str_replace(['[', ']'], '', $name);
-        $value = $arguments['value'];
+        $value = (string)$arguments['value'];
         $valueOn = $arguments['valueOn'];
         $valueOff = $arguments['valueOff'];
         $editMode = $arguments['editMode'];
