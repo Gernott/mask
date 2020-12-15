@@ -105,12 +105,12 @@ class HtmlCodeGenerator
             case FieldType::DATE:
             case FieldType::TIMESTAMP:
                 $html[] = $this->drawWhitespace(0 + $depth) . '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">';
-                $html[] = $this->drawWhitespace(1 + $depth) . '<f:format.date format="d.m.Y">{' . $datafield . '.' . $fieldKey . '}</f:format.date>';
+                $html[] = $this->drawWhitespace(1 + $depth) . '{' . $datafield . '.' . $fieldKey . ' -> f:format.date(format: \'d.m.Y\')}';
                 $html[] = $this->drawWhitespace(0 + $depth) . '</f:if>';
                 break;
             case FieldType::DATETIME:
                 $html[] = $this->drawWhitespace(0 + $depth) . '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">';
-                $html[] = $this->drawWhitespace(1 + $depth) . '<f:format.date format="d.m.Y - H:i:s">{' . $datafield . '.' . $fieldKey . '}</f:format.date>';
+                $html[] = $this->drawWhitespace(1 + $depth) . '{' . $datafield . '.' . $fieldKey . ' -> f:format.date(format: \'d.m.Y - H:i:s\')}';
                 $html[] = $this->drawWhitespace(0 + $depth) . '</f:if>';
                 break;
             case FieldType::FILE:
@@ -123,7 +123,7 @@ class HtmlCodeGenerator
                 break;
             case FieldType::FLOAT:
                 $html[] = $this->drawWhitespace(0 + $depth) . '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">';
-                $html[] = $this->drawWhitespace(1 + $depth) . '<f:format.number decimals="2" decimalSeparator="," thousandsSeparator=".">{' . $datafield . '.' . $fieldKey . '}</f:format.number>';
+                $html[] = $this->drawWhitespace(1 + $depth) . '{' . $datafield . '.' . $fieldKey . ' -> f:format.number(decimals: \'2\', decimalSeparator: \',\', thousandsSeparator: \'.\')}';
                 $html[] = $this->drawWhitespace(0 + $depth) . '</f:if>';
                 break;
             case FieldType::INLINE:
@@ -172,12 +172,12 @@ class HtmlCodeGenerator
                 break;
             case FieldType::RICHTEXT:
                 $html[] = $this->drawWhitespace(0 + $depth) . '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">';
-                $html[] = $this->drawWhitespace(1 + $depth) . '<f:format.html>{' . $datafield . '.' . $fieldKey . '}</f:format.html>';
+                $html[] = $this->drawWhitespace(1 + $depth) . '{' . $datafield . '.' . $fieldKey . ' -> f:format.html()}';
                 $html[] = $this->drawWhitespace(0 + $depth) . '</f:if>';
                 break;
             case FieldType::TEXT:
                 $html[] = $this->drawWhitespace(0 + $depth) . '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">';
-                $html[] = $this->drawWhitespace(1 + $depth) . '<f:format.nl2br>{' . $datafield . '.' . $fieldKey . '}</f:format.nl2br>';
+                $html[] = $this->drawWhitespace(1 + $depth) . '{' . $datafield . '.' . $fieldKey . ' -> f:format.nl2br()}';
                 $html[] = $this->drawWhitespace(0 + $depth) . '</f:if>';
                 break;
         }
