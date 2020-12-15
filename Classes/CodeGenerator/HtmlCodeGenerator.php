@@ -116,7 +116,7 @@ class HtmlCodeGenerator
             case FieldType::FILE:
                 $html[] = $this->drawWhitespace(0 + $depth) . '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">';
                 $html[] = $this->drawWhitespace(1 + $depth) . '<f:for each="{' . $datafield . '.' . $fieldKey . '}" as="file">';
-                $html[] = $this->drawWhitespace(2 + $depth) . '<f:image image="{file}" alt="{file.alternative}" title="{file.title}" width="200" />';
+                $html[] = $this->drawWhitespace(2 + $depth) . '<f:image image="{file}" width="200" />';
                 $html[] = $this->drawWhitespace(2 + $depth) . '{file.description}';
                 $html[] = $this->drawWhitespace(1 + $depth) . '</f:for>';
                 $html[] = $this->drawWhitespace(0 + $depth) . '</f:if>';
