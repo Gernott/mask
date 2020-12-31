@@ -228,6 +228,15 @@ class GeneralUtility
     }
 
     /**
+     * @param $cType
+     * @return bool
+     */
+    public static function isMaskCType($cType)
+    {
+        return strpos($cType, 'mask_') === 0;
+    }
+
+    /**
      * Removes the tx_mask_ prefix
      *
      * @param $maskKey

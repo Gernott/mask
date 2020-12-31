@@ -91,8 +91,8 @@ class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
         array &$row
     ): void {
         // only render special backend preview if it is a mask element
-        if (strpos($row['CType'], 'mask') === 0) {
-            $elementKey = substr($row['CType'], 5);
+        if (MaskUtility::isMaskCType($row['CType'])) {
+            $elementKey = MaskUtility::removeCtypePrefix($row['CType']);
 
             // fallback to prevent breaking change
             $templatePathAndFilename = MaskUtility::getTemplatePath(

@@ -142,7 +142,7 @@ class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
                 } elseif ($lastPart == 'tt_content' && MaskUtility::isMaskIrreTable(end($uidTableStringArray))) {
                     $context = json_decode($parsedBody['ajax']['context'], true, 512, 4194304);
                     $config = json_decode($context['config'], true, 512, 4194304);
-                    if (strpos($config['overrideChildTca']['columns']['CType']['config']['default'] ?? '', 'mask_') === 0) {
+                    if (MaskUtility::isMaskCType($config['overrideChildTca']['columns']['CType']['config']['default'] ?? '')) {
                         return true;
                     }
                 } else {
