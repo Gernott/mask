@@ -691,14 +691,16 @@ class StorageRepository implements SingletonInterface
         $elementsInUse = [];
         foreach ($storage[$type]['elements'] ?? [] as $element) {
             foreach ($element['columns'] ?? [] as $column) {
-                if ($this->getFormType($column, $element['key'], $type) == FieldType::PALETTE) {
+                if ($column === $key) {
+                    $elementsInUse[] = $element;
+                    break;
+                } elseif ($this->getFormType($column, $element['key'], $type) == FieldType::PALETTE) {
                     foreach ($storage[$type]['palettes'][$column]['showitem'] ?? [] as $item) {
                         if ($item === $key) {
                             $elementsInUse[] = $element;
+                            break;
                         }
                     }
-                } elseif ($column === $key) {
-                    $elementsInUse[] = $element;
                 }
             }
         }

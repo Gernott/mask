@@ -225,23 +225,19 @@ class WizardController extends ActionController
         $keyExists = false;
         $fieldExists = false;
 
-        if (FieldType::cast($type)->isParentField()) {
+        if ($type == FieldType::INLINE) {
             $keyExists = array_key_exists($fieldKey, $this->storageRepository->load());
         }
 
-        if ($type != FieldType::INLINE) {
-            if ($type == FieldType::CONTENT) {
-                $fieldExists = $this->fieldHelper->getFieldType($fieldKey, $elementKey);
-            } elseif ($elementKey) {
-                $elementsUse = $this->storageRepository->getElementsWhichUseField($fieldKey, $table);
-                foreach ($elementsUse as $use) {
-                    if ($use['key'] !== $elementKey) {
-                        $fieldExists = true;
-                    }
-                }
-            } else {
-                $fieldExists = $this->storageRepository->loadField($table, $fieldKey);
+        if ($type == FieldType::CONTENT) {
+            $fieldExists = $this->fieldHelper->getFieldType($fieldKey, $elementKey);
+        } elseif ($elementKey) {
+            $elementsUse = $this->storageRepository->getElementsWhichUseField($fieldKey, $table);
+            if (count($elementsUse) > 0) {
+                $fieldExists = true;
             }
+        } else {
+            $fieldExists = $this->storageRepository->loadField($table, $fieldKey);
         }
 
         return new JsonResponse(['isAvailable' => !$keyExists && !$fieldExists]);
