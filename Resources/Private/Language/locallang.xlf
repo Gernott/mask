@@ -196,7 +196,10 @@
 				<source>Columns</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.check.items">
-				<source>Items (One label each line, max 10)</source>
+				<source>Items (One label each line, max 31)</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.check.default.description">
+				<source>The checked state of each checkbox corresponds to the bitset representation of the default value.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.date.default">
 				<source>Default</source>
