@@ -1,2 +1,3 @@
 <code>[fileUploadAllowed]</code>
-<mask:checkbox name="[config][appearance][fileUploadAllowed]" translationKey="tx_mask.field.inline.file_upload_allowed" value="{field.config.appearance.fileUploadAllowed}" editMode="{editMode}"/>
+<f:variable name="value" value="{f:if(condition: '{field.config.appearance.fileUploadAllowed} == \'0\'', then: '0', else: '1')}"/>
+<mask:checkbox name="[config][appearance][fileUploadAllowed]" translationKey="tx_mask.field.inline.file_upload_allowed" default="on" value="{value}" editMode="{editMode}"/>

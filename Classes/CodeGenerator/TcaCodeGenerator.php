@@ -308,7 +308,7 @@ class TcaCodeGenerator
                 }
 
                 $customSettingOverride['appearance'] = $tcavalue['config']['appearance'] ?? [];
-                $customSettingOverride['appearance']['fileUploadAllowed'] = (bool)($customSettingOverride['appearance']['fileUploadAllowed'] ?? false);
+                $customSettingOverride['appearance']['fileUploadAllowed'] = (bool)($customSettingOverride['appearance']['fileUploadAllowed'] ?? true);
                 $customSettingOverride['appearance']['useSortable'] = (bool)($customSettingOverride['appearance']['useSortable'] ?? false);
                 $allowedFileExtensions = $tcavalue['config']['filter']['0']['parameters']['allowedFileExtensions'] ?? '';
                 if ($allowedFileExtensions === '') {
