@@ -694,7 +694,8 @@ class StorageRepository implements SingletonInterface
                 if ($column === $key) {
                     $elementsInUse[] = $element;
                     break;
-                } elseif ($this->getFormType($column, $element['key'], $type) == FieldType::PALETTE) {
+                }
+                if ($this->getFormType($column, $element['key'], $type) == FieldType::PALETTE) {
                     foreach ($storage[$type]['palettes'][$column]['showitem'] ?? [] as $item) {
                         if ($item === $key) {
                             $elementsInUse[] = $element;

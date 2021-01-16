@@ -160,7 +160,7 @@ class InlineHelper
         if ($type == FieldType::INLINE && array_key_exists($field, $storage)) {
             $elements = $this->getInlineElements($data, $field, $cType, 'parentid', $table);
             $data[$field] = $elements;
-            // or if it is of type Content (Nested Content) and has to be filled
+        // or if it is of type Content (Nested Content) and has to be filled
         } elseif ($type == FieldType::CONTENT) {
             $elements = $this->getInlineElements(
                 $data,

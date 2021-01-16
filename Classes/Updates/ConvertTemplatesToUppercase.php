@@ -69,7 +69,7 @@ class ConvertTemplatesToUppercase implements UpgradeWizardInterface
     {
         $settings = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('mask');
         if (strpos($settings['content'], 'EXT:') === 0) {
-           $absolutePath = MaskUtility::getFileAbsFileName($settings['content']);
+            $absolutePath = MaskUtility::getFileAbsFileName($settings['content']);
         } else {
             $absolutePath = Environment::getPublicPath() . '/' . $settings['content'];
         }
