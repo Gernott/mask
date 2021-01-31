@@ -25,6 +25,7 @@ use MASK\Mask\Domain\Repository\BackendLayoutRepository;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Domain\Service\SettingsService;
 use MASK\Mask\Helper\FieldHelper;
+use MASK\Mask\Utility\DateUtility;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Http\JsonResponse;
@@ -162,14 +163,13 @@ class WizardController extends ActionController
                 // Convert old date format Y-m-d to d-m-Y
                 $dbType = $field['config']['dbType'] ?? false;
                 if ($dbType && in_array($dbType, ['date', 'datetime'])) {
-                    $format = ($dbType == 'date') ? 'd-m-Y' : 'H:i d-m-Y';
                     $lower = $field['config']['range']['lower'] ?? false;
                     $upper = $field['config']['range']['upper'] ?? false;
-                    if ($lower && (bool)preg_match('/^[0-9]{4}]/', $lower)) {
-                        $storage['tca'][$key]['config']['range']['lower'] = (new \DateTime($lower))->format($format);
+                    if ($lower && DateUtility::isOldDateFormat($lower)) {
+                        $storage['tca'][$key]['config']['range']['lower'] = DateUtility::convertOldToNewFormat($dbType, $lower);
                     }
-                    if ($upper && (bool)preg_match('/^[0-9]{4}]/', $upper)) {
-                        $storage['tca'][$key]['config']['range']['upper'] = (new \DateTime($upper))->format($format);
+                    if ($upper && DateUtility::isOldDateFormat($upper)) {
+                        $storage['tca'][$key]['config']['range']['upper'] = DateUtility::convertOldToNewFormat($dbType, $upper);
                     }
                 }
             }

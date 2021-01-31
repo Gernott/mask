@@ -21,6 +21,7 @@ use Exception;
 use MASK\Mask\DataStructure\FieldType;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Helper\FieldHelper;
+use MASK\Mask\Utility\DateUtility;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
@@ -327,15 +328,23 @@ class TcaCodeGenerator
             $dbType = $tcavalue['config']['dbType'] ?? '';
             if (($dbType === 'date' || $dbType === 'datetime')) {
                 $format = ($dbType == 'date') ? 'd-m-Y' : 'H:i d-m-Y';
-                if ($tcavalue['config']['range']['upper'] ?? false) {
-                    $date = \DateTime::createFromFormat($format, $tcavalue['config']['range']['upper']);
+                $upper = $tcavalue['config']['range']['upper'] ?? false;
+                if ($upper) {
+                    if (DateUtility::isOldDateFormat($upper)) {
+                        $upper = DateUtility::convertOldToNewFormat($dbType, $upper);
+                    }
+                    $date = \DateTime::createFromFormat($format, $upper);
                     if ($dbType == 'date') {
                         $date->setTime(0, 0);
                     }
                     $tcavalue['config']['range']['upper'] = $date->getTimestamp();
                 }
-                if ($tcavalue['config']['range']['lower'] ?? false) {
-                    $date = \DateTime::createFromFormat($format, $tcavalue['config']['range']['lower']);
+                $lower = $tcavalue['config']['range']['lower'] ?? false;
+                if ($lower) {
+                    if (DateUtility::isOldDateFormat($lower)) {
+                        $lower = DateUtility::convertOldToNewFormat($dbType, $lower);
+                    }
+                    $date = \DateTime::createFromFormat($format, $lower);
                     if ($dbType == 'date') {
                         $date->setTime(0, 0);
                     }
