@@ -4,7 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [6.4.1] - 2010-01-18
+## [6.4.2] - 2021-01-31
+
+### Fixed
+- Fix old to new date format conversion
+
+## [6.4.1] - 2021-01-18
 
 ### Fixed
 - Default field of float type converted to type number
