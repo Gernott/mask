@@ -132,7 +132,7 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                         }
                     }
                     $fields = implode(",", $fieldArray);
-                    
+
                     $GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes']["mask_" . $elementvalue["key"]] = 'mask-ce-' . $elementvalue["key"];
                     $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["columnsOverrides"]["bodytext"]["config"]['richtextConfiguration'] = 'default';
                     $GLOBALS['TCA']["tt_content"]["types"]["mask_" . $elementvalue["key"]]["columnsOverrides"]["bodytext"]["config"]['enableRichtext'] = 1;
@@ -293,6 +293,10 @@ class TcaCodeGenerator extends AbstractCodeGenerator
                         } else {
                             \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($columns[$tcakey],
                                 $tcavalue);
+                        }
+
+                        if (isset($columns[$tcakey]['config']['enableRichtext'])) {
+                            $columns[$tcakey]['config']['softref'] = 'typolink_tag,images,email[subst],url';
                         }
 
                         // Unset some values that are not needed in TCA
