@@ -357,6 +357,11 @@ class TcaCodeGenerator
                 $tcavalue['config']['renderType'] = 't3editor';
             }
 
+            // RTE: Add softref
+            if (FieldType::cast($formType)->equals(FieldType::RICHTEXT)) {
+                $tcavalue['config']['softref'] = 'typolink_tag,images,email[subst],url';
+            }
+
             // Content: Set foreign_field and default CType in select if restricted.
             if (($tcavalue['config']['foreign_table'] ?? '') === 'tt_content' && ($tcavalue['config']['type'] ?? '') === 'inline') {
                 $tcavalue['config']['foreign_field'] = $tcakey . '_parent';
