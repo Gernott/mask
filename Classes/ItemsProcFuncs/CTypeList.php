@@ -75,8 +75,15 @@ class CTypeList extends AbstractList
                 }
             }
 
+            $dataString = $GLOBALS['TYPO3_REQUEST']->getParsedBody()['ajax'][0] ?? '';
+            if (preg_match_all('/tx_mask_\w+/', $dataString, $pregResult) && count($pregResult[0]) > 1) {
+                // Get the second last entry
+                $table = $pregResult[0][count($pregResult[0]) - 2];
+            } else {
+                $table = $this->fieldHelper->getFieldType($fieldKey);
+            }
+
             // load the json configuration of this field
-            $table = $this->fieldHelper->getFieldType($fieldKey);
             $fieldConfiguration = $this->storageRepository->loadField($table, $fieldKey);
 
             // if there is a restriction of cTypes specified
