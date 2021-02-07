@@ -56,8 +56,8 @@ class CTypeList extends AbstractList
         if ((int)$params['row']['colPos'] === $this->colPos) {
             $fieldKey = '';
 
-            if (isset($_REQUEST['ajax']['context'])) {
-                $ajaxContext = json_decode($_REQUEST['ajax']['context'], true, 512, 4194304);
+            if (isset($GLOBALS['TYPO3_REQUEST']->getParsedBody()['ajax']['context'])) {
+                $ajaxContext = json_decode($GLOBALS['TYPO3_REQUEST']->getParsedBody()['ajax']['context'], true, 512, 4194304);
                 $config = json_decode($ajaxContext['config'], true, 512, 4194304);
                 $fieldKey = str_replace('_parent', '', $config['foreign_field']);
             } else {
