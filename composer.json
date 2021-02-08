@@ -38,5 +38,13 @@
 		"psr-4": {
 			"MASK\\Mask\\": "Classes/"
 		}
+	},
+	"extra": {
+		"typo3/cms": {
+			"extension-key": "mask"
+		}
+	},
+	"require-dev": {
+		"typo3/tailor": "^1.2"
 	}
 }
