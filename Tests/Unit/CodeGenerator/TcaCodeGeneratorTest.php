@@ -554,6 +554,9 @@ class TcaCodeGeneratorTest extends BaseTestCase
                                 'key' => 'field_1'
                             ]
                         ]
+                    ],
+                    'tx_mask_field_1' => [
+
                     ]
                 ],
                 'tt_content',
@@ -713,14 +716,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
      */
     public function generateFieldsTca($json, $table, $expected)
     {
-        $settingsService = $this->getMockBuilder(SettingsService::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $storage = $this->getMockBuilder(StorageRepository::class)
-            ->setConstructorArgs([$settingsService])
-            ->getMock();
-
+        $storage = $this->createPartialMock(StorageRepository::class, ['load']);
         $storage->method('load')->willReturn($json);
         $fieldHelper = new FieldHelper($storage);
         $tcaGenerator = new TcaCodeGenerator($storage, $fieldHelper);
@@ -797,14 +793,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
      */
     public function generateFileTca($json, $table, $field, $expected)
     {
-        $settingsService = $this->getMockBuilder(SettingsService::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $storage = $this->getMockBuilder(StorageRepository::class)
-            ->setConstructorArgs([$settingsService])
-            ->getMock();
-
+        $storage = $this->createPartialMock(StorageRepository::class, ['load']);
         $storage->method('load')->willReturn($json);
         $fieldHelper = new FieldHelper($storage);
         $tcaGenerator = new TcaCodeGenerator($storage, $fieldHelper);
