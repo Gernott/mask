@@ -51,7 +51,7 @@ class TranslateLabelViewHelper extends AbstractViewHelper
         }
 
         if (empty($key) || strpos($key, 'LLL') > 0) {
-            return $key;
+            return (string)$key;
         }
 
         $request = $this->renderingContext->getControllerContext()->getRequest();
