@@ -151,7 +151,7 @@ If you use a Backend Preview for your contentelement, you can add a ViewHelper t
 
     {namespace mask=MASK\Mask\ViewHelpers}
     <f:for each="{data.tx_mask_mycontent}" as="data_item">
-      <mask:editLink element="{data_item}"><img src="/typo3/sysext/core/Resources/Public/Icons/T3Icons/actions/actions-open.svg" width="16" height="16"> Edit element</mask:editLink><br />
+      <mask:editLink element="{data_item}"><img src="/typo3/sysext/core/Resources/Public/Icons/T3Icons/svgs/actions/actions-open.svg" width="16" height="16"> Edit element</mask:editLink><br />
     </f:for>
 
 Tab
