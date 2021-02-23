@@ -23,6 +23,7 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\View\BackendLayout\BackendLayout;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Imaging\IconRegistry;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
@@ -73,6 +74,12 @@ class BackendLayoutRepository extends Repository
             foreach ($backendLayoutCollections['pagets']->getAll() as $backendLayout) {
                 if (GeneralUtility::isFirstPartOfStr($backendLayout->getTitle(), 'LLL:')) {
                     $backendLayout->setTitle(LocalizationUtility::translate($backendLayout->getTitle()));
+                }
+                $absoluteFilePath = GeneralUtility::getFileAbsFileName($backendLayout->getIconPath());
+                if (empty($absoluteFilePath) || !is_file($absoluteFilePath)) {
+                    $iconRegistry = GeneralUtility::makeInstance(IconRegistry::class);
+                    $iconConfig = $iconRegistry->getIconConfigurationByIdentifier($backendLayout->getIconPath());
+                    $backendLayout->setIconPath($iconConfig['options']['source']);
                 }
                 $backendLayouts[$backendLayout->getIdentifier()] = $backendLayout;
             }
