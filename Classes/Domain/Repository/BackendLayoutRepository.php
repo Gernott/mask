@@ -75,11 +75,14 @@ class BackendLayoutRepository extends Repository
                 if (GeneralUtility::isFirstPartOfStr($backendLayout->getTitle(), 'LLL:')) {
                     $backendLayout->setTitle(LocalizationUtility::translate($backendLayout->getTitle()));
                 }
-                $absoluteFilePath = GeneralUtility::getFileAbsFileName($backendLayout->getIconPath());
-                if (empty($absoluteFilePath) || !is_file($absoluteFilePath)) {
-                    $iconRegistry = GeneralUtility::makeInstance(IconRegistry::class);
-                    $iconConfig = $iconRegistry->getIconConfigurationByIdentifier($backendLayout->getIconPath());
-                    $backendLayout->setIconPath($iconConfig['options']['source']);
+                $iconPath = $backendLayout->getIconPath();
+                if ($iconPath !== '') {
+                    $absoluteFilePath = GeneralUtility::getFileAbsFileName($iconPath);
+                    if (empty($absoluteFilePath) || !is_file($absoluteFilePath)) {
+                        $iconRegistry = GeneralUtility::makeInstance(IconRegistry::class);
+                        $iconConfig = $iconRegistry->getIconConfigurationByIdentifier($iconPath);
+                        $backendLayout->setIconPath($iconConfig['options']['source']);
+                    }
                 }
                 $backendLayouts[$backendLayout->getIdentifier()] = $backendLayout;
             }
