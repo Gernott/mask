@@ -659,6 +659,11 @@ class TcaCodeGeneratorTest extends BaseTestCase
                                 ]
                             ]
                         ],
+                    ],
+                    'tx_mask_field_1_parent' => [
+                        'config' => [
+                            'type' => 'passthrough'
+                        ]
                     ]
                 ]
             ],
