@@ -155,7 +155,7 @@ class StorageRepository implements SingletonInterface
                     $inlineParent = $tca['inlineParent'] ?? '';
                 }
                 if ($inlineParent === $parentKey) {
-                    if (($tca['config']['type'] ?? '') === 'inline') {
+                    if (FieldType::cast($this->getFormType($tca['key'], $elementKey, $table))->equals(FieldType::INLINE)) {
                         $tca['inlineFields'] = $this->loadInlineFields($key, $elementKey);
                     }
                     if (($tca['config']['type'] ?? '') === 'palette') {

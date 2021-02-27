@@ -142,6 +142,15 @@ class StorageRepositoryTest extends BaseTestCase
             'inline fields of palette loaded in same table' => [
                 [
                     'tt_content' => [
+                        'elements' => [
+                            'element1' => [
+                                'columns' => [
+                                    'a',
+                                    'b',
+                                    'c'
+                                ]
+                            ]
+                        ],
                         'tca' => [
                             'tx_mask_a' => [
                                 'config' => [
@@ -1946,6 +1955,7 @@ class StorageRepositoryTest extends BaseTestCase
      */
     public function remove($json, $table, $elementKey, $expected)
     {
+        $GLOBALS['TCA']['tt_content']['columns']['header']['config']['type'] = 'input';
         $storageRepository = $this->createPartialMock(StorageRepository::class, ['load']);
         $storageRepository->expects(self::any())->method('load')->willReturn($json);
         self::assertEquals($expected, $storageRepository->remove($table, $elementKey));
