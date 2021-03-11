@@ -96,6 +96,7 @@ form[name='storage'] {
 
 .tx_mask_tabcell4 {
     padding-top: 10px;
+    min-width: 350px;
 }
 
 .tx_mask_tabcell4:after {
@@ -180,6 +181,23 @@ ul.tx_mask_fieldtypes li .id_keytext {
 .tx_mask_tabcell1 {
     background: #f2f2f2;
     padding-bottom: 20px;
+    margin-bottom: 0;
+    min-width: 250px;
+    padding-top: 15px;
+}
+
+.bench {
+    display: flex;
+}
+
+.bench h1 {
+    font-size: 20px;
+}
+
+@media screen and (min-width: 1680px) {
+    .bench h1 {
+        font-size: 27px;
+    }
 }
 
 .tx_mask_tabcell1:after {
@@ -195,7 +213,7 @@ ul.tx_mask_fieldtypes li .id_keytext {
 @media screen and (min-width: 1200px) {
     .tx_mask_tabcell1 {
         height: 100%;
-        padding: 35px 25px !important;
+        padding: 35px 15px !important;
     }
 }
 
@@ -203,6 +221,8 @@ ul.tx_mask_fieldtypes li .id_keytext {
     background: #f2f2f2;
     margin-top: 20px;
     padding-top: 30px;
+    margin-bottom: 0;
+    min-width: 400px;
 }
 
 @media screen and (min-width: 1200px) {
@@ -252,7 +272,6 @@ ul.tx_mask_fieldtypes .tx_mask_fieldcontent_highlight {
     .row.bench {
         height: calc(100vh);
         margin: 0;
-        overflow: hidden;
     }
 }
 
