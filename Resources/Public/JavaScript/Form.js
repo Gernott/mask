@@ -49,7 +49,9 @@ define([
       tablecell2.on('click', 'li', function (event) {
         var fieldIndex = $('.tx_mask_tabcell2 ul li').index(this);
         $('.tx_mask_tabcell2 li').removeClass('active');
+        $('.tx_mask_tabcell2 li').find('a').removeClass('active');
         $(this).addClass('active');
+        $(this).find('a').addClass('active');
         $('.tx_mask_tabcell3 > div').hide(); // Hide all fieldconfigs
         $('.tx_mask_tabcell3 > div:eq(' + fieldIndex + ')').show(); // Show current fieldconfig
         event.stopPropagation(); // prevent other click events in Inline-Field
@@ -246,6 +248,16 @@ define([
             });
         });
       });
+
+      $('.tx_mask_tabcell3').on('click', '.t3js-tabmenu-item a', function (e) {
+        e.preventDefault();
+        var currentTabContainer = $('.tx_mask_field[style$="block;"]');
+        currentTabContainer.find('a.active').removeClass('active');
+        $(this).addClass('active');
+        var index = currentTabContainer.find('li').index($(this).parent());
+        currentTabContainer.find('.tab-pane.active').removeClass('active');
+        currentTabContainer.find('.tab-pane').eq(index).addClass('active');
+      })
     },
 
     syncField: function () {
@@ -261,6 +273,7 @@ define([
       if ($(activeHead).length > 0) {
         activeFound = true;
         $(activeHead).removeClass('active');
+        $(activeHead).find('a').removeClass('active');
         activeBody = Utility.findBodyByHead(activeHead);
       }
 
@@ -295,13 +308,18 @@ define([
         $('.tx_mask_tabcell3').append(fieldTemplate);
       }
 
-      // Initialize DateTimePicker
-      if (['date', 'datetime', 'timestamp'].includes(fieldType)) {
-        DateTimePicker.initialize('.t3js-datetimepicker');
-      }
-
       // Show field config
       $(buttonCode).click();
+
+      // Initialize DateTimePicker
+      if (['date', 'datetime', 'timestamp'].includes(fieldType)) {
+        $('.tx_mask_field[style$="block;"]').find('.t3js-datetimepicker').each(function () {
+          // TODO unset value instead when resolved https://forge.typo3.org/issues/93729
+          this.dataset.datepickerInitialized = 'undefined';
+          DateTimePicker.initialize(this);
+        });
+      }
+
       // Set focus to key field
       $('.tx_mask_newfieldname:visible').focus();
       Sortable.initSortable();
@@ -404,9 +422,11 @@ define([
         var tabHead = $(".t3js-tabmenu-item A[href='#" + $(tabBody).attr('id') + "']").parent('li');
         if ($(tabBody).length > 0) {
           $('.tx_mask_field .t3js-tabmenu-item').removeClass('active');
+          $('.tx_mask_field .t3js-tabmenu-item a').removeClass('active');
           $('.tx_mask_field .tab-pane').removeClass('active');
           $(tabBody).addClass('active');
           $(tabHead).addClass('active');
+          $(tabHead).find('a').addClass('active');
         }
 
         e.target.setCustomValidity('');
@@ -472,6 +492,9 @@ define([
       let messages = $('.typo3-messages > div');
       $.each(messages, function (index, message) {
         let title = $(message).find('.alert-title').html();
+        if (typeof title === 'undefined') {
+          title = '';
+        }
         let text = $(message).find('.alert-message').html();
         if ($(this).hasClass('alert-danger')) {
           Notification.error(title, text);

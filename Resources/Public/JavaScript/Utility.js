@@ -55,6 +55,7 @@ define(['jquery'], function ($) {
         var tabContents = $(body).find('.tab-content .tab-pane');
         var tabLinks = $(body).find('.nav-tabs li a');
         $(tabLinks).first().closest('li').addClass('active');
+        $(tabLinks).first().closest('li').find('a').addClass('active');
         $(tabContents).first().addClass('active');
       }
     },

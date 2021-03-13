@@ -5,46 +5,14 @@
                 <f:translate key="tx_mask.field.float.range.lower"/>
             </label>
             <code>[range][lower]</code>
-            <div class="t3js-formengine-field-item">
-                <div class="form-control-wrap">
-                    <div class="input-group">
-                        <input
-                            class="t3js-datetimepicker form-control t3js-clearable"
-                            data-date-type="datetime"
-                            name="tx_mask_tools_maskmask[storage][tca][--index--][config][range][lower]"
-                            value="{field.config.range.lower}"
-                        >
-                        <span class="input-group-btn">
-                            <label class="btn btn-default">
-                                <core:icon identifier="actions-edit-pick-date" />
-                            </label>
-                        </span>
-                    </div>
-                </div>
-            </div>
+            <mask:datePickerMarkup field="{field}" type="datetime" key="{key}" id="lower" name="tx_mask_tools_maskmask[storage][tca][--index--][config][range][lower]" value="{field.config.range.lower}"/>
         </div>
         <div class="form-group col-lg-6">
             <label class="t3js-formengine-label">
                 <f:translate key="tx_mask.field.float.range.upper"/>
             </label>
             <code>[range][upper]</code>
-            <div class="t3js-formengine-field-item">
-                <div class="form-control-wrap">
-                    <div class="input-group">
-                        <input
-                            class="t3js-datetimepicker form-control t3js-clearable"
-                            data-date-type="datetime"
-                            name="tx_mask_tools_maskmask[storage][tca][--index--][config][range][upper]"
-                            value="{field.config.range.upper}"
-                        >
-                        <span class="input-group-btn">
-                            <label class="btn btn-default">
-                                <core:icon identifier="actions-edit-pick-date" />
-                            </label>
-                        </span>
-                    </div>
-                </div>
-            </div>
+            <mask:datePickerMarkup field="{field}" type="datetime" key="{key}" id="upper" name="tx_mask_tools_maskmask[storage][tca][--index--][config][range][upper]" value="{field.config.range.upper}"/>
         </div>
     </div>
     <div class="row">

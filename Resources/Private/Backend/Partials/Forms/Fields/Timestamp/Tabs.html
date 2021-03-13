@@ -10,24 +10,7 @@
             <f:if condition="{field.config.range.lower}">
                 <f:variable name="lower" value="{f:format.date(date: field.config.range.lower, format: '{field -> mask:dateFormat()}')}"/>
             </f:if>
-            <div class="t3js-formengine-field-item">
-                <div class="form-control-wrap">
-                    <div class="input-group">
-                        <input
-                            id="timestamp-lower-{key}"
-                            class="t3js-datetimepicker form-control t3js-clearable"
-                            data-date-type="{f:if(condition: isDatetime,  then: 'datetime', else: 'date')}"
-                            name="tx_mask_tools_maskmask[storage][tca][--index--][config][range][lower]"
-                            value="{lower}"
-                        >
-                        <span class="input-group-btn">
-                            <label for="timestamp-lower-{key}" class="btn btn-default">
-                                <core:icon identifier="actions-edit-pick-date" />
-                            </label>
-                        </span>
-                    </div>
-                </div>
-            </div>
+            <mask:datePickerMarkup field="{field}" key="{key}" id="lower" name="tx_mask_tools_maskmask[storage][tca][--index--][config][range][lower]" value="{lower}"/>
         </div>
         <div class="form-group col-lg-6">
             <label class="t3js-formengine-label">
@@ -38,24 +21,7 @@
             <f:if condition="{field.config.range.upper}">
                 <f:variable name="upper" value="{f:format.date(date: field.config.range.upper, format: '{field -> mask:dateFormat()}')}"/>
             </f:if>
-            <div class="t3js-formengine-field-item">
-                <div class="form-control-wrap">
-                    <div class="input-group">
-                        <input
-                            id="timestamp-upper-{key}"
-                            class="t3js-datetimepicker form-control t3js-clearable"
-                            data-date-type="{f:if(condition: isDatetime,  then: 'datetime', else: 'date')}"
-                            name="tx_mask_tools_maskmask[storage][tca][--index--][config][range][upper]"
-                            value="{upper}"
-                        >
-                        <span class="input-group-btn">
-                            <label class="btn btn-default" for="timestamp-upper-{key}">
-                                <core:icon identifier="actions-edit-pick-date" />
-                            </label>
-                        </span>
-                    </div>
-                </div>
-            </div>
+            <mask:datePickerMarkup field="{field}" key="{key}" id="upper" name="tx_mask_tools_maskmask[storage][tca][--index--][config][range][upper]" value="{upper}"/>
         </div>
     </div>
     <div class="row">

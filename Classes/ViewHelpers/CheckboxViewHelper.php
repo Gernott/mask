@@ -86,10 +86,10 @@ class CheckboxViewHelper extends AbstractViewHelper
         }
 
         $html = [];
-        $html[] = '<div class="js-update-id checkbox checkbox-type-toggle' . $invert . $readOnly . ' ">';
-        $html[] = '<input id="' . $hash . '" type="checkbox" class="checkbox-input" value="1" onclick="document.getElementById(\'' . $hash . '_hidden\').value=' . $switchFunction . '"' . $checkedAttr . $disabled . '>';
-        $html[] = '<label class="checkbox-label" for="' . $hash . '">';
-        $html[] = '<span class="checkbox-label-text">' . $label . '</span>';
+        $html[] = '<div class="js-update-id form-check form-switch checkbox checkbox-type-toggle' . $invert . $readOnly . ' ">';
+        $html[] = '<input id="' . $hash . '" type="checkbox" class="form-check-input checkbox-input" value="1" onclick="document.getElementById(\'' . $hash . '_hidden\').value=' . $switchFunction . '"' . $checkedAttr . $disabled . '>';
+        $html[] = '<label class="form-check-label checkbox-label" for="' . $hash . '">';
+        $html[] = '<span class="form-check-label-text checkbox-label-text">' . $label . '</span>';
         $html[] = '</label>';
         $html[] = '<input id="' . $hash . '_hidden" ' . $classTag . ' type="hidden" name="tx_mask_tools_maskmask' . $path . $name . '" value="' . $checkedValue . '"/>';
         $html[] = '</div>';
