@@ -8,9 +8,17 @@ Create your own content elements and page templates. Easy to use, even without p
 
 Mask is a TYPO3 extension for creating content elements and extending page templates. It’s possible to add new fields to any element. Fields can have several types, for example: text, file, relations, rich text, ...
 
-## Read what's new in mask version 6
+## Mask versions
 
-[Mask version 6 changes](https://github.com/gernott/mask/blob/master/Documentation/ChangeLog/6.0/Index.rst)
+| Mask Version | TYPO3 Version | Release Date | Status              | More Info |
+|--------------|---------------|--------------|---------------------|-----------|
+| v7           | v10, v11      | Summer 2021  | development         | VueJS based Mask backend                                                                       |
+| v6           | v10           | 2020-10-08   | regular maintenance | [Mask version 6 changes](https://docs.typo3.org/p/mask/mask/6.5/en-us/ChangeLog/6.0/Index.html)|
+| v5           | v10           | 2020-04-18   | discontinued        | Please update to v6                                                                            |
+| v4           | v9            | 2018-10-04   | priority bugfixes   |                                                                                                |
+| v3           | v8            | 2017-05-23   | discontinued        |                                                                                                |
+| v2           | v7            | 2016-05-10   | discontinued        |                                                                                                |
+| v1           | v6, v7        | 2015-08-12   | discontinued        |                                                                                                |
 
 ## Advantages of Mask
 
