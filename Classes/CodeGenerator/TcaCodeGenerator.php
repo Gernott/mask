@@ -366,11 +366,13 @@ class TcaCodeGenerator
             if (($tcavalue['config']['foreign_table'] ?? '') === 'tt_content' && ($tcavalue['config']['type'] ?? '') === 'inline') {
                 $parentField = $tcakey . '_parent';
                 $tcavalue['config']['foreign_field'] = $parentField;
-                $columns[$parentField] = [
-                    'config' => [
-                        'type' => 'passthrough'
-                    ]
-                ];
+                if ($table === 'tt_content') {
+                    $columns[$parentField] = [
+                        'config' => [
+                            'type' => 'passthrough'
+                        ]
+                    ];
+                }
                 if ($tcavalue['cTypes'] ?? false) {
                     $tcavalue['config']['overrideChildTca']['columns']['CType']['config']['default'] = reset($tcavalue['cTypes']);
                 }
