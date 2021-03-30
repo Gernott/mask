@@ -153,6 +153,7 @@ class GeneralUtility
         $onlyTemplateName = false,
         $path = null
     ): string {
+        $elementKey = (string)$elementKey;
         if (!$path) {
             $path = self::getFileAbsFileName(rtrim($settings['content'], '/') . '/');
         }
