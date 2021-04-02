@@ -52,8 +52,9 @@ class CTypeList extends AbstractList
             $this->storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Repository\\StorageRepository');
 
             if (isset($_REQUEST["ajax"]["context"])) {
-                $ajaxContext = json_decode($_REQUEST["ajax"]["context"]);
-                $fieldKey = str_replace("_parent", "", $ajaxContext->config->foreign_field);
+                $ajaxContext = json_decode($_REQUEST["ajax"]["context"], true, 512, 4194304);
+                $config = json_decode($ajaxContext['config'], true, 512, 4194304);
+                $fieldKey = str_replace('_parent', '', $config['foreign_field']);
             } else {
                 $fields = $params["row"];
                 foreach ($fields as $key => $field) {
