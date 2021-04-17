@@ -334,10 +334,10 @@ function editInlineFields() {
     var label = jQuery(fieldContent).find(".tx_mask_fieldcontent_new INPUT[name='tx_mask_tools_maskmask[storage][elements][labels][--index--]']").val();
 
     jQuery(fieldContent).find("INPUT, SELECT").attr('name', function (i, old) {
-      return old.replace("tt_content", "tx_mask_" + motherFieldKey);
+      return old.replace("[tt_content]", "[tx_mask_" + motherFieldKey + "]");
     });
     jQuery(fieldContent).find("INPUT, SELECT").attr('name', function (i, old) {
-      return old.replace("pages", "tx_mask_" + motherFieldKey);
+      return old.replace("[pages]", "[tx_mask_" + motherFieldKey + ']');
     });
     jQuery(fieldContent).find(".tx_mask_fieldcontent").append('<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][inlineParent]" value="tx_mask_' + motherFieldKey + '" />');
     jQuery(fieldContent).find(".tx_mask_fieldcontent").append('<input type="hidden" name="tx_mask_tools_maskmask[storage][tca][--index--][label]" value="' + label + '" />');
