@@ -218,10 +218,10 @@ define([
             var replaceKey = motherInlineFieldKey ? motherInlineFieldKey : motherFieldKey;
             if (!isPalette || inlinePalette) {
               $(fieldContent).find('input[name], select').attr('name', function (i, old) {
-                return old.replace('tt_content', 'tx_mask_' + replaceKey);
+                return old.replace('[tt_content]', '[tx_mask_' + replaceKey + ']');
               });
               $(fieldContent).find('input[name], select').attr('name', function (i, old) {
-                return old.replace('pages', 'tx_mask_' + replaceKey);
+                return old.replace('[pages]', '[tx_mask_' + replaceKey + ']');
               });
             }
 
