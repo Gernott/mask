@@ -303,7 +303,7 @@ class StorageRepository implements SingletonInterface
             $inPalette = (bool)($value['inPalette'] ?? false);
             $coreFieldInPalette = !$existingMaskFieldWithNoConfig && !$hasConfig && $inPalette;
             $isInline = (bool)($value['inlineParent'] ?? false);
-            $isPalette = (bool)($value['config']['type'] ?? false) == 'palette';
+            $isPalette = ($value['config']['type'] ?? '') == 'palette';
             $inlineParent = $value['inlineParent'] ?? '';
 
             if (!$isInline) {
