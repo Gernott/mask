@@ -10,7 +10,7 @@
 conf.py:
   copyright: 2021
   project: mask
-  version: 4.2.1
+  version: 4.2.2
   release:
   intersphinx_mapping:
     t3tsref:
