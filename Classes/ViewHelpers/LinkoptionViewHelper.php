@@ -17,7 +17,6 @@ declare(strict_types=1);
 
 namespace MASK\Mask\ViewHelpers;
 
-use MASK\Mask\Helper\FieldHelper;
 use MASK\Mask\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -31,24 +30,16 @@ class LinkoptionViewHelper extends AbstractViewHelper
      */
     protected $generalUtility;
 
-    /**
-     * Utility
-     *
-     * @var FieldHelper
-     */
-    protected $fieldHelper;
-
-    public function __construct(GeneralUtility $generalUtility, FieldHelper $fieldHelper)
+    public function __construct(GeneralUtility $generalUtility)
     {
         $this->generalUtility = $generalUtility;
-        $this->fieldHelper = $fieldHelper;
     }
 
     public function initializeArguments(): void
     {
         $this->registerArgument('fieldKey', 'string', 'TCA Type', true);
-        $this->registerArgument('elementKey', 'string', 'Key of element', true);
         $this->registerArgument('evalValue', 'string', 'value to search for', true);
+        $this->registerArgument('type', 'string', 'parent table', true);
     }
 
     /**
@@ -58,11 +49,6 @@ class LinkoptionViewHelper extends AbstractViewHelper
      */
     public function render(): bool
     {
-        $fieldKey = $this->arguments['fieldKey'];
-        $elementKey = $this->arguments['elementKey'];
-        $evalValue = $this->arguments['evalValue'];
-
-        $type = $this->fieldHelper->getFieldType($fieldKey, $elementKey);
-        return $this->generalUtility->isBlindLinkOptionSet($fieldKey, $evalValue, $type);
+        return $this->generalUtility->isBlindLinkOptionSet($this->arguments['fieldKey'], $this->arguments['evalValue'], $this->arguments['type']);
     }
 }
