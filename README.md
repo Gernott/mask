@@ -12,8 +12,8 @@ Mask is a TYPO3 extension for creating content elements and extending page templ
 
 | Mask Version | TYPO3 Version | Release Date | Status              | More Info |
 |--------------|---------------|--------------|---------------------|-----------|
-| v7           | v10, v11      | Summer 2021  | development         | VueJS based Mask backend                                                                       |
-| v6           | v10, v11      | 2020-10-08   | regular maintenance | [Mask version 6 changes](https://docs.typo3.org/p/mask/mask/6.5/en-us/ChangeLog/6.0/Index.html)|
+| v7           | v10, v11.2    | May 2021     | ready / testing     | VueJS based Mask backend                                                                       |
+| v6           | v10, v11.1    | 2020-10-08   | regular maintenance | [Mask version 6 changes](https://docs.typo3.org/p/mask/mask/6.5/en-us/ChangeLog/6.0/Index.html)|
 | v5           | v10           | 2020-04-18   | discontinued        | Please update to v6                                                                            |
 | v4           | v9            | 2018-10-04   | priority bugfixes   |                                                                                                |
 | v3           | v8            | 2017-05-23   | discontinued        |                                                                                                |
