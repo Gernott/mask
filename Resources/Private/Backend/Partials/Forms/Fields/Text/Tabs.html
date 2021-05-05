@@ -22,12 +22,12 @@
             <f:render partial="Forms/Checkbox/EvalCheckbox" arguments="{key: key, field: field, elementKey: elementKey, editMode: editMode, name: 'null'}"/>
         </div>
         <div class="form-group col-lg-6">
-            <f:render partial="Forms/Config/Mode" arguments="{key:key, elementKey:storage.key, field: field}"/>
+            <f:render partial="Forms/Config/Mode" arguments="{key:key, elementKey:storage.key, field: field, editMode: editMode}"/>
         </div>
     </div>
     <div class="row">
         <div class="form-group col-lg-6">
-            <f:render partial="Forms/Config/Wrap" arguments="{key:key, elementKey:storage.key, field: field}"/>
+            <f:render partial="Forms/Config/Wrap" arguments="{key:key, elementKey:storage.key, field: field, editMode: editMode}"/>
         </div>
     </div>
 </div>
