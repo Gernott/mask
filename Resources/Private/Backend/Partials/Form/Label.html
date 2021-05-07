@@ -1,0 +1,14 @@
+<label class="t3js-formengine-label" for="form_label">
+    <f:translate key="tx_mask.field.label"/>
+</label>
+<div class="t3js-formengine-field-item">
+    <span class="formengine-field-item-description text-muted">{f:translate(key: 'tx_mask.placeholder.label')}</span>
+    <div class="form-control-wrap">
+        <input
+            v-model="global.activeField.label"
+            id="form_label"
+            class="form-control"
+            title="{f:translate(key: 'tx_mask.content.label')}"
+        />
+    </div>
+</div>

@@ -1,0 +1,92 @@
+<div class="mask-field-form__inner" v-if="global.activeField.name">
+    <div v-if="['date', 'datetime'].includes(global.activeField.name)">
+        <f:be.infobox state="1">
+            <p>
+                This field might cause problems with timezone conversions.<br>
+                If you want to make sure your date is displayed as entered, we recommend using the <b>Timestamp</b> field.<br>
+                Read this for more technical insight: <a href="https://github.com/gernott/mask/issues/234#issuecomment-653574022" target="_blank">Date and DateTime saves wrong date #234</a>
+            </p>
+        </f:be.infobox>
+    </div>
+    <div v-if="activeMultiUseElements.length">
+        <div class="callout callout-info">
+            <div class="media">
+                <div class="media-left"><span class="fa-stack fa-lg callout-icon"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-info fa-stack-1x"></i></span></div>
+                <div class="media-body">
+                    <p><b><f:translate key="tx_mask.content.multiuse"/></b><br><f:translate key="tx_mask.content.multiuse.description"/></p>
+                    <p class="mb-0"><a href="#" @click.prevent="openMultiUsageModal" class="btn btn-sm btn-primary"><f:translate key="tx_mask.showMultiuseElements"/></a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div v-if="global.activeField.name != 'linebreak'" class="mask-field-form__tabpanel" role="tabpanel">
+        <ul class="nav nav-tabs" role="tablist" data-store-last-tab="1">
+            <li v-for="(tab, key) in fieldTabs" role="presentation" :class="{active: key === global.currentTab, 'has-validation-error': key == 'general' && activeFieldHasKeyError}" v-if="key == 'general' || !isActiveCoreField">
+                <a role="tab" href="#" @click.prevent="global.currentTab = key" :class="{active: key === global.currentTab}">
+                    {{ language.tabs[key] }}
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="default_{key}">
+                <div v-if="global.currentTab == 'general'" class="form-section">
+
+                    <div class="row" v-if="chooseFieldVisible">
+                        <div class="form-group col-sm-6">
+                            <f:render partial="Form/KeySelect"/>
+                        </div>
+                    </div>
+
+                    <div v-if="overrideLabelVisible" class="row">
+                        <div class="form-group col-sm-6">
+                            <f:render partial="Form/OverrideLabel"/>
+                        </div>
+                    </div>
+
+                    <div class="row" v-if="keyFieldVisible || maskFieldGeneralTabOpen">
+                        <div v-if="keyFieldVisible" :class="['form-group', 'col-sm-6', {'has-error': activeFieldHasKeyError}]">
+                            <f:render partial="Form/Key"/>
+                        </div>
+                        <div v-if="maskFieldGeneralTabOpen" :class="['form-group', 'col-sm-6', {'has-error': activeTabHasEmptyLabel}]">
+                            <f:render partial="Form/Label"/>
+                        </div>
+                    </div>
+
+                    <div v-if="maskFieldGeneralTabOpen" class="row">
+                        <div class="form-group col-sm-6">
+                            <f:render partial="Form/Description"/>
+                        </div>
+                        <div v-if="!['palette', 'tab'].includes(global.activeField.name)" class="form-group col-sm-6">
+                            <label class="t3js-formengine-label">
+                                {f:translate(key: 'tx_mask.reset_settings')}
+                            </label>
+                            <div class="t3js-formengine-field-item">
+                                <span class="formengine-field-item-description text-muted">{f:translate(key: 'tx_mask.reset_settings_description')}</span>
+                            </div>
+                            <div class="reset-button">
+                                <a @click="resetActiveField" class="btn btn-default">{f:translate(key: 'tx_mask.reset_button')}</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div v-if="!isActiveCoreField" v-for="(row, tcaKey) in tabs[global.activeField.name][global.currentTab]" class="form-section">
+                    <div class="row">
+                        <form-field
+                            v-for="(column, tcaKey) in row"
+                            :key="global.activeField.uid + '.' + tcaKey + ticks"
+                            :id="global.activeField.uid + '.' + tcaKey"
+                            :global="global"
+                            :icons="icons"
+                            :tca-fields="tcaFields"
+                            :tca-key="tcaKey"
+                            :column="column"
+                            :field-errors="fieldErrors"
+                            :force-renderer="forceRenderer"
+                        ></form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

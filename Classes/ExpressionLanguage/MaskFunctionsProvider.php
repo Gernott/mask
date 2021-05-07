@@ -17,7 +17,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\ExpressionLanguage;
 
-use MASK\Mask\Utility\GeneralUtility as MaskUtility;
+use MASK\Mask\Utility\AffixUtility;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -139,10 +139,10 @@ class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
                 if (MathUtility::canBeInterpretedAsInteger($lastPart)) {
                     $uid = (int)$lastPart;
                 // If ajax is loading an inline tt_content record and the default CType is a mask element
-                } elseif ($lastPart == 'tt_content' && MaskUtility::isMaskIrreTable(end($uidTableStringArray))) {
+                } elseif ($lastPart == 'tt_content' && AffixUtility::hasMaskPrefix(end($uidTableStringArray))) {
                     $context = json_decode($parsedBody['ajax']['context'], true, 512, 4194304);
                     $config = json_decode($context['config'], true, 512, 4194304);
-                    if (MaskUtility::isMaskCType($config['overrideChildTca']['columns']['CType']['config']['default'] ?? '')) {
+                    if (AffixUtility::hasMaskCTypePrefix($config['overrideChildTca']['columns']['CType']['config']['default'] ?? '')) {
                         return true;
                     }
                 } else {

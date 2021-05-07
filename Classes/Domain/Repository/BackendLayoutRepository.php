@@ -32,8 +32,6 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Repository for \TYPO3\CMS\Extbase\Domain\Model\BackendLayout.
- *
- * @api
  */
 class BackendLayoutRepository extends Repository
 {

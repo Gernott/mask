@@ -1,0 +1,60 @@
+<div v-show="loaded" style="display: none;" class="mask-edit">
+    <div class="mask-sidebar">
+        <div class="mask-sidebar__inner">
+            <div class="mask-sidebar__toolbar">
+                <div class="btn-toolbar">
+                    <button @click="mode = 'list'" class="btn btn-default btn-sm"><span v-html="icons.close"></span> {f:translate(key: 'tx_mask.close')}</button>
+                    <button class="btn btn-default btn-sm" @click="save"><span v-show="!saving" v-html="icons.save"></span><span v-show="saving" v-html="icons.spinner"></span> {f:translate(key: 'tx_mask.content.save')}</button>
+                </div>
+            </div>
+            <div class="mask-sidebar__content">
+                <div class="mask-sidebar__toggle-wrap">
+                    <div class="mask-sidebar__toggle" :class="{active: metaVisible, 'has-error': hasElementErrors}" @click="sidebar = 'meta'">{f:translate(key: 'tx_mask.meta')}</div>
+                    <div class="mask-sidebar__toggle" :class="{active: fieldsVisible, 'has-error': hasFieldErrors}" @click="sidebar = 'fields'">{f:translate(key: 'tx_mask.fields')}</div>
+                </div>
+                <div v-show="fieldsVisible">
+                    <field-group
+                            v-for="group in groups"
+                            :key="group.label"
+                            :group="group.name"
+                            :label="group.label"
+                            :on-move="onMove"
+                            :handle-clone="handleClone"
+                            :add-field="addField"
+                            :field-types="fieldTypes"
+                            :typo3-version="global.typo3Version"
+                    ></field-group>
+                </div>
+                <div v-show="metaVisible">
+                    <div v-if="type == 'tt_content'">
+                        <f:render partial="Element" arguments="{storage: storage}"/>
+                    </div>
+                    <div v-else>{{ element.title }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mask-fields">
+        <div v-if="type == 'tt_content'" class="mask-fields__label t3js-formengine-label">{{ element.label }}</div>
+        <div v-else class="mask-fields__label t3js-formengine-label">{{ element.title }}</div>
+        <div class="mask-field-list" :class="{'mask-field-list--empty': !fields.length}">
+            <nested-draggable
+                :depth="0"
+                :index="0"
+                :fields="fields"
+                :icons="icons"
+                :global="global"
+                :move="onMove"
+                :field-has-error="fieldHasError"
+                :validate-key="validateKey"
+                :language="language"
+                :load-multi-use="loadMultiUse"
+                :multi-use-elements="multiUseElements"
+            >
+            </nested-draggable>
+        </div>
+    </div>
+    <div class="form-group mask-field-form">
+        <f:render partial="Form"/>
+    </div>
+</div>

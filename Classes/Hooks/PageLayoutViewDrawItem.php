@@ -20,6 +20,7 @@ namespace MASK\Mask\Hooks;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Domain\Service\SettingsService;
 use MASK\Mask\Helper\InlineHelper;
+use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
@@ -91,8 +92,8 @@ class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
         array &$row
     ): void {
         // only render special backend preview if it is a mask element
-        if (MaskUtility::isMaskCType($row['CType'])) {
-            $elementKey = MaskUtility::removeCtypePrefix($row['CType']);
+        if (AffixUtility::hasMaskCTypePrefix($row['CType'])) {
+            $elementKey = AffixUtility::removeCTypePrefix($row['CType']);
 
             // fallback to prevent breaking change
             $templatePathAndFilename = MaskUtility::getTemplatePath(

@@ -1,0 +1,72 @@
+.mask-sidebar {
+  margin-bottom: 20px;
+  width: 350px;
+  max-width: 100%;
+  background-color: $bg-light;
+  border: 1px solid $border-color;
+
+  @media screen and (min-width: $bp-edit-flex) {
+    margin-right: 10px;
+    flex-shrink: 0;
+  }
+
+  @media screen and (min-width: $bp-desktop) {
+    min-height: calc(100vh - 20px);
+    margin-bottom: 0;
+  }
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+  }
+
+  &__toolbar {
+    padding: 10px 10px 0;
+  }
+
+  &__content {
+    padding: 10px;
+    flex-grow: 1;
+  }
+
+  textarea {
+    max-width: 100%;
+  }
+
+  &__toggle-wrap {
+    display: flex;
+    border: 1px solid $border-color;
+    margin-bottom: 10px;
+  }
+
+  &__toggle {
+    flex-grow: 1;
+    padding: 7px;
+    background-color: #fff;
+    text-align: center;
+    cursor: pointer;
+    width: 50%;
+    position: relative;
+
+    &:first-child {
+      border-right: 1px solid $border-color;
+    }
+
+    &:hover {
+      background-color: $highlight-color;
+    }
+
+    &.active {
+      background-color: $highlight-color;
+      box-shadow: inset 0 0 5px rgba(#000, 0.1);
+    }
+
+    &.has-error {
+      &:before {
+        @extend %error;
+      }
+    }
+  }
+}

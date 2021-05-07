@@ -21,8 +21,6 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
  * This model represents a back-end user.
- *
- * @api
  */
 class BackendLayout extends AbstractEntity
 {
@@ -83,7 +81,6 @@ class BackendLayout extends AbstractEntity
      * Sets the uid.
      *
      * @param int $uid the user name to set, must not be empty
-     * @noinspection PhpUnused
      */
     public function setUid($uid): void
     {

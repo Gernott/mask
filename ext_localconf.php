@@ -1,9 +1,6 @@
 <?php
 
-defined('TYPO3_MODE') or die();
-
-// Add mask as global fluid namespace
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['mask'][] = 'MASK\\Mask\\ViewHelpers';
+defined('TYPO3') or die();
 
 // Enhance Fluid Output with overridden FluidTemplateContentObject
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][\TYPO3\CMS\Frontend\ContentObject\FluidTemplateContentObject::class] = [
@@ -26,13 +23,12 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRe
 ];
 
 // Update wizards
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['removeRichtextConfiguration'] = \MASK\Mask\Updates\RemoveRichtextConfiguration::class;
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['convertTemplatesToUppercase'] = \MASK\Mask\Updates\ConvertTemplatesToUppercase::class;
 
 (function () {
     // Register Icons needed in the backend module
     $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
-    foreach (\MASK\Mask\DataStructure\FieldType::getConstants() as $maskIcon) {
+    foreach (\MASK\Mask\Enumeration\FieldType::getConstants() as $maskIcon) {
         $iconRegistry->registerIcon(
             'mask-fieldtype-' . $maskIcon,
             \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
@@ -55,7 +51,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['convertTempl
         }
         foreach ($configuration['pages']['tca'] as $fieldKey => $value) {
             $formType = $storageRepository->getFormType($fieldKey, '', 'pages');
-            if (!(\MASK\Mask\DataStructure\FieldType::cast($formType)->isGroupingField())) {
+            if (!(\MASK\Mask\Enumeration\FieldType::cast($formType)->isGroupingField())) {
                 // Add addRootLineFields for all page fields
                 $rootlineFields[] = $fieldKey;
             }

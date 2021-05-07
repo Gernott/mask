@@ -1,0 +1,22 @@
+.mask-fields {
+  background-color: $bg-light;
+  border: 1px solid $border-color;
+  padding: 8px 15px 20px;
+  margin-bottom: 20px;
+  width: 480px;
+  max-width: 100%;
+
+  @media screen and (min-width: $bp-edit-flex) {
+    flex-shrink: 0;
+    margin-right: 10px;
+  }
+
+  @media screen and (min-width: $bp-desktop) {
+    margin-bottom: 0;
+  }
+
+  &__label {
+    margin-bottom: 5px;
+    font-size: 16px;
+  }
+}

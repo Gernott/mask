@@ -1,0 +1,97 @@
+<div v-show="loaded" v-if="mode == 'list'" class="mask-list" style="display: none;">
+    <div class="mask-list__header">
+        <div class="mask-list__logo-wrap">
+            <f:image src="EXT:mask/Resources/Public/Icons/Extension.svg" class="mask-list__logo"/> <span class="mask-list__label">Mask</span>
+        </div>
+        <div class="mask-list__docs">
+            <a href="https://docs.typo3.org/p/mask/mask/master/en-us/" target="_blank">Documentation <i class="fa fa-book"></i></a>
+        </div>
+        <div class="mask-list__settings-wrap">
+            <a href="{settingsUrl}">
+                <div class="mask-list__settings-label">Settings</div>
+                <core:icon identifier="actions-system-extension-configure" size="default"/>
+            </a>
+        </div>
+    </div>
+    <div class="mask-elements">
+        <div class="mask-elements__column mask-elements__column--elements">
+            <div class="mask-elements__header">
+                <div class="mask-elements__header-icon-wrap">
+                    <core:icon identifier="mimetypes-x-content-text" size="default"/>
+                    <div class="mask-elements__header-icon-label">
+                        <f:translate key="tx_mask.all.contentelements"/>
+                    </div>
+                </div>
+                <div v-if="missingFilesOrFolders" @click="fixMissing" class="mask-elements__missing btn btn-warning"><i class="fa fa-wrench"></i> <f:translate key="tx_mask.all.createmissingfolders"/></div>
+                <div @click="openNew" class="btn btn-success"><i class="fa fa-plus"></i> <f:translate key="tx_mask.all.create_content_element"/></div>
+            </div>
+            <div class="mask-elements__table-wrap">
+                <table class="table table-hover mask-elements__table">
+                    <tr v-for="(item, key) in elements" :class="{'has-warning': !item.templateExists, 'disabled': item.hidden}">
+                        <td>
+                            <div class="mask-elements__element-name" @click="openEdit('tt_content', item)" :title="item.label">
+                                <div v-html="item.iconMarkup" class="mask-elements__element-name-icon" ></div><span class="mask-elements__element-name-label">{{ item.label }}<br><code>[{{ key }}]</code></span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="mask-elements__description">{{ item.description }}</div>
+                        </td>
+                        <td class="mask-elements__count"><span :title="language.usage">{{ item.count }}</span></td>
+                        <td class="mask-elements__buttons">
+                            <button-bar
+                                    @toggle="loadElements"
+                                    :element="item"
+                                    :icons="icons"
+                                    :show-messages="showMessages"
+                                    :open-edit="openEdit"
+                                    :open-delete-dialog="openDeleteDialog"
+                                    :language="language"
+                                    table="tt_content"
+                            ></button-bar>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="mask-elements__column mask-elements__column--templates">
+            <div class="mask-elements__header">
+                <div class="mask-elements__header-icon-wrap">
+                    <core:icon identifier="mimetypes-x-backend_layout" size="default"/>
+                    <div class="mask-elements__header-icon-label">
+                        <f:translate key="tx_mask.all.pagetemplates"/>
+                    </div>
+                </div>
+            </div>
+            <div class="mask-elements__table-wrap">
+                <table class="table table-hover mask-elements__table">
+                    <tr v-for="(item, key) in backendLayouts">
+                        <td>
+                            <div class="mask-elements__element-name" @click="openEdit('pages', item)" :title="item.title">
+                                <img v-if="item.icon" :src="item.icon" class="mask-elements__element-name-icon" width="32"/>
+                                <div v-else class="mask-elements__element-name-icon">
+                                    <core:icon identifier="module-templates" size="default"/>
+                                </div>
+                                </img><span class="mask-elements__element-name-label">{{ item.title }}<br><code>[{{ item.key }}]</code></span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="mask-elements__description" v-if="item.description">{{ item.description }}</div>
+                        </td>
+                        <td>
+                            <button-bar
+                                    :element="item"
+                                    :icons="icons"
+                                    :show-messages="showMessages"
+                                    :open-edit="openEdit"
+                                    :open-delete-dialog="openDeleteDialog"
+                                    :language="language"
+                                    table="pages"
+                            ></button-bar>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <f:render partial="Footer"/>
+</div>

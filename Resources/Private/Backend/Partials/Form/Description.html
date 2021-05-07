@@ -1,0 +1,15 @@
+<label class="t3js-formengine-label" for="form_description">
+    <f:translate key="tx_mask.field.description"/>
+</label>
+<div class="t3js-formengine-field-item">
+    <span class="formengine-field-item-description text-muted">{f:translate(key: 'tx_mask.placeholder.description')}</span>
+    <div class="form-control-wrap">
+    <textarea
+        v-model="global.activeField.description"
+        id="form_description"
+        class="form-control"
+        rows="3"
+        title="{f:translate(key: 'tx_mask.content.description')}">
+    </textarea>
+    </div>
+</div>

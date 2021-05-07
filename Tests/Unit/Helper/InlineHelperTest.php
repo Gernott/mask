@@ -15,7 +15,7 @@
 
 namespace MASK\Mask\Test\Helper;
 
-use MASK\Mask\DataStructure\FieldType;
+use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Domain\Repository\BackendLayoutRepository;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Domain\Service\SettingsService;

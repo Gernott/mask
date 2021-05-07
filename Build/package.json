@@ -1,0 +1,15 @@
+{
+	"name": "mask",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"sass": "node-sass Sources/scss/mask.scss ../Resources/Public/Styles/mask.css -wr"
+	},
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"node-sass": "^4.14.1"
+	}
+}

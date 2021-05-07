@@ -25,7 +25,7 @@
 				<source>Timestamp</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.timestamp_eval">
-				<source>Date or Datetime</source>
+				<source>Date type</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.text">
 				<source>Text</source>
@@ -67,7 +67,7 @@
 				<source>Add item</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.titleDelete">
-				<source>Delete item</source>
+				<source>Delete element</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.titleMove">
 				<source>Move item</source>
@@ -75,47 +75,86 @@
 			<trans-unit id="tx_mask.field.required">
 				<source>Required</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.required.description">
+				<source>A non-empty value is required in the field</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.trim">
 				<source>Trim</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.trim.description">
+				<source>White spaces are trimmed away</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.alpha.label">
+				<source>Alpha</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.alpha">
-				<source>Only "a-z A-Z" characters</source>
+				<source>Allows only a-zA-Z characters</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.int">
 				<source>Value is casted to integer</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.alphanum.label">
+				<source>Alphanumeric</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.alphanum">
-				<source>Only "a-z A-Z 0-9" characters</source>
+				<source>Same as “alpha” but allows also “0-9”</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.alphanum_x.label">
+				<source>Alphanumeric X</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.alphanum_x">
-				<source>Only "a-z A-Z 0-9 _ -" characters</source>
+				<source>Same as “alphanum” but allows also “_” and “-” chars</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.domainname.label">
+				<source>Domainname</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.domainname">
-				<source>Only domain names such as “example.com”</source>
+				<source>Allows a domain name such as “example.com”</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.email.label">
+				<source>E-Mail</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.email">
-				<source>E-Mail Address</source>
+				<source>Server-side validation of an email address</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.lower.label">
+				<source>Lowercase</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.lower">
-				<source>Only lowercase characters</source>
+				<source>Converts the string to lowercase</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.md5.label">
+				<source>md5</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.md5">
-				<source>Convert to MD5-Hash</source>
+				<source>Will convert the input value to its md5-hash</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.nospace.label">
+				<source>No space</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.nospace">
-				<source>Don't allow spaces</source>
+				<source>Removes all occurrences of space characters</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.null.label">
+				<source>Null</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.null">
-				<source>Add checkbox for setting field NULL</source>
+				<source>An empty value will be stored as NULL in the database</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.num.label">
+				<source>Numeric</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.num">
-				<source>Only "0-9" characters</source>
+				<source>Allows only 0-9 characters</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.double2">
 				<source>Convert to floating point</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.password.label">
+				<source>Password</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.password">
-				<source>Password Field</source>
+				<source>Will show “*******” in the field</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.time">
 				<source>Time field (h:m)</source>
@@ -123,20 +162,38 @@
 			<trans-unit id="tx_mask.field.timesec">
 				<source>Time field (h:m:s)</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.timestamp.eval">
+				<source>Attention: Influences default value and ranges</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.date_selection">
-				<source>Show date selection</source>
+				<source>Date</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.datetime_selection">
-				<source>Show date and time selection</source>
+				<source>Date and time</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.time_selection">
+				<source>Time</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.timesec_selection">
+				<source>Time and seconds</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.unique.label">
+				<source>Unique</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.unique">
-				<source>Field has to be unique in table</source>
+				<source>Requires the field to be unique for the whole table</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.uniqueInPid.label">
+				<source>Unique in PID</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.uniqueInPid">
-				<source>Field has to be unique in table and pid</source>
+				<source>Requires the field to be unique for the current PID</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.upper.label">
+				<source>Uppercase</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.upper">
-				<source>Only uppercase characters</source>
+				<source>Converts the string to uppercase</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.year">
 				<source>Only years between 1970 and 2038</source>
@@ -172,7 +229,10 @@
 				<source>Overwrite label:</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.fieldkey">
-				<source>Field-key*</source>
+				<source>Field key*</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.fieldkey.description">
+				<source>No blanks, no dashes</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.label">
 				<source>Label</source>
@@ -183,20 +243,41 @@
 			<trans-unit id="tx_mask.field.check.renderType">
 				<source>Rendertype</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.check.renderType.description">
+				<source>The following renderTypes are available</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.check.renderType.default">
 				<source>Checkbox</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.check.renderType.checkboxToggle">
-				<source>Toggle-Switch</source>
+				<source>Toggle switch</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.check.renderType.checkboxLabeledToggle">
-				<source>Labeled Toggle-Switch</source>
+				<source>Labeled toggle switch</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.check.columns">
 				<source>Columns</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.content.check.columns.description">
+				<source>1-31 or inline. Default: 1</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.content.check.items">
-				<source>Items (One label each line, max 31)</source>
+				<source>Items</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.check.items.description">
+				<source>One label each line, max 31</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.check.items.placeholder">
+				<source>option 1
+option 2
+option 3
+...</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.select.items.placeholder">
+				<source>title1, value1, icon1, description1
+title2, value2, icon2, description2
+title3, value3, icon3, description3
+...</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.check.default.description">
 				<source>The checked state of each checkbox corresponds to the bitset representation of the default value.</source>
@@ -209,6 +290,9 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.field.float.size">
 				<source>Size of Formfield</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.float.max.description">
+				<source>Maximum number of characters</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.float.max">
 				<source>Maxlength</source>
@@ -223,37 +307,49 @@
 				<source>Range upper</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.file_upload_allowed">
-				<source>Allow Fileupload</source>
+				<source>The button “Select &amp; upload file” will be rendered</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.file_upload_allowed.label">
+				<source>File upload allowed</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.allowed_file_extensions">
 				<source>Allowed File Extensions</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.inline.minitems">
-				<source>Minimum items</source>
-			</trans-unit>
-			<trans-unit id="tx_mask.field.inline.maxitems">
-				<source>Maximum items</source>
+			<trans-unit id="tx_mask.field.inline.elementBrowserAllowed.description">
+				<source>Sets the list of allowed file extensions (comma separated)</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.collapse_all">
-				<source>Collapse items by default</source>
+				<source>Show all child-records collapsed (if false, all are expanded)</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.collapse_all.label">
+				<source>Collapse all</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.expand_single">
-				<source>Accordion-Mode (only allow one opened item)</source>
+				<source>Show only one child-record expanded each time</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.expand_single.label">
+				<source>Expand single</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.new_record_link_title.label">
+				<source>New record link title</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.new_record_link_title">
-				<source>Label of "Create new" Button</source>
+				<source>Overwrites the title of the “New record” link with a localised string</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.use_sortable">
-				<source>Activate Drag'n'Drop</source>
+				<source>Activate drag &amp; drop</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.use_sortable.label">
+				<source>Use sortable</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.show_possible_localization_records.description">
 				<source>Show unlocalized records which are in the original language, but not yet localized</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.show_possible_localization_records">
-				<source>Show possible localization records</source>
+				<source>Unlocalized records</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.show_synchronization_link">
-				<source>Show synchronization link</source>
+				<source>Synchronization link</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.show_synchronization_link_description">
 				<source>Show a “synchronize” link to update to a 1:1 translation with the original language</source>
@@ -262,16 +358,19 @@
 				<source>Show the “localize all records” link to fetch untranslated records from the original language</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.show_all_localization_link">
-				<source>Show all localization link</source>
+				<source>All localization link</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.show_removed_localization_records">
-				<source>Show removed localization records</source>
+				<source>Removed localizations</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.show_removed_localization_records.description">
-				<source>Show records which were once localized but do not exist in the original language anymore.</source>
+				<source>Show records which were once localized but do not exist in the original language anymore</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.level_links_position.label">
+				<source>New record link position</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.level_links_position">
-				<source>Where to show "Create new" Button</source>
+				<source>Defines where to show the “New record” link in relation to the child records</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.level_links_position.top">
 				<source>Top</source>
@@ -284,6 +383,12 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.level_links_position.none">
 				<source>None</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.allowed_content">
+				<source>Allowed content elements</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.allowed_content.description">
+				<source>Choose one or more content elements, which should be selectable by the user. Hold CTRL for multi-select.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.localization_mode">
 				<source>Localization Mode</source>
@@ -301,7 +406,7 @@
 				<source>Localize Records when Content Element is localized</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.allowLanguageSynchronization">
-				<source>Allow language synchronization</source>
+				<source>Language synchronization</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.allowLanguageSynchronization.description">
 				<source>Allows to select from three options: Copy from default language, copy from source language or set own value.</source>
@@ -309,8 +414,11 @@
 			<trans-unit id="tx_mask.field.inline.inline_label">
 				<source>Field that should be used as label for inline element (starting with tx_mask_)</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.inline_icon.label">
+				<source>Icon path</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.inline_icon">
-				<source>Path to icon for irre elements</source>
+				<source>Pointing to the icon file to use for the table. Icons should be square SVGs.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.integer.size">
 				<source>Size of Formfield</source>
@@ -346,7 +454,10 @@
 				<source>Scrollbars</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.link.wizard.allowed_extensions">
-				<source>Allowed File Extensions (all if empty)</source>
+				<source>Allowed extensions</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.link.wizard.allowed_extensions.description">
+				<source>Comma separated list of allowed file extensions</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.link.file">
 				<source>File</source>
@@ -367,7 +478,7 @@
 				<source>Telephone</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.radio.items">
-				<source>Items ([label,key], one item each line, key (int) starts with 1)</source>
+				<source>One entry each line, comma separated. The first entry is the displayed title and the second entry is the value (title, value). Values must be integers.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.richtext.cols">
 				<source>Columns</source>
@@ -379,25 +490,46 @@
 				<source>Default</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.select.file_folder">
-				<source>Files from Folder</source>
+				<source>File folder</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.file_folder.description">
+				<source>Specifying a folder from where files are added to the item array</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.select.file_folder_ext_list">
-				<source>Only files with this extension</source>
+				<source>File folder extension list</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.file_folder_ext_list.description">
+				<source>List of extensions to select. If blank, all files are selected. Specify list in lowercase.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.select.file_folder_recursions">
-				<source>Depth of directory recursions</source>
+				<source>File folder recursions</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.file_folder_recursions.description">
+				<source>Depth of directory recursions. Default is 99. Specify in range from 0-99. 0 (zero) means no recursion into subdirectories.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.select.size">
 				<source>Size</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.select.size.description">
+				<source>Minimum height of the box in FormEngine. The behaviour depends on the renderType.</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.select.autosizemax">
 				<source>AutoSizeMax</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.autosizemax.description">
+				<source>Maximum height. The height of the box will automatically be adjusted to the number of selected elements.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.select.maxitems">
 				<source>Maxitems</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.select.maxitems.description">
+				<source>Maximum number of child items. Defaults to a high value.</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.select.minitems">
 				<source>Minitems</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.minitems.description">
+				<source>Minimum number of child items. Defaults to 0.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.select.renderType">
 				<source>Rendertype</source>
@@ -418,19 +550,31 @@
 				<source>Tree</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.select.items">
-				<source>Items ([label,id,icon path,description], one item each line, id (int or string))</source>
+				<source>One entry each line, comma separated. First value is the item label. Second value is the value of the item. Third value is an optional icon. Fourth value is an optional description text (title, value, icon, description).</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.select.foreign_table">
-				<source>foreign_table</source>
+				<source>Foreign table</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.foreign_table.description">
+				<source>The item-array will be filled with records from the table defined here</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.select.foreign_table_where">
-				<source>foreign_table_where</source>
+				<source>Foreign table where</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.foreign_table_where.description">
+				<source>The items from foreign_table are selected with this WHERE-clause</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.group.internal_type">
 				<source>Internal Type</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.group.internal_type.description">
+				<source>Configures the internal type of the “group” type of element</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.group.allowed">
-				<source>Allowed tables (comma-separated)</source>
+				<source>Allowed</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.group.allowed.description">
+				<source>db: table names, folder: file extensions (comma separated)</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.group.internalType.folder">
 				<source>Folder</source>
@@ -446,6 +590,9 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.group.addRecord">
 				<source>Add Record</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.insertClipboard">
+				<source>Insert Clipboard</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.group.listModule">
 				<source>List Module</source>
@@ -468,6 +615,9 @@
 			<trans-unit id="tx_mask.group.addRecord.description">
 				<source>Directly create and add a related record.</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.group.insertClipboard.description">
+				<source>Adds a button to paste records from a clipboard.</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.group.listModule.description">
 				<source>Open the list module for the first allowed table.</source>
 			</trans-unit>
@@ -486,32 +636,56 @@
 			<trans-unit id="tx_mask.field.string.size">
 				<source>Size of Formfield</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.string.size.description">
+				<source>Number between 10 and 50. Default is 30.</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.string.max">
 				<source>Maxlength</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.string.default">
 				<source>Default</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.string.default.description">
+				<source>Default value when a new record is created</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.string.placeholder">
 				<source>Placeholder</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.string.placeholder.description">
+				<source>Placeholder text for the field</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.string.is_in">
 				<source>Allowed Characters</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.string.is_in.description">
+				<source>The characters in the input should be found in this string</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.string.mode.label">
+				<source>Mode</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.string.mode">
-				<source>Show Override-Checkbox for Placeholder</source>
+				<source>Show override checkbox for placeholder</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.string.renderType">
 				<source>Add RSA encryption prior to being submitted</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.string.autocomplete.label">
+				<source>HTML5 autocomplete</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.string.autocomplete">
-				<source>Activate HTML5-autocomplete</source>
+				<source>Controls the autocomplete attribute of a given input field</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.text.cols">
 				<source>Columns</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.text.cols.description">
+				<source>To set the textarea to the full width of the form area, use the value 50. Default is 30</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.text.rows">
 				<source>Rows</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.text.rows.description">
+				<source>The number of rows in the textarea. Default is 5. Max value is 20.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.text.default">
 				<source>Default</source>
@@ -590,10 +764,7 @@
 				<source>This is an example code for your frontend template.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.html.line2">
-				<source>On first creation of a contentelement, this code is saved in the target-file into the folder,
-					which you have specified in extensionmanager in mask-configuration. Default is:
-					fileadmin/templates/content/.
-				</source>
+				<source>On first creation of a contentelement this code is saved into the target folder, which you have specified in the extensionmanager configuration. Default is</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.html.line3a">
 				<source>Use the official</source>
@@ -602,13 +773,13 @@
 				<source>Fluid-Documentation</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.html.line3c">
-				<source>for more details how to format the output.</source>
+				<source>for more details on how to format the output.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.multiuse">
-				<source>This field is in use in more than one contentelement.</source>
+				<source>This field is in use in more than one content element.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.multiuse.description">
-				<source>If you change this field, changes will affect these contentelements:</source>
+				<source>If you change this field, changes will affect other content elements.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.newcontentelement">
 				<source>New content element was created.</source>
@@ -685,10 +856,16 @@
 				<source>Description</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.shorttitle">
-				<source>Short Title</source>
+				<source>Short title</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.fieldkey">
-				<source>Element-key (unique, lowercase)</source>
+				<source>Element key</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.fieldLabel">
+				<source>Element label</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.fieldkey.description">
+				<source>unique, lowercase</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.icon">
 				<source>Icon</source>
@@ -768,10 +945,10 @@
 				<source>Files</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.imageoverlayPalette">
-				<source>Show Image Overlay Palette</source>
+				<source>Imageoverlay palette</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.imageoverlayPalette.description">
-				<source>Shows additional fields: alternative, link and cropping</source>
+				<source>Shows additional fields for images: alternative, link and cropping.</source>
 			</trans-unit>
 
 			<trans-unit id="mask_content_colpos">
@@ -790,9 +967,148 @@
 				<source>The label of this field</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.placeholder.description">
-				<source>Maybe add a short and helpful description for your editors</source>
+				<source>Short and helpful description for your editors</source>
 			</trans-unit>
 
+			<trans-unit id="tx_mask.config.slider.step">
+				<source>Slider Step size</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.config.slider.step.description">
+				<source>Default is 1</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.config.slider.width">
+				<source>Slider width in px</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.config.slider.width.description">
+				<source>Default is 400</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.config.fixedFont">
+				<source>Fixed font</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.config.fixedFont.description">
+				<source>Enables a fixed-width font (monospace) for the text field</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.config.enableTabulator">
+				<source>Enable Tabulator</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.config.enableTabulator.description">
+				<source>Enabling this allows to use tabs in a text field</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.config.richtextConfiguration">
+				<source>Richtext Configuration</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.config.richtextConfiguration.none">
+				<source>Use global default</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.ok">
+				<source>OK</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.alert">
+				<source>Alert</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.fieldsMissing">
+				<source>One or more fields are missing or are invalid. Please fill in the marked fields correctly and press save again.</source>
+			</trans-unit>
+
+			<trans-unit id="tx_mask.tooltip.edit_element">
+				<source>Edit Element</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.tooltip.disable_element">
+				<source>Disable element</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.tooltip.enable_element">
+				<source>Enable element</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.tooltip.delete_element">
+				<source>Delete element</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.tooltip.html">
+				<source>Show fluid code</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.no_fields">
+				<source>This element has no fields.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.input">
+				<source>Input</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.text">
+				<source>Text</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.date">
+				<source>Date</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.choice">
+				<source>Choice</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.repeating">
+				<source>Repeating</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.structure">
+				<source>Structure</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.close">
+				<source>Close</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.meta">
+				<source>Element Meta Data</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.fields">
+				<source>Fields</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.delete">
+				<source>Delete field</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.blindLinkOptions">
+				<source>Link Options</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.blindLinkOptions.description">
+				<source>Link options that should be displayed</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.showMultiuseElements">
+				<source>Show content elements</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.fieldControl">
+				<source>Field Control</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.fieldControl.description">
+				<source>If enabled the following options show buttons with special functionalities next to the field.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.fieldWizard">
+				<source>Field Wizard</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.fieldWizard.description">
+				<source>If enabled the following options render helpful lists and buttons below the field.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.multistep.chooseLabel">
+				<source>Choose element label</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.multistep.chooseKey">
+				<source>Choose element key</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.multistep.text1">
+				<source>You can change the label later on in "Element Meta Data".</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.multistep.text2">
+				<source>You can change the key later on in "Element Meta Data".</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.multistep.placeholder1">
+				<source>My Element Label</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.multistep.placeholder2">
+				<source>my_element_key</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.reset_settings">
+				<source>Reset to default</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.reset_settings_description">
+				<source>Click this button to reset all settings of this field to the default values.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.reset_button">
+				<source>Reset</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.reset_settings_success">
+				<source>Settings reset to default</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

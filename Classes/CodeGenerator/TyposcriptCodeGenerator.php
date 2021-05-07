@@ -17,11 +17,11 @@ declare(strict_types=1);
 
 namespace MASK\Mask\CodeGenerator;
 
-use MASK\Mask\DataStructure\FieldType;
-use MASK\Mask\Domain\Model\BackendLayout;
+use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Domain\Service\SettingsService;
 use MASK\Mask\Imaging\IconProvider\ContentElementIconProvider;
+use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Core\Imaging\IconRegistry;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -86,24 +86,25 @@ class TyposcriptCodeGenerator
 
             // add the content element wizard for each content element
             $element['description'] = trim(preg_replace('/\s+/', ' ', $element['description']));
+            $cTypeKey = AffixUtility::addMaskCTypePrefix($element['key']);
             $wizard = [
                 'header' => 'LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:new_content_element_tab',
-                'elements.mask_' . $element['key'] => [
+                'elements.' . $cTypeKey => [
                     'iconIdentifier' => $iconIdentifier,
                     'title' => $element['label'],
                     'description' => $element['description'],
                     'tt_content_defValues' => [
-                        'CType' => 'mask_' . $element['key']
+                        'CType' => $cTypeKey
                     ]
                 ]
             ];
             $content .= "mod.wizards.newContentElement.wizardItems.mask {\n";
             $content .= $this->convertArrayToTypoScript($wizard, '', 1);
-            $content .= "\tshow := addToList(mask_" . $element['key'] . ");\n";
+            $content .= "\tshow := addToList(" . $cTypeKey . ");\n";
             $content .= "}\n";
 
             // and switch the labels depending on which content element is selected
-            $content .= "\n[isMaskContentType(\"mask_" . $element['key'] . "\")]\n";
+            $content .= "\n[isMaskContentType(\"" . $cTypeKey . "\")]\n";
             foreach ($element['columns'] ?? [] as $index => $column) {
                 $this->setLabel($column, $index, $element, 'tt_content', $content);
             }
@@ -153,7 +154,7 @@ class TyposcriptCodeGenerator
                 }
                 // With config is custom mask field
                 if (isset($item['config'])) {
-                    $key = 'tx_mask_' . $item['key'];
+                    $key = AffixUtility::addMaskPrefix($item['key']);
                 } else {
                     $key = $item['key'];
                 }
@@ -174,34 +175,6 @@ class TyposcriptCodeGenerator
         // generate TypoScript setup
         $setupContent = [];
 
-        // for backend module
-        $setupContent[] = $this->convertArrayToTypoScript([
-            'view' => [
-                'templateRootPaths' => [
-                    10 => 'EXT:mask/Resources/Private/Backend/Templates/'
-                ],
-                'partialRootPaths' => [
-                    10 => 'EXT:mask/Resources/Private/Backend/Partials/'
-                ],
-                'layoutRootPaths' => [
-                    10 => 'EXT:mask/Resources/Private/Backend/Layouts/'
-                ]
-            ],
-            'persistence' => [
-                'classes' => [
-                    BackendLayout::class => [
-                        'mapping' => [
-                            'tableName' => 'backend_layout',
-                            'columns' => [
-                                'uid.mapOnProperty' => 'uid',
-                                'title.mapOnProperty' => 'title'
-                            ]
-                        ]
-                    ]
-                ]
-            ]
-        ], 'module.tx_mask');
-
         // for base paths to fluid templates configured in extension settings
         $setupContent[] = $this->convertArrayToTypoScript([
             'templateRootPaths' => [
@@ -219,10 +192,11 @@ class TyposcriptCodeGenerator
         if ($configuration['tt_content']['elements']) {
             foreach ($configuration['tt_content']['elements'] as $element) {
                 if (!$element['hidden']) {
+                    $cTypeKey = AffixUtility::addMaskCTypePrefix($element['key']);
                     $templateName = MaskUtility::getTemplatePath($this->extSettings, $element['key'], true);
                     $elementContent = [];
-                    $elementContent[] = 'tt_content.mask_' . $element['key'] . ' =< lib.maskContentElement' . LF;
-                    $elementContent[] = 'tt_content.mask_' . $element['key'] . ' {' . LF;
+                    $elementContent[] = 'tt_content.' . $cTypeKey . ' =< lib.maskContentElement' . LF;
+                    $elementContent[] = 'tt_content.' . $cTypeKey . ' {' . LF;
                     $elementContent[] = "\t" . 'templateName = ' . $templateName . LF;
                     $elementContent[] = '}' . LF . LF;
                     $setupContent[] = implode('', $elementContent);

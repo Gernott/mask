@@ -1,0 +1,143 @@
+%textoverflow {
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mask-field {
+  position: relative;
+  min-height: 37px;
+  margin-bottom: 4px;
+  width: 100%;
+  cursor: pointer;
+
+  &.active,
+  &:hover {
+    > .mask-field__row .mask-field__body {
+      background-color: $highlight-color;
+    }
+  }
+
+  &.has-error:before {
+    @extend %error;
+  }
+
+  &.ghost {
+    opacity: 0.5;
+  }
+
+  &__body {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-left: 0;
+    min-height: 37px;
+    flex-grow: 1;
+    background-color: #fff;
+  }
+
+  &__row {
+    display: flex;
+    align-items: center;
+  }
+
+  &__actions {
+    padding-right: 10px;
+    text-align: right;
+    width: 69px;
+    margin-left: auto;
+  }
+
+  &__text {
+    padding-left: 13px;
+  }
+
+  &__label {
+    display: block;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    @extend %textoverflow;
+  }
+
+  &__key {
+    display: block;
+    font-size: 10px;
+    @extend %textoverflow;
+  }
+
+  &__image img {
+    width: 37px;
+    height: auto;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+  }
+
+  &__multiuse {
+    font-size: 15px;
+    text-align: center;
+    color: #6daae0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: -2px;
+    left: -3px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background-color: #fff;
+  }
+
+  &__dragarea {
+    .dragtarget {
+      margin: 0;
+      list-style: none;
+      background-color: #fff;
+      min-height: 38px;
+      padding: 4px;
+      border-bottom: 1px solid $border-color;
+      border-right: 1px solid $border-color;
+
+      .mask-field {
+        border-bottom: 2px solid $bg-light;
+        margin-bottom: 0;
+        margin-top: 3px;
+
+        &--selectable {
+          border-bottom: 1px dashed $border-color;
+        }
+      }
+    }
+  }
+
+  &--selectable {
+    width: auto;
+
+    .mask-field__image img {
+      border-radius: 2px;
+    }
+  }
+
+  &--inline,
+  &--palette {
+    > .mask-field__row {
+      img {
+        border-bottom-left-radius: 0;
+      }
+    }
+  }
+
+  &--inline {
+    > .mask-field__dragarea {
+      border-left: 4px solid $color-inline;
+    }
+  }
+
+  &--palette {
+    > .mask-field__dragarea {
+      border-left: 4px solid $color-palette;
+    }
+  }
+}

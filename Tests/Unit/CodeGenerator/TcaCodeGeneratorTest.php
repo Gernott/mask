@@ -453,12 +453,14 @@ class TcaCodeGeneratorTest extends BaseTestCase
                         'config' => [
                             'type' => 'input'
                         ],
+                        'exclude' => 1
                     ],
                     'tx_mask_field_2' => [
                         'config' => [
                             'type' => 'input',
                             'eval' => 'trim'
                         ],
+                        'exclude' => 1
                     ]
                 ]
             ],
@@ -492,12 +494,14 @@ class TcaCodeGeneratorTest extends BaseTestCase
                             'format' => 'typoscript',
                             'renderType' => 't3editor'
                         ],
+                        'exclude' => 1
                     ],
                     'tx_mask_field_2' => [
                         'config' => [
                             'type' => 'input',
                             'eval' => 'trim'
                         ],
+                        'exclude' => 1
                     ]
                 ]
             ],
@@ -533,12 +537,14 @@ class TcaCodeGeneratorTest extends BaseTestCase
                         'config' => [
                             'type' => 'input'
                         ],
+                        'exclude' => 1
                     ],
                     'tx_mask_field_2' => [
                         'config' => [
                             'type' => 'input',
                             'eval' => 'trim'
                         ],
+                        'exclude' => 1
                     ]
                 ]
             ],
@@ -566,6 +572,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
                             'type' => 'inline',
                             'foreign_table' => 'tx_mask_field_1'
                         ],
+                        'exclude' => 1
                     ],
                 ]
             ],
@@ -611,6 +618,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
                                 'upper' => 1640822400
                             ]
                         ],
+                        'exclude' => 1
                     ],
                     'tx_mask_field_2' => [
                         'config' => [
@@ -621,6 +629,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
                                 'upper' => 1640896200
                             ]
                         ],
+                        'exclude' => 1
                     ]
                 ]
             ],
@@ -659,6 +668,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
                                 ]
                             ]
                         ],
+                        'exclude' => 1
                     ],
                     'tx_mask_field_1_parent' => [
                         'config' => [
@@ -706,6 +716,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
                             'type' => 'input',
                             'eval' => 'trim'
                         ],
+                        'exclude' => 1
                     ],
                 ]
             ],
@@ -1064,5 +1075,118 @@ class TcaCodeGeneratorTest extends BaseTestCase
         $tcaGenerator->setElementsTca();
         self::assertSame($showitemExptected, $GLOBALS['TCA']['tt_content']['types'][$key]['showitem'] ?? '');
         self::assertSame($paletteExpected, $GLOBALS['TCA']['tt_content']['palettes'] ?? []);
+    }
+
+    public function generateTableTcaDataProvider()
+    {
+        return [
+            'Label and Icon generated when ctrl provided' => [
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'tx_mask_inline' => [
+                                'config' => [
+                                    'type' => 'inline'
+                                ],
+                                'ctrl' => [
+                                    'label' => 'tx_mask_field1',
+                                    'iconfile' => '/some/path/to/a/file'
+                                ]
+                            ]
+                        ]
+                    ],
+                ],
+                [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'key' => 'field1',
+                            'order' => 1
+                        ]
+                    ]
+                ],
+                'tx_mask_inline',
+                'tx_mask_field1',
+                '/some/path/to/a/file'
+            ],
+            'Label and Icon generated when inlineLabel and inlineIcon provided' => [
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'tx_mask_inline' => [
+                                'config' => [
+                                    'type' => 'inline'
+                                ],
+                                'inlineLabel' => 'tx_mask_field1',
+                                'inlineIcon' => '/some/path/to/a/file'
+                            ]
+                        ]
+                    ],
+                ],
+                [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'key' => 'field1',
+                            'order' => 1
+                        ]
+                    ]
+                ],
+                'tx_mask_inline',
+                'tx_mask_field1',
+                '/some/path/to/a/file'
+            ],
+            'Non exsiting key for label results in first field' => [
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'tx_mask_inline' => [
+                                'config' => [
+                                    'type' => 'inline'
+                                ],
+                                'ctrl' => [
+                                    'label' => 'tx_mask_field3',
+                                    'iconfile' => '/some/path/to/a/file'
+                                ]
+                            ]
+                        ]
+                    ],
+                ],
+                [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'key' => 'field1',
+                            'order' => 1
+                        ],
+                        'tx_mask_field2' => [
+                            'key' => 'field1',
+                            'order' => 2
+                        ]
+                    ]
+                ],
+                'tx_mask_inline',
+                'tx_mask_field1',
+                '/some/path/to/a/file'
+            ],
+        ];
+    }
+
+    /**
+     * @param $json
+     * @param $subJson
+     * @param $table
+     * @test
+     * @dataProvider generateTableTcaDataProvider
+     */
+    public function generateTableTca($json, $subJson, $table, $expectedLabel, $expectedIcon)
+    {
+        $storage = $this->createPartialMock(StorageRepository::class, ['load']);
+        $storage->method('load')->willReturn($json);
+
+        $fieldHelper = $this->getMockBuilder(FieldHelper::class)
+            ->setConstructorArgs([$storage])
+            ->getMock();
+
+        $tcaGenerator = new TcaCodeGenerator($storage, $fieldHelper);
+        self::assertSame($expectedLabel, $tcaGenerator->generateTableTca($table, $subJson)['ctrl']['label']);
+        self::assertSame($expectedIcon, $tcaGenerator->generateTableTca($table, $subJson)['ctrl']['iconfile']);
     }
 }

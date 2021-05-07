@@ -19,9 +19,9 @@ namespace MASK\Mask\CodeGenerator;
 
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Schema\SchemaException;
-use MASK\Mask\DataStructure\FieldType;
+use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Domain\Repository\StorageRepository;
-use MASK\Mask\Utility\GeneralUtility as MaskUtility;
+use MASK\Mask\Utility\AffixUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Event\AlterTableDefinitionStatementsEvent;
 use TYPO3\CMS\Core\Database\Schema\Exception\StatementException;
@@ -115,14 +115,15 @@ class SqlCodeGenerator
                         $sql_content[] = 'CREATE TABLE ' . $table . " (\n\t" . $fieldKey . ' ' . $definition . "\n);\n";
                         // if this field is a content field, also add parent columns
                         if ($fieldType == FieldType::CONTENT) {
-                            $sql_content[] = "CREATE TABLE tt_content (\n\t" . $fieldKey . '_parent' . ' ' . $definition . ",\n\t" . 'KEY ' . $fieldKey . ' (' . $fieldKey . '_parent,pid)' . "\n);\n";
+                            $parentField = AffixUtility::addMaskParentSuffix($fieldKey);
+                            $sql_content[] = "CREATE TABLE tt_content (\n\t" . $parentField . ' ' . $definition . ",\n\t" . 'KEY ' . $fieldKey . ' (' . $parentField . ',pid)' . "\n);\n";
                         }
                     }
                 }
             }
 
             // If type/table is an irre table, then create table for it
-            if (MaskUtility::isMaskIrreTable($type)) {
+            if (AffixUtility::hasMaskPrefix($type)) {
                 $sql_content[] = "CREATE TABLE $type (
                          parentid int(11) DEFAULT '0' NOT NULL,
                          parenttable varchar(255) DEFAULT '',

@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace MASK\Mask\Helper;
 
 use MASK\Mask\Domain\Repository\StorageRepository;
+use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\GeneralUtility;
 
 /**
@@ -89,7 +90,7 @@ class FieldHelper
         }
 
         foreach ($tables as $table) {
-            if (GeneralUtility::isMaskIrreTable($table) && isset($storage[$table]['tca'][$fieldKey])) {
+            if (AffixUtility::hasMaskPrefix($table) && isset($storage[$table]['tca'][$fieldKey])) {
                 return $table;
             }
             foreach ($storage[$table]['elements'] ?? [] as $element) {

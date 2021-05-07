@@ -1,0 +1,12 @@
+.mask-edit {
+  padding: 10px;
+
+  @media screen and (min-width: $bp-edit-flex) {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  @media screen and (min-width: $bp-desktop) {
+    flex-wrap: nowrap;
+  }
+}

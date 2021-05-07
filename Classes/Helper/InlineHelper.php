@@ -17,10 +17,11 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Helper;
 
-use MASK\Mask\DataStructure\FieldType;
+use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Domain\Repository\BackendLayoutRepository;
 use MASK\Mask\Domain\Repository\StorageRepository;
-use MASK\Mask\Utility\GeneralUtility as MaskUtility;
+use MASK\Mask\Utility\AffixUtility;
+use MASK\Mask\Utility\AffixUtility as MaskUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -28,6 +29,7 @@ use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\FrontendGroupRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\WorkspaceRestriction;
 use TYPO3\CMS\Core\Database\RelationHandler;
+use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -113,7 +115,7 @@ class InlineHelper
 
         // if the table is tt_content, load the element and all its columns
         if ($table === 'tt_content') {
-            $element = $this->storageRepository->loadElement($table, MaskUtility::removeCtypePrefix($cType));
+            $element = $this->storageRepository->loadElement($table, AffixUtility::removeCTypePrefix($cType));
             $elementFields = $element['columns'];
         } elseif ($table === 'pages') {
             // if the table is pages, then load the pid
@@ -140,7 +142,7 @@ class InlineHelper
 
         // Check type of all element columns
         foreach ($elementFields ?? [] as $field) {
-            $fieldKey = str_replace('tx_mask_', '', $field);
+            $fieldKey = MaskUtility::removeMaskPrefix($field);
             $type = $this->storageRepository->getFormType($fieldKey, ($element['key'] ?? ''), $table);
 
             if ($type == FieldType::PALETTE) {
@@ -167,7 +169,7 @@ class InlineHelper
                 $data,
                 $field,
                 $cType,
-                $field . '_parent',
+                AffixUtility::addMaskParentSuffix($field),
                 'tt_content',
                 'tt_content'
             );
@@ -241,7 +243,7 @@ class InlineHelper
         }
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($childTable);
         $queryBuilder->getRestrictions()->add(GeneralUtility::makeInstance(FrontendGroupRestriction::class));
-        if (TYPO3_MODE === 'BE') {
+        if (ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isBackend()) {
             $queryBuilder
                 ->getRestrictions()
                 ->removeAll()
@@ -265,7 +267,7 @@ class InlineHelper
 
         // and recursively add them to an array
         $elements = [];
-        if (TYPO3_MODE === 'FE') {
+        if (ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend()) {
             foreach ($rows as $element) {
                 $GLOBALS['TSFE']->sys_page->versionOL($childTable, $element);
                 $elements[$element['uid']] = $element;

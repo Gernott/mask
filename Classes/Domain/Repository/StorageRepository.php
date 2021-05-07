@@ -17,9 +17,11 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Domain\Repository;
 
-use MASK\Mask\DataStructure\FieldType;
+use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Domain\Service\SettingsService;
+use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
+use MASK\Mask\Utility\TcaConverterUtility;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Type\Exception\InvalidEnumerationValueException;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
@@ -50,6 +52,11 @@ class StorageRepository implements SingletonInterface
     protected $currentKey = '';
 
     /**
+     * @var array
+     */
+    protected $defaults = [];
+
+    /**
      * json configuration
      * @var array
      */
@@ -68,7 +75,6 @@ class StorageRepository implements SingletonInterface
      * Load Storage
      *
      * @return array
-     * @noinspection PhpComposerExtensionStubsInspection
      */
     public function load(): array
     {
@@ -88,7 +94,6 @@ class StorageRepository implements SingletonInterface
      * Write Storage
      *
      * @param $json
-     * @noinspection PhpComposerExtensionStubsInspection
      */
     public function write($json): void
     {
@@ -155,13 +160,14 @@ class StorageRepository implements SingletonInterface
                     $inlineParent = $tca['inlineParent'] ?? '';
                 }
                 if ($inlineParent === $parentKey) {
+                    $maskKey = AffixUtility::addMaskPrefix($tca['key']);
                     if ($this->getFormType($tca['key'], $elementKey, $table) === FieldType::INLINE) {
                         $tca['inlineFields'] = $this->loadInlineFields($key, $elementKey);
                     }
                     if (($tca['config']['type'] ?? '') === 'palette') {
-                        $tca['inlineFields'] = $this->loadInlineFields('tx_mask_' . $tca['key'], $elementKey);
+                        $tca['inlineFields'] = $this->loadInlineFields($maskKey, $elementKey);
                     }
-                    $tca['maskKey'] = 'tx_mask_' . $tca['key'];
+                    $tca['maskKey'] = $maskKey;
                     $inlineFields[] = $tca;
                 }
             }
@@ -235,166 +241,134 @@ class StorageRepository implements SingletonInterface
      * Adds new Content-Element
      *
      * @param array $content
-     * @noinspection NotOptimalIfConditionsInspection
      * @return array
+     * @throws \Exception
      */
-    public function add($content): array
+    public function add($element, $fields, $table): array
     {
         // Load
         $json = $this->load();
-        $elementKey = $content['elements']['key'];
+        $jsonAdd = [];
+        $elementKey = $element['key'];
 
-        // Create JSON elements Array:
-        foreach ($content['elements'] as $key => $value) {
-            // delete columns and labels of irre-fields from elements
-            if ($key === 'columns' || $key === 'labels') {
-                foreach ($value as $index => $column) {
-                    if ($content['tca'][$index]['inlineParent'] ?? false) {
-                        unset($value[$index]);
-                    // If using a mask field with empty label, we have to set the "default" label
-                    } elseif ($key === 'labels' && empty($column) && isset($json[$content['type']]['tca'][$content['elements']['columns'][$index]])) {
-                        $label = '';
-                        foreach ($json[$content['type']]['elements'] as $element) {
-                            if (is_array($element['columns']) && in_array($content['elements']['columns'][$index], $element['columns'], true)) {
-                                $i = array_search($content['elements']['columns'][$index], $element['columns'], true);
-                                if (!empty($element['labels'][$i])) {
-                                    $label = $element['labels'][$i];
-                                    break;
-                                }
-                            }
-                        }
-                        $value[$index] = $label;
-                    }
-                }
-            }
-            $json[$content['type']]['elements'][$elementKey][$key] = $value;
-        }
+        // Set element
+        $jsonAdd[$table]['elements'][$elementKey] = $element;
 
-        $columns = [];
-        $labels = [];
-
-        // delete columns and labels of irre-fields from elements
-        foreach ($content['elements']['columns'] ?? [] as $index => $column) {
-            $columns[] = $column;
-            $labels[] = $content['elements']['labels'][$index];
-
-            if ($content['tca'][$index]['inlineParent'] ?? false) {
-                unset(
-                    $content['elements']['columns'][$index],
-                    $content['elements']['labels'][$index]
-                );
-            }
-        }
-
-        // Create JSON sql Array:
-        foreach ($content['sql'] ?? [] as $table => $sqlArray) {
-            foreach ($sqlArray as $index => $type) {
-                $fieldname = 'tx_mask_' . $columns[$index];
-                $json[$table]['sql'][$fieldname][$table][$fieldname] = $type;
-            }
-        }
+        $jsonAdd = $this->setSql($jsonAdd, $fields, $table);
 
         // Create JSON tca Array:
-        $defaultType = $content['type'];
-        $paletteParents = [];
-        foreach ($content['tca'] ?? [] as $key => $value) {
-            $hasConfig = isset($value['config']);
-            $existingMaskFieldWithNoConfig = !$hasConfig && strpos($columns[$key], 'tx_mask') === 0;
-            $inPalette = (bool)($value['inPalette'] ?? false);
-            $coreFieldInPalette = !$existingMaskFieldWithNoConfig && !$hasConfig && $inPalette;
-            $isInline = (bool)($value['inlineParent'] ?? false);
-            $isPalette = ($value['config']['type'] ?? '') == 'palette';
-            $inlineParent = $value['inlineParent'] ?? '';
+        $jsonAdd = $this->addFieldsToJson($jsonAdd, $fields, $elementKey, $table, $table);
+        ArrayUtility::mergeRecursiveWithOverrule($json, $jsonAdd);
 
-            if (!$isInline) {
-                $type = $defaultType;
-            } elseif (!$inPalette) {
-                $type = $inlineParent;
-                if ($isPalette) {
-                    $paletteParents['tx_mask_' . $columns[$key]] = $inlineParent;
-                }
-            } else {
-                $type = $paletteParents[$inlineParent] ?? $defaultType;
-            }
+        return $json;
+    }
 
-            // Revert mask key to key without prefix
-            if ($existingMaskFieldWithNoConfig) {
-                $columns[$key] = MaskUtility::removeMaskPrefix($columns[$key]);
-            }
+    protected function setSql($json, $fields, $table)
+    {
+        $defaults = $this->getDefaults();
+        foreach ($fields as $field) {
+            $fieldType = FieldType::cast($field['name']);
+            $fieldname = $field['key'];
+            // If mask field which needs table column
+            if (AffixUtility::hasMaskPrefix($field['key']) && isset($defaults[$field['name']]['sql'])) {
+                // Keep existing value. For new fields use defaults.
+                $json[$table]['sql'][$fieldname][$table][$fieldname] = $field['sql'] ?? $defaults[$field['name']]['sql'];
 
-            $maskKey = 'tx_mask_' . $columns[$key];
-            $tempKey = 'temp_' . $columns[$key];
-            // Set temp entry to modify
-            $json[$type]['tca'][$tempKey] = $value;
-
-            if ($coreFieldInPalette) {
-                $json[$type]['tca'][$tempKey]['coreField'] = '1';
-            }
-
-            // add rte flag if inline and rte
-            if ($isInline && ($content['elements']['options'][$key] ?? '') === 'rte') {
-                $json[$type]['tca'][$tempKey]['rte'] = '1';
-            }
-
-            // Convert range values of timestamp to integers
-            if (($json[$type]['tca'][$tempKey]['config']['renderType'] ?? '') === 'inputDateTime' && !isset($json[$type]['tca'][$tempKey]['config']['dbType'])) {
-                if (isset($json[$type]['tca'][$tempKey]['config']['range']['lower']) && $json[$type]['tca'][$tempKey]['config']['range']['lower']) {
-                    $date = new \DateTime($json[$type]['tca'][$tempKey]['config']['range']['lower']);
-                    $json[$type]['tca'][$tempKey]['config']['range']['lower'] = $date->getTimestamp();
-                }
-                if (isset($json[$type]['tca'][$tempKey]['config']['range']['upper']) && $json[$type]['tca'][$tempKey]['config']['range']['upper']) {
-                    $date = new \DateTime($json[$type]['tca'][$tempKey]['config']['range']['upper']);
-                    $json[$type]['tca'][$tempKey]['config']['range']['upper'] = $date->getTimestamp();
+                // Set sys_file_reference entry for mask file fields.
+                if ($fieldType->equals(FieldType::FILE)) {
+                    $json['sys_file_reference']['sql'][$fieldname]['sys_file_reference'][$fieldname] = "int(11) unsigned DEFAULT '0' NOT NULL";
                 }
             }
-
-            // Only add columns to elements if it is no inlinefield
-            if (!$isInline) {
-                $json[$type]['elements'][$elementKey]['columns'][$key] = $maskKey;
+            if (isset($field['fields'])) {
+                $inlineTable = $fieldType->equals(FieldType::INLINE) ? $field['key'] : $table;
+                $json = $this->setSql($json, $field['fields'], $inlineTable);
             }
-
-            // If palette on root (not inline) set inlineParent, label and order to array with element as index
-            if ($type == $defaultType && $inPalette) {
-                // InlineParent
-                $palette = $json[$type]['tca'][$tempKey]['inlineParent'];
-                $json[$type]['tca'][$tempKey]['inlineParent'] = [];
-                $json[$type]['tca'][$tempKey]['inlineParent'][$elementKey] = $palette;
-
-                // Label
-                $paletteLabel = $json[$type]['tca'][$tempKey]['label'];
-                $json[$type]['tca'][$tempKey]['label'] = [];
-                $json[$type]['tca'][$tempKey]['label'][$elementKey] = $paletteLabel;
-
-                // Order
-                $json[$type]['tca'][$tempKey]['order'][$elementKey] = $key;
-            }
-
-            // If it's an existing field, override with new values but keep other untouched.
-            $keyToUse = ($hasConfig || $existingMaskFieldWithNoConfig) ? $maskKey : $columns[$key];
-            if (isset($json[$type]['tca'][$keyToUse])) {
-                ArrayUtility::mergeRecursiveWithOverrule($json[$type]['tca'][$keyToUse], $json[$type]['tca'][$tempKey]);
-            } else {
-                $json[$type]['tca'][$keyToUse] = $json[$type]['tca'][$tempKey];
-                $json[$type]['tca'][$keyToUse]['key'] = $columns[$key];
-            }
-
-            // Inline fields on custom tables need extra order property
-            if ($type !== $defaultType && $isInline) {
-                $json[$type]['tca'][$keyToUse]['order'] = $key;
-            }
-
-            // Fill palette showitem and set label
-            if ($inPalette) {
-                if (!in_array($keyToUse, $json[$type]['palettes'][$value['inlineParent']]['showitem'] ?? [])) {
-                    $json[$type]['palettes'][$value['inlineParent']]['showitem'][] = $keyToUse;
-                }
-                $labelIndex = array_search(MaskUtility::removeMaskPrefix($value['inlineParent']), $columns);
-                $json[$type]['palettes'][$value['inlineParent']]['label'] = $labels[$labelIndex];
-            }
-
-            unset($json[$type]['tca'][$tempKey]);
         }
         return $json;
+    }
+
+    protected function addFieldsToJson($jsonAdd, $fields, $elementKey, $table, $defaultTable, $parent = null): array
+    {
+        $order = 0;
+        foreach ($fields as $field) {
+            $order += 1;
+            $fieldAdd = [];
+            $onRootLevel = $table === $defaultTable;
+            $isMaskField = AffixUtility::hasMaskPrefix($field['key']);
+
+            // Add columns and labels to element if on root level
+            if ($onRootLevel && !$parent) {
+                $jsonAdd[$defaultTable]['elements'][$elementKey]['columns'][] = $field['key'];
+                $jsonAdd[$defaultTable]['elements'][$elementKey]['labels'][] = $field['label'];
+            }
+
+            // Add key and config to mask field
+            if ($isMaskField) {
+                $defaults = $this->getDefaults();
+                $field['tca'] = $field['tca'] ?? [];
+                ArrayUtility::mergeRecursiveWithOverrule($field['tca'], $defaults[$field['name']]['tca_out'] ?? []);
+                $fieldAdd = TcaConverterUtility::convertFlatTcaToArray($field['tca']);
+                $fieldAdd['key'] = AffixUtility::removeMaskPrefix($field['key']);
+                $fieldAdd['description'] = $field['description'] ?? '';
+            } else {
+                $fieldAdd['key'] = $field['key'];
+                $fieldAdd['coreField'] = 1;
+            }
+
+            // Add field type name for easier resolving
+            $fieldAdd['name'] = $field['name'];
+
+            // Convert range values of timestamp to integers
+            if ($isMaskField && $field['name'] === FieldType::TIMESTAMP) {
+                $default = $fieldAdd['config']['default'] ?? false;
+                if ($default) {
+                    $date = new \DateTime($default);
+                    $fieldAdd['config']['default'] = $date->getTimestamp();
+                }
+                $rangeLower = $fieldAdd['config']['range']['lower'] ?? false;
+                if ($rangeLower) {
+                    $date = new \DateTime($rangeLower);
+                    $fieldAdd['config']['range']['lower'] = $date->getTimestamp();
+                }
+                $rangeUpper = $fieldAdd['config']['range']['upper'] ?? false;
+                if ($rangeUpper) {
+                    $date = new \DateTime($rangeUpper);
+                    $fieldAdd['config']['range']['upper'] = $date->getTimestamp();
+                }
+            }
+
+            // Add label, order and flags to child fields
+            if (isset($parent)) {
+                if ($parent['name'] === FieldType::PALETTE) {
+                    $fieldAdd['inPalette'] = 1;
+                    $fieldAdd['label'][$elementKey] = $field['label'];
+                    $fieldAdd['order'][$elementKey] = $order;
+                    if ($onRootLevel) {
+                        $fieldAdd['inlineParent'][$elementKey] = $parent['key'];
+                    } else {
+                        $fieldAdd['inlineParent'] = $parent['key'];
+                    }
+                    // Add palettes entry
+                    $jsonAdd[$table]['palettes'][$parent['key']]['showitem'][] = $field['key'];
+                    $jsonAdd[$table]['palettes'][$parent['key']]['label'] = $parent['label'];
+                }
+                if ($parent['name'] === FieldType::INLINE) {
+                    $fieldAdd['inlineParent'] = $parent['key'];
+                    $fieldAdd['label'] = $field['label'];
+                    $fieldAdd['order'] = $order;
+                }
+            }
+
+            // Add tca entry for field
+            $jsonAdd[$table]['tca'][$field['key']] = $fieldAdd;
+
+            // Resolve nested fields
+            if (isset($field['fields'])) {
+                $inlineTable = $field['name'] === FieldType::INLINE ? $field['key'] : $table;
+                $jsonAdd = $this->addFieldsToJson($jsonAdd, $field['fields'], $elementKey, $inlineTable, $defaultTable, $field);
+            }
+        }
+        return $jsonAdd;
     }
 
     /**
@@ -462,7 +436,7 @@ class StorageRepository implements SingletonInterface
     private function removeField($table, $field, $json): array
     {
         $maskKey = $field;
-        $field = str_replace('tx_mask_', '', $maskKey);
+        $field = AffixUtility::removeMaskPrefix($maskKey);
         $keyToUse = isset($json[$table]['tca'][$field]) ? $field : $maskKey;
 
         // check if this field is used in any other elements
@@ -485,7 +459,7 @@ class StorageRepository implements SingletonInterface
                 // Only remove if not in use in another element
                 if (!$usedInAnotherElement) {
                     $parentTable = ($inlineField['inPalette'] ?? false) ? $table : $inlineField['inlineParent'];
-                    $inlineKey = 'tx_mask_' . $inlineField['key'];
+                    $inlineKey = AffixUtility::addMaskPrefix($inlineField['key']);
                     $json = $this->removeField($parentTable, $inlineKey, $json);
                 }
             }
@@ -547,11 +521,13 @@ class StorageRepository implements SingletonInterface
      *
      * @param array $content
      */
-    public function update($content): void
+    public function update($element, $fields, $table, $isNew): void
     {
-        $json = $this->remove($content['type'], $content['orgkey']);
-        $this->persist($json);
-        $this->persist($this->add($content));
+        if (!$isNew) {
+            $json = $this->remove($table, $element['key']);
+            $this->persist($json);
+        }
+        $this->persist($this->add($element, $fields, $table));
     }
 
     /**
@@ -587,9 +563,10 @@ class StorageRepository implements SingletonInterface
     public function getFormType($fieldKey, $elementKey = '', $type = 'tt_content'): string
     {
         $element = [];
+        $maskKey = AffixUtility::addMaskPrefix($fieldKey);
 
         // Check if TCA for mask key exists, else assume it's a core field.
-        $tca = $GLOBALS['TCA'][$type]['columns']['tx_mask_' . $fieldKey] ?? [];
+        $tca = $GLOBALS['TCA'][$type]['columns'][$maskKey] ?? [];
         if (!$tca) {
             $tca = $GLOBALS['TCA'][$type]['columns'][$fieldKey] ?? [];
         }
@@ -606,7 +583,7 @@ class StorageRepository implements SingletonInterface
         if (!$tca || !in_array($type, ['tt_content', 'pages'])) {
             $tca = $this->loadField($type, $fieldKey);
             if (!($tca['config'] ?? false)) {
-                $tca = $this->loadField($type, 'tx_mask_' . $fieldKey);
+                $tca = $this->loadField($type, $maskKey);
             }
         }
 
@@ -620,7 +597,7 @@ class StorageRepository implements SingletonInterface
             return FieldType::FILE;
         }
 
-        if (($tca['rte'] ?? '') === '1' || ($tca['config']['enableRichtext'] ?? '') === '1') {
+        if (($tca['rte'] ?? '') === '1' || (int)($tca['config']['enableRichtext'] ?? '') === 1) {
             return FieldType::RICHTEXT;
         }
 
@@ -706,5 +683,16 @@ class StorageRepository implements SingletonInterface
             }
         }
         return $elementsInUse;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getDefaults(): array
+    {
+        if (empty($this->defaults)) {
+            $this->defaults = require GeneralUtility::getFileAbsFileName('EXT:mask/Configuration/Mask/Defaults.php');
+        }
+        return $this->defaults;
     }
 }

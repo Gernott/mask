@@ -1,0 +1,124 @@
+.mask-footer {
+  background-color: $bg-medium;
+  padding: 20px;
+  margin-top: 10px;
+
+  @media screen and (min-width: $bp-edit-flex) {
+    display: flex;
+  }
+
+  @media screen and (min-width: $bp-desktop) {
+    height: 45px;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    padding: 4px 10px;
+  }
+
+  a:not(.btn) {
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      color: $mask;
+    }
+  }
+
+  &__item {
+    flex-grow: 1;
+    position: relative;
+    text-align: center;
+
+    @media screen and (min-width: $bp-edit-flex) {
+      text-align: left;
+      margin: 10px 0;
+    }
+
+    @media screen and (min-width: $bp-desktop) {
+      margin-bottom: 0;
+      margin-top: 0;
+      text-align: center;
+    }
+
+    .fa {
+      font-size: 16px;
+    }
+
+    &--first {
+      @media screen and (min-width: $bp-desktop) {
+        text-align: left;
+      }
+    }
+
+    &--last {
+      @media screen and (min-width: $bp-edit-flex) {
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+      }
+
+      @media screen and (min-width: $bp-desktop) {
+        text-align: right;
+      }
+    }
+  }
+
+  &__column {
+    @media screen and (min-width: $bp-edit-flex) {
+      width: 50%;
+    }
+
+    @media screen and (min-width: $bp-desktop) {
+      width: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &--right {
+      @media screen and (min-width: $bp-edit-flex) {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      @media screen and (min-width: $bp-desktop) {
+        flex-direction: row;
+      }
+    }
+  }
+
+  &__separator {
+    width: 500px;
+    max-width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent 0%, rgba(#000, 0.3) 20%, rgba(#000, 0.3) 80%, transparent 100%);
+    margin: 15px auto;
+
+    @media screen and (min-width: $bp-edit-flex) {
+      display: none;
+    }
+
+    @media screen and (min-width: $bp-desktop) {
+      display: block;
+      height: 25px;
+      width: 1px;
+      margin: 0 10px;
+      background: linear-gradient(to bottom, transparent 0%, rgba(#000, 0.5) 50%, transparent 100%);
+    }
+  }
+
+  &__version {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media screen and (min-width: $bp-edit-flex) {
+      justify-content: flex-start;
+    }
+
+    img {
+      margin-right: 5px;
+    }
+  }
+}

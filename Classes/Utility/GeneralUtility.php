@@ -84,26 +84,6 @@ class GeneralUtility
     }
 
     /**
-     * replace keys
-     *
-     * @param $data
-     * @param $replace_key
-     * @param string $key
-     * @return array
-     */
-    public static function replaceKey($data, $replace_key, $key = '--key--'): array
-    {
-        foreach ($data as $elem_key => $elem) {
-            if (is_array($elem)) {
-                $data[$elem_key] = self::replaceKey($elem, $replace_key);
-            } elseif ($data[$elem_key] === $key) {
-                $data[$elem_key] = $replace_key;
-            }
-        }
-        return $data;
-    }
-
-    /**
      * Searches an array of strings and returns the first string, that is not a tab
      * @param array $fields
      * @return string $string
@@ -217,45 +197,5 @@ class GeneralUtility
             return $filename;
         }
         return '';
-    }
-
-    /**
-     * @param $table
-     * @return bool
-     */
-    public static function isMaskIrreTable($table)
-    {
-        return strpos($table, 'tx_mask') === 0;
-    }
-
-    /**
-     * @param $cType
-     * @return bool
-     */
-    public static function isMaskCType($cType)
-    {
-        return strpos($cType, 'mask_') === 0;
-    }
-
-    /**
-     * Removes the tx_mask_ prefix
-     *
-     * @param $maskKey
-     * @return false|string
-     */
-    public static function removeMaskPrefix($maskKey)
-    {
-        return substr($maskKey, 8);
-    }
-
-    /**
-     * Removes the mask_ prefix used for cType
-     *
-     * @param $maskKey
-     * @return false|string
-     */
-    public static function removeCtypePrefix($maskKey)
-    {
-        return substr($maskKey, 5);
     }
 }

@@ -1,0 +1,33 @@
+<label class="t3js-formengine-label" for="form_choosefield">
+    <f:translate key="tx_mask.field.choosefield"/>
+</label>
+<div class="t3js-formengine-field-item">
+    <div class="form-control-wrap">
+        <select
+            v-model="global.activeField.key"
+            :disabled="!global.activeField.newField"
+            @change="validateKey(global.activeField); loadField();"
+            id="form_choosefield"
+            class="form-control form-select"
+        >
+            <optgroup class="c-divider" label="New">
+                <option :value="global.maskPrefix">
+                    <f:translate key="tx_mask.field.newfield"/>
+                </option>
+            </optgroup>
+            <optgroup label="Current new key" v-if="global.activeField.key !== global.maskPrefix && !(getAvailableTcaKeys()[global.activeField.name].includes(global.activeField.key))">
+                <option :value="global.activeField.key">{{ global.activeField.key }}</option>
+            </optgroup>
+            <optgroup v-if="availableCoreTcaForActiveField.length" class="c-divider" label="Core fields">
+                <option v-for="item in availableCoreTcaForActiveField" :value="item.field">
+                    {{ item.label }} ({{ item.field }})
+                </option>
+            </optgroup>
+            <optgroup v-if="availableMaskTcaForActiveField.length" class="c-divider" label="Mask fields">
+                <option v-for="item in availableMaskTcaForActiveField" :value="item.field">
+                    {{ item.label }}
+                </option>
+            </optgroup>
+        </select>
+    </div>
+</div>

@@ -1,0 +1,96 @@
+/*!
+ * CSS files for fontIconPicker
+ *
+ * @license MIT
+ * @version 3.1.1
+ * {@link https://github.com/micc83/fontIconPicker}
+ *
+ */
+.icons-selector.fip-grey {
+    font-size: 16px;
+    color: #000;
+}
+
+.icons-selector.fip-grey .selector {
+    border: 1px solid $border-color;
+    background-color: transparent;
+}
+
+.icons-selector.fip-grey .selector-button {
+    background-color: #f4f4f4;
+    border-left: 1px solid #e1e1e1;
+}
+
+.icons-selector.fip-grey .selector-button i {
+    color: #aaa;
+    text-shadow: 0 1px 0 #fff;
+}
+
+.icons-selector.fip-grey .selector-button:hover {
+    background-color: #f1f1f1;
+}
+
+.icons-selector.fip-grey .selector-button:hover i {
+    color: #999;
+}
+
+.icons-selector.fip-grey .selected-icon {
+    background-color: #fff;
+}
+
+.icons-selector.fip-grey .selected-icon i {
+    color: #404040;
+}
+
+.icons-selector.fip-grey .selector-popup {
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
+    border: 1px solid $border-color;
+}
+
+.icons-selector.fip-grey .selector-category select, .icons-selector.fip-grey .selector-search input[type=text] {
+    border: 1px solid $border-color;
+    color: #404040;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    outline: none;
+}
+
+.icons-selector.fip-grey .selector-search i {
+    color: #777;
+}
+
+.icons-selector.fip-grey .fip-icons-container {
+    background-color: #fff;
+    border: 1px solid $border-color;
+}
+
+.icons-selector.fip-grey .fip-icons-container .loading {
+    color: #eee;
+}
+
+.icons-selector.fip-grey .fip-box {
+    border: 1px solid $border-color;
+}
+
+.icons-selector.fip-grey .fip-box:hover {
+    background-color: #f6f6f6;
+}
+
+.icons-selector.fip-grey .selector-footer, .icons-selector.fip-grey .selector-footer i {
+    color: #777;
+}
+
+.icons-selector.fip-grey .selector-arrows i:hover {
+    color: #000;
+}
+
+.icons-selector.fip-grey span.current-icon, .icons-selector.fip-grey span.current-icon:hover {
+    background-color: #2ea2cc;
+    color: #fff;
+    border: 1px solid #298cba;
+}
+
+.icons-selector.fip-grey .icons-picker-error i:before {
+    color: #eee;
+}

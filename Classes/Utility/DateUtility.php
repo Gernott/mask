@@ -41,7 +41,54 @@ class DateUtility
      */
     public static function convertOldToNewFormat(string $dbType, string $date): string
     {
-        $format = ($dbType === 'date') ? 'd-m-Y' : 'H:i d-m-Y';
+        $format = self::getFormatByDbType($dbType);
         return (new \DateTime($date))->format($format);
+    }
+
+    /**
+     * @param $dbType
+     * @return string
+     */
+    protected static function getFormatByDbType(string $dbType): string
+    {
+        return ($dbType === 'date') ? 'd-m-Y' : 'H:i d-m-Y';
+    }
+
+    /**
+     * @param $dbType
+     * @param $dateString
+     * @return int
+     */
+    public static function convertStringToTimestampByDbType(string $dbType, string $dateString): int
+    {
+        $format = self::getFormatByDbType($dbType);
+        if (DateUtility::isOldDateFormat($dateString)) {
+            $dateString = DateUtility::convertOldToNewFormat($dbType, $dateString);
+        }
+        $date = \DateTime::createFromFormat($format, $dateString);
+        if ($dbType == 'date') {
+            $date->setTime(0, 0);
+        }
+        return $date->getTimestamp();
+    }
+
+    public static function convertTimestampToDate(string $evalDate, int $timestamp): string
+    {
+        $format = 'd-m-Y';
+        switch ($evalDate) {
+            case 'datetime':
+                $format = 'H:i d-m-Y';
+                break;
+            case 'time':
+                $format = 'H:i';
+                break;
+            case 'timesec':
+                $format = 'H:i:s';
+                break;
+        }
+
+        $date = new \DateTime();
+        $date->setTimestamp($timestamp);
+        return $date->format($format);
     }
 }

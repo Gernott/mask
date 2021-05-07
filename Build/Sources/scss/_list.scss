@@ -1,0 +1,80 @@
+.mask-list {
+  padding: 10px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  @media screen and (min-width: $bp-desktop) {
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(90deg, rgba(212,55,47,1) 10%, rgba(26,26,184,1) 100%);
+    margin-bottom: 10px;
+    color: #fff;
+
+    a {
+      color: #fff;
+    }
+
+    a:hover,
+    a:focus {
+      color: $mask;
+      text-decoration: none;
+    }
+  }
+
+  &__logo-wrap {
+    display: flex;
+    align-items: center;
+  }
+
+  &__logo {
+    display: block;
+    width: 50px;
+    height: auto;
+    margin-right: 10px;
+  }
+
+  &__label {
+    font-size: 20px;
+  }
+
+  &__docs {
+    margin-left: auto;
+    margin-right: 20px;
+
+    @media screen and (min-width: $bp-laptop) {
+      font-size: 20px;
+    }
+  }
+
+  &__settings-wrap {
+    padding-right: 10px;
+
+    a {
+      display: flex;
+      align-items: center;
+    }
+
+    .icon {
+      width: 16px;
+
+      @media screen and (min-width: $bp-laptop) {
+        width: 32px;
+      }
+    }
+  }
+
+  &__settings-label {
+    margin-right: 10px;
+
+    @media screen and (min-width: $bp-laptop) {
+      font-size: 20px;
+    }
+  }
+}

@@ -15,7 +15,7 @@
 
 namespace Domain\Repository;
 
-use MASK\Mask\DataStructure\FieldType;
+use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use TYPO3\TestingFramework\Core\BaseTestCase;
 
@@ -603,47 +603,43 @@ class StorageRepositoryTest extends BaseTestCase
             'fields are added' => [
                 [],
                 [
-                    'elements' => [
-                        'label' => 'Element 1',
-                        'key' => 'element1',
-                        'columns' => [
-                            'field1',
-                            'field2',
-                            'header'
-                        ],
-                        'labels' => [
-                            'Field 1',
-                            'Field 2',
-                            'Header'
-                        ]
+                    'label' => 'Element 1',
+                    'key' => 'element1',
+                    'shortLabel' => '',
+                    'description' => '',
+                    'icon' => '',
+                    'color' => '#000000'
+                ],
+                [
+                    [
+                        'key' => 'tx_mask_field1',
+                        'label' => 'Field 1',
+                        'name' => 'string',
+                        'tca' => []
                     ],
-                    'type' => 'tt_content',
-                    'orgKey' => 'element1',
-                    'tca' => [
-                        [
-                            'config' => [
-                                'type' => 'input'
-                            ]
-                        ],
-                        [
-                            'config' => [
-                                'type' => 'input'
-                            ]
-                        ]
+                    [
+                        'key' => 'tx_mask_field2',
+                        'label' => 'Field 2',
+                        'name' => 'string',
+                        'tca' => []
                     ],
-                    'sql' => [
-                        'tt_content' => [
-                            'tinytext',
-                            'tinytext'
-                        ]
+                    [
+                        'key' => 'header',
+                        'label' => 'Header',
+                        'name' => 'string'
                     ]
                 ],
+                'tt_content',
                 [
                     'tt_content' => [
                         'elements' => [
                             'element1' => [
                                 'label' => 'Element 1',
                                 'key' => 'element1',
+                                'shortLabel' => '',
+                                'description' => '',
+                                'icon' => '',
+                                'color' => '#000000',
                                 'columns' => [
                                     'tx_mask_field1',
                                     'tx_mask_field2',
@@ -659,27 +655,36 @@ class StorageRepositoryTest extends BaseTestCase
                         'sql' => [
                             'tx_mask_field1' => [
                                 'tt_content' => [
-                                    'tx_mask_field1' => 'tinytext'
+                                    'tx_mask_field1' => 'varchar(255) DEFAULT \'\' NOT NULL'
                                 ]
                             ],
                             'tx_mask_field2' => [
                                 'tt_content' => [
-                                    'tx_mask_field2' => 'tinytext'
+                                    'tx_mask_field2' => 'varchar(255) DEFAULT \'\' NOT NULL'
                                 ]
                             ]
                         ],
                         'tca' => [
                             'tx_mask_field1' => [
                                 'key' => 'field1',
+                                'description' => '',
+                                'name' => 'string',
                                 'config' => [
                                     'type' => 'input'
-                                ]
+                                ],
                             ],
                             'tx_mask_field2' => [
                                 'key' => 'field2',
+                                'description' => '',
+                                'name' => 'string',
                                 'config' => [
                                     'type' => 'input'
-                                ]
+                                ],
+                            ],
+                            'header' => [
+                                'key' => 'header',
+                                'name' => 'string',
+                                'coreField' => 1
                             ]
                         ]
                     ]
@@ -688,25 +693,31 @@ class StorageRepositoryTest extends BaseTestCase
             'existing typo3 fields do not generate tca nor sql' => [
                 [],
                 [
-                    'elements' => [
-                        'label' => 'Element 1',
-                        'key' => 'element1',
-                        'columns' => [
-                            'header',
-                        ],
-                        'labels' => [
-                            'Header 1',
-                        ]
-                    ],
-                    'type' => 'tt_content',
-                    'orgKey' => 'element1',
+                    'label' => 'Element 1',
+                    'key' => 'element1',
+                    'shortLabel' => '',
+                    'description' => '',
+                    'icon' => '',
+                    'color' => '#000000'
                 ],
+                [
+                    [
+                        'key' => 'header',
+                        'label' => 'Header 1',
+                        'name' => 'string'
+                    ],
+                ],
+                'tt_content',
                 [
                     'tt_content' => [
                         'elements' => [
                             'element1' => [
                                 'label' => 'Element 1',
                                 'key' => 'element1',
+                                'shortLabel' => '',
+                                'description' => '',
+                                'icon' => '',
+                                'color' => '#000000',
                                 'columns' => [
                                     'header',
                                 ],
@@ -715,88 +726,53 @@ class StorageRepositoryTest extends BaseTestCase
                                 ]
                             ]
                         ],
-                    ]
-                ]
-            ],
-            'existing custom fields do not generate tca nor sql' => [
-                [],
-                [
-                    'elements' => [
-                        'label' => 'Element 1',
-                        'key' => 'element1',
-                        'columns' => [
-                            'tx_mask_header',
-                        ],
-                        'labels' => [
-                            'Header 1',
-                        ]
-                    ],
-                    'type' => 'tt_content',
-                    'orgKey' => 'element1',
-                ],
-                [
-                    'tt_content' => [
-                        'elements' => [
-                            'element1' => [
-                                'label' => 'Element 1',
-                                'key' => 'element1',
-                                'columns' => [
-                                    'tx_mask_header',
-                                ],
-                                'labels' => [
-                                    'Header 1',
-                                ]
+                        'tca' => [
+                            'header' => [
+                                'key' => 'header',
+                                'name' => 'string',
+                                'coreField' => 1
                             ]
-                        ],
+                        ]
                     ]
                 ]
             ],
             'inline fields are added as new table' => [
                 [],
                 [
-                    'elements' => [
-                        'label' => 'Element 1',
-                        'key' => 'element1',
-                        'columns' => [
-                            'inline_field',
-                            'field1',
-                        ],
-                        'labels' => [
-                            'Inline Field',
-                            'Field 1'
-                        ]
-                    ],
-                    'type' => 'tt_content',
-                    'orgKey' => 'element1',
-                    'tca' => [
-                        [
-                            'config' => [
-                                'type' => 'inline'
+                    'label' => 'Element 1',
+                    'key' => 'element1',
+                    'shortLabel' => '',
+                    'description' => '',
+                    'icon' => '',
+                    'color' => '#000000'
+                ],
+                [
+                    [
+                        'key' => 'tx_mask_inline_field',
+                        'label' => 'Inline Field',
+                        'name' => 'inline',
+                        'tca' => [],
+                        'fields' => [
+                            [
+                                'key' => 'tx_mask_field1',
+                                'label' => 'Field 1',
+                                'name' => 'string',
+                                'tca' => []
                             ]
-                        ],
-                        [
-                            'config' => [
-                                'type' => 'input',
-                            ],
-                            'inlineParent' => 'tx_mask_inline_field',
-                            'label' => 'Field 1'
-                        ]
-                    ],
-                    'sql' => [
-                        'tt_content' => [
-                            0 => 'int(11) unsigned DEFAULT \'0\' NOT NULL',
-                        ],
-                        'tx_mask_inline_field' => [
-                            1 => 'tinytext',
                         ]
                     ]
                 ],
+                'tt_content',
                 [
                     'tt_content' => [
                         'elements' => [
                             'element1' => [
                                 'label' => 'Element 1',
                                 'key' => 'element1',
+                                'shortLabel' => '',
+                                'description' => '',
+                                'icon' => '',
+                                'color' => '#000000',
                                 'columns' => [
                                     'tx_mask_inline_field'
                                 ],
@@ -816,16 +792,27 @@ class StorageRepositoryTest extends BaseTestCase
                             'tx_mask_inline_field' => [
                                 'key' => 'inline_field',
                                 'config' => [
-                                    'type' => 'inline'
-                                ]
+                                    'type' => 'inline',
+                                    'foreign_table' => '--inlinetable--',
+                                    'foreign_field' => 'parentid',
+                                    'foreign_table_field' => 'parenttable',
+                                    'foreign_sortby' => 'sorting',
+                                    'appearance' => [
+                                        'enabledControls' => [
+                                            'dragdrop' => 1
+                                        ]
+                                    ]
+                                ],
+                                'description' => '',
+                                'name' => 'inline',
                             ],
-                        ]
+                        ],
                     ],
                     'tx_mask_inline_field' => [
                         'sql' => [
                             'tx_mask_field1' => [
                                 'tx_mask_inline_field' => [
-                                    'tx_mask_field1' => 'tinytext'
+                                    'tx_mask_field1' => 'varchar(255) DEFAULT \'\' NOT NULL'
                                 ]
                             ]
                         ],
@@ -835,107 +822,10 @@ class StorageRepositoryTest extends BaseTestCase
                                 'label' => 'Field 1',
                                 'inlineParent' => 'tx_mask_inline_field',
                                 'order' => 1,
+                                'description' => '',
+                                'name' => 'string',
                                 'config' => [
                                     'type' => 'input'
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-            ],
-            'RTE option is set to 1' => [
-                [],
-                [
-                    'elements' => [
-                        'label' => 'Element 1',
-                        'key' => 'element1',
-                        'columns' => [
-                            'inline_field',
-                            'field1',
-                        ],
-                        'labels' => [
-                            'Inline Field',
-                            'Field 1'
-                        ],
-                        'options' => [
-                            1 => 'rte'
-                        ]
-                    ],
-                    'type' => 'tt_content',
-                    'orgKey' => 'element1',
-                    'tca' => [
-                        [
-                            'config' => [
-                                'type' => 'inline'
-                            ]
-                        ],
-                        [
-                            'config' => [
-                                'type' => 'text',
-                            ],
-                            'inlineParent' => 'tx_mask_inline_field',
-                            'label' => 'Field 1'
-                        ]
-                    ],
-                    'sql' => [
-                        'tt_content' => [
-                            0 => 'int(11) unsigned DEFAULT \'0\' NOT NULL',
-                        ],
-                        'tx_mask_inline_field' => [
-                            1 => 'text',
-                        ]
-                    ]
-                ],
-                [
-                    'tt_content' => [
-                        'elements' => [
-                            'element1' => [
-                                'label' => 'Element 1',
-                                'key' => 'element1',
-                                'columns' => [
-                                    'tx_mask_inline_field'
-                                ],
-                                'labels' => [
-                                    'Inline Field',
-                                ],
-                                'options' => [
-                                    1 => 'rte'
-                                ]
-                            ]
-                        ],
-                        'sql' => [
-                            'tx_mask_inline_field' => [
-                                'tt_content' => [
-                                    'tx_mask_inline_field' => 'int(11) unsigned DEFAULT \'0\' NOT NULL'
-                                ]
-                            ],
-                        ],
-                        'tca' => [
-                            'tx_mask_inline_field' => [
-                                'key' => 'inline_field',
-                                'config' => [
-                                    'type' => 'inline'
-                                ]
-                            ],
-                        ]
-                    ],
-                    'tx_mask_inline_field' => [
-                        'sql' => [
-                            'tx_mask_field1' => [
-                                'tx_mask_inline_field' => [
-                                    'tx_mask_field1' => 'text'
-                                ]
-                            ]
-                        ],
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'key' => 'field1',
-                                'label' => 'Field 1',
-                                'inlineParent' => 'tx_mask_inline_field',
-                                'order' => 1,
-                                'rte' => '1',
-                                'config' => [
-                                    'type' => 'text'
                                 ]
                             ]
                         ]
@@ -945,37 +835,22 @@ class StorageRepositoryTest extends BaseTestCase
             'Timestamps range converted to integer' => [
                 [],
                 [
-                    'elements' => [
-                        'label' => 'Element 1',
-                        'key' => 'element1',
-                        'columns' => [
-                            'timestamp',
-                        ],
-                        'labels' => [
-                            'Timestamp',
-                        ],
-                    ],
-                    'type' => 'tt_content',
-                    'orgKey' => 'element1',
-                    'tca' => [
-                        [
-                            'config' => [
-                                'type' => 'input',
-                                'renderType' => 'inputDateTime',
-                                'eval' => 'date,int',
-                                'range' => [
-                                    'lower' => '00:00 01.01.2021',
-                                    'upper' => '00:00 15.01.2021'
-                                ]
-                            ]
-                        ],
-                    ],
-                    'sql' => [
-                        'tt_content' => [
-                            0 => 'int',
-                        ],
+                    'key' => 'element1',
+                    'label' => 'Element 1'
+                ],
+                [
+                    [
+                        'key' => 'tx_mask_timestamp',
+                        'label' => 'Timestamp',
+                        'name' => 'timestamp',
+                        'tca' => [
+                            'config.eval.date' => 1,
+                            'config.range.lower' => '00:00 01.01.2021',
+                            'config.range.upper' => '00:00 15.01.2021',
+                        ]
                     ]
                 ],
+                'tt_content',
                 [
                     'tt_content' => [
                         'elements' => [
@@ -993,13 +868,15 @@ class StorageRepositoryTest extends BaseTestCase
                         'sql' => [
                             'tx_mask_timestamp' => [
                                 'tt_content' => [
-                                    'tx_mask_timestamp' => 'int'
+                                    'tx_mask_timestamp' => 'int(10) unsigned DEFAULT \'0\' NOT NULL'
                                 ]
                             ],
                         ],
                         'tca' => [
                             'tx_mask_timestamp' => [
                                 'key' => 'timestamp',
+                                'name' => 'timestamp',
+                                'description' => '',
                                 'config' => [
                                     'type' => 'input',
                                     'renderType' => 'inputDateTime',
@@ -1017,31 +894,17 @@ class StorageRepositoryTest extends BaseTestCase
             'inline fields with no children are not added as new table' => [
                 [],
                 [
-                    'elements' => [
-                        'label' => 'Element 1',
-                        'key' => 'element1',
-                        'columns' => [
-                            'inline_field',
-                        ],
-                        'labels' => [
-                            'Inline Field',
-                        ]
-                    ],
-                    'type' => 'tt_content',
-                    'orgKey' => 'element1',
-                    'tca' => [
-                        [
-                            'config' => [
-                                'type' => 'inline'
-                            ]
-                        ],
-                    ],
-                    'sql' => [
-                        'tt_content' => [
-                            0 => 'int(11) unsigned DEFAULT \'0\' NOT NULL',
-                        ],
+                    'label' => 'Element 1',
+                    'key' => 'element1'
+                ],
+                [
+                    [
+                        'key' => 'tx_mask_inline_field',
+                        'name' => 'inline',
+                        'label' => 'Inline Field'
                     ]
                 ],
+                'tt_content',
                 [
                     'tt_content' => [
                         'elements' => [
@@ -1066,8 +929,19 @@ class StorageRepositoryTest extends BaseTestCase
                         'tca' => [
                             'tx_mask_inline_field' => [
                                 'key' => 'inline_field',
+                                'description' => '',
+                                'name' => 'inline',
                                 'config' => [
-                                    'type' => 'inline'
+                                    'type' => 'inline',
+                                    'foreign_table' => '--inlinetable--',
+                                    'foreign_field' => 'parentid',
+                                    'foreign_table_field' => 'parenttable',
+                                    'foreign_sortby' => 'sorting',
+                                    'appearance' => [
+                                        'enabledControls' => [
+                                            'dragdrop' => 1
+                                        ]
+                                    ]
                                 ]
                             ],
                         ]
@@ -1077,48 +951,29 @@ class StorageRepositoryTest extends BaseTestCase
             'palettes are added' => [
                 [],
                 [
-                    'elements' => [
-                        'label' => 'Element 1',
-                        'key' => 'element1',
-                        'columns' => [
-                            'palette',
-                            'header',
-                            'field'
-                        ],
-                        'labels' => [
-                            'My Palette',
-                            'Header',
-                            'Field'
-                        ]
-                    ],
-                    'type' => 'tt_content',
-                    'orgKey' => 'element1',
-                    'sql' => [
-                        'tt_content' => [
-                            2 => 'tinytext'
-                        ]
-                    ],
-                    'tca' => [
-                        [
-                            'config' => [
-                                'type' => 'palette'
-                            ]
-                        ],
-                        [
-                            'inlineParent' => 'tx_mask_palette',
-                            'inPalette' => '1',
-                            'label' => 'Header'
-                        ],
-                        [
-                            'config' => [
-                                'type' => 'input',
+                    'label' => 'Element 1',
+                    'key' => 'element1',
+                ],
+                [
+                    [
+                        'key' => 'tx_mask_palette',
+                        'label' => 'My Palette',
+                        'name' => 'palette',
+                        'fields' => [
+                            [
+                                'key' => 'header',
+                                'label' => 'Header',
+                                'name' => 'string'
                             ],
-                            'inlineParent' => 'tx_mask_palette',
-                            'inPalette' => '1',
-                            'label' => 'Field'
+                            [
+                                'key' => 'tx_mask_field',
+                                'label' => 'Field',
+                                'name' => 'string'
+                            ]
                         ]
                     ]
                 ],
+                'tt_content',
                 [
                     'tt_content' => [
                         'elements' => [
@@ -1142,7 +997,7 @@ class StorageRepositoryTest extends BaseTestCase
                         'sql' => [
                             'tx_mask_field' => [
                                 'tt_content' => [
-                                    'tx_mask_field' => 'tinytext'
+                                    'tx_mask_field' => 'varchar(255) DEFAULT \'\' NOT NULL'
                                 ]
                             ]
                         ],
@@ -1151,17 +1006,21 @@ class StorageRepositoryTest extends BaseTestCase
                                 'config' => [
                                     'type' => 'palette'
                                 ],
-                                'key' => 'palette'
+                                'key' => 'palette',
+                                'description' => '',
+                                'name' => 'palette'
                             ],
                             'tx_mask_field' => [
                                 'config' => [
                                     'type' => 'input'
                                 ],
+                                'name' => 'string',
                                 'key' => 'field',
+                                'description' => '',
                                 'inlineParent' => [
                                     'element1' => 'tx_mask_palette'
                                 ],
-                                'inPalette' => '1',
+                                'inPalette' => 1,
                                 'label' => [
                                     'element1' => 'Field'
                                 ],
@@ -1171,17 +1030,18 @@ class StorageRepositoryTest extends BaseTestCase
                             ],
                             'header' => [
                                 'key' => 'header',
+                                'name' => 'string',
                                 'inlineParent' => [
                                     'element1' => 'tx_mask_palette'
                                 ],
-                                'inPalette' => '1',
+                                'inPalette' => 1,
                                 'label' => [
                                     'element1' => 'Header'
                                 ],
                                 'order' => [
                                     'element1' => 1
                                 ],
-                                'coreField' => '1'
+                                'coreField' => 1
                             ]
                         ]
                     ]
@@ -1211,7 +1071,7 @@ class StorageRepositoryTest extends BaseTestCase
                         'sql' => [
                             'tx_mask_field_1' => [
                                 'tt_content' => [
-                                    'tx_mask_field_1' => 'tinytext'
+                                    'tx_mask_field_1' => 'varchar(255) DEFAULT \'\' NOT NULL'
                                 ]
                             ]
                         ],
@@ -1226,7 +1086,7 @@ class StorageRepositoryTest extends BaseTestCase
                                 'config' => [
                                     'type' => 'input'
                                 ],
-                                'key' => 'field1',
+                                'key' => 'field_1',
                                 'inPalette' => '1',
                                 'inlineParent' => [
                                     'element1' => 'tx_mask_palette_1'
@@ -1256,40 +1116,29 @@ class StorageRepositoryTest extends BaseTestCase
                     ]
                 ],
                 [
-                    'elements' => [
-                        'label' => 'Element 2',
-                        'key' => 'element2',
-                        'columns' => [
-                            'palette_2',
-                            'tx_mask_field_1',
-                            'header'
-                        ],
-                        'labels' => [
-                            'Palette 2',
-                            'Field 1 in Palette 2',
-                            'Header 1 in Element 2',
-                        ]
-                    ],
-                    'type' => 'tt_content',
-                    'orgKey' => '',
-                    'tca' => [
-                        [
-                            'config' => [
-                                'type' => 'palette'
+                    'label' => 'Element 2',
+                    'key' => 'element2',
+                ],
+                [
+                    [
+                        'key' => 'tx_mask_palette_2',
+                        'label' => 'Palette 2',
+                        'name' => 'palette',
+                        'fields' => [
+                            [
+                                'key' => 'tx_mask_field_1',
+                                'label' => 'Field 1 in Element 2',
+                                'name' => 'string'
+                            ],
+                            [
+                                'key' => 'header',
+                                'label' => 'Header in Element 2',
+                                'name' => 'string'
                             ]
-                        ],
-                        [
-                            'inlineParent' => 'tx_mask_palette_2',
-                            'label' => 'Field 1 in Element 2',
-                            'inPalette' => '1'
-                        ],
-                        [
-                            'inlineParent' => 'tx_mask_palette_2',
-                            'label' => 'Header in Element 2',
-                            'inPalette' => '1'
                         ]
                     ]
                 ],
+                'tt_content',
                 [
                     'tt_content' => [
                         'elements' => [
@@ -1327,7 +1176,7 @@ class StorageRepositoryTest extends BaseTestCase
                         'sql' => [
                             'tx_mask_field_1' => [
                                 'tt_content' => [
-                                    'tx_mask_field_1' => 'tinytext'
+                                    'tx_mask_field_1' => 'varchar(255) DEFAULT \'\' NOT NULL'
                                 ]
                             ]
                         ],
@@ -1342,18 +1191,20 @@ class StorageRepositoryTest extends BaseTestCase
                                 'config' => [
                                     'type' => 'palette'
                                 ],
-                                'key' => 'palette_2'
+                                'key' => 'palette_2',
+                                'description' => '',
+                                'name' => 'palette'
                             ],
                             'tx_mask_field_1' => [
                                 'config' => [
                                     'type' => 'input'
                                 ],
-                                'key' => 'field1',
+                                'key' => 'field_1',
                                 'inlineParent' => [
                                     'element1' => 'tx_mask_palette_1',
                                     'element2' => 'tx_mask_palette_2'
                                 ],
-                                'inPalette' => '1',
+                                'inPalette' => 1,
                                 'label' => [
                                     'element1' => 'Field 1 in Element 1',
                                     'element2' => 'Field 1 in Element 2',
@@ -1361,11 +1212,13 @@ class StorageRepositoryTest extends BaseTestCase
                                 'order' => [
                                     'element1' => 1,
                                     'element2' => 1
-                                ]
+                                ],
+                                'description' => '',
+                                'name' => 'string'
                             ],
                             'header' => [
                                 'key' => 'header',
-                                'inPalette' => '1',
+                                'inPalette' => 1,
                                 'inlineParent' => [
                                     'element1' => 'tx_mask_palette_1',
                                     'element2' => 'tx_mask_palette_2'
@@ -1378,224 +1231,31 @@ class StorageRepositoryTest extends BaseTestCase
                                     'element1' => 2,
                                     'element2' => 2
                                 ],
-                                'coreField' => '1'
+                                'coreField' => 1,
+                                'name' => 'string'
                             ]
                         ]
                     ]
                 ]
-            ],
-            'root palette having normal field after inline field. Only one palette is created' => [
-                [],
-                [
-                    'elements' => [
-                        'label' => 'Element 1',
-                        'key' => 'element1',
-                        'columns' => [
-                            'palette',
-                            'inline',
-                            'inline_field',
-                            'palette_inline',
-                            'palette_field_inline',
-                            'header'
-                        ],
-                        'labels' => [
-                            'My Palette',
-                            'Inline',
-                            'Inline Field',
-                            'Palette Inline',
-                            'Palette Field Inline',
-                            'Header'
-                        ]
-                    ],
-                    'type' => 'tt_content',
-                    'orgKey' => 'element1',
-                    'sql' => [
-                        'tt_content' => [
-                            1 => 'int(11) unsigned DEFAULT \'0\' NOT NULL'
-                        ],
-                        'tx_mask_inline' => [
-                            2 => 'tinytext',
-                            4 => 'tinytext'
-                        ],
-                    ],
-                    'tca' => [
-                        [
-                            'config' => [
-                                'type' => 'palette'
-                            ]
-                        ],
-                        [
-                            'config' => [
-                                'type' => 'inline',
-                            ],
-                            'inlineParent' => 'tx_mask_palette',
-                            'inPalette' => '1',
-                            'label' => 'Inline'
-                        ],
-                        [
-                            'config' => [
-                                'type' => 'input'
-                            ],
-                            'inlineParent' => 'tx_mask_inline',
-                            'label' => 'Inline Field'
-                        ],
-                        [
-                            'config' => [
-                                'type' => 'palette'
-                            ],
-                            'inlineParent' => 'tx_mask_inline',
-                            'label' => 'Palette Inline'
-                        ],
-                        [
-                            'config' => [
-                                'type' => 'input'
-                            ],
-                            'inlineParent' => 'tx_mask_palette_inline',
-                            'inPalette' => '1',
-                            'label' => 'Palette Field Inline'
-                        ],
-                        [
-                            'inlineParent' => 'tx_mask_palette',
-                            'inPalette' => '1',
-                            'label' => 'Header'
-                        ]
-                    ]
-                ],
-                [
-                    'tt_content' => [
-                        'elements' => [
-                            'element1' => [
-                                'label' => 'Element 1',
-                                'key' => 'element1',
-                                'columns' => [
-                                    'tx_mask_palette',
-                                ],
-                                'labels' => [
-                                    'My Palette',
-                                ]
-                            ]
-                        ],
-                        'palettes' => [
-                            'tx_mask_palette' => [
-                                'label' => 'My Palette',
-                                'showitem' => ['tx_mask_inline', 'header']
-                            ]
-                        ],
-                        'sql' => [
-                            'tx_mask_inline' => [
-                                'tt_content' => [
-                                    'tx_mask_inline' => 'int(11) unsigned DEFAULT \'0\' NOT NULL'
-                                ]
-                            ]
-                        ],
-                        'tca' => [
-                            'tx_mask_palette' => [
-                                'config' => [
-                                    'type' => 'palette'
-                                ],
-                                'key' => 'palette'
-                            ],
-                            'tx_mask_inline' => [
-                                'config' => [
-                                    'type' => 'inline'
-                                ],
-                                'key' => 'inline',
-                                'inlineParent' => [
-                                    'element1' => 'tx_mask_palette'
-                                ],
-                                'inPalette' => '1',
-                                'label' => [
-                                    'element1' => 'Inline'
-                                ],
-                                'order' => [
-                                    'element1' => 1
-                                ]
-                            ],
-                            'header' => [
-                                'key' => 'header',
-                                'inlineParent' => [
-                                    'element1' => 'tx_mask_palette'
-                                ],
-                                'inPalette' => '1',
-                                'label' => [
-                                    'element1' => 'Header'
-                                ],
-                                'order' => [
-                                    'element1' => 5
-                                ],
-                                'coreField' => '1'
-                            ]
-                        ]
-                    ],
-                    'tx_mask_inline' => [
-                        'sql' => [
-                            'tx_mask_inline_field' => [
-                                'tx_mask_inline' => [
-                                    'tx_mask_inline_field' => 'tinytext',
-                                ]
-                            ],
-                            'tx_mask_palette_field_inline' => [
-                                'tx_mask_inline' => [
-                                    'tx_mask_palette_field_inline' => 'tinytext'
-                                ]
-                            ]
-                        ],
-                        'tca' => [
-                            'tx_mask_inline_field' => [
-                                'config' => [
-                                    'type' => 'input'
-                                ],
-                                'key' => 'inline_field',
-                                'order' => 2,
-                                'label' => 'Inline Field',
-                                'inlineParent' => 'tx_mask_inline'
-                            ],
-                            'tx_mask_palette_inline' => [
-                                'config' => [
-                                    'type' => 'palette'
-                                ],
-                                'key' => 'palette_inline',
-                                'order' => 3,
-                                'inlineParent' => 'tx_mask_inline',
-                                'label' => 'Palette Inline'
-                            ],
-                            'tx_mask_palette_field_inline' => [
-                                'config' => [
-                                    'type' => 'input'
-                                ],
-                                'key' => 'palette_field_inline',
-                                'order' => 4,
-                                'label' => 'Palette Field Inline',
-                                'inlineParent' => 'tx_mask_palette_inline',
-                                'inPalette' => '1'
-                            ]
-                        ],
-                        'palettes' => [
-                            'tx_mask_palette_inline' => [
-                                'showitem' => [
-                                    'tx_mask_palette_field_inline'
-                                ],
-                                'label' => 'Palette Inline',
-                            ]
-                        ]
-                    ]
-                ]
-            ],
+            ]
         ];
     }
 
     /**
      * @param $json
-     * @param $content
+     * @param $element
+     * @param $fields
+     * @param $table
      * @param $expected
+     * @throws \Exception
      * @dataProvider addDataProvider
      * @test
      */
-    public function add($json, $content, $expected)
+    public function add($json, $element, $fields, $table, $expected)
     {
         $storageRepository = $this->createPartialMock(StorageRepository::class, ['load']);
         $storageRepository->expects(self::any())->method('load')->willReturn($json);
-        self::assertEquals($expected, $storageRepository->add($content));
+        self::assertEquals($expected, $storageRepository->add($element, $fields, $table));
     }
 
     public function removeDataProvider()
@@ -1630,12 +1290,12 @@ class StorageRepositoryTest extends BaseTestCase
                         'sql' => [
                             'tx_mask_field' => [
                                 'tt_content' => [
-                                    'tx_mask_field' => 'tinytext'
+                                    'tx_mask_field' => 'varchar(255) DEFAULT \'\' NOT NULL'
                                 ]
                             ],
                             'tx_mask_field_2' => [
                                 'tt_content' => [
-                                    'tx_mask_field_2' => 'tinytext'
+                                    'tx_mask_field_2' => 'varchar(255) DEFAULT \'\' NOT NULL'
                                 ]
                             ]
                         ]
@@ -1697,12 +1357,12 @@ class StorageRepositoryTest extends BaseTestCase
                         'sql' => [
                             'tx_mask_field' => [
                                 'tt_content' => [
-                                    'tx_mask_field' => 'tinytext'
+                                    'tx_mask_field' => 'varchar(255) DEFAULT \'\' NOT NULL'
                                 ]
                             ],
                             'tx_mask_field_2' => [
                                 'tt_content' => [
-                                    'tx_mask_field_2' => 'tinytext'
+                                    'tx_mask_field_2' => 'varchar(255) DEFAULT \'\' NOT NULL'
                                 ]
                             ]
                         ]
@@ -1764,12 +1424,12 @@ class StorageRepositoryTest extends BaseTestCase
                         'sql' => [
                             'tx_mask_field' => [
                                 'tt_content' => [
-                                    'tx_mask_field' => 'tinytext'
+                                    'tx_mask_field' => 'varchar(255) DEFAULT \'\' NOT NULL'
                                 ]
                             ],
                             'tx_mask_field_2' => [
                                 'tt_content' => [
-                                    'tx_mask_field_2' => 'tinytext'
+                                    'tx_mask_field_2' => 'varchar(255) DEFAULT \'\' NOT NULL'
                                 ]
                             ]
                         ],
@@ -1859,7 +1519,7 @@ class StorageRepositoryTest extends BaseTestCase
                         'sql' => [
                             'tx_mask_field' => [
                                 'tt_content' => [
-                                    'tx_mask_field' => 'tinytext'
+                                    'tx_mask_field' => 'varchar(255) DEFAULT \'\' NOT NULL'
                                 ]
                             ],
                         ],
@@ -1928,7 +1588,7 @@ class StorageRepositoryTest extends BaseTestCase
                         'sql' => [
                             'tx_mask_field' => [
                                 'tt_content' => [
-                                    'tx_mask_field' => 'tinytext'
+                                    'tx_mask_field' => 'varchar(255) DEFAULT \'\' NOT NULL'
                                 ]
                             ],
                         ],

@@ -1,5 +1,6 @@
 .idea/
 .Build/
+Build/node_modules/
 composer.lock
 var/
 Build/testing-docker/.env
