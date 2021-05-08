@@ -39,14 +39,17 @@ Mask
 .. toctree::
    :maxdepth: 5
    :titlesonly:
-   :glob:
 
    Introduction/Index
+   Sitepackage/Index
    Installation/Index
    Contentelements/Index
    Pagetemplates/Index
    Fieldtypes/Index
+   Guides/Index
+   Glossary/Index
+   Upgrade/Index
+   ChangeLog/Index
    Sponsors/Index
    ToDoList/Index
-   ChangeLog/Index
    Targets

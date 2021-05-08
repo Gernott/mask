@@ -1,0 +1,19 @@
+.. include:: ../../Includes.txt
+
+Palette
+=======
+
+.. figure:: ../../Images/FieldTypes/Palette.svg
+   :alt: Palette
+   :class: float-left
+   :width: 64px
+
+Palettes allow you to group multiple fields. They will by default be shown next to each other.
+
+.. rst-class::  clear-both
+
+.. figure:: ../../Images/FieldTypes/PalettePreview.png
+   :alt: Palette field
+   :class: with-border
+
+   Palette field

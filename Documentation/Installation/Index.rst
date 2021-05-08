@@ -1,105 +1,49 @@
 ﻿.. include:: ../Includes.txt
 
-.. _admin-manual:
+.. _installation:
 
-Administrator Manual
-====================
-
-Target group: **Administrators**
-
-.. _admin-installation:
-
+============
 Installation
-------------
+============
 
-To install the extension, perform the following steps:
+.. note::
+   Before you start installing mask, you should have set up your :ref:`sitepackage<sitepackage>`.
 
-#. Import and install the Extension in the TYPO3-Backend in Module **Extensionmanager**.
+Download Mask with composer by running the command `composer require mask/mask` or install via extension manager.
+As soon as you activate the extension, Mask will create a dummy extension `mask_project`. To prevent this you can
+change the settings before you activate Mask. The easiest way to change the paths is to add this to your
+`AdditionalConfiguration.php`:
 
-#. Include static template **Content Elements (fluid_styled_content)** first and after it **Mask (mask)** in Module **Template** in your main TypoScript-Template.
+.. code-block:: php
+
+   $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['mask'] = [
+       'backend' => 'EXT:sitepackage/Resources/Private/Mask/Backend/Templates/',
+       'backendlayout_pids' => '0,1',
+       'content' => 'EXT:sitepackage/Resources/Private/Mask/Frontend/Templates/',
+       'json' => 'EXT:sitepackage/Configuration/Mask/mask.json',
+       'layouts' => 'EXT:sitepackage/Resources/Private/Mask/Frontend/Layouts/',
+       'layouts_backend' => 'EXT:sitepackage/Resources/Private/Mask/Backend/Layouts/',
+       'partials' => 'EXT:sitepackage/Resources/Private/Mask/Frontend/Partials/',
+       'partials_backend' => 'EXT:sitepackage/Resources/Private/Mask/Backend/Partials/',
+       'preview' => 'EXT:sitepackage/Resources/Public/Mask/',
+   ];
+
+Explanations for the settings can be found :ref:`here <extension-settings>`.
+Adjust the paths to your needs and activate the extension. When you visit the Mask backend, you will have the option to
+create all missing files and folders defined here. This is also great to have in version control so others will have
+this already set up when checking out.
+
+Mask requires `fluid_styled_content` so go to your static includes in the template module and include it there.
+**After** that also include the Mask static TypoScript.
 
 .. figure:: ../Images/AdministratorManual/TypoScriptTemplate.png
    :alt: Include TypoScript Template
 
    Include TypoScript Template
 
-Extension Settings
-------------------
+That's it. Now you can start creating your own content elements!
 
-General
-_______
+.. toctree::
+   :titlesonly:
 
-json
-....
-
-| File with project specific mask configuration.
-| Mask stores the information, which is needed to generate contentelements and extend pagetemplates into one file: mask.json. With this setting you can change the path to this file.
-| Default: :code:`typo3conf/ext/mask_project/Resources/Private/Mask/mask.json`
-
-backendlayout_pids
-..................
-
-| PageIds from where the in PageTS defined backend layouts should be loaded (comma separated)
-| Default: :code:`0,1`
-
-Frontend
-________
-
-content
-.......
-
-| Folder for Content Fluid Templates (with trailing slash).
-| Mask generates a html file with fluid tags for each new contentelement. Here you can set the path to this file.
-| Default: :code:`typo3conf/ext/mask_project/Resources/Private/Mask/Frontend/Templates/`
-
-layouts
-.......
-
-| Folder for Content Fluid Layouts (with trailing slash).
-| Here you can set the path to the fluid layouts of your mask templates.
-| Default: :code:`typo3conf/ext/mask_project/Resources/Private/Mask/Frontend/Layouts/`
-
-partials
-........
-
-| Folder for Content Fluid Partials (with trailing slash).
-| Here you can set the path to the fluid partials of your mask templates.
-| Default: :code:`typo3conf/ext/mask_project/Resources/Private/Mask/Frontend/Partials/`
-
-Backend
-_______
-
-backend
-.......
-
-| Folder for Backend Preview Templates (with trailing slash).
-| Here you can set the path the fluid templates for backend previews of your content elements.
-| Default: :code:`typo3conf/ext/mask_project/Resources/Private/Mask/Backend/Templates/`
-
-layouts_backend
-...............
-
-| Folder for Backend Preview Layouts (with trailing slash).
-| Here you can set the path to the fluid layouts of your mask backend previews.
-| Default: :code:`typo3conf/ext/mask_project/Resources/Private/Mask/Backend/Layouts/`
-
-partials_backend
-................
-
-| Folder for Backend Preview Partials (with trailing slash).
-| Here you can set the path to the fluid partials of your mask backend previews.
-| Default: :code:`typo3conf/ext/mask_project/Resources/Private/Mask/Backend/Partials/`
-
-preview
-.......
-
-| Folder for preview images (with trailing slash).
-| You can change the preview image of contentelements to your prefered png image or png icon (32x32 pixel).
-| Store them with the key of the contentelement as filename (e.g. mykey.png)
-| Default: :code:`typo3conf/ext/mask_project/Resources/Private/Mask/Backend/Previews/`
-|
-
-.. figure:: ../Images/AdministratorManual/ExtensionConfiguration.png
-   :alt: Extension Manager options
-
-   Extension Configuration options in **Settings -> Extension Configuration**
+   Settings

@@ -1,17 +1,13 @@
-﻿.. ==================================================
-.. FOR YOUR INFORMATION
-.. --------------------------------------------------
-.. -*- coding: utf-8 -*- with BOM.
-
-.. include:: ../Includes.txt
-
+﻿.. include:: ../Includes.txt
 
 Sponsors
 ========
 
 Mask was supported by great sponsors! Thank you very much!
-We started Mask for our customers and used it only internally. Creating new fields always had to be done by hand (create SQL/TCA,...). Then we got the idea to create a comfortable wizard to create such things easier and make this public. We searched for financial support and discovered crowdfunding. On `startnext <https://www.startnext.com/mask/>`_ we created our project.
-
+We started Mask for our customers and used it only internally. Creating new fields always had to be done by hand
+(create SQL/TCA,...). Then we got the idea to create a comfortable wizard to create such things easier and make this
+public. We searched for financial support and discovered crowdfunding. On `startnext <https://www.startnext.com/mask/>`_
+we created our project.
 
 List of main sponsors
 ---------------------
@@ -23,7 +19,6 @@ List of main sponsors
 .. figure:: ../Images/SponsorsManual/mittwald.jpg
    :alt: Mittwald
    :target: https://www.mittwald.de
-
 
 List of logo sponsors
 ---------------------
@@ -107,7 +102,6 @@ List of logo sponsors
 .. figure:: ../Images/SponsorsManual/webservices.jpg
    :alt: web services
    :target: https://taunus-webservices.de
-
 
 
 List of further sponsors

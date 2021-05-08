@@ -1,70 +1,106 @@
-﻿.. ==================================================
-.. FOR YOUR INFORMATION
-.. --------------------------------------------------
-.. -*- coding: utf-8 -*- with BOM.
+﻿.. include:: ../Includes.txt
 
-.. include:: ../Includes.txt
+.. _create-content-elements:
 
+=======================
+Create content elements
+=======================
 
-.. _configuration:
+After following the :ref:`installation <installation>` steps, you can start using Mask. Open the backend module
+**Mask**. It is located right below the extension manager module. Create your first content element by clicking on the
+**Create new content element** button.
 
-Contentelements
-===============
+Now a wizard appears, who will guide you through some mandatory fields:
 
-After installing Mask and including the static TypoScript template, you can start using Mask. Open the Backend-module **Mask**.
-Create your first contentelement by clicking the **new**-icon.
-On the following page you have two mandatory fields:
+* `Label`: Enter the label for this content element. This is the name editors will see when creating the content
+  element.
 
-+ **Title**: enter the title for this contentelement. It is seen by the editor on creating a new content element.
+* `Key` (unique, lowercase): Your element needs a unique key. This key is used for the CType (Content Type), which is
+  essential for defining the content element. Also the Fluid HTML templates will be generated with this name.
 
-+ **Element-key (unique, lowercase)**: your element needs an elementkey. This key is used internally and is not seen by the editor. It must be uniqe in the whole installation and in lowercase letters. The key is used in the database and as filename for the HTML-template and the preview-image.
+.. figure:: ../Images/ContentelementsManual/Wizard.png
+   :alt: The Multi Step Wizard
 
-Then there are two further fields:
+   The Multi Step Wizard
 
-+ **Short Title**: The Short Title is visible if you edit an element and open the selectbox for the content-type. If this field is empty, the title is used.
+After you have finished defining the label and the key, the Mask Builder will open.
 
-+ **Description**: It would be good to add a description for the editors. It appears at the wizard for creating new content next to the title and the preview-image.
+.. figure:: ../Images/ContentelementsManual/MaskBuilder.png
+   :alt: The Mask Content Element Builder
 
-Now you can fill your element with different fields. Look at the page **Fieldtypes** for more information.
+   The Mask Content Element Builder
 
-When ready, save your element. On first save, a HTML examplefile is generated and saved in the folder for your templates. See page **Installation** for more details. On a default installation you find it here: fileadmin/templates/content.
-Now you can edit the content of the file with your HTML- and Fluid-Tags. It will never be overwritten, even if you change the element in Mask. If you need some fluid example code for newly added fields, click the HTML icon in the Mask module.
+By default the tab `Fields` will be open. To adjust your previous input, switch to the tab `Element Meta Data`. This tab
+contains general information about your content element.
 
-You can set a bootstrap icon as preview image for your content elements. You can overwrite this, by placing a preview image in your preview image folder(Usually it is in: fileadmin/templates/preview.) Ideally this should be a screenshot of your element or a nice icon. The image will be shown in 1:1 size. So you should save the image with a maximum width of 150 pixel. Height doesn't matter.
-The image also won't be overwritten on editing the element.
+.. figure:: ../Images/ContentelementsManual/ElementMetaData.png
+   :alt: Element Meta Data tab
+   :class: with-border
+
+   The element meta data tab opened
+
+Besides the label and the key there are some further fields:
+
+* `Short Title`: The Short Title is used, if you edit an element and open the selectbox for the CType. If this field is
+  empty, the title is used.
+* `Description`: It would be helpful to add a description for the editors. It appears in the wizard for creating new
+  content elements next to the title and the preview image.
+* `Icon`: If you quickly need a preview icon for your content element and you don't want to create an image, just choose
+  a fontawesome icon. You can select from different categories or search for a keyword. If you don't define any icon, a
+  fallback icon will be created with the first letter of your `label`.
+* `Color`: Choose a color for your icon.
+
+.. figure:: ../Images/ContentelementsManual/ShortTitle.png
+   :alt: Short title in CType preview
+   :class: with-border
+
+   Short title in CType preview
+
+.. figure:: ../Images/ContentelementsManual/Fontawesome.png
+   :alt: FontAwesome icon picker
+   :class: with-shadow
+
+   Use a FontAwesome icon
+
+Now you can fill your element with different fields. Look at the page :ref:`Fieldtypes<fieldtypes>` for more
+information about all the different fieldtypes. Switch back to the fields tab and drag and drop your desired field into
+the dragarea in the middle of the screen. It is also possible to just click on a field. In this case the field will be
+inserted beneath the current active field. After doing so, a form will appear on the right side.
+
+.. figure:: ../Images/ContentelementsManual/FieldForm.png
+   :alt: Form of a field
+
+   Form of a field
+
+Analogous to the element key, you will have to come up with a unique key for your field. Your custom fields will always
+have `tx_mask_` as a prefix, which you can not remove. This is important in order to avoid conflicts with existing
+fields. You also have the possibility to use existing TYPO3 core fields or existing Mask fields in the `Choose field`
+drop down.
+
+Most fields have this options in common:
+
+* `Field Key`: As described above the unique key for this field. A new column in the database table `tt_content` will be
+  created with this exact name.
+* `Label`: The label, which the editor will see when editing the content element.
+* `Description`: The description will be shown beneath the label. Here you can give your editor some more information on
+  how to use this field.
+* `Reset to default`: Resets all the TCA options like it would be when newly created (not label and description).
+
+All other options relate to the according :ref:`TCA (Table Configuration Array)<t3tca:start>` options. The exact name of
+the TCA option is shown in brackets and a small black circle with a question mark links directly to the TYPO3 docs.
+TCA is used to define how the fields will be rendered and validated. There is a lot that can be done with TCA and of
+course Mask has not adapted (yet) all of the available functionality, but for the most part it should be enough to
+tackle day to day needs.
+
+When ready, save your element with the save button on the top left corner. On first save, a HTML file with example fluid
+code is generated and saved in your template folder path. Now you can change the structure of the HTML file like you
+need it. Of course the full power of Fluid is available and all TYPO3 ViewHelper are ready to be used. This file will
+never be overwritten, even if you change the element in Mask. If you need some fluid example code for newly added
+fields, click the HTML icon of the element in the list view.
 
 That is all you have to know - now you can use your new element in the page-module.
 
-Manage Backend-Preview
-----------------------
+.. toctree::
+   :titlesonly:
 
-In the extension configuration you will find the setting **Folder for Backend Preview Templates**. If you want to change the look of the contentelements in the TYPO3 backend page-module, create the folder and a .html file with the key from the element as filename. It is the same logic as in **content** folder. So you can also copy your HTML from the content folder as basis. Then modify it for your needs.
-
-.. code-block:: html
-
-	Examplecode:
-	Name: {data.tx_mask_name}<br />
-	E-Mail: {data.tx_mask_email}<br />
-	Tel.: {data.tx_mask_telephone}<br />
-	Fax: {data.tx_mask_fax}<br />
-	Position: {data.tx_mask_position}
-
-.. figure:: ../Images/ContentelementsManual/Backendpreview.png
-	:alt: Change the backend preview
-
-	Default output and fitted preview
-
-Use fontawesome icons as previewimage for a contentelement
-----------------------------------------------------------
-
-If you quickly need a preview icon for your contentelement and don't want to make a graphic, just choose a fontawesome icon and a colour:
-
-.. figure:: ../Images/ContentelementsManual/Fontawesome.png
-	:alt: Use a fontawesome icon
-
-	Choose a proper icon from a variety of fontawesome icons
-
-Use a png or svg file as previewimage for a contentelement
----------------------------------------------------
-
-You can use a 32x32 pixel sized graphic file as preview image for a content element. It is shown in the new contentelement wizard. Simply name the file with the key from the contentelement (e.g.: mykey.png or contact.svg) and upload it to the specified folder in the extension configuration of mask.
+   BackendPreview

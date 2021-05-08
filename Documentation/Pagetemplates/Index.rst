@@ -1,42 +1,47 @@
-﻿.. ==================================================
-.. FOR YOUR INFORMATION
-.. --------------------------------------------------
-.. -*- coding: utf-8 -*- with BOM.
-
-.. include:: ../Includes.txt
-
+﻿.. include:: ../Includes.txt
 
 .. _configuration:
 
-Pagetemplates
-=============
+==============
+Page templates
+==============
 
-After installing Mask and including the static TypoScript-template, you can start using Mask. Open the Backend-module **Mask**.
+Page templates or to be precise :ref:`backend layouts<t3coreapi:be-layout>` define the structure of your page. You can
+configure rows and cols so that the page module looks similar to the frontend output of your site.
 
-You can not create pagetemplates with mask. This has to be done in **List** module with **Backend Layouts**. First create a Backend Layout for each pagetemplate you need. (Example: Home, Content, 3-Columns,...).
-Now you have the possibility to extend any of these Backend Layouts with special fields in the Mask backend-module. This works in the same way as described in **Contentelements**.
-You can also define backend layouts via page ts in your sitepackage (read below).
-A preview-image can be set in the Backend Layout record, not in Mask.
+Mask is able to extend your page record depending on the currently selected backend layout. This means new fields will
+be available if you click on edit page. The data defined there can then be used in your fluid templates of your
+sitepackage. The page record is not available by default in mask elements!
 
-Site Packages
-----------
+Mask does not create any backend layouts. You have to do it by yourself. There are 2 different methods:
 
-Mask can only help you with creating custom content elements and render them in
-own fluid templates. To get started with creating your TYPO3 website in general
-you need what's called a sitepackage. This is a special extension specialized
-in defining html layouts, css, JavaScript, typoscript, ... so basically it's a
-Theme-Extension.
+* Go to the list module and create a new Backend Layout record
+* Define your Backend Layouts with TSconfig
 
-There are many resources out there to get started. These are a few of those:
+Mask will know about your database backend layouts, if they can be found in the pids defined in the :ref:`extension settings<extension-settings-pids>`.
+Backend Layouts defined with TSconfig will always be found.
 
-- https://www.sitepackagebuilder.com/
-- https://extensions.typo3.org/extension/bootstrap_package/
-- https://docs.typo3.org/m/typo3/tutorial-sitepackage/master/en-us/
+.. figure:: ../Images/PageTemplates/BackendLayout.png
+   :alt: Backend Layout in Mask
 
-fluid_styled_content
---------------------
+   Mask found a backend layout record with the name Layout and key 1
 
-fluid_styled_content is a static TypoScript configuration, delivered by the TYPO3 core. It handles the regular contentelements of TYPO3 (Regular Text Element, Text & Images, ...) in the Backend and in the Frontend. It also provides the TypoScript snippet styles.content.get. You need this TypoScript Template to render content in your frontend.
+Now the procedure is the same as for :ref:`creating content elements<create-content-elements>`. The only difference is,
+that you can't create new backend layouts in mask. So you can only edit existing backend layouts. All the meta data
+like label, key and icon have to be defined by yourself.
 
-It is very important to include the static Mask TypoScript-Template after the static fluid_styled_content TypoScript-Template!
-Otherwise no Mask-content will be rendered in the Frontend.
+After saving your fields, you will find a new tab `Content-Fields` when editing the page record, which have the
+according backend layout assigned (or inherits from).
+
+.. figure:: ../Images/PageTemplates/PageRecord.png
+   :alt: The page record with Mask fields
+
+   Mask adds the new tab Content-Fields with the defined fields
+
+The data you put there can be accessed inside of your template for the backend layout. Again, this is not available in
+Mask elements by default.
+
+.. figure:: ../Images/PageTemplates/DataDebug.png
+   :alt: Debug of data
+
+   Debug of the data array (page record) with the new field

@@ -31,8 +31,14 @@ $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['mask'] = [
 ];
 ```
 
-Adjust the paths to your needs and activate the extension. When you first visit the Mask backend, you have the option
-to create all missing files and folders. That's it. Now you can start creating your own content elements!
+Adjust the paths to your needs and activate the extension. When you visit the Mask backend, you will have the option to
+create all missing files and folders defined here. This is also great to have in version control so others will have
+this already set up when checking out.
+
+Mask requires `fluid_styled_content` so go to your static includes in the template module and include it there.
+**After** that also include the Mask static TypoScript.
+
+That's it. Now you can start creating your own content elements!
 
 ## Mask versions
 
@@ -54,6 +60,7 @@ to create all missing files and folders. That's it. Now you can start creating y
 * Mask allows repeating content with IRRE technology
 * Mask supports multi-language projects
 * Mask supports workspaces and versioning
+* The Mask backend is a single page application based on VueJS for even more comfort
 
 ## Need help?
 
