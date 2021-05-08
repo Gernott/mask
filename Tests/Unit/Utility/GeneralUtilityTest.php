@@ -30,6 +30,7 @@ class GeneralUtilityTest extends UnitTestCase
                 'upper_exists',
                 false,
                 null,
+                false,
                 Environment::getPublicPath() . '/typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/UpperExists.html'
             ],
             'File does not exist' => [
@@ -37,6 +38,7 @@ class GeneralUtilityTest extends UnitTestCase
                 'noelement',
                 false,
                 null,
+                false,
                 Environment::getPublicPath() . '/typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/Noelement.html'
             ],
             'under_scored exists' => [
@@ -44,6 +46,7 @@ class GeneralUtilityTest extends UnitTestCase
                 'under_scored',
                 false,
                 null,
+                false,
                 Environment::getPublicPath() . '/typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/under_scored.html'
             ],
             'Uc_first exists' => [
@@ -51,6 +54,7 @@ class GeneralUtilityTest extends UnitTestCase
                 'uc_first',
                 false,
                 null,
+                false,
                 Environment::getPublicPath() . '/typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/Uc_first.html'
             ],
             'Manually configured path works' => [
@@ -58,6 +62,7 @@ class GeneralUtilityTest extends UnitTestCase
                 'upper_exists',
                 false,
                 'typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/',
+                false,
                 'typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/UpperExists.html'
             ],
             'Manually configured absolute path works' => [
@@ -65,6 +70,7 @@ class GeneralUtilityTest extends UnitTestCase
                 'upper_exists',
                 false,
                 Environment::getPublicPath() . '/typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/',
+                false,
                 Environment::getPublicPath() . '/typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/UpperExists.html'
             ],
             'Only template is returned' => [
@@ -72,13 +78,23 @@ class GeneralUtilityTest extends UnitTestCase
                 'upper_exists',
                 true,
                 null,
+                false,
                 'UpperExists.html'
+            ],
+            'Only template without extension returned' => [
+                ['content' => 'typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/'],
+                'upper_exists',
+                true,
+                null,
+                true,
+                'UpperExists'
             ],
             'Manually configured path and only template' => [
                 ['content' => ''],
                 'upper_exists',
                 true,
                 'typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/',
+                false,
                 'UpperExists.html'
             ],
             'Empty path returns empty string' => [
@@ -86,6 +102,7 @@ class GeneralUtilityTest extends UnitTestCase
                 'does_not_exist',
                 false,
                 null,
+                false,
                 ''
             ],
             'Wrong path returns empty string' => [
@@ -93,6 +110,7 @@ class GeneralUtilityTest extends UnitTestCase
                 'does_not_exist',
                 false,
                 null,
+                false,
                 ''
             ],
             'Empty element key returns empty string' => [
@@ -100,6 +118,7 @@ class GeneralUtilityTest extends UnitTestCase
                 '',
                 false,
                 null,
+                false,
                 ''
             ],
         ];
@@ -114,10 +133,10 @@ class GeneralUtilityTest extends UnitTestCase
      * @param $path
      * @param $expectedPath
      */
-    public function getTemplatePath($settings, $elementKey, $onlyTemplateName, $path, $expectedPath)
+    public function getTemplatePath($settings, $elementKey, $onlyTemplateName, $path, $removeExtension, $expectedPath)
     {
         $this->resetSingletonInstances = true;
-        $path = GeneralUtility::getTemplatePath($settings, $elementKey, $onlyTemplateName, $path);
+        $path = GeneralUtility::getTemplatePath($settings, $elementKey, $onlyTemplateName, $path, $removeExtension);
         self::assertSame($expectedPath, $path);
     }
 

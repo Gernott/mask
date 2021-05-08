@@ -131,7 +131,8 @@ class GeneralUtility
         $settings,
         $elementKey,
         $onlyTemplateName = false,
-        $path = null
+        $path = null,
+        $removeExtension = false
     ): string {
         $elementKey = (string)$elementKey;
         if (!$path) {
@@ -151,6 +152,10 @@ class GeneralUtility
             $fileName = $elementKey;
         } else {
             $fileName = CoreUtility::underscoredToUpperCamelCase($elementKey);
+        }
+
+        if ($removeExtension) {
+            $fileExtension = '';
         }
 
         if ($onlyTemplateName) {

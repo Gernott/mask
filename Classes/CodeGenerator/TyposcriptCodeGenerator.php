@@ -193,7 +193,7 @@ class TyposcriptCodeGenerator
             foreach ($configuration['tt_content']['elements'] as $element) {
                 if (!$element['hidden']) {
                     $cTypeKey = AffixUtility::addMaskCTypePrefix($element['key']);
-                    $templateName = MaskUtility::getTemplatePath($this->extSettings, $element['key'], true);
+                    $templateName = MaskUtility::getTemplatePath($this->extSettings, $element['key'], true, null, true);
                     $elementContent = [];
                     $elementContent[] = 'tt_content.' . $cTypeKey . ' =< lib.maskContentElement' . LF;
                     $elementContent[] = 'tt_content.' . $cTypeKey . ' {' . LF;
