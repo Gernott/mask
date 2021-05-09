@@ -7,10 +7,13 @@ Create content elements
 =======================
 
 After following the :ref:`installation <installation>` steps, you can start using Mask. Open the backend module
-**Mask**. It is located right below the extension manager module. Create your first content element by clicking on the
-**Create new content element** button.
+**Mask**. It is located right below the extension manager module.
 
-Now a wizard appears, who will guide you through some mandatory fields:
+New content element wizard
+==========================
+
+Create your first content element by clicking on the **Create new content element** button. Now a wizard appears, who
+will guide you through some mandatory fields:
 
 * `Label`: Enter the label for this content element. This is the name editors will see when creating the content
   element.
@@ -23,49 +26,21 @@ Now a wizard appears, who will guide you through some mandatory fields:
 
    The Multi Step Wizard
 
-After you have finished defining the label and the key, the Mask Builder will open.
+After you have finished defining the label and the key, click finish and the Mask Builder will opened.
+By default the tab `Fields` will be opened.
 
 .. figure:: ../Images/ContentelementsManual/MaskBuilder.png
    :alt: The Mask Content Element Builder
 
    The Mask Content Element Builder
 
-By default the tab `Fields` will be open. To adjust your previous input, switch to the tab `Element Meta Data`. This tab
-contains general information about your content element.
-
-.. figure:: ../Images/ContentelementsManual/ElementMetaData.png
-   :alt: Element Meta Data tab
-   :class: with-border
-
-   The element meta data tab opened
-
-Besides the label and the key there are some further fields:
-
-* `Short Title`: The Short Title is used, if you edit an element and open the selectbox for the CType. If this field is
-  empty, the title is used.
-* `Description`: It would be helpful to add a description for the editors. It appears in the wizard for creating new
-  content elements next to the title and the preview image.
-* `Icon`: If you quickly need a preview icon for your content element and you don't want to create an image, just choose
-  a fontawesome icon. You can select from different categories or search for a keyword. If you don't define any icon, a
-  fallback icon will be created with the first letter of your `label`.
-* `Color`: Choose a color for your icon.
-
-.. figure:: ../Images/ContentelementsManual/ShortTitle.png
-   :alt: Short title in CType preview
-   :class: with-border
-
-   Short title in CType preview
-
-.. figure:: ../Images/ContentelementsManual/Fontawesome.png
-   :alt: FontAwesome icon picker
-   :class: with-shadow
-
-   Use a FontAwesome icon
+Create fields
+=============
 
 Now you can fill your element with different fields. Look at the page :ref:`Fieldtypes<fieldtypes>` for more
-information about all the different fieldtypes. Switch back to the fields tab and drag and drop your desired field into
-the dragarea in the middle of the screen. It is also possible to just click on a field. In this case the field will be
-inserted beneath the current active field. After doing so, a form will appear on the right side.
+information about all the different fieldtypes. Drag and drop your desired field into the dragarea in the middle of the
+screen. It is also possible to just click on a field. In this case the field will be inserted beneath the current active
+field. After doing so, a form will appear on the right side.
 
 .. figure:: ../Images/ContentelementsManual/FieldForm.png
    :alt: Form of a field
@@ -86,11 +61,63 @@ Most fields have this options in common:
   how to use this field.
 * `Reset to default`: Resets all the TCA options like it would be when newly created (not label and description).
 
+TCA settings
+============
+
 All other options relate to the according :ref:`TCA (Table Configuration Array)<t3tca:start>` options. The exact name of
 the TCA option is shown in brackets and a small black circle with a question mark links directly to the TYPO3 docs.
 TCA is used to define how the fields will be rendered and validated. There is a lot that can be done with TCA and of
 course Mask has not adapted (yet) all of the available functionality, but for the most part it should be enough to
 tackle day to day needs.
+
+The Element Meta Data Tab
+=========================
+
+Switch to the tab `Element Meta Data`. This tab contains general information about your content element. If you already
+defined a label and a key in the creation wizard, they will be shown here.
+
+.. image:: ../Images/ContentelementsManual/ElementMetaData.png
+   :alt: Element Meta Data tab
+   :class: with-border float-left
+
+Besides the label and the key there are some further fields:
+
+`Short Title`: The Short Title is used, if you edit an element and open the :ref:`selectbox <short-title>` for the
+CType. If this field is empty, the title is used.
+
+`Description`: It would be helpful to add a description for the editors. It appears in the wizard for creating new
+content elements next to the title and the preview image.
+
+`Icon`: If you quickly need a preview icon for your content element and you don't want to create an image, just choose
+a fontawesome icon. You can select from different categories or search for a keyword. If you don't define any icon, a
+fallback icon will be created with the first letter of your `label`.
+
+`Color`: Choose a color for your icon.
+
+.. rst-class::  clear-both
+
+.. _short-title:
+
+Short title in CType select
+---------------------------
+
+.. figure:: ../Images/ContentelementsManual/ShortTitle.png
+   :alt: Short title in CType preview
+   :class: with-border
+
+   Short title in CType preview
+
+FontIconPicker
+--------------
+
+.. figure:: ../Images/ContentelementsManual/Fontawesome.png
+   :alt: FontAwesome icon picker
+   :class: with-shadow
+
+   Use a FontAwesome icon
+
+Save the content element
+========================
 
 When ready, save your element with the save button on the top left corner. On first save, a HTML file with example fluid
 code is generated and saved in your template folder path. Now you can change the structure of the HTML file like you
@@ -98,9 +125,4 @@ need it. Of course the full power of Fluid is available and all TYPO3 ViewHelper
 never be overwritten, even if you change the element in Mask. If you need some fluid example code for newly added
 fields, click the HTML icon of the element in the list view.
 
-That is all you have to know - now you can use your new element in the page-module.
-
-.. toctree::
-   :titlesonly:
-
-   BackendPreview
+That is all you have to know - now you can use your new element in the page module.

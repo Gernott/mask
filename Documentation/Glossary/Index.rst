@@ -8,6 +8,8 @@ Glossary
 
 Here you can find explanations for common terms when working Mask.
 
+.. _fluid-styled-content:
+
 Fluid Styled Content
 ====================
 

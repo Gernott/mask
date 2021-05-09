@@ -44,7 +44,9 @@ Mask
    Sitepackage/Index
    Installation/Index
    Contentelements/Index
+   BackendPreview/Index
    Pagetemplates/Index
+   ExtensionSettings/Index
    Fieldtypes/Index
    Guides/Index
    Glossary/Index

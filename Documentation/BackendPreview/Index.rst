@@ -1,3 +1,7 @@
+.. include:: ../Includes.txt
+
+.. _backend-previews:
+
 ======================
 Manage Backend Preview
 ======================

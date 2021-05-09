@@ -24,6 +24,7 @@ Features
 
    Palettes
    Group
+   RelationsResolved
    Timestamp
    CheckboxUI
    SelectIcons

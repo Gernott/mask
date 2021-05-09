@@ -9,6 +9,9 @@ Installation
 .. note::
    Before you start installing mask, you should have set up your :ref:`sitepackage<sitepackage>`.
 
+Install and configure
+=====================
+
 Download Mask with composer by running the command `composer require mask/mask` or install via extension manager.
 As soon as you activate the extension, Mask will create a dummy extension `mask_project`. To prevent this you can
 change the settings before you activate Mask. The easiest way to change the paths is to add this to your
@@ -30,20 +33,22 @@ change the settings before you activate Mask. The easiest way to change the path
 
 Explanations for the settings can be found :ref:`here <extension-settings>`.
 Adjust the paths to your needs and activate the extension. When you visit the Mask backend, you will have the option to
-create all missing files and folders defined here. This is also great to have in version control so others will have
-this already set up when checking out.
+create all missing files and folders defined here.
 
-Mask requires `fluid_styled_content` so go to your static includes in the template module and include it there.
-**After** that also include the Mask static TypoScript.
+.. note::
+   This is also great to have in version control so others will have
+   this already set up when checking out.
+
+Include TypoScript
+==================
+
+Mask works best with :ref:`fluid_styled_content <fluid-styled-content>` so go to your static includes in the template
+module and include it there. **After** that also include the Mask static TypoScript.
 
 .. figure:: ../Images/AdministratorManual/TypoScriptTemplate.png
    :alt: Include TypoScript Template
+   :class: with-border
 
    Include TypoScript Template
 
 That's it. Now you can start creating your own content elements!
-
-.. toctree::
-   :titlesonly:
-
-   Settings
