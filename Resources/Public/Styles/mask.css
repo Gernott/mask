@@ -748,7 +748,8 @@
       .templa__wrap {
         justify-content: flex-start; } }
   .templa__image {
-    margin-right: 10px; }
+    margin-right: 10px;
+    height: auto; }
     @media screen and (min-width: 1650px) {
       .templa__image {
         width: 85px; } }
