@@ -2,9 +2,9 @@
 
 .. _guides:
 
-======
-Guides
-======
+===============
+Tips and tricks
+===============
 
 Here you can find general guides on how to work with Mask. There are many tips and tricks how to enhance the default
 functionality.
