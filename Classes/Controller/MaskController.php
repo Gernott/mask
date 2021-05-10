@@ -41,8 +41,15 @@ class MaskController
      */
     protected $view;
 
-    protected PageRenderer $pageRenderer;
-    protected UriBuilder $uriBuilder;
+    /**
+     * @var PageRenderer
+     */
+    protected $pageRenderer;
+
+    /**
+     * @var UriBuilder
+     */
+    protected $uriBuilder;
 
     public function __construct(
         ModuleTemplate $moduleTemplate,
