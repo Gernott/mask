@@ -44,10 +44,10 @@ That's it. Now you can start creating your own content elements!
 
 | Mask Version | TYPO3 Version | Release Date | Status              | More Info |
 |--------------|---------------|--------------|---------------------|-----------|
-| v7           | v10, v11.2    | May 2021     | ready / testing     | VueJS based Mask backend                                                                       |
-| v6           | v10, v11.1    | 2020-10-08   | regular maintenance | [Mask version 6 changes](https://docs.typo3.org/p/mask/mask/6.5/en-us/ChangeLog/6.0/Index.html)|
-| v5           | v10           | 2020-04-18   | discontinued        | Please update to v6                                                                            |
-| v4           | v9            | 2018-10-04   | priority bugfixes   |                                                                                                |
+| v7           | v10, v11.2    | 2021-05-12   | regular maintenance | [VueJS based Mask Backend](https://docs.typo3.org/p/mask/mask/master/en-us/ChangeLog/7.0/Index.html)|
+| v6           | v10, v11.1    | 2020-10-08   | priority bugfixes   | [Palettes, Groups and more](https://docs.typo3.org/p/mask/mask/master/en-us/ChangeLog/6.0/Index.html)|
+| v5           | v10           | 2020-04-18   | discontinued        | Please update to v7                                                                            |
+| v4           | v9            | 2018-10-04   | occasional bugfixes |                                                                                                |
 | v3           | v8            | 2017-05-23   | discontinued        |                                                                                                |
 | v2           | v7            | 2016-05-10   | discontinued        |                                                                                                |
 | v1           | v6, v7        | 2015-08-12   | discontinued        |                                                                                                |

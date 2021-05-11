@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.0.0] - 2021-05-12
+
+This huge release contains a completetely rewritten Mask Backend!
+Check out the [release article](https://docs.typo3.org/p/mask/mask/master/en-us/ChangeLog/7.0/Index.html) for in depth information.
+
+### Changed
+- Completey new Mask Backend based on VueJS
+- New responsive UI/UX
+- Updated documentation
+
+### Added
+- New Upgrade Guide / Tips and tricks
+- Compatibility TYPO3 v11.2
+
 ## [6.6.7] - 2021-05-05
 
 ### Added
