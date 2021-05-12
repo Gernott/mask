@@ -25,7 +25,7 @@ define([
               this.iconPicker = $(iconPicker[0]).data('fontIconPicker');
             },
             template: `
-    <div class="col-sm-6">
+    <div class="col-xs-6">
         <label class="t3js-formengine-label">
             {{ language.icon }}
             <a href="https://fontawesome.com/v4.7.0/icons/" target="_blank" title="FontAwesome 4.7 Icons"><i class="fa fa-question-circle"></i></a>

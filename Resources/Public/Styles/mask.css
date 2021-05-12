@@ -330,7 +330,9 @@
   width: 350px;
   max-width: 100%;
   background-color: #fafafa;
-  border: 1px solid #ccc; }
+  border: 1px solid #ccc;
+  position: relative;
+  z-index: 1; }
   @media screen and (min-width: 860px) {
     .mask-sidebar {
       margin-right: 10px;

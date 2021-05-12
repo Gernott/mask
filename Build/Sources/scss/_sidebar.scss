@@ -4,6 +4,8 @@
   max-width: 100%;
   background-color: $bg-light;
   border: 1px solid $border-color;
+  position: relative;
+  z-index: 1;
 
   @media screen and (min-width: $bp-edit-flex) {
     margin-right: 10px;
