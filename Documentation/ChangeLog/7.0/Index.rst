@@ -46,7 +46,7 @@ More features
 * The richtext configuration is now selectable per field.
 * A new reset button is available which sweeps all your settings to the default values per field.
 * All options are now linked to the official TYPO3 TCA documentation.
-* Palettes and Tabs generate unqiue keys automatically so you don't need to specify them anymore.
+* Palettes and Tabs generate unique keys automatically so you don't need to specify them anymore.
 * If folders or templates are missing they can now be created with just one click.
 * HTML example opens now in a modal instead of a new window.
 * Improved default SQL definitions (Existing definitions are kept).
