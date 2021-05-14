@@ -50,6 +50,7 @@ Mask
    Fieldtypes/Index
    Guides/Index
    Glossary/Index
+   Troubleshooting/Index
    Upgrade/Index
    ChangeLog/Index
    Sponsors/Index
