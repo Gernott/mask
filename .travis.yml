@@ -1,0 +1,12 @@
+dist: bionic
+
+language: php
+
+install: composer install
+before_script: chmod +x ./Build/Scripts/runTests.sh
+script: ./Build/Scripts/runTests.sh -p $PHP
+
+env:
+  - PHP=7.2
+  - PHP=7.3
+  - PHP=7.4
