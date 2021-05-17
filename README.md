@@ -1,5 +1,7 @@
 ![Page and Content masks for TYPO3](Documentation/Images/mask_banner.jpg)
 
+[![Build Status](https://travis-ci.com/Gernott/mask.svg?branch=master)](https://travis-ci.com/Gernott/mask)
+
 # Mask
 
 Create your own content elements and page templates. Easy to use, even without programming skills, because of the
