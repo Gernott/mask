@@ -9,6 +9,16 @@ Upgrade Guide
 Mask tries to minimize breaking changes between each version. But sometimes small changes have to be done, which
 require actions to be performed.
 
+.. _upgrade-from-6:
+
+From v6 or lower
+================
+
+When upgrading to v7 you might experience an error in the Mask module:
+`The requested resource "/module/tools/MaskMask" was not found.`. This can be
+fixed by deactivating and reactivating the extension. The error is caused by a
+changed way of how the module is registered.
+
 From v5 or lower
 ================
 

@@ -8,6 +8,15 @@ Troubleshooting
 
 Things go wrong and you don't know why? Maybe this troubleshooting guide knows!
 
+Error in backend after upgrading Mask
+=====================================
+
+In some version upgrades Mask changes things, where a simple cache clearing is
+not enough. First of all try clearing the cache in **Maintenance > Flush Cache**.
+If you can't access the module, delete the folder `typo3temp` or `var/cache`.
+Also try to :ref:`deactivate and reactivate the extension <upgrade-from-6>` if
+you have upgraded to v7.
+
 Database Analyzer: Invalid default value
 ========================================
 
