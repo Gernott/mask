@@ -1103,7 +1103,7 @@ define([
         if (['inline', 'palette', 'linebreak', 'tab'].includes(this.global.activeField.name)) {
           return false;
         }
-        if (this.global.activeField.parent.name === 'inline') {
+        if (!this.isRoot(this.global.activeField)) {
           return false;
         }
         return this.availableCoreTcaForActiveField.length > 0 || this.availableMaskTcaForActiveField.length > 0;
