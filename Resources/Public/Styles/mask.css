@@ -347,7 +347,8 @@
     position: sticky;
     top: 0; }
   .mask-sidebar__toolbar {
-    padding: 10px 10px 0; }
+    padding: 10px 10px 0;
+    margin-bottom: 10px; }
   .mask-sidebar__content {
     padding: 10px;
     flex-grow: 1; }
@@ -355,23 +356,26 @@
     max-width: 100%; }
   .mask-sidebar__toggle-wrap {
     display: flex;
-    border: 1px solid #ccc;
     margin-bottom: 10px; }
   .mask-sidebar__toggle {
     flex-grow: 1;
     padding: 7px;
-    background-color: #fff;
+    background-color: #ededed;
     text-align: center;
     cursor: pointer;
     width: 50%;
-    position: relative; }
+    position: relative;
+    border: 1px solid #ccc; }
     .mask-sidebar__toggle:first-child {
-      border-right: 1px solid #ccc; }
+      border-left: 0;
+      border-right: 0; }
+    .mask-sidebar__toggle:last-child {
+      border-right: 0; }
     .mask-sidebar__toggle:hover {
-      background-color: #eaf4fd; }
+      background-color: #e1e0e0; }
     .mask-sidebar__toggle.active {
-      background-color: #eaf4fd;
-      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1); }
+      background-color: #fafafa;
+      border-bottom: 0; }
 
 .mask-field-list {
   background: none;

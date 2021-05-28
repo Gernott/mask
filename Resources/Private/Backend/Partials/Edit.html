@@ -7,11 +7,11 @@
                     <button class="btn btn-default btn-sm" @click="save"><span v-show="!saving" v-html="icons.save"></span><span v-show="saving" v-html="icons.spinner"></span> {f:translate(key: 'tx_mask.content.save')}</button>
                 </div>
             </div>
+            <div class="mask-sidebar__toggle-wrap">
+                <div class="mask-sidebar__toggle" :class="{active: metaVisible, 'has-error': hasElementErrors}" @click="sidebar = 'meta'">{f:translate(key: 'tx_mask.meta')}</div>
+                <div class="mask-sidebar__toggle" :class="{active: fieldsVisible, 'has-error': hasFieldErrors}" @click="sidebar = 'fields'">{f:translate(key: 'tx_mask.fields')}</div>
+            </div>
             <div class="mask-sidebar__content">
-                <div class="mask-sidebar__toggle-wrap">
-                    <div class="mask-sidebar__toggle" :class="{active: metaVisible, 'has-error': hasElementErrors}" @click="sidebar = 'meta'">{f:translate(key: 'tx_mask.meta')}</div>
-                    <div class="mask-sidebar__toggle" :class="{active: fieldsVisible, 'has-error': hasFieldErrors}" @click="sidebar = 'fields'">{f:translate(key: 'tx_mask.fields')}</div>
-                </div>
                 <div v-show="fieldsVisible">
                     <field-group
                             v-for="group in groups"
