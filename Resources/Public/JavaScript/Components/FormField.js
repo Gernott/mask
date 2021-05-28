@@ -124,7 +124,7 @@ define([
           }
         },
         template: `
-          <div :class="['form-group', 'col-sm-' + column, {'has-error': hasError}]">
+          <div :class="['form-group', 'col-sm-12 col-xl-' + column, {'has-error': hasError}]">
             <label class="t3js-formengine-label" :for="tcaKey">
                 {{ field.label }}
             </label>

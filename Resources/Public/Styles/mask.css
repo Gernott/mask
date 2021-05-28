@@ -601,7 +601,7 @@
   .mask-list__docs {
     margin-left: auto;
     margin-right: 20px; }
-    @media screen and (min-width: 1280px) {
+    @media screen and (min-width: 1200px) {
       .mask-list__docs {
         font-size: 20px; } }
   .mask-list__settings-wrap {
@@ -611,12 +611,12 @@
       align-items: center; }
     .mask-list__settings-wrap .icon {
       width: 16px; }
-      @media screen and (min-width: 1280px) {
+      @media screen and (min-width: 1200px) {
         .mask-list__settings-wrap .icon {
           width: 32px; } }
   .mask-list__settings-label {
     margin-right: 10px; }
-    @media screen and (min-width: 1280px) {
+    @media screen and (min-width: 1200px) {
       .mask-list__settings-label {
         font-size: 20px; } }
 
@@ -626,11 +626,15 @@
     .mask-edit {
       display: flex;
       flex-wrap: wrap; } }
-  @media screen and (min-width: 1650px) {
+  @media screen and (min-width: 1200px) {
     .mask-edit {
       flex-wrap: nowrap; } }
 
-@media screen and (min-width: 1280px) {
+@media screen and (min-width: 1650px) {
+  .col-xl-6 {
+    width: 50%; } }
+
+@media screen and (min-width: 1200px) {
   .mask-elements {
     display: flex; } }
 
@@ -639,12 +643,12 @@
   min-height: 100px; }
   .mask-elements__column--elements {
     margin-bottom: 10px; }
-    @media screen and (min-width: 1280px) {
+    @media screen and (min-width: 1200px) {
       .mask-elements__column--elements {
         width: 66.66667%;
         margin-right: 5px;
         margin-bottom: 0; } }
-  @media screen and (min-width: 1280px) {
+  @media screen and (min-width: 1200px) {
     .mask-elements__column--templates {
       margin-left: 5px;
       width: 33.33333%; } }
@@ -658,7 +662,7 @@
   z-index: 100;
   padding: 10px;
   background-color: #dedede; }
-  @media screen and (min-width: 1280px) {
+  @media screen and (min-width: 1200px) {
     .mask-elements__header {
       height: 45px;
       padding: 0 23px 0 5px; } }
@@ -678,7 +682,7 @@
 
 .mask-elements__table-wrap {
   overflow-y: scroll; }
-  @media screen and (min-width: 1280px) {
+  @media screen and (min-width: 1200px) {
     .mask-elements__table-wrap {
       height: 80vh; } }
 

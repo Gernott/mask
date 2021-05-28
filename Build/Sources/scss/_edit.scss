@@ -6,7 +6,13 @@
     flex-wrap: wrap;
   }
 
-  @media screen and (min-width: $bp-desktop) {
+  @media screen and (min-width: $bp-laptop) {
     flex-wrap: nowrap;
+  }
+}
+
+.col-xl-6 {
+  @media screen and (min-width: $bp-desktop) {
+    width: 50%;
   }
 }
