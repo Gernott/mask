@@ -21,7 +21,7 @@ define([
               });
             },
             template: `
-    <div class="col-xs-6 col-sm-6">
+    <div class="col-xs-6 col-6">
         <label class="t3js-formengine-label" for="meta_color">
             {{ language.color }}
         </label>
