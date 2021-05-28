@@ -80,7 +80,11 @@ class HtmlCodeGenerator
     protected function generateFieldHtml($fieldKey, $elementKey, $table, $datafield = 'data', $depth = 0): string
     {
         $html = [];
-        $formType = $this->storageRepository->getFormType($fieldKey, $elementKey, $table);
+        if ($fieldKey === 'bodytext') {
+            $formType = FieldType::RICHTEXT;
+        } else {
+            $formType = $this->storageRepository->getFormType($fieldKey, $elementKey, $table);
+        }
         if (in_array($formType, [FieldType::TAB, FieldType::LINEBREAK])) {
             return '';
         }
