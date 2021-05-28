@@ -15,9 +15,8 @@ to any element. Fields can have several types, for example: text, file, relation
 ## Quickstart
 
 Download Mask with composer by running the command `composer require mask/mask` or install via extension manager.
-As soon as you activate the extension, Mask will create a dummy extension `mask_project`. To prevent this you can
-change the settings before you activate Mask. The easiest way to change the paths is to add this to your
-`AdditionalConfiguration.php`:
+Before you start using Mask, you should define the paths to your templates. The easiest way to change the paths is to
+add the snippet below to your `AdditionalConfiguration.php`:
 
 ```
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['mask'] = [

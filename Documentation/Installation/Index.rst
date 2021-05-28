@@ -7,14 +7,14 @@ Installation
 ============
 
 .. note::
-   Before you start installing mask, you should have set up your :ref:`sitepackage<sitepackage>`.
+   Before you start using mask, you should have set up your :ref:`sitepackage<sitepackage>`.
 
 Install and configure
 =====================
 
 Download Mask with composer by running the command `composer require mask/mask` or install via extension manager.
-As soon as you activate the extension, Mask will create a dummy extension `mask_project`. To prevent this you can
-change the settings before you activate Mask. The easiest way to change the paths is to add this to your
+The first thing you should do is to define the paths to your template directories. If you don't do this, Mask falls back
+to a dummy extension called `mask_project`. The easiest way to change the paths is to add the snippet below to your
 `AdditionalConfiguration.php`:
 
 .. code-block:: php
@@ -36,8 +36,7 @@ Adjust the paths to your needs and activate the extension. When you visit the Ma
 create all missing files and folders defined here.
 
 .. note::
-   This is also great to have in version control so others will have
-   this already set up when checking out.
+   This is also great to have in version control so others will have this already set up when checking out the project.
 
 Include TypoScript
 ==================
