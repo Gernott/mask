@@ -452,8 +452,9 @@ class AjaxController
                 $newField['tca']['imageoverlayPalette'] = $field['imageoverlayPalette'] ?? 1;
                 // Since mask v7.0.0 the path for allowedFileExtensions has changed to root level.
                 $allowedFileExtensionsPath = 'config.filter.0.parameters.allowedFileExtensions';
+                $newField['tca']['allowedFileExtensions'] = $field['allowedFileExtensions'] ?? $newField['tca'][$allowedFileExtensionsPath] ?? '';
+                // Remove old path.
                 if (isset($newField['tca'][$allowedFileExtensionsPath])) {
-                    $newField['tca']['allowedFileExtensions'] = $newField['tca'][$allowedFileExtensionsPath];
                     unset($newField['tca'][$allowedFileExtensionsPath]);
                 }
             }
