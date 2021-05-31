@@ -499,6 +499,9 @@ define([
       isRoot: function (field) {
         return this.isEmptyObject(field.parent) || field.parent.name === 'palette' && this.isEmptyObject(field.parent.parent);
       },
+      keyCanBeShared: function (name) {
+        return !['inline', 'palette', 'linebreak', 'tab'].includes(name);
+      },
       getFields: function (field) {
         let fields = this.fields;
         if (!this.isRoot(field)) {
@@ -1100,7 +1103,7 @@ define([
         if (!this.global.activeField.newField && !this.isActiveCoreField) {
           return false;
         }
-        if (['inline', 'palette', 'linebreak', 'tab'].includes(this.global.activeField.name)) {
+        if (!this.keyCanBeShared(this.global.activeField.name)) {
           return false;
         }
         if (!this.isRoot(this.global.activeField)) {
