@@ -397,6 +397,8 @@ define([
                 const result = await response.resolve();
                 mask.global.activeField.tca = result.field.tca;
                 mask.global.activeField.label = result.field.label;
+                mask.global.activeField.description = result.field.description;
+                mask.global.activeField.sql = result.field.sql;
               }
             );
             mask.loadMultiUse();
