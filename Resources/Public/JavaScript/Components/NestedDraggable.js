@@ -18,7 +18,8 @@ define([
           validateKey: Function,
           language: Object,
           loadMultiUse: Function,
-          multiUseElements: Object
+          multiUseElements: Object,
+          existingFieldKeyFields: Array
         },
         components: {
           draggable,
@@ -57,6 +58,10 @@ define([
               this.global.activeField = this.fields[index + 1];
             }
             this.global.deletedFields.push(this.fields[index]);
+            if (this.existingFieldKeyFields.includes(this.fields[index])) {
+              let errorIndex = this.existingFieldKeyFields.indexOf(this.fields[index]);
+              this.existingFieldKeyFields.splice(errorIndex, 1);
+            }
             this.fields.splice(index, 1);
             if (this.fields.length === 0) {
               if (this.depth > 0) {
@@ -113,6 +118,7 @@ define([
             :language="language"
             :load-multi-use="loadMultiUse"
             :multi-use-elements="multiUseElements"
+            :existing-field-key-fields="existingFieldKeyFields"
           />
     </div>
   </li>
