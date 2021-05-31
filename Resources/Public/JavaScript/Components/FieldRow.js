@@ -16,7 +16,8 @@ define([
           index: Number,
           loadMultiUse: Function,
           multiUseElements: Object,
-          fieldKey: String
+          fieldKey: String,
+          keyWithoutMask: Function
         },
         mounted: function () {
           Tooltip.initialize(`.field-row-${this.fieldKey} [data-bs-toggle="tooltip"]`, {
@@ -32,13 +33,6 @@ define([
           hideTooltip() {
             Tooltip.hide($(this.$refs['row' + this.index]));
           },
-          keyWithoutMask: function (key) {
-            if (key.substr(0, 8) === this.global.maskPrefix) {
-              return key.substr(8);
-            } else {
-              return key;
-            }
-          }
         },
         computed: {
           isMultiUse: function () {

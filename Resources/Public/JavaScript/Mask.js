@@ -1058,6 +1058,13 @@ define([
        */
       forceRenderer() {
         this.ticks += 1;
+      },
+      keyWithoutMask: function (key) {
+        if (key.substr(0, 8) === this.global.maskPrefix) {
+          return key.substr(8);
+        } else {
+          return key;
+        }
       }
     },
     computed: {

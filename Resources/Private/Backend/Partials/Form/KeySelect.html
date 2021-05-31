@@ -25,7 +25,7 @@
             </optgroup>
             <optgroup v-if="availableMaskTcaForActiveField.length" class="c-divider" label="Mask fields">
                 <option v-for="item in availableMaskTcaForActiveField" :value="item.field">
-                    {{ item.label }}
+                    {{ item.label }} ({{ keyWithoutMask(item.field) }})
                 </option>
             </optgroup>
         </select>
