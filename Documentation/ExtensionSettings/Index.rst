@@ -20,7 +20,7 @@ ____
 
 | File with project specific mask configuration.
 | Mask stores the information, which is needed to generate content elements and extend page templates into one file: `mask.json`. With this setting you can change the path to this file.
-| Default: :code:`typo3conf/ext/mask_project/Resources/Private/Mask/mask.json`
+| Default: :code:`typo3conf/ext/mask_project/Configuration/Mask/mask.json`
 
 .. _extension-settings-pids:
 

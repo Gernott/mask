@@ -1,5 +1,5 @@
 # cat=general; type=file [json]; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-json
-json = typo3conf/ext/mask_project/Resources/Private/Mask/mask.json
+json = typo3conf/ext/mask_project/Configuration/Mask/mask.json
 # cat=general; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-backendlayout_pids
 backendlayout_pids = 0,1
 
