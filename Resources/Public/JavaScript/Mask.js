@@ -465,8 +465,8 @@ define([
           return;
         }
 
-        // If there is an error already from step 1 or we are not on root, cancel tca ajax check
-        if (error || !this.isRoot(field)) {
+        // If there is an error already from step 1 or we are not on root or the field isn't new, cancel tca ajax check.
+        if (error || !this.isRoot(field) || !field.newField) {
           return;
         }
 
