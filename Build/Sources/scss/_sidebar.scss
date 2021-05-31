@@ -2,8 +2,6 @@
   margin-bottom: 20px;
   width: 350px;
   max-width: 100%;
-  background-color: $bg-light;
-  border: 1px solid $border-color;
   position: relative;
   z-index: 1;
 
@@ -13,15 +11,23 @@
   }
 
   @media screen and (min-width: $bp-desktop) {
-    min-height: calc(100vh - 20px);
     margin-bottom: 0;
+  }
+
+  &__background {
+    background-color: $bg-light;
+    border: 1px solid $border-color;
+    position: sticky;
+    top: 10px;
+
+    @media screen and (min-width: $bp-laptop) {
+      min-height: calc(100vh - 20px);
+    }
   }
 
   &__inner {
     display: flex;
     flex-direction: column;
-    position: sticky;
-    top: 0;
   }
 
   &__toolbar {

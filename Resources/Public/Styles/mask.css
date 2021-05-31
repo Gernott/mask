@@ -329,8 +329,6 @@
   margin-bottom: 20px;
   width: 350px;
   max-width: 100%;
-  background-color: #fafafa;
-  border: 1px solid #ccc;
   position: relative;
   z-index: 1; }
   @media screen and (min-width: 860px) {
@@ -339,13 +337,18 @@
       flex-shrink: 0; } }
   @media screen and (min-width: 1650px) {
     .mask-sidebar {
-      min-height: calc(100vh - 20px);
       margin-bottom: 0; } }
+  .mask-sidebar__background {
+    background-color: #fafafa;
+    border: 1px solid #ccc;
+    position: sticky;
+    top: 10px; }
+    @media screen and (min-width: 1200px) {
+      .mask-sidebar__background {
+        min-height: calc(100vh - 20px); } }
   .mask-sidebar__inner {
     display: flex;
-    flex-direction: column;
-    position: sticky;
-    top: 0; }
+    flex-direction: column; }
   .mask-sidebar__toolbar {
     padding: 10px 10px 0;
     margin-bottom: 10px; }
