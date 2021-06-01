@@ -369,9 +369,11 @@ class AjaxController
         foreach ($json[$table]['elements'] as $element) {
             if (in_array($key, $element['columns'])) {
                 $label = $element['labels'][array_search($key, $element['columns'])];
-                if ($label !== '') {
-                    break;
-                }
+            } else {
+                $label = $json[$table]['tca'][$key]['label'][$element['key']] ?? '';
+            }
+            if ($label !== '') {
+                break;
             }
         }
         return $label;
