@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.0.5] - 2021-06-01
+
+### Fixed
+- Loading existing field does not override sql definition anymore
+- Field labels now also loaded when field is in palette
+- Some edgecase validation behaviour fixed
+
+### Added
+- Show label of mask fields in existing key select
+- Improved sticky styling for sidebar
+
 ## [7.0.4] - 2021-05-31
 
 ### Fixed
