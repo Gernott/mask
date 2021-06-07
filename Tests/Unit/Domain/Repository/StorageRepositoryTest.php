@@ -15,6 +15,7 @@
 
 namespace Domain\Repository;
 
+use MASK\Mask\Domain\Service\SettingsService;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use TYPO3\TestingFramework\Core\BaseTestCase;
@@ -2149,6 +2150,14 @@ class StorageRepositoryTest extends BaseTestCase
                 'tt_content',
                 FieldType::DATE
             ],
+            'Core field bodytext returned as richtext' => [
+                [],
+                [],
+                'bodytext',
+                '',
+                'tt_content',
+                FieldType::RICHTEXT
+            ],
         ];
     }
 
@@ -2168,5 +2177,324 @@ class StorageRepositoryTest extends BaseTestCase
         $storageRepository = $this->createPartialMock(StorageRepository::class, ['load']);
         $storageRepository->expects(self::any())->method('load')->willReturn($json);
         self::assertEquals($expected, $storageRepository->getFormType($fieldKey, $elementKey, $table));
+    }
+
+    public function findFirstNonEmptyLabelDataProvider()
+    {
+        return [
+            'First found field label returned' => [
+                [
+                    'tt_content' => [
+                        'elements' => [
+                            'element1' => [
+                                'columns' => [
+                                    'field1',
+                                    'field2'
+                                ],
+                                'labels' => [
+                                    'Field 1',
+                                    'Field 2'
+                                ]
+                            ],
+                            'element2' => [
+                                'columns' => [
+                                    'field1',
+                                    'field3'
+                                ],
+                                'labels' => [
+                                    'Field 1-1',
+                                    'Field 3'
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'tt_content',
+                'field1',
+                'Field 1'
+            ],
+            'First found field label in palette returned' => [
+                [
+                    'tt_content' => [
+                        'elements' => [
+                            'element1' => [
+                                'key' => 'element1',
+                                'columns' => [
+                                    'pallette1',
+                                    'field2'
+                                ],
+                                'labels' => [
+                                    'Palette 1',
+                                    'Field 2'
+                                ]
+                            ],
+                            'element2' => [
+                                'key' => 'element2',
+                                'columns' => [
+                                    'field1',
+                                    'field3'
+                                ],
+                                'labels' => [
+                                    'Field 1-1',
+                                    'Field 3'
+                                ]
+                            ]
+                        ],
+                        'tca' => [
+                            'field1' => [
+                                'label' => [
+                                    'element1' => 'Field 1'
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'tt_content',
+                'field1',
+                'Field 1'
+            ]
+        ];
+    }
+
+    /**
+     * @param $json
+     * @param $table
+     * @param $key
+     * @param $expected
+     * @test
+     * @dataProvider findFirstNonEmptyLabelDataProvider
+     */
+    public function findFirstNonEmptyLabel($json, $table, $key, $expected)
+    {
+        $storageRepository = $this->createPartialMock(StorageRepository::class, ['load']);
+        $storageRepository->expects(self::any())->method('load')->willReturn($json);
+
+        self::assertSame($expected, $storageRepository->findFirstNonEmptyLabel($table, $key));
+    }
+
+    public function loadElementDataProvider()
+    {
+        return [
+            'Element with fields returned' => [
+                [
+                    'tt_content' => [
+                        'elements' => [
+                            'element1' => [
+                                'color' => '#000000',
+                                'icon' => 'fa-icon',
+                                'key' => 'element1',
+                                'label' => 'Element 1',
+                                'description' => 'Element 1 Description',
+                                'columns' => [
+                                    'tx_mask_field1',
+                                    'tx_mask_field2',
+                                    'tx_mask_field3',
+                                ],
+                                'labels' => [
+                                    'Field 1',
+                                    'Field 2',
+                                    'Field 3',
+                                ]
+                            ]
+                        ],
+                        'tca' => [
+                            'tx_mask_field1' => [
+                                'config' => [
+                                    'type' => 'input'
+                                ],
+                                'key' => 'field1',
+                                'name' => 'string',
+                                'description' => 'Field 1 Description'
+                            ],
+                            'tx_mask_field2' => [
+                                'config' => [
+                                    'eval' => 'int',
+                                    'type' => 'input'
+                                ],
+                                'key' => 'field2',
+                                'name' => 'integer',
+                                'description' => 'Field 2 Description'
+                            ],
+                            'tx_mask_field3' => [
+                                'config' => [
+                                    'type' => 'input'
+                                ],
+                                'renderType' => 'inputLink',
+                                'key' => 'field3',
+                                'name' => 'link',
+                                'description' => 'Field 3 Description'
+                            ]
+                        ]
+                    ]
+                ],
+                'tt_content',
+                'element1',
+                [
+                    'color' => '#000000',
+                    'icon' => 'fa-icon',
+                    'key' => 'element1',
+                    'label' => 'Element 1',
+                    'description' => 'Element 1 Description',
+                    'columns' => [
+                        'tx_mask_field1',
+                        'tx_mask_field2',
+                        'tx_mask_field3',
+                    ],
+                    'labels' => [
+                        'Field 1',
+                        'Field 2',
+                        'Field 3',
+                    ],
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'field1',
+                            'name' => 'string',
+                            'description' => 'Field 1 Description'
+                        ],
+                        'tx_mask_field2' => [
+                            'config' => [
+                                'eval' => 'int',
+                                'type' => 'input'
+                            ],
+                            'key' => 'field2',
+                            'name' => 'integer',
+                            'description' => 'Field 2 Description'
+                        ],
+                        'tx_mask_field3' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'renderType' => 'inputLink',
+                            'key' => 'field3',
+                            'name' => 'link',
+                            'description' => 'Field 3 Description'
+                        ]
+                    ]
+                ]
+            ],
+            'Element with no field returns only element' => [
+                [
+                    'tt_content' => [
+                        'elements' => [
+                            'element1' => [
+                                'color' => '#000000',
+                                'icon' => 'fa-icon',
+                                'key' => 'element1',
+                                'label' => 'Element 1',
+                                'description' => 'Element 1 Description',
+                            ]
+                        ],
+                        'tca' => [
+                            'tx_mask_field1' => [
+                                'config' => [
+                                    'type' => 'input'
+                                ],
+                                'key' => 'field1',
+                                'name' => 'string',
+                                'description' => 'Field 1 Description'
+                            ],
+                        ]
+                    ]
+                ],
+                'tt_content',
+                'element1',
+                [
+                    'color' => '#000000',
+                    'icon' => 'fa-icon',
+                    'key' => 'element1',
+                    'label' => 'Element 1',
+                    'description' => 'Element 1 Description',
+                ]
+            ],
+            'Non existing element returns empty array' => [
+                [
+                    'tt_content' => [
+                        'elements' => [
+                            'element1' => [
+                                'color' => '#000000',
+                                'icon' => 'fa-icon',
+                                'key' => 'element1',
+                                'label' => 'Element 1',
+                                'description' => 'Element 1 Description',
+                            ]
+                        ],
+                        'tca' => [
+                            'tx_mask_field1' => [
+                                'config' => [
+                                    'type' => 'input'
+                                ],
+                                'key' => 'field1',
+                                'name' => 'string',
+                                'description' => 'Field 1 Description'
+                            ],
+                        ]
+                    ]
+                ],
+                'tt_content',
+                'element2',
+                []
+            ],
+            'Tables other than tt_content or pages return empty array' => [
+                [
+                    'tt_content' => [
+                        'elements' => [
+                            'element1' => [
+                                'color' => '#000000',
+                                'icon' => 'fa-icon',
+                                'key' => 'element1',
+                                'label' => 'Element 1',
+                                'description' => 'Element 1 Description',
+                            ]
+                        ],
+                        'tca' => [
+                            'tx_mask_repeating' => [
+                                'config' => [
+                                    'type' => 'inline'
+                                ],
+                                'key' => 'repeating',
+                                'name' => 'inline',
+                                'description' => 'Field Inline Description'
+                            ],
+                        ]
+                    ],
+                    'tx_mask_repeating' => [
+                        'tca' => [
+                            'tx_mask_field1' => [
+                                'config' => [
+                                    'type' => 'input'
+                                ],
+                                'key' => 'field1',
+                                'name' => 'string',
+                                'description' => 'Field 1 Description'
+                            ],
+                        ]
+                    ]
+                ],
+                'tx_mask_repeating',
+                'element2',
+                []
+            ]
+        ];
+    }
+
+    /**
+     * @param $json
+     * @param $table
+     * @param $element
+     * @param $expected
+     * @test
+     * @dataProvider loadElementDataProvider
+     */
+    public function loadElement($json, $table, $element, $expected)
+    {
+        $settingsServiceProphecy = $this->prophesize(SettingsService::class);
+        $settingsServiceProphecy->get()->willReturn([]);
+        $storageRepository = new StorageRepository($settingsServiceProphecy->reveal());
+        $storageRepository->setJson($json);
+
+        self::assertSame($expected, $storageRepository->loadElement($table, $element));
     }
 }

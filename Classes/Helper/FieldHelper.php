@@ -19,7 +19,6 @@ namespace MASK\Mask\Helper;
 
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Utility\AffixUtility;
-use MASK\Mask\Utility\GeneralUtility;
 
 /**
  * Methods for types of fields in mask (string, rte, repeating, ...)
@@ -52,18 +51,29 @@ class FieldHelper
     public function getLabel($elementKey, $fieldKey, $type = 'tt_content'): string
     {
         $json = $this->storageRepository->load();
-        $label = $json[$type]['tca'][$fieldKey]['label'][$elementKey] ?? false;
-        $columns = $json[$type]['elements'][$elementKey]['columns'] ?? false;
-        if ($label === false && $columns && count($columns) > 0) {
-            $fieldIndex = array_search($fieldKey, $columns);
-            if ($fieldIndex !== false) {
-                $label = $json[$type]['elements'][$elementKey]['labels'][$fieldIndex];
+
+        // If this field is in a repeating field or palette, the label is in the field configuration.
+        $field = $json[$type]['tca'][$fieldKey] ?? [];
+        if (isset($field['inlineParent'])) {
+            if (is_array($field['label'])) {
+                if (isset($field['label'][$elementKey])) {
+                    return $field['label'][$elementKey];
+                }
+            } else {
+                return $field['label'];
             }
         }
-        if ($label === false) {
-            return '';
+
+        // Root level fields have their labels defined in element labels array.
+        $columns = $json[$type]['elements'][$elementKey]['columns'] ?? false;
+        if ($columns && count($columns) > 0) {
+            $fieldIndex = array_search($fieldKey, $columns);
+            if ($fieldIndex !== false) {
+                return $json[$type]['elements'][$elementKey]['labels'][$fieldIndex];
+            }
         }
-        return $label;
+
+        return '';
     }
 
     /**
