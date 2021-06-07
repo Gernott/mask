@@ -25,11 +25,10 @@ use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Enumeration\Tab;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Domain\Service\SettingsService;
+use MASK\Mask\Helper\ConfigurationLoader;
 use MASK\Mask\Helper\FieldHelper;
 use MASK\Mask\Utility\AffixUtility;
-use MASK\Mask\Utility\DateUtility;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
-use MASK\Mask\Utility\TcaConverterUtility;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\View\BackendLayout\BackendLayout;
 use TYPO3\CMS\Core\Cache\CacheManager;
@@ -53,74 +52,19 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
 
 class AjaxController
 {
-    /**
-     * @var FieldHelper
-     */
     protected $fieldHelper;
-
-    /**
-     * @var StorageRepository
-     */
     protected $storageRepository;
-
-    /**
-     * SqlCodeGenerator
-     *
-     * @var SqlCodeGenerator
-     */
     protected $sqlCodeGenerator;
-
-    /**
-     * HtmlCodeGenerator
-     *
-     * @var HtmlCodeGenerator
-     */
     protected $htmlCodeGenerator;
-
-    /**
-     * @var IconFactory
-     */
     protected $iconFactory;
-
-    /**
-     * SettingsService
-     *
-     * @var SettingsService
-     */
     protected $settingsService;
-
-    /**
-     * settings
-     *
-     * @var array
-     */
     protected $extSettings;
-
-    /**
-     * @var FlashMessageQueue
-     */
     protected $flashMessageQueue;
-
-    /**
-     * @var BackendLayoutRepository
-     */
     protected $backendLayoutRepository;
-
-    /**
-     * @var ImageService
-     */
     protected $imageService;
-
-    /**
-     * @var ResourceFactory
-     */
     protected $resourceFactory;
+    protected $configurationLoader;
 
-    /**
-     * $pathKeys
-     *
-     * @var array
-     */
     protected static $folderPathKeys = [
         'content',
         'layouts',
@@ -140,7 +84,8 @@ class AjaxController
         SettingsService $settingsService,
         BackendLayoutRepository $backendLayoutRepository,
         ImageService $imageService,
-        ResourceFactory $resourceFactory
+        ResourceFactory $resourceFactory,
+        ConfigurationLoader $configurationLoader
     ) {
         $this->storageRepository = $storageRepository;
         $this->fieldHelper = $fieldHelper;
@@ -151,6 +96,7 @@ class AjaxController
         $this->backendLayoutRepository = $backendLayoutRepository;
         $this->imageService = $imageService;
         $this->resourceFactory = $resourceFactory;
+        $this->configurationLoader = $configurationLoader;
         $this->flashMessageQueue = new FlashMessageQueue('mask');
         $this->extSettings = $this->settingsService->get();
     }
@@ -338,196 +284,11 @@ class AjaxController
             ->rowCount();
     }
 
-    public function loadElement(ServerRequestInterface $request): Response
-    {
-        $params = $request->getQueryParams();
-        $table = $params['type'];
-        $elementKey = $params['key'];
-
-        $storage = $this->storageRepository->loadElement($table, $elementKey);
-        $json['fields'] = $this->addFields($storage['tca'] ?? [], $table, $elementKey);
-
-        return new JsonResponse($json);
-    }
-
-    public function loadField(ServerRequestInterface $request): Response
-    {
-        $params = $request->getQueryParams();
-        $table = $params['type'];
-        $key = $params['key'];
-        $field = $this->storageRepository->loadField($table, $key);
-        $json['field'] = $this->addFields([$key => $field], $table)[0];
-        $json['field']['label'] = $this->findFirstNonEmptyLabel($table, $key);
-
-        return new JsonResponse($json);
-    }
-
-    /**
-     * This method searches for an existing label of a multiuse field
-     *
-     * @param string $table
-     * @param string $key
-     */
-    protected function findFirstNonEmptyLabel(string $table, string $key)
-    {
-        $label = '';
-        $json = $this->storageRepository->load();
-        foreach ($json[$table]['elements'] as $element) {
-            if (in_array($key, $element['columns'] ?? [])) {
-                $label = $element['labels'][array_search($key, $element['columns'])];
-            } else {
-                $label = $json[$table]['tca'][$key]['label'][$element['key']] ?? '';
-            }
-            if ($label !== '') {
-                break;
-            }
-        }
-        return $label;
-    }
-
-    /**
-     * @param array $fields
-     * @param string $table
-     * @param string $elementKey
-     * @param null $parent
-     * @return array
-     */
-    protected function addFields(array $fields, string $table, string $elementKey = '', $parent = null)
-    {
-        $storage = $this->storageRepository->load();
-        $defaults = $this->loadDefaults();
-        $nestedFields = [];
-        foreach ($fields as $key => $field) {
-            $newField = [
-                'fields' => [],
-                'parent' => $parent ?? [],
-                'newField' => false,
-            ];
-
-            $newField['key'] = $parent ? ($field['coreField'] ? $field['key'] : $field['maskKey']) : $key;
-
-            if ($elementKey !== '') {
-                $newField['label'] = $this->getLabel($field, $table, $newField['key'], $elementKey);
-                $translatedLabel = $this->translateLabel($newField['label'], $elementKey);
-                $newField['translatedLabel'] = $translatedLabel !== $newField['label'] ? $translatedLabel : '';
-            }
-
-            $fieldType = FieldType::cast($this->getFormType($newField['key'], $table, $elementKey));
-
-            if ($fieldType->isParentField()) {
-                $field['inlineFields'] = $this->storageRepository->loadInlineFields($newField['key'], $elementKey);
-            }
-
-            // Convert old date format Y-m-d to d-m-Y
-            $dbType = $field['config']['dbType'] ?? false;
-            if ($dbType && in_array($dbType, ['date', 'datetime'], true)) {
-                $lower = $field['config']['range']['lower'] ?? false;
-                $upper = $field['config']['range']['upper'] ?? false;
-                if ($lower && DateUtility::isOldDateFormat($lower)) {
-                    $field['config']['range']['lower'] = DateUtility::convertOldToNewFormat($dbType, $lower);
-                }
-                if ($upper && DateUtility::isOldDateFormat($upper)) {
-                    $field['config']['range']['upper'] = DateUtility::convertOldToNewFormat($dbType, $upper);
-                }
-            }
-
-            // Add backwards compatibility for allowed extensions.
-            if ($fieldType->equals(FieldType::LINK)) {
-                if (isset($field['config']['wizards']['link']['params']['allowedExtensions'])) {
-                    $field['config']['fieldControl']['linkPopup']['options']['allowedExtensions'] = $field['config']['wizards']['link']['params']['allowedExtensions'];
-                    unset($field['config']['wizards']['link']['params']['allowedExtensions']);
-                }
-            }
-
-            $newField['isMaskField'] = AffixUtility::hasMaskPrefix($newField['key']);
-
-            if (!$fieldType->isGroupingField() && $newField['isMaskField']) {
-                $newField['sql'] = $storage[$table]['sql'][$newField['key']][$table][$newField['key']];
-            }
-
-            $newField['name'] = (string)$fieldType;
-            $newField['icon'] = $this->iconFactory->getIcon('mask-fieldtype-' . $newField['name'])->getMarkup();
-            $newField['description'] = $field['description'] ?? '';
-            $newField['tca'] = TcaConverterUtility::convertTcaArrayToFlat($field['config'] ?? []);
-            $newField['tca']['l10n_mode'] = $field['l10n_mode'] ?? '';
-
-            if ($fieldType->equals(FieldType::TIMESTAMP)) {
-                $default = $newField['tca']['config.default'] ?? false;
-                if ($default) {
-                    $newField['tca']['config.default'] = DateUtility::convertTimestampToDate($newField['tca']['config.eval'], $default);
-                }
-                $lower = $newField['tca']['config.range.lower'] ?? false;
-                if ($lower) {
-                    $newField['tca']['config.range.lower'] = DateUtility::convertTimestampToDate($newField['tca']['config.eval'], $lower);
-                }
-                $upper = $newField['tca']['config.range.upper'] ?? false;
-                if ($upper) {
-                    $newField['tca']['config.range.upper'] = DateUtility::convertTimestampToDate($newField['tca']['config.eval'], $upper);
-                }
-            }
-
-            if ($fieldType->equals(FieldType::FILE)) {
-                $newField['tca']['imageoverlayPalette'] = $field['imageoverlayPalette'] ?? 1;
-                // Since mask v7.0.0 the path for allowedFileExtensions has changed to root level.
-                $allowedFileExtensionsPath = 'config.filter.0.parameters.allowedFileExtensions';
-                $newField['tca']['allowedFileExtensions'] = $field['allowedFileExtensions'] ?? $newField['tca'][$allowedFileExtensionsPath] ?? '';
-                // Remove old path.
-                if (isset($newField['tca'][$allowedFileExtensionsPath])) {
-                    unset($newField['tca'][$allowedFileExtensionsPath]);
-                }
-            }
-
-            if ($fieldType->equals(FieldType::CONTENT)) {
-                $newField['tca']['cTypes'] = $field['cTypes'] ?? [];
-            }
-
-            // Set defaults
-            foreach ($defaults[(string)$fieldType]['tca_in'] ?? [] as $tcaKey => $defaultValue) {
-                $newField['tca'][$tcaKey] = $newField['tca'][$tcaKey] ?? $defaultValue;
-            }
-
-            if ($fieldType->equals(FieldType::INLINE)) {
-                $newField['tca']['ctrl.iconfile'] = $field['ctrl']['iconfile'] ?? $field['inlineIcon'] ?? '';
-                $newField['tca']['ctrl.label'] = $field['ctrl']['label'] ?? $field['inlineLabel'] ?? '';
-            }
-
-            if ($fieldType->isParentField()) {
-                $inlineTable = $fieldType->equals(FieldType::INLINE) ? $newField['key'] : $table;
-                $newField['fields'] = $this->addFields($field['inlineFields'], $inlineTable, $elementKey, $newField);
-            }
-
-            $newField['tca'] = $this->cleanUpConfig($newField['tca'], $fieldType);
-            $nestedFields[] = $newField;
-        }
-        return $nestedFields;
-    }
-
-    /**
-     * This method removes all tca options defined which aren't available in mask.
-     *
-     * @param array $config
-     * @param FieldType $fieldType
-     * @return array
-     */
-    protected function cleanUpConfig(array $config, FieldType $fieldType)
-    {
-        $tabConfig = require GeneralUtility::getFileAbsFileName('EXT:mask/Configuration/Mask/Tabs/' . $fieldType . '.php');
-        $tcaOptions = [];
-        foreach ($tabConfig as $options) {
-            foreach ($options as $row) {
-                $tcaOptions = array_merge($tcaOptions, array_keys($row));
-            }
-        }
-        return array_filter($config, function ($key) use ($tcaOptions) {
-            return in_array($key, $tcaOptions);
-        }, ARRAY_FILTER_USE_KEY);
-    }
-
     public function fieldTypes(ServerRequestInterface $request): Response
     {
         $json = [];
-        $defaults = $this->loadDefaults();
-        $grouping = require GeneralUtility::getFileAbsFileName('EXT:mask/Configuration/Mask/FieldGroups.php');
+        $defaults = $this->configurationLoader->loadDefaults();
+        $grouping = $this->configurationLoader->loadFieldGroups();
         foreach (FieldType::getConstants() as $type) {
             $config = [
                 'name' => $type,
@@ -622,7 +383,7 @@ class AjaxController
                 continue;
             }
 
-            $fieldType = FieldType::cast($this->getFormType($field['key'], $params['table'], $params['elementKey']));
+            $fieldType = FieldType::cast($this->storageRepository->getFormType($field['key'], $params['elementKey'], $params['table']));
 
             // These fields can not be shared
             if ($fieldType->equals(FieldType::INLINE) || $fieldType->equals(FieldType::TAB)) {
@@ -634,7 +395,7 @@ class AjaxController
                 $paletteFields = $this->storageRepository->loadInlineFields($key, $params['elementKey']);
 
                 foreach ($paletteFields as $paletteField) {
-                    $paletteFieldType = FieldType::cast($this->getFormType($paletteField['key'], $params['table'], $params['elementKey']));
+                    $paletteFieldType = FieldType::cast($this->storageRepository->getFormType($paletteField['key'], $params['elementKey'], $params['table']));
                     if ($paletteFieldType->equals(FieldType::INLINE)) {
                         continue;
                     }
@@ -771,7 +532,7 @@ class AjaxController
                 }
                 if ($fieldType === $type) {
                     $key = $isMaskField ? 'mask' : 'core';
-                    $label = $isMaskField ? $this->findFirstNonEmptyLabel($table, $tcaField) : LocalizationUtility::translate($tcaConfig['label']);
+                    $label = $isMaskField ? $this->storageRepository->findFirstNonEmptyLabel($table, $tcaField) : LocalizationUtility::translate($tcaConfig['label']);
                     $fields[$key][] = [
                         'field' => $tcaField,
                         'label' => $label,
@@ -784,7 +545,7 @@ class AjaxController
 
     public function tcaFields(ServerRequestInterface $request): Response
     {
-        $tcaFields = require GeneralUtility::getFileAbsFileName('EXT:mask/Configuration/Mask/TcaFields.php');
+        $tcaFields = $this->configurationLoader->loadTcaFields();
         foreach ($tcaFields as $key => $field) {
             if ($field['collision'] ?? false) {
                 unset($field['collision']);
@@ -836,7 +597,7 @@ class AjaxController
     {
         $tabs = [];
         foreach (FieldType::getConstants() as $type) {
-            $tabs[$type] = require GeneralUtility::getFileAbsFileName('EXT:mask/Configuration/Mask/Tabs/' . $type . '.php');
+            $tabs[$type] = $this->configurationLoader->loadTab($type);
         }
         return new JsonResponse($tabs);
     }
@@ -935,56 +696,6 @@ class AjaxController
                 'mask' => ExtensionManagementUtility::getExtensionVersion('mask')
             ]
         );
-    }
-
-    protected function getFormType($fieldKey, $type, $elementKey = '')
-    {
-        if ($fieldKey === 'bodytext' && $type === 'tt_content') {
-            return FieldType::RICHTEXT;
-        }
-
-        return $this->storageRepository->getFormType($fieldKey, $elementKey, $type);
-    }
-
-    protected function getLabel($field, $table, $fieldKey, $elementKey)
-    {
-        // if we have the whole field configuration
-        if ($field) {
-            // check if this field is in an repeating field
-            if (isset($field['inlineParent']) && !is_array($field['inlineParent'])) {
-                // if yes, the label is in the configuration
-                $label = $field['label'];
-            } else {
-                // otherwise the type can only be tt_content or pages
-                if ($table) {
-                    // if we have table param, the type must be the table
-                    $type = $table;
-                } else {
-                    // otherwise try to get the label, set param $excludeInlineFields to true
-                    $type = $this->fieldHelper->getFieldType($fieldKey, $elementKey, true);
-                }
-                $label = $this->fieldHelper->getLabel($elementKey, $fieldKey, $type);
-            }
-        } else {
-            // if we don't have the field configuration, try the best to fetch the type and the correct label
-            $type = $this->fieldHelper->getFieldType($fieldKey, $elementKey, false);
-            $label = $this->fieldHelper->getLabel($elementKey, $fieldKey, $type);
-        }
-        return $label;
-    }
-
-    protected function translateLabel($key, $element)
-    {
-        if (is_array($key)) {
-            return $key[$element] ?? '';
-        }
-
-        if (empty($key) || strpos($key, 'LLL') !== 0) {
-            return $key;
-        }
-
-        $result = LocalizationUtility::translate($key);
-        return empty($result) ? $key : $result;
     }
 
     /**
@@ -1165,13 +876,5 @@ class AjaxController
         foreach ($paths as $path) {
             @unlink($path);
         }
-    }
-
-    /**
-     * @return array
-     */
-    protected function loadDefaults(): array
-    {
-        return require GeneralUtility::getFileAbsFileName('EXT:mask/Configuration/Mask/Defaults.php');
     }
 }

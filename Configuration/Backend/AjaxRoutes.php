@@ -1,6 +1,7 @@
 <?php
 
 use MASK\Mask\Controller\AjaxController;
+use MASK\Mask\Controller\FieldsController;
 
 return [
     'mask_check_field_key' => [
@@ -49,11 +50,11 @@ return [
     ],
     'mask_load_element' => [
         'path' => '/mask/loadElement',
-        'target' => AjaxController::class . '::loadElement'
+        'target' => FieldsController::class . '::loadElement'
     ],
     'mask_load_field' => [
         'path' => '/mask/loadField',
-        'target' => AjaxController::class . '::loadField'
+        'target' => FieldsController::class . '::loadField'
     ],
     'mask_save' => [
         'path' => '/mask/save',

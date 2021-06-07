@@ -223,7 +223,7 @@ class StorageRepository implements SingletonInterface
         }
         $json = $this->load();
         $fields = [];
-        $columns = $json[$type]['elements'][$key]['columns'] ?? false;
+        $columns = $json[$type]['elements'][$key]['columns'] ?? [];
 
         // Check if it is an array before trying to count it
         if (is_array($columns) && count($columns) > 0) {
@@ -564,6 +564,11 @@ class StorageRepository implements SingletonInterface
      */
     public function getFormType($fieldKey, $elementKey = '', $type = 'tt_content'): string
     {
+        // TODO Allow bodytext to be normal TEXT field.
+        if ($fieldKey === 'bodytext' && $type === 'tt_content') {
+            return FieldType::RICHTEXT;
+        }
+
         $element = [];
         $maskKey = AffixUtility::addMaskPrefix($fieldKey);
 
@@ -688,6 +693,29 @@ class StorageRepository implements SingletonInterface
     }
 
     /**
+     * This method searches for an existing label of a multiuse field
+     *
+     * @param string $table
+     * @param string $key
+     */
+    public function findFirstNonEmptyLabel(string $table, string $key)
+    {
+        $label = '';
+        $json = $this->load();
+        foreach ($json[$table]['elements'] as $element) {
+            if (in_array($key, $element['columns'])) {
+                $label = $element['labels'][array_search($key, $element['columns'])];
+            } else {
+                $label = $json[$table]['tca'][$key]['label'][$element['key']] ?? '';
+            }
+            if ($label !== '') {
+                break;
+            }
+        }
+        return $label;
+    }
+
+    /**
      * @return array
      */
     protected function getDefaults(): array
@@ -696,5 +724,10 @@ class StorageRepository implements SingletonInterface
             $this->defaults = require GeneralUtility::getFileAbsFileName('EXT:mask/Configuration/Mask/Defaults.php');
         }
         return $this->defaults;
+    }
+
+    public function setJson(array $json)
+    {
+        self::$json = $json;
     }
 }

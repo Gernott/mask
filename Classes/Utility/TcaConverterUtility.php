@@ -47,7 +47,7 @@ class TcaConverterUtility
                         $keys = explode(',', $value);
 
                         // Special handling for timestamp field, as the dateType is in the key "config.eval"
-                        $dateTypesInKeys = array_intersect($keys, ['date', 'datetime', 'time', 'timesec']);
+                        $dateTypesInKeys = array_values(array_intersect($keys, ['date', 'datetime', 'time', 'timesec']));
                         if (count($dateTypesInKeys) > 0) {
                             $tca[$fullPath] = $dateTypesInKeys[0];
                             // Remove dateType from normal eval array

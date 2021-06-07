@@ -16,6 +16,7 @@
 namespace MASK\Mask\Test\Helper;
 
 use MASK\Mask\Domain\Repository\StorageRepository;
+use MASK\Mask\Domain\Service\SettingsService;
 use MASK\Mask\Helper\FieldHelper;
 use TYPO3\TestingFramework\Core\BaseTestCase;
 
@@ -147,7 +148,9 @@ class FieldHelperTest extends BaseTestCase
                                 'key' => 'palette_1'
                             ],
                             'header' => [
-                                'inlineParent' => 'tx_mask_palette_1',
+                                'inlineParent' => [
+                                    'element_1' => 'tx_mask_palette_1'
+                                ],
                                 'inPalette' => '1',
                                 'label' => [
                                     'element_1' => 'Header 1'
@@ -160,7 +163,195 @@ class FieldHelperTest extends BaseTestCase
                 'header',
                 'tt_content',
                 'Header 1'
-            ]
+            ],
+            'Field in inline returns correct label' => [
+                [
+                    'tt_content' => [
+                        'elements' => [
+                            'element_1' => [
+                                'labels' => [
+                                    'Inline 1',
+                                ],
+                                'columns' => [
+                                    'tx_mask_inline',
+                                ]
+                            ]
+                        ],
+                        'tca' => [
+                            'tx_mask_inline' => [
+                                'config' => [
+                                    'type' => 'inline'
+                                ],
+                                'key' => 'inline'
+                            ],
+                        ]
+                    ],
+                    'tx_mask_inline' => [
+                        'tca' => [
+                            'tx_mask_field1' => [
+                                'inlineParent' => 'tx_mask_inline',
+                                'label' => 'Header 1'
+                            ]
+                        ]
+                    ]
+                ],
+                'element_1',
+                'tx_mask_field1',
+                'tx_mask_inline',
+                'Header 1'
+            ],
+            'Field which is shared and is in palette in the other element' => [
+                [
+                    'tt_content' => [
+                        'elements' => [
+                            'element_1' => [
+                                'labels' => [
+                                    'Palette 1',
+                                ],
+                                'columns' => [
+                                    'tx_mask_palette_1',
+                                ]
+                            ],
+                            'element_2' => [
+                                'labels' => [
+                                    'Header 1-1'
+                                ],
+                                'columns' => [
+                                    'tx_mask_header'
+                                ]
+                            ]
+                        ],
+                        'palettes' => [
+                            'palette_1' => [
+                                'label' => 'Palette 1',
+                                'showitem' => ['tx_mask_header']
+                            ]
+                        ],
+                        'tca' => [
+                            'tx_mask_palette_1' => [
+                                'config' => [
+                                    'type' => 'palette'
+                                ],
+                                'key' => 'palette_1'
+                            ],
+                            'tx_mask_header' => [
+                                'inlineParent' => [
+                                    'element_1' => 'tx_mask_palette_1'
+                                ],
+                                'inPalette' => '1',
+                                'label' => [
+                                    'element_1' => 'Header 1'
+                                ]
+                            ]
+                        ]
+                    ],
+                ],
+                'element_2',
+                'tx_mask_header',
+                'tt_content',
+                'Header 1-1'
+            ],
+            'Field in palette which is shared and is not in palette in the other element' => [
+                [
+                    'tt_content' => [
+                        'elements' => [
+                            'element_1' => [
+                                'labels' => [
+                                    'Palette 1',
+                                ],
+                                'columns' => [
+                                    'tx_mask_palette_1',
+                                ]
+                            ],
+                            'element_2' => [
+                                'labels' => [
+                                    'Header 1-1'
+                                ],
+                                'columns' => [
+                                    'tx_mask_header'
+                                ]
+                            ]
+                        ],
+                        'palettes' => [
+                            'palette_1' => [
+                                'label' => 'Palette 1',
+                                'showitem' => ['tx_mask_header']
+                            ]
+                        ],
+                        'tca' => [
+                            'tx_mask_palette_1' => [
+                                'config' => [
+                                    'type' => 'palette'
+                                ],
+                                'key' => 'palette_1'
+                            ],
+                            'tx_mask_header' => [
+                                'inlineParent' => [
+                                    'element_1' => 'tx_mask_palette_1'
+                                ],
+                                'inPalette' => '1',
+                                'label' => [
+                                    'element_1' => 'Header 1'
+                                ]
+                            ]
+                        ]
+                    ],
+                ],
+                'element_1',
+                'tx_mask_header',
+                'tt_content',
+                'Header 1'
+            ],
+            'Field in palette and palette is in inline' => [
+                [
+                    'tt_content' => [
+                        'elements' => [
+                            'element_1' => [
+                                'labels' => [
+                                    'Inline 1',
+                                ],
+                                'columns' => [
+                                    'tx_mask_inline1',
+                                ]
+                            ]
+                        ],
+                        'tca' => [
+                            'tx_mask_inline1' => [
+                                'config' => [
+                                    'type' => 'inline'
+                                ]
+                            ]
+                        ]
+                    ],
+                    'tx_mask_inline1' => [
+                        'palettes' => [
+                            'palette_1' => [
+                                'label' => 'Palette 1',
+                                'showitem' => ['tx_mask_header']
+                            ]
+                        ],
+                        'tca' => [
+                            'tx_mask_palette_1' => [
+                                'config' => [
+                                    'type' => 'palette'
+                                ],
+                                'key' => 'palette_1'
+                            ],
+                            'tx_mask_header' => [
+                                'inlineParent' => 'tx_mask_palette_1',
+                                'inPalette' => '1',
+                                'label' => [
+                                    'element_1' => 'Header 1'
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'element_1',
+                'tx_mask_header',
+                'tx_mask_inline1',
+                'Header 1'
+            ],
         ];
     }
 
@@ -175,9 +366,12 @@ class FieldHelperTest extends BaseTestCase
      */
     public function getLabel($json, $elementKey, $fieldKey, $type, $expected)
     {
-        $storage = $this->createPartialMock(StorageRepository::class, ['load']);
-        $storage->method('load')->willReturn($json);
-        $fieldHelper = new FieldHelper($storage);
+        $settingsServiceProphecy = $this->prophesize(SettingsService::class);
+        $settingsServiceProphecy->get()->willReturn([]);
+        $storageRepository = new StorageRepository($settingsServiceProphecy->reveal());
+        $storageRepository->setJson($json);
+        $fieldHelper = new FieldHelper($storageRepository);
+
         self::assertSame($expected, $fieldHelper->getLabel($elementKey, $fieldKey, $type));
     }
 

@@ -13,6 +13,9 @@ services:
   MASK\Mask\Controller\AjaxController:
     tags: [ 'backend.controller' ]
 
+  MASK\Mask\Controller\FieldsController:
+    tags: [ 'backend.controller' ]
+
   MASK\Mask\CodeGenerator\TyposcriptCodeGenerator:
     public: true
 
