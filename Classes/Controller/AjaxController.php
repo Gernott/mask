@@ -434,6 +434,7 @@ class AjaxController
             $newField['icon'] = $this->iconFactory->getIcon('mask-fieldtype-' . $newField['name'])->getMarkup();
             $newField['description'] = $field['description'] ?? '';
             $newField['tca'] = TcaConverterUtility::convertTcaArrayToFlat($field['config'] ?? []);
+            $newField['tca']['l10n_mode'] = $field['l10n_mode'] ?? '';
 
             if ($fieldType->equals(FieldType::TIMESTAMP)) {
                 $default = $newField['tca']['config.default'] ?? false;
