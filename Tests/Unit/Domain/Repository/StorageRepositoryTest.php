@@ -1047,6 +1047,117 @@ class StorageRepositoryTest extends BaseTestCase
                     ]
                 ]
             ],
+            'Fields in palette of inline field point directly to inline table' => [
+                [],
+                [
+                    'label' => 'Element 1',
+                    'key' => 'element1',
+                ],
+                [
+                    [
+                        'key' => 'tx_mask_inline',
+                        'label' => 'Inline Field',
+                        'name' => 'inline',
+                        'fields' => [
+                            [
+                                'key' => 'tx_mask_palette',
+                                'label' => 'My Palette',
+                                'name' => 'palette',
+                                'fields' => [
+                                    [
+                                        'key' => 'tx_mask_field',
+                                        'label' => 'Field',
+                                        'name' => 'string'
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'tt_content',
+                [
+                    'tt_content' => [
+                        'elements' => [
+                            'element1' => [
+                                'label' => 'Element 1',
+                                'key' => 'element1',
+                                'columns' => [
+                                    'tx_mask_inline',
+                                ],
+                                'labels' => [
+                                    'Inline Field',
+                                ]
+                            ]
+                        ],
+                        'sql' => [
+                            'tx_mask_inline' => [
+                                'tt_content' => [
+                                    'tx_mask_inline' => 'int(11) unsigned DEFAULT \'0\' NOT NULL'
+                                ]
+                            ]
+                        ],
+                        'tca' => [
+                            'tx_mask_inline' => [
+                                'config' => [
+                                    'type' => 'inline',
+                                    'foreign_table' => '--inlinetable--',
+                                    'foreign_field' => 'parentid',
+                                    'foreign_table_field' => 'parenttable',
+                                    'foreign_sortby' => 'sorting',
+                                    'appearance' => [
+                                        'enabledControls' => [
+                                            'dragdrop' => 1
+                                        ]
+                                    ]
+                                ],
+                                'key' => 'inline',
+                                'description' => '',
+                                'name' => 'inline'
+                            ],
+                        ]
+                    ],
+                    'tx_mask_inline' => [
+                        'palettes' => [
+                            'tx_mask_palette' => [
+                                'label' => 'My Palette',
+                                'showitem' => ['tx_mask_field']
+                            ]
+                        ],
+                        'sql' => [
+                            'tx_mask_field' => [
+                                'tx_mask_inline' => [
+                                    'tx_mask_field' => 'varchar(255) DEFAULT \'\' NOT NULL'
+                                ]
+                            ]
+                        ],
+                        'tca' => [
+                            'tx_mask_palette' => [
+                                'config' => [
+                                    'type' => 'palette'
+                                ],
+                                'key' => 'palette',
+                                'description' => '',
+                                'name' => 'palette',
+                                'inlineParent' => 'tx_mask_inline',
+                                'label' => 'My Palette',
+                                'order' => 1
+                            ],
+                            'tx_mask_field' => [
+                                'config' => [
+                                    'type' => 'input'
+                                ],
+                                'name' => 'string',
+                                'key' => 'field',
+                                'description' => '',
+                                'inlineParent' => 'tx_mask_palette',
+                                'inPalette' => 1,
+                                'label' => 'Field',
+                                'order' => 1
+                            ]
+                        ]
+                    ]
+                ]
+            ],
             'existing custom field in another element added freshly to palette' => [
                 [
                     'tt_content' => [

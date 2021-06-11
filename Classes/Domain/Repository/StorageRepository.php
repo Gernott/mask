@@ -341,12 +341,14 @@ class StorageRepository implements SingletonInterface
             if (isset($parent)) {
                 if ($parent['name'] === FieldType::PALETTE) {
                     $fieldAdd['inPalette'] = 1;
-                    $fieldAdd['label'][$elementKey] = $field['label'];
-                    $fieldAdd['order'][$elementKey] = $order;
                     if ($onRootLevel) {
                         $fieldAdd['inlineParent'][$elementKey] = $parent['key'];
+                        $fieldAdd['label'][$elementKey] = $field['label'];
+                        $fieldAdd['order'][$elementKey] = $order;
                     } else {
                         $fieldAdd['inlineParent'] = $parent['key'];
+                        $fieldAdd['label'] = $field['label'];
+                        $fieldAdd['order'] = $order;
                     }
                     // Add palettes entry
                     $jsonAdd[$table]['palettes'][$parent['key']]['showitem'][] = $field['key'];
