@@ -61,6 +61,10 @@ class TcaCodeGenerator
             if (!AffixUtility::hasMaskPrefix($table)) {
                 continue;
             }
+            // Ignore table with missing tca
+            if (empty($subJson['tca'])) {
+                continue;
+            }
             // Enhance boilerplate table tca with user settings
             $GLOBALS['TCA'][$table] = $this->generateTableTca($table, $subJson);
             ExtensionManagementUtility::addTCAcolumns($table, $this->generateFieldsTca($table));
