@@ -367,7 +367,7 @@ class AjaxController
         $label = '';
         $json = $this->storageRepository->load();
         foreach ($json[$table]['elements'] as $element) {
-            if (in_array($key, $element['columns'])) {
+            if (in_array($key, $element['columns'] ?? [])) {
                 $label = $element['labels'][array_search($key, $element['columns'])];
             } else {
                 $label = $json[$table]['tca'][$key]['label'][$element['key']] ?? '';

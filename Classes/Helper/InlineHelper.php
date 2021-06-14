@@ -116,7 +116,7 @@ class InlineHelper
         // if the table is tt_content, load the element and all its columns
         if ($table === 'tt_content') {
             $element = $this->storageRepository->loadElement($table, AffixUtility::removeCTypePrefix($cType));
-            $elementFields = $element['columns'];
+            $elementFields = $element['columns'] ?? [];
         } elseif ($table === 'pages') {
             // if the table is pages, then load the pid
             if (isset($data['uid'])) {
@@ -129,7 +129,7 @@ class InlineHelper
                         $table,
                         str_replace('pagets__', '', $backendLayoutIdentifier)
                     );
-                    $elementFields = $element['columns'];
+                    $elementFields = $element['columns'] ?? [];
                 // if no backendlayout was found, just load all fields, if there are fields
                 } elseif (isset($storage[$table]['tca'])) {
                     $elementFields = array_keys($storage[$table]['tca']);
