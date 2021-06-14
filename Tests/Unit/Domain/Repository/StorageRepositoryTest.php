@@ -2252,6 +2252,38 @@ class StorageRepositoryTest extends BaseTestCase
                 'tt_content',
                 'field1',
                 'Field 1'
+            ],
+            'Empty columns ignored' => [
+                [
+                    'tt_content' => [
+                        'elements' => [
+                            'element1' => [
+                                'key' => 'element1',
+                            ],
+                            'element2' => [
+                                'key' => 'element2',
+                                'columns' => [
+                                    'field1',
+                                    'field3'
+                                ],
+                                'labels' => [
+                                    'Field 1-1',
+                                    'Field 3'
+                                ]
+                            ]
+                        ],
+                        'tca' => [
+                            'field1' => [
+                                'label' => [
+                                    'element2' => 'Field 1'
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'tt_content',
+                'field1',
+                'Field 1-1'
             ]
         ];
     }
