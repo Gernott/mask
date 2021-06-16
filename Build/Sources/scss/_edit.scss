@@ -16,3 +16,9 @@
     width: 50%;
   }
 }
+
+.col-xl-4 {
+  @media screen and (min-width: $bp-desktop) {
+    width: percentage(1/3);
+  }
+}

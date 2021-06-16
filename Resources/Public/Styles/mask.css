@@ -641,6 +641,10 @@
   .col-xl-6 {
     width: 50%; } }
 
+@media screen and (min-width: 1650px) {
+  .col-xl-4 {
+    width: 33.33333%; } }
+
 @media screen and (min-width: 1200px) {
   .mask-elements {
     display: flex; } }
