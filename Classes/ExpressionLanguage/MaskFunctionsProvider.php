@@ -49,28 +49,24 @@ class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
         }, static function ($arguments, $param = null) {
             $layout = (string)$param;
             $backend_layout = (string)$arguments['page']['backend_layout'];
-            $backend_layout_next_level = (string)$arguments['page']['backend_layout_next_level'];
+            $layoutWithPrefix = 'pagets__' . $layout;
 
             // If backend_layout is set on current page
-            if (!empty($backend_layout)) {
-                return in_array($backend_layout, [$layout, 'pagets__' . $layout], true);
+            if ($backend_layout !== '') {
+                return in_array($backend_layout, [$layout, $layoutWithPrefix], true);
             }
 
-            // If backend_layout_next_level is set on current page
-            if (!empty($backend_layout_next_level)) {
-                return in_array($backend_layout_next_level, [$layout, 'pagets__' . $layout], true);
-            }
-
-            // If backend_layout and backend_layout_next_level is not set on current page, check backend_layout_next_level on rootline
-            foreach ($arguments['tree']->rootLine as $page) {
-                if (in_array(
-                    (string)$page['backend_layout_next_level'],
-                    [$layout, 'pagets__' . $layout],
-                    true
-                )) {
-                    return true;
+            // If backend_layout is not set on current page, check backend_layout_next_level on rootline
+            $rootline = $arguments['tree']->rootLine;
+            rsort($rootline);
+            $rootline = array_splice($rootline, 1, -1);
+            foreach ($rootline as $page) {
+                $backend_layout_next_level = (string)$page['backend_layout_next_level'];
+                if ($backend_layout_next_level !== '') {
+                    return in_array($backend_layout_next_level, [$layout, $layoutWithPrefix], true);
                 }
             }
+
             return false;
         });
     }
