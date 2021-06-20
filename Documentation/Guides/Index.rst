@@ -16,3 +16,4 @@ functionality.
    FluidStyledContent
    DataProcessors
    CropVariants
+   RTEConfig
