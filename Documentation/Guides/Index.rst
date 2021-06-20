@@ -15,3 +15,4 @@ functionality.
 
    FluidStyledContent
    DataProcessors
+   CropVariants
