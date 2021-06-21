@@ -223,8 +223,10 @@ class AjaxController
         $fields = json_decode($params['fields'], true);
         $this->storageRepository->update($params['element'], $fields, $params['type'], $isNew);
         $this->generateAction();
-        $html = $this->htmlCodeGenerator->generateHtml($elementKey, $params['type']);
-        $this->saveHtml($elementKey, $html);
+        if ($params['type'] == 'tt_content') {
+            $html = $this->htmlCodeGenerator->generateHtml($elementKey, $params['type']);
+            $this->saveHtml($elementKey, $html);
+        }
         if ($isNew) {
             $this->addFlashMessage(LocalizationUtility::translate('tx_mask.content.newcontentelement', 'mask'));
         } else {
