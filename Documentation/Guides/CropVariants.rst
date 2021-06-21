@@ -6,17 +6,20 @@
 Crop Variants
 =============
 
-You can exactly define which :ref:`crop Variants <t3tca:columns-imageManipulation>` a mask element should offer for its images.
+You can exactly define which :ref:`crop variants <t3tca:columns-imageManipulation>` a mask element should offer for its
+images.
 
-Images that are not in a repeater live in `tt_content`. So the for example you will do in `TCA/Overrides/tt_content.php`:
+For specific content element
+============================
+
+One way to set the crop variants is by addressing a specific content element (cType). This does only work for images not
+placed in a repeater field. For this reason the TCA should be extended in `TCA/Overrides/tt_content.php`.
+
+Example crop variant definition:
 
 ::
 
-$teaserCropVariants = [
-      // Please note, that the array for overrideChildTca is merged with the child TCA, so are the crop variants that are defined   in the child TCA (most likely sys_file_reference). Because you cannot remove crop variants easily, it is possible to disable    them for certain field types by setting the array key for a crop variant disabled to the value true
-      'default' => [
-           'disabled' => true,
-       ],
+   $teaserCropVariants = [
        'teaser' => [
            'title' => 'Teaser',
            'allowedAspectRatios' => [
@@ -32,12 +35,33 @@ $teaserCropVariants = [
        ],
    ];
 
-   $GLOBALS['TCA']['tt_content']['types']['mask_teaser']['columnsOverrides']['tx_mask_teaser_image']['config']['overrideChildTca']  ['columns']['crop']['config']['cropVariants'] = $teaserCropVariants;
+   $table = 'tt_content';
+   $cType = 'mask_teaser';
+   $column = 'tx_mask_teaser_image';
 
-The table is `tt_content`, the cType is `mask_teaser` (no `tx_` here) and the column is `tx_mask_teaser_image`, that gives us the code above.
+   $GLOBALS['TCA'][$table]['types'][$cType]['columnsOverrides'][$column]['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'] = $teaserCropVariants;
 
-If you have a repeater in which the images are placed (so one mask element may contain mutltiple items of the same element), you have to omit the `cType` and address the repeating table.
+The table is :php:`tt_content`, the cType is :php:`mask_teaser` (no `tx_` here) and the column is :php:`tx_mask_teaser_image`.
+
+For specific image column
+=========================
+
+An alternative is to set the crop variant for a specific column. This is of course less specific and will be shared
+across multiple content elements with the same image field. This is also the preferred way for images residing in
+repeater fields.
+
+Examples:
 
 ::
 
-   $GLOBALS['TCA']['tx_mask_teasers']['columns']['tx_mask_teaser_image']['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'] = $teaserCropVariants;
+   // Use this for repeating fields. File: TCA/Overrides/tx_mask_teasers.php
+   $table = 'tx_mask_teasers';
+   $column = 'tx_mask_teaser_image';
+
+   $GLOBALS['TCA'][$table]['columns'][$column]['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'] = $teaserCropVariants;
+
+   // Also works in tt_content. File: TCA/Overrides/tt_content.php
+   $table = 'tt_content';
+   $column = 'image';
+
+   $GLOBALS['TCA'][$table]['columns'][$column]['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'] = $teaserCropVariants;
