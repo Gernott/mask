@@ -388,7 +388,7 @@ define([
             );
       },
       loadField: function () {
-        if (this.isExistingMaskField) {
+        if (this.isRoot(this.global.activeField) && this.isExistingMaskField) {
           new AjaxRequest(TYPO3.settings.ajaxUrls.mask_load_field)
             .withQueryArguments({key: this.global.activeField.key, type: this.type})
             .get()
@@ -1162,7 +1162,7 @@ define([
         return defaults;
       },
       activeMultiUseElements: function () {
-        if (this.multiUseElements[this.global.activeField.key]) {
+        if (this.isRoot(this.global.activeField) && typeof this.multiUseElements[this.global.activeField.key] !== 'undefined') {
           return this.multiUseElements[this.global.activeField.key]
         }
         return [];
