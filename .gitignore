@@ -7,3 +7,4 @@ Build/testing-docker/.env
 .php_cs.cache
 Documentation-GENERATED-temp/
 .env
+.vscode
