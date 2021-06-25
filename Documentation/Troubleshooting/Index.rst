@@ -9,7 +9,8 @@ Troubleshooting
 Things go wrong and you don't know why? Maybe this troubleshooting guide knows!
 
 .. contents:: Table of Contents
-   :depth: 2
+   :depth: 1
+   :local:
 
 Error in backend after upgrading Mask
 =====================================
