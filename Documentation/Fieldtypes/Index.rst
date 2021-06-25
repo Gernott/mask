@@ -30,6 +30,8 @@ as the appropriate field type.
    Type/Select
    Type/Group
    Type/Inline
+   Type/Content
+   Type/File
    Type/Tab
    Type/Palette
    Type/Linebreak
