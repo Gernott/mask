@@ -45,7 +45,7 @@ return [
             'config.renderType' => 'inputLink',
             'config.softref' => 'typolink'
         ],
-        'sql' => 'varchar(1024) DEFAULT \'\' NOT NULL'
+        'sql' => 'varchar(255) DEFAULT \'\' NOT NULL'
     ],
     FieldType::DATE => [
         'tca_in' => [
