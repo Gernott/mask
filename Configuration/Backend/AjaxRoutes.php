@@ -98,5 +98,9 @@ return [
     'mask_versions' => [
         'path' => '/mask/versions',
         'target' => AjaxController::class . '::versions'
+    ],
+    'mask_optional_extension_status' => [
+        'path' => '/mask/extensions',
+        'target' => AjaxController::class . '::optionalExtensionStatus'
     ]
 ];

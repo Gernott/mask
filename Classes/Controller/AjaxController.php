@@ -893,10 +893,20 @@ class AjaxController
     public function richtextConfiguration(ServerRequestInterface $request): Response
     {
         $config[''] = LocalizationUtility::translate('tx_mask.config.richtextConfiguration.none', 'mask');
-        $presets = array_keys($GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']);
+        $presets = array_keys($GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets'] ?? []);
         $presets = array_combine($presets, $presets);
         $config = array_merge($config, $presets);
         return new JsonResponse($config);
+    }
+
+    public function optionalExtensionStatus(ServerRequestInterface $request): Response
+    {
+        $optionalExtensions = ['rte_ckeditor'];
+        $optionalExtensionStatus = [];
+        foreach ($optionalExtensions as $optionalExtension) {
+            $optionalExtensionStatus[$optionalExtension] = (int)ExtensionManagementUtility::isLoaded($optionalExtension);
+        }
+        return new JsonResponse($optionalExtensionStatus);
     }
 
     public function versions(ServerRequestInterface $request): Response

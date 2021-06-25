@@ -72,6 +72,7 @@ define([
         faIcons: {},
         availableTca: {},
         multiUseElements: {},
+        optionalExtensionStatus: {},
         fieldErrors: {
           elementKeyAvailable: true,
           elementKey: false,
@@ -190,6 +191,14 @@ define([
                 mask.global.typo3Version = versions.typo3;
               }
           ));
+
+      // fetch optional extension status
+      promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_optional_extension_status)).get()
+        .then(
+          async function (response) {
+            mask.optionalExtensionStatus = await response.resolve();
+          }
+        ));
 
       promises.push(Icons.getIcon('actions-edit-delete', Icons.sizes.small).done(function (icon) {
         mask.icons.delete = icon;

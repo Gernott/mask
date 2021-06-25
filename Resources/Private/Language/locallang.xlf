@@ -1109,6 +1109,9 @@ title3, value3, icon3, description3
 			<trans-unit id="tx_mask.reset_settings_success">
 				<source>Settings reset to default</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.missing_extension.ckeditor">
+				<source>The system extension rte_ckeditor is required for this field.</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
