@@ -43,4 +43,4 @@ the element's cType as well as the configs key:
 
 .. versionadded:: 7.0.0
 
-Since Mask v7 you can assing the RTE presets directly in the Mask builder.
+Since Mask v7 you can assign the RTE presets directly in the Mask builder.
