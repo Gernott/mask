@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.0.12] - 2021-06-25
+
+### Fixed
+- Missing rte_ckeditor extension does no longer break Mask [#417](https://github.com/Gernott/mask/issues/417)
+
+### Changed
+- Varchar size for link fields changed back to 255 [Read more](https://docs.typo3.org/p/mask/mask/master/en-us/Troubleshooting/Index.html#on-save-error-row-size-too-large)
+
+### Added
+- Troubleshooting guide for `row size too large` error.
+
 ## [7.0.11] - 2021-06-22
 
 ### Fixed
