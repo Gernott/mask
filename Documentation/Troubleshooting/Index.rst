@@ -8,6 +8,9 @@ Troubleshooting
 
 Things go wrong and you don't know why? Maybe this troubleshooting guide knows!
 
+.. contents:: Table of Contents
+   :depth: 2
+
 Error in backend after upgrading Mask
 =====================================
 
@@ -43,3 +46,35 @@ Else it just might be you are changing a fields definition when it's already
 filled with values. In this case either completely delete the column and run
 the database analyzer anew or update the old default values with the new one.
 For example :sql:`UPDATE tt_content SET tx_mask_field = 0 WHERE tx_mask_field IS NULL`.
+
+On save error: Row size too large
+=================================
+
+Explanation
+-----------
+
+There is a limit on how much can fit into a database row. When using overflow tables it is usually `64kb <https://mariadb.com/kb/en/innodb-system-variables/#innodb_page_size>`__.
+As Mask uses the table `tt_content`, we can only work with the maximum size minus TYPO3 core fields (~9500 bytes).
+That leaves us with ~56kb. When using a utf-8 collation like `utf8_general_ci`, one character has the maximum size of 3 bytes.
+Meaning the maximum extra :ref:`string <fields-string>` fields are **73** (`73 * 255 bytes * 3 = 55845 bytes`).
+
+.. note::
+
+   The number can vary depending on installed system and third-party extensions.
+
+Other field types like int (4 bytes), mediumtext (3 bytes) and text (2 bytes) are very small in comparison. The reason
+text fields are so small is that they are always stored on overflow pages. Read `this mariadb guide <https://mariadb.com/kb/en/troubleshooting-row-size-too-large-errors-with-innodb/>`__
+for in depth explanation.
+
+Solutions
+---------
+
+* Try to minimize the usage of :ref:`string <fields-string>`, :ref:`link <fields-link>` and :ref:`select <fields-select>` fields. They all use `varchar(255)`.
+
+* If possible, reuse exisiting TYPO3 core and Mask fields.
+
+* You can manipulate mask.json and set lower max values for varchar.
+
+* If applicable, use :ref:`inline <fields-inline>` fields, as they create a new table.
+
+* Otherwise consider creating an own extension with custom tables if your Mask elements are getting too complex.
