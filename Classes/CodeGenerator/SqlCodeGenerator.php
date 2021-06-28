@@ -116,7 +116,7 @@ class SqlCodeGenerator
                         // if this field is a content field, also add parent columns
                         if ($fieldType == FieldType::CONTENT) {
                             $parentField = AffixUtility::addMaskParentSuffix($fieldKey);
-                            $sql_content[] = "CREATE TABLE tt_content (\n\t" . $parentField . ' ' . $definition . ",\n\t" . 'KEY ' . $fieldKey . ' (' . $parentField . ',pid)' . "\n);\n";
+                            $sql_content[] = "CREATE TABLE tt_content (\n\t" . $parentField . ' ' . $definition . ",\n\t" . 'KEY ' . $fieldKey . ' (' . $parentField . ', deleted, hidden, sorting)' . "\n);\n";
                         }
                     }
                 }
