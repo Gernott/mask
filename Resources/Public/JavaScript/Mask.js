@@ -397,7 +397,7 @@ define([
             );
       },
       loadField: function () {
-        if (this.isRoot(this.global.activeField) && this.isExistingMaskField) {
+        if (this.canHaveMultiUsage(this.global.activeField)) {
           new AjaxRequest(TYPO3.settings.ajaxUrls.mask_load_field)
             .withQueryArguments({key: this.global.activeField.key, type: this.type})
             .get()
@@ -414,8 +414,8 @@ define([
         }
       },
       loadMultiUse: function () {
-        // If it's not an existing tca key there can't be multi usages.
-        if (!this.isExistingMaskField) {
+        // Check if field can have multi usage.
+        if (!this.canHaveMultiUsage(this.global.activeField)) {
           return;
         }
 
@@ -510,8 +510,11 @@ define([
       isRoot: function (field) {
         return this.isEmptyObject(field.parent) || field.parent.name === 'palette' && this.isEmptyObject(field.parent.parent);
       },
-      keyCanBeShared: function (name) {
-        return !['inline', 'palette', 'linebreak', 'tab'].includes(name);
+      canHaveMultiUsage(field) {
+        return this.canBeShared(field) && this.isRoot(field) && this.isExistingMaskField(field);
+      },
+      canBeShared: function (field) {
+        return !['inline', 'palette', 'linebreak', 'tab'].includes(field.name);
       },
       getFields: function (field) {
         let fields = this.fields;
@@ -993,6 +996,7 @@ define([
         key = key.replace(/[^a-z0-9_]/g, '');
         return key;
       },
+      // todo merge isCoreField and isExistingMaskField into one method
       isCoreField: function (field) {
         if (this.isEmptyObject(field)) {
           return false;
@@ -1005,13 +1009,24 @@ define([
         });
         return isExisting;
       },
-      availableTcaForActiveField: function (type) {
-        if (this.isEmptyObject(this.availableTca) || this.isEmptyObject(this.global.activeField)) {
+      isExistingMaskField: function (field) {
+        if (this.isEmptyObject(this.global.activeField)) {
+          return false;
+        }
+        let isExisting = false;
+        this.availableTca[field.name].mask.forEach(function (item) {
+          if (item.field === field.key) {
+            isExisting = true;
+          }
+        });
+        return isExisting;
+      },
+      availableTcaForField: function (type, field) {
+        if (this.isEmptyObject(this.availableTca) || this.isEmptyObject(field)) {
           return [];
         }
-        return this.availableTca[this.global.activeField.name][type].filter(function (item) {
-          return (!mask.currentFieldKeys.includes(item.field) && !mask.deletedFieldKeys.includes(item.field))
-            || mask.global.activeField.key === item.field;
+        return this.availableTca[field.name][type].filter(function (item) {
+          return (!mask.currentFieldKeys.includes(item.field) && !mask.deletedFieldKeys.includes(item.field)) || field.key === item.field;
         });
       },
       getFieldKeys: function (fields) {
@@ -1096,18 +1111,6 @@ define([
       isActiveCoreField: function () {
         return this.isCoreField(this.global.activeField);
       },
-      isExistingMaskField: function () {
-        if (this.isEmptyObject(this.global.activeField)) {
-          return false;
-        }
-        let isExisting = false;
-        this.availableMaskTcaForActiveField.forEach(function (item) {
-          if (item.field === mask.global.activeField.key) {
-            isExisting = true;
-          }
-        });
-        return isExisting;
-      },
       fieldTabs: function () {
         if (!this.global.activeField.name) {
           return [];
@@ -1121,7 +1124,7 @@ define([
         if (!this.global.activeField.newField && !this.isActiveCoreField) {
           return false;
         }
-        if (!this.keyCanBeShared(this.global.activeField.name)) {
+        if (!this.canBeShared(this.global.activeField)) {
           return false;
         }
         if (!this.isRoot(this.global.activeField)) {
@@ -1142,10 +1145,10 @@ define([
         return this.global.currentTab === 'general';
       },
       availableCoreTcaForActiveField: function () {
-        return this.availableTcaForActiveField('core');
+        return this.availableTcaForField('core', this.global.activeField);
       },
       availableMaskTcaForActiveField: function () {
-        return this.availableTcaForActiveField('mask');
+        return this.availableTcaForField('mask', this.global.activeField);
       },
       activeFieldHasKeyError: function () {
           return this.fieldErrors.emptyKeyFields.includes(this.global.activeField)

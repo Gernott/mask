@@ -17,7 +17,8 @@ define([
           loadMultiUse: Function,
           multiUseElements: Object,
           fieldKey: String,
-          keyWithoutMask: Function
+          keyWithoutMask: Function,
+          isRoot: Function
         },
         mounted: function () {
           Tooltip.initialize(`.field-row-${this.fieldKey} [data-bs-toggle="tooltip"]`, {
@@ -36,7 +37,7 @@ define([
         },
         computed: {
           isMultiUse: function () {
-            return (typeof this.multiUseElements[this.field.key] !== 'undefined') && this.multiUseElements[this.field.key].length;
+            return this.isRoot(this.field) && (typeof this.multiUseElements[this.field.key] !== 'undefined') && this.multiUseElements[this.field.key].length;
           }
         },
         template: `

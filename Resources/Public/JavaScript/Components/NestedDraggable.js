@@ -20,7 +20,8 @@ define([
           loadMultiUse: Function,
           multiUseElements: Object,
           existingFieldKeyFields: Array,
-          keyWithoutMask: Function
+          keyWithoutMask: Function,
+          isRoot: Function
         },
         components: {
           draggable,
@@ -105,6 +106,7 @@ define([
         :field-key="uuid(field)"
         @remove-field="removeField($event)"
         :key-without-mask="keyWithoutMask"
+        :is-root="isRoot"
     ></field-row>
     <div class="mask-field__dragarea" v-if="isParentField(field)">
         <nested-draggable
@@ -122,6 +124,7 @@ define([
             :multi-use-elements="multiUseElements"
             :existing-field-key-fields="existingFieldKeyFields"
             :key-without-mask="keyWithoutMask"
+            :is-root="isRoot"
           />
     </div>
   </li>
