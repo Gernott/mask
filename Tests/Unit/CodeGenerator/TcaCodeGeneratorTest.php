@@ -1062,6 +1062,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
      */
     public function setElementsTca($json, $key, $labels, $showitemExptected, $paletteExpected)
     {
+        $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'] = [];
         $storage = $this->createPartialMock(StorageRepository::class, ['load']);
         $storage->method('load')->willReturn($json);
 

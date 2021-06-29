@@ -140,10 +140,13 @@ class TcaCodeGenerator
         }
 
         // Add new group in CType selectbox
-        $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = [
+        ExtensionManagementUtility::addTcaSelectItemGroup(
+            'tt_content',
+            'CType',
+            'mask',
             'LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:new_content_element_tab',
-            '--div--'
-        ];
+            'after:default'
+        );
 
         foreach ($json['tt_content']['palettes'] ?? [] as $key => $palette) {
             $GLOBALS['TCA']['tt_content']['palettes'][$key] = $this->generatePalettesTca($palette, 'tt_content');
@@ -160,14 +163,15 @@ class TcaCodeGenerator
             $label = $elementvalue['shortLabel'] ?: $elementvalue['label'];
 
             // Add new entry in CType selectbox
-            ExtensionManagementUtility::addPlugin(
+            ExtensionManagementUtility::addTcaSelectItem(
+                'tt_content',
+                'CType',
                 [
                     $label,
                     $cTypeKey,
-                    'mask-ce-' . $elementvalue['key']
-                ],
-                'CType',
-                'mask'
+                    'mask-ce-' . $elementvalue['key'],
+                    'mask'
+                ]
             );
 
             // Add all the fields that should be shown
