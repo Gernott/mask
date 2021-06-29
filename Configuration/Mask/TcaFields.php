@@ -633,6 +633,7 @@ return [
         'type' => 'checkbox',
         'label' => 'tx_mask.field.inline.show_synchronization_link',
         'description' => 'tx_mask.field.inline.show_synchronization_link_description',
+        'dependsOn' => 'config.appearance.showPossibleLocalizationRecords',
         'code' => 'showSynchronizationLink',
         'documentation' => 'ColumnsConfig/Type/Inline.html?highlight=showsynchronizationlink#appearance'
     ],
@@ -647,6 +648,7 @@ return [
         'type' => 'checkbox',
         'label' => 'tx_mask.field.inline.show_all_localization_link',
         'description' => 'tx_mask.field.inline.show_all_localization_link.description',
+        'dependsOn' => 'config.appearance.showPossibleLocalizationRecords',
         'code' => 'showAllLocalizationLink',
         'documentation' => 'ColumnsConfig/Type/Inline.html?highlight=showalllocalizationlink#appearance'
     ],
