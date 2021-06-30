@@ -652,13 +652,6 @@ return [
         'code' => 'showAllLocalizationLink',
         'documentation' => 'ColumnsConfig/Type/Inline.html?highlight=showalllocalizationlink#appearance'
     ],
-    'config.appearance.showRemovedLocalizationRecords' => [
-        'type' => 'checkbox',
-        'label' => 'tx_mask.field.inline.show_removed_localization_records',
-        'description' => 'tx_mask.field.inline.show_removed_localization_records.description',
-        'code' => 'showRemovedLocalizationRecords',
-        'documentation' => 'ColumnsConfig/Type/Inline.html?highlight=showremovedlocalizationrecords#appearance'
-    ],
     'config.appearance.newRecordLinkTitle' => [
         'type' => 'text',
         'label' => 'tx_mask.field.inline.new_record_link_title.label',

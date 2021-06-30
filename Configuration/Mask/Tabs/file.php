@@ -36,7 +36,6 @@ return [
             'config.appearance.showSynchronizationLink' => 6,
             'config.appearance.showPossibleLocalizationRecords' => 6,
             'config.appearance.showAllLocalizationLink' => 6,
-            'config.appearance.showRemovedLocalizationRecords' => 6,
         ]
     ],
 ];

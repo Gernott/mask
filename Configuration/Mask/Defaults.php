@@ -171,7 +171,6 @@ return [
             'config.appearance.levelLinksPosition' => 'top',
             'config.appearance.showPossibleLocalizationRecords' => 1,
             'config.appearance.showAllLocalizationLink' => 1,
-            'config.appearance.showRemovedLocalizationRecords' => 1
         ],
         'tca_out' => [
             'config.type' => 'inline',
@@ -197,7 +196,6 @@ return [
             'config.appearance.levelLinksPosition' => 'top',
             'config.appearance.showPossibleLocalizationRecords' => 1,
             'config.appearance.showAllLocalizationLink' => 1,
-            'config.appearance.showRemovedLocalizationRecords' => 1,
             'config.appearance.useSortable' => 1,
             'config.appearance.enabledControls.dragdrop' => 1
         ],
