@@ -31,9 +31,9 @@ return [
             'config.behaviour.allowLanguageSynchronization' => 6
         ],
         [
-            'config.appearance.showSynchronizationLink' => 6,
             'config.appearance.showPossibleLocalizationRecords' => 6,
             'config.appearance.showAllLocalizationLink' => 6,
+            'config.appearance.showSynchronizationLink' => 6,
         ]
     ],
 ];
