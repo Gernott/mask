@@ -12,10 +12,10 @@ $EM_CONF['mask'] = [
     'version' => '7.0.13',
     'constraints' => [
         'depends' => [
-            'typo3' => '10.4.11-11.2.0',
-            'extbase' => '10.4.11-11.2.0',
-            'fluid' => '10.4.11-11.2.0',
-            'fluid_styled_content' => '10.4.11-11.2.0'
+            'typo3' => '10.4.11-11.3.0',
+            'extbase' => '10.4.11-11.3.0',
+            'fluid' => '10.4.11-11.3.0',
+            'fluid_styled_content' => '10.4.11-11.3.0'
         ],
         'conflicts' => [],
         'suggests' => [
