@@ -146,7 +146,7 @@ class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
                 $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
                 $editElementUrl = $uriBuilder->buildUriFromRoute('record_edit', $editElementUrlParameters);
                 $headerContent = '<strong><a href="' . $editElementUrl . '">' . $elementLabel . '</a></strong><br>';
-                $itemContent .= '<div style="display:block; padding: 10px 0 4px 0px;border-top: 1px solid #CACACA;margin-top: 6px;" class="content_preview_' . $elementKey . '">';
+                $itemContent .= '<div class="content_preview content_preview_' . $elementKey . '">';
                 $itemContent .= $content;
                 $itemContent .= '</div>';
                 $drawItem = false;
