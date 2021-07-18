@@ -56,7 +56,7 @@ Most fields have this options in common:
 
 * `Field Key`: As described above the unique key for this field. A new column in the database table `tt_content` will be
   created with this exact name.
-* `Label`: The label, which the editor will see when editing the content element.
+* `Label`: The label, which the editor will see when editing the content element. Can be a :ref:`localized string <t3coreapi:cgl-localization>`.
 * `Description`: The description will be shown beneath the label. Here you can give your editor some more information on
   how to use this field.
 * `Reset to default`: Resets all the TCA options like it would be when newly created (not label and description).

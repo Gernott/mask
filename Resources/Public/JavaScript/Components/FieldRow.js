@@ -49,6 +49,7 @@ define([
         <div class="mask-field__body">
           <div class="mask-field__text">
             <span v-if="field.name == 'linebreak'" class="mask-field__label">Linebreak</span>
+            <span v-else-if="field.translatedLabel != ''" class="mask-field__label">{{ field.translatedLabel }}</span>
             <span v-else class="mask-field__label">{{ field.label }}</span>
             <span class="mask-field__key" v-if="!global.sctructuralFields.includes(field.name)">{{ keyWithoutMask(field.key) }}</span>
           </div>

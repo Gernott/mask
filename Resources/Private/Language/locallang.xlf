@@ -964,7 +964,7 @@ title3, value3, icon3, description3
 			</trans-unit>
 
 			<trans-unit id="tx_mask.placeholder.label">
-				<source>The label of this field</source>
+				<source>The label of this field. Can be a LLL-string.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.placeholder.description">
 				<source>Short and helpful description for your editors</source>

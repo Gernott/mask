@@ -404,7 +404,8 @@ class AjaxController
 
             if ($elementKey !== '') {
                 $newField['label'] = $this->getLabel($field, $table, $newField['key'], $elementKey);
-                $newField['label'] = $this->translateLabel($newField['label'], $elementKey);
+                $translatedLabel = $this->translateLabel($newField['label'], $elementKey);
+                $newField['translatedLabel'] = $translatedLabel !== $newField['label'] ? $translatedLabel : '';
             }
 
             $fieldType = FieldType::cast($this->getFormType($newField['key'], $table, $elementKey));
@@ -522,6 +523,7 @@ class AjaxController
                 'fields' => [],
                 'key' => '',
                 'label' => '',
+                'translatedLabel' => '',
                 'itemLabel' => LocalizationUtility::translate('tx_mask.field.' . $type, 'mask'),
                 'parent' => [],
                 'group' => $grouping[$type],
