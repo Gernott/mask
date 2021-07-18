@@ -43,7 +43,10 @@ define([
             }
             return e.uid;
           },
-          onAdd: function () {
+          onAdd: function (e) {
+            if (e.pullMode !== 'clone') {
+              return;
+            }
             this.global.activeField = this.global.clonedField;
             this.global.currentTab = 'general';
             if (this.depth > 0) {
