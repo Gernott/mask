@@ -9,6 +9,23 @@ Installation
 .. note::
    Before you start using mask, you should have set up your :ref:`sitepackage<sitepackage>`.
 
+Add Mask as dependency
+======================
+
+It is important to add Mask as a dependency in your `ext_emconf.php` of your sitepackage. This ensures, Mask is loaded
+**before** your Theme extension. Only then, you can override the generated TCA from Mask in your Overrides folder.
+
+::
+
+   $EM_CONF[$_EXTKEY] = [
+       'constraints' => [
+           'depends' => [
+               'mask' => '' // Add the minimum version here or leave blank for any version.
+           ]
+       ]
+   ];
+
+
 Install and configure
 =====================
 
@@ -17,7 +34,7 @@ The first thing you should do is to define the paths to your template directorie
 to a dummy extension called `mask_project`. The easiest way to change the paths is to add the snippet below to your
 `AdditionalConfiguration.php`:
 
-.. code-block:: php
+::
 
    $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['mask'] = [
        'backend' => 'EXT:sitepackage/Resources/Private/Mask/Backend/Templates/',
