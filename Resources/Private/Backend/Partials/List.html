@@ -30,11 +30,11 @@
                     <tr v-for="(item, key) in elements" :class="{'has-warning': !item.templateExists, 'disabled': item.hidden}">
                         <td>
                             <div class="mask-elements__element-name" @click="openEdit('tt_content', item)" :title="item.label">
-                                <div v-html="item.iconMarkup" class="mask-elements__element-name-icon" ></div><span class="mask-elements__element-name-label">{{ item.label }}<br><code>[{{ key }}]</code></span>
+                                <div v-html="item.iconMarkup" class="mask-elements__element-name-icon" ></div><span class="mask-elements__element-name-label">{{ item.translatedLabel }}<br><code>[{{ key }}]</code></span>
                             </div>
                         </td>
                         <td>
-                            <div class="mask-elements__description">{{ item.description }}</div>
+                            <div class="mask-elements__description">{{ item.translatedDescription }}</div>
                         </td>
                         <td class="mask-elements__count"><span :title="language.usage">{{ item.count }}</span></td>
                         <td class="mask-elements__buttons">

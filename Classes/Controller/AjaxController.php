@@ -304,12 +304,16 @@ class AjaxController
         $elements = [];
         foreach ($storages['tt_content']['elements'] ?? [] as $element) {
             $overlay = $element['hidden'] ? 'overlay-hidden' : null;
+            $translatedLabel = $GLOBALS['LANG']->sl($element['label']);
+            $translatedDescription = $GLOBALS['LANG']->sl($element['description']);
             $elements[$element['key']] = [
                 'color' => $element['color'],
                 'description' => $element['description'],
+                'translatedDescription' => $translatedDescription !== '' ? $translatedDescription : $element['description'],
                 'icon' => $element['icon'],
                 'key' => $element['key'],
                 'label' => $element['label'],
+                'translatedLabel' => $translatedLabel !== '' ? $translatedLabel : $element['label'],
                 'shortLabel' => $element['shortLabel'],
                 'iconMarkup' => $element['key'] ? $this->iconFactory->getIcon('mask-ce-' . $element['key'], Icon::SIZE_DEFAULT, $overlay)->render() : '',
                 'templateExists' => $this->checkTemplate($element['key']) ? 1 : 0,
