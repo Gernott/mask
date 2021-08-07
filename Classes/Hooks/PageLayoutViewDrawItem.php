@@ -127,7 +127,7 @@ class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
                 $view->assign('data', $data);
 
                 // if the elementLabel contains LLL: then translate it
-                $elementLabel = $element['label'];
+                $elementLabel = $element['label'] ?? '';
                 if (GeneralUtility::isFirstPartOfStr($elementLabel, 'LLL:')) {
                     $elementLabel = LocalizationUtility::translate($elementLabel, 'mask');
                 }

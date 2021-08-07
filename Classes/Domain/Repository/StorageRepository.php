@@ -223,7 +223,7 @@ class StorageRepository implements SingletonInterface
         }
         $json = $this->load();
         $fields = [];
-        $columns = $json[$type]['elements'][$key]['columns'];
+        $columns = $json[$type]['elements'][$key]['columns'] ?? false;
 
         // Check if it is an array before trying to count it
         if (is_array($columns) && count($columns) > 0) {

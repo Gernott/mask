@@ -80,7 +80,7 @@ class TyposcriptCodeGenerator
                 ]
             );
 
-            if ($element['hidden']) {
+            if ($element['hidden'] ?? false) {
                 continue;
             }
 
@@ -191,7 +191,7 @@ class TyposcriptCodeGenerator
         // for each content element
         if ($configuration['tt_content']['elements']) {
             foreach ($configuration['tt_content']['elements'] as $element) {
-                if (!$element['hidden']) {
+                if (!($element['hidden'] ?? false)) {
                     $cTypeKey = AffixUtility::addMaskCTypePrefix($element['key']);
                     $templateName = MaskUtility::getTemplatePath($this->extSettings, $element['key'], true, null, true);
                     $elementContent = [];
