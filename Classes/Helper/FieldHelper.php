@@ -42,13 +42,8 @@ class FieldHelper
 
     /**
      * Returns the label of a field in an element
-     *
-     * @param string $elementKey Key of Element
-     * @param string $fieldKey Key if Field
-     * @param string $type elementtype
-     * @return string Label
      */
-    public function getLabel($elementKey, $fieldKey, $type = 'tt_content'): string
+    public function getLabel(string $elementKey, string $fieldKey, string $type = 'tt_content'): string
     {
         $json = $this->storageRepository->load();
 
@@ -67,7 +62,7 @@ class FieldHelper
         // Root level fields have their labels defined in element labels array.
         $columns = $json[$type]['elements'][$elementKey]['columns'] ?? false;
         if ($columns && count($columns) > 0) {
-            $fieldIndex = array_search($fieldKey, $columns);
+            $fieldIndex = array_search($fieldKey, $columns, true);
             if ($fieldIndex !== false) {
                 return $json[$type]['elements'][$elementKey]['labels'][$fieldIndex];
             }
@@ -78,13 +73,8 @@ class FieldHelper
 
     /**
      * Returns type of field (tt_content or pages)
-     *
-     * @param string $fieldKey key of field
-     * @param string $elementKey key of element
-     * @param bool $excludeInlineFields
-     * @return string $fieldType returns fieldType or empty string if not found
      */
-    public function getFieldType($fieldKey, $elementKey = '', $excludeInlineFields = false): string
+    public function getFieldType(string $fieldKey, string $elementKey = '', bool $excludeInlineFields = false): string
     {
         $storage = $this->storageRepository->load();
 
@@ -100,7 +90,7 @@ class FieldHelper
         }
 
         foreach ($tables as $table) {
-            if (AffixUtility::hasMaskPrefix($table) && isset($storage[$table]['tca'][$fieldKey])) {
+            if (isset($storage[$table]['tca'][$fieldKey]) && AffixUtility::hasMaskPrefix($table)) {
                 return $table;
             }
             foreach ($storage[$table]['elements'] ?? [] as $element) {
@@ -108,7 +98,7 @@ class FieldHelper
                 if ($elementKey !== '' && ($elementKey !== $element['key'])) {
                     continue;
                 }
-                if (in_array($fieldKey, ($element['columns'] ?? [])) || isset($storage[$table]['tca'][$fieldKey])) {
+                if (isset($storage[$table]['tca'][$fieldKey]) || in_array($fieldKey, ($element['columns'] ?? []), true)) {
                     return $table;
                 }
             }
@@ -119,12 +109,8 @@ class FieldHelper
 
     /**
      * Returns all fields of a type from a table
-     *
-     * @param string $tcaType TCA Type
-     * @param string $table elementtype
-     * @return array fields
      */
-    public function getFieldsByType($tcaType, $table): array
+    public function getFieldsByType(string $tcaType, string $table): array
     {
         $storage = $this->storageRepository->load();
         $tcaType = strtolower($tcaType);
@@ -149,13 +135,5 @@ class FieldHelper
         }
 
         return $fields;
-    }
-
-    /**
-     * @return StorageRepository
-     */
-    public function getStorageRepository()
-    {
-        return $this->storageRepository;
     }
 }

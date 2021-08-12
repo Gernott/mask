@@ -17,35 +17,21 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Domain\Repository;
 
+use MASK\Mask\ConfigurationLoader\ConfigurationLoaderInterface;
 use MASK\Mask\Enumeration\FieldType;
-use MASK\Mask\Domain\Service\SettingsService;
+use MASK\Mask\Loader\LoaderInterface;
+use MASK\Mask\Loader\TableDefinitionCollection;
 use MASK\Mask\Utility\AffixUtility;
-use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use MASK\Mask\Utility\TcaConverterUtility;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Type\Exception\InvalidEnumerationValueException;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * @api
  */
 class StorageRepository implements SingletonInterface
 {
-    /**
-     * SettingsService
-     *
-     * @var SettingsService
-     */
-    protected $settingsService;
-
-    /**
-     * settings
-     *
-     * @var array
-     */
-    protected $extSettings;
-
     /**
      * @var string
      */
@@ -57,18 +43,21 @@ class StorageRepository implements SingletonInterface
     protected $defaults = [];
 
     /**
-     * json configuration
-     * @var array
+     * @var LoaderInterface
      */
-    private static $json;
+    protected $loader;
 
     /**
-     * @param SettingsService $settingsService
+     * @var ConfigurationLoaderInterface
      */
-    public function __construct(SettingsService $settingsService)
-    {
-        $this->settingsService = $settingsService;
-        $this->extSettings = $this->settingsService->get();
+    protected $configurationLoader;
+
+    public function __construct(
+        LoaderInterface $loader,
+        ConfigurationLoaderInterface $configurationLoader
+    ) {
+        $this->loader = $loader;
+        $this->configurationLoader = $configurationLoader;
     }
 
     /**
@@ -78,41 +67,21 @@ class StorageRepository implements SingletonInterface
      */
     public function load(): array
     {
-        if (self::$json === null) {
-            self::$json = [];
-            if (!empty($this->extSettings['json'])) {
-                $file = MaskUtility::getFileAbsFileName($this->extSettings['json']);
-                if (file_exists($file)) {
-                    self::$json = json_decode(file_get_contents($file), true, 512, 4194304);
-                }
-            }
-        }
-        return self::$json;
+        return $this->loader->load()->toArray();
     }
 
     /**
      * Write Storage
-     *
-     * @param $json
      */
-    public function write($json): void
+    public function write(array $json): void
     {
-        if (!empty($this->extSettings['json'])) {
-            $file = MaskUtility::getFileAbsFileName($this->extSettings['json']);
-            GeneralUtility::writeFile(
-                $file,
-                json_encode($json, 4194304 | JSON_PRETTY_PRINT, 512)
-            );
-        }
-        self::$json = $json;
+        $this->loader->write(TableDefinitionCollection::createFromInternalArray($json));
     }
 
     /**
      * Sort and write json
-     *
-     * @param $json
      */
-    public function persist($json)
+    public function persist(array $json): void
     {
         // sort content elements by key before saving
         $this->sortJson($json);
@@ -121,38 +90,35 @@ class StorageRepository implements SingletonInterface
 
     /**
      * Load Field
-     * @param $type
-     * @param $key
-     * @return array
      */
-    public function loadField($type, $key): array
+    public function loadField(string $table, string $fieldName): array
     {
-        $json = $this->load();
-        return $json[$type]['tca'][$key] ?? [];
+        $tableDefinition = $this->loader->load()->getTableDefinitonByTable($table);
+        if (!$tableDefinition) {
+            return [];
+        }
+
+        return $tableDefinition->getTca()[$fieldName] ?? [];
     }
 
     /**
      * Loads all the inline fields of an inline-field, recursively!
-     *
-     * @param string $parentKey key of the inline-field
-     * @param $elementKey
-     * @return array
      */
-    public function loadInlineFields($parentKey, $elementKey = ''): array
+    public function loadInlineFields(string $parentKey, string $elementKey = ''): array
     {
-        $json = $this->load();
+        $tableDefinitionCollection = $this->loader->load();
         $inlineFields = [];
 
         // Load inline fields of own table
-        if (array_key_exists($parentKey, $json)) {
+        if ($tableDefinitionCollection->getTableDefinitonByTable($parentKey)) {
             $searchTables = [$parentKey];
         } else {
-            $searchTables = array_keys($json);
+            $searchTables = array_keys($tableDefinitionCollection->toArray());
         }
 
         // Traverse tables and find palette
         foreach ($searchTables as $table) {
-            foreach ($json[$table]['tca'] ?? [] as $key => $tca) {
+            foreach ($tableDefinitionCollection->getTableDefinitonByTable($table)->getTca() as $key => $tca) {
                 // if inlineParent is an array, it's in a palette on default table
                 if (is_array(($tca['inlineParent'] ?? ''))) {
                     $inlineParent = $tca['inlineParent'][$elementKey] ?? '';
@@ -179,15 +145,12 @@ class StorageRepository implements SingletonInterface
 
     /**
      * Sort inline fields recursively.
-     *
-     * @param array $inlineFields
-     * @param string $elementKey
      */
-    protected function sortInlineFieldsByOrder(array &$inlineFields, $elementKey = '')
+    protected function sortInlineFieldsByOrder(array &$inlineFields, string $elementKey = ''): void
     {
         uasort(
             $inlineFields,
-            function ($columnA, $columnB) use ($elementKey) {
+            static function ($columnA, $columnB) use ($elementKey) {
                 if (is_array($columnA['order'])) {
                     $a = isset($columnA['order'][$elementKey]) ? (int)$columnA['order'][$elementKey] : 0;
                     $b = isset($columnB['order'][$elementKey]) ? (int)$columnB['order'][$elementKey] : 0;
@@ -199,52 +162,53 @@ class StorageRepository implements SingletonInterface
             }
         );
 
-        foreach ($inlineFields as $i => $field) {
-            if (in_array(($field['config']['type'] ?? ''), ['inline', 'palette'])) {
-                if (isset($inlineFields[$i]['inlineFields']) && is_array($inlineFields[$i]['inlineFields'])) {
-                    $this->sortInlineFieldsByOrder($inlineFields[$i]['inlineFields']);
-                }
+        foreach ($inlineFields as $field) {
+            if (isset($field['inlineFields']) && is_array($field['inlineFields']) && in_array(($field['config']['type'] ?? ''), ['inline', 'palette'])) {
+                $this->sortInlineFieldsByOrder($field['inlineFields']);
             }
         }
     }
 
     /**
      * Load Element with all the field configurations
-     *
-     * @param $type
-     * @param $key
-     * @return array
      */
-    public function loadElement($type, $key): array
+    public function loadElement(string $type, string $key): array
     {
         // Only tt_content and pages can have elements
         if (!in_array($type, ['tt_content', 'pages'])) {
             return [];
         }
-        $json = $this->load();
-        $fields = [];
-        $columns = $json[$type]['elements'][$key]['columns'] ?? [];
 
-        // Check if it is an array before trying to count it
-        if (is_array($columns) && count($columns) > 0) {
-            foreach ($columns as $fieldName) {
-                $fields[$fieldName] = $json[$type]['tca'][$fieldName] ?? [];
-            }
+        $tableDefinitions = $this->loader->load();
+        $table = $tableDefinitions->getTableDefinitonByTable($type);
+
+        if (!$table) {
+            return [];
         }
-        if (count($fields) > 0) {
-            $json[$type]['elements'][$key]['tca'] = $fields;
+
+        $elements = $table->getElements();
+        $columns = $elements[$key]['columns'] ?? [];
+
+        if (!is_array($columns)) {
+            return [];
         }
-        return $json[$type]['elements'][$key] ?? [];
+
+        $fields = [];
+        foreach ($columns as $fieldName) {
+            $fields[$fieldName] = $table->getTca()[$fieldName] ?? [];
+        }
+
+        if (!empty($fields)) {
+            $elements[$key]['tca'] = $fields;
+        }
+
+        return $elements[$key] ?? [];
     }
 
     /**
      * Adds new Content-Element
-     *
-     * @param array $content
-     * @return array
-     * @throws \Exception
      */
-    public function add($element, $fields, $table): array
+    public function add(array $element, array $fields, string $table): array
     {
         // Load
         $json = $this->load();
@@ -265,12 +229,12 @@ class StorageRepository implements SingletonInterface
 
     protected function setSql($json, $fields, $table)
     {
-        $defaults = $this->getDefaults();
+        $defaults = $this->configurationLoader->loadDefaults();
         foreach ($fields as $field) {
             $fieldType = FieldType::cast($field['name']);
             $fieldname = $field['key'];
             // If mask field which needs table column
-            if (AffixUtility::hasMaskPrefix($field['key']) && isset($defaults[$field['name']]['sql'])) {
+            if (isset($defaults[$field['name']]['sql']) && AffixUtility::hasMaskPrefix($field['key'])) {
                 // Keep existing value. For new fields use defaults.
                 $json[$table]['sql'][$fieldname][$table][$fieldname] = $field['sql'] ?? $defaults[$field['name']]['sql'];
 
@@ -287,7 +251,11 @@ class StorageRepository implements SingletonInterface
         return $json;
     }
 
-    protected function addFieldsToJson($jsonAdd, $fields, $elementKey, $table, $defaultTable, $parent = null): array
+    /**
+     * This method converts the nested structure of VueJs to the flat json structure.
+     * Date values are converted back to the timestamp representation.
+     */
+    protected function addFieldsToJson(array $jsonAdd, array $fields, string $elementKey, string $table, string $defaultTable, ?array $parent = null): array
     {
         $order = 0;
         foreach ($fields as $field) {
@@ -304,7 +272,7 @@ class StorageRepository implements SingletonInterface
 
             // Add key and config to mask field
             if ($isMaskField) {
-                $defaults = $this->getDefaults();
+                $defaults = $this->configurationLoader->loadDefaults();
                 $field['tca'] = $field['tca'] ?? [];
                 ArrayUtility::mergeRecursiveWithOverrule($field['tca'], $defaults[$field['name']]['tca_out'] ?? []);
                 $fieldAdd = TcaConverterUtility::convertFlatTcaToArray($field['tca']);
@@ -375,23 +343,19 @@ class StorageRepository implements SingletonInterface
 
     /**
      * Removes Content-Element
-     *
-     * @param string $type
-     * @param string $key
-     * @return array
      */
-    public function remove($type, $key): array
+    public function remove(string $table, string $elementKey): array
     {
-        $this->currentKey = $key;
+        $this->currentKey = $elementKey;
         // Load
         $json = $this->load();
 
         // Remove
-        $columns = $json[$type]['elements'][$key]['columns'];
-        unset($json[$type]['elements'][$key]);
+        $columns = $json[$table]['elements'][$elementKey]['columns'];
+        unset($json[$table]['elements'][$elementKey]);
         if (is_array($columns)) {
             foreach ($columns as $field) {
-                $json = $this->removeField($type, $field, $json);
+                $json = $this->removeField($table, $field, $json);
             }
         }
         $this->currentKey = '';
@@ -400,42 +364,32 @@ class StorageRepository implements SingletonInterface
 
     /**
      * Hides Content-Element
-     *
-     * @param string $type
-     * @param string $key
      */
-    public function hide($type, $key): void
+    public function hide(string $table, string $elementKey): void
     {
         // Load
         $json = $this->load();
-        $json[$type]['elements'][$key]['hidden'] = 1;
+        $json[$table]['elements'][$elementKey]['hidden'] = 1;
         $this->sortJson($json);
         $this->write($json);
     }
 
     /**
      * Activates Content-Element
-     *
-     * @param string $type
-     * @param string $key
      */
-    public function activate($type, $key): void
+    public function activate(string $table, string $elementKey): void
     {
         // Load
         $json = $this->load();
-        unset($json[$type]['elements'][$key]['hidden']);
+        unset($json[$table]['elements'][$elementKey]['hidden']);
         $this->sortJson($json);
         $this->write($json);
     }
 
     /**
      * Removes a field from the json, also recursively all inline-fields
-     * @param string $table
-     * @param string $field
-     * @param array $json
-     * @return array
      */
-    private function removeField($table, $field, $json): array
+    protected function removeField(string $table, string $field, array $json): array
     {
         $maskKey = $field;
         $field = AffixUtility::removeMaskPrefix($maskKey);
@@ -448,9 +402,11 @@ class StorageRepository implements SingletonInterface
         // Remove inlineParent, label and order
         $inlineParent = $json[$table]['tca'][$keyToUse]['inlineParent'] ?? false;
         if (is_array($inlineParent)) {
-            unset($json[$table]['tca'][$keyToUse]['inlineParent'][$this->currentKey]);
-            unset($json[$table]['tca'][$keyToUse]['label'][$this->currentKey]);
-            unset($json[$table]['tca'][$keyToUse]['order'][$this->currentKey]);
+            unset(
+                $json[$table]['tca'][$keyToUse]['inlineParent'][$this->currentKey],
+                $json[$table]['tca'][$keyToUse]['label'][$this->currentKey],
+                $json[$table]['tca'][$keyToUse]['order'][$this->currentKey]
+            );
         }
 
         // if the field is a repeating field, make some exceptions
@@ -469,24 +425,26 @@ class StorageRepository implements SingletonInterface
 
         // then delete the field, if it is not in use in another element
         if (!$usedInAnotherElement) {
-            unset($json[$table]['tca'][$maskKey]);
-            // Unset typo3 core field
-            unset($json[$table]['tca'][$field]);
-            unset($json[$table]['sql'][$maskKey]);
+            unset(
+                $json[$table]['tca'][$maskKey],
+                // Unset typo3 core field
+                $json[$table]['tca'][$field],
+                $json[$table]['sql'][$maskKey]
+            );
 
             $type = $this->getFormType($maskKey, $this->currentKey, $table);
 
             // If field is of type inline, also delete table entry
-            if ($type == FieldType::INLINE) {
+            if ($type === FieldType::INLINE) {
                 unset($json[$maskKey]);
             }
 
-            if ($type == FieldType::PALETTE) {
+            if ($type === FieldType::PALETTE) {
                 unset($json[$table]['palettes'][$maskKey]);
             }
 
             // If field is of type file, also delete entry in sys_file_reference
-            if ($type == FieldType::FILE) {
+            if ($type === FieldType::FILE) {
                 unset($json['sys_file_reference']['sql'][$maskKey]);
                 $json = $this->cleanTable('sys_file_reference', $json);
             }
@@ -496,12 +454,8 @@ class StorageRepository implements SingletonInterface
 
     /**
      * Deletes all the empty settings of a table
-     *
-     * @param string $table
-     * @param array $json
-     * @return array
      */
-    private function cleanTable($table, $json): array
+    protected function cleanTable(string $table, array $json): array
     {
         if (isset($json[$table]['tca']) && count($json[$table]['tca']) < 1) {
             unset($json[$table]['tca']);
@@ -520,10 +474,8 @@ class StorageRepository implements SingletonInterface
 
     /**
      * Updates Content-Element in Storage-Repository
-     *
-     * @param array $content
      */
-    public function update($element, $fields, $table, $isNew): void
+    public function update(array $element, array $fields, string $table, bool $isNew): void
     {
         if (!$isNew) {
             $json = $this->remove($table, $element['key']);
@@ -534,13 +486,12 @@ class StorageRepository implements SingletonInterface
 
     /**
      * Sorts the json entries
-     * @param array $array
      */
-    private function sortJson(array &$array): void
+    protected function sortJson(array &$array): void
     {
         // check if array is not a hash table, because we only want to sort hash tables
         if (
-            [] === $array
+            empty($array)
             || !(array_keys($array) !== range(0, count($array) - 1))
         ) {
             return;
@@ -556,16 +507,11 @@ class StorageRepository implements SingletonInterface
 
     /**
      * Returns the formType of a field in an element
-     *
-     * @param string $fieldKey Key if Field
-     * @param string $elementKey Key of Element
-     * @param string $type elementtype
-     * @return string formType
      */
-    public function getFormType($fieldKey, $elementKey = '', $type = 'tt_content'): string
+    public function getFormType(string $fieldKey, string $elementKey = '', string $table = 'tt_content'): string
     {
         // TODO Allow bodytext to be normal TEXT field.
-        if ($fieldKey === 'bodytext' && $type === 'tt_content') {
+        if ($fieldKey === 'bodytext' && $table === 'tt_content') {
             return FieldType::RICHTEXT;
         }
 
@@ -573,24 +519,24 @@ class StorageRepository implements SingletonInterface
         $maskKey = AffixUtility::addMaskPrefix($fieldKey);
 
         // Check if TCA for mask key exists, else assume it's a core field.
-        $tca = $GLOBALS['TCA'][$type]['columns'][$maskKey] ?? [];
+        $tca = $GLOBALS['TCA'][$table]['columns'][$maskKey] ?? [];
         if (!$tca) {
-            $tca = $GLOBALS['TCA'][$type]['columns'][$fieldKey] ?? [];
+            $tca = $GLOBALS['TCA'][$table]['columns'][$fieldKey] ?? [];
         }
 
         if ($elementKey) {
             // Load element and TCA of field
-            $element = $this->loadElement($type, $elementKey);
+            $element = $this->loadElement($table, $elementKey);
             if (array_key_exists('config', $tca) && !$tca['config']) {
                 $tca = $element['tca'][$fieldKey] ?? [];
             }
         }
 
         // if field is in inline table or $GLOBALS["TCA"] is not yet filled, load tca from json
-        if (!$tca || !in_array($type, ['tt_content', 'pages'])) {
-            $tca = $this->loadField($type, $fieldKey);
+        if (!$tca || !in_array($table, ['tt_content', 'pages'])) {
+            $tca = $this->loadField($table, $fieldKey);
             if (!($tca['config'] ?? false)) {
-                $tca = $this->loadField($type, $maskKey);
+                $tca = $this->loadField($table, $maskKey);
             }
         }
 
@@ -611,11 +557,11 @@ class StorageRepository implements SingletonInterface
         // And decide via different tca settings which formType it is
         switch ($tcaType) {
             case 'input':
-                if (($tca['config']['dbType'] ?? '') == 'date') {
+                if (($tca['config']['dbType'] ?? '') === 'date') {
                     $formType = FieldType::DATE;
-                } elseif (($tca['config']['dbType'] ?? '') == 'datetime') {
+                } elseif (($tca['config']['dbType'] ?? '') === 'datetime') {
                     $formType = FieldType::DATETIME;
-                } elseif (($tca['config']['renderType'] ?? '') == 'inputDateTime') {
+                } elseif (($tca['config']['renderType'] ?? '') === 'inputDateTime') {
                     $formType = FieldType::TIMESTAMP;
                 } elseif (in_array('int', $evals, true)) {
                     $formType = FieldType::INTEGER;
@@ -629,7 +575,7 @@ class StorageRepository implements SingletonInterface
                 break;
             case 'text':
                 $formType = FieldType::TEXT;
-                if ($elementKey && in_array($type, ['tt_content', 'pages'])) {
+                if ($elementKey && in_array($table, ['tt_content', 'pages'])) {
                     foreach ($element['columns'] ?? [] as $numberKey => $column) {
                         if ($column === $fieldKey) {
                             $option = $element['options'][$numberKey] ?? '';
@@ -663,24 +609,24 @@ class StorageRepository implements SingletonInterface
 
     /**
      * Returns all elements that use this field
-     *
-     * @param string $key TCA Type
-     * @param string $type elementtype
-     * @return array elements in use
      */
-    public function getElementsWhichUseField($key, $type = 'tt_content'): array
+    public function getElementsWhichUseField(string $key, string $table = 'tt_content'): array
     {
-        $storage = $this->load();
+        $definition = $this->loader->load()->getTableDefinitonByTable($table);
+
+        if (!$definition) {
+            return [];
+        }
 
         $elementsInUse = [];
-        foreach ($storage[$type]['elements'] ?? [] as $element) {
+        foreach ($definition->getElements() as $element) {
             foreach ($element['columns'] ?? [] as $column) {
                 if ($column === $key) {
                     $elementsInUse[] = $element;
                     break;
                 }
-                if ($this->getFormType($column, $element['key'], $type) == FieldType::PALETTE) {
-                    foreach ($storage[$type]['palettes'][$column]['showitem'] ?? [] as $item) {
+                if ($this->getFormType($column, $element['key'], $table) === FieldType::PALETTE) {
+                    foreach ($definition->getPalettes()[$column]['showitem'] ?? [] as $item) {
                         if ($item === $key) {
                             $elementsInUse[] = $element;
                             break;
@@ -694,40 +640,26 @@ class StorageRepository implements SingletonInterface
 
     /**
      * This method searches for an existing label of a multiuse field
-     *
-     * @param string $table
-     * @param string $key
      */
-    public function findFirstNonEmptyLabel(string $table, string $key)
+    public function findFirstNonEmptyLabel(string $table, string $key): string
     {
         $label = '';
-        $json = $this->load();
-        foreach ($json[$table]['elements'] as $element) {
-            if (in_array($key, $element['columns'] ?? [])) {
-                $label = $element['labels'][array_search($key, $element['columns'])];
+        $definition = $this->loader->load()->getTableDefinitonByTable($table);
+
+        if (!$definition) {
+            return '';
+        }
+
+        foreach ($definition->getElements() as $element) {
+            if (in_array($key, $element['columns'] ?? [], true)) {
+                $label = $element['labels'][array_search($key, $element['columns'], true)];
             } else {
-                $label = $json[$table]['tca'][$key]['label'][$element['key']] ?? '';
+                $label = $definition->getTca()[$key]['label'][$element['key']] ?? '';
             }
             if ($label !== '') {
                 break;
             }
         }
         return $label;
-    }
-
-    /**
-     * @return array
-     */
-    protected function getDefaults(): array
-    {
-        if (empty($this->defaults)) {
-            $this->defaults = require GeneralUtility::getFileAbsFileName('EXT:mask/Configuration/Mask/Defaults.php');
-        }
-        return $this->defaults;
-    }
-
-    public function setJson(array $json)
-    {
-        self::$json = $json;
     }
 }

@@ -43,17 +43,15 @@ class ColPosList extends AbstractList
                     null
                 ]
             ];
-        } else {
-            // if it is not inline tt_content element
-            // and if other itemsProcFunc from other extension was available (e.g. gridelements),
-            // then call it now and let it render the items
-            if (!empty($params['config']['m_itemsProcFunc'])) {
-                GeneralUtility::callUserFunction(
-                    $params['config']['m_itemsProcFunc'],
-                    $params,
-                    $this
-                );
-            }
+        // if it is not inline tt_content element
+        // and if other itemsProcFunc from other extension was available (e.g. gridelements),
+        // then call it now and let it render the items
+        } elseif (!empty($params['config']['m_itemsProcFunc'])) {
+            GeneralUtility::callUserFunction(
+                $params['config']['m_itemsProcFunc'],
+                $params,
+                $this
+            );
         }
     }
 }

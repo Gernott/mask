@@ -20,12 +20,12 @@ namespace MASK\Mask\Controller;
 use MASK\Mask\CodeGenerator\HtmlCodeGenerator;
 use MASK\Mask\CodeGenerator\SqlCodeGenerator;
 use MASK\Mask\CodeGenerator\TcaCodeGenerator;
+use MASK\Mask\ConfigurationLoader\ConfigurationLoader;
 use MASK\Mask\Domain\Repository\BackendLayoutRepository;
-use MASK\Mask\Enumeration\FieldType;
-use MASK\Mask\Enumeration\Tab;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Domain\Service\SettingsService;
-use MASK\Mask\Helper\ConfigurationLoader;
+use MASK\Mask\Enumeration\FieldType;
+use MASK\Mask\Enumeration\Tab;
 use MASK\Mask\Helper\FieldHelper;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
@@ -169,7 +169,7 @@ class AjaxController
         $fields = json_decode($params['fields'], true);
         $this->storageRepository->update($params['element'], $fields, $params['type'], $isNew);
         $this->generateAction();
-        if ($params['type'] == 'tt_content') {
+        if ($params['type'] === 'tt_content') {
             $html = $this->htmlCodeGenerator->generateHtml($elementKey, $params['type']);
             $this->saveHtml($elementKey, $html);
         }
@@ -305,7 +305,7 @@ class AjaxController
                     'l10n_mode' => ''
                 ]
             ];
-            if ($type == FieldType::CONTENT) {
+            if ($type === FieldType::CONTENT) {
                 $config['tca']['cTypes'] = [];
             }
             if (isset($defaults[$type]['tca_in'])) {
@@ -418,13 +418,13 @@ class AjaxController
         // Filter elements with same element key
         $multiUseElements = array_filter(
             $multiUseElements,
-            function ($item) use ($elementKey) {
+            static function ($item) use ($elementKey) {
                 return $item['key'] !== $elementKey;
             }
         );
 
         $multiUseElements = array_map(
-            function ($item) {
+            static function ($item) {
                 return [
                     'key' => $item['key'],
                     'label' => $item['label'],
@@ -507,7 +507,7 @@ class AjaxController
         $emptyFields = ['mask' => [], 'core' => []];
         $fields = $emptyFields;
 
-        if (in_array($type, [FieldType::PALETTE, FieldType::LINEBREAK])) {
+        if (in_array($type, [FieldType::PALETTE, FieldType::LINEBREAK], true)) {
             return new JsonResponse($fields);
         }
 
@@ -767,11 +767,11 @@ class AjaxController
         $keyExists = false;
         $fieldExists = false;
 
-        if ($type == FieldType::INLINE) {
+        if ($type === FieldType::INLINE) {
             $keyExists = array_key_exists($fieldKey, $this->storageRepository->load());
         }
 
-        if ($type == FieldType::CONTENT) {
+        if ($type === FieldType::CONTENT) {
             $fieldExists = $this->fieldHelper->getFieldType($fieldKey, $elementKey);
         }
 
@@ -810,25 +810,26 @@ class AjaxController
     }
 
     /**
-     * @param $key
-     * @return bool
+     * Check if template file exists.
      */
-    protected function checkTemplate($key): bool
+    protected function checkTemplate(string $key): bool
     {
         $templatePath = $this->getTemplate($key);
         return file_exists($templatePath) && is_file($templatePath);
     }
 
-    protected function getTemplate($key): string
+    /**
+     * Returns the template for the given key.
+     */
+    protected function getTemplate(string $key): string
     {
         return MaskUtility::getTemplatePath($this->settingsService->get(), $key);
     }
 
     /**
-     * @param $path
-     * @return bool
+     * Creates a folder.
      */
-    protected function createFolder($path): bool
+    protected function createFolder(string $path): bool
     {
         $success = true;
         $path = MaskUtility::getFileAbsFileName($path);
@@ -843,10 +844,9 @@ class AjaxController
     }
 
     /**
-     * @param $path
-     * @return bool
+     * Create Mask json file if it doesn't exist and add empty array.
      */
-    protected function createMaskJsonFile($path): bool
+    protected function createMaskJsonFile(string $path): bool
     {
         $success = true;
         $path = MaskUtility::getFileAbsFileName($path);
@@ -857,7 +857,10 @@ class AjaxController
         return $success;
     }
 
-    protected function createHtml($key)
+    /**
+     * Writes the generated html for the content element into the template file.
+     */
+    protected function createHtml(string $key): void
     {
         $html = $this->htmlCodeGenerator->generateHtml($key, 'tt_content');
         $this->saveHtml($key, $html);
@@ -865,10 +868,8 @@ class AjaxController
 
     /**
      * Deletes Fluid html, if file exists
-     *
-     * @param string $key
      */
-    protected function deleteHtml($key): void
+    protected function deleteHtml(string $key): void
     {
         $paths = [];
         $paths[] = MaskUtility::getTemplatePath($this->extSettings, $key);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -13,16 +15,17 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-namespace Domain\Repository;
+namespace MASK\Mask\Tests\Unit\Domain\Repository;
 
-use MASK\Mask\Domain\Service\SettingsService;
 use MASK\Mask\Enumeration\FieldType;
-use MASK\Mask\Domain\Repository\StorageRepository;
+use MASK\Mask\Tests\Unit\StorageRepositoryCreatorTrait;
 use TYPO3\TestingFramework\Core\BaseTestCase;
 
 class StorageRepositoryTest extends BaseTestCase
 {
-    public function loadInlineFieldsDataProvider()
+    use StorageRepositoryCreatorTrait;
+
+    public function loadInlineFieldsDataProvider(): array
     {
         return [
             'inline fields loaded' => [
@@ -339,19 +342,15 @@ class StorageRepositoryTest extends BaseTestCase
     /**
      * @dataProvider loadInlineFieldsDataProvider
      * @test
-     * @param $json
-     * @param $parentKey
-     * @param $elementKey
-     * @param $expected
      */
-    public function loadInlineFields($json, $parentKey, $elementKey, $expected)
+    public function loadInlineFields(array $json, string $parentKey, string $elementKey, array $expected): void
     {
-        $storageRepository = $this->createPartialMock(StorageRepository::class, ['load']);
-        $storageRepository->method('load')->willReturn($json);
+        $storageRepository = $this->createStorageRepository($json);
+
         self::assertEquals($expected, $storageRepository->loadInlineFields($parentKey, $elementKey));
     }
 
-    public function getElementsWhichUseFieldDataProvider()
+    public function getElementsWhichUseFieldDataProvider(): array
     {
         return [
             'Element which uses field is returned' => [
@@ -586,19 +585,15 @@ class StorageRepositoryTest extends BaseTestCase
     /**
      * @dataProvider getElementsWhichUseFieldDataProvider
      * @test
-     * @param $json
-     * @param $column
-     * @param $table
-     * @param $expected
      */
-    public function getElementsWhichUseField($json, $column, $table, $expected)
+    public function getElementsWhichUseField(array $json, string $column, string $table, array $expected): void
     {
-        $storage = $this->createPartialMock(StorageRepository::class, ['load']);
-        $storage->expects(self::any())->method('load')->willReturn($json);
-        self::assertSame($expected, $storage->getElementsWhichUseField($column, $table));
+        $storageRepository = $this->createStorageRepository($json);
+
+        self::assertSame($expected, $storageRepository->getElementsWhichUseField($column, $table));
     }
 
-    public function addDataProvider()
+    public function addDataProvider(): array
     {
         return [
             'fields are added' => [
@@ -1354,23 +1349,17 @@ class StorageRepositoryTest extends BaseTestCase
     }
 
     /**
-     * @param $json
-     * @param $element
-     * @param $fields
-     * @param $table
-     * @param $expected
-     * @throws \Exception
      * @dataProvider addDataProvider
      * @test
      */
-    public function add($json, $element, $fields, $table, $expected)
+    public function add(array $json, array $element, array $fields, string $table, array $expected): void
     {
-        $storageRepository = $this->createPartialMock(StorageRepository::class, ['load']);
-        $storageRepository->expects(self::any())->method('load')->willReturn($json);
+        $storageRepository = $this->createStorageRepository($json);
+
         self::assertEquals($expected, $storageRepository->add($element, $fields, $table));
     }
 
-    public function removeDataProvider()
+    public function removeDataProvider(): array
     {
         return [
             'fields are removed' => [
@@ -1717,23 +1706,19 @@ class StorageRepositoryTest extends BaseTestCase
     }
 
     /**
-     * @param $json
-     * @param $table
-     * @param $elementKey
-     * @param $remainingFields
-     * @param $expected
      * @test
      * @dataProvider removeDataProvider
      */
-    public function remove($json, $table, $elementKey, $expected)
+    public function remove(array $json, string $table, string $elementKey, array $expected): void
     {
         $GLOBALS['TCA']['tt_content']['columns']['header']['config']['type'] = 'input';
-        $storageRepository = $this->createPartialMock(StorageRepository::class, ['load']);
-        $storageRepository->expects(self::any())->method('load')->willReturn($json);
+
+        $storageRepository = $this->createStorageRepository($json);
+
         self::assertEquals($expected, $storageRepository->remove($table, $elementKey));
     }
 
-    public function getFormTypeDataProvider()
+    public function getFormTypeDataProvider(): array
     {
         return [
             'Type String is returned' => [
@@ -2162,24 +2147,19 @@ class StorageRepositoryTest extends BaseTestCase
     }
 
     /**
-     * @param $tca
-     * @param $json
-     * @param $fieldKey
-     * @param $elementKey
-     * @param $table
-     * @param $expected
      * @test
      * @dataProvider getFormTypeDataProvider
      */
-    public function getFormType($tca, $json, $fieldKey, $elementKey, $table, $expected)
+    public function getFormType(array $tca, array $json, string $fieldKey, string $elementKey, string $table, string $expected): void
     {
         $GLOBALS['TCA'] = $tca;
-        $storageRepository = $this->createPartialMock(StorageRepository::class, ['load']);
-        $storageRepository->expects(self::any())->method('load')->willReturn($json);
+
+        $storageRepository = $this->createStorageRepository($json);
+
         self::assertEquals($expected, $storageRepository->getFormType($fieldKey, $elementKey, $table));
     }
 
-    public function findFirstNonEmptyLabelDataProvider()
+    public function findFirstNonEmptyLabelDataProvider(): array
     {
         return [
             'First found field label returned' => [
@@ -2289,22 +2269,17 @@ class StorageRepositoryTest extends BaseTestCase
     }
 
     /**
-     * @param $json
-     * @param $table
-     * @param $key
-     * @param $expected
      * @test
      * @dataProvider findFirstNonEmptyLabelDataProvider
      */
-    public function findFirstNonEmptyLabel($json, $table, $key, $expected)
+    public function findFirstNonEmptyLabel(array $json, string $table, string $key, string $expected): void
     {
-        $storageRepository = $this->createPartialMock(StorageRepository::class, ['load']);
-        $storageRepository->expects(self::any())->method('load')->willReturn($json);
+        $storageRepository = $this->createStorageRepository($json);
 
         self::assertSame($expected, $storageRepository->findFirstNonEmptyLabel($table, $key));
     }
 
-    public function loadElementDataProvider()
+    public function loadElementDataProvider(): array
     {
         return [
             'Element with fields returned' => [
@@ -2513,19 +2488,12 @@ class StorageRepositoryTest extends BaseTestCase
     }
 
     /**
-     * @param $json
-     * @param $table
-     * @param $element
-     * @param $expected
      * @test
      * @dataProvider loadElementDataProvider
      */
-    public function loadElement($json, $table, $element, $expected)
+    public function loadElement(array $json, string $table, string $element, array $expected): void
     {
-        $settingsServiceProphecy = $this->prophesize(SettingsService::class);
-        $settingsServiceProphecy->get()->willReturn([]);
-        $storageRepository = new StorageRepository($settingsServiceProphecy->reveal());
-        $storageRepository->setJson($json);
+        $storageRepository = $this->createStorageRepository($json);
 
         self::assertSame($expected, $storageRepository->loadElement($table, $element));
     }

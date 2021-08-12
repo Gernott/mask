@@ -17,9 +17,9 @@ declare(strict_types=1);
 
 namespace MASK\Mask\CodeGenerator;
 
-use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Domain\Service\SettingsService;
+use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Imaging\IconProvider\ContentElementIconProvider;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
@@ -56,19 +56,15 @@ class TyposcriptCodeGenerator
     }
 
     /**
-     * Generates the tsConfig typoscript and registers
-     * the icons for the content elements
-     *
-     * @return string
+     * Generates TSconfig and registers the icons for the content elements.
      */
     public function generateTsConfig(): string
     {
         $json = $this->storageRepository->load();
-        // generate page TSconfig
         $content = '';
         $iconRegistry = GeneralUtility::makeInstance(IconRegistry::class);
 
-        // make content-Elements
+        // Register content elements and add them in new content element wizard.
         foreach ($json['tt_content']['elements'] ?? [] as $element) {
             // Register icons for contentelements
             $iconIdentifier = 'mask-ce-' . $element['key'];
@@ -84,7 +80,7 @@ class TyposcriptCodeGenerator
                 continue;
             }
 
-            // add the content element wizard for each content element
+            // Remove any whitespace characters for the description.
             $element['description'] = trim(preg_replace('/\s+/', ' ', $element['description']));
             $cTypeKey = AffixUtility::addMaskCTypePrefix($element['key']);
             $wizard = [
@@ -103,10 +99,10 @@ class TyposcriptCodeGenerator
             $content .= "\tshow := addToList(" . $cTypeKey . ");\n";
             $content .= "}\n";
 
-            // and switch the labels depending on which content element is selected
+            // Switch the labels depending on which content element is selected.
             $content .= "\n[isMaskContentType(\"" . $cTypeKey . "\")]\n";
             foreach ($element['columns'] ?? [] as $index => $column) {
-                $this->setLabel($column, $index, $element, 'tt_content', $content);
+                $content = $this->setLabel($column, $index, $element, 'tt_content', $content);
             }
             $content .= "[end]\n\n";
         }
@@ -116,7 +112,6 @@ class TyposcriptCodeGenerator
 
     /**
      * Generates the typoscript for pages
-     * @return string
      */
     public function generatePageTyposcript(): string
     {
@@ -127,7 +122,7 @@ class TyposcriptCodeGenerator
             $pagesContent .= "\n[maskBeLayout('" . $element['key'] . "')]\n";
             // if page has backendlayout with this element-key
             foreach ($element['columns'] ?? [] as $index => $column) {
-                $this->setLabel($column, $index, $element, 'pages', $pagesContent);
+                $pagesContent = $this->setLabel($column, $index, $element, 'pages', $pagesContent);
             }
             $pagesContent .= "[end]\n";
         }
@@ -136,15 +131,11 @@ class TyposcriptCodeGenerator
     }
 
     /**
-     * @param $column
-     * @param $index
-     * @param $element
-     * @param $table
-     * @param $content
+     * Sets the label via TCEFORM
      */
-    protected function setLabel($column, $index, $element, $table, &$content)
+    protected function setLabel(string $column, int $index, array $element, string $table, string $content): string
     {
-        if ($this->storageRepository->getFormType($column, $element['key'], $table) == FieldType::PALETTE) {
+        if ($this->storageRepository->getFormType($column, $element['key'], $table) === FieldType::PALETTE) {
             $items = $this->storageRepository->loadInlineFields($column, $element['key']);
             foreach ($items as $item) {
                 if (is_array($item['label'])) {
@@ -163,16 +154,16 @@ class TyposcriptCodeGenerator
         } else {
             $content .= ' TCEFORM.' . $table . '.' . $column . '.label = ' . $element['labels'][$index] . "\n";
         }
+
+        return $content;
     }
 
     /**
      * Generates the typoscript for the setup field
-     * @return string
      */
     public function generateSetupTyposcript(): string
     {
         $configuration = $this->storageRepository->load();
-        // generate TypoScript setup
         $setupContent = [];
 
         // for base paths to fluid templates configured in extension settings
@@ -188,19 +179,17 @@ class TyposcriptCodeGenerator
             ]
         ], 'lib.maskContentElement');
 
-        // for each content element
-        if ($configuration['tt_content']['elements']) {
-            foreach ($configuration['tt_content']['elements'] as $element) {
-                if (!($element['hidden'] ?? false)) {
-                    $cTypeKey = AffixUtility::addMaskCTypePrefix($element['key']);
-                    $templateName = MaskUtility::getTemplatePath($this->extSettings, $element['key'], true, null, true);
-                    $elementContent = [];
-                    $elementContent[] = 'tt_content.' . $cTypeKey . ' =< lib.maskContentElement' . LF;
-                    $elementContent[] = 'tt_content.' . $cTypeKey . ' {' . LF;
-                    $elementContent[] = "\t" . 'templateName = ' . $templateName . LF;
-                    $elementContent[] = '}' . LF . LF;
-                    $setupContent[] = implode('', $elementContent);
-                }
+        foreach ($configuration['tt_content']['elements'] ?? [] as $element) {
+            if (!($element['hidden'] ?? false)) {
+                $cTypeKey = AffixUtility::addMaskCTypePrefix($element['key']);
+                $templateName = MaskUtility::getTemplatePath($this->extSettings, $element['key'], true, null, true);
+                $elementContent = [];
+                $elementContent[] = 'tt_content.' . $cTypeKey . ' =< lib.maskContentElement' . LF;
+                $elementContent[] = 'tt_content.' . $cTypeKey . ' {' . LF;
+                $elementContent[] = "\t" . 'templateName = ' . $templateName . LF;
+                $elementContent[] = '}' . LF . LF;
+
+                $setupContent[] = implode('', $elementContent);
             }
         }
 
@@ -216,7 +205,7 @@ class TyposcriptCodeGenerator
      * @param bool $init Internal
      * @return string TypoScript
      */
-    protected function convertArrayToTypoScript(array $typoScriptArray, $addKey = '', $tab = 0, $init = true): string
+    protected function convertArrayToTypoScript(array $typoScriptArray, string $addKey = '', int $tab = 0, bool $init = true): string
     {
         $typoScript = '';
         if ($addKey !== '') {
@@ -231,13 +220,11 @@ class TyposcriptCodeGenerator
                 if (strpos($value, "\n") === false) {
                     $typoScript .= str_repeat("\t", ($tab === 0) ? $tab : $tab - 1) . "$key = $value\n";
                 } else {
-                    $typoScript .= str_repeat(
-                        "\t",
-                        ($tab === 0) ? $tab : $tab - 1
-                    ) . "$key (\n$value\n" . str_repeat(
-                        "\t",
-                        ($tab === 0) ? $tab : $tab - 1
-                    ) . ")\n";
+                    $typoScript .=
+                        str_repeat("\t", ($tab === 0) ? $tab : $tab - 1)
+                        . "$key (\n$value\n"
+                        . str_repeat("\t", ($tab === 0) ? $tab : $tab - 1)
+                        . ")\n";
                 }
             } else {
                 $typoScript .= $this->convertArrayToTypoScript($value, $key, $tab, false);

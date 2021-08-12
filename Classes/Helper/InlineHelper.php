@@ -17,9 +17,9 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Helper;
 
-use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Domain\Repository\BackendLayoutRepository;
 use MASK\Mask\Domain\Repository\StorageRepository;
+use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\AffixUtility as MaskUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
@@ -60,11 +60,8 @@ class InlineHelper
 
     /**
      * Adds FAL-Files to the data-array if available
-     *
-     * @param array $data
-     * @param string $table
      */
-    public function addFilesToData(&$data, $table = 'tt_content'): void
+    public function addFilesToData(array &$data, string $table = 'tt_content'): void
     {
         if ($data['_LOCALIZED_UID'] ?? false) {
             $uid = $data['_LOCALIZED_UID'];
@@ -90,7 +87,7 @@ class InlineHelper
         );
 
         foreach ($contentFields as $fieldKey) {
-            if ($this->storageRepository->getFormType($fieldKey, '', $table) == FieldType::FILE) {
+            if ($this->storageRepository->getFormType($fieldKey, '', $table) === FieldType::FILE) {
                 $data[$fieldKey] = $fileRepository->findByRelation($table, $fieldKey, $uid);
             }
         }
@@ -104,7 +101,7 @@ class InlineHelper
      * @param string $cType
      * @throws \Exception
      */
-    public function addIrreToData(&$data, $table = 'tt_content', $cType = ''): void
+    public function addIrreToData(array &$data, string $table = 'tt_content', string $cType = ''): void
     {
         if ($cType === '') {
             $cType = $data['CType'] ?? '';
@@ -121,7 +118,7 @@ class InlineHelper
             // if the table is pages, then load the pid
             if (isset($data['uid'])) {
                 // find the backendlayout by the pid
-                $backendLayoutIdentifier = $this->backendLayoutRepository->findIdentifierByPid($data['uid']);
+                $backendLayoutIdentifier = $this->backendLayoutRepository->findIdentifierByPid((int)$data['uid']);
 
                 // if a backendlayout was found, then load its elements
                 if ($backendLayoutIdentifier) {
@@ -145,7 +142,7 @@ class InlineHelper
             $fieldKey = MaskUtility::removeMaskPrefix($field);
             $type = $this->storageRepository->getFormType($fieldKey, ($element['key'] ?? ''), $table);
 
-            if ($type == FieldType::PALETTE) {
+            if ($type === FieldType::PALETTE) {
                 $paletteFields = $this->storageRepository->loadInlineFields($field, ($element['key'] ?? ''));
                 foreach ($paletteFields as $paletteField) {
                     $type = $this->storageRepository->getFormType($paletteField['key'], ($element['key'] ?? ''), $table);
@@ -160,11 +157,11 @@ class InlineHelper
     protected function fillInlineField(&$data, $storage, $type, $field, $cType, $table)
     {
         // if it is of type inline and has to be filled (IRRE, FAL)
-        if ($type == FieldType::INLINE && array_key_exists($field, $storage)) {
+        if ($type === FieldType::INLINE && array_key_exists($field, $storage)) {
             $elements = $this->getInlineElements($data, $field, $cType, 'parentid', $table);
             $data[$field] = $elements;
         // or if it is of type Content (Nested Content) and has to be filled
-        } elseif ($type == FieldType::CONTENT) {
+        } elseif ($type === FieldType::CONTENT) {
             $elements = $this->getInlineElements(
                 $data,
                 $field,
@@ -219,12 +216,12 @@ class InlineHelper
      * @throws \TYPO3\CMS\Core\Context\Exception\AspectNotFoundException
      */
     public function getInlineElements(
-        $data,
-        $name,
-        $cType,
-        $parentFieldName = 'parentid',
-        $parenttable = 'tt_content',
-        $childTable = null
+        array $data,
+        string $name,
+        string $cType,
+        string $parentFieldName = 'parentid',
+        string $parenttable = 'tt_content',
+        ?string $childTable = null
     ): array {
         // if the name of the child table is not explicitely given, take field key
         if (!$childTable) {
@@ -279,7 +276,7 @@ class InlineHelper
         }
 
         // Need to sort overlaid records again, because sorting might have changed.
-        usort($elements, function ($a, $b) {
+        usort($elements, static function ($a, $b) {
             return $a['sorting'] > $b['sorting'];
         });
 

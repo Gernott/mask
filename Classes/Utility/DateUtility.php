@@ -15,7 +15,6 @@ declare(strict_types=1);
  * The TYPO3 project - inspiring people to share!
  */
 
-
 namespace MASK\Mask\Utility;
 
 class DateUtility
@@ -23,7 +22,7 @@ class DateUtility
     /**
      * @var string
      */
-    protected static $oldDatePattern = '/^[0-9]{4}/';
+    protected static $oldDatePattern = '/^\d{4}/';
 
     /**
      * @param string $date
@@ -34,31 +33,17 @@ class DateUtility
         return (bool)preg_match(self::$oldDatePattern, $date);
     }
 
-    /**
-     * @param string $dbType
-     * @param string $date
-     * @return string
-     */
     public static function convertOldToNewFormat(string $dbType, string $date): string
     {
         $format = self::getFormatByDbType($dbType);
         return (new \DateTime($date))->format($format);
     }
 
-    /**
-     * @param $dbType
-     * @return string
-     */
     protected static function getFormatByDbType(string $dbType): string
     {
         return ($dbType === 'date') ? 'd-m-Y' : 'H:i d-m-Y';
     }
 
-    /**
-     * @param $dbType
-     * @param $dateString
-     * @return int
-     */
     public static function convertStringToTimestampByDbType(string $dbType, string $dateString): int
     {
         $format = self::getFormatByDbType($dbType);
@@ -66,7 +51,7 @@ class DateUtility
             $dateString = DateUtility::convertOldToNewFormat($dbType, $dateString);
         }
         $date = \DateTime::createFromFormat($format, $dateString);
-        if ($dbType == 'date') {
+        if ($dbType === 'date') {
             $date->setTime(0, 0);
         }
         return $date->getTimestamp();

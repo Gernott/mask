@@ -43,7 +43,7 @@ class TcaTypesShowitemMaskBeLayoutFields implements FormDataProviderInterface
 
     public function addData(array $result)
     {
-        if ($result['tableName'] != 'pages') {
+        if ($result['tableName'] !== 'pages') {
             return $result;
         }
         $json = $this->storageRepository->load();
@@ -52,7 +52,7 @@ class TcaTypesShowitemMaskBeLayoutFields implements FormDataProviderInterface
             foreach ($json['pages']['elements'] as $element) {
                 $key = (string)$element['key'];
                 if ($conditionMatcher->match("[maskBeLayout('$key')]")) {
-                    $result['processedTca']['types'][$result['recordTypeValue']]['showitem'] .= $this->tcaCodeGenerator->getPageTca($key);
+                    $result['processedTca']['types'][$result['recordTypeValue']]['showitem'] .= $this->tcaCodeGenerator->getPageShowItem($key);
                     $result['processedTca']['palettes'] = array_merge(($result['processedTca']['palettes'] ?? []), $this->tcaCodeGenerator->getPagePalettes($key));
                     break;
                 }

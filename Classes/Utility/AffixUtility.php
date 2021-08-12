@@ -15,7 +15,6 @@ declare(strict_types=1);
  * The TYPO3 project - inspiring people to share!
  */
 
-
 namespace MASK\Mask\Utility;
 
 class AffixUtility
@@ -98,7 +97,7 @@ class AffixUtility
      */
     public static function hasMaskParentSuffix(string $key): bool
     {
-        return substr($key, -(strlen(self::MASK_PARENT_SUFFIX))) == self::MASK_PARENT_SUFFIX;
+        return substr($key, -(strlen(self::MASK_PARENT_SUFFIX))) === self::MASK_PARENT_SUFFIX;
     }
 
     /**

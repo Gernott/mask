@@ -1,5 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
+
 namespace MASK\Mask\Utility;
 
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -22,11 +37,8 @@ class TcaConverterUtility
      *     'config.renderType' => 'inputLink'
      * ]
      *
-     * @param array $config
-     * @param string[] $path
-     * @return array
      */
-    public static function convertTcaArrayToFlat(array $config, $path = ['config']): array
+    public static function convertTcaArrayToFlat(array $config, array $path = ['config']): array
     {
         $tca = [];
         foreach ($config as $key => $value) {
@@ -38,43 +50,39 @@ class TcaConverterUtility
                 foreach ($items as $item) {
                     $itemText .= implode(',', $item) . "\n";
                 }
-                $tca[$fullPath] = trim($itemText);
+                $tca[] = [$fullPath => trim($itemText)];
             } elseif (is_array($value)) {
-                $tca = array_merge($tca, self::convertTcaArrayToFlat($value, $path));
-            } else {
-                if ($key === 'eval' || $key === 'blindLinkOptions') {
-                    if ($value !== '') {
-                        $keys = explode(',', $value);
+                $tca[] = self::convertTcaArrayToFlat($value, $path);
+            } elseif ($key === 'eval' || $key === 'blindLinkOptions') {
+                if ($value !== '') {
+                    $keys = explode(',', $value);
 
-                        // Special handling for timestamp field, as the dateType is in the key "config.eval"
-                        $dateTypesInKeys = array_values(array_intersect($keys, ['date', 'datetime', 'time', 'timesec']));
-                        if (count($dateTypesInKeys) > 0) {
-                            $tca[$fullPath] = $dateTypesInKeys[0];
-                            // Remove dateType from normal eval array
-                            $keys = array_filter($keys, function ($a) use ($dateTypesInKeys) {
-                                return $a !== $dateTypesInKeys[0];
-                            });
-                        }
-
-                        // For each eval value create an entry with value set to 1
-                        $evalArray = array_combine($keys, array_fill(0, count($keys), 1));
-                        $tca = array_merge($tca, self::convertTcaArrayToFlat($evalArray, $path));
+                    // Special handling for timestamp field, as the dateType is in the key "config.eval"
+                    $dateTypesInKeys = array_values(array_intersect($keys, ['date', 'datetime', 'time', 'timesec']));
+                    if (count($dateTypesInKeys) > 0) {
+                        $tca[] = [$fullPath => $dateTypesInKeys[0]];
+                        // Remove dateType from normal eval array
+                        $keys = array_filter($keys, static function ($a) use ($dateTypesInKeys) {
+                            return $a !== $dateTypesInKeys[0];
+                        });
                     }
-                } else {
-                    $tca[$fullPath] = $value;
+
+                    // For each eval value create an entry with value set to 1
+                    $evalArray = array_combine($keys, array_fill(0, count($keys), 1));
+                    $tca[] = self::convertTcaArrayToFlat($evalArray, $path);
                 }
+            } else {
+                $tca[] = [$fullPath => $value];
             }
             array_pop($path);
         }
-        return $tca;
+
+        return array_merge([], ...$tca);
     }
 
     /**
      * Does the opposite of convertTcaArrayToFlat.
      * Converts flat TCA options to normal TCA array, which can be directly used by TYPO3.
-     *
-     * @param array $tca
-     * @return array
      */
     public static function convertFlatTcaToArray(array $tca): array
     {
@@ -94,7 +102,7 @@ class TcaConverterUtility
                 $value = 1;
             }
             $explodedKey = explode('.', $key);
-            $propertyPath = array_reduce($explodedKey, function ($carry, $property) {
+            $propertyPath = array_reduce($explodedKey, static function ($carry, $property) {
                 return $carry . "[$property]";
             });
             $accessor->setValue($tcaArray, $propertyPath, $value);
@@ -111,14 +119,10 @@ class TcaConverterUtility
         return $tcaArray;
     }
 
-    /**
-     * @param array $tcaArray
-     * @return array
-     */
     protected static function mergeCommaSeperatedOptions(array $tcaArray): string
     {
         $mergedTca = [];
-        foreach($tcaArray as $key => $evalValue) {
+        foreach ($tcaArray as $key => $evalValue) {
             if ($evalValue) {
                 $mergedTca[] = $key;
             }

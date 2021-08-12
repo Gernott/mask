@@ -43,11 +43,11 @@ final class FieldType extends Enumeration
 
     public function isGroupingField()
     {
-        return in_array($this->value, [self::TAB, self::PALETTE, self::LINEBREAK]);
+        return in_array($this->value, [self::TAB, self::PALETTE, self::LINEBREAK], true);
     }
 
     public function isParentField()
     {
-        return in_array($this->value, [self::INLINE, self::PALETTE]);
+        return in_array($this->value, [self::INLINE, self::PALETTE], true);
     }
 }

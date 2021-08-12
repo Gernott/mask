@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -15,8 +17,6 @@
 
 namespace MASK\Mask\Domain\Repository;
 
-use Doctrine\DBAL\FetchMode;
-use Exception;
 use MASK\Mask\Backend\BackendLayoutView;
 use RuntimeException;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
@@ -54,16 +54,14 @@ class BackendLayoutRepository extends Repository
 
     /**
      * Returns all backendlayouts defined, database and pageTs
-     * @param array $pageTsPids
-     * @return array
      */
-    public function findAll($pageTsPids = []): array
+    public function findAll(array $pageTsPids = []): array
     {
         $backendLayouts = [];
 
         // search all the pids for backend layouts defined in the pageTS
         foreach ($pageTsPids as $pid) {
-            $pageTsConfig = (array)BackendUtility::getPagesTSconfig($pid);
+            $pageTsConfig = BackendUtility::getPagesTSconfig($pid);
             $dataProviderContext = $this->backendLayoutView->createDataProviderContext()->setPageTsConfig($pageTsConfig);
             $backendLayoutCollections = $this->backendLayoutView->getDataProviderCollection()->getBackendLayoutCollections($dataProviderContext);
             foreach ($backendLayoutCollections['default']->getAll() as $backendLayout) {
@@ -106,11 +104,9 @@ class BackendLayoutRepository extends Repository
     }
 
     /**
-     * @param $pid
-     * @return bool
-     * @throws Exception
+     * Finds the current backend layout identifier
      */
-    public function findIdentifierByPid($pid): ?string
+    public function findIdentifierByPid(int $pid): ?string
     {
         /** @var Connection $connection */
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable('pages');
@@ -123,16 +119,18 @@ class BackendLayoutRepository extends Repository
             ->setParameter('pid', $pid);
 
         $statement = $queryBuilder->execute();
-        $data = $statement->fetch(FetchMode::ASSOCIATIVE);
-        $statement->closeCursor();
+        $data = $statement->fetchAssociative();
+        $statement->free();
 
         $backend_layout = $data['backend_layout'];
         $backend_layout_next_level = $data['backend_layout_next_level'];
-        if (!empty($backend_layout)) { // If backend_layout is set on current page
+        // If backend_layout is set on current page
+        if (!empty($backend_layout)) {
             return $backend_layout;
         }
 
-        if (!empty($backend_layout_next_level)) { // If backend_layout_next_level is set on current page
+        // If backend_layout_next_level is set on current page
+        if (!empty($backend_layout_next_level)) {
             return $backend_layout_next_level;
         }
         $rootLineUtility = GeneralUtility::makeInstance(RootlineUtility::class, $pid);
@@ -150,13 +148,9 @@ class BackendLayoutRepository extends Repository
     }
 
     /**
-     * Returns a backendlayout or null, if non found
-     *
-     * @param $identifier
-     * @param array $pageTsPids
-     * @return BackendLayout|null
+     * Returns a backendlayout or null, if not found
      */
-    public function findByIdentifier($identifier, $pageTsPids = []): ?BackendLayout
+    public function findByIdentifier($identifier, array $pageTsPids = []): ?BackendLayout
     {
         $backendLayouts = $this->findAll($pageTsPids);
         return $backendLayouts[$identifier] ?? null;

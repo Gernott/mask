@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -15,9 +17,9 @@
 
 namespace MASK\Mask\Controller;
 
+use MASK\Mask\ConfigurationLoader\ConfigurationLoaderInterface;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Enumeration\FieldType;
-use MASK\Mask\Helper\ConfigurationLoaderInterface;
 use MASK\Mask\Helper\FieldHelper;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\DateUtility;
@@ -72,13 +74,11 @@ class FieldsController
     }
 
     /**
-     * @param array $fields
-     * @param string $table
-     * @param string $elementKey
-     * @param null $parent
-     * @return array
+     * This is the main function for adding fields ready to use in Vue JS.
+     * It creates a nested structure out of the flat array input.
+     * It takes care of translating labels, legacy conversions, timestamp conversions, ...
      */
-    protected function addFields(array $fields, string $table, string $elementKey = '', $parent = null)
+    protected function addFields(array $fields, string $table, string $elementKey = '', $parent = null): array
     {
         $storage = $this->storageRepository->load();
         $defaults = $this->configurationLoader->loadDefaults();
@@ -98,7 +98,8 @@ class FieldsController
 
             if ($elementKey !== '') {
                 $newField['label'] = $this->fieldHelper->getLabel($elementKey, $newField['key'], $table);
-                $newField['label'] = $this->translateLabel($newField['label']);
+                $translatedLabel = $this->translateLabel($newField['label']);
+                $newField['translatedLabel'] = $translatedLabel !== $newField['label'] ? $translatedLabel : '';
             }
 
             $fieldType = FieldType::cast($this->storageRepository->getFormType($newField['key'], $elementKey, $table));
@@ -192,28 +193,26 @@ class FieldsController
 
     /**
      * This method removes all tca options defined which aren't available in mask.
-     *
-     * @param array $config
-     * @param FieldType $fieldType
-     * @return array
      */
     protected function cleanUpConfig(array $config, FieldType $fieldType): array
     {
-        $tabConfig = $this->configurationLoader->loadTab($fieldType);
+        $tabConfig = $this->configurationLoader->loadTab((string)$fieldType);
         $tcaOptions = [];
         foreach ($tabConfig as $options) {
             foreach ($options as $row) {
-                $tcaOptions = array_merge($tcaOptions, array_keys($row));
+                $tcaOptions[] = array_keys($row);
             }
         }
-        return array_filter($config, function ($key) use ($tcaOptions) {
-            return in_array($key, $tcaOptions);
+        $tcaOptions = array_merge([], ...$tcaOptions);
+
+        return array_filter($config, static function ($key) use ($tcaOptions) {
+            return in_array($key, $tcaOptions, true);
         }, ARRAY_FILTER_USE_KEY);
     }
 
     /**
-     * @param string $key
-     * @return string
+     * Translates label for the given key.
+     * A key not beginning with 'LLL' is returned as is.
      */
     protected function translateLabel(string $key): string
     {

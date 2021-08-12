@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -15,8 +17,8 @@
 
 namespace MASK\Mask\CodeGenerator;
 
-use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Domain\Repository\StorageRepository;
+use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\AffixUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -47,12 +49,8 @@ class HtmlCodeGenerator
 
     /**
      * Generates Fluid HTML for Contentelements
-     *
-     * @param string $key
-     * @param string $table
-     * @return string $html
      */
-    public function generateHtml($key, $table): string
+    public function generateHtml(string $key, string $table): string
     {
         $storage = $this->storageRepository->loadElement($table, $key);
         $html = [];
@@ -70,14 +68,8 @@ class HtmlCodeGenerator
 
     /**
      * Generates HTML for a field
-     * @param string $fieldKey
-     * @param string $elementKey
-     * @param string $table
-     * @param string $datafield
-     * @param int $depth
-     * @return string
      */
-    protected function generateFieldHtml($fieldKey, $elementKey, $table, $datafield = 'data', $depth = 0): string
+    protected function generateFieldHtml(string $fieldKey, string $elementKey, string $table, string $datafield = 'data', int $depth = 0): string
     {
         $html = [];
         if ($fieldKey === 'bodytext') {
@@ -191,22 +183,13 @@ class HtmlCodeGenerator
         return implode("\n", $html);
     }
 
-    /**
-     * @param $fieldKey
-     * @param $datafield
-     * @return string
-     */
-    protected function getVariable($datafield, $fieldKey)
+    protected function getVariable(string $datafield, string $fieldKey): string
     {
         $key = AffixUtility::hasMaskPrefix($fieldKey) ? AffixUtility::removeMaskPrefix($fieldKey) : $fieldKey;
         return '<f:variable name="' . GeneralUtility::underscoredToLowerCamelCase($key) . '" value="{' . $datafield . '.' . $fieldKey . '}"/>';
     }
 
-    /**
-     * @param int $times
-     * @return string
-     */
-    protected function drawWhitespace($times = 1)
+    protected function drawWhitespace(int $times = 1): string
     {
         return str_repeat(' ', $this->indent * $times);
     }

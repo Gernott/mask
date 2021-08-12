@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -13,20 +15,20 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-namespace MASK\Mask\Test\CodeGenerator;
+namespace MASK\Mask\Tests\Unit\CodeGenerator;
 
 use MASK\Mask\CodeGenerator\TcaCodeGenerator;
-use MASK\Mask\Domain\Repository\StorageRepository;
-use MASK\Mask\Domain\Service\SettingsService;
 use MASK\Mask\Helper\FieldHelper;
+use MASK\Mask\Tests\Unit\StorageRepositoryCreatorTrait;
+use TYPO3\CMS\Core\Package\PackageManager;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\TestingFramework\Core\BaseTestCase;
 
 class TcaCodeGeneratorTest extends BaseTestCase
 {
-    /**
-     * @return array[]
-     **/
-    public function getPageTcaDataProvider()
+    use StorageRepositoryCreatorTrait;
+
+    public function getPageShowItemProvider(): array
     {
         return [
             'Layout 1 is rendered in correct order' => [
@@ -252,29 +254,17 @@ class TcaCodeGeneratorTest extends BaseTestCase
 
     /**
      * @test
-     * @dataProvider getPageTcaDataProvider
-     * @param $json
-     * @param $key
-     * @param $expected
+     * @dataProvider getPageShowItemProvider
      */
-    public function getPageTca($json, $key, $expected)
+    public function getPageShowItem(array $json, string $key, string $expected): void
     {
-        $settingsService = $this->getMockBuilder(SettingsService::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $fieldHelper = new FieldHelper($this->createStorageRepository($json));
+        $tcaGenerator = new TcaCodeGenerator($this->createStorageRepository($json), $fieldHelper);
 
-        $storage = $this->getMockBuilder(StorageRepository::class)
-            ->setConstructorArgs([$settingsService])
-            ->onlyMethods(['load'])
-            ->getMock();
-
-        $storage->method('load')->willReturn($json);
-        $fieldHelper = new FieldHelper($storage);
-        $tcaGenerator = new TcaCodeGenerator($storage, $fieldHelper);
-        self::assertSame($expected, $tcaGenerator->getPageTca($key));
+        self::assertSame($expected, $tcaGenerator->getPageShowItem($key));
     }
 
-    public function getMaskIrreTablesDataProvider()
+    public function getMaskIrreTablesDataProvider(): array
     {
         return [
             'Returns all mask inline tables' => [
@@ -292,26 +282,16 @@ class TcaCodeGeneratorTest extends BaseTestCase
     /**
      * @dataProvider getMaskIrreTablesDataProvider
      * @test
-     * @param $json
-     * @param $expected
      */
-    public function getMaskIrreTables($json, $expected)
+    public function getMaskIrreTables(array $json, array $expected): void
     {
-        $settingsService = $this->getMockBuilder(SettingsService::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $fieldHelper = new FieldHelper($this->createStorageRepository($json));
+        $tcaGenerator = new TcaCodeGenerator($this->createStorageRepository($json), $fieldHelper);
 
-        $storage = $this->getMockBuilder(StorageRepository::class)
-            ->setConstructorArgs([$settingsService])
-            ->getMock();
-
-        $storage->method('load')->willReturn($json);
-        $fieldHelper = new FieldHelper($storage);
-        $tcaGenerator = new TcaCodeGenerator($storage, $fieldHelper);
         self::assertSame($expected, $tcaGenerator->getMaskIrreTables());
     }
 
-    public function processTableTcaDataProvider()
+    public function processTableTcaDataProvider(): array
     {
         return [
             'Order is correct and tab is put correctly' => [
@@ -395,6 +375,102 @@ class TcaCodeGeneratorTest extends BaseTestCase
                     'label' => 'field_1',
                     'showitem' => '--div--;New Tab,field_1,field_2,field_3'
                 ]
+            ],
+            'Palettes are added' => [
+                'tx_mask_repeater',
+                [
+                    'tx_mask_repeater' => [
+                        'tca' => [
+                            'field_2' => [
+                                'label' => 'Field 2',
+                                'order' => '3',
+                                'config' => [
+                                    'type' => 'input'
+                                ]
+                            ],
+                            'field_1' => [
+                                'label' => 'Field 1',
+                                'order' => '2',
+                                'config' => [
+                                    'type' => 'input'
+                                ]
+                            ],
+                            'palette_field' => [
+                                'label' => 'A Palette',
+                                'order' => '1',
+                                'config' => [
+                                    'type' => 'palette'
+                                ]
+                            ],
+                            'field_3' => [
+                                'label' => 'Field 3',
+                                'order' => '1',
+                                'inPalette' => true,
+                                'inlineParent' => 'palette_field',
+                                'config' => [
+                                    'type' => 'input'
+                                ]
+                            ],
+                        ],
+                        'palettes' => [
+                            'palette_field' => [
+                                'showitem' => [
+                                    'field_3'
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                [
+                    'label' => 'field_3',
+                    'showitem' => '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,--palette--;;palette_field,field_1,field_2'
+                ]
+            ],
+            'Empty palette first field is ignored' => [
+                'tx_mask_repeater',
+                [
+                    'tx_mask_repeater' => [
+                        'tca' => [
+                            'field_2' => [
+                                'label' => 'Field 2',
+                                'order' => '3',
+                                'config' => [
+                                    'type' => 'input'
+                                ]
+                            ],
+                            'field_1' => [
+                                'label' => 'Field 1',
+                                'order' => '2',
+                                'config' => [
+                                    'type' => 'input'
+                                ]
+                            ],
+                            'palette_field' => [
+                                'label' => 'A Palette',
+                                'order' => '1',
+                                'config' => [
+                                    'type' => 'palette'
+                                ]
+                            ],
+                            'field_3' => [
+                                'label' => 'Field 3',
+                                'order' => '4',
+                                'config' => [
+                                    'type' => 'input'
+                                ]
+                            ],
+                        ],
+                        'palettes' => [
+                            'palette_field' => [
+                                'showitem' => []
+                            ]
+                        ]
+                    ]
+                ],
+                [
+                    'label' => 'field_1',
+                    'showitem' => '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,field_1,field_2,field_3'
+                ]
             ]
         ];
     }
@@ -402,28 +478,16 @@ class TcaCodeGeneratorTest extends BaseTestCase
     /**
      * @dataProvider processTableTcaDataProvider
      * @test
-     * @param $table
-     * @param $json
-     * @param $expected
      */
-    public function processTableTca($table, $json, $expected)
+    public function processTableTca(string $table, array $json, array $expected)
     {
-        $settingsService = $this->getMockBuilder(SettingsService::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $fieldHelper = new FieldHelper($this->createStorageRepository($json));
+        $tcaGenerator = new TcaCodeGenerator($this->createStorageRepository($json), $fieldHelper);
 
-        $storage = $this->getMockBuilder(StorageRepository::class)
-            ->setConstructorArgs([$settingsService])
-            ->onlyMethods(['load'])
-            ->getMock();
-
-        $storage->method('load')->willReturn($json);
-        $fieldHelper = new FieldHelper($storage);
-        $tcaGenerator = new TcaCodeGenerator($storage, $fieldHelper);
         self::assertSame($expected, $tcaGenerator->processTableTca($table, $json[$table]));
     }
 
-    public function generateFieldsTcaDataProvider()
+    public function generateFieldsTcaDataProvider(): array
     {
         return [
             'Input fields are processd correctly' => [
@@ -726,20 +790,16 @@ class TcaCodeGeneratorTest extends BaseTestCase
     /**
      * @dataProvider generateFieldsTcaDataProvider
      * @test
-     * @param $json
-     * @param $table
-     * @param $expected
      */
-    public function generateFieldsTca($json, $table, $expected)
+    public function generateFieldsTca(array $json, string $table, array $expected): void
     {
-        $storage = $this->createPartialMock(StorageRepository::class, ['load']);
-        $storage->method('load')->willReturn($json);
-        $fieldHelper = new FieldHelper($storage);
-        $tcaGenerator = new TcaCodeGenerator($storage, $fieldHelper);
+        $fieldHelper = new FieldHelper($this->createStorageRepository($json));
+        $tcaGenerator = new TcaCodeGenerator($this->createStorageRepository($json), $fieldHelper);
+
         self::assertSame($expected, $tcaGenerator->generateFieldsTca($table));
     }
 
-    public function generateFileTcaDataProvider()
+    public function generateFileTcaDataProvider(): array
     {
         return [
             'Files are processed correctly' => [
@@ -802,17 +862,12 @@ class TcaCodeGeneratorTest extends BaseTestCase
     /**
      * @dataProvider generateFileTcaDataProvider
      * @test
-     * @param $json
-     * @param $table
-     * @param $field
-     * @param $expected
      */
-    public function generateFileTca($json, $table, $field, $expected)
+    public function generateFileTca(array $json, string $table, string $field, array $expected): void
     {
-        $storage = $this->createPartialMock(StorageRepository::class, ['load']);
-        $storage->method('load')->willReturn($json);
-        $fieldHelper = new FieldHelper($storage);
-        $tcaGenerator = new TcaCodeGenerator($storage, $fieldHelper);
+        $fieldHelper = new FieldHelper($this->createStorageRepository($json));
+        $tcaGenerator = new TcaCodeGenerator($this->createStorageRepository($json), $fieldHelper);
+
         $result = $tcaGenerator->generateFieldsTca($table);
         self::assertSame($expected['type'], $result[$field]['config']['type']);
         self::assertSame($expected['minitems'], $result[$field]['config']['minitems']);
@@ -823,7 +878,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
         self::assertEquals($expected['appearance'], $result[$field]['config']['appearance']);
     }
 
-    public function setElementsTcaDataProvider()
+    public function setElementsTcaDataProvider(): array
     {
         return [
             'showitem is set for each field' => [
@@ -847,7 +902,6 @@ class TcaCodeGeneratorTest extends BaseTestCase
                     ]
                 ],
                 'mask_element1',
-                ['', ''],
                 '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,header,bodytext,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.appearance,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.frames;frames,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.appearanceLinks;appearanceLinks,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,--palette--;;language,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,--palette--;;hidden,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:categories,--div--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_category.tabs.category,categories,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:notes,rowDescription,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended',
                 []
             ],
@@ -873,7 +927,6 @@ class TcaCodeGeneratorTest extends BaseTestCase
                     ]
                 ],
                 'mask_element1',
-                ['', ''],
                 '',
                 []
             ],
@@ -908,11 +961,6 @@ class TcaCodeGeneratorTest extends BaseTestCase
                     ]
                 ],
                 'mask_element1',
-                [
-                    'My Tab',
-                    '',
-                    ''
-                ],
                 '--div--;My Tab,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,header,bodytext,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.appearance,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.frames;frames,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.appearanceLinks;appearanceLinks,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,--palette--;;language,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,--palette--;;hidden,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:categories,--div--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_category.tabs.category,categories,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:notes,rowDescription,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended',
                 []
             ],
@@ -930,8 +978,8 @@ class TcaCodeGeneratorTest extends BaseTestCase
                                     'bodytext'
                                 ],
                                 'labels' => [
-                                    'My Tab',
                                     '',
+                                    'My Tab',
                                     ''
                                 ]
                             ]
@@ -947,11 +995,6 @@ class TcaCodeGeneratorTest extends BaseTestCase
                     ]
                 ],
                 'mask_element1',
-                [
-                    'My Tab',
-                    '',
-                    ''
-                ],
                 '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,header,--div--;My Tab,bodytext,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.appearance,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.frames;frames,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.appearanceLinks;appearanceLinks,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,--palette--;;language,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,--palette--;;hidden,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:categories,--div--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_category.tabs.category,categories,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:notes,rowDescription,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended',
                 []
             ],
@@ -988,9 +1031,6 @@ class TcaCodeGeneratorTest extends BaseTestCase
                     ]
                 ],
                 'mask_element1',
-                [
-                    'My Palette',
-                ],
                 '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,--palette--;;tx_mask_my_palette,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.appearance,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.frames;frames,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.appearanceLinks;appearanceLinks,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,--palette--;;language,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,--palette--;;hidden,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:categories,--div--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_category.tabs.category,categories,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:notes,rowDescription,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended',
                 [
                     'tx_mask_my_palette' => [
@@ -1037,9 +1077,6 @@ class TcaCodeGeneratorTest extends BaseTestCase
                     ]
                 ],
                 'mask_element1',
-                [
-                    'My Palette',
-                ],
                 '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,--palette--;;tx_mask_my_palette,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.appearance,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.frames;frames,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.appearanceLinks;appearanceLinks,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,--palette--;;language,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,--palette--;;hidden,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:categories,--div--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_category.tabs.category,categories,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:notes,rowDescription,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended',
                 [
                     'tx_mask_my_palette' => [
@@ -1054,31 +1091,25 @@ class TcaCodeGeneratorTest extends BaseTestCase
     /**
      * @dataProvider setElementsTcaDataProvider
      * @test
-     * @param $json
-     * @param $key
-     * @param $labels
-     * @param $showitemExptected
-     * @param $paletteExpected
      */
-    public function setElementsTca($json, $key, $labels, $showitemExptected, $paletteExpected)
+    public function setElementsTca(array $json, string $key, string $showItemExpected, array $paletteExpected): void
     {
         $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'] = [];
-        $storage = $this->createPartialMock(StorageRepository::class, ['load']);
-        $storage->method('load')->willReturn($json);
 
-        $fieldHelper = $this->getMockBuilder(FieldHelper::class)
-            ->setConstructorArgs([$storage])
-            ->getMock();
+        $fieldHelper = new FieldHelper($this->createStorageRepository($json));
 
-        $fieldHelper->method('getLabel')->willReturnOnConsecutiveCalls(...$labels);
+        $packageManager = $this->prophesize(PackageManager::class);
+        $packageManager->isPackageActive('gridelements')->willReturn(false);
+        ExtensionManagementUtility::setPackageManager($packageManager->reveal());
 
-        $tcaGenerator = new TcaCodeGenerator($storage, $fieldHelper);
+        $tcaGenerator = new TcaCodeGenerator($this->createStorageRepository($json), $fieldHelper);
         $tcaGenerator->setElementsTca();
-        self::assertSame($showitemExptected, $GLOBALS['TCA']['tt_content']['types'][$key]['showitem'] ?? '');
+
+        self::assertSame($showItemExpected, $GLOBALS['TCA']['tt_content']['types'][$key]['showitem'] ?? '');
         self::assertSame($paletteExpected, $GLOBALS['TCA']['tt_content']['palettes'] ?? []);
     }
 
-    public function generateTableTcaDataProvider()
+    public function generateTableTcaDataProvider(): array
     {
         return [
             'Label and Icon generated when ctrl provided' => [
@@ -1171,22 +1202,14 @@ class TcaCodeGeneratorTest extends BaseTestCase
     }
 
     /**
-     * @param $json
-     * @param $subJson
-     * @param $table
      * @test
      * @dataProvider generateTableTcaDataProvider
      */
-    public function generateTableTca($json, $subJson, $table, $expectedLabel, $expectedIcon)
+    public function generateTableTca(array $json, array $subJson, string $table, string $expectedLabel, string $expectedIcon)
     {
-        $storage = $this->createPartialMock(StorageRepository::class, ['load']);
-        $storage->method('load')->willReturn($json);
+        $fieldHelper = new FieldHelper($this->createStorageRepository($json));
+        $tcaGenerator = new TcaCodeGenerator($this->createStorageRepository($json), $fieldHelper);
 
-        $fieldHelper = $this->getMockBuilder(FieldHelper::class)
-            ->setConstructorArgs([$storage])
-            ->getMock();
-
-        $tcaGenerator = new TcaCodeGenerator($storage, $fieldHelper);
         self::assertSame($expectedLabel, $tcaGenerator->generateTableTca($table, $subJson)['ctrl']['label']);
         self::assertSame($expectedIcon, $tcaGenerator->generateTableTca($table, $subJson)['ctrl']['iconfile']);
     }

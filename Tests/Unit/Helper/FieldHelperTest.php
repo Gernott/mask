@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -13,16 +15,17 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-namespace MASK\Mask\Test\Helper;
+namespace MASK\Mask\Tests\Unit\Helper;
 
-use MASK\Mask\Domain\Repository\StorageRepository;
-use MASK\Mask\Domain\Service\SettingsService;
 use MASK\Mask\Helper\FieldHelper;
+use MASK\Mask\Tests\Unit\StorageRepositoryCreatorTrait;
 use TYPO3\TestingFramework\Core\BaseTestCase;
 
 class FieldHelperTest extends BaseTestCase
 {
-    public function getLabelDataProvider()
+    use StorageRepositoryCreatorTrait;
+
+    public function getLabelDataProvider(): array
     {
         return [
             'Correct label is returned' => [
@@ -358,24 +361,16 @@ class FieldHelperTest extends BaseTestCase
     /**
      * @dataProvider getLabelDataProvider
      * @test
-     * @param $json
-     * @param $elementKey
-     * @param $fieldKey
-     * @param $type
-     * @param $expected
      */
-    public function getLabel($json, $elementKey, $fieldKey, $type, $expected)
+    public function getLabel(array $json, string $elementKey, string $fieldKey, string $type, string $expected): void
     {
-        $settingsServiceProphecy = $this->prophesize(SettingsService::class);
-        $settingsServiceProphecy->get()->willReturn([]);
-        $storageRepository = new StorageRepository($settingsServiceProphecy->reveal());
-        $storageRepository->setJson($json);
+        $storageRepository = $this->createStorageRepository($json);
         $fieldHelper = new FieldHelper($storageRepository);
 
         self::assertSame($expected, $fieldHelper->getLabel($elementKey, $fieldKey, $type));
     }
 
-    public function getFieldTypeDataProvider()
+    public function getFieldTypeDataProvider(): array
     {
         return [
             'Correct table is returned for field' => [
@@ -614,21 +609,16 @@ class FieldHelperTest extends BaseTestCase
     /**
      * @dataProvider getFieldTypeDataProvider
      * @test
-     * @param $json
-     * @param $fieldKey
-     * @param $elementKey
-     * @param $excludeInline
-     * @param $expected
      */
-    public function getFieldType($json, $fieldKey, $elementKey, $excludeInline, $expected)
+    public function getFieldType(array $json, string $fieldKey, string $elementKey, bool $excludeInline, string $expected): void
     {
-        $storage = $this->createPartialMock(StorageRepository::class, ['load']);
-        $storage->method('load')->willReturn($json);
-        $fieldHelper = new FieldHelper($storage);
+        $storageRepository = $this->createStorageRepository($json);
+        $fieldHelper = new FieldHelper($storageRepository);
+
         self::assertSame($expected, $fieldHelper->getFieldType($fieldKey, $elementKey, $excludeInline));
     }
 
-    public function getFieldsByTypeDataProvider()
+    public function getFieldsByTypeDataProvider(): array
     {
         return [
             'Fields by type returned' => [
@@ -856,19 +846,14 @@ class FieldHelperTest extends BaseTestCase
     }
 
     /**
-     * @param $json
-     * @param $tcaType
-     * @param $elementKey
-     * @param $expected
      * @dataProvider getFieldsByTypeDataProvider
      * @test
      */
-    public function getFieldsByType($json, $tcaType, $elementKey, $expected)
+    public function getFieldsByType(array $json, string $tcaType, string $elementKey, array $expected): void
     {
-        $storage = $this->createPartialMock(StorageRepository::class, ['load']);
+        $storageRepository = $this->createStorageRepository($json);
+        $fieldHelper = new FieldHelper($storageRepository);
 
-        $storage->method('load')->willReturn($json);
-        $fieldHelper = new FieldHelper($storage);
         self::assertSame($expected, $fieldHelper->getFieldsByType($tcaType, $elementKey));
     }
 }

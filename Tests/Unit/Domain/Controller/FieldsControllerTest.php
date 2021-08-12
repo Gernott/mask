@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -13,19 +15,26 @@
  * The TYPO3 project - inspiring people to share!
  */
 
+namespace MASK\Mask\Tests\Unit\Domain\Controller;
+
 use MASK\Mask\Controller\FieldsController;
 use MASK\Mask\Domain\Repository\StorageRepository;
-use MASK\Mask\Domain\Service\SettingsService;
 use MASK\Mask\Helper\FieldHelper;
+use MASK\Mask\Loader\LoaderInterface;
+use MASK\Mask\Loader\TableDefinitionCollection;
+use MASK\Mask\Tests\Unit\ConfigurationLoader\FakeConfigurationLoader;
 use Prophecy\Argument;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Package\Package;
+use TYPO3\CMS\Core\Package\PackageManager;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\TestingFramework\Core\BaseTestCase;
 
 class FieldsControllerTest extends BaseTestCase
 {
-    public function loadElementDataProvider()
+    public function loadElementDataProvider(): array
     {
         return [
             'Simple fields converted to fields array' => [
@@ -100,6 +109,7 @@ class FieldsControllerTest extends BaseTestCase
                             'newField' => false,
                             'key' => 'tx_mask_field1',
                             'label' => 'Field 1',
+                            'translatedLabel' => '',
                             'isMaskField' => true,
                             'sql' => 'tinytext',
                             'name' => 'string',
@@ -116,6 +126,7 @@ class FieldsControllerTest extends BaseTestCase
                             'newField' => false,
                             'key' => 'tx_mask_field2',
                             'label' => 'Field 2',
+                            'translatedLabel' => '',
                             'isMaskField' => true,
                             'sql' => 'tinytext',
                             'name' => 'integer',
@@ -132,6 +143,7 @@ class FieldsControllerTest extends BaseTestCase
                             'newField' => false,
                             'key' => 'header',
                             'label' => 'Core Header',
+                            'translatedLabel' => '',
                             'isMaskField' => false,
                             'name' => 'string',
                             'icon' => '',
@@ -245,6 +257,7 @@ class FieldsControllerTest extends BaseTestCase
                             'newField' => false,
                             'key' => 'tx_mask_field1',
                             'label' => 'Field 1',
+                            'translatedLabel' => '',
                             'isMaskField' => true,
                             'sql' => 'tinytext',
                             'name' => 'string',
@@ -260,6 +273,7 @@ class FieldsControllerTest extends BaseTestCase
                             'newField' => false,
                             'key' => 'tx_mask_palette1',
                             'label' => 'Palette 1',
+                            'translatedLabel' => '',
                             'isMaskField' => true,
                             'name' => 'palette',
                             'icon' => '',
@@ -273,6 +287,7 @@ class FieldsControllerTest extends BaseTestCase
                                         'newField' => false,
                                         'key' => 'tx_mask_palette1',
                                         'label' => 'Palette 1',
+                                        'translatedLabel' => '',
                                         'isMaskField' => true,
                                         'name' => 'palette',
                                         'icon' => '',
@@ -283,6 +298,7 @@ class FieldsControllerTest extends BaseTestCase
                                     'newField' => false,
                                     'key' => 'tx_mask_field2',
                                     'label' => 'Field 2',
+                                    'translatedLabel' => '',
                                     'isMaskField' => true,
                                     'sql' => 'tinytext',
                                     'name' => 'integer',
@@ -300,6 +316,7 @@ class FieldsControllerTest extends BaseTestCase
                                         'newField' => false,
                                         'key' => 'tx_mask_palette1',
                                         'label' => 'Palette 1',
+                                        'translatedLabel' => '',
                                         'isMaskField' => true,
                                         'name' => 'palette',
                                         'icon' => '',
@@ -310,6 +327,7 @@ class FieldsControllerTest extends BaseTestCase
                                     'newField' => false,
                                     'key' => 'header',
                                     'label' => 'Core Header',
+                                    'translatedLabel' => '',
                                     'isMaskField' => false,
                                     'name' => 'string',
                                     'icon' => '',
@@ -405,6 +423,7 @@ class FieldsControllerTest extends BaseTestCase
                             'newField' => false,
                             'key' => 'tx_mask_inline1',
                             'label' => 'Inline 1',
+                            'translatedLabel' => '',
                             'isMaskField' => true,
                             'name' => 'inline',
                             'icon' => '',
@@ -429,6 +448,7 @@ class FieldsControllerTest extends BaseTestCase
                                         'newField' => false,
                                         'key' => 'tx_mask_inline1',
                                         'label' => 'Inline 1',
+                                        'translatedLabel' => '',
                                         'isMaskField' => true,
                                         'name' => 'inline',
                                         'icon' => '',
@@ -448,6 +468,7 @@ class FieldsControllerTest extends BaseTestCase
                                     'newField' => false,
                                     'key' => 'tx_mask_field1',
                                     'label' => 'Field 1',
+                                    'translatedLabel' => '',
                                     'isMaskField' => true,
                                     'sql' => 'tinytext',
                                     'name' => 'string',
@@ -466,6 +487,7 @@ class FieldsControllerTest extends BaseTestCase
                                         'newField' => false,
                                         'key' => 'tx_mask_inline1',
                                         'label' => 'Inline 1',
+                                        'translatedLabel' => '',
                                         'isMaskField' => true,
                                         'name' => 'inline',
                                         'icon' => '',
@@ -485,6 +507,7 @@ class FieldsControllerTest extends BaseTestCase
                                     'newField' => false,
                                     'key' => 'tx_mask_field2',
                                     'label' => 'Field 2',
+                                    'translatedLabel' => '',
                                     'isMaskField' => true,
                                     'sql' => 'tinytext',
                                     'name' => 'integer',
@@ -555,6 +578,7 @@ class FieldsControllerTest extends BaseTestCase
                             'newField' => false,
                             'key' => 'tx_mask_field1',
                             'label' => 'Field 1',
+                            'translatedLabel' => '',
                             'isMaskField' => true,
                             'sql' => 'tinytext',
                             'name' => 'file',
@@ -619,6 +643,7 @@ class FieldsControllerTest extends BaseTestCase
                             'newField' => false,
                             'key' => 'tx_mask_field1',
                             'label' => 'Field 1',
+                            'translatedLabel' => '',
                             'isMaskField' => true,
                             'sql' => 'tinytext',
                             'name' => 'content',
@@ -684,6 +709,7 @@ class FieldsControllerTest extends BaseTestCase
                             'newField' => false,
                             'key' => 'tx_mask_field1',
                             'label' => 'Field 1',
+                            'translatedLabel' => '',
                             'isMaskField' => true,
                             'sql' => 'tinytext',
                             'name' => 'content',
@@ -772,6 +798,7 @@ class FieldsControllerTest extends BaseTestCase
                             'newField' => false,
                             'key' => 'tx_mask_field1',
                             'label' => 'Field 1',
+                            'translatedLabel' => '',
                             'isMaskField' => true,
                             'sql' => 'tinytext',
                             'name' => 'date',
@@ -789,6 +816,7 @@ class FieldsControllerTest extends BaseTestCase
                             'newField' => false,
                             'key' => 'tx_mask_field2',
                             'label' => 'Field 2',
+                            'translatedLabel' => '',
                             'isMaskField' => true,
                             'sql' => 'tinytext',
                             'name' => 'datetime',
@@ -857,6 +885,7 @@ class FieldsControllerTest extends BaseTestCase
                             'newField' => false,
                             'key' => 'tx_mask_field1',
                             'label' => 'Field 1',
+                            'translatedLabel' => '',
                             'isMaskField' => true,
                             'sql' => 'tinytext',
                             'name' => 'timestamp',
@@ -925,6 +954,7 @@ class FieldsControllerTest extends BaseTestCase
                             'newField' => false,
                             'key' => 'tx_mask_field1',
                             'label' => 'Field 1',
+                            'translatedLabel' => '',
                             'isMaskField' => true,
                             'sql' => 'tinytext',
                             'name' => 'string',
@@ -945,27 +975,36 @@ class FieldsControllerTest extends BaseTestCase
      * @test
      * @dataProvider loadElementDataProvider
      */
-    public function loadElement($json, $table, $elementKey, $expected)
+    public function loadElement(array $json, string $table, string $elementKey, array $expected)
     {
         $GLOBALS['TCA']['tt_content']['columns']['header'] = [
             'config' => [
                 'type' => 'input'
             ]
         ];
-        $settingsServiceProphecy = $this->prophesize(SettingsService::class);
-        $settingsServiceProphecy->get()->willReturn([]);
-        $storageRepository = new StorageRepository($settingsServiceProphecy->reveal());
-        $storageRepository->setJson($json);
+
+        $package = $this->prophesize(Package::class);
+        $package->getPackagePath()->willReturn(realpath(__DIR__ . '/../../../../') . '/');
+        $packageManager = $this->prophesize(PackageManager::class);
+        $packageManager->isPackageActive('mask')->willReturn(true);
+        $packageManager->getPackage('mask')->willReturn($package->reveal());
+        ExtensionManagementUtility::setPackageManager($packageManager->reveal());
+
+        $tableDefinitionCollection = TableDefinitionCollection::createFromInternalArray($json);
+        $loader = $this->prophesize(LoaderInterface::class);
+        $loader->load()->willReturn($tableDefinitionCollection);
 
         $iconFactory = $this->prophesize(IconFactory::class);
         $icon = new Icon();
         $icon->setMarkup('');
         $iconFactory->getIcon(Argument::cetera())->willReturn($icon);
 
-        $fieldHelper = new FieldHelper($storageRepository);
+        $configurationLoader = new FakeConfigurationLoader();
 
-        $configurationLoader = new \MASK\Mask\Tests\Unit\Helper\FakeConfigurationLoader();
-        $fieldsController = new FieldsController($storageRepository, $fieldHelper, $iconFactory->reveal(), $configurationLoader);
+        $storage = new StorageRepository($loader->reveal(), $configurationLoader);
+        $fieldHelper = new FieldHelper($storage);
+
+        $fieldsController = new FieldsController($storage, $fieldHelper, $iconFactory->reveal(), $configurationLoader);
 
         $request = $this->prophesize(ServerRequestInterface::class);
         $request->getQueryParams()->willReturn(['type' => $table, 'key' => $elementKey]);

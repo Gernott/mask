@@ -83,8 +83,6 @@ class MaskController
 
     /**
      * Sets up the Fluid View.
-     *
-     * @param string $templateName
      */
     protected function initializeView(string $templateName): void
     {

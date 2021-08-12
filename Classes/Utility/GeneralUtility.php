@@ -40,57 +40,11 @@ class GeneralUtility
     }
 
     /**
-     * Checks if a $evalValue is set in a field
-     *
-     * @param string $fieldKey TCA Type
-     * @param string $evalValue value to search for
-     * @param string $type elementtype
-     * @return bool $evalValue is set
-     */
-    public function isEvalValueSet($fieldKey, $evalValue, $type = 'tt_content'): bool
-    {
-        $storage = $this->storageRepository->load();
-        $found = false;
-        if (isset($storage[$type]['tca'][$fieldKey]['config']['eval'])) {
-            $evals = explode(',', $storage[$type]['tca'][$fieldKey]['config']['eval']);
-            foreach ($evals as $index => $eval) {
-                $evals[$index] = strtolower($eval);
-            }
-            $found = in_array(strtolower($evalValue), $evals, true);
-        }
-        return $found;
-    }
-
-    /**
-     * Checks if a $evalValue is set in a field
-     *
-     * @param string $fieldKey TCA Type
-     * @param string $evalValue value to search for
-     * @param string $type elementtype
-     * @return bool $evalValue is set
-     */
-    public function isBlindLinkOptionSet($fieldKey, $evalValue, $type = 'tt_content'): bool
-    {
-        $storage = $this->storageRepository->load();
-        $found = false;
-        if (isset($storage[$type]['tca'][$fieldKey]['config']['fieldControl']['linkPopup']['options']['blindLinkOptions'])) {
-            $evals = explode(
-                ',',
-                $storage[$type]['tca'][$fieldKey]['config']['fieldControl']['linkPopup']['options']['blindLinkOptions']
-            );
-            $found = in_array(strtolower($evalValue), $evals, true);
-        }
-        return $found;
-    }
-
-    /**
      * Searches an array of strings and returns the first string, that is not a tab
-     * @param array $fields
-     * @return string $string
      */
-    public static function getFirstNoneTabField($fields): string
+    public static function getFirstNoneTabField(array $fields): string
     {
-        if (count($fields)) {
+        if (!empty($fields)) {
             $potentialFirst = array_shift($fields);
             if (!is_string($potentialFirst) || strpos($potentialFirst, '--div--') !== false) {
                 return self::getFirstNoneTabField($fields);
@@ -102,10 +56,8 @@ class GeneralUtility
 
     /**
      * Removes all the blank options from the tca
-     * @param array $haystack
-     * @return array
      */
-    public static function removeBlankOptions($haystack): array
+    public static function removeBlankOptions(array $haystack): array
     {
         foreach ($haystack as $key => $value) {
             if (is_array($value)) {
@@ -120,21 +72,14 @@ class GeneralUtility
 
     /**
      * Check which template path to return
-     *
-     * @param $settings
-     * @param $elementKey
-     * @param bool $onlyTemplateName
-     * @param null $path
-     * @return string
      */
     public static function getTemplatePath(
-        $settings,
-        $elementKey,
-        $onlyTemplateName = false,
-        $path = null,
-        $removeExtension = false
+        array $settings,
+        string $elementKey,
+        bool $onlyTemplateName = false,
+        ?string $path = null,
+        bool $removeExtension = false
     ): string {
-        $elementKey = (string)$elementKey;
         if (!$path) {
             $path = self::getFileAbsFileName(rtrim($settings['content'], '/') . '/');
         }
@@ -175,9 +120,9 @@ class GeneralUtility
      * @param string $filename The input filename/filepath to evaluate
      * @return string Returns the absolute filename of $filename if valid, otherwise blank string.
      */
-    public static function getFileAbsFileName($filename): string
+    public static function getFileAbsFileName(string $filename): string
     {
-        if ((string)$filename === '') {
+        if ($filename === '') {
             return '';
         }
         // Extension
@@ -197,7 +142,7 @@ class GeneralUtility
             // absolute, but set to blank if not allowed
             $filename = '';
         }
-        if ((string)$filename !== '' && CoreUtility::validPathStr($filename)) {
+        if ($filename !== '' && CoreUtility::validPathStr($filename)) {
             // checks backpath.
             return $filename;
         }

@@ -17,15 +17,12 @@ declare(strict_types=1);
 
 namespace MASK\Mask\CodeGenerator;
 
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Schema\SchemaException;
+use Doctrine\DBAL\Exception;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Utility\AffixUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Event\AlterTableDefinitionStatementsEvent;
-use TYPO3\CMS\Core\Database\Schema\Exception\StatementException;
-use TYPO3\CMS\Core\Database\Schema\Exception\UnexpectedSignalReturnValueTypeException;
 use TYPO3\CMS\Core\Database\Schema\SchemaMigrator;
 use TYPO3\CMS\Core\Database\Schema\SqlReader;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -55,12 +52,6 @@ class SqlCodeGenerator
 
     /**
      * Updates the database if necessary
-     *
-     * @return array
-     * @throws DBALException
-     * @throws SchemaException
-     * @throws StatementException
-     * @throws UnexpectedSignalReturnValueTypeException
      */
     public function updateDatabase(): array
     {
@@ -78,8 +69,8 @@ class SqlCodeGenerator
             $connection = $connectionPool->getConnectionByName($connectionName);
             foreach ($updateSuggestions as $statement) {
                 try {
-                    $connection->executeUpdate($statement);
-                } catch (DBALException $exception) {
+                    $connection->executeStatement($statement);
+                } catch (Exception $exception) {
                     return [
                         'error' => $exception->getPrevious()->getMessage()
                     ];
@@ -92,29 +83,27 @@ class SqlCodeGenerator
 
     /**
      * returns sql statements of all elements and pages and irre
-     * @param array $json
-     * @return array
      */
-    public function getSqlByConfiguration($json): array
+    public function getSqlByConfiguration(array $json): array
     {
         $sql_content = [];
 
         // Generate SQL-Statements
-        foreach ($json as $type => $_) {
-            if (!($json[$type]['sql'] ?? false)) {
+        foreach ($json as $type => $value) {
+            if (!($value['sql'] ?? false)) {
                 continue;
             }
 
-            foreach ($json[$type]['sql'] as $field) {
+            foreach ($value['sql'] as $field) {
                 foreach ($field ?? [] as $table => $fields) {
                     foreach ($fields ?? [] as $fieldKey => $definition) {
                         $fieldType = $this->storageRepository->getFormType($fieldKey, '', $table);
-                        if ($fieldType == FieldType::INLINE && !array_key_exists($fieldKey, $json)) {
+                        if ($fieldType === FieldType::INLINE && !array_key_exists($fieldKey, $json)) {
                             continue;
                         }
                         $sql_content[] = 'CREATE TABLE ' . $table . " (\n\t" . $fieldKey . ' ' . $definition . "\n);\n";
                         // if this field is a content field, also add parent columns
-                        if ($fieldType == FieldType::CONTENT) {
+                        if ($fieldType === FieldType::CONTENT) {
                             $parentField = AffixUtility::addMaskParentSuffix($fieldKey);
                             $sql_content[] = "CREATE TABLE tt_content (\n\t" . $parentField . ' ' . $definition . ",\n\t" . 'KEY ' . $fieldKey . ' (' . $parentField . ', deleted, hidden, sorting)' . "\n);\n";
                         }

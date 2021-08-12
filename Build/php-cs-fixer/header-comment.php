@@ -25,6 +25,7 @@ $finder = PhpCsFixer\Finder::create()
     ->exclude('Acceptance/Support/_generated') // EXT:core
     // Configuration files do not need header comments
     ->exclude('Configuration')
+    ->exclude('Tests/Unit/Fixtures')
     ->notName('*locallang*.php')
     ->notName('AdditionalConfiguration.php')
     ->notName('ext_localconf.php')

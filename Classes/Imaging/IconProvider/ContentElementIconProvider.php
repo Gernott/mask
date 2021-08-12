@@ -77,17 +77,13 @@ class ContentElementIconProvider implements IconProviderInterface
             );
         }
         $this->contentElement = $this->storageRepository->loadElement('tt_content', $options['contentElementKey']);
-        $icon->setMarkup($this->generateMarkup($icon, $options));
+        $icon->setMarkup($this->generateMarkup($options));
     }
 
     /**
      * Renders the actual icon
-     * @param Icon $icon
-     * @param array $options
-     * @return string
-     * @throws InvalidArgumentException
      */
-    protected function generateMarkup(Icon $icon, array $options): string
+    protected function generateMarkup(array $options): string
     {
         $styles = [];
         $previewIconAvailable = $this->isPreviewIconAvailable($options['contentElementKey']);
@@ -95,7 +91,7 @@ class ContentElementIconProvider implements IconProviderInterface
 
         // decide what kind of icon to render
         if ($fontAwesomeKeyAvailable && !$previewIconAvailable) {
-            $color = $this->getColor($this->contentElement);
+            $color = $this->getColor($this->contentElement['color']);
 
             if ($color) {
                 $styles[] = 'color: #' . $color;
@@ -104,9 +100,9 @@ class ContentElementIconProvider implements IconProviderInterface
                 $markup = '<span class="icon-unify" style="' . implode(
                     '; ',
                     $styles
-                ) . '"><i class="fa fa-' . htmlspecialchars($this->getFontAwesomeKey($this->contentElement)) . '"></i></span>';
+                ) . '"><i class="fa fa-' . htmlspecialchars($this->getFontAwesomeKey($this->contentElement['icon'])) . '"></i></span>';
             } else {
-                $markup = '<span class="icon-unify" ><i class="fa fa-' . htmlspecialchars($this->getFontAwesomeKey($this->contentElement)) . '"></i></span>';
+                $markup = '<span class="icon-unify" ><i class="fa fa-' . htmlspecialchars($this->getFontAwesomeKey($this->contentElement['icon'])) . '"></i></span>';
             }
         } else {
             if ($previewIconAvailable) {
@@ -116,7 +112,7 @@ class ContentElementIconProvider implements IconProviderInterface
                     $this->getPreviewIconPath($options['contentElementKey'])
                 ) . '" alt="' . $this->contentElement['label'] . '" title="' . $this->contentElement['label'] . '"/>';
             } else {
-                $color = $this->getColor($this->contentElement);
+                $color = $this->getColor($this->contentElement['color']);
                 if ($color) {
                     $styles[] = 'background-color: #' . $color;
                 }
@@ -133,29 +129,21 @@ class ContentElementIconProvider implements IconProviderInterface
 
     /**
      * Checks if a preview icon is available in defined folder
-     * @param string $key
-     * @return bool
      */
-    protected function isPreviewIconAvailable($key): bool
+    protected function isPreviewIconAvailable(string $key): bool
     {
         return file_exists($this->getPreviewIconPath($key));
     }
 
     /**
      * Checks if content element has set a fontawesome key
-     * @param array $element
-     * @return bool
      */
-    protected function isFontAwesomeKeyAvailable($element): bool
+    protected function isFontAwesomeKeyAvailable(array $element): bool
     {
         return isset($element['icon']) && trim($element['icon']) !== '';
     }
 
-    /**
-     * @param string $key
-     * @return string
-     */
-    protected function getPreviewIconPath($key): string
+    protected function getPreviewIconPath(string $key): string
     {
         // the path to the file
         $filePath = function ($key) {
@@ -179,21 +167,17 @@ class ContentElementIconProvider implements IconProviderInterface
 
     /**
      * returns trimmed and unified font-awesome key
-     * @param array $element
-     * @return string
      */
-    protected function getFontAwesomeKey($element): string
+    protected function getFontAwesomeKey(string $icon): string
     {
-        return trim(str_replace('fa-', '', $element['icon']));
+        return trim(str_replace('fa-', '', $icon));
     }
 
     /**
      * returns trimmed and unified hex-code
-     * @param array $element
-     * @return string
      */
-    protected function getColor($element): string
+    protected function getColor(string $color): string
     {
-        return trim(str_replace('#', '', $element['color']));
+        return trim(str_replace('#', '', $color));
     }
 }

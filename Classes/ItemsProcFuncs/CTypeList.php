@@ -49,9 +49,8 @@ class CTypeList extends AbstractList
 
     /**
      * Render the allowed CTypes for nested content elements
-     * @param array $params
      */
-    public function itemsProcFunc(&$params): void
+    public function itemsProcFunc(array &$params): void
     {
         // if this tt_content element is inline element of mask
         if ((int)$params['row']['colPos'] === $this->colPos) {
@@ -80,7 +79,7 @@ class CTypeList extends AbstractList
             if (isset($params['inlineParentTableName'])) {
                 $table = $params['inlineParentTableName'];
             // Else we have to figure out from url
-            } else if (preg_match_all('/tx_mask_\w+/', ($GLOBALS['TYPO3_REQUEST']->getParsedBody()['ajax'][0] ?? ''), $pregResult) && count($pregResult[0]) > 1) {
+            } elseif (preg_match_all('/tx_mask_\w+/', ($GLOBALS['TYPO3_REQUEST']->getParsedBody()['ajax'][0] ?? ''), $pregResult) && count($pregResult[0]) > 1) {
                 // Get the second last entry
                 $table = $pregResult[0][count($pregResult[0]) - 2];
             } else {
@@ -103,16 +102,15 @@ class CTypeList extends AbstractList
                     }
                 }
             }
-        } else { // if it is not inline tt_content element
-            // and if other itemsProcFunc from other extension was available (e.g. gridelements),
-            // then call it now and let it render the items
-            if (!empty($params['config']['m_itemsProcFunc'])) {
-                GeneralUtility::callUserFunction(
-                    $params['config']['m_itemsProcFunc'],
-                    $params,
-                    $this
-                );
-            }
+        // if it is not inline tt_content element
+        // and if other itemsProcFunc from other extension was available (e.g. gridelements),
+        // then call it now and let it render the items
+        } elseif (!empty($params['config']['m_itemsProcFunc'])) {
+            GeneralUtility::callUserFunction(
+                $params['config']['m_itemsProcFunc'],
+                $params,
+                $this
+            );
         }
     }
 }

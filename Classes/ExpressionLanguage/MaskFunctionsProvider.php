@@ -89,7 +89,7 @@ class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
                 ->from('tt_content')
                 ->where($queryBuilder->expr()->eq('uid', $uid))
                 ->execute()
-                ->fetchColumn();
+                ->fetchOne();
         };
 
         return new ExpressionFunction('isMaskContentType', static function () {
@@ -108,10 +108,7 @@ class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
             }
 
             // if we have info about content element
-            if (isset($params['edit']['tt_content']) &&
-                is_array($params['edit']['tt_content'])
-            ) {
-                $contentType = null;
+            if (isset($params['edit']['tt_content']) && is_array($params['edit']['tt_content'])) {
                 // New record, content type (CType) given as request parameter
                 if (isset($params['defVals']['tt_content']['CType']) && (string)current($params['edit']['tt_content']) === 'new') {
                     $contentType = (string)$params['defVals']['tt_content']['CType'];
@@ -135,7 +132,7 @@ class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
                 if (MathUtility::canBeInterpretedAsInteger($lastPart)) {
                     $uid = (int)$lastPart;
                 // If ajax is loading an inline tt_content record and the default CType is a mask element
-                } elseif ($lastPart == 'tt_content' && AffixUtility::hasMaskPrefix(end($uidTableStringArray))) {
+                } elseif ($lastPart === 'tt_content' && AffixUtility::hasMaskPrefix(end($uidTableStringArray))) {
                     $context = json_decode($parsedBody['ajax']['context'], true, 512, 4194304);
                     $config = json_decode($context['config'], true, 512, 4194304);
                     if (AffixUtility::hasMaskCTypePrefix($config['overrideChildTca']['columns']['CType']['config']['default'] ?? '')) {

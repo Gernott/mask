@@ -19,16 +19,11 @@ namespace MASK\Mask\Fluid;
 
 use MASK\Mask\Helper\InlineHelper;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
 
 class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\FluidTemplateContentObject
 {
     /**
      * Change variables for view
-     *
-     * @param array $conf Configuration
-     * @return array
-     * @throws Exception
      */
     protected function getContentObjectVariables(array $conf = []): array
     {

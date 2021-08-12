@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -13,13 +15,15 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-namespace MASK\Mask\Test\Helper;
+namespace MASK\Mask\Tests\Unit\Helper;
 
-use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Domain\Repository\BackendLayoutRepository;
 use MASK\Mask\Domain\Repository\StorageRepository;
-use MASK\Mask\Domain\Service\SettingsService;
 use MASK\Mask\Helper\InlineHelper;
+use MASK\Mask\Loader\LoaderInterface;
+use MASK\Mask\Loader\TableDefinitionCollection;
+use MASK\Mask\Tests\Unit\StorageRepositoryCreatorTrait;
+use Prophecy\Argument;
 use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -27,7 +31,9 @@ use TYPO3\TestingFramework\Core\BaseTestCase;
 
 class InlineHelperTest extends BaseTestCase
 {
-    public function addFilesToDataDataProvider()
+    use StorageRepositoryCreatorTrait;
+
+    public function addFilesToDataDataProvider(): array
     {
         return [
             'file fieled is filled with file reference' => [
@@ -86,50 +92,33 @@ class InlineHelperTest extends BaseTestCase
     }
 
     /**
-     * @param $json
-     * @param $data
-     * @param $table
-     * @param $expected
      * @dataProvider addFilesToDataDataProvider
      * @test
      */
-    public function addFilesToData($json, $key, $data, $table)
+    public function addFilesToData(array $json, string $key, array $data, string $table): void
     {
-        $settingsService = $this->getMockBuilder(SettingsService::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $GLOBALS['TCA']['tt_content']['columns']['assets'] = [
+            'config' => [
+                'type' => 'inline',
+                'foreign_table' => 'sys_file_reference'
+            ]
+        ];
 
-        $storage = $this->getMockBuilder(StorageRepository::class)
-            ->setConstructorArgs([$settingsService])
-            ->getMock();
+        $storageRepository = $this->createStorageRepository($json);
+        $backendLayoutRepository = $this->prophesize(BackendLayoutRepository::class);
 
-        $storage->expects(self::once())->method('load')->willReturn($json);
-        $storage->expects(self::any())->method('getFormType')
-            ->willReturnCallback(
-                function ($arg1) use ($key) {
-                    return $arg1 === $key ? FieldType::FILE : '';
-                }
-            );
+        $fileRepository = $this->prophesize(FileRepository::class);
+        $fileReference = $this->prophesize(FileReference::class);
+        $fileRepository->findByRelation(Argument::cetera())->willReturn([$fileReference]);
+        GeneralUtility::setSingletonInstance(FileRepository::class, $fileRepository->reveal());
 
-        $backendLayoutRepository = $this->getMockBuilder(BackendLayoutRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $fileRepository = $this->getMockBuilder(FileRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $fileReference = $this->getMockBuilder(FileReference::class)->disableOriginalConstructor()->getMock();
-        $fileRepository->expects(self::once())->method('findByRelation')->willReturn([$fileReference]);
-        GeneralUtility::setSingletonInstance(FileRepository::class, $fileRepository);
-
-        $inlineHelper = new InlineHelper($storage, $backendLayoutRepository);
+        $inlineHelper = new InlineHelper($storageRepository, $backendLayoutRepository->reveal());
         $inlineHelper->addFilesToData($data, $table);
 
         self::assertInstanceOf(FileReference::class, $data[$key][0]);
     }
 
-    public function addIrreToData_tt_contentDataProvider()
+    public function addIrreToData_tt_contentDataProvider(): array
     {
         return [
             'Inline field is added' => [
@@ -166,7 +155,6 @@ class InlineHelperTest extends BaseTestCase
                         ]
                     ]
                 ],
-                'element_1',
                 'tx_mask_repeat',
                 [
                     'uid' => 1,
@@ -234,7 +222,6 @@ class InlineHelperTest extends BaseTestCase
                         ]
                     ]
                 ],
-                'element_1',
                 'tx_mask_repeat',
                 [
                     'uid' => 1,
@@ -257,33 +244,25 @@ class InlineHelperTest extends BaseTestCase
     /**
      * @dataProvider addIrreToData_tt_contentDataProvider
      * @test
-     * @param $json
-     * @param $element
-     * @param $key
-     * @param $data
-     * @param $table
-     * @param $inlineElements
+     * @todo refactor to functional test
      */
-    public function addIrreToData_tt_content($json, $element, $key, $data, $table, $inlineElements)
+    public function addIrreToData_tt_content(array $json, string $key, array $data, string $table, array $inlineElements): void
     {
-        $storage = $this->createPartialMock(StorageRepository::class, ['load']);
-        $storage->expects(self::any())->method('load')->willReturn($json);
-
-        $backendLayoutRepository = $this->getMockBuilder(BackendLayoutRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $storageRepository = $this->createStorageRepository($json);
+        $backendLayoutRepository = $this->prophesize(BackendLayoutRepository::class);
 
         $inlineHelper = $this->getAccessibleMock(
             InlineHelper::class,
             ['getInlineElements'],
-            [$storage, $backendLayoutRepository]
+            [$storageRepository, $backendLayoutRepository->reveal()]
         );
         $inlineHelper->expects(self::any())->method('getInlineElements')->willReturn($inlineElements);
         $inlineHelper->addIrreToData($data, $table);
+
         self::assertSame($inlineElements, $data[$key]);
     }
 
-    public function addIrreToData_pagesDataProvider()
+    public function addIrreToData_pagesDataProvider(): array
     {
         return [
             'Inline field is added' => [
@@ -303,7 +282,7 @@ class InlineHelperTest extends BaseTestCase
                         'tca' => [
                             'tx_mask_repeat' => [
                                 'config' => [
-                                    'type' => 'Content'
+                                    'type' => 'inline'
                                 ]
                             ]
                         ]
@@ -320,7 +299,6 @@ class InlineHelperTest extends BaseTestCase
                         ]
                     ]
                 ],
-                'element_1',
                 'tx_mask_repeat',
                 [
                     'uid' => 1,
@@ -343,26 +321,10 @@ class InlineHelperTest extends BaseTestCase
     /**
      * @dataProvider addIrreToData_pagesDataProvider
      * @test
-     * @param $json
-     * @param $element
-     * @param $key
-     * @param $data
-     * @param $table
-     * @param $inlineElements
      */
-    public function addIrreToData_pages($json, $element, $key, $data, $table, $inlineElements)
+    public function addIrreToData_pages(array $json, string $key, array $data, string $table, array $inlineElements): void
     {
-        $settingsService = $this->getMockBuilder(SettingsService::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $storage = $this->getMockBuilder(StorageRepository::class)
-            ->setConstructorArgs([$settingsService])
-            ->getMock();
-
-        $storage->expects(self::once())->method('load')->willReturn($json);
-        $storage->expects(self::once())->method('loadElement')->willReturn($json[$table]['elements'][$element]);
-        $storage->expects(self::once())->method('getFormType')->willReturn('inline');
+        $storageRepository = $this->createStorageRepository($json);
 
         $backendLayoutRepository = $this->getMockBuilder(BackendLayoutRepository::class)
             ->disableOriginalConstructor()
@@ -373,14 +335,15 @@ class InlineHelperTest extends BaseTestCase
         $inlineHelper = $this->getAccessibleMock(
             InlineHelper::class,
             ['getInlineElements'],
-            [$storage, $backendLayoutRepository]
+            [$storageRepository, $backendLayoutRepository]
         );
         $inlineHelper->expects(self::once())->method('getInlineElements')->willReturn($inlineElements);
         $inlineHelper->addIrreToData($data, $table);
+
         self::assertSame($inlineElements, $data[$key]);
     }
 
-    public function addIrreToDataNoBeLayoutDataProvider()
+    public function addIrreToDataNoBeLayoutDataProvider(): array
     {
         return [
             'Inline field is added' => [
@@ -400,7 +363,7 @@ class InlineHelperTest extends BaseTestCase
                         'tca' => [
                             'tx_mask_repeat' => [
                                 'config' => [
-                                    'type' => 'Content'
+                                    'type' => 'inline'
                                 ]
                             ]
                         ]
@@ -439,43 +402,27 @@ class InlineHelperTest extends BaseTestCase
     /**
      * @dataProvider addIrreToDataNoBeLayoutDataProvider
      * @test
-     * @param $json
-     * @param $key
-     * @param $data
-     * @param $table
-     * @param $inlineElements
      */
-    public function addIrreToDataNoBeLayout($json, $key, $data, $table, $inlineElements)
+    public function addIrreToDataNoBeLayout(array $json, string $key, array $data, string $table, array $inlineElements): void
     {
-        $settingsService = $this->getMockBuilder(SettingsService::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $storageRepository = $this->createStorageRepository($json);
 
-        $storage = $this->getMockBuilder(StorageRepository::class)
-            ->setConstructorArgs([$settingsService])
-            ->getMock();
-
-        $storage->expects(self::once())->method('load')->willReturn($json);
-        $storage->expects(self::once())->method('getFormType')->willReturn('inline');
-
-        $backendLayoutRepository = $this->getMockBuilder(BackendLayoutRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $backendLayoutRepository = $this->prophesize(BackendLayoutRepository::class);
 
         // No backend layout found
-        $backendLayoutRepository->expects(self::once())->method('findIdentifierByPid')->willReturn('');
+        $backendLayoutRepository->findIdentifierByPid(Argument::any())->willReturn('');
 
         $inlineHelper = $this->getAccessibleMock(
             InlineHelper::class,
             ['getInlineElements'],
-            [$storage, $backendLayoutRepository]
+            [$storageRepository, $backendLayoutRepository->reveal()]
         );
         $inlineHelper->expects(self::once())->method('getInlineElements')->willReturn($inlineElements);
         $inlineHelper->addIrreToData($data, $table);
         self::assertSame($inlineElements, $data[$key]);
     }
 
-    public function addIrreToDataToInlineFieldDataProvider()
+    public function addIrreToDataToInlineFieldDataProvider(): array
     {
         return [
             'Inline field is added to another inline field' => [
@@ -495,7 +442,7 @@ class InlineHelperTest extends BaseTestCase
                         'tca' => [
                             'tx_mask_repeat' => [
                                 'config' => [
-                                    'type' => 'Content'
+                                    'type' => 'inline'
                                 ]
                             ]
                         ]
@@ -534,37 +481,20 @@ class InlineHelperTest extends BaseTestCase
     /**
      * @dataProvider addIrreToDataToInlineFieldDataProvider
      * @test
-     * @param $json
-     * @param $element
-     * @param $key
-     * @param $data
-     * @param $table
-     * @param $inlineElements
      */
-    public function addIrreToDataToInlineField($json, $key, $data, $table, $inlineElements)
+    public function addIrreToDataToInlineField(array $json, string $key, array $data, string $table, array $inlineElements): void
     {
-        $settingsService = $this->getMockBuilder(SettingsService::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $storage = $this->getMockBuilder(StorageRepository::class)
-            ->setConstructorArgs([$settingsService])
-            ->getMock();
-
-        $storage->expects(self::once())->method('load')->willReturn($json);
-        $storage->expects(self::once())->method('getFormType')->willReturn('inline');
-
-        $backendLayoutRepository = $this->getMockBuilder(BackendLayoutRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $storageRepository = $this->createStorageRepository($json);
+        $backendLayoutRepository = $this->prophesize(BackendLayoutRepository::class);
 
         $inlineHelper = $this->getAccessibleMock(
             InlineHelper::class,
             ['getInlineElements'],
-            [$storage, $backendLayoutRepository]
+            [$storageRepository, $backendLayoutRepository->reveal()]
         );
         $inlineHelper->expects(self::once())->method('getInlineElements')->willReturn($inlineElements);
         $inlineHelper->addIrreToData($data, $table);
+
         self::assertSame($inlineElements, $data[$key]);
     }
 }
