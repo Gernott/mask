@@ -15,34 +15,15 @@ declare(strict_types=1);
  * The TYPO3 project - inspiring people to share!
  */
 
-namespace MASK\Mask\Loader;
+namespace MASK\Mask\Definition;
 
 final class TableDefinition
 {
-    /**
-     * @var string
-     */
-    protected $table = '';
-
-    /**
-     * @var array
-     */
-    protected $elements = [];
-
-    /**
-     * @var array
-     */
-    protected $sql = [];
-
-    /**
-     * @var array
-     */
-    protected $tca = [];
-
-    /**
-     * @var array
-     */
-    protected $palettes = [];
+    public $table = '';
+    public $elements = [];
+    public $sql = [];
+    public $tca = [];
+    public $palettes = [];
 
     public function __construct(string $table, array $tca = [], array $sql = [], array $elements = [], array $palettes = [])
     {
@@ -75,28 +56,8 @@ final class TableDefinition
         return $definitionArray;
     }
 
-    public function getTable(): string
+    public function getTcaFieldKeys(): array
     {
-        return $this->table;
-    }
-
-    public function getTca(): array
-    {
-        return $this->tca;
-    }
-
-    public function getElements(): array
-    {
-        return $this->elements;
-    }
-
-    public function getSql(): array
-    {
-        return $this->sql;
-    }
-
-    public function getPalettes(): array
-    {
-        return $this->palettes;
+        return array_keys($this->tca);
     }
 }

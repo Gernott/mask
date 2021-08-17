@@ -17,14 +17,13 @@ declare(strict_types=1);
 
 namespace MASK\Mask\CodeGenerator;
 
-use MASK\Mask\Domain\Repository\StorageRepository;
-use MASK\Mask\Domain\Service\SettingsService;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Imaging\IconProvider\ContentElementIconProvider;
+use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Utility\AffixUtility;
+use MASK\Mask\Utility\ArrayToTypoScriptConverterUtility;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Core\Imaging\IconRegistry;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Generates all the typoscript needed for mask content elements
@@ -32,27 +31,28 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class TyposcriptCodeGenerator
 {
     /**
-     * @var SettingsService
-     */
-    protected $settingsService;
-
-    /**
      * @var array
      */
-    protected $extSettings;
+    protected $maskExtensionConfiguration;
 
     /**
-     * StorageRepository
-     *
-     * @var StorageRepository
+     * @var TableDefinitionCollection
      */
-    protected $storageRepository;
+    protected $tableDefinitionCollection;
 
-    public function __construct(StorageRepository $storageRepository, SettingsService $settingsService)
-    {
-        $this->storageRepository = $storageRepository;
-        $this->settingsService = $settingsService;
-        $this->extSettings = $settingsService->get();
+    /**
+     * @var IconRegistry
+     */
+    protected $iconRegistry;
+
+    public function __construct(
+        TableDefinitionCollection $tableDefinitionCollection,
+        array $maskExtensionConfiguration,
+        IconRegistry $iconRegistry
+    ) {
+        $this->tableDefinitionCollection = $tableDefinitionCollection;
+        $this->maskExtensionConfiguration = $maskExtensionConfiguration;
+        $this->iconRegistry = $iconRegistry;
     }
 
     /**
@@ -60,15 +60,18 @@ class TyposcriptCodeGenerator
      */
     public function generateTsConfig(): string
     {
-        $json = $this->storageRepository->load();
+        if (!$this->tableDefinitionCollection->hasTableDefinition('tt_content')) {
+            return '';
+        }
+
+        $tt_content = $this->tableDefinitionCollection->getTableDefiniton('tt_content');
         $content = '';
-        $iconRegistry = GeneralUtility::makeInstance(IconRegistry::class);
 
         // Register content elements and add them in new content element wizard.
-        foreach ($json['tt_content']['elements'] ?? [] as $element) {
+        foreach ($tt_content->elements as $element) {
             // Register icons for contentelements
             $iconIdentifier = 'mask-ce-' . $element['key'];
-            $iconRegistry->registerIcon(
+            $this->iconRegistry->registerIcon(
                 $iconIdentifier,
                 ContentElementIconProvider::class,
                 [
@@ -95,7 +98,7 @@ class TyposcriptCodeGenerator
                 ]
             ];
             $content .= "mod.wizards.newContentElement.wizardItems.mask {\n";
-            $content .= $this->convertArrayToTypoScript($wizard, '', 1);
+            $content .= ArrayToTypoScriptConverterUtility::convert($wizard, '', 1);
             $content .= "\tshow := addToList(" . $cTypeKey . ");\n";
             $content .= "}\n";
 
@@ -115,9 +118,13 @@ class TyposcriptCodeGenerator
      */
     public function generatePageTyposcript(): string
     {
-        $json = $this->storageRepository->load();
+        if (!$this->tableDefinitionCollection->hasTableDefinition('pages')) {
+            return '';
+        }
+
         $pagesContent = '';
-        foreach ($json['pages']['elements'] ?? [] as $element) {
+        $pages = $this->tableDefinitionCollection->getTableDefiniton('pages');
+        foreach ($pages->elements as $element) {
             // Labels for pages
             $pagesContent .= "\n[maskBeLayout('" . $element['key'] . "')]\n";
             // if page has backendlayout with this element-key
@@ -135,8 +142,8 @@ class TyposcriptCodeGenerator
      */
     protected function setLabel(string $column, int $index, array $element, string $table, string $content): string
     {
-        if ($this->storageRepository->getFormType($column, $element['key'], $table) === FieldType::PALETTE) {
-            $items = $this->storageRepository->loadInlineFields($column, $element['key']);
+        if ($this->tableDefinitionCollection->getFormType($column, $element['key'], $table) === FieldType::PALETTE) {
+            $items = $this->tableDefinitionCollection->loadInlineFields($column, $element['key']);
             foreach ($items as $item) {
                 if (is_array($item['label'])) {
                     $label = $item['label'][$element['key']];
@@ -163,26 +170,30 @@ class TyposcriptCodeGenerator
      */
     public function generateSetupTyposcript(): string
     {
-        $configuration = $this->storageRepository->load();
+        if (!$this->tableDefinitionCollection->hasTableDefinition('tt_content')) {
+            return '';
+        }
+
         $setupContent = [];
 
         // for base paths to fluid templates configured in extension settings
-        $setupContent[] = $this->convertArrayToTypoScript([
+        $setupContent[] = ArrayToTypoScriptConverterUtility::convert([
             'templateRootPaths' => [
-                10 => rtrim($this->extSettings['content'], '/') . '/'
+                10 => rtrim($this->maskExtensionConfiguration['content'], '/') . '/'
             ],
             'partialRootPaths' => [
-                10 => rtrim($this->extSettings['partials'], '/') . '/'
+                10 => rtrim($this->maskExtensionConfiguration['partials'], '/') . '/'
             ],
             'layoutRootPaths' => [
-                10 => rtrim($this->extSettings['layouts'], '/') . '/'
+                10 => rtrim($this->maskExtensionConfiguration['layouts'], '/') . '/'
             ]
         ], 'lib.maskContentElement');
 
-        foreach ($configuration['tt_content']['elements'] ?? [] as $element) {
+        $tt_content = $this->tableDefinitionCollection->getTableDefiniton('tt_content');
+        foreach ($tt_content->elements as $element) {
             if (!($element['hidden'] ?? false)) {
                 $cTypeKey = AffixUtility::addMaskCTypePrefix($element['key']);
-                $templateName = MaskUtility::getTemplatePath($this->extSettings, $element['key'], true, null, true);
+                $templateName = MaskUtility::getTemplatePath($this->maskExtensionConfiguration, $element['key'], true, null, true);
                 $elementContent = [];
                 $elementContent[] = 'tt_content.' . $cTypeKey . ' =< lib.maskContentElement' . LF;
                 $elementContent[] = 'tt_content.' . $cTypeKey . ' {' . LF;
@@ -194,49 +205,5 @@ class TyposcriptCodeGenerator
         }
 
         return implode("\n\n", $setupContent);
-    }
-
-    /**
-     * Converts given array to TypoScript
-     *
-     * @param array $typoScriptArray The array to convert to string
-     * @param string $addKey Prefix given values with given key (eg. lib.whatever = {...})
-     * @param int $tab Internal
-     * @param bool $init Internal
-     * @return string TypoScript
-     */
-    protected function convertArrayToTypoScript(array $typoScriptArray, string $addKey = '', int $tab = 0, bool $init = true): string
-    {
-        $typoScript = '';
-        if ($addKey !== '') {
-            $typoScript .= str_repeat("\t", ($tab === 0) ? $tab : $tab - 1) . $addKey . " {\n";
-            if ($init === true) {
-                $tab++;
-            }
-        }
-        $tab++;
-        foreach ($typoScriptArray as $key => $value) {
-            if (!is_array($value)) {
-                if (strpos($value, "\n") === false) {
-                    $typoScript .= str_repeat("\t", ($tab === 0) ? $tab : $tab - 1) . "$key = $value\n";
-                } else {
-                    $typoScript .=
-                        str_repeat("\t", ($tab === 0) ? $tab : $tab - 1)
-                        . "$key (\n$value\n"
-                        . str_repeat("\t", ($tab === 0) ? $tab : $tab - 1)
-                        . ")\n";
-                }
-            } else {
-                $typoScript .= $this->convertArrayToTypoScript($value, $key, $tab, false);
-            }
-        }
-        if ($addKey !== '') {
-            $tab--;
-            $typoScript .= str_repeat("\t", ($tab === 0) ? $tab : $tab - 1) . '}';
-            if ($init !== true) {
-                $typoScript .= "\n";
-            }
-        }
-        return $typoScript;
     }
 }

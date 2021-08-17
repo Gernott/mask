@@ -50,10 +50,9 @@ class EditLinkViewHelper extends AbstractTagBasedViewHelper
 
     /**
      * returning a EditLink-Tag for TYPO3 Backend
-     * @return mixed
      * @throws RouteNotFoundException
      */
-    public function render()
+    public function render(): string
     {
         $element = $this->arguments['element'];
 

@@ -21,9 +21,8 @@ $GLOBALS['TBE_STYLES']['skins']['mask']['stylesheetDirectories']['mask'] = 'EXT:
 
 (function () {
     // Allow all inline tables on standard pages
-    $tcaCodeGenerator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(MASK\Mask\CodeGenerator\TcaCodeGenerator::class);
-    $irreTables = $tcaCodeGenerator->getMaskIrreTables();
-    foreach ($irreTables as $table) {
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages($table);
+    $loader = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('mask.loader');
+    foreach ($loader->load()->getCustomTableDefinitions() as $tableDefinition) {
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages($tableDefinition->table);
     }
 })();

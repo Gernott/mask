@@ -22,4 +22,6 @@ jobs:
       env: TYPO3=~11.4.0
 
 install: composer require typo3/cms-core:"$TYPO3"
-script: .Build/vendor/phpunit/phpunit/phpunit -c .Build/vendor/typo3/testing-framework/Resources/Core/Build/UnitTests.xml .Build/Web/typo3conf/ext/mask/Tests/Unit
+script:
+  - .Build/vendor/phpunit/phpunit/phpunit -c Build/phpunit/UnitTests.xml .Build/Web/typo3conf/ext/mask/Tests/Unit
+  - .Build/vendor/phpunit/phpunit/phpunit -c Build/phpunit/UnitTestsDeprecated.xml .Build/Web/typo3conf/ext/mask/Tests/UnitDeprecated

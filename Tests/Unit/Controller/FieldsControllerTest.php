@@ -15,14 +15,12 @@ declare(strict_types=1);
  * The TYPO3 project - inspiring people to share!
  */
 
-namespace MASK\Mask\Tests\Unit\Domain\Controller;
+namespace MASK\Mask\Tests\Unit\Controller;
 
 use MASK\Mask\Controller\FieldsController;
-use MASK\Mask\Domain\Repository\StorageRepository;
-use MASK\Mask\Helper\FieldHelper;
-use MASK\Mask\Loader\LoaderInterface;
-use MASK\Mask\Loader\TableDefinitionCollection;
+use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Tests\Unit\ConfigurationLoader\FakeConfigurationLoader;
+use MASK\Mask\Tests\Unit\StorageRepositoryCreatorTrait;
 use Prophecy\Argument;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Imaging\Icon;
@@ -34,6 +32,8 @@ use TYPO3\TestingFramework\Core\BaseTestCase;
 
 class FieldsControllerTest extends BaseTestCase
 {
+    use StorageRepositoryCreatorTrait;
+
     public function loadElementDataProvider(): array
     {
         return [
@@ -984,15 +984,11 @@ class FieldsControllerTest extends BaseTestCase
         ];
 
         $package = $this->prophesize(Package::class);
-        $package->getPackagePath()->willReturn(realpath(__DIR__ . '/../../../../') . '/');
+        $package->getPackagePath()->willReturn(realpath(__DIR__ . '/../../../') . '/');
         $packageManager = $this->prophesize(PackageManager::class);
         $packageManager->isPackageActive('mask')->willReturn(true);
         $packageManager->getPackage('mask')->willReturn($package->reveal());
         ExtensionManagementUtility::setPackageManager($packageManager->reveal());
-
-        $tableDefinitionCollection = TableDefinitionCollection::createFromInternalArray($json);
-        $loader = $this->prophesize(LoaderInterface::class);
-        $loader->load()->willReturn($tableDefinitionCollection);
 
         $iconFactory = $this->prophesize(IconFactory::class);
         $icon = new Icon();
@@ -1001,10 +997,7 @@ class FieldsControllerTest extends BaseTestCase
 
         $configurationLoader = new FakeConfigurationLoader();
 
-        $storage = new StorageRepository($loader->reveal(), $configurationLoader);
-        $fieldHelper = new FieldHelper($storage);
-
-        $fieldsController = new FieldsController($storage, $fieldHelper, $iconFactory->reveal(), $configurationLoader);
+        $fieldsController = new FieldsController(TableDefinitionCollection::createFromInternalArray($json), $iconFactory->reveal(), $configurationLoader);
 
         $request = $this->prophesize(ServerRequestInterface::class);
         $request->getQueryParams()->willReturn(['type' => $table, 'key' => $elementKey]);

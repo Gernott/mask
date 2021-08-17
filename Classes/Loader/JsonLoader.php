@@ -17,8 +17,8 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Loader;
 
+use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
-use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class JsonLoader implements LoaderInterface
@@ -29,28 +29,27 @@ class JsonLoader implements LoaderInterface
     protected $tableDefinitionCollection;
 
     /**
-     * @var string
+     * @var array
      */
-    protected $path = '';
+    protected $maskExtensionConfiguration;
 
-    public function __construct(ExtensionConfiguration $extensionConfiguration)
+    public function __construct(array $maskExtensionConfiguration)
     {
-        $path = $extensionConfiguration->get('mask')['json'];
-        if ($path === '') {
+        $this->maskExtensionConfiguration = $maskExtensionConfiguration;
+        if ($this->maskExtensionConfiguration['json'] === '') {
             throw new \InvalidArgumentException('The path to the Mask JSON file must not be empty.', 1628599913);
         }
-        $this->path = $path;
     }
 
     public function load(): TableDefinitionCollection
     {
         if ($this->tableDefinitionCollection === null) {
             $this->tableDefinitionCollection = new TableDefinitionCollection();
-            $file = MaskUtility::getFileAbsFileName($this->path);
+            $file = MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration['json']);
             if (!file_exists($file)) {
                 throw new \InvalidArgumentException(sprintf('The file "%s" does not exsist.', $file), 1628599433);
             }
-            $json = json_decode(file_get_contents($file), true, 512, 4194304);
+            $json = json_decode(file_get_contents($file), true, 512, 4194304); // @todo replace with JSON_THROW_ON_ERROR in Mask v8.0
             $this->tableDefinitionCollection = TableDefinitionCollection::createFromInternalArray($json);
         }
         return $this->tableDefinitionCollection;
@@ -58,8 +57,8 @@ class JsonLoader implements LoaderInterface
 
     public function write(TableDefinitionCollection $tcaDefinition): void
     {
-        $file = MaskUtility::getFileAbsFileName($this->path);
-        GeneralUtility::writeFile($file, json_encode($tcaDefinition->toArray(), 4194304 | JSON_PRETTY_PRINT));
+        $file = MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration['json']);
+        GeneralUtility::writeFile($file, json_encode($tcaDefinition->toArray(), 4194304 | JSON_PRETTY_PRINT)); // @todo replace with JSON_THROW_ON_ERROR in Mask v8.0
         $this->tableDefinitionCollection = $tcaDefinition;
     }
 }

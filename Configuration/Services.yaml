@@ -3,9 +3,29 @@ services:
     autowire: true
     autoconfigure: true
     public: false
+    bind:
+      $maskExtensionConfiguration: '@extensionconfiguration.mask'
 
   MASK\Mask\:
     resource: '../Classes/*'
+
+  mask.loader:
+    class: MASK\Mask\Loader\JsonLoader
+
+  MASK\Mask\Loader\LoaderInterface: '@mask.loader'
+
+  MASK\Mask\Definition\TableDefinitionCollection:
+    factory:
+      - '@mask.loader'
+      - 'load'
+
+  extensionconfiguration.mask:
+    class: 'array'
+    factory:
+      - '@TYPO3\CMS\Core\Configuration\ExtensionConfiguration'
+      - 'get'
+    arguments:
+      - 'mask'
 
   MASK\Mask\Controller\MaskController:
     tags: [ 'backend.controller' ]

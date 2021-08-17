@@ -18,9 +18,8 @@ declare(strict_types=1);
 namespace MASK\Mask\Controller;
 
 use MASK\Mask\ConfigurationLoader\ConfigurationLoaderInterface;
-use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Enumeration\FieldType;
-use MASK\Mask\Helper\FieldHelper;
+use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\DateUtility;
 use MASK\Mask\Utility\TcaConverterUtility;
@@ -33,18 +32,16 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 class FieldsController
 {
     protected $storageRepository;
-    protected $fieldHelper;
+    protected $tableDefinitionCollection;
     protected $iconFactory;
     protected $configurationLoader;
 
     public function __construct(
-        StorageRepository $storageRepository,
-        FieldHelper $fieldHelper,
+        TableDefinitionCollection $tableDefinitionCollection,
         IconFactory $iconFactory,
         ConfigurationLoaderInterface $configurationLoader
     ) {
-        $this->storageRepository = $storageRepository;
-        $this->fieldHelper = $fieldHelper;
+        $this->tableDefinitionCollection = $tableDefinitionCollection;
         $this->iconFactory = $iconFactory;
         $this->configurationLoader = $configurationLoader;
     }
@@ -55,8 +52,8 @@ class FieldsController
         $table = $params['type'];
         $elementKey = $params['key'];
 
-        $storage = $this->storageRepository->loadElement($table, $elementKey);
-        $json['fields'] = $this->addFields($storage['tca'] ?? [], $table, $elementKey);
+        $element = $this->tableDefinitionCollection->loadElement($table, $elementKey);
+        $json['fields'] = $this->addFields($element['tca'] ?? [], $table, $elementKey);
 
         return new JsonResponse($json);
     }
@@ -66,9 +63,9 @@ class FieldsController
         $params = $request->getQueryParams();
         $table = $params['type'];
         $key = $params['key'];
-        $field = $this->storageRepository->loadField($table, $key);
+        $field = $this->tableDefinitionCollection->loadField($table, $key);
         $json['field'] = $this->addFields([$key => $field], $table)[0];
-        $json['field']['label'] = $this->storageRepository->findFirstNonEmptyLabel($table, $key);
+        $json['field']['label'] = $this->tableDefinitionCollection->findFirstNonEmptyLabel($table, $key);
 
         return new JsonResponse($json);
     }
@@ -80,7 +77,6 @@ class FieldsController
      */
     protected function addFields(array $fields, string $table, string $elementKey = '', $parent = null): array
     {
-        $storage = $this->storageRepository->load();
         $defaults = $this->configurationLoader->loadDefaults();
         $nestedFields = [];
         foreach ($fields as $key => $field) {
@@ -97,12 +93,12 @@ class FieldsController
             }
 
             if ($elementKey !== '') {
-                $newField['label'] = $this->fieldHelper->getLabel($elementKey, $newField['key'], $table);
+                $newField['label'] = $this->tableDefinitionCollection->getLabel($elementKey, $newField['key'], $table);
                 $translatedLabel = $this->translateLabel($newField['label']);
                 $newField['translatedLabel'] = $translatedLabel !== $newField['label'] ? $translatedLabel : '';
             }
 
-            $fieldType = FieldType::cast($this->storageRepository->getFormType($newField['key'], $elementKey, $table));
+            $fieldType = FieldType::cast($this->tableDefinitionCollection->getFormType($newField['key'], $elementKey, $table));
 
             // Convert old date format Y-m-d to d-m-Y
             $dbType = $field['config']['dbType'] ?? false;
@@ -129,7 +125,7 @@ class FieldsController
             }
 
             if (!$fieldType->isGroupingField()) {
-                $newField['sql'] = $storage[$table]['sql'][$newField['key']][$table][$newField['key']];
+                $newField['sql'] = $this->tableDefinitionCollection->getTableDefiniton($table)->sql[$newField['key']][$table][$newField['key']];
                 $newField['tca'] = TcaConverterUtility::convertTcaArrayToFlat($field['config'] ?? []);
                 $newField['tca']['l10n_mode'] = $field['l10n_mode'] ?? '';
             }
@@ -179,7 +175,7 @@ class FieldsController
             if ($fieldType->isParentField()) {
                 $inlineTable = $fieldType->equals(FieldType::INLINE) ? $newField['key'] : $table;
                 $newField['fields'] = $this->addFields(
-                    $this->storageRepository->loadInlineFields($newField['key'], $elementKey),
+                    $this->tableDefinitionCollection->loadInlineFields($newField['key'], $elementKey),
                     $inlineTable,
                     $elementKey,
                     $newField

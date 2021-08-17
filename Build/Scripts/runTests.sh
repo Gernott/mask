@@ -48,6 +48,7 @@ Options:
             - composerValidate: "composer validate"
             - lint: PHP linting
             - unit (default): PHP unit tests
+            - unitDeprecated: deprecated PHP unit tests
 
     -p <7.2|7.3>
         Specifies the PHP minor version to be used
@@ -172,15 +173,7 @@ DOCKER_PHP_IMAGE=`echo "php${PHP_VERSION}" | sed -e 's/\.//'`
 
 # Set $1 to first mass argument, this is the optional test file or test directory to execute
 shift $((OPTIND - 1))
-if [ -n "${1}" ]; then
-    TEST_FILE="Web/typo3conf/ext/mask/${1}"
-else
-    case ${TEST_SUITE} in
-        unit)
-            TEST_FILE="Web/typo3conf/ext/mask/Tests/Unit"
-            ;;
-    esac
-fi
+TEST_FILE=${1}
 
 if [ ${SCRIPT_VERBOSE} -eq 1 ]; then
     set -x
@@ -212,11 +205,17 @@ case ${TEST_SUITE} in
         SUITE_EXIT_CODE=$?
         docker-compose down
         ;;
+    unitDeprecated)
+        setUpDockerComposeDotEnv
+        docker-compose run unitDeprecated
+        SUITE_EXIT_CODE=$?
+        docker-compose down
+        ;;
     update)
-        # pull typo3gmbh/phpXY:latest versions of those ones that exist locally
-        docker images typo3gmbh/php*:latest --format "{{.Repository}}:latest" | xargs -I {} docker pull {}
-        # remove "dangling" typo3gmbh/phpXY images (those tagged as <none>)
-        docker images typo3gmbh/php* --filter "dangling=true" --format "{{.ID}}" | xargs -I {} docker rmi {}
+        # pull typo3/core-testing-*:latest versions of those ones that exist locally
+        docker images typo3/core-testing-*:latest --format "{{.Repository}}:latest" | xargs -I {} docker pull {}
+        # remove "dangling" typo3/core-testing-* images (those tagged as <none>)
+        docker images typo3/core-testing-* --filter "dangling=true" --format "{{.ID}}" | xargs -I {} docker rmi {}
         ;;
     *)
         echo "Invalid -s option argument ${TEST_SUITE}" >&2

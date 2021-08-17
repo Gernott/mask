@@ -18,8 +18,7 @@ declare(strict_types=1);
 namespace MASK\Mask\Imaging\IconProvider;
 
 use InvalidArgumentException;
-use MASK\Mask\Domain\Repository\StorageRepository;
-use MASK\Mask\Domain\Service\SettingsService;
+use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Imaging\Icon;
@@ -30,36 +29,21 @@ class ContentElementIconProvider implements IconProviderInterface
 {
 
     /**
-     * StorageRepository
-     * @var StorageRepository
+     * @var TableDefinitionCollection
      */
-    protected $storageRepository;
-
-    /**
-     * contentElement definiton
-     * @var array
-     */
-    protected $contentElement;
-
-    /**
-     * SettingsService
-     *
-     * @var SettingsService
-     */
-    protected $settingsService;
+    protected $tableDefinitionCollection;
 
     /**
      * settings
      *
      * @var array
      */
-    protected $extSettings;
+    protected $maskExtensionConfiguration;
 
-    public function __construct(StorageRepository $storageRepository, SettingsService $settingsService)
+    public function __construct(TableDefinitionCollection $tableDefinitionCollection, array $maskExtensionConfiguration)
     {
-        $this->storageRepository = $storageRepository;
-        $this->settingsService = $settingsService;
-        $this->extSettings = $settingsService->get();
+        $this->tableDefinitionCollection = $tableDefinitionCollection;
+        $this->maskExtensionConfiguration = $maskExtensionConfiguration;
     }
 
     /**
@@ -76,7 +60,6 @@ class ContentElementIconProvider implements IconProviderInterface
                 1440754978
             );
         }
-        $this->contentElement = $this->storageRepository->loadElement('tt_content', $options['contentElementKey']);
         $icon->setMarkup($this->generateMarkup($options));
     }
 
@@ -86,45 +69,35 @@ class ContentElementIconProvider implements IconProviderInterface
     protected function generateMarkup(array $options): string
     {
         $styles = [];
+        $contentElement = $this->tableDefinitionCollection->loadElement('tt_content', $options['contentElementKey']);
         $previewIconAvailable = $this->isPreviewIconAvailable($options['contentElementKey']);
-        $fontAwesomeKeyAvailable = $this->isFontAwesomeKeyAvailable($this->contentElement);
+        $fontAwesomeKeyAvailable = $this->isFontAwesomeKeyAvailable($contentElement);
 
         // decide what kind of icon to render
         if ($fontAwesomeKeyAvailable && !$previewIconAvailable) {
-            $color = $this->getColor($this->contentElement['color']);
+            $color = $this->getColor($contentElement['color']);
 
-            if ($color) {
+            if ($color !== '') {
                 $styles[] = 'color: #' . $color;
             }
-            if (count($styles)) {
-                $markup = '<span class="icon-unify" style="' . implode(
-                    '; ',
-                    $styles
-                ) . '"><i class="fa fa-' . htmlspecialchars($this->getFontAwesomeKey($this->contentElement['icon'])) . '"></i></span>';
-            } else {
-                $markup = '<span class="icon-unify" ><i class="fa fa-' . htmlspecialchars($this->getFontAwesomeKey($this->contentElement['icon'])) . '"></i></span>';
+
+            if (empty($styles)) {
+                return '<span class="icon-unify" ><i class="fa fa-' . htmlspecialchars($this->getFontAwesomeKey($contentElement['icon'])) . '"></i></span>';
             }
-        } else {
-            if ($previewIconAvailable) {
-                $markup = '<img src="' . str_replace(
-                    Environment::getPublicPath(),
-                    '',
-                    $this->getPreviewIconPath($options['contentElementKey'])
-                ) . '" alt="' . $this->contentElement['label'] . '" title="' . $this->contentElement['label'] . '"/>';
-            } else {
-                $color = $this->getColor($this->contentElement['color']);
-                if ($color) {
-                    $styles[] = 'background-color: #' . $color;
-                }
-                $styles[] = 'color: #fff';
-                $markup = '<span class="icon-unify mask-default-icon" style="' . implode(
-                    '; ',
-                    $styles
-                ) . '">' . mb_substr($this->contentElement['label'], 0, 1) . '</span>';
-            }
+            return '<span class="icon-unify" style="' . implode('; ', $styles) . '"><i class="fa fa-' . htmlspecialchars($this->getFontAwesomeKey($contentElement['icon'])) . '"></i></span>';
         }
 
-        return $markup;
+        if ($previewIconAvailable) {
+            return '<img src="' . str_replace(Environment::getPublicPath(), '', $this->getPreviewIconPath($options['contentElementKey'])) . '" alt="' . $contentElement['label'] . '" title="' . $contentElement['label'] . '"/>';
+        }
+
+        $color = $this->getColor($contentElement['color']);
+        if ($color !== '') {
+            $styles[] = 'background-color: #' . $color;
+        }
+        $styles[] = 'color: #fff';
+
+        return '<span class="icon-unify mask-default-icon" style="' . implode('; ', $styles) . '">' . mb_substr($contentElement['label'], 0, 1) . '</span>';
     }
 
     /**
@@ -146,23 +119,18 @@ class ContentElementIconProvider implements IconProviderInterface
     protected function getPreviewIconPath(string $key): string
     {
         // the path to the file
-        $filePath = function ($key) {
-            return MaskUtility::getFileAbsFileName(
-                rtrim($this->extSettings['preview'], '/') . '/'
-            ) . $key . '.';
-        };
-
+        $filePath = MaskUtility::getFileAbsFileName(rtrim($this->maskExtensionConfiguration['preview'], '/') . '/') . $key . '.';
         // search a fitting png or svg file in this path
         $fileExtensions = ['png', 'svg'];
         foreach ($fileExtensions as $fileExtension) {
-            $iconPath = $filePath($key) . $fileExtension;
+            $iconPath = $filePath . $fileExtension;
             if (file_exists($iconPath)) {
                 return $iconPath;
             }
         }
 
         // if nothing found, return the path to the png file
-        return $filePath($key) . '.png';
+        return $filePath . '.png';
     }
 
     /**

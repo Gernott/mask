@@ -19,12 +19,11 @@ namespace MASK\Mask\Domain\Repository;
 
 use MASK\Mask\ConfigurationLoader\ConfigurationLoaderInterface;
 use MASK\Mask\Enumeration\FieldType;
+use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Loader\LoaderInterface;
-use MASK\Mask\Loader\TableDefinitionCollection;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\TcaConverterUtility;
 use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\Type\Exception\InvalidEnumerationValueException;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 
 /**
@@ -48,15 +47,22 @@ class StorageRepository implements SingletonInterface
     protected $loader;
 
     /**
+     * @var TableDefinitionCollection
+     */
+    protected $tableDefinitionCollection;
+
+    /**
      * @var ConfigurationLoaderInterface
      */
     protected $configurationLoader;
 
     public function __construct(
         LoaderInterface $loader,
+        TableDefinitionCollection $tableDefinitionCollection,
         ConfigurationLoaderInterface $configurationLoader
     ) {
         $this->loader = $loader;
+        $this->tableDefinitionCollection = $tableDefinitionCollection;
         $this->configurationLoader = $configurationLoader;
     }
 
@@ -89,123 +95,6 @@ class StorageRepository implements SingletonInterface
     }
 
     /**
-     * Load Field
-     */
-    public function loadField(string $table, string $fieldName): array
-    {
-        $tableDefinition = $this->loader->load()->getTableDefinitonByTable($table);
-        if (!$tableDefinition) {
-            return [];
-        }
-
-        return $tableDefinition->getTca()[$fieldName] ?? [];
-    }
-
-    /**
-     * Loads all the inline fields of an inline-field, recursively!
-     */
-    public function loadInlineFields(string $parentKey, string $elementKey = ''): array
-    {
-        $tableDefinitionCollection = $this->loader->load();
-        $inlineFields = [];
-
-        // Load inline fields of own table
-        if ($tableDefinitionCollection->getTableDefinitonByTable($parentKey)) {
-            $searchTables = [$parentKey];
-        } else {
-            $searchTables = array_keys($tableDefinitionCollection->toArray());
-        }
-
-        // Traverse tables and find palette
-        foreach ($searchTables as $table) {
-            foreach ($tableDefinitionCollection->getTableDefinitonByTable($table)->getTca() as $key => $tca) {
-                // if inlineParent is an array, it's in a palette on default table
-                if (is_array(($tca['inlineParent'] ?? ''))) {
-                    $inlineParent = $tca['inlineParent'][$elementKey] ?? '';
-                } else {
-                    $inlineParent = $tca['inlineParent'] ?? '';
-                }
-                if ($inlineParent === $parentKey) {
-                    $maskKey = AffixUtility::addMaskPrefix($tca['key']);
-                    if ($this->getFormType($tca['key'], $elementKey, $table) === FieldType::INLINE) {
-                        $tca['inlineFields'] = $this->loadInlineFields($key, $elementKey);
-                    }
-                    if (($tca['config']['type'] ?? '') === 'palette') {
-                        $tca['inlineFields'] = $this->loadInlineFields($maskKey, $elementKey);
-                    }
-                    $tca['maskKey'] = $maskKey;
-                    $inlineFields[] = $tca;
-                }
-            }
-        }
-
-        $this->sortInlineFieldsByOrder($inlineFields, $elementKey);
-        return $inlineFields;
-    }
-
-    /**
-     * Sort inline fields recursively.
-     */
-    protected function sortInlineFieldsByOrder(array &$inlineFields, string $elementKey = ''): void
-    {
-        uasort(
-            $inlineFields,
-            static function ($columnA, $columnB) use ($elementKey) {
-                if (is_array($columnA['order'])) {
-                    $a = isset($columnA['order'][$elementKey]) ? (int)$columnA['order'][$elementKey] : 0;
-                    $b = isset($columnB['order'][$elementKey]) ? (int)$columnB['order'][$elementKey] : 0;
-                } else {
-                    $a = isset($columnA['order']) ? (int)$columnA['order'] : 0;
-                    $b = isset($columnB['order']) ? (int)$columnB['order'] : 0;
-                }
-                return $a - $b;
-            }
-        );
-
-        foreach ($inlineFields as $field) {
-            if (isset($field['inlineFields']) && is_array($field['inlineFields']) && in_array(($field['config']['type'] ?? ''), ['inline', 'palette'])) {
-                $this->sortInlineFieldsByOrder($field['inlineFields']);
-            }
-        }
-    }
-
-    /**
-     * Load Element with all the field configurations
-     */
-    public function loadElement(string $type, string $key): array
-    {
-        // Only tt_content and pages can have elements
-        if (!in_array($type, ['tt_content', 'pages'])) {
-            return [];
-        }
-
-        $tableDefinitions = $this->loader->load();
-        $table = $tableDefinitions->getTableDefinitonByTable($type);
-
-        if (!$table) {
-            return [];
-        }
-
-        $elements = $table->getElements();
-        $columns = $elements[$key]['columns'] ?? [];
-
-        if (!is_array($columns)) {
-            return [];
-        }
-
-        $fields = [];
-        foreach ($columns as $fieldName) {
-            $fields[$fieldName] = $table->getTca()[$fieldName] ?? [];
-        }
-
-        if (!empty($fields)) {
-            $elements[$key]['tca'] = $fields;
-        }
-
-        return $elements[$key] ?? [];
-    }
-
-    /**
      * Adds new Content-Element
      */
     public function add(array $element, array $fields, string $table): array
@@ -225,6 +114,63 @@ class StorageRepository implements SingletonInterface
         ArrayUtility::mergeRecursiveWithOverrule($json, $jsonAdd);
 
         return $json;
+    }
+
+    /**
+     * Removes Content-Element
+     */
+    public function remove(string $table, string $elementKey): array
+    {
+        $this->currentKey = $elementKey;
+        // Load
+        $json = $this->load();
+
+        // Remove
+        $columns = $json[$table]['elements'][$elementKey]['columns'];
+        unset($json[$table]['elements'][$elementKey]);
+        if (is_array($columns)) {
+            foreach ($columns as $field) {
+                $json = $this->removeField($table, $field, $json);
+            }
+        }
+        $this->currentKey = '';
+        return $json;
+    }
+
+    /**
+     * Updates Content-Element in Storage-Repository
+     */
+    public function update(array $element, array $fields, string $table, bool $isNew): void
+    {
+        if (!$isNew) {
+            $json = $this->remove($table, $element['key']);
+            $this->persist($json);
+        }
+        $this->persist($this->add($element, $fields, $table));
+    }
+
+    /**
+     * Hides Content-Element
+     */
+    public function hide(string $table, string $elementKey): void
+    {
+        // Load
+        $json = $this->load();
+        $json[$table]['elements'][$elementKey]['hidden'] = 1;
+        $this->sortJson($json);
+        $this->write($json);
+    }
+
+    /**
+     * Activates Content-Element
+     */
+    public function activate(string $table, string $elementKey): void
+    {
+        // Load
+        $json = $this->load();
+        unset($json[$table]['elements'][$elementKey]['hidden']);
+        $this->sortJson($json);
+        $this->write($json);
     }
 
     protected function setSql($json, $fields, $table)
@@ -342,51 +288,6 @@ class StorageRepository implements SingletonInterface
     }
 
     /**
-     * Removes Content-Element
-     */
-    public function remove(string $table, string $elementKey): array
-    {
-        $this->currentKey = $elementKey;
-        // Load
-        $json = $this->load();
-
-        // Remove
-        $columns = $json[$table]['elements'][$elementKey]['columns'];
-        unset($json[$table]['elements'][$elementKey]);
-        if (is_array($columns)) {
-            foreach ($columns as $field) {
-                $json = $this->removeField($table, $field, $json);
-            }
-        }
-        $this->currentKey = '';
-        return $json;
-    }
-
-    /**
-     * Hides Content-Element
-     */
-    public function hide(string $table, string $elementKey): void
-    {
-        // Load
-        $json = $this->load();
-        $json[$table]['elements'][$elementKey]['hidden'] = 1;
-        $this->sortJson($json);
-        $this->write($json);
-    }
-
-    /**
-     * Activates Content-Element
-     */
-    public function activate(string $table, string $elementKey): void
-    {
-        // Load
-        $json = $this->load();
-        unset($json[$table]['elements'][$elementKey]['hidden']);
-        $this->sortJson($json);
-        $this->write($json);
-    }
-
-    /**
      * Removes a field from the json, also recursively all inline-fields
      */
     protected function removeField(string $table, string $field, array $json): array
@@ -396,7 +297,7 @@ class StorageRepository implements SingletonInterface
         $keyToUse = isset($json[$table]['tca'][$field]) ? $field : $maskKey;
 
         // check if this field is used in any other elements
-        $elementsInUse = $this->getElementsWhichUseField($keyToUse, $table);
+        $elementsInUse = $this->tableDefinitionCollection->getElementsWhichUseField($keyToUse, $table);
         $usedInAnotherElement = count($elementsInUse) > 1;
 
         // Remove inlineParent, label and order
@@ -411,7 +312,7 @@ class StorageRepository implements SingletonInterface
 
         // if the field is a repeating field, make some exceptions
         if (in_array(($json[$table]['tca'][$maskKey]['config']['type'] ?? ''), ['inline', 'palette'])) {
-            $inlineFields = $this->loadInlineFields($maskKey, $this->currentKey);
+            $inlineFields = $this->tableDefinitionCollection->loadInlineFields($maskKey, $this->currentKey);
             // Recursively delete all inline field if possible
             foreach ($inlineFields  as $inlineField) {
                 // Only remove if not in use in another element
@@ -432,7 +333,7 @@ class StorageRepository implements SingletonInterface
                 $json[$table]['sql'][$maskKey]
             );
 
-            $type = $this->getFormType($maskKey, $this->currentKey, $table);
+            $type = $this->tableDefinitionCollection->getFormType($maskKey, $this->currentKey, $table);
 
             // If field is of type inline, also delete table entry
             if ($type === FieldType::INLINE) {
@@ -473,18 +374,6 @@ class StorageRepository implements SingletonInterface
     }
 
     /**
-     * Updates Content-Element in Storage-Repository
-     */
-    public function update(array $element, array $fields, string $table, bool $isNew): void
-    {
-        if (!$isNew) {
-            $json = $this->remove($table, $element['key']);
-            $this->persist($json);
-        }
-        $this->persist($this->add($element, $fields, $table));
-    }
-
-    /**
      * Sorts the json entries
      */
     protected function sortJson(array &$array): void
@@ -506,160 +395,114 @@ class StorageRepository implements SingletonInterface
     }
 
     /**
+     * Load Field
+     * @deprecated will be removed in Mask v8.0.
+     */
+    public function loadField(string $table, string $fieldName): array
+    {
+        trigger_error(
+            'StorageRepository->loadField will be removed in Mask v8.0. Please use MASK\Mask\Loader\LoaderInterface instead.',
+            E_USER_DEPRECATED
+        );
+
+        return $this->loader->load()->loadField($table, $fieldName);
+    }
+
+    /**
+     * Loads all the inline fields of an inline-field, recursively!
+     * @deprecated will be removed in Mask v8.0.
+     */
+    public function loadInlineFields(string $parentKey, string $elementKey = ''): array
+    {
+        trigger_error(
+            'StorageRepository->loadInlineFields will be removed in Mask v8.0. Please use MASK\Mask\Loader\LoaderInterface instead.',
+            E_USER_DEPRECATED
+        );
+
+        return $this->loader->load()->loadInlineFields($parentKey, $elementKey);
+    }
+
+    /**
+     * Load Element with all the field configurations
+     * @deprecated will be removed in Mask v8.0.
+     */
+    public function loadElement(string $type, string $key): array
+    {
+        trigger_error(
+            'StorageRepository->loadInlineFields will be removed in Mask v8.0. Please use MASK\Mask\Loader\LoaderInterface instead.',
+            E_USER_DEPRECATED
+        );
+
+        return $this->loader->load()->loadElement($type, $key);
+    }
+
+    /**
      * Returns the formType of a field in an element
+     * @deprecated will be removed in Mask v8.0.
      */
     public function getFormType(string $fieldKey, string $elementKey = '', string $table = 'tt_content'): string
     {
-        // TODO Allow bodytext to be normal TEXT field.
-        if ($fieldKey === 'bodytext' && $table === 'tt_content') {
-            return FieldType::RICHTEXT;
-        }
+        trigger_error(
+            'StorageRepository->getFormType will be removed in Mask v8.0. Please use MASK\Mask\Loader\LoaderInterface instead.',
+            E_USER_DEPRECATED
+        );
 
-        $element = [];
-        $maskKey = AffixUtility::addMaskPrefix($fieldKey);
-
-        // Check if TCA for mask key exists, else assume it's a core field.
-        $tca = $GLOBALS['TCA'][$table]['columns'][$maskKey] ?? [];
-        if (!$tca) {
-            $tca = $GLOBALS['TCA'][$table]['columns'][$fieldKey] ?? [];
-        }
-
-        if ($elementKey) {
-            // Load element and TCA of field
-            $element = $this->loadElement($table, $elementKey);
-            if (array_key_exists('config', $tca) && !$tca['config']) {
-                $tca = $element['tca'][$fieldKey] ?? [];
-            }
-        }
-
-        // if field is in inline table or $GLOBALS["TCA"] is not yet filled, load tca from json
-        if (!$tca || !in_array($table, ['tt_content', 'pages'])) {
-            $tca = $this->loadField($table, $fieldKey);
-            if (!($tca['config'] ?? false)) {
-                $tca = $this->loadField($table, $maskKey);
-            }
-        }
-
-        $tcaType = $tca['config']['type'] ?? '';
-        $evals = [];
-        if (isset($tca['config']['eval'])) {
-            $evals = explode(',', $tca['config']['eval']);
-        }
-
-        if (($tca['options'] ?? '') === 'file') {
-            return FieldType::FILE;
-        }
-
-        if (($tca['rte'] ?? '') === '1' || (int)($tca['config']['enableRichtext'] ?? '') === 1) {
-            return FieldType::RICHTEXT;
-        }
-
-        // And decide via different tca settings which formType it is
-        switch ($tcaType) {
-            case 'input':
-                if (($tca['config']['dbType'] ?? '') === 'date') {
-                    $formType = FieldType::DATE;
-                } elseif (($tca['config']['dbType'] ?? '') === 'datetime') {
-                    $formType = FieldType::DATETIME;
-                } elseif (($tca['config']['renderType'] ?? '') === 'inputDateTime') {
-                    $formType = FieldType::TIMESTAMP;
-                } elseif (in_array('int', $evals, true)) {
-                    $formType = FieldType::INTEGER;
-                } elseif (in_array('double2', $evals, true)) {
-                    $formType = FieldType::FLOAT;
-                } elseif (($tca['config']['renderType'] ?? '') === 'inputLink') {
-                    $formType = FieldType::LINK;
-                } else {
-                    $formType = FieldType::STRING;
-                }
-                break;
-            case 'text':
-                $formType = FieldType::TEXT;
-                if ($elementKey && in_array($table, ['tt_content', 'pages'])) {
-                    foreach ($element['columns'] ?? [] as $numberKey => $column) {
-                        if ($column === $fieldKey) {
-                            $option = $element['options'][$numberKey] ?? '';
-                            if ($option === 'rte') {
-                                $formType = FieldType::RICHTEXT;
-                            }
-                        }
-                    }
-                }
-                break;
-            case 'inline':
-                if (($tca['config']['foreign_table'] ?? '') === 'sys_file_reference') {
-                    $formType = FieldType::FILE;
-                } elseif (($tca['config']['foreign_table'] ?? '') === 'tt_content') {
-                    $formType = FieldType::CONTENT;
-                } else {
-                    $formType = FieldType::INLINE;
-                }
-                break;
-            default:
-                try {
-                    FieldType::cast($tcaType);
-                    $formType = $tcaType;
-                } catch (InvalidEnumerationValueException $e) {
-                    return '';
-                }
-                break;
-        }
-        return $formType;
+        return $this->loader->load()->getFormType($fieldKey, $elementKey, $table);
     }
 
     /**
      * Returns all elements that use this field
+     * @deprecated will be removed in Mask v8.0.
      */
     public function getElementsWhichUseField(string $key, string $table = 'tt_content'): array
     {
-        $definition = $this->loader->load()->getTableDefinitonByTable($table);
+        trigger_error(
+            'StorageRepository->getElementsWhichUseField will be removed in Mask v8.0. Please use MASK\Mask\Loader\LoaderInterface instead.',
+            E_USER_DEPRECATED
+        );
 
-        if (!$definition) {
-            return [];
-        }
-
-        $elementsInUse = [];
-        foreach ($definition->getElements() as $element) {
-            foreach ($element['columns'] ?? [] as $column) {
-                if ($column === $key) {
-                    $elementsInUse[] = $element;
-                    break;
-                }
-                if ($this->getFormType($column, $element['key'], $table) === FieldType::PALETTE) {
-                    foreach ($definition->getPalettes()[$column]['showitem'] ?? [] as $item) {
-                        if ($item === $key) {
-                            $elementsInUse[] = $element;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        return $elementsInUse;
+        return $this->loader->load()->getElementsWhichUseField($key, $table);
     }
 
     /**
      * This method searches for an existing label of a multiuse field
+     * @deprecated will be removed in Mask v8.0.
      */
     public function findFirstNonEmptyLabel(string $table, string $key): string
     {
-        $label = '';
-        $definition = $this->loader->load()->getTableDefinitonByTable($table);
+        trigger_error(
+            'StorageRepository->findFirstNonEmptyLabel will be removed in Mask v8.0. Please use MASK\Mask\Loader\LoaderInterface instead.',
+            E_USER_DEPRECATED
+        );
 
-        if (!$definition) {
-            return '';
-        }
+        return $this->loader->load()->findFirstNonEmptyLabel($table, $key);
+    }
 
-        foreach ($definition->getElements() as $element) {
-            if (in_array($key, $element['columns'] ?? [], true)) {
-                $label = $element['labels'][array_search($key, $element['columns'], true)];
-            } else {
-                $label = $definition->getTca()[$key]['label'][$element['key']] ?? '';
-            }
-            if ($label !== '') {
-                break;
-            }
-        }
-        return $label;
+    /**
+     * Returns the label of a field in an element
+     * @deprecated will be removed in Mask v8.0.
+     */
+    public function getLabel(string $elementKey, string $fieldKey, string $type = 'tt_content'): string
+    {
+        trigger_error(
+            'StorageRepository->getLabel will be removed in Mask v8.0. Please use MASK\Mask\Loader\LoaderInterface instead.',
+            E_USER_DEPRECATED
+        );
+
+        return $this->loader->load()->getLabel($elementKey, $fieldKey, $type);
+    }
+
+    /**
+     * Returns type of field (tt_content or pages)
+     * @deprecated will be removed in Mask v8.0.
+     */
+    public function getFieldType(string $fieldKey, string $elementKey = '', bool $excludeInlineFields = false): string
+    {
+        trigger_error(
+            'StorageRepository->getFieldType will be removed in Mask v8.0. Please use MASK\Mask\Loader\LoaderInterface instead.',
+            E_USER_DEPRECATED
+        );
+
+        return $this->loader->load()->getFieldType($fieldKey, $elementKey, $excludeInlineFields);
     }
 }

@@ -23,10 +23,9 @@ use MASK\Mask\CodeGenerator\TcaCodeGenerator;
 use MASK\Mask\ConfigurationLoader\ConfigurationLoader;
 use MASK\Mask\Domain\Repository\BackendLayoutRepository;
 use MASK\Mask\Domain\Repository\StorageRepository;
-use MASK\Mask\Domain\Service\SettingsService;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Enumeration\Tab;
-use MASK\Mask\Helper\FieldHelper;
+use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use Psr\Http\Message\ServerRequestInterface;
@@ -52,18 +51,17 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
 
 class AjaxController
 {
-    protected $fieldHelper;
     protected $storageRepository;
+    protected $iconFactory;
     protected $sqlCodeGenerator;
     protected $htmlCodeGenerator;
-    protected $iconFactory;
-    protected $settingsService;
-    protected $extSettings;
-    protected $flashMessageQueue;
     protected $backendLayoutRepository;
     protected $imageService;
     protected $resourceFactory;
     protected $configurationLoader;
+    protected $flashMessageQueue;
+    protected $maskExtensionConfiguration;
+    protected $tableDefinitionCollection;
 
     protected static $folderPathKeys = [
         'content',
@@ -77,51 +75,51 @@ class AjaxController
 
     public function __construct(
         StorageRepository $storageRepository,
-        FieldHelper $fieldHelper,
         IconFactory $iconFactory,
         SqlCodeGenerator $sqlCodeGenerator,
         HtmlCodeGenerator $htmlCodeGenerator,
-        SettingsService $settingsService,
         BackendLayoutRepository $backendLayoutRepository,
         ImageService $imageService,
         ResourceFactory $resourceFactory,
-        ConfigurationLoader $configurationLoader
+        ConfigurationLoader $configurationLoader,
+        TableDefinitionCollection $tableDefinitionCollection,
+        array $maskExtensionConfiguration
     ) {
         $this->storageRepository = $storageRepository;
-        $this->fieldHelper = $fieldHelper;
         $this->iconFactory = $iconFactory;
         $this->sqlCodeGenerator = $sqlCodeGenerator;
         $this->htmlCodeGenerator = $htmlCodeGenerator;
-        $this->settingsService = $settingsService;
         $this->backendLayoutRepository = $backendLayoutRepository;
         $this->imageService = $imageService;
         $this->resourceFactory = $resourceFactory;
         $this->configurationLoader = $configurationLoader;
         $this->flashMessageQueue = new FlashMessageQueue('mask');
-        $this->extSettings = $this->settingsService->get();
+        $this->maskExtensionConfiguration = $maskExtensionConfiguration;
+        $this->tableDefinitionCollection = $tableDefinitionCollection;
     }
 
     public function missingFilesOrFolders(ServerRequestInterface $request): Response
     {
         $json['missing'] = 0;
         foreach (self::$folderPathKeys as $key) {
-            if (!file_exists(MaskUtility::getFileAbsFileName($this->extSettings[$key]))) {
+            if (!file_exists(MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration[$key]))) {
                 $json['missing'] = 1;
                 break;
             }
         }
 
         if (!$json['missing']) {
-            $json['missing'] = !file_exists(MaskUtility::getFileAbsFileName($this->extSettings['json']));
+            $json['missing'] = !file_exists(MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration['json']));
         }
 
-        if (!$json['missing']) {
-            $storages = $this->storageRepository->load();
-            foreach ($storages['tt_content']['elements'] ?? [] as $element) {
-                if (!$this->checkTemplate($element['key'])) {
-                    $json['missing'] = 1;
-                    break;
-                }
+        if ($json['missing'] || !$this->tableDefinitionCollection->hasTableDefinition('tt_content')) {
+            return new JsonResponse($json);
+        }
+
+        foreach ($this->tableDefinitionCollection->getTableDefiniton('tt_content')->elements as $element) {
+            if (!$this->checkTemplate($element['key'])) {
+                $json['missing'] = 1;
+                break;
             }
         }
         return new JsonResponse($json);
@@ -131,14 +129,17 @@ class AjaxController
     {
         $success = true;
         foreach (self::$folderPathKeys as $key) {
-            $success = $success && $this->createFolder($this->extSettings[$key]);
+            $success &= $this->createFolder($this->maskExtensionConfiguration[$key]);
         }
-        $success = $success && $this->createMaskJsonFile($this->extSettings['json']);
+        $success &= $this->createMaskJsonFile($this->maskExtensionConfiguration['json']);
 
-        $storages = $this->storageRepository->load();
-        foreach ($storages['tt_content']['elements'] ?? [] as $element) {
+        if (!$this->tableDefinitionCollection->hasTableDefinition('tt_content')) {
+            return new JsonResponse(['success' => $success]);
+        }
+
+        foreach ($this->tableDefinitionCollection->getTableDefiniton('tt_content')->elements as $element) {
             if (!$this->checkTemplate($element['key'])) {
-                $this->createHtml($element['key']);
+                $success &= $this->createHtml($element['key']);
             }
         }
         return new JsonResponse(['success' => $success]);
@@ -219,7 +220,7 @@ class AjaxController
 
     public function backendLayouts(ServerRequestInterface $request): Response
     {
-        $backendLayouts = $this->backendLayoutRepository->findAll(GeneralUtility::trimExplode(',', $this->extSettings['backendlayout_pids']));
+        $backendLayouts = $this->backendLayoutRepository->findAll(GeneralUtility::trimExplode(',', $this->maskExtensionConfiguration['backendlayout_pids']));
         $json['backendLayouts'] = [];
         /** @var BackendLayout $backendLayout */
         foreach ($backendLayouts as $key => $backendLayout) {
@@ -246,9 +247,12 @@ class AjaxController
 
     public function elements(ServerRequestInterface $request): Response
     {
-        $storages = $this->storageRepository->load();
+        if (!$this->tableDefinitionCollection->hasTableDefinition('tt_content')) {
+            return new JsonResponse(['elements' => []]);
+        }
+
         $elements = [];
-        foreach ($storages['tt_content']['elements'] ?? [] as $element) {
+        foreach ($this->tableDefinitionCollection->getTableDefiniton('tt_content')->elements as $element) {
             $overlay = ($element['hidden'] ?? false) ? 'overlay-hidden' : null;
             $translatedLabel = $GLOBALS['LANG']->sl($element['label']);
             $translatedDescription = $GLOBALS['LANG']->sl($element['description']);
@@ -376,7 +380,7 @@ class AjaxController
     public function loadAllMultiUse(ServerRequestInterface $request): Response
     {
         $params = $request->getQueryParams();
-        $storage = $this->storageRepository->loadElement($params['table'], $params['elementKey']);
+        $storage = $this->tableDefinitionCollection->loadElement($params['table'], $params['elementKey']);
         $multiUseElements = [];
         foreach ($storage['tca'] ?? [] as $key => $field) {
             if (!AffixUtility::hasMaskPrefix($key)) {
@@ -392,10 +396,10 @@ class AjaxController
 
             // Get fields in palette
             if ($fieldType->equals(FieldType::PALETTE)) {
-                $paletteFields = $this->storageRepository->loadInlineFields($key, $params['elementKey']);
+                $paletteFields = $this->tableDefinitionCollection->loadInlineFields($key, $params['elementKey']);
 
                 foreach ($paletteFields as $paletteField) {
-                    $paletteFieldType = FieldType::cast($this->storageRepository->getFormType($paletteField['key'], $params['elementKey'], $params['table']));
+                    $paletteFieldType = FieldType::cast($this->tableDefinitionCollection->getFormType($paletteField['key'], $params['elementKey'], $params['table']));
                     if ($paletteFieldType->equals(FieldType::INLINE)) {
                         continue;
                     }
@@ -410,10 +414,10 @@ class AjaxController
         return new JsonResponse(['multiUseElements' => $multiUseElements]);
     }
 
-    protected function getMultiUseForField($key, $elementKey)
+    protected function getMultiUseForField(string $key, string $elementKey): array
     {
-        $type = $this->fieldHelper->getFieldType($key, $elementKey);
-        $multiUseElements = $this->storageRepository->getElementsWhichUseField($key, $type);
+        $type = $this->tableDefinitionCollection->getFieldType($key, $elementKey);
+        $multiUseElements = $this->tableDefinitionCollection->getElementsWhichUseField($key, $type);
 
         // Filter elements with same element key
         $multiUseElements = array_filter(
@@ -521,7 +525,7 @@ class AjaxController
         } elseif (!AffixUtility::hasMaskPrefix($table)) {
             foreach ($GLOBALS['TCA'][$table]['columns'] as $tcaField => $tcaConfig) {
                 $isMaskField = AffixUtility::hasMaskPrefix($tcaField);
-                if (!$isMaskField && !in_array($tcaField, $allowedFields[$table] ?? [])) {
+                if (!$isMaskField && !in_array($tcaField, $allowedFields[$table] ?? [], true)) {
                     continue;
                 }
                 // This is needed because the richtext option of bodytext is set via column overrides.
@@ -720,15 +724,11 @@ class AjaxController
 
     /**
      * Saves Fluid HTML for Contentelements, if File not exists
-     *
-     * @param string $key
-     * @param string $html
-     * @return bool
      */
-    protected function saveHtml($key, $html): bool
+    protected function saveHtml(string $key, string $html): bool
     {
         // fallback to prevent breaking change
-        $path = MaskUtility::getTemplatePath($this->extSettings, $key);
+        $path = MaskUtility::getTemplatePath($this->maskExtensionConfiguration, $key);
         if (file_exists($path)) {
             return false;
         }
@@ -744,7 +744,7 @@ class AjaxController
     public function checkElementKey(ServerRequest $request): Response
     {
         $elementKey = $request->getQueryParams()['key'];
-        $isAvailable = !$this->storageRepository->loadElement('tt_content', $elementKey);
+        $isAvailable = empty($this->tableDefinitionCollection->loadElement('tt_content', $elementKey));
 
         return new JsonResponse(['isAvailable' => $isAvailable]);
     }
@@ -761,18 +761,18 @@ class AjaxController
     {
         $queryParams = $request->getQueryParams();
         $fieldKey = $queryParams['key'];
-        $type = $queryParams['type'];
+        $table = $queryParams['type'];
         $elementKey = $queryParams['elementKey'];
 
         $keyExists = false;
         $fieldExists = false;
 
-        if ($type === FieldType::INLINE) {
-            $keyExists = array_key_exists($fieldKey, $this->storageRepository->load());
+        if ($table === FieldType::INLINE) {
+            $keyExists = $this->tableDefinitionCollection->hasTableDefinition($fieldKey);
         }
 
-        if ($type === FieldType::CONTENT) {
-            $fieldExists = $this->fieldHelper->getFieldType($fieldKey, $elementKey);
+        if ($table === FieldType::CONTENT) {
+            $fieldExists = $this->tableDefinitionCollection->getFieldType($fieldKey, $elementKey);
         }
 
         return new JsonResponse(['isAvailable' => !$keyExists && !$fieldExists]);
@@ -788,16 +788,15 @@ class AjaxController
      * @throws \InvalidArgumentException if the message body is no string
      * @see \TYPO3\CMS\Core\Messaging\FlashMessage
      */
-    public function addFlashMessage($messageBody, $messageTitle = '', $severity = AbstractMessage::OK, $storeInSession = true)
+    public function addFlashMessage(string $messageBody, string $messageTitle = '', int $severity = AbstractMessage::OK, bool $storeInSession = true): void
     {
         if (!is_string($messageBody)) {
             throw new \InvalidArgumentException('The message body must be of type string, "' . gettype($messageBody) . '" given.', 1243258395);
         }
-        /* @var \TYPO3\CMS\Core\Messaging\FlashMessage $flashMessage */
         $flashMessage = GeneralUtility::makeInstance(
             FlashMessage::class,
-            (string)$messageBody,
-            (string)$messageTitle,
+            $messageBody,
+            $messageTitle,
             $severity,
             $storeInSession
         );
@@ -823,7 +822,7 @@ class AjaxController
      */
     protected function getTemplate(string $key): string
     {
-        return MaskUtility::getTemplatePath($this->settingsService->get(), $key);
+        return MaskUtility::getTemplatePath($this->maskExtensionConfiguration, $key);
     }
 
     /**
@@ -860,10 +859,10 @@ class AjaxController
     /**
      * Writes the generated html for the content element into the template file.
      */
-    protected function createHtml(string $key): void
+    protected function createHtml(string $key): bool
     {
         $html = $this->htmlCodeGenerator->generateHtml($key, 'tt_content');
-        $this->saveHtml($key, $html);
+        return $this->saveHtml($key, $html);
     }
 
     /**
@@ -872,8 +871,8 @@ class AjaxController
     protected function deleteHtml(string $key): void
     {
         $paths = [];
-        $paths[] = MaskUtility::getTemplatePath($this->extSettings, $key);
-        $paths[] = MaskUtility::getTemplatePath($this->extSettings, $key, false, $this->extSettings['backend']);
+        $paths[] = MaskUtility::getTemplatePath($this->maskExtensionConfiguration, $key);
+        $paths[] = MaskUtility::getTemplatePath($this->maskExtensionConfiguration, $key, false, $this->maskExtensionConfiguration['backend']);
         foreach ($paths as $path) {
             @unlink($path);
         }

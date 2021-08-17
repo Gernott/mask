@@ -133,8 +133,8 @@ class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
                     $uid = (int)$lastPart;
                 // If ajax is loading an inline tt_content record and the default CType is a mask element
                 } elseif ($lastPart === 'tt_content' && AffixUtility::hasMaskPrefix(end($uidTableStringArray))) {
-                    $context = json_decode($parsedBody['ajax']['context'], true, 512, 4194304);
-                    $config = json_decode($context['config'], true, 512, 4194304);
+                    $context = json_decode($parsedBody['ajax']['context'], true, 512, 4194304); // @todo replace with JSON_THROW_ON_ERROR in Mask v8.0
+                    $config = json_decode($context['config'], true, 512, 4194304); // @todo replace with JSON_THROW_ON_ERROR in Mask v8.0
                     if (AffixUtility::hasMaskCTypePrefix($config['overrideChildTca']['columns']['CType']['config']['default'] ?? '')) {
                         return true;
                     }

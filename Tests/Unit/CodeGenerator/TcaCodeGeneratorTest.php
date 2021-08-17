@@ -18,7 +18,7 @@ declare(strict_types=1);
 namespace MASK\Mask\Tests\Unit\CodeGenerator;
 
 use MASK\Mask\CodeGenerator\TcaCodeGenerator;
-use MASK\Mask\Helper\FieldHelper;
+use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Tests\Unit\StorageRepositoryCreatorTrait;
 use TYPO3\CMS\Core\Package\PackageManager;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -258,8 +258,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
      */
     public function getPageShowItem(array $json, string $key, string $expected): void
     {
-        $fieldHelper = new FieldHelper($this->createStorageRepository($json));
-        $tcaGenerator = new TcaCodeGenerator($this->createStorageRepository($json), $fieldHelper);
+        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromInternalArray($json));
 
         self::assertSame($expected, $tcaGenerator->getPageShowItem($key));
     }
@@ -285,8 +284,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
      */
     public function getMaskIrreTables(array $json, array $expected): void
     {
-        $fieldHelper = new FieldHelper($this->createStorageRepository($json));
-        $tcaGenerator = new TcaCodeGenerator($this->createStorageRepository($json), $fieldHelper);
+        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromInternalArray($json));
 
         self::assertSame($expected, $tcaGenerator->getMaskIrreTables());
     }
@@ -481,10 +479,10 @@ class TcaCodeGeneratorTest extends BaseTestCase
      */
     public function processTableTca(string $table, array $json, array $expected)
     {
-        $fieldHelper = new FieldHelper($this->createStorageRepository($json));
-        $tcaGenerator = new TcaCodeGenerator($this->createStorageRepository($json), $fieldHelper);
+        $tableDefinitionCollection = TableDefinitionCollection::createFromInternalArray($json);
+        $tcaGenerator = new TcaCodeGenerator($tableDefinitionCollection);
 
-        self::assertSame($expected, $tcaGenerator->processTableTca($table, $json[$table]));
+        self::assertSame($expected, $tcaGenerator->processTableTca($tableDefinitionCollection->getTableDefiniton($table)));
     }
 
     public function generateFieldsTcaDataProvider(): array
@@ -793,8 +791,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
      */
     public function generateFieldsTca(array $json, string $table, array $expected): void
     {
-        $fieldHelper = new FieldHelper($this->createStorageRepository($json));
-        $tcaGenerator = new TcaCodeGenerator($this->createStorageRepository($json), $fieldHelper);
+        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromInternalArray($json));
 
         self::assertSame($expected, $tcaGenerator->generateFieldsTca($table));
     }
@@ -865,8 +862,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
      */
     public function generateFileTca(array $json, string $table, string $field, array $expected): void
     {
-        $fieldHelper = new FieldHelper($this->createStorageRepository($json));
-        $tcaGenerator = new TcaCodeGenerator($this->createStorageRepository($json), $fieldHelper);
+        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromInternalArray($json));
 
         $result = $tcaGenerator->generateFieldsTca($table);
         self::assertSame($expected['type'], $result[$field]['config']['type']);
@@ -1096,13 +1092,11 @@ class TcaCodeGeneratorTest extends BaseTestCase
     {
         $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'] = [];
 
-        $fieldHelper = new FieldHelper($this->createStorageRepository($json));
-
         $packageManager = $this->prophesize(PackageManager::class);
         $packageManager->isPackageActive('gridelements')->willReturn(false);
         ExtensionManagementUtility::setPackageManager($packageManager->reveal());
 
-        $tcaGenerator = new TcaCodeGenerator($this->createStorageRepository($json), $fieldHelper);
+        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromInternalArray($json));
         $tcaGenerator->setElementsTca();
 
         self::assertSame($showItemExpected, $GLOBALS['TCA']['tt_content']['types'][$key]['showitem'] ?? '');
@@ -1127,12 +1121,12 @@ class TcaCodeGeneratorTest extends BaseTestCase
                             ]
                         ]
                     ],
-                ],
-                [
-                    'tca' => [
-                        'tx_mask_field1' => [
-                            'key' => 'field1',
-                            'order' => 1
+                    'tx_mask_inline' => [
+                        'tca' => [
+                            'tx_mask_field1' => [
+                                'key' => 'field1',
+                                'order' => 1
+                            ]
                         ]
                     ]
                 ],
@@ -1153,12 +1147,12 @@ class TcaCodeGeneratorTest extends BaseTestCase
                             ]
                         ]
                     ],
-                ],
-                [
-                    'tca' => [
-                        'tx_mask_field1' => [
-                            'key' => 'field1',
-                            'order' => 1
+                    'tx_mask_inline' => [
+                        'tca' => [
+                            'tx_mask_field1' => [
+                                'key' => 'field1',
+                                'order' => 1
+                            ]
                         ]
                     ]
                 ],
@@ -1181,16 +1175,16 @@ class TcaCodeGeneratorTest extends BaseTestCase
                             ]
                         ]
                     ],
-                ],
-                [
-                    'tca' => [
-                        'tx_mask_field1' => [
-                            'key' => 'field1',
-                            'order' => 1
-                        ],
-                        'tx_mask_field2' => [
-                            'key' => 'field1',
-                            'order' => 2
+                    'tx_mask_inline' => [
+                        'tca' => [
+                            'tx_mask_field1' => [
+                                'key' => 'field1',
+                                'order' => 1
+                            ],
+                            'tx_mask_field2' => [
+                                'key' => 'field1',
+                                'order' => 2
+                            ]
                         ]
                     ]
                 ],
@@ -1205,12 +1199,13 @@ class TcaCodeGeneratorTest extends BaseTestCase
      * @test
      * @dataProvider generateTableTcaDataProvider
      */
-    public function generateTableTca(array $json, array $subJson, string $table, string $expectedLabel, string $expectedIcon)
+    public function generateTableTca(array $json, string $table, string $expectedLabel, string $expectedIcon)
     {
-        $fieldHelper = new FieldHelper($this->createStorageRepository($json));
-        $tcaGenerator = new TcaCodeGenerator($this->createStorageRepository($json), $fieldHelper);
+        $loader = $this->createLoader($json);
+        $tableDefinition = $loader->load()->getTableDefiniton($table);
+        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromInternalArray($json));
 
-        self::assertSame($expectedLabel, $tcaGenerator->generateTableTca($table, $subJson)['ctrl']['label']);
-        self::assertSame($expectedIcon, $tcaGenerator->generateTableTca($table, $subJson)['ctrl']['iconfile']);
+        self::assertSame($expectedLabel, $tcaGenerator->generateTableTca($tableDefinition)['ctrl']['label']);
+        self::assertSame($expectedIcon, $tcaGenerator->generateTableTca($tableDefinition)['ctrl']['iconfile']);
     }
 }

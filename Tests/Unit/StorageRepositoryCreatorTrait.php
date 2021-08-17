@@ -16,19 +16,26 @@
 namespace MASK\Mask\Tests\Unit;
 
 use MASK\Mask\Domain\Repository\StorageRepository;
+use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Loader\LoaderInterface;
-use MASK\Mask\Loader\TableDefinitionCollection;
 use MASK\Mask\Tests\Unit\ConfigurationLoader\FakeConfigurationLoader;
 
 trait StorageRepositoryCreatorTrait
 {
     protected function createStorageRepository(array $json): StorageRepository
     {
+        $loader = $this->createLoader($json);
+        $configurationLoader = new FakeConfigurationLoader();
+
+        return new StorageRepository($loader, $loader->load(), $configurationLoader);
+    }
+
+    protected function createLoader(array $json): LoaderInterface
+    {
         $tableDefinitionCollection = TableDefinitionCollection::createFromInternalArray($json);
         $loader = $this->prophesize(LoaderInterface::class);
         $loader->load()->willReturn($tableDefinitionCollection);
-        $configurationLoader = new FakeConfigurationLoader();
 
-        return new StorageRepository($loader->reveal(), $configurationLoader);
+        return $loader->reveal();
     }
 }

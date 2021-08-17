@@ -17,8 +17,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\ItemsProcFuncs;
 
-use MASK\Mask\Domain\Repository\StorageRepository;
-use MASK\Mask\Helper\FieldHelper;
+use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\AffixUtility as MaskUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -30,21 +29,13 @@ class CTypeList extends AbstractList
 {
 
     /**
-     * StorageRepository
-     *
-     * @var StorageRepository
+     * @var TableDefinitionCollection
      */
-    protected $storageRepository;
+    protected $tableDefinitionCollection;
 
-    /**
-     * @var FieldHelper
-     */
-    protected $fieldHelper;
-
-    public function __construct(StorageRepository $storageRepository, FieldHelper $fieldHelper)
+    public function __construct(TableDefinitionCollection $tableDefinitionCollection)
     {
-        $this->storageRepository = $storageRepository;
-        $this->fieldHelper = $fieldHelper;
+        $this->tableDefinitionCollection = $tableDefinitionCollection;
     }
 
     /**
@@ -57,8 +48,8 @@ class CTypeList extends AbstractList
             $fieldKey = '';
 
             if (isset($GLOBALS['TYPO3_REQUEST']->getParsedBody()['ajax']['context'])) {
-                $ajaxContext = json_decode($GLOBALS['TYPO3_REQUEST']->getParsedBody()['ajax']['context'], true, 512, 4194304);
-                $config = json_decode($ajaxContext['config'], true, 512, 4194304);
+                $ajaxContext = json_decode($GLOBALS['TYPO3_REQUEST']->getParsedBody()['ajax']['context'], true, 512, 4194304); // @todo replace with JSON_THROW_ON_ERROR in Mask v8.0
+                $config = json_decode($ajaxContext['config'], true, 512, 4194304); // @todo replace with JSON_THROW_ON_ERROR in Mask v8.0
                 $fieldKey = AffixUtility::removeMaskParentSuffix($config['foreign_field']);
             } else {
                 $fields = $params['row'];
@@ -78,16 +69,16 @@ class CTypeList extends AbstractList
             // This works since TYPO3 10.4.16 or v11.2
             if (isset($params['inlineParentTableName'])) {
                 $table = $params['inlineParentTableName'];
-            // Else we have to figure out from url
+            // Else we have to figure out from url. @todo remove in Mask v8.0.
             } elseif (preg_match_all('/tx_mask_\w+/', ($GLOBALS['TYPO3_REQUEST']->getParsedBody()['ajax'][0] ?? ''), $pregResult) && count($pregResult[0]) > 1) {
                 // Get the second last entry
                 $table = $pregResult[0][count($pregResult[0]) - 2];
             } else {
-                $table = $this->fieldHelper->getFieldType($fieldKey);
+                $table = $this->tableDefinitionCollection->getFieldType($fieldKey);
             }
 
             // load the json configuration of this field
-            $fieldConfiguration = $this->storageRepository->loadField($table, $fieldKey);
+            $fieldConfiguration = $this->tableDefinitionCollection->loadField($table, $fieldKey);
 
             // if there is a restriction of cTypes specified
             if (is_array($fieldConfiguration['cTypes'])) {

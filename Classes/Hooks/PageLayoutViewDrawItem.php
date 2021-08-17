@@ -17,9 +17,8 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Hooks;
 
-use MASK\Mask\Domain\Repository\StorageRepository;
-use MASK\Mask\Domain\Service\SettingsService;
 use MASK\Mask\Helper\InlineHelper;
+use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
@@ -28,7 +27,6 @@ use TYPO3\CMS\Backend\View\PageLayoutView;
 use TYPO3\CMS\Backend\View\PageLayoutViewDrawItemHookInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\Exception;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
@@ -37,42 +35,29 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
  */
 class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
 {
-
-    /**
-     * @var ObjectManager
-     */
-    protected $objectManager;
-
     /**
      * @var InlineHelper
      */
     protected $inlineHelper;
 
     /**
-     * @var StorageRepository
+     * @var TableDefinitionCollection
      */
-    protected $storageRepository;
+    protected $tableDefinitionCollection;
 
     /**
-     * SettingsService
-     *
-     * @var SettingsService
-     */
-    protected $settingsService;
-
-    /**
-     * settings
-     *
      * @var array
      */
-    protected $extSettings;
+    protected $maskExtensionConfiguration;
 
-    public function __construct(SettingsService $settingsService, InlineHelper $inlineHelper, StorageRepository $storageRepository)
-    {
-        $this->settingsService = $settingsService;
-        $this->extSettings = $this->settingsService->get();
+    public function __construct(
+        array $maskExtensionConfiguration,
+        InlineHelper $inlineHelper,
+        TableDefinitionCollection $tableDefinitionCollection
+    ) {
+        $this->maskExtensionConfiguration = $maskExtensionConfiguration;
         $this->inlineHelper = $inlineHelper;
-        $this->storageRepository = $storageRepository;
+        $this->tableDefinitionCollection = $tableDefinitionCollection;
     }
 
     /**
@@ -97,10 +82,10 @@ class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
 
             // fallback to prevent breaking change
             $templatePathAndFilename = MaskUtility::getTemplatePath(
-                $this->extSettings,
+                $this->maskExtensionConfiguration,
                 $elementKey,
                 false,
-                MaskUtility::getFileAbsFileName($this->extSettings['backend'])
+                MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration['backend'])
             );
 
             if (file_exists($templatePathAndFilename)) {
@@ -111,18 +96,18 @@ class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
                 $view->setTemplatePathAndFilename($templatePathAndFilename);
 
                 // if there are paths for layouts and partials set, add them to view
-                if (!empty($this->extSettings['layouts_backend'])) {
-                    $layoutRootPath = MaskUtility::getFileAbsFileName($this->extSettings['layouts_backend']);
+                if (!empty($this->maskExtensionConfiguration['layouts_backend'])) {
+                    $layoutRootPath = MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration['layouts_backend']);
                     $view->setLayoutRootPaths([$layoutRootPath]);
                 }
-                if (!empty($this->extSettings['partials_backend'])) {
-                    $partialRootPath = MaskUtility::getFileAbsFileName($this->extSettings['partials_backend']);
+                if (!empty($this->maskExtensionConfiguration['partials_backend'])) {
+                    $partialRootPath = MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration['partials_backend']);
                     $view->setPartialRootPaths([$partialRootPath]);
                 }
 
                 // Fetch and assign some useful variables
                 $data = $this->getContentObject($row['uid']);
-                $element = $this->storageRepository->loadElement('tt_content', $elementKey);
+                $element = $this->tableDefinitionCollection->loadElement('tt_content', $elementKey);
                 $view->assign('row', $row);
                 $view->assign('data', $data);
 
@@ -162,7 +147,7 @@ class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
      * @throws Exception
      * @throws \Exception
      */
-    protected function getContentObject($uid): array
+    protected function getContentObject(int $uid): array
     {
         $data = BackendUtility::getRecordWSOL('tt_content', $uid);
         $this->inlineHelper->addFilesToData($data);

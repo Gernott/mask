@@ -17,6 +17,8 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Loader;
 
+use MASK\Mask\Definition\TableDefinitionCollection;
+
 /**
  * This interface enables to provide loaders for Mask.
  * The ressource is abstracted away and can come from anywhere as long as the

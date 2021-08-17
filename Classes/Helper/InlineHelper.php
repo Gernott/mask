@@ -18,8 +18,8 @@ declare(strict_types=1);
 namespace MASK\Mask\Helper;
 
 use MASK\Mask\Domain\Repository\BackendLayoutRepository;
-use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Enumeration\FieldType;
+use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\AffixUtility as MaskUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
@@ -41,9 +41,9 @@ class InlineHelper
     /**
      * StorageRepository
      *
-     * @var StorageRepository
+     * @var TableDefinitionCollection
      */
-    protected $storageRepository;
+    protected $tableDefinitionCollection;
 
     /**
      * BackendLayoutRepository
@@ -52,9 +52,9 @@ class InlineHelper
      */
     protected $backendLayoutRepository;
 
-    public function __construct(StorageRepository $storageRepository, BackendLayoutRepository $backendLayoutRepository)
+    public function __construct(TableDefinitionCollection $tableDefinitionCollection, BackendLayoutRepository $backendLayoutRepository)
     {
-        $this->storageRepository = $storageRepository;
+        $this->tableDefinitionCollection = $tableDefinitionCollection;
         $this->backendLayoutRepository = $backendLayoutRepository;
     }
 
@@ -78,16 +78,15 @@ class InlineHelper
         // Cast to int for findByRelation call
         $uid = (int)$uid;
 
-        $storage = $this->storageRepository->load();
+        $tcaKeys = [];
+        if ($this->tableDefinitionCollection->hasTableDefinition($table)) {
+            $tcaKeys = $this->tableDefinitionCollection->getTableDefiniton($table)->getTcaFieldKeys();
+        }
+        $contentFields = array_merge(['media', 'image', 'assets'], $tcaKeys);
+
         $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
-
-        $contentFields = array_merge(
-            ['media', 'image', 'assets'],
-            array_keys($storage[$table]['tca'] ?? [])
-        );
-
         foreach ($contentFields as $fieldKey) {
-            if ($this->storageRepository->getFormType($fieldKey, '', $table) === FieldType::FILE) {
+            if ($this->tableDefinitionCollection->getFormType($fieldKey, '', $table) === FieldType::FILE) {
                 $data[$fieldKey] = $fileRepository->findByRelation($table, $fieldKey, $uid);
             }
         }
@@ -107,12 +106,12 @@ class InlineHelper
             $cType = $data['CType'] ?? '';
         }
 
-        $storage = $this->storageRepository->load();
         $elementFields = [];
 
         // if the table is tt_content, load the element and all its columns
+        $tableExists = $this->tableDefinitionCollection->hasTableDefinition($table);
         if ($table === 'tt_content') {
-            $element = $this->storageRepository->loadElement($table, AffixUtility::removeCTypePrefix($cType));
+            $element = $this->tableDefinitionCollection->loadElement($table, AffixUtility::removeCTypePrefix($cType));
             $elementFields = $element['columns'] ?? [];
         } elseif ($table === 'pages') {
             // if the table is pages, then load the pid
@@ -122,42 +121,42 @@ class InlineHelper
 
                 // if a backendlayout was found, then load its elements
                 if ($backendLayoutIdentifier) {
-                    $element = $this->storageRepository->loadElement(
+                    $element = $this->tableDefinitionCollection->loadElement(
                         $table,
                         str_replace('pagets__', '', $backendLayoutIdentifier)
                     );
                     $elementFields = $element['columns'] ?? [];
                 // if no backendlayout was found, just load all fields, if there are fields
-                } elseif (isset($storage[$table]['tca'])) {
-                    $elementFields = array_keys($storage[$table]['tca']);
+                } elseif ($tableExists) {
+                    $elementFields = $this->tableDefinitionCollection->getTableDefiniton($table)->getTcaFieldKeys();
                 }
             }
-        } elseif (isset($storage[$table])) {
+        } elseif ($tableExists) {
             // otherwise check if its a table at all, if yes load all fields
-            $elementFields = array_keys($storage[$table]['tca']);
+            $elementFields = $this->tableDefinitionCollection->getTableDefiniton($table)->getTcaFieldKeys();
         }
 
         // Check type of all element columns
         foreach ($elementFields ?? [] as $field) {
             $fieldKey = MaskUtility::removeMaskPrefix($field);
-            $type = $this->storageRepository->getFormType($fieldKey, ($element['key'] ?? ''), $table);
+            $type = $this->tableDefinitionCollection->getFormType($fieldKey, ($element['key'] ?? ''), $table);
 
             if ($type === FieldType::PALETTE) {
-                $paletteFields = $this->storageRepository->loadInlineFields($field, ($element['key'] ?? ''));
+                $paletteFields = $this->tableDefinitionCollection->loadInlineFields($field, ($element['key'] ?? ''));
                 foreach ($paletteFields as $paletteField) {
-                    $type = $this->storageRepository->getFormType($paletteField['key'], ($element['key'] ?? ''), $table);
-                    $this->fillInlineField($data, $storage, $type, $paletteField['maskKey'], $cType, $table);
+                    $type = $this->tableDefinitionCollection->getFormType($paletteField['key'], ($element['key'] ?? ''), $table);
+                    $this->fillInlineField($data, $type, $paletteField['maskKey'], $cType, $table);
                 }
             } else {
-                $this->fillInlineField($data, $storage, $type, $field, $cType, $table);
+                $this->fillInlineField($data, $type, $field, $cType, $table);
             }
         }
     }
 
-    protected function fillInlineField(&$data, $storage, $type, $field, $cType, $table)
+    protected function fillInlineField(&$data, $type, $field, $cType, $table)
     {
         // if it is of type inline and has to be filled (IRRE, FAL)
-        if ($type === FieldType::INLINE && array_key_exists($field, $storage)) {
+        if ($type === FieldType::INLINE && $this->tableDefinitionCollection->hasTableDefinition($field)) {
             $elements = $this->getInlineElements($data, $field, $cType, 'parentid', $table);
             $data[$field] = $elements;
         // or if it is of type Content (Nested Content) and has to be filled

@@ -17,7 +17,6 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Utility;
 
-use MASK\Mask\Domain\Repository\StorageRepository;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility as CoreUtility;
 
@@ -26,19 +25,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility as CoreUtility;
  */
 class GeneralUtility
 {
-
-    /**
-     * StorageRepository
-     *
-     * @var StorageRepository
-     */
-    protected $storageRepository;
-
-    public function __construct(StorageRepository $storageRepository)
-    {
-        $this->storageRepository = $storageRepository;
-    }
-
     /**
      * Searches an array of strings and returns the first string, that is not a tab
      */
@@ -61,7 +47,7 @@ class GeneralUtility
     {
         foreach ($haystack as $key => $value) {
             if (is_array($value)) {
-                $haystack[$key] = self::removeBlankOptions($haystack[$key]);
+                $haystack[$key] = self::removeBlankOptions($value);
             }
             if ((is_array($haystack[$key]) && empty($haystack[$key])) || (is_string($haystack[$key]) && $haystack[$key] === '')) {
                 unset($haystack[$key]);

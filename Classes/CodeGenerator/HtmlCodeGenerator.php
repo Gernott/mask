@@ -17,8 +17,8 @@ declare(strict_types=1);
 
 namespace MASK\Mask\CodeGenerator;
 
-use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Enumeration\FieldType;
+use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Utility\AffixUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -28,23 +28,18 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class HtmlCodeGenerator
 {
     /**
-     * StorageRepository
-     *
-     * @var StorageRepository
+     * @var TableDefinitionCollection
      */
-    protected $storageRepository;
+    protected $tableDefinitionCollection;
 
     /**
      * @var int
      */
     protected $indent = 4;
 
-    /**
-     * @param StorageRepository $storageRepository
-     */
-    public function __construct(StorageRepository $storageRepository)
+    public function __construct(TableDefinitionCollection $tableDefinitionCollection)
     {
-        $this->storageRepository = $storageRepository;
+        $this->tableDefinitionCollection = $tableDefinitionCollection;
     }
 
     /**
@@ -52,7 +47,7 @@ class HtmlCodeGenerator
      */
     public function generateHtml(string $key, string $table): string
     {
-        $storage = $this->storageRepository->loadElement($table, $key);
+        $storage = $this->tableDefinitionCollection->loadElement($table, $key);
         $html = [];
         foreach ($storage['tca'] ?? [] as $fieldKey => $fieldConfig) {
             $part = $this->generateFieldHtml($fieldKey, $key, $table);
@@ -75,9 +70,9 @@ class HtmlCodeGenerator
         if ($fieldKey === 'bodytext') {
             $formType = FieldType::RICHTEXT;
         } else {
-            $formType = $this->storageRepository->getFormType($fieldKey, $elementKey, $table);
+            $formType = $this->tableDefinitionCollection->getFormType($fieldKey, $elementKey, $table);
         }
-        if (in_array($formType, [FieldType::TAB, FieldType::LINEBREAK])) {
+        if (in_array($formType, [FieldType::TAB, FieldType::LINEBREAK], true)) {
             return '';
         }
         switch ($formType) {
@@ -130,7 +125,7 @@ class HtmlCodeGenerator
                 $html[] = $this->drawWhitespace(1 + $depth) . '<ul>';
                 $html[] = $this->drawWhitespace(2 + $depth) . '<f:for each="{' . $datafield . '.' . $fieldKey . '}" as="' . $datafield . '_item' . '">';
                 $html[] = $this->drawWhitespace(3 + $depth) . '<li>';
-                $inlineFields = $this->storageRepository->loadInlineFields($fieldKey);
+                $inlineFields = $this->tableDefinitionCollection->loadInlineFields($fieldKey);
                 if ($inlineFields) {
                     foreach ($inlineFields as $inlineField) {
                         $html[] = $this->generateFieldHtml($inlineField['maskKey'], $elementKey, $fieldKey, $datafield . '_item', 4 + $depth);
@@ -142,7 +137,7 @@ class HtmlCodeGenerator
                 $html[] = $this->drawWhitespace(0 + $depth) . '</f:if>';
                 break;
             case FieldType::PALETTE:
-                $paletteFields = $this->storageRepository->loadInlineFields($fieldKey, $elementKey);
+                $paletteFields = $this->tableDefinitionCollection->loadInlineFields($fieldKey, $elementKey);
                 foreach ($paletteFields ?? [] as $paletteField) {
                     $part = $this->generateFieldHtml(($paletteField['coreField'] ?? false) ? $paletteField['key'] : $paletteField['maskKey'], $elementKey, $table, $datafield, $depth);
                     if ($part !== '') {

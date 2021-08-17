@@ -18,7 +18,7 @@ declare(strict_types=1);
 namespace MASK\Mask\Form\FormDataProvider;
 
 use MASK\Mask\CodeGenerator\TcaCodeGenerator;
-use MASK\Mask\Domain\Repository\StorageRepository;
+use MASK\Mask\Definition\TableDefinitionCollection;
 use TYPO3\CMS\Backend\Configuration\TypoScript\ConditionMatching\ConditionMatcher;
 use TYPO3\CMS\Backend\Form\FormDataProviderInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -31,14 +31,14 @@ class TcaTypesShowitemMaskBeLayoutFields implements FormDataProviderInterface
     protected $tcaCodeGenerator;
 
     /**
-     * @var StorageRepository
+     * @var TableDefinitionCollection
      */
-    protected $storageRepository;
+    protected $tableDefinitionCollection;
 
-    public function __construct(StorageRepository $storageRepository, TcaCodeGenerator $tcaCodeGenerator)
+    public function __construct(TableDefinitionCollection $tableDefinitionCollection, TcaCodeGenerator $tcaCodeGenerator)
     {
         $this->tcaCodeGenerator = $tcaCodeGenerator;
-        $this->storageRepository = $storageRepository;
+        $this->tableDefinitionCollection = $tableDefinitionCollection;
     }
 
     public function addData(array $result)
@@ -46,10 +46,15 @@ class TcaTypesShowitemMaskBeLayoutFields implements FormDataProviderInterface
         if ($result['tableName'] !== 'pages') {
             return $result;
         }
-        $json = $this->storageRepository->load();
-        if ($json['pages']['elements'] ?? false) {
+
+        if (!$this->tableDefinitionCollection->hasTableDefinition('pages')) {
+            return $result;
+        }
+
+        $pages = $this->tableDefinitionCollection->getTableDefiniton('pages');
+        if (!empty($pages->elements)) {
             $conditionMatcher = GeneralUtility::makeInstance(ConditionMatcher::class, null, $result['vanillaUid'], $result['rootline']);
-            foreach ($json['pages']['elements'] as $element) {
+            foreach ($pages->elements as $element) {
                 $key = (string)$element['key'];
                 if ($conditionMatcher->match("[maskBeLayout('$key')]")) {
                     $result['processedTca']['types'][$result['recordTypeValue']]['showitem'] .= $this->tcaCodeGenerator->getPageShowItem($key);

@@ -47,8 +47,8 @@ class DateUtility
     public static function convertStringToTimestampByDbType(string $dbType, string $dateString): int
     {
         $format = self::getFormatByDbType($dbType);
-        if (DateUtility::isOldDateFormat($dateString)) {
-            $dateString = DateUtility::convertOldToNewFormat($dbType, $dateString);
+        if (self::isOldDateFormat($dateString)) {
+            $dateString = self::convertOldToNewFormat($dbType, $dateString);
         }
         $date = \DateTime::createFromFormat($format, $dateString);
         if ($dbType === 'date') {

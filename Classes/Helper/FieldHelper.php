@@ -18,10 +18,10 @@ declare(strict_types=1);
 namespace MASK\Mask\Helper;
 
 use MASK\Mask\Domain\Repository\StorageRepository;
-use MASK\Mask\Utility\AffixUtility;
 
 /**
  * Methods for types of fields in mask (string, rte, repeating, ...)
+ * @deprecated will be removed in Mask 8.0.
  */
 class FieldHelper
 {
@@ -37,6 +37,11 @@ class FieldHelper
      */
     public function __construct(StorageRepository $storageRepository)
     {
+        trigger_error(
+            'MASK\Mask\Helper\FieldHelper will be removed in Mask v8.0. Please use MASK\Mask\Loader\LoaderInterface instead.',
+            E_USER_DEPRECATED
+        );
+
         $this->storageRepository = $storageRepository;
     }
 
@@ -45,30 +50,7 @@ class FieldHelper
      */
     public function getLabel(string $elementKey, string $fieldKey, string $type = 'tt_content'): string
     {
-        $json = $this->storageRepository->load();
-
-        // If this field is in a repeating field or palette, the label is in the field configuration.
-        $field = $json[$type]['tca'][$fieldKey] ?? [];
-        if (isset($field['inlineParent'])) {
-            if (is_array($field['label'])) {
-                if (isset($field['label'][$elementKey])) {
-                    return $field['label'][$elementKey];
-                }
-            } else {
-                return $field['label'];
-            }
-        }
-
-        // Root level fields have their labels defined in element labels array.
-        $columns = $json[$type]['elements'][$elementKey]['columns'] ?? false;
-        if ($columns && count($columns) > 0) {
-            $fieldIndex = array_search($fieldKey, $columns, true);
-            if ($fieldIndex !== false) {
-                return $json[$type]['elements'][$elementKey]['labels'][$fieldIndex];
-            }
-        }
-
-        return '';
+        return $this->storageRepository->getLabel($elementKey, $fieldKey, $type);
     }
 
     /**
@@ -76,64 +58,6 @@ class FieldHelper
      */
     public function getFieldType(string $fieldKey, string $elementKey = '', bool $excludeInlineFields = false): string
     {
-        $storage = $this->storageRepository->load();
-
-        if (!$storage) {
-            return '';
-        }
-
-        // get all possible types (tables)
-        if ($excludeInlineFields) {
-            $tables = ['tt_content', 'pages'];
-        } else {
-            $tables = array_keys($storage);
-        }
-
-        foreach ($tables as $table) {
-            if (isset($storage[$table]['tca'][$fieldKey]) && AffixUtility::hasMaskPrefix($table)) {
-                return $table;
-            }
-            foreach ($storage[$table]['elements'] ?? [] as $element) {
-                // If element key is set, ignore all other elements
-                if ($elementKey !== '' && ($elementKey !== $element['key'])) {
-                    continue;
-                }
-                if (isset($storage[$table]['tca'][$fieldKey]) || in_array($fieldKey, ($element['columns'] ?? []), true)) {
-                    return $table;
-                }
-            }
-        }
-
-        return '';
-    }
-
-    /**
-     * Returns all fields of a type from a table
-     */
-    public function getFieldsByType(string $tcaType, string $table): array
-    {
-        $storage = $this->storageRepository->load();
-        $tcaType = strtolower($tcaType);
-
-        if (empty($storage[$table]) || empty($storage[$table]['tca'])) {
-            return [];
-        }
-
-        $fields = [];
-        foreach ($storage[$table]['tca'] as $field => $config) {
-            if ($config['config']['type'] !== $tcaType) {
-                continue;
-            }
-
-            $elements = $this->storageRepository->getElementsWhichUseField($field, $table);
-            if ($elements) {
-                $fields[] = [
-                    'field' => $field,
-                    'label' => $this->getLabel($elements[0]['key'], $field, $table),
-                ];
-            }
-        }
-
-        return $fields;
+        return $this->storageRepository->getFieldType($fieldKey, $elementKey, $excludeInlineFields);
     }
 }

@@ -18,10 +18,8 @@ declare(strict_types=1);
 namespace MASK\Mask\Tests\Unit\Helper;
 
 use MASK\Mask\Domain\Repository\BackendLayoutRepository;
-use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Helper\InlineHelper;
-use MASK\Mask\Loader\LoaderInterface;
-use MASK\Mask\Loader\TableDefinitionCollection;
+use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Tests\Unit\StorageRepositoryCreatorTrait;
 use Prophecy\Argument;
 use TYPO3\CMS\Core\Resource\FileReference;
@@ -104,7 +102,6 @@ class InlineHelperTest extends BaseTestCase
             ]
         ];
 
-        $storageRepository = $this->createStorageRepository($json);
         $backendLayoutRepository = $this->prophesize(BackendLayoutRepository::class);
 
         $fileRepository = $this->prophesize(FileRepository::class);
@@ -112,7 +109,7 @@ class InlineHelperTest extends BaseTestCase
         $fileRepository->findByRelation(Argument::cetera())->willReturn([$fileReference]);
         GeneralUtility::setSingletonInstance(FileRepository::class, $fileRepository->reveal());
 
-        $inlineHelper = new InlineHelper($storageRepository, $backendLayoutRepository->reveal());
+        $inlineHelper = new InlineHelper(TableDefinitionCollection::createFromInternalArray($json), $backendLayoutRepository->reveal());
         $inlineHelper->addFilesToData($data, $table);
 
         self::assertInstanceOf(FileReference::class, $data[$key][0]);
@@ -248,13 +245,12 @@ class InlineHelperTest extends BaseTestCase
      */
     public function addIrreToData_tt_content(array $json, string $key, array $data, string $table, array $inlineElements): void
     {
-        $storageRepository = $this->createStorageRepository($json);
         $backendLayoutRepository = $this->prophesize(BackendLayoutRepository::class);
 
         $inlineHelper = $this->getAccessibleMock(
             InlineHelper::class,
             ['getInlineElements'],
-            [$storageRepository, $backendLayoutRepository->reveal()]
+            [TableDefinitionCollection::createFromInternalArray($json), $backendLayoutRepository->reveal()]
         );
         $inlineHelper->expects(self::any())->method('getInlineElements')->willReturn($inlineElements);
         $inlineHelper->addIrreToData($data, $table);
@@ -324,8 +320,6 @@ class InlineHelperTest extends BaseTestCase
      */
     public function addIrreToData_pages(array $json, string $key, array $data, string $table, array $inlineElements): void
     {
-        $storageRepository = $this->createStorageRepository($json);
-
         $backendLayoutRepository = $this->getMockBuilder(BackendLayoutRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -335,7 +329,7 @@ class InlineHelperTest extends BaseTestCase
         $inlineHelper = $this->getAccessibleMock(
             InlineHelper::class,
             ['getInlineElements'],
-            [$storageRepository, $backendLayoutRepository]
+            [TableDefinitionCollection::createFromInternalArray($json), $backendLayoutRepository]
         );
         $inlineHelper->expects(self::once())->method('getInlineElements')->willReturn($inlineElements);
         $inlineHelper->addIrreToData($data, $table);
@@ -405,8 +399,6 @@ class InlineHelperTest extends BaseTestCase
      */
     public function addIrreToDataNoBeLayout(array $json, string $key, array $data, string $table, array $inlineElements): void
     {
-        $storageRepository = $this->createStorageRepository($json);
-
         $backendLayoutRepository = $this->prophesize(BackendLayoutRepository::class);
 
         // No backend layout found
@@ -415,7 +407,7 @@ class InlineHelperTest extends BaseTestCase
         $inlineHelper = $this->getAccessibleMock(
             InlineHelper::class,
             ['getInlineElements'],
-            [$storageRepository, $backendLayoutRepository->reveal()]
+            [TableDefinitionCollection::createFromInternalArray($json), $backendLayoutRepository->reveal()]
         );
         $inlineHelper->expects(self::once())->method('getInlineElements')->willReturn($inlineElements);
         $inlineHelper->addIrreToData($data, $table);
@@ -484,13 +476,12 @@ class InlineHelperTest extends BaseTestCase
      */
     public function addIrreToDataToInlineField(array $json, string $key, array $data, string $table, array $inlineElements): void
     {
-        $storageRepository = $this->createStorageRepository($json);
         $backendLayoutRepository = $this->prophesize(BackendLayoutRepository::class);
 
         $inlineHelper = $this->getAccessibleMock(
             InlineHelper::class,
             ['getInlineElements'],
-            [$storageRepository, $backendLayoutRepository->reveal()]
+            [TableDefinitionCollection::createFromInternalArray($json), $backendLayoutRepository->reveal()]
         );
         $inlineHelper->expects(self::once())->method('getInlineElements')->willReturn($inlineElements);
         $inlineHelper->addIrreToData($data, $table);

@@ -29,14 +29,19 @@ class ContentViewHelper extends AbstractViewHelper
     protected $escapeOutput = false;
 
     /**
-     * @var ConfigurationManagerInterface
-     */
-    protected $configurationManager;
-
-    /**
      * @var ContentObjectRenderer Object
      */
     protected $cObj;
+
+    /**
+     * Injects Configuration Manager
+     *
+     * @param ConfigurationManagerInterface $configurationManager
+     */
+    public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager): void
+    {
+        $this->cObj = $configurationManager->getContentObject();
+    }
 
     public function initializeArguments(): void
     {
@@ -56,17 +61,5 @@ class ContentViewHelper extends AbstractViewHelper
             'dontCheckPid' => 1
         ];
         return $this->cObj->cObjGetSingle('RECORDS', $conf);
-    }
-
-    /**
-     * Injects Configuration Manager
-     *
-     * @param ConfigurationManagerInterface $configurationManager
-     */
-    public function injectConfigurationManager(
-        ConfigurationManagerInterface $configurationManager
-    ): void {
-        $this->configurationManager = $configurationManager;
-        $this->cObj = $this->configurationManager->getContentObject();
     }
 }

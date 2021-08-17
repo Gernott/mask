@@ -19,7 +19,7 @@ namespace MASK\Mask\CodeGenerator;
 
 use Doctrine\DBAL\Exception;
 use MASK\Mask\Enumeration\FieldType;
-use MASK\Mask\Domain\Repository\StorageRepository;
+use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Utility\AffixUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Event\AlterTableDefinitionStatementsEvent;
@@ -33,20 +33,18 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class SqlCodeGenerator
 {
     /**
-     * StorageRepository
-     *
-     * @var StorageRepository
-     */
-    protected $storageRepository;
-
-    /**
      * @var SchemaMigrator
      */
     protected $schemaMigrator;
 
-    public function __construct(StorageRepository $storageRepository, SchemaMigrator $schemaMigrator)
+    /**
+     * @var TableDefinitionCollection
+     */
+    protected $tableDefinitionCollection;
+
+    public function __construct(TableDefinitionCollection $tableDefinitionCollection, SchemaMigrator $schemaMigrator)
     {
-        $this->storageRepository = $storageRepository;
+        $this->tableDefinitionCollection = $tableDefinitionCollection;
         $this->schemaMigrator = $schemaMigrator;
     }
 
@@ -84,43 +82,43 @@ class SqlCodeGenerator
     /**
      * returns sql statements of all elements and pages and irre
      */
-    public function getSqlByConfiguration(array $json): array
+    protected function getSqlByConfiguration(): array
     {
-        $sql_content = [];
+        $sql = [];
 
         // Generate SQL-Statements
-        foreach ($json as $type => $value) {
-            if (!($value['sql'] ?? false)) {
+        foreach ($this->tableDefinitionCollection as $tableDefinition) {
+            if (empty($tableDefinition->sql)) {
                 continue;
             }
 
-            foreach ($value['sql'] as $field) {
+            foreach ($tableDefinition->sql as $field) {
                 foreach ($field ?? [] as $table => $fields) {
-                    foreach ($fields ?? [] as $fieldKey => $definition) {
-                        $fieldType = $this->storageRepository->getFormType($fieldKey, '', $table);
-                        if ($fieldType === FieldType::INLINE && !array_key_exists($fieldKey, $json)) {
+                    foreach ($fields ?? [] as $fieldKey => $sqlDefinition) {
+                        $fieldType = $this->tableDefinitionCollection->getFormType($fieldKey, '', $table);
+                        if ($fieldType === FieldType::INLINE && !$this->tableDefinitionCollection->hasTableDefinition($fieldKey)) {
                             continue;
                         }
-                        $sql_content[] = 'CREATE TABLE ' . $table . " (\n\t" . $fieldKey . ' ' . $definition . "\n);\n";
+                        $sql[] = 'CREATE TABLE ' . $table . " (\n\t" . $fieldKey . ' ' . $sqlDefinition . "\n);\n";
                         // if this field is a content field, also add parent columns
                         if ($fieldType === FieldType::CONTENT) {
                             $parentField = AffixUtility::addMaskParentSuffix($fieldKey);
-                            $sql_content[] = "CREATE TABLE tt_content (\n\t" . $parentField . ' ' . $definition . ",\n\t" . 'KEY ' . $fieldKey . ' (' . $parentField . ', deleted, hidden, sorting)' . "\n);\n";
+                            $sql[] = "CREATE TABLE tt_content (\n\t" . $parentField . ' ' . $sqlDefinition . ",\n\t" . 'KEY ' . $fieldKey . ' (' . $parentField . ', deleted, hidden, sorting)' . "\n);\n";
                         }
                     }
                 }
             }
 
             // If type/table is an irre table, then create table for it
-            if (AffixUtility::hasMaskPrefix($type)) {
-                $sql_content[] = "CREATE TABLE $type (
+            if (AffixUtility::hasMaskPrefix($tableDefinition->table)) {
+                $sql[] = "CREATE TABLE {$tableDefinition->table} (
                          parentid int(11) DEFAULT '0' NOT NULL,
                          parenttable varchar(255) DEFAULT '',
                      );";
             }
         }
 
-        return $sql_content;
+        return $sql;
     }
 
     /**
@@ -130,8 +128,6 @@ class SqlCodeGenerator
      */
     public function addDatabaseTablesDefinition(AlterTableDefinitionStatementsEvent $event): void
     {
-        $json = $this->storageRepository->load();
-        $sql = $this->getSqlByConfiguration($json);
-        $event->setSqlData(array_merge($event->getSqlData(), $sql));
+        $event->setSqlData(array_merge($event->getSqlData(), $this->getSqlByConfiguration()));
     }
 }

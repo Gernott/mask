@@ -17,9 +17,9 @@ declare(strict_types=1);
 
 namespace MASK\Mask\CodeGenerator;
 
-use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Enumeration\FieldType;
-use MASK\Mask\Helper\FieldHelper;
+use MASK\Mask\Definition\TableDefinition;
+use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\DateUtility;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
@@ -35,21 +35,15 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 class TcaCodeGenerator
 {
     /**
-     * @var FieldHelper
-     */
-    protected $fieldHelper;
-
-    /**
      * StorageRepository
      *
-     * @var StorageRepository
+     * @var TableDefinitionCollection
      */
-    protected $storageRepository;
+    protected $tableDefinitionCollection;
 
-    public function __construct(StorageRepository $storageRepository, FieldHelper $fieldHelper)
+    public function __construct(TableDefinitionCollection $tableDefinitionCollection)
     {
-        $this->storageRepository = $storageRepository;
-        $this->fieldHelper = $fieldHelper;
+        $this->tableDefinitionCollection = $tableDefinitionCollection;
     }
 
     /**
@@ -57,17 +51,17 @@ class TcaCodeGenerator
      */
     public function setInlineTca(): void
     {
-        $json = $this->storageRepository->load();
-        foreach ($json as $table => $subJson) {
+        foreach ($this->tableDefinitionCollection as $tableDefinition) {
+            $table = $tableDefinition->table;
             if (!AffixUtility::hasMaskPrefix($table)) {
                 continue;
             }
             // Ignore table with missing tca
-            if (empty($subJson['tca'])) {
+            if (empty($tableDefinition->tca)) {
                 continue;
             }
             // Enhance boilerplate table tca with user settings
-            $GLOBALS['TCA'][$table] = $this->generateTableTca($table, $subJson);
+            $GLOBALS['TCA'][$table] = $this->generateTableTca($tableDefinition);
             ExtensionManagementUtility::addTCAcolumns($table, $this->generateFieldsTca($table));
         }
     }
@@ -75,13 +69,12 @@ class TcaCodeGenerator
     /**
      * Generates the TCA for a new custom table.
      */
-    public function generateTableTca(string $table, array $subJson): array
+    public function generateTableTca(TableDefinition $tableDefinition): array
     {
-        $json = $this->storageRepository->load();
-
+        $table = $tableDefinition->table;
         // Generate Table TCA
-        $processedTca = $this->processTableTca($table, $subJson);
-        $parentTable = $this->fieldHelper->getFieldType($table);
+        $processedTca = $this->processTableTca($tableDefinition);
+        $parentTable = $this->tableDefinitionCollection->getFieldType($table);
 
         // Adjust TCA-Template
         $tableTca = self::getTcaTemplate();
@@ -103,19 +96,20 @@ class TcaCodeGenerator
         $tableTca['columns']['parentid']['config']['foreign_table_where'] = "AND $parentTable.pid=###CURRENT_PID### AND $parentTable.sys_language_uid IN (-1, ###REC_FIELD_sys_language_uid###)";
 
         // Add palettes
-        foreach ($subJson['palettes'] ?? [] as $key => $palette) {
+        foreach ($tableDefinition->palettes as $key => $palette) {
             $tableTca['palettes'][$key] = $this->generatePalettesTca($palette, $table);
         }
 
+        $tt_content = $this->tableDefinitionCollection->getTableDefiniton('tt_content');
         // Set label for inline if defined
-        $inlineLabel = $json['tt_content']['tca'][$table]['ctrl']['label'] ?? $json['tt_content']['tca'][$table]['inlineLabel'] ?? '';
-        if ($inlineLabel && array_key_exists($inlineLabel, $subJson['tca'])) {
+        $inlineLabel = $tt_content->tca[$table]['ctrl']['label'] ?? $tt_content->tca[$table]['inlineLabel'] ?? '';
+        if ($inlineLabel && array_key_exists($inlineLabel, $tableDefinition->tca)) {
             $tableTca['ctrl']['label'] = $inlineLabel;
         }
 
         // Set icon for inline
-        $inlineIcon = $json['tt_content']['tca'][$table]['ctrl']['iconfile'] ?? $json['tt_content']['tca'][$table]['inlineIcon'] ?? '';
-        if ($inlineIcon) {
+        $inlineIcon = $tt_content->tca[$table]['ctrl']['iconfile'] ?? $tt_content->tca[$table]['inlineIcon'] ?? '';
+        if ($inlineIcon !== '') {
             $tableTca['ctrl']['iconfile'] = $inlineIcon;
         }
         return $tableTca;
@@ -126,8 +120,6 @@ class TcaCodeGenerator
      */
     public function setElementsTca(): void
     {
-        $json = $this->storageRepository->load();
-        $tca = $json['tt_content']['elements'] ?? [];
         $defaultTabs = ',--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.appearance,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.frames;frames,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.appearanceLinks;appearanceLinks,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,--palette--;;language,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,--palette--;;hidden,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:categories,--div--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_category.tabs.category,categories,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:notes,rowDescription,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended';
         $prependTabs = '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,';
         $defaultPalette = '--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,';
@@ -147,19 +139,21 @@ class TcaCodeGenerator
             'after:default'
         );
 
-        foreach ($json['tt_content']['palettes'] ?? [] as $key => $palette) {
+        $tt_content = $this->tableDefinitionCollection->getTableDefiniton('tt_content');
+
+        foreach ($tt_content->palettes as $key => $palette) {
             $GLOBALS['TCA']['tt_content']['palettes'][$key] = $this->generatePalettesTca($palette, 'tt_content');
         }
 
-        foreach ($tca as $key => $elementvalue) {
-            if ($elementvalue['hidden'] ?? false) {
+        foreach ($tt_content->elements as $key => $elementValue) {
+            if ($elementValue['hidden'] ?? false) {
                 continue;
             }
 
-            $cTypeKey = AffixUtility::addMaskCTypePrefix($elementvalue['key']);
+            $cTypeKey = AffixUtility::addMaskCTypePrefix($elementValue['key']);
 
             // Optional shortLabel
-            $label = $elementvalue['shortLabel'] ?: $elementvalue['label'];
+            $label = $elementValue['shortLabel'] ?: $elementValue['label'];
 
             // Add new entry in CType selectbox
             ExtensionManagementUtility::addTcaSelectItem(
@@ -168,7 +162,7 @@ class TcaCodeGenerator
                 [
                     $label,
                     $cTypeKey,
-                    'mask-ce-' . $elementvalue['key'],
+                    'mask-ce-' . $elementValue['key'],
                     'mask'
                 ]
             );
@@ -176,7 +170,7 @@ class TcaCodeGenerator
             // Add all the fields that should be shown
             [$prependTabs, $fields] = $this->generateShowItem($prependTabs, $key, 'tt_content');
 
-            $GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes'][$cTypeKey] = 'mask-ce-' . $elementvalue['key'];
+            $GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes'][$cTypeKey] = 'mask-ce-' . $elementValue['key'];
             $GLOBALS['TCA']['tt_content']['types'][$cTypeKey]['columnsOverrides']['bodytext']['config']['enableRichtext'] = 1;
             $GLOBALS['TCA']['tt_content']['types'][$cTypeKey]['showitem'] = $prependTabs . $defaultPalette . $fields . $defaultTabs . $gridelements;
         }
@@ -188,11 +182,10 @@ class TcaCodeGenerator
     public function getPagePalettes(string $key): array
     {
         $palettes = [];
-        $tca = $this->storageRepository->load();
-        $element = $tca['pages']['elements'][$key];
-        foreach ($element['columns'] ?? [] as $column) {
-            if ($this->storageRepository->getFormType($column, $key, 'pages') === FieldType::PALETTE) {
-                $palettes[$column] = $this->generatePalettesTca($tca['pages']['palettes'][$column], 'pages');
+        $pages = $this->tableDefinitionCollection->getTableDefiniton('pages');
+        foreach ($pages->elements['columns'] ?? [] as $column) {
+            if ($this->tableDefinitionCollection->getFormType($column, $key, 'pages') === FieldType::PALETTE) {
+                $palettes[$column] = $this->generatePalettesTca($pages->palettes[$column], 'pages');
             }
         }
         return $palettes;
@@ -214,14 +207,13 @@ class TcaCodeGenerator
      */
     protected function generateShowItem(string $prependTabs, string $elementKey, string $table): array
     {
-        $tca = $this->storageRepository->load();
-        $element = $tca[$table]['elements'][$elementKey] ?? [];
+        $element = $this->tableDefinitionCollection->getTableDefiniton($table)->elements[$elementKey] ?? [];
         $fieldArray = [];
         foreach ($element['columns'] ?? [] as $index => $fieldKey) {
-            $formType = $this->storageRepository->getFormType($fieldKey, $elementKey, $table);
+            $formType = $this->tableDefinitionCollection->getFormType($fieldKey, $elementKey, $table);
             // Check if this field is of type tab
             if ($formType === FieldType::TAB) {
-                $label = $this->fieldHelper->getLabel($elementKey, $fieldKey, $table);
+                $label = $this->tableDefinitionCollection->getLabel($elementKey, $fieldKey, $table);
                 // If a tab is in the first position then change the name of the general tab
                 if ($index === 0) {
                     $prependTabs = '--div--;' . $label . ',';
@@ -247,7 +239,7 @@ class TcaCodeGenerator
     {
         $showitem = [];
         foreach ($palette['showitem'] as $item) {
-            if ($this->storageRepository->getFormType($item, '', $table) === FieldType::LINEBREAK) {
+            if ($this->tableDefinitionCollection->getFormType($item, '', $table) === FieldType::LINEBREAK) {
                 $showitem[] = '--linebreak--';
             } else {
                 $showitem[] = $item;
@@ -265,31 +257,30 @@ class TcaCodeGenerator
      */
     public function generateFieldsTca(string $table): array
     {
-        $json = $this->storageRepository->load();
-        $tca = $json[$table]['tca'] ?? [];
+        $tableDefinition = $this->tableDefinitionCollection->getTableDefiniton($table);
         $columns = [];
-        foreach ($tca as $tcakey => $tcavalue) {
-            if (!isset($tcavalue['config'])) {
+        foreach ($tableDefinition->tca as $tcaKey => $tcaValue) {
+            if (!isset($tcaValue['config'])) {
                 continue;
             }
 
             // Inline: Ignore empty inline fields
-            $formType = $this->storageRepository->getFormType($tcakey, '', $table);
-            if ($formType !== '' && !array_key_exists($tcakey, $json) && FieldType::cast($formType)->isParentField()) {
+            $formType = $this->tableDefinitionCollection->getFormType($tcaKey, '', $table);
+            if ($formType !== '' && !$this->tableDefinitionCollection->hasTableDefinition($tcaKey) && FieldType::cast($formType)->isParentField()) {
                 continue;
             }
 
             // Ignore grouping elements
-            if (in_array(($tcavalue['config']['type'] ?? ''), FieldType::getConstants(), true) && FieldType::cast(($tcavalue['config']['type']))->isGroupingField()) {
+            if (in_array(($tcaValue['config']['type'] ?? ''), FieldType::getConstants(), true) && FieldType::cast(($tcaValue['config']['type']))->isGroupingField()) {
                 continue;
             }
 
-            $columns[$tcakey] = [];
+            $columns[$tcaKey] = [];
 
             // File: Add file config.
-            if (($tcavalue['options'] ?? '') === 'file') {
+            if (($tcaValue['options'] ?? '') === 'file') {
                 // If imageoverlayPalette is not set (because of updates to newer version) fallback to default behaviour.
-                if ($tcavalue['imageoverlayPalette'] ?? true) {
+                if ($tcaValue['imageoverlayPalette'] ?? true) {
                     $customSettingOverride = [
                         'overrideChildTca' => [
                             'types' => [
@@ -328,54 +319,54 @@ class TcaCodeGenerator
                     ];
                 }
 
-                $customSettingOverride['appearance'] = $tcavalue['config']['appearance'] ?? [];
+                $customSettingOverride['appearance'] = $tcaValue['config']['appearance'] ?? [];
                 $customSettingOverride['appearance']['fileUploadAllowed'] = (bool)($customSettingOverride['appearance']['fileUploadAllowed'] ?? true);
                 $customSettingOverride['appearance']['useSortable'] = (bool)($customSettingOverride['appearance']['useSortable'] ?? false);
                 // Since mask v7.0.0 the path for allowedFileExtensions has changed to root level. Keep this as fallback.
-                $allowedFileExtensions = $tcavalue['allowedFileExtensions'] ?? $tcavalue['config']['filter']['0']['parameters']['allowedFileExtensions'] ?? '';
+                $allowedFileExtensions = $tcaValue['allowedFileExtensions'] ?? $tcaValue['config']['filter']['0']['parameters']['allowedFileExtensions'] ?? '';
                 if ($allowedFileExtensions === '') {
                     $allowedFileExtensions = $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'];
                 }
-                $columns[$tcakey]['config'] = ExtensionManagementUtility::getFileFieldTCAConfig($tcakey, $customSettingOverride, $allowedFileExtensions);
+                $columns[$tcaKey]['config'] = ExtensionManagementUtility::getFileFieldTCAConfig($tcaKey, $customSettingOverride, $allowedFileExtensions);
                 unset($customSettingOverride);
             }
 
             // Inline (Repeating): Fill missing foreign_table in tca config.
-            if (($tcavalue['config']['foreign_table'] ?? '') === '--inlinetable--') {
-                $tcavalue['config']['foreign_table'] = $tcakey;
+            if (($tcaValue['config']['foreign_table'] ?? '') === '--inlinetable--') {
+                $tcaValue['config']['foreign_table'] = $tcaKey;
             }
 
             // Convert Date and Datetime default and ranges to timestamp
-            $dbType = $tcavalue['config']['dbType'] ?? '';
+            $dbType = $tcaValue['config']['dbType'] ?? '';
             if (in_array($dbType, ['date', 'datetime'])) {
-                $default = $tcavalue['config']['default'] ?? false;
+                $default = $tcaValue['config']['default'] ?? false;
                 if ($default) {
-                    $tcavalue['config']['default'] = DateUtility::convertStringToTimestampByDbType($dbType, $default);
+                    $tcaValue['config']['default'] = DateUtility::convertStringToTimestampByDbType($dbType, $default);
                 }
-                $upper = $tcavalue['config']['range']['upper'] ?? false;
+                $upper = $tcaValue['config']['range']['upper'] ?? false;
                 if ($upper) {
-                    $tcavalue['config']['range']['upper'] = DateUtility::convertStringToTimestampByDbType($dbType, $upper);
+                    $tcaValue['config']['range']['upper'] = DateUtility::convertStringToTimestampByDbType($dbType, $upper);
                 }
-                $lower = $tcavalue['config']['range']['lower'] ?? false;
+                $lower = $tcaValue['config']['range']['lower'] ?? false;
                 if ($lower) {
-                    $tcavalue['config']['range']['lower'] = DateUtility::convertStringToTimestampByDbType($dbType, $lower);
+                    $tcaValue['config']['range']['lower'] = DateUtility::convertStringToTimestampByDbType($dbType, $lower);
                 }
             }
 
             // Text: Set correct rendertype if format (code highlighting) is set.
-            if ($tcavalue['config']['format'] ?? false) {
-                $tcavalue['config']['renderType'] = 't3editor';
+            if ($tcaValue['config']['format'] ?? false) {
+                $tcaValue['config']['renderType'] = 't3editor';
             }
 
             // RTE: Add softref
             if (FieldType::cast($formType)->equals(FieldType::RICHTEXT)) {
-                $tcavalue['config']['softref'] = 'typolink_tag,email[subst],url';
+                $tcaValue['config']['softref'] = 'typolink_tag,email[subst],url';
             }
 
             // Content: Set foreign_field and default CType in select if restricted.
-            if (($tcavalue['config']['foreign_table'] ?? '') === 'tt_content' && ($tcavalue['config']['type'] ?? '') === 'inline') {
-                $parentField = AffixUtility::addMaskParentSuffix($tcakey);
-                $tcavalue['config']['foreign_field'] = $parentField;
+            if (($tcaValue['config']['foreign_table'] ?? '') === 'tt_content' && ($tcaValue['config']['type'] ?? '') === 'inline') {
+                $parentField = AffixUtility::addMaskParentSuffix($tcaKey);
+                $tcaValue['config']['foreign_field'] = $parentField;
                 if ($table === 'tt_content') {
                     $columns[$parentField] = [
                         'config' => [
@@ -383,8 +374,8 @@ class TcaCodeGenerator
                         ]
                     ];
                 }
-                if ($tcavalue['cTypes'] ?? false) {
-                    $tcavalue['config']['overrideChildTca']['columns']['CType']['config']['default'] = reset($tcavalue['cTypes']);
+                if ($tcaValue['cTypes'] ?? false) {
+                    $tcaValue['config']['overrideChildTca']['columns']['CType']['config']['default'] = reset($tcaValue['cTypes']);
                 }
             }
 
@@ -397,32 +388,32 @@ class TcaCodeGenerator
             }
 
             // Merge user inputs with file array (for file type overrides)
-            ArrayUtility::mergeRecursiveWithOverrule($columns[$tcakey], $tcavalue);
+            ArrayUtility::mergeRecursiveWithOverrule($columns[$tcaKey], $tcaValue);
 
             // Unset some values that are not needed in TCA
             unset(
-                $columns[$tcakey]['options'],
-                $columns[$tcakey]['key'],
-                $columns[$tcakey]['rte'],
-                $columns[$tcakey]['inlineParent'],
-                $columns[$tcakey]['inlineLabel'],
-                $columns[$tcakey]['inPalette'],
-                $columns[$tcakey]['order'],
-                $columns[$tcakey]['inlineIcon'],
-                $columns[$tcakey]['imageoverlayPalette'],
-                $columns[$tcakey]['cTypes'],
-                $columns[$tcakey]['allowedFileExtensions'],
-                $columns[$tcakey]['ctrl']
+                $columns[$tcaKey]['options'],
+                $columns[$tcaKey]['key'],
+                $columns[$tcaKey]['rte'],
+                $columns[$tcaKey]['inlineParent'],
+                $columns[$tcaKey]['inlineLabel'],
+                $columns[$tcaKey]['inPalette'],
+                $columns[$tcaKey]['order'],
+                $columns[$tcaKey]['inlineIcon'],
+                $columns[$tcaKey]['imageoverlayPalette'],
+                $columns[$tcaKey]['cTypes'],
+                $columns[$tcaKey]['allowedFileExtensions'],
+                $columns[$tcaKey]['ctrl']
             );
 
             // Unset label if it is from palette fields
-            if (is_array($columns[$tcakey]['label'] ?? false)) {
-                unset($columns[$tcakey]['label']);
+            if (is_array($columns[$tcaKey]['label'] ?? false)) {
+                unset($columns[$tcaKey]['label']);
             }
 
-            $columns[$tcakey] = MaskUtility::removeBlankOptions($columns[$tcakey]);
+            $columns[$tcaKey] = MaskUtility::removeBlankOptions($columns[$tcaKey]);
             // Exlcude all fields for editors by default
-            $columns[$tcakey]['exclude'] = 1;
+            $columns[$tcaKey]['exclude'] = 1;
         }
         return $columns;
     }
@@ -430,11 +421,12 @@ class TcaCodeGenerator
     /**
      * Processes the TCA for Inline-Tables
      */
-    public function processTableTca(string $table, array $json): array
+    public function processTableTca(TableDefinition $tableDefinition): array
     {
         $generalTab = '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general';
 
-        uasort($json['tca'], static function ($columnA, $columnB) {
+        $tca = $tableDefinition->tca;
+        uasort($tca, static function ($columnA, $columnB) {
             $a = isset($columnA['order']) ? (int)$columnA['order'] : 0;
             $b = isset($columnB['order']) ? (int)$columnB['order'] : 0;
             return $a - $b;
@@ -442,9 +434,9 @@ class TcaCodeGenerator
 
         $fields = [];
         $firstField = true;
-        foreach ($json['tca'] as $fieldKey => $configuration) {
+        foreach ($tca as $fieldKey => $configuration) {
             // check if this field is of type tab
-            $formType = $this->storageRepository->getFormType($fieldKey, '', $table);
+            $formType = $this->tableDefinitionCollection->getFormType($fieldKey, '', $tableDefinition->table);
             if ($formType === FieldType::TAB) {
                 $label = $configuration['label'];
                 // if a tab is in the first position then change the name of the general tab
@@ -455,7 +447,7 @@ class TcaCodeGenerator
                     $fields[] = '--div--;' . $label;
                 }
             } elseif ($formType === FieldType::PALETTE) {
-                if ($firstField && empty($json['palettes'][$fieldKey]['showitem'])) {
+                if ($firstField && empty($tableDefinition->palettes[$fieldKey]['showitem'])) {
                     $firstField = false;
                     continue;
                 }
@@ -473,7 +465,7 @@ class TcaCodeGenerator
             // If first field is palette, get label of first field in this palette.
             if (strpos($labelField, '--palette--;;') === 0) {
                 $palette = str_replace('--palette--;;', '', $labelField);
-                $labelField = $json['palettes'][$palette]['showitem'][0];
+                $labelField = $tableDefinition->palettes[$palette]['showitem'][0];
             }
         }
 
@@ -485,10 +477,11 @@ class TcaCodeGenerator
 
     /**
      * Return array with mask irre tables.
+     * @deprecated will be removed in Mask v8.0.
      */
     public function getMaskIrreTables(): array
     {
-        $configuration = $this->storageRepository->load();
+        $configuration = $this->tableDefinitionCollection->toArray();
         $irreTables = array_filter(array_keys($configuration), static function ($table) {
             return AffixUtility::hasMaskPrefix($table);
         });
@@ -500,12 +493,11 @@ class TcaCodeGenerator
      */
     public function addSearchFields(string $table): void
     {
-        $json = $this->storageRepository->load();
-        $tca = $json[$table]['tca'] ?? [];
+        $tca = $this->tableDefinitionCollection->getTableDefiniton($table)->tca;
         $searchFields = [];
 
         foreach ($tca as $tcakey => $tcavalue) {
-            $formType = $this->storageRepository->getFormType($tcakey, '', $table);
+            $formType = $this->tableDefinitionCollection->getFormType($tcakey, '', $table);
             if (in_array($formType, [FieldType::STRING, FieldType::TEXT], true)) {
                 $searchFields[] = $tcakey;
             }
