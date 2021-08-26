@@ -4,6 +4,7 @@ Build/node_modules/
 composer.lock
 var/
 Build/testing-docker/.env
+Build/phpunit/.phpunit.result.cache
 .php_cs.cache
 Documentation-GENERATED-temp/
 .env
