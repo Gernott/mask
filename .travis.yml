@@ -6,34 +6,47 @@ php: 7.4
 
 jobs:
   include:
+    - stage: "early"
+      name: "PHP CS Fixer"
+      script: Build/Scripts/runTests.sh -s cglGit -n -p 7.4
+
     - stage: "Unit Tests"
       name: "Unit TYPO3 v10 PHP 7.2"
       install: composer require typo3/cms-core:"^10.4"
       script: Build/Scripts/runTests.sh -p 7.2
+
     - name: "Unit Deprecated TYPO3 v10 PHP 7.2"
       install: composer require typo3/cms-core:"^10.4"
       script: Build/Scripts/runTests.sh -p 7.2 -s unitDeprecated
+
     - name: "Unit TYPO3 v10 PHP 7.3"
       install: composer require typo3/cms-core:"^10.4"
       script: Build/Scripts/runTests.sh -p 7.3
+
     - name: "Unit Deprecated TYPO3 v10 PHP 7.3"
       install: composer require typo3/cms-core:"^10.4"
       script: Build/Scripts/runTests.sh -p 7.3 -s unitDeprecated
+
     - name: "Unit TYPO3 v10 PHP 7.4"
       install: composer require typo3/cms-core:"^10.4"
       script: Build/Scripts/runTests.sh -p 7.4
+
     - name: "Unit Deprecated TYPO3 v10 PHP 7.4"
       install: composer require typo3/cms-core:"^10.4"
       script: Build/Scripts/runTests.sh -p 7.4 -s unitDeprecated
+
     - name: "Unit TYPO3 v11 PHP 7.4"
       install: composer require typo3/cms-core:"~11.3.0"
       script: Build/Scripts/runTests.sh -p 7.4
+
     - name: "Unit Deprecated TYPO3 v11 PHP 7.4"
       install: composer require typo3/cms-core:"~11.3.0"
       script: Build/Scripts/runTests.sh -p 7.4 -s unitDeprecated
+
     - name: "Unit TYPO3 v11 PHP 8.0"
       install: composer require typo3/cms-core:"~11.3.0"
       script: Build/Scripts/runTests.sh -p 8.0
+
     - name: "Unit Deprecated TYPO3 v11 PHP 8.0"
       install: composer require typo3/cms-core:"~11.3.0"
       script: Build/Scripts/runTests.sh -p 8.0 -s unitDeprecated

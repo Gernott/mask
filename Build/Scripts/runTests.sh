@@ -28,6 +28,7 @@ setUpDockerComposeDotEnv() {
     echo "DOCKER_PHP_IMAGE=${DOCKER_PHP_IMAGE}" >> .env
     echo "EXTRA_TEST_OPTIONS=${EXTRA_TEST_OPTIONS}" >> .env
     echo "SCRIPT_VERBOSE=${SCRIPT_VERBOSE}" >> .env
+    echo "CGLCHECK_DRY_RUN=${CGLCHECK_DRY_RUN}" >> .env
 }
 
 # Load help text into $HELP
@@ -121,7 +122,7 @@ OPTIND=1
 # Array for invalid options
 INVALID_OPTIONS=();
 # Simple option parsing based on getopts (! not getopt)
-while getopts ":s:p:e:xy:huv" OPT; do
+while getopts ":s:p:e:xy:nhuv" OPT; do
     case ${OPT} in
         s)
             TEST_SUITE=${OPTARG}
@@ -137,6 +138,9 @@ while getopts ":s:p:e:xy:huv" OPT; do
             ;;
         y)
             PHP_XDEBUG_PORT=${OPTARG}
+            ;;
+        n)
+            CGLCHECK_DRY_RUN="-n"
             ;;
         h)
             echo "${HELP}"
@@ -196,6 +200,12 @@ case ${TEST_SUITE} in
     lint)
         setUpDockerComposeDotEnv
         docker-compose run lint
+        SUITE_EXIT_CODE=$?
+        docker-compose down
+        ;;
+    cglGit)
+        setUpDockerComposeDotEnv
+        docker-compose run cgl_git
         SUITE_EXIT_CODE=$?
         docker-compose down
         ;;
