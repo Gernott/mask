@@ -55,10 +55,9 @@ class TcaTypesShowitemMaskBeLayoutFields implements FormDataProviderInterface
         if (!empty($pages->elements)) {
             $conditionMatcher = GeneralUtility::makeInstance(ConditionMatcher::class, null, $result['vanillaUid'], $result['rootline']);
             foreach ($pages->elements as $element) {
-                $key = (string)$element['key'];
-                if ($conditionMatcher->match("[maskBeLayout('$key')]")) {
-                    $result['processedTca']['types'][$result['recordTypeValue']]['showitem'] .= $this->tcaCodeGenerator->getPageShowItem($key);
-                    $result['processedTca']['palettes'] = array_merge(($result['processedTca']['palettes'] ?? []), $this->tcaCodeGenerator->getPagePalettes($key));
+                if ($conditionMatcher->match("[maskBeLayout('$element->key')]")) {
+                    $result['processedTca']['types'][$result['recordTypeValue']]['showitem'] .= $this->tcaCodeGenerator->getPageShowItem($element->key);
+                    $result['processedTca']['palettes'] = array_merge(($result['processedTca']['palettes'] ?? []), $this->tcaCodeGenerator->getPagePalettes($element->key));
                     break;
                 }
             }
