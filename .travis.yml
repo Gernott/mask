@@ -8,6 +8,7 @@ jobs:
   include:
     - stage: "early"
       name: "PHP CS Fixer"
+      install: composer require typo3/cms-core:"^10.4"
       script: Build/Scripts/runTests.sh -s cglGit -n -p 7.4
 
     - stage: "Unit Tests"
