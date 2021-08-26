@@ -211,7 +211,7 @@ class AjaxController
     public function toggleVisibility(ServerRequestInterface $request): Response
     {
         $params = $request->getParsedBody();
-        if ($params['element']['hidden']) {
+        if ((int)$params['element']['hidden'] === 1) {
             $this->storageRepository->activate('tt_content', $params['element']['key']);
             $this->addFlashMessage(LocalizationUtility::translate('tx_mask.content.activatedcontentelement', 'mask'));
         } else {

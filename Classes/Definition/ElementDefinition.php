@@ -70,6 +70,10 @@ final class ElementDefinition
             'labels' => $this->labels
         ];
 
+        if ($this->hidden) {
+            $element['hidden'] = 1;
+        }
+
         if (!empty($this->options)) {
             $element['options'] = $this->options;
         }
