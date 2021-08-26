@@ -17,9 +17,9 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Tests\Unit\Helper;
 
+use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Domain\Repository\BackendLayoutRepository;
 use MASK\Mask\Helper\InlineHelper;
-use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Tests\Unit\StorageRepositoryCreatorTrait;
 use Prophecy\Argument;
 use TYPO3\CMS\Core\Resource\FileReference;

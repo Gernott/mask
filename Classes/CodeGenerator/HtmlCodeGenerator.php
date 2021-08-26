@@ -17,8 +17,8 @@ declare(strict_types=1);
 
 namespace MASK\Mask\CodeGenerator;
 
-use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Definition\TableDefinitionCollection;
+use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\AffixUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 

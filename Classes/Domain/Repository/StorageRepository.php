@@ -18,9 +18,9 @@ declare(strict_types=1);
 namespace MASK\Mask\Domain\Repository;
 
 use MASK\Mask\ConfigurationLoader\ConfigurationLoaderInterface;
+use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Definition\TcaFieldDefinition;
 use MASK\Mask\Enumeration\FieldType;
-use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Loader\LoaderInterface;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\TcaConverterUtility;

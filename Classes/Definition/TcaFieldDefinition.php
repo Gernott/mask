@@ -268,7 +268,6 @@ final class TcaFieldDefinition
             $field['order'] = $this->orderByElement;
         } elseif ($this->order > 0) {
             $field['order'] = $this->order;
-
         }
 
         $field = array_filter($field, static function ($item) {

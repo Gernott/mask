@@ -17,7 +17,6 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Tests\Unit;
 
-use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;

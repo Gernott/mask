@@ -17,8 +17,8 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Hooks;
 
-use MASK\Mask\Helper\InlineHelper;
 use MASK\Mask\Definition\TableDefinitionCollection;
+use MASK\Mask\Helper\InlineHelper;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Backend\Routing\UriBuilder;

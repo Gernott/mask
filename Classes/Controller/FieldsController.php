@@ -18,8 +18,8 @@ declare(strict_types=1);
 namespace MASK\Mask\Controller;
 
 use MASK\Mask\ConfigurationLoader\ConfigurationLoaderInterface;
-use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Definition\TableDefinitionCollection;
+use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\DateUtility;
 use MASK\Mask\Utility\TcaConverterUtility;
 use Psr\Http\Message\ServerRequestInterface;

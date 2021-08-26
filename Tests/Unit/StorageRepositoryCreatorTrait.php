@@ -15,8 +15,8 @@
 
 namespace MASK\Mask\Tests\Unit;
 
-use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Definition\TableDefinitionCollection;
+use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Loader\LoaderInterface;
 use MASK\Mask\Tests\Unit\ConfigurationLoader\FakeConfigurationLoader;
 

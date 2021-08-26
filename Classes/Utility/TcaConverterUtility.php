@@ -36,7 +36,6 @@ class TcaConverterUtility
      *     'config.type' => 'input',
      *     'config.renderType' => 'inputLink'
      * ]
-     *
      */
     public static function convertTcaArrayToFlat(array $config, array $path = ['config']): array
     {

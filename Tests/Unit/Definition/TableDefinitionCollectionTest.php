@@ -17,8 +17,8 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Tests\Unit\Definition;
 
-use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Definition\TableDefinitionCollection;
+use MASK\Mask\Enumeration\FieldType;
 use TYPO3\TestingFramework\Core\BaseTestCase;
 
 class TableDefinitionCollectionTest extends BaseTestCase

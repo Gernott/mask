@@ -18,9 +18,9 @@ declare(strict_types=1);
 namespace MASK\Mask\CodeGenerator;
 
 use MASK\Mask\Definition\ElementDefinition;
+use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Imaging\IconProvider\ContentElementIconProvider;
-use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\ArrayToTypoScriptConverterUtility;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
