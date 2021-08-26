@@ -23,5 +23,5 @@ jobs:
 
 install: composer require typo3/cms-core:"$TYPO3"
 script:
-  - .Build/vendor/phpunit/phpunit/phpunit -c Build/phpunit/UnitTests.xml .Build/Web/typo3conf/ext/mask/Tests/Unit
-  - .Build/vendor/phpunit/phpunit/phpunit -c Build/phpunit/UnitTestsDeprecated.xml .Build/Web/typo3conf/ext/mask/Tests/UnitDeprecated
+  - .Build/vendor/phpunit/phpunit/phpunit -c Build/phpunit/UnitTests.xml
+  - XDEBUG_MODE=off .Build/vendor/phpunit/phpunit/phpunit -c Build/phpunit/UnitTestsDeprecated.xml
