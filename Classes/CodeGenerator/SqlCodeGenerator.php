@@ -18,8 +18,8 @@ declare(strict_types=1);
 namespace MASK\Mask\CodeGenerator;
 
 use Doctrine\DBAL\Exception;
-use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Enumeration\FieldType;
+use MASK\Mask\Loader\LoaderInterface;
 use MASK\Mask\Utility\AffixUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Event\AlterTableDefinitionStatementsEvent;
@@ -39,13 +39,13 @@ class SqlCodeGenerator
     protected $schemaMigrator;
 
     /**
-     * @var TableDefinitionCollection
+     * @var LoaderInterface
      */
-    protected $tableDefinitionCollection;
+    protected $loader;
 
-    public function __construct(TableDefinitionCollection $tableDefinitionCollection, SchemaMigrator $schemaMigrator)
+    public function __construct(LoaderInterface $loader, SchemaMigrator $schemaMigrator)
     {
-        $this->tableDefinitionCollection = $tableDefinitionCollection;
+        $this->loader = $loader;
         $this->schemaMigrator = $schemaMigrator;
     }
 
@@ -85,18 +85,19 @@ class SqlCodeGenerator
      */
     protected function getSqlByConfiguration(): array
     {
+        $tableDefinitionCollection = $this->loader->load();
         $sql = [];
 
         // Generate SQL-Statements
-        foreach ($this->tableDefinitionCollection as $tableDefinition) {
+        foreach ($tableDefinitionCollection as $tableDefinition) {
             if (empty($tableDefinition->sql)) {
                 continue;
             }
 
             foreach ($tableDefinition->sql as $column) {
-                $table = $this->tableDefinitionCollection->getTableByField($column->column);
-                $fieldType = $this->tableDefinitionCollection->getFieldType($column->column, $table);
-                if ($fieldType->equals(FieldType::INLINE) && !$this->tableDefinitionCollection->hasTable($column->column)) {
+                $table = $tableDefinitionCollection->getTableByField($column->column);
+                $fieldType = $tableDefinitionCollection->getFieldType($column->column, $table);
+                if ($fieldType->equals(FieldType::INLINE) && !$tableDefinitionCollection->hasTable($column->column)) {
                     continue;
                 }
                 $sql[] = 'CREATE TABLE ' . $tableDefinition->table . " (\n\t" . $column->column . ' ' . $column->sqlDefinition . "\n);\n";
