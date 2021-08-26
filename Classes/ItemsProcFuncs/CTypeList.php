@@ -25,7 +25,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * Render the allowed CTypes for nested content elements
  */
-class CTypeList extends AbstractList
+class CTypeList
 {
 
     /**
@@ -44,7 +44,7 @@ class CTypeList extends AbstractList
     public function itemsProcFunc(array &$params): void
     {
         // if this tt_content element is inline element of mask
-        if ((int)$params['row']['colPos'] === $this->colPos) {
+        if ((int)$params['row']['colPos'] === 999) {
             $fieldKey = '';
 
             if (isset($GLOBALS['TYPO3_REQUEST']->getParsedBody()['ajax']['context'])) {
