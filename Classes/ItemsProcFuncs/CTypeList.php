@@ -67,15 +67,7 @@ class CTypeList extends AbstractList
             }
 
             // This works since TYPO3 10.4.16 or v11.2
-            if (isset($params['inlineParentTableName'])) {
-                $table = $params['inlineParentTableName'];
-            // Else we have to figure out from url. @todo remove in Mask v8.0.
-            } elseif (preg_match_all('/tx_mask_\w+/', ($GLOBALS['TYPO3_REQUEST']->getParsedBody()['ajax'][0] ?? ''), $pregResult) && count($pregResult[0]) > 1) {
-                // Get the second last entry
-                $table = $pregResult[0][count($pregResult[0]) - 2];
-            } else {
-                $table = $this->tableDefinitionCollection->getTableByField($fieldKey);
-            }
+            $table = $params['inlineParentTableName'] ?? $this->tableDefinitionCollection->getTableByField($fieldKey);
 
             // load the json configuration of this field
             $fieldDefinition = $this->tableDefinitionCollection->loadField($table, $fieldKey);
