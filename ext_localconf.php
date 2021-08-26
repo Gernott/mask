@@ -45,18 +45,19 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['convertTempl
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig($typoScriptCodeGenerator->generatePageTyposcript());
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup($typoScriptCodeGenerator->generateSetupTyposcript());
 
-    $storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\Domain\Repository\StorageRepository::class);
-    $configuration = $storageRepository->load();
-    if (array_key_exists('pages', $configuration) && $configuration['pages']['tca']) {
+    /** @var \MASK\Mask\Loader\LoaderInterface $loader */
+    $loader = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('mask.loader');
+    $tables = $loader->load();
+    if ($tables->hasTable('pages')) {
         $rootlineFields = [];
         if ($GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields'] !== '') {
             $rootlineFields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields']);
         }
-        foreach ($configuration['pages']['tca'] as $fieldKey => $value) {
-            $formType = $storageRepository->getFormType($fieldKey, '', 'pages');
-            if (!(\MASK\Mask\Enumeration\FieldType::cast($formType)->isGroupingField())) {
+        foreach ($tables->getTable('pages')->tca as $field) {
+            $formType = $tables->getFieldType($field->fullKey, 'pages');
+            if (!$formType->isGroupingField()) {
                 // Add addRootLineFields for all page fields
-                $rootlineFields[] = $fieldKey;
+                $rootlineFields[] = $field->fullKey;
             }
         }
         $GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields'] = implode(',', $rootlineFields);

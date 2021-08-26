@@ -41,13 +41,28 @@ final class FieldType extends Enumeration
     public const PALETTE = 'palette';
     public const LINEBREAK = 'linebreak';
 
-    public function isGroupingField()
+    public function isGroupingField(): bool
     {
         return in_array($this->value, [self::TAB, self::PALETTE, self::LINEBREAK], true);
     }
 
-    public function isParentField()
+    public function isParentField(): bool
     {
         return in_array($this->value, [self::INLINE, self::PALETTE], true);
+    }
+
+    public function isSearchable(): bool
+    {
+        return in_array($this->value, [self::STRING, self::TEXT], true);
+    }
+
+    public function isRenderable(): bool
+    {
+        return !in_array($this->value, [self::TAB, self::LINEBREAK], true);
+    }
+
+    public function canBeShared(): bool
+    {
+        return !in_array($this->value, [self::INLINE, self::TAB, self::LINEBREAK], true);
     }
 }

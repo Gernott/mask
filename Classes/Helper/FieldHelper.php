@@ -38,7 +38,7 @@ class FieldHelper
     public function __construct(StorageRepository $storageRepository)
     {
         trigger_error(
-            'MASK\Mask\Helper\FieldHelper will be removed in Mask v8.0. Please use MASK\Mask\Loader\LoaderInterface instead.',
+            'MASK\Mask\Helper\FieldHelper will be removed in Mask v8.0. Use MASK\Mask\Definition\TableDefinitionCollection instead.',
             E_USER_DEPRECATED
         );
 

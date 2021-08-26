@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace MASK\Mask\Domain\Repository;
 
 use MASK\Mask\ConfigurationLoader\ConfigurationLoaderInterface;
+use MASK\Mask\Definition\TcaFieldDefinition;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Loader\LoaderInterface;
@@ -27,7 +28,10 @@ use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 
 /**
- * @api
+ * StorageRepository
+ * This class is responsible for the persistence of content elements.
+ * It manages adding, removing and updating operations.
+ * For read only use cases, TableDefinitonCollection should be used directly.
  */
 class StorageRepository implements SingletonInterface
 {
@@ -67,9 +71,7 @@ class StorageRepository implements SingletonInterface
     }
 
     /**
-     * Load Storage
-     *
-     * @return array
+     * Load content elements as json representation.
      */
     public function load(): array
     {
@@ -77,15 +79,15 @@ class StorageRepository implements SingletonInterface
     }
 
     /**
-     * Write Storage
+     * Persist content elements
      */
     public function write(array $json): void
     {
-        $this->loader->write(TableDefinitionCollection::createFromInternalArray($json));
+        $this->loader->write(TableDefinitionCollection::createFromArray($json));
     }
 
     /**
-     * Sort and write json
+     * Sort and persist content elements.
      */
     public function persist(array $json): void
     {
@@ -95,7 +97,7 @@ class StorageRepository implements SingletonInterface
     }
 
     /**
-     * Adds new Content-Element
+     * Adds a new content element.
      */
     public function add(array $element, array $fields, string $table): array
     {
@@ -117,7 +119,7 @@ class StorageRepository implements SingletonInterface
     }
 
     /**
-     * Removes Content-Element
+     * Removes a content element for the given table.
      */
     public function remove(string $table, string $elementKey): array
     {
@@ -126,12 +128,15 @@ class StorageRepository implements SingletonInterface
         $json = $this->load();
 
         // Remove
-        $columns = $json[$table]['elements'][$elementKey]['columns'];
+        $element = $this->tableDefinitionCollection->loadElement($table, $elementKey);
+
+        if (!$element) {
+            return $json;
+        }
+
         unset($json[$table]['elements'][$elementKey]);
-        if (is_array($columns)) {
-            foreach ($columns as $field) {
-                $json = $this->removeField($table, $field, $json);
-            }
+        foreach ($element->tcaDefinition as $field) {
+            $json = $this->removeField($table, $field, $json);
         }
         $this->currentKey = '';
         return $json;
@@ -206,9 +211,7 @@ class StorageRepository implements SingletonInterface
         $order = 0;
         foreach ($fields as $field) {
             $order += 1;
-            $fieldAdd = [];
             $onRootLevel = $table === $defaultTable;
-            $isMaskField = AffixUtility::hasMaskPrefix($field['key']);
 
             // Add columns and labels to element if on root level
             if ($onRootLevel && !$parent) {
@@ -217,6 +220,8 @@ class StorageRepository implements SingletonInterface
             }
 
             // Add key and config to mask field
+            $fieldAdd = [];
+            $isMaskField = AffixUtility::hasMaskPrefix($field['key']);
             if ($isMaskField) {
                 $defaults = $this->configurationLoader->loadDefaults();
                 $field['tca'] = $field['tca'] ?? [];
@@ -229,8 +234,11 @@ class StorageRepository implements SingletonInterface
                 $fieldAdd['coreField'] = 1;
             }
 
+            // Add the full key in addition to the abbreviated key.
+            $fieldAdd['fullKey'] = $field['key'];
+
             // Add field type name for easier resolving
-            $fieldAdd['name'] = $field['name'];
+            $fieldAdd['type'] = $field['name'];
 
             // Convert range values of timestamp to integers
             if ($isMaskField && $field['name'] === FieldType::TIMESTAMP) {
@@ -290,63 +298,52 @@ class StorageRepository implements SingletonInterface
     /**
      * Removes a field from the json, also recursively all inline-fields
      */
-    protected function removeField(string $table, string $field, array $json): array
+    protected function removeField(string $table, TcaFieldDefinition $field, array $json): array
     {
-        $maskKey = $field;
-        $field = AffixUtility::removeMaskPrefix($maskKey);
-        $keyToUse = isset($json[$table]['tca'][$field]) ? $field : $maskKey;
-
         // check if this field is used in any other elements
-        $elementsInUse = $this->tableDefinitionCollection->getElementsWhichUseField($keyToUse, $table);
-        $usedInAnotherElement = count($elementsInUse) > 1;
+        $usedInAnotherElement = $this->tableDefinitionCollection->getElementsWhichUseField($field->fullKey, $table)->count() > 1;
 
         // Remove inlineParent, label and order
-        $inlineParent = $json[$table]['tca'][$keyToUse]['inlineParent'] ?? false;
+        $inlineParent = $json[$table]['tca'][$field->fullKey]['inlineParent'] ?? false;
         if (is_array($inlineParent)) {
             unset(
-                $json[$table]['tca'][$keyToUse]['inlineParent'][$this->currentKey],
-                $json[$table]['tca'][$keyToUse]['label'][$this->currentKey],
-                $json[$table]['tca'][$keyToUse]['order'][$this->currentKey]
+                $json[$table]['tca'][$field->fullKey]['inlineParent'][$this->currentKey],
+                $json[$table]['tca'][$field->fullKey]['label'][$this->currentKey],
+                $json[$table]['tca'][$field->fullKey]['order'][$this->currentKey]
             );
-        }
-
-        // if the field is a repeating field, make some exceptions
-        if (in_array(($json[$table]['tca'][$maskKey]['config']['type'] ?? ''), ['inline', 'palette'])) {
-            $inlineFields = $this->tableDefinitionCollection->loadInlineFields($maskKey, $this->currentKey);
-            // Recursively delete all inline field if possible
-            foreach ($inlineFields  as $inlineField) {
-                // Only remove if not in use in another element
-                if (!$usedInAnotherElement) {
-                    $parentTable = ($inlineField['inPalette'] ?? false) ? $table : $inlineField['inlineParent'];
-                    $inlineKey = AffixUtility::addMaskPrefix($inlineField['key']);
-                    $json = $this->removeField($parentTable, $inlineKey, $json);
-                }
-            }
         }
 
         // then delete the field, if it is not in use in another element
         if (!$usedInAnotherElement) {
-            unset(
-                $json[$table]['tca'][$maskKey],
-                // Unset typo3 core field
-                $json[$table]['tca'][$field],
-                $json[$table]['sql'][$maskKey]
-            );
-
-            $type = $this->tableDefinitionCollection->getFormType($maskKey, $this->currentKey, $table);
-
-            // If field is of type inline, also delete table entry
-            if ($type === FieldType::INLINE) {
-                unset($json[$maskKey]);
+            // if the field is a repeating field, make some exceptions
+            $fieldType = $this->tableDefinitionCollection->getFieldType($field->fullKey, $table);
+            if ($fieldType->isParentField()) {
+                // Recursively delete all inline field if possible
+                foreach ($this->tableDefinitionCollection->loadInlineFields($field->fullKey, $this->currentKey) as $inlineField) {
+                    $parentTable = $inlineField->inPalette ? $table : $inlineField->inlineParent;
+                    $json = $this->removeField($parentTable, $inlineField, $json);
+                }
             }
 
-            if ($type === FieldType::PALETTE) {
-                unset($json[$table]['palettes'][$maskKey]);
+            unset(
+                $json[$table]['tca'][$field->fullKey],
+                $json[$table]['sql'][$field->fullKey]
+            );
+
+            $fieldType = $this->tableDefinitionCollection->getFieldType($field->fullKey, $table, $this->currentKey);
+
+            // If field is of type inline, also delete table entry
+            if ($fieldType->equals(FieldType::INLINE)) {
+                unset($json[$field->fullKey]);
+            }
+
+            if ($fieldType->equals(FieldType::PALETTE)) {
+                unset($json[$table]['palettes'][$field->fullKey]);
             }
 
             // If field is of type file, also delete entry in sys_file_reference
-            if ($type === FieldType::FILE) {
-                unset($json['sys_file_reference']['sql'][$maskKey]);
+            if ($fieldType->equals(FieldType::FILE)) {
+                unset($json['sys_file_reference']['sql'][$field->fullKey]);
                 $json = $this->cleanTable('sys_file_reference', $json);
             }
         }
@@ -401,11 +398,17 @@ class StorageRepository implements SingletonInterface
     public function loadField(string $table, string $fieldName): array
     {
         trigger_error(
-            'StorageRepository->loadField will be removed in Mask v8.0. Please use MASK\Mask\Loader\LoaderInterface instead.',
+            'StorageRepository->loadField will be removed in Mask v8.0. Please use MASK\Mask\Definition\TableDefinitionCollection->loadField() instead.',
             E_USER_DEPRECATED
         );
 
-        return $this->loader->load()->loadField($table, $fieldName);
+        $fieldDefinition =  $this->loader->load()->loadField($table, $fieldName);
+
+        if (!$fieldDefinition) {
+            return [];
+        }
+
+        return $fieldDefinition->toArray();
     }
 
     /**
@@ -415,11 +418,11 @@ class StorageRepository implements SingletonInterface
     public function loadInlineFields(string $parentKey, string $elementKey = ''): array
     {
         trigger_error(
-            'StorageRepository->loadInlineFields will be removed in Mask v8.0. Please use MASK\Mask\Loader\LoaderInterface instead.',
+            'StorageRepository->loadInlineFields will be removed in Mask v8.0. Please use MASK\Mask\Definition\TableDefinitionCollection->loadInlineFields() instead.',
             E_USER_DEPRECATED
         );
 
-        return $this->loader->load()->loadInlineFields($parentKey, $elementKey);
+        return $this->loader->load()->loadInlineFields($parentKey, $elementKey)->toArray();
     }
 
     /**
@@ -429,11 +432,17 @@ class StorageRepository implements SingletonInterface
     public function loadElement(string $type, string $key): array
     {
         trigger_error(
-            'StorageRepository->loadInlineFields will be removed in Mask v8.0. Please use MASK\Mask\Loader\LoaderInterface instead.',
+            'StorageRepository->loadInlineFields will be removed in Mask v8.0. Please use MASK\Mask\Definition\TableDefinitionCollection->loadElement() instead.',
             E_USER_DEPRECATED
         );
 
-        return $this->loader->load()->loadElement($type, $key);
+        $element = $this->loader->load()->loadElement($type, $key);
+
+        if (!$element) {
+            return [];
+        }
+
+        return $element->toArray();
     }
 
     /**
@@ -443,7 +452,7 @@ class StorageRepository implements SingletonInterface
     public function getFormType(string $fieldKey, string $elementKey = '', string $table = 'tt_content'): string
     {
         trigger_error(
-            'StorageRepository->getFormType will be removed in Mask v8.0. Please use MASK\Mask\Loader\LoaderInterface instead.',
+            'StorageRepository->getFormType will be removed in Mask v8.0. Please use MASK\Mask\Definition\TableDefinitionCollection->getFieldType() instead.',
             E_USER_DEPRECATED
         );
 
@@ -457,11 +466,11 @@ class StorageRepository implements SingletonInterface
     public function getElementsWhichUseField(string $key, string $table = 'tt_content'): array
     {
         trigger_error(
-            'StorageRepository->getElementsWhichUseField will be removed in Mask v8.0. Please use MASK\Mask\Loader\LoaderInterface instead.',
+            'StorageRepository->getElementsWhichUseField will be removed in Mask v8.0. Please use MASK\Mask\Definition\TableDefinitionCollection->getElementsWhichUseField() instead.',
             E_USER_DEPRECATED
         );
 
-        return $this->loader->load()->getElementsWhichUseField($key, $table);
+        return $this->loader->load()->getElementsWhichUseField($key, $table)->toArray();
     }
 
     /**
@@ -471,7 +480,7 @@ class StorageRepository implements SingletonInterface
     public function findFirstNonEmptyLabel(string $table, string $key): string
     {
         trigger_error(
-            'StorageRepository->findFirstNonEmptyLabel will be removed in Mask v8.0. Please use MASK\Mask\Loader\LoaderInterface instead.',
+            'StorageRepository->findFirstNonEmptyLabel will be removed in Mask v8.0. Please use MASK\Mask\Definition\TableDefinitionCollection->findFirstNonEmptyLabel() instead.',
             E_USER_DEPRECATED
         );
 
@@ -485,7 +494,7 @@ class StorageRepository implements SingletonInterface
     public function getLabel(string $elementKey, string $fieldKey, string $type = 'tt_content'): string
     {
         trigger_error(
-            'StorageRepository->getLabel will be removed in Mask v8.0. Please use MASK\Mask\Loader\LoaderInterface instead.',
+            'StorageRepository->getLabel will be removed in Mask v8.0. Please use MASK\Mask\Definition\TableDefinitionCollection->getLabel() instead.',
             E_USER_DEPRECATED
         );
 
@@ -499,10 +508,10 @@ class StorageRepository implements SingletonInterface
     public function getFieldType(string $fieldKey, string $elementKey = '', bool $excludeInlineFields = false): string
     {
         trigger_error(
-            'StorageRepository->getFieldType will be removed in Mask v8.0. Please use MASK\Mask\Loader\LoaderInterface instead.',
+            'StorageRepository->getFieldType will be removed in Mask v8.0. Please use MASK\Mask\Definition\TableDefinitionCollection->getTableByField() instead.',
             E_USER_DEPRECATED
         );
 
-        return $this->loader->load()->getFieldType($fieldKey, $elementKey, $excludeInlineFields);
+        return $this->loader->load()->getTableByField($fieldKey, $elementKey, $excludeInlineFields);
     }
 }

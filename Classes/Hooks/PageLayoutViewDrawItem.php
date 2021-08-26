@@ -107,12 +107,11 @@ class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
 
                 // Fetch and assign some useful variables
                 $data = $this->getContentObject($row['uid']);
-                $element = $this->tableDefinitionCollection->loadElement('tt_content', $elementKey);
                 $view->assign('row', $row);
                 $view->assign('data', $data);
 
                 // if the elementLabel contains LLL: then translate it
-                $elementLabel = $element['label'] ?? '';
+                $elementLabel = $this->tableDefinitionCollection->loadElement('tt_content', $elementKey)->elementDefinition->label;
                 if (GeneralUtility::isFirstPartOfStr($elementLabel, 'LLL:')) {
                     $elementLabel = LocalizationUtility::translate($elementLabel, 'mask');
                 }

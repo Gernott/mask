@@ -24,6 +24,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Generates the html and fluid for mask content elements
+ * @internal
  */
 class HtmlCodeGenerator
 {
@@ -45,12 +46,17 @@ class HtmlCodeGenerator
     /**
      * Generates Fluid HTML for Contentelements
      */
-    public function generateHtml(string $key, string $table): string
+    public function generateHtml(string $elementKey, string $table): string
     {
-        $storage = $this->tableDefinitionCollection->loadElement($table, $key);
+        $element = $this->tableDefinitionCollection->loadElement($table, $elementKey);
+
+        if (!$element) {
+            return '';
+        }
+
         $html = [];
-        foreach ($storage['tca'] ?? [] as $fieldKey => $fieldConfig) {
-            $part = $this->generateFieldHtml($fieldKey, $key, $table);
+        foreach ($element->tcaDefinition as $field) {
+            $part = $this->generateFieldHtml($field->fullKey, $elementKey, $table);
             if ($part !== '') {
                 $html[] = $part;
             }
@@ -67,15 +73,11 @@ class HtmlCodeGenerator
     protected function generateFieldHtml(string $fieldKey, string $elementKey, string $table, string $datafield = 'data', int $depth = 0): string
     {
         $html = [];
-        if ($fieldKey === 'bodytext') {
-            $formType = FieldType::RICHTEXT;
-        } else {
-            $formType = $this->tableDefinitionCollection->getFormType($fieldKey, $elementKey, $table);
-        }
-        if (in_array($formType, [FieldType::TAB, FieldType::LINEBREAK], true)) {
+        $fieldType = $this->tableDefinitionCollection->getFieldType($fieldKey, $table, $elementKey);
+        if (!$fieldType->isRenderable()) {
             return '';
         }
-        switch ($formType) {
+        switch ((string)$fieldType) {
             case FieldType::SELECT:
                 if (($GLOBALS['TCA'][$table]['columns'][$fieldKey]['config']['foreign_table'] ?? '') !== '') {
                     $html[] =  $this->drawWhitespace(0 + $depth) . '<f:for each="{' . $datafield . '.' . $fieldKey . '_items}" as="' . $datafield . '_item' . '">';
@@ -125,11 +127,8 @@ class HtmlCodeGenerator
                 $html[] = $this->drawWhitespace(1 + $depth) . '<ul>';
                 $html[] = $this->drawWhitespace(2 + $depth) . '<f:for each="{' . $datafield . '.' . $fieldKey . '}" as="' . $datafield . '_item' . '">';
                 $html[] = $this->drawWhitespace(3 + $depth) . '<li>';
-                $inlineFields = $this->tableDefinitionCollection->loadInlineFields($fieldKey);
-                if ($inlineFields) {
-                    foreach ($inlineFields as $inlineField) {
-                        $html[] = $this->generateFieldHtml($inlineField['maskKey'], $elementKey, $fieldKey, $datafield . '_item', 4 + $depth);
-                    }
+                foreach ($this->tableDefinitionCollection->loadInlineFields($fieldKey, $elementKey) as $inlineField) {
+                    $html[] = $this->generateFieldHtml($inlineField->fullKey, $elementKey, $fieldKey, $datafield . '_item', 4 + $depth);
                 }
                 $html[] = $this->drawWhitespace(3 + $depth) . '</li>';
                 $html[] = $this->drawWhitespace(2 + $depth) . '</f:for>';
@@ -137,9 +136,8 @@ class HtmlCodeGenerator
                 $html[] = $this->drawWhitespace(0 + $depth) . '</f:if>';
                 break;
             case FieldType::PALETTE:
-                $paletteFields = $this->tableDefinitionCollection->loadInlineFields($fieldKey, $elementKey);
-                foreach ($paletteFields ?? [] as $paletteField) {
-                    $part = $this->generateFieldHtml(($paletteField['coreField'] ?? false) ? $paletteField['key'] : $paletteField['maskKey'], $elementKey, $table, $datafield, $depth);
+                foreach ($this->tableDefinitionCollection->loadInlineFields($fieldKey, $elementKey) as $paletteField) {
+                    $part = $this->generateFieldHtml($paletteField->fullKey, $elementKey, $table, $datafield, $depth);
                     if ($part !== '') {
                         $html[] = $part;
                     }

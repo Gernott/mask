@@ -49,6 +49,10 @@ use TYPO3\CMS\Extbase\Service\ImageService;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
+/**
+ * Class AjaxController
+ * @internal
+ */
 class AjaxController
 {
     protected $storageRepository;
@@ -112,12 +116,12 @@ class AjaxController
             $json['missing'] = !file_exists(MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration['json']));
         }
 
-        if ($json['missing'] || !$this->tableDefinitionCollection->hasTableDefinition('tt_content')) {
+        if ($json['missing'] || !$this->tableDefinitionCollection->hasTable('tt_content')) {
             return new JsonResponse($json);
         }
 
-        foreach ($this->tableDefinitionCollection->getTableDefiniton('tt_content')->elements as $element) {
-            if (!$this->checkTemplate($element['key'])) {
+        foreach ($this->tableDefinitionCollection->getTable('tt_content')->elements as $element) {
+            if (!$this->checkTemplate($element->key)) {
                 $json['missing'] = 1;
                 break;
             }
@@ -133,11 +137,11 @@ class AjaxController
         }
         $success &= $this->createMaskJsonFile($this->maskExtensionConfiguration['json']);
 
-        if (!$this->tableDefinitionCollection->hasTableDefinition('tt_content')) {
+        if (!$this->tableDefinitionCollection->hasTable('tt_content')) {
             return new JsonResponse(['success' => $success]);
         }
 
-        foreach ($this->tableDefinitionCollection->getTableDefiniton('tt_content')->elements as $element) {
+        foreach ($this->tableDefinitionCollection->getTable('tt_content')->elements as $element) {
             if (!$this->checkTemplate($element['key'])) {
                 $success &= $this->createHtml($element['key']);
             }
@@ -247,28 +251,28 @@ class AjaxController
 
     public function elements(ServerRequestInterface $request): Response
     {
-        if (!$this->tableDefinitionCollection->hasTableDefinition('tt_content')) {
+        if (!$this->tableDefinitionCollection->hasTable('tt_content')) {
             return new JsonResponse(['elements' => []]);
         }
 
         $elements = [];
-        foreach ($this->tableDefinitionCollection->getTableDefiniton('tt_content')->elements as $element) {
-            $overlay = ($element['hidden'] ?? false) ? 'overlay-hidden' : null;
-            $translatedLabel = $GLOBALS['LANG']->sl($element['label']);
-            $translatedDescription = $GLOBALS['LANG']->sl($element['description']);
-            $elements[$element['key']] = [
-                'color' => $element['color'],
-                'description' => $element['description'],
-                'translatedDescription' => $translatedDescription !== '' ? $translatedDescription : $element['description'],
-                'icon' => $element['icon'],
-                'key' => $element['key'],
-                'label' => $element['label'],
-                'translatedLabel' => $translatedLabel !== '' ? $translatedLabel : $element['label'],
-                'shortLabel' => $element['shortLabel'],
-                'iconMarkup' => $element['key'] ? $this->iconFactory->getIcon('mask-ce-' . $element['key'], Icon::SIZE_DEFAULT, $overlay)->render() : '',
-                'templateExists' => $this->checkTemplate($element['key']) ? 1 : 0,
-                'hidden' => ($element['hidden'] ?? false) ? 1 : 0,
-                'count' => $this->getElementCount($element['key'])
+        foreach ($this->tableDefinitionCollection->getTable('tt_content')->elements as $element) {
+            $overlay = ($element->hidden ?? false) ? 'overlay-hidden' : null;
+            $translatedLabel = $GLOBALS['LANG']->sl($element->label);
+            $translatedDescription = $GLOBALS['LANG']->sl($element->description);
+            $elements[$element->key] = [
+                'color' => $element->color,
+                'description' => $element->description,
+                'translatedDescription' => $translatedDescription !== '' ? $translatedDescription : $element->description,
+                'icon' => $element->icon,
+                'key' => $element->key,
+                'label' => $element->label,
+                'translatedLabel' => $translatedLabel !== '' ? $translatedLabel : $element->label,
+                'shortLabel' => $element->shortLabel,
+                'iconMarkup' => $this->iconFactory->getIcon('mask-ce-' . $element->key, Icon::SIZE_DEFAULT, $overlay)->render(),
+                'templateExists' => $this->checkTemplate($element->key) ? 1 : 0,
+                'hidden' => $element->hidden ? 1 : 0,
+                'count' => $this->getElementCount($element->key)
             ];
         }
         $json['elements'] = $elements;
@@ -380,35 +384,37 @@ class AjaxController
     public function loadAllMultiUse(ServerRequestInterface $request): Response
     {
         $params = $request->getQueryParams();
-        $storage = $this->tableDefinitionCollection->loadElement($params['table'], $params['elementKey']);
+        $element = $this->tableDefinitionCollection->loadElement($params['table'], $params['elementKey']);
+
+        if (!$element) {
+            return new JsonResponse(['multiUseElements' => []]);
+        }
+
         $multiUseElements = [];
-        foreach ($storage['tca'] ?? [] as $key => $field) {
-            if (!AffixUtility::hasMaskPrefix($key)) {
+        foreach ($element->tcaDefinition as $field) {
+            if (!AffixUtility::hasMaskPrefix($field->fullKey)) {
                 continue;
             }
 
-            $fieldType = FieldType::cast($this->storageRepository->getFormType($field['key'], $params['elementKey'], $params['table']));
+            $fieldType = $this->tableDefinitionCollection->getFieldType($field->fullKey, $params['table'], $params['elementKey']);
 
-            // These fields can not be shared
-            if ($fieldType->equals(FieldType::INLINE) || $fieldType->equals(FieldType::TAB)) {
+            if (!$fieldType->canBeShared()) {
                 continue;
             }
 
             // Get fields in palette
             if ($fieldType->equals(FieldType::PALETTE)) {
-                $paletteFields = $this->tableDefinitionCollection->loadInlineFields($key, $params['elementKey']);
-
-                foreach ($paletteFields as $paletteField) {
-                    $paletteFieldType = FieldType::cast($this->tableDefinitionCollection->getFormType($paletteField['key'], $params['elementKey'], $params['table']));
-                    if ($paletteFieldType->equals(FieldType::INLINE)) {
+                foreach ($this->tableDefinitionCollection->loadInlineFields($field->fullKey, $params['elementKey']) as $paletteField) {
+                    $paletteFieldType = $this->tableDefinitionCollection->getFieldType($paletteField->fullKey, $params['table'], $params['elementKey']);
+                    if (!$paletteFieldType->canBeShared()) {
                         continue;
                     }
-                    $multiUseElements[$paletteField['maskKey']] = $this->getMultiUseForField($paletteField['maskKey'], $params['elementKey']);
+                    $multiUseElements[$paletteField->fullKey] = $this->getMultiUseForField($paletteField->fullKey, $params['elementKey']);
                 }
                 continue;
             }
 
-            $multiUseElements[$key] = $this->getMultiUseForField($key, $params['elementKey']);
+            $multiUseElements[$field->fullKey] = $this->getMultiUseForField($field->fullKey, $params['elementKey']);
         }
 
         return new JsonResponse(['multiUseElements' => $multiUseElements]);
@@ -416,8 +422,8 @@ class AjaxController
 
     protected function getMultiUseForField(string $key, string $elementKey): array
     {
-        $type = $this->tableDefinitionCollection->getFieldType($key, $elementKey);
-        $multiUseElements = $this->tableDefinitionCollection->getElementsWhichUseField($key, $type);
+        $type = $this->tableDefinitionCollection->getTableByField($key, $elementKey);
+        $multiUseElements = $this->tableDefinitionCollection->getElementsWhichUseField($key, $type)->toArray();
 
         // Filter elements with same element key
         $multiUseElements = array_filter(
@@ -509,41 +515,45 @@ class AjaxController
         $table = $request->getQueryParams()['table'];
         $type = $request->getQueryParams()['type'];
         $emptyFields = ['mask' => [], 'core' => []];
-        $fields = $emptyFields;
 
-        if (in_array($type, [FieldType::PALETTE, FieldType::LINEBREAK], true)) {
-            return new JsonResponse($fields);
-        }
-
-        if (empty($GLOBALS['TCA'][$table])) {
-            return new JsonResponse($fields);
-        }
+        $fieldType = FieldType::cast($type);
 
         // Grouping and parent fields shouldn't be reusable.
-        if (FieldType::cast($type)->isGroupingField() || FieldType::cast($type)->isParentField()) {
-            $fields = $emptyFields;
-        } elseif (!AffixUtility::hasMaskPrefix($table)) {
-            foreach ($GLOBALS['TCA'][$table]['columns'] as $tcaField => $tcaConfig) {
-                $isMaskField = AffixUtility::hasMaskPrefix($tcaField);
-                if (!$isMaskField && !in_array($tcaField, $allowedFields[$table] ?? [], true)) {
-                    continue;
-                }
-                // This is needed because the richtext option of bodytext is set via column overrides.
-                if ($tcaField === 'bodytext' && $table === 'tt_content') {
-                    $fieldType = FieldType::RICHTEXT;
-                } else {
-                    $fieldType = $this->storageRepository->getFormType($tcaField, '', $table);
-                }
-                if ($fieldType === $type) {
-                    $key = $isMaskField ? 'mask' : 'core';
-                    $label = $isMaskField ? $this->storageRepository->findFirstNonEmptyLabel($table, $tcaField) : LocalizationUtility::translate($tcaConfig['label']);
-                    $fields[$key][] = [
-                        'field' => $tcaField,
-                        'label' => $label,
-                    ];
-                }
+        if ($fieldType->isGroupingField() || $fieldType->isParentField()) {
+            return new JsonResponse($emptyFields);
+        }
+
+        // Ignore Mask tables.
+        if (AffixUtility::hasMaskPrefix($table)) {
+            return new JsonResponse($emptyFields);
+        }
+
+        // Ignore non-existing tables.
+        if (empty($GLOBALS['TCA'][$table])) {
+            return new JsonResponse($emptyFields);
+        }
+
+        $fields = $emptyFields;
+        foreach ($GLOBALS['TCA'][$table]['columns'] as $tcaField => $tcaConfig) {
+            $isMaskField = AffixUtility::hasMaskPrefix($tcaField);
+            if (!$isMaskField && !in_array($tcaField, $allowedFields[$table] ?? [], true)) {
+                continue;
+            }
+
+            if (($GLOBALS['TCA'][$table]['columns'][$tcaField]['config']['type'] ?? '') === 'passthrough') {
+                continue;
+            }
+
+            if ($this->tableDefinitionCollection->getFieldType($tcaField, $table)->equals($type)) {
+                $key = $isMaskField ? 'mask' : 'core';
+                $label = $isMaskField ? $this->tableDefinitionCollection->findFirstNonEmptyLabel($table, $tcaField) : LocalizationUtility::translate($tcaConfig['label']);
+                $fields[$key][] = [
+                    'field' => $tcaField,
+                    'label' => $label,
+                ];
             }
         }
+
         return new JsonResponse($fields);
     }
 
@@ -744,7 +754,7 @@ class AjaxController
     public function checkElementKey(ServerRequest $request): Response
     {
         $elementKey = $request->getQueryParams()['key'];
-        $isAvailable = empty($this->tableDefinitionCollection->loadElement('tt_content', $elementKey));
+        $isAvailable = !$this->tableDefinitionCollection->loadElement('tt_content', $elementKey);
 
         return new JsonResponse(['isAvailable' => $isAvailable]);
     }
@@ -768,11 +778,11 @@ class AjaxController
         $fieldExists = false;
 
         if ($table === FieldType::INLINE) {
-            $keyExists = $this->tableDefinitionCollection->hasTableDefinition($fieldKey);
+            $keyExists = $this->tableDefinitionCollection->hasTable($fieldKey);
         }
 
         if ($table === FieldType::CONTENT) {
-            $fieldExists = $this->tableDefinitionCollection->getFieldType($fieldKey, $elementKey);
+            $fieldExists = $this->tableDefinitionCollection->getTableByField($fieldKey, $elementKey);
         }
 
         return new JsonResponse(['isAvailable' => !$keyExists && !$fieldExists]);

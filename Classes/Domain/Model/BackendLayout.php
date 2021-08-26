@@ -21,8 +21,6 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
  * This model represents a back-end user.
- *
- * @api
  */
 class BackendLayout extends AbstractEntity
 {

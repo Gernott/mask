@@ -47,11 +47,11 @@ class TcaTypesShowitemMaskBeLayoutFields implements FormDataProviderInterface
             return $result;
         }
 
-        if (!$this->tableDefinitionCollection->hasTableDefinition('pages')) {
+        if (!$this->tableDefinitionCollection->hasTable('pages')) {
             return $result;
         }
 
-        $pages = $this->tableDefinitionCollection->getTableDefiniton('pages');
+        $pages = $this->tableDefinitionCollection->getTable('pages');
         if (!empty($pages->elements)) {
             $conditionMatcher = GeneralUtility::makeInstance(ConditionMatcher::class, null, $result['vanillaUid'], $result['rootline']);
             foreach ($pages->elements as $element) {

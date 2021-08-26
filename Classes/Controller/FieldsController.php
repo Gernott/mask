@@ -20,7 +20,6 @@ namespace MASK\Mask\Controller;
 use MASK\Mask\ConfigurationLoader\ConfigurationLoaderInterface;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Definition\TableDefinitionCollection;
-use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\DateUtility;
 use MASK\Mask\Utility\TcaConverterUtility;
 use Psr\Http\Message\ServerRequestInterface;
@@ -29,9 +28,12 @@ use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
+/**
+ * Class FieldsController
+ * @internal
+ */
 class FieldsController
 {
-    protected $storageRepository;
     protected $tableDefinitionCollection;
     protected $iconFactory;
     protected $configurationLoader;
@@ -53,7 +55,10 @@ class FieldsController
         $elementKey = $params['key'];
 
         $element = $this->tableDefinitionCollection->loadElement($table, $elementKey);
-        $json['fields'] = $this->addFields($element['tca'] ?? [], $table, $elementKey);
+        $json['fields'] = [];
+        if ($element) {
+            $json['fields'] = $this->addFields($element->tcaDefinition->toArray(), $table, $elementKey);
+        }
 
         return new JsonResponse($json);
     }
@@ -63,7 +68,11 @@ class FieldsController
         $params = $request->getQueryParams();
         $table = $params['type'];
         $key = $params['key'];
-        $field = $this->tableDefinitionCollection->loadField($table, $key);
+        $fieldDefinition = $this->tableDefinitionCollection->loadField($table, $key);
+        $field = [];
+        if ($fieldDefinition) {
+            $field = $fieldDefinition->toArray();
+        }
         $json['field'] = $this->addFields([$key => $field], $table)[0];
         $json['field']['label'] = $this->tableDefinitionCollection->findFirstNonEmptyLabel($table, $key);
 
@@ -74,23 +83,25 @@ class FieldsController
      * This is the main function for adding fields ready to use in Vue JS.
      * It creates a nested structure out of the flat array input.
      * It takes care of translating labels, legacy conversions, timestamp conversions, ...
+     *
+     * @param array $fields
+     * @param string $table
+     * @param string $elementKey
+     * @param ?array $parent
+     * @return array
      */
-    protected function addFields(array $fields, string $table, string $elementKey = '', $parent = null): array
+    protected function addFields(array $fields, string $table, string $elementKey = '', ?array $parent = null): array
     {
         $defaults = $this->configurationLoader->loadDefaults();
         $nestedFields = [];
-        foreach ($fields as $key => $field) {
+        foreach ($fields as $field) {
             $newField = [
                 'fields' => [],
                 'parent' => $parent ?? [],
                 'newField' => false,
             ];
 
-            if ($parent) {
-                $newField['key'] = isset($field['coreField']) ? $field['key'] : $field['maskKey'];
-            } else {
-                $newField['key'] = $key;
-            }
+            $newField['key'] = $field['fullKey'];
 
             if ($elementKey !== '') {
                 $newField['label'] = $this->tableDefinitionCollection->getLabel($elementKey, $newField['key'], $table);
@@ -98,7 +109,7 @@ class FieldsController
                 $newField['translatedLabel'] = $translatedLabel !== $newField['label'] ? $translatedLabel : '';
             }
 
-            $fieldType = FieldType::cast($this->tableDefinitionCollection->getFormType($newField['key'], $elementKey, $table));
+            $fieldType = $this->tableDefinitionCollection->getFieldType($newField['key'], $table, $elementKey);
 
             // Convert old date format Y-m-d to d-m-Y
             $dbType = $field['config']['dbType'] ?? false;
@@ -113,19 +124,21 @@ class FieldsController
                 }
             }
 
-            $newField['isMaskField'] = AffixUtility::hasMaskPrefix($newField['key']);
             $newField['name'] = (string)$fieldType;
             $newField['icon'] = $this->iconFactory->getIcon('mask-fieldtype-' . $newField['name'])->getMarkup();
             $newField['description'] = $field['description'] ?? '';
             $newField['tca'] = [];
 
-            if (!$newField['isMaskField']) {
+            if (isset($field['coreField'])) {
                 $nestedFields[] = $newField;
                 continue;
             }
 
             if (!$fieldType->isGroupingField()) {
-                $newField['sql'] = $this->tableDefinitionCollection->getTableDefiniton($table)->sql[$newField['key']][$table][$newField['key']];
+                $tableDefinition = $this->tableDefinitionCollection->getTable($table);
+                if ($tableDefinition->sql->hasColumn($newField['key'])) {
+                    $newField['sql'] = $this->tableDefinitionCollection->getTable($table)->sql->getColumn($newField['key'])->sqlDefinition;
+                }
                 $newField['tca'] = TcaConverterUtility::convertTcaArrayToFlat($field['config'] ?? []);
                 $newField['tca']['l10n_mode'] = $field['l10n_mode'] ?? '';
             }
@@ -146,14 +159,8 @@ class FieldsController
             }
 
             if ($fieldType->equals(FieldType::FILE)) {
-                $newField['tca']['imageoverlayPalette'] = $field['imageoverlayPalette'] ?? 1;
-                // Since mask v7.0.0 the path for allowedFileExtensions has changed to root level.
-                $allowedFileExtensionsPath = 'config.filter.0.parameters.allowedFileExtensions';
-                $newField['tca']['allowedFileExtensions'] = $field['allowedFileExtensions'] ?? $newField['tca'][$allowedFileExtensionsPath] ?? '';
-                // Remove old path.
-                if (isset($newField['tca'][$allowedFileExtensionsPath])) {
-                    unset($newField['tca'][$allowedFileExtensionsPath]);
-                }
+                $newField['tca']['imageoverlayPalette'] = $field['imageoverlayPalette'];
+                $newField['tca']['allowedFileExtensions'] = $field['allowedFileExtensions'];
             }
 
             if ($fieldType->equals(FieldType::CONTENT)) {
@@ -166,16 +173,17 @@ class FieldsController
             }
 
             if ($fieldType->equals(FieldType::INLINE)) {
-                $newField['tca']['ctrl.iconfile'] = $field['ctrl']['iconfile'] ?? $field['inlineIcon'] ?? '';
-                $newField['tca']['ctrl.label'] = $field['ctrl']['label'] ?? $field['inlineLabel'] ?? '';
+                $newField['tca']['ctrl.iconfile'] = $field['ctrl']['iconfile'] ?? '';
+                $newField['tca']['ctrl.label'] = $field['ctrl']['label'] ?? '';
             }
 
             $newField['tca'] = $this->cleanUpConfig($newField['tca'], $fieldType);
 
             if ($fieldType->isParentField()) {
+                $inlineFields = $this->tableDefinitionCollection->loadInlineFields($newField['key'], $elementKey);
                 $inlineTable = $fieldType->equals(FieldType::INLINE) ? $newField['key'] : $table;
                 $newField['fields'] = $this->addFields(
-                    $this->tableDefinitionCollection->loadInlineFields($newField['key'], $elementKey),
+                    $inlineFields->toArray(),
                     $inlineTable,
                     $elementKey,
                     $newField

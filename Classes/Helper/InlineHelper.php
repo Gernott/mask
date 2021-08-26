@@ -39,8 +39,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class InlineHelper
 {
     /**
-     * StorageRepository
-     *
      * @var TableDefinitionCollection
      */
     protected $tableDefinitionCollection;
@@ -79,14 +77,14 @@ class InlineHelper
         $uid = (int)$uid;
 
         $tcaKeys = [];
-        if ($this->tableDefinitionCollection->hasTableDefinition($table)) {
-            $tcaKeys = $this->tableDefinitionCollection->getTableDefiniton($table)->getTcaFieldKeys();
+        if ($this->tableDefinitionCollection->hasTable($table)) {
+            $tcaKeys = $this->tableDefinitionCollection->getTable($table)->tca->getKeys();
         }
         $contentFields = array_merge(['media', 'image', 'assets'], $tcaKeys);
 
         $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
         foreach ($contentFields as $fieldKey) {
-            if ($this->tableDefinitionCollection->getFormType($fieldKey, '', $table) === FieldType::FILE) {
+            if ($this->tableDefinitionCollection->getFieldType($fieldKey, $table)->equals(FieldType::FILE)) {
                 $data[$fieldKey] = $fileRepository->findByRelation($table, $fieldKey, $uid);
             }
         }
@@ -109,10 +107,10 @@ class InlineHelper
         $elementFields = [];
 
         // if the table is tt_content, load the element and all its columns
-        $tableExists = $this->tableDefinitionCollection->hasTableDefinition($table);
+        $tableExists = $this->tableDefinitionCollection->hasTable($table);
         if ($table === 'tt_content') {
             $element = $this->tableDefinitionCollection->loadElement($table, AffixUtility::removeCTypePrefix($cType));
-            $elementFields = $element['columns'] ?? [];
+            $elementFields = $element->elementDefinition->columns ?? [];
         } elseif ($table === 'pages') {
             // if the table is pages, then load the pid
             if (isset($data['uid'])) {
@@ -125,42 +123,41 @@ class InlineHelper
                         $table,
                         str_replace('pagets__', '', $backendLayoutIdentifier)
                     );
-                    $elementFields = $element['columns'] ?? [];
+                    $elementFields = $element->elementDefinition->columns ?? [];
                 // if no backendlayout was found, just load all fields, if there are fields
                 } elseif ($tableExists) {
-                    $elementFields = $this->tableDefinitionCollection->getTableDefiniton($table)->getTcaFieldKeys();
+                    $elementFields = $this->tableDefinitionCollection->getTable($table)->tca->getKeys();
                 }
             }
         } elseif ($tableExists) {
             // otherwise check if its a table at all, if yes load all fields
-            $elementFields = $this->tableDefinitionCollection->getTableDefiniton($table)->getTcaFieldKeys();
+            $elementFields = $this->tableDefinitionCollection->getTable($table)->tca->getKeys();
         }
 
         // Check type of all element columns
         foreach ($elementFields ?? [] as $field) {
-            $fieldKey = MaskUtility::removeMaskPrefix($field);
-            $type = $this->tableDefinitionCollection->getFormType($fieldKey, ($element['key'] ?? ''), $table);
+            $elementKey = $element->elementDefinition->key ?? '';
+            $fieldType = $this->tableDefinitionCollection->getFieldType($field, $table, $elementKey);
 
-            if ($type === FieldType::PALETTE) {
-                $paletteFields = $this->tableDefinitionCollection->loadInlineFields($field, ($element['key'] ?? ''));
-                foreach ($paletteFields as $paletteField) {
-                    $type = $this->tableDefinitionCollection->getFormType($paletteField['key'], ($element['key'] ?? ''), $table);
-                    $this->fillInlineField($data, $type, $paletteField['maskKey'], $cType, $table);
+            if ($fieldType->equals(FieldType::PALETTE)) {
+                foreach ($this->tableDefinitionCollection->loadInlineFields($field, $elementKey) as $paletteField) {
+                    $fieldType = $this->tableDefinitionCollection->getFieldType($paletteField->fullKey, $table, $elementKey);
+                    $this->fillInlineField($data, $fieldType, $paletteField->fullKey, $cType, $table);
                 }
             } else {
-                $this->fillInlineField($data, $type, $field, $cType, $table);
+                $this->fillInlineField($data, $fieldType, $field, $cType, $table);
             }
         }
     }
 
-    protected function fillInlineField(&$data, $type, $field, $cType, $table)
+    protected function fillInlineField(array &$data, FieldType $fieldType, string $field, string $cType, string $table): void
     {
         // if it is of type inline and has to be filled (IRRE, FAL)
-        if ($type === FieldType::INLINE && $this->tableDefinitionCollection->hasTableDefinition($field)) {
+        if ($fieldType->equals(FieldType::INLINE) && $this->tableDefinitionCollection->hasTable($field)) {
             $elements = $this->getInlineElements($data, $field, $cType, 'parentid', $table);
             $data[$field] = $elements;
         // or if it is of type Content (Nested Content) and has to be filled
-        } elseif ($type === FieldType::CONTENT) {
+        } elseif ($fieldType->equals(FieldType::CONTENT)) {
             $elements = $this->getInlineElements(
                 $data,
                 $field,
@@ -170,9 +167,9 @@ class InlineHelper
                 'tt_content'
             );
             $data[$field] = $elements;
-        } elseif ($type === FieldType::SELECT && ($GLOBALS['TCA'][$table]['columns'][$field]['config']['foreign_table'] ?? '') !== '') {
+        } elseif (($GLOBALS['TCA'][$table]['columns'][$field]['config']['foreign_table'] ?? '') !== '' && $fieldType->equals(FieldType::SELECT)) {
             $data[$field . '_items'] = $this->getRelations($data[$field], $GLOBALS['TCA'][$table]['columns'][$field]['config']['foreign_table']);
-        } elseif ($type === FieldType::GROUP && ($GLOBALS['TCA'][$table]['columns'][$field]['config']['internal_type'] === 'db')) {
+        } elseif (($GLOBALS['TCA'][$table]['columns'][$field]['config']['internal_type'] === 'db') && $fieldType->equals(FieldType::GROUP)) {
             $data[$field . '_items'] = $this->getRelations($data[$field], $GLOBALS['TCA'][$table]['columns'][$field]['config']['allowed']);
         }
     }

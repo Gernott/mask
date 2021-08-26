@@ -69,35 +69,35 @@ class ContentElementIconProvider implements IconProviderInterface
     protected function generateMarkup(array $options): string
     {
         $styles = [];
-        $contentElement = $this->tableDefinitionCollection->loadElement('tt_content', $options['contentElementKey']);
+        $element = $this->tableDefinitionCollection->getTable('tt_content')->elements->getElement($options['contentElementKey']);
         $previewIconAvailable = $this->isPreviewIconAvailable($options['contentElementKey']);
-        $fontAwesomeKeyAvailable = $this->isFontAwesomeKeyAvailable($contentElement);
+        $fontAwesomeKeyAvailable = trim($element->icon) !== '';
 
         // decide what kind of icon to render
         if ($fontAwesomeKeyAvailable && !$previewIconAvailable) {
-            $color = $this->getColor($contentElement['color']);
+            $color = $this->getColor($element->color);
 
             if ($color !== '') {
                 $styles[] = 'color: #' . $color;
             }
 
             if (empty($styles)) {
-                return '<span class="icon-unify" ><i class="fa fa-' . htmlspecialchars($this->getFontAwesomeKey($contentElement['icon'])) . '"></i></span>';
+                return '<span class="icon-unify" ><i class="fa fa-' . htmlspecialchars($this->getFontAwesomeKey($element->icon)) . '"></i></span>';
             }
-            return '<span class="icon-unify" style="' . implode('; ', $styles) . '"><i class="fa fa-' . htmlspecialchars($this->getFontAwesomeKey($contentElement['icon'])) . '"></i></span>';
+            return '<span class="icon-unify" style="' . implode('; ', $styles) . '"><i class="fa fa-' . htmlspecialchars($this->getFontAwesomeKey($element->icon)) . '"></i></span>';
         }
 
         if ($previewIconAvailable) {
-            return '<img src="' . str_replace(Environment::getPublicPath(), '', $this->getPreviewIconPath($options['contentElementKey'])) . '" alt="' . $contentElement['label'] . '" title="' . $contentElement['label'] . '"/>';
+            return '<img src="' . str_replace(Environment::getPublicPath(), '', $this->getPreviewIconPath($options['contentElementKey'])) . '" alt="' . $element->label . '" title="' . $element->label . '"/>';
         }
 
-        $color = $this->getColor($contentElement['color']);
+        $color = $this->getColor($element->color);
         if ($color !== '') {
             $styles[] = 'background-color: #' . $color;
         }
         $styles[] = 'color: #fff';
 
-        return '<span class="icon-unify mask-default-icon" style="' . implode('; ', $styles) . '">' . mb_substr($contentElement['label'], 0, 1) . '</span>';
+        return '<span class="icon-unify mask-default-icon" style="' . implode('; ', $styles) . '">' . mb_substr($element->label, 0, 1) . '</span>';
     }
 
     /**
@@ -106,14 +106,6 @@ class ContentElementIconProvider implements IconProviderInterface
     protected function isPreviewIconAvailable(string $key): bool
     {
         return file_exists($this->getPreviewIconPath($key));
-    }
-
-    /**
-     * Checks if content element has set a fontawesome key
-     */
-    protected function isFontAwesomeKeyAvailable(array $element): bool
-    {
-        return isset($element['icon']) && trim($element['icon']) !== '';
     }
 
     protected function getPreviewIconPath(string $key): string

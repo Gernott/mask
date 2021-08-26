@@ -74,17 +74,17 @@ class CTypeList extends AbstractList
                 // Get the second last entry
                 $table = $pregResult[0][count($pregResult[0]) - 2];
             } else {
-                $table = $this->tableDefinitionCollection->getFieldType($fieldKey);
+                $table = $this->tableDefinitionCollection->getTableByField($fieldKey);
             }
 
             // load the json configuration of this field
-            $fieldConfiguration = $this->tableDefinitionCollection->loadField($table, $fieldKey);
+            $fieldDefinition = $this->tableDefinitionCollection->loadField($table, $fieldKey);
 
             // if there is a restriction of cTypes specified
-            if (is_array($fieldConfiguration['cTypes'])) {
+            if ($fieldDefinition) {
 
                 // prepare array of allowed cTypes, with cTypes as keys
-                $cTypes = array_flip($fieldConfiguration['cTypes']);
+                $cTypes = array_flip($fieldDefinition->cTypes);
 
                 // and check each item if it is allowed. if not, unset it
                 foreach ($params['items'] as $itemKey => $item) {

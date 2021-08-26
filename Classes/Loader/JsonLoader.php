@@ -50,7 +50,7 @@ class JsonLoader implements LoaderInterface
                 throw new \InvalidArgumentException(sprintf('The file "%s" does not exsist.', $file), 1628599433);
             }
             $json = json_decode(file_get_contents($file), true, 512, 4194304); // @todo replace with JSON_THROW_ON_ERROR in Mask v8.0
-            $this->tableDefinitionCollection = TableDefinitionCollection::createFromInternalArray($json);
+            $this->tableDefinitionCollection = TableDefinitionCollection::createFromArray($json);
         }
         return $this->tableDefinitionCollection;
     }

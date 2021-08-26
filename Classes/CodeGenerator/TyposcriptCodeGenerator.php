@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\CodeGenerator;
 
+use MASK\Mask\Definition\ElementDefinition;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Imaging\IconProvider\ContentElementIconProvider;
 use MASK\Mask\Definition\TableDefinitionCollection;
@@ -27,6 +28,7 @@ use TYPO3\CMS\Core\Imaging\IconRegistry;
 
 /**
  * Generates all the typoscript needed for mask content elements
+ * @internal
  */
 class TyposcriptCodeGenerator
 {
@@ -60,38 +62,38 @@ class TyposcriptCodeGenerator
      */
     public function generateTsConfig(): string
     {
-        if (!$this->tableDefinitionCollection->hasTableDefinition('tt_content')) {
+        if (!$this->tableDefinitionCollection->hasTable('tt_content')) {
             return '';
         }
 
-        $tt_content = $this->tableDefinitionCollection->getTableDefiniton('tt_content');
+        $tt_content = $this->tableDefinitionCollection->getTable('tt_content');
         $content = '';
 
         // Register content elements and add them in new content element wizard.
         foreach ($tt_content->elements as $element) {
             // Register icons for contentelements
-            $iconIdentifier = 'mask-ce-' . $element['key'];
+            $iconIdentifier = 'mask-ce-' . $element->key;
             $this->iconRegistry->registerIcon(
                 $iconIdentifier,
                 ContentElementIconProvider::class,
                 [
-                    'contentElementKey' => $element['key']
+                    'contentElementKey' => $element->key
                 ]
             );
 
-            if ($element['hidden'] ?? false) {
+            if ($element->hidden) {
                 continue;
             }
 
             // Remove any whitespace characters for the description.
-            $element['description'] = trim(preg_replace('/\s+/', ' ', $element['description']));
-            $cTypeKey = AffixUtility::addMaskCTypePrefix($element['key']);
+            $element->description = trim(preg_replace('/\s+/', ' ', $element->description));
+            $cTypeKey = AffixUtility::addMaskCTypePrefix($element->key);
             $wizard = [
                 'header' => 'LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:new_content_element_tab',
                 'elements.' . $cTypeKey => [
                     'iconIdentifier' => $iconIdentifier,
-                    'title' => $element['label'],
-                    'description' => $element['description'],
+                    'title' => $element->label,
+                    'description' => $element->description,
                     'tt_content_defValues' => [
                         'CType' => $cTypeKey
                     ]
@@ -104,7 +106,7 @@ class TyposcriptCodeGenerator
 
             // Switch the labels depending on which content element is selected.
             $content .= "\n[isMaskContentType(\"" . $cTypeKey . "\")]\n";
-            foreach ($element['columns'] ?? [] as $index => $column) {
+            foreach ($element->columns as $index => $column) {
                 $content = $this->setLabel($column, $index, $element, 'tt_content', $content);
             }
             $content .= "[end]\n\n";
@@ -118,17 +120,17 @@ class TyposcriptCodeGenerator
      */
     public function generatePageTyposcript(): string
     {
-        if (!$this->tableDefinitionCollection->hasTableDefinition('pages')) {
+        if (!$this->tableDefinitionCollection->hasTable('pages')) {
             return '';
         }
 
         $pagesContent = '';
-        $pages = $this->tableDefinitionCollection->getTableDefiniton('pages');
+        $pages = $this->tableDefinitionCollection->getTable('pages');
         foreach ($pages->elements as $element) {
             // Labels for pages
-            $pagesContent .= "\n[maskBeLayout('" . $element['key'] . "')]\n";
+            $pagesContent .= "\n[maskBeLayout('" . $element->key . "')]\n";
             // if page has backendlayout with this element-key
-            foreach ($element['columns'] ?? [] as $index => $column) {
+            foreach ($element->columns as $index => $column) {
                 $pagesContent = $this->setLabel($column, $index, $element, 'pages', $pagesContent);
             }
             $pagesContent .= "[end]\n";
@@ -140,26 +142,19 @@ class TyposcriptCodeGenerator
     /**
      * Sets the label via TCEFORM
      */
-    protected function setLabel(string $column, int $index, array $element, string $table, string $content): string
+    protected function setLabel(string $fieldKey, int $index, ElementDefinition $element, string $table, string $content): string
     {
-        if ($this->tableDefinitionCollection->getFormType($column, $element['key'], $table) === FieldType::PALETTE) {
-            $items = $this->tableDefinitionCollection->loadInlineFields($column, $element['key']);
-            foreach ($items as $item) {
-                if (is_array($item['label'])) {
-                    $label = $item['label'][$element['key']];
-                } else {
-                    $label = $item['label'];
-                }
-                // With config is custom mask field
-                if (isset($item['config'])) {
-                    $key = AffixUtility::addMaskPrefix($item['key']);
-                } else {
-                    $key = $item['key'];
-                }
-                $content .= ' TCEFORM.' . $table . '.' . $key . '.label = ' . $label . "\n";
+        $fieldDefinition = $this->tableDefinitionCollection->loadField($table, $fieldKey);
+        if (!$fieldDefinition) {
+            return $content;
+        }
+        // As this is called very early, TCA for core fields might not be loaded yet. So ignore them.
+        if (!$fieldDefinition->isCoreField && $this->tableDefinitionCollection->getFieldType($fieldKey, $table, $element->key)->equals(FieldType::PALETTE)) {
+            foreach ($this->tableDefinitionCollection->loadInlineFields($fieldKey, $element->key) as $field) {
+                $content .= ' TCEFORM.' . $table . '.' . $field->fullKey . '.label = ' . $field->getLabel($element->key) . "\n";
             }
         } else {
-            $content .= ' TCEFORM.' . $table . '.' . $column . '.label = ' . $element['labels'][$index] . "\n";
+            $content .= ' TCEFORM.' . $table . '.' . $fieldKey . '.label = ' . $element->labels[$index] . "\n";
         }
 
         return $content;
@@ -170,7 +165,7 @@ class TyposcriptCodeGenerator
      */
     public function generateSetupTyposcript(): string
     {
-        if (!$this->tableDefinitionCollection->hasTableDefinition('tt_content')) {
+        if (!$this->tableDefinitionCollection->hasTable('tt_content')) {
             return '';
         }
 
@@ -189,19 +184,20 @@ class TyposcriptCodeGenerator
             ]
         ], 'lib.maskContentElement');
 
-        $tt_content = $this->tableDefinitionCollection->getTableDefiniton('tt_content');
+        $tt_content = $this->tableDefinitionCollection->getTable('tt_content');
         foreach ($tt_content->elements as $element) {
-            if (!($element['hidden'] ?? false)) {
-                $cTypeKey = AffixUtility::addMaskCTypePrefix($element['key']);
-                $templateName = MaskUtility::getTemplatePath($this->maskExtensionConfiguration, $element['key'], true, null, true);
-                $elementContent = [];
-                $elementContent[] = 'tt_content.' . $cTypeKey . ' =< lib.maskContentElement' . LF;
-                $elementContent[] = 'tt_content.' . $cTypeKey . ' {' . LF;
-                $elementContent[] = "\t" . 'templateName = ' . $templateName . LF;
-                $elementContent[] = '}' . LF . LF;
-
-                $setupContent[] = implode('', $elementContent);
+            if ($element->hidden) {
+                continue;
             }
+            $cTypeKey = AffixUtility::addMaskCTypePrefix($element->key);
+            $templateName = MaskUtility::getTemplatePath($this->maskExtensionConfiguration, $element->key, true, null, true);
+            $elementContent = [];
+            $elementContent[] = 'tt_content.' . $cTypeKey . ' =< lib.maskContentElement' . LF;
+            $elementContent[] = 'tt_content.' . $cTypeKey . ' {' . LF;
+            $elementContent[] = "\t" . 'templateName = ' . $templateName . LF;
+            $elementContent[] = '}' . LF . LF;
+
+            $setupContent[] = implode('', $elementContent);
         }
 
         return implode("\n\n", $setupContent);

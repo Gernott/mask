@@ -29,6 +29,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Generates all the sql needed for mask content elements
+ * @internal
  */
 class SqlCodeGenerator
 {
@@ -92,20 +93,17 @@ class SqlCodeGenerator
                 continue;
             }
 
-            foreach ($tableDefinition->sql as $field) {
-                foreach ($field ?? [] as $table => $fields) {
-                    foreach ($fields ?? [] as $fieldKey => $sqlDefinition) {
-                        $fieldType = $this->tableDefinitionCollection->getFormType($fieldKey, '', $table);
-                        if ($fieldType === FieldType::INLINE && !$this->tableDefinitionCollection->hasTableDefinition($fieldKey)) {
-                            continue;
-                        }
-                        $sql[] = 'CREATE TABLE ' . $table . " (\n\t" . $fieldKey . ' ' . $sqlDefinition . "\n);\n";
-                        // if this field is a content field, also add parent columns
-                        if ($fieldType === FieldType::CONTENT) {
-                            $parentField = AffixUtility::addMaskParentSuffix($fieldKey);
-                            $sql[] = "CREATE TABLE tt_content (\n\t" . $parentField . ' ' . $sqlDefinition . ",\n\t" . 'KEY ' . $fieldKey . ' (' . $parentField . ', deleted, hidden, sorting)' . "\n);\n";
-                        }
-                    }
+            foreach ($tableDefinition->sql as $column) {
+                $table = $this->tableDefinitionCollection->getTableByField($column->column);
+                $fieldType = $this->tableDefinitionCollection->getFieldType($column->column, $table);
+                if ($fieldType->equals(FieldType::INLINE) && !$this->tableDefinitionCollection->hasTable($column->column)) {
+                    continue;
+                }
+                $sql[] = 'CREATE TABLE ' . $tableDefinition->table . " (\n\t" . $column->column . ' ' . $column->sqlDefinition . "\n);\n";
+                // if this field is a content field, also add parent columns
+                if ($fieldType->equals(FieldType::CONTENT)) {
+                    $parentField = AffixUtility::addMaskParentSuffix($column->column);
+                    $sql[] = "CREATE TABLE tt_content (\n\t" . $parentField . ' ' . $column->sqlDefinition . ",\n\t" . 'KEY ' . $column->column . ' (' . $parentField . ', deleted, hidden, sorting)' . "\n);\n";
                 }
             }
 

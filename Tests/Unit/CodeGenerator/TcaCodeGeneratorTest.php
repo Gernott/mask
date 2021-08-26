@@ -258,35 +258,9 @@ class TcaCodeGeneratorTest extends BaseTestCase
      */
     public function getPageShowItem(array $json, string $key, string $expected): void
     {
-        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromInternalArray($json));
+        $tcaCodeGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json));
 
-        self::assertSame($expected, $tcaGenerator->getPageShowItem($key));
-    }
-
-    public function getMaskIrreTablesDataProvider(): array
-    {
-        return [
-            'Returns all mask inline tables' => [
-                [
-                    'pages' => [],
-                    'sys_file_reference' => [],
-                    'tx_mask_repeat' => [],
-                    'tx_mask_accordion' => []
-                ],
-                ['tx_mask_repeat', 'tx_mask_accordion']
-            ]
-        ];
-    }
-
-    /**
-     * @dataProvider getMaskIrreTablesDataProvider
-     * @test
-     */
-    public function getMaskIrreTables(array $json, array $expected): void
-    {
-        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromInternalArray($json));
-
-        self::assertSame($expected, $tcaGenerator->getMaskIrreTables());
+        self::assertSame($expected, $tcaCodeGenerator->getPageShowItem($key));
     }
 
     public function processTableTcaDataProvider(): array
@@ -297,28 +271,32 @@ class TcaCodeGeneratorTest extends BaseTestCase
                 [
                     'tx_mask_repeater' => [
                         'tca' => [
-                            'field_2' => [
+                            'tx_mask_field_2' => [
+                                'key' => 'field_2',
                                 'label' => 'Field 2',
                                 'order' => '2',
                                 'config' => [
                                     'type' => 'input'
                                 ]
                             ],
-                            'field_1' => [
+                            'tx_mask_field_1' => [
+                                'key' => 'field_1',
                                 'label' => 'Field 1',
                                 'order' => '1',
                                 'config' => [
                                     'type' => 'input'
                                 ]
                             ],
-                            'field_3' => [
+                            'tx_mask_field_3' => [
+                                'key' => 'field_3',
                                 'label' => 'Field 3',
                                 'order' => '4',
                                 'config' => [
                                     'type' => 'input'
                                 ]
                             ],
-                            'tab_field' => [
+                            'tx_mask_tab_field' => [
+                                'key' => 'tab_field',
                                 'label' => 'New Tab',
                                 'order' => '3',
                                 'config' => [
@@ -329,8 +307,8 @@ class TcaCodeGeneratorTest extends BaseTestCase
                     ]
                 ],
                 [
-                    'label' => 'field_1',
-                    'showitem' => '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,field_1,field_2,--div--;New Tab,field_3'
+                    'label' => 'tx_mask_field_1',
+                    'showitem' => '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,tx_mask_field_1,tx_mask_field_2,--div--;New Tab,tx_mask_field_3'
                 ]
             ],
             'Tab at first position overrides general tab' => [
@@ -338,28 +316,32 @@ class TcaCodeGeneratorTest extends BaseTestCase
                 [
                     'tx_mask_repeater' => [
                         'tca' => [
-                            'field_2' => [
+                            'tx_mask_field_2' => [
+                                'key' => 'field_2',
                                 'label' => 'Field 2',
                                 'order' => '3',
                                 'config' => [
                                     'type' => 'input'
                                 ]
                             ],
-                            'field_1' => [
+                            'tx_mask_field_1' => [
+                                'key' => 'field_1',
                                 'label' => 'Field 1',
                                 'order' => '2',
                                 'config' => [
                                     'type' => 'input'
                                 ]
                             ],
-                            'field_3' => [
+                            'tx_mask_field_3' => [
+                                'key' => 'field_3',
                                 'label' => 'Field 3',
                                 'order' => '4',
                                 'config' => [
                                     'type' => 'input'
                                 ]
                             ],
-                            'tab_field' => [
+                            'tx_mask_tab_field' => [
+                                'key' => 'tab_field',
                                 'label' => 'New Tab',
                                 'order' => '1',
                                 'config' => [
@@ -370,8 +352,8 @@ class TcaCodeGeneratorTest extends BaseTestCase
                     ]
                 ],
                 [
-                    'label' => 'field_1',
-                    'showitem' => '--div--;New Tab,field_1,field_2,field_3'
+                    'label' => 'tx_mask_field_1',
+                    'showitem' => '--div--;New Tab,tx_mask_field_1,tx_mask_field_2,tx_mask_field_3'
                 ]
             ],
             'Palettes are added' => [
@@ -379,28 +361,32 @@ class TcaCodeGeneratorTest extends BaseTestCase
                 [
                     'tx_mask_repeater' => [
                         'tca' => [
-                            'field_2' => [
+                            'tx_mask_field_2' => [
+                                'key' => 'field_2',
                                 'label' => 'Field 2',
                                 'order' => '3',
                                 'config' => [
                                     'type' => 'input'
                                 ]
                             ],
-                            'field_1' => [
+                            'tx_mask_field_1' => [
+                                'key' => 'field_1',
                                 'label' => 'Field 1',
                                 'order' => '2',
                                 'config' => [
                                     'type' => 'input'
                                 ]
                             ],
-                            'palette_field' => [
+                            'tx_mask_palette_field' => [
+                                'key' => 'palette_field',
                                 'label' => 'A Palette',
                                 'order' => '1',
                                 'config' => [
                                     'type' => 'palette'
                                 ]
                             ],
-                            'field_3' => [
+                            'tx_mask_field_3' => [
+                                'key' => 'field_3',
                                 'label' => 'Field 3',
                                 'order' => '1',
                                 'inPalette' => true,
@@ -411,17 +397,17 @@ class TcaCodeGeneratorTest extends BaseTestCase
                             ],
                         ],
                         'palettes' => [
-                            'palette_field' => [
+                            'tx_mask_palette_field' => [
                                 'showitem' => [
-                                    'field_3'
+                                    'tx_mask_field_3'
                                 ]
                             ]
                         ]
                     ]
                 ],
                 [
-                    'label' => 'field_3',
-                    'showitem' => '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,--palette--;;palette_field,field_1,field_2'
+                    'label' => 'tx_mask_field_3',
+                    'showitem' => '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,--palette--;;tx_mask_palette_field,tx_mask_field_1,tx_mask_field_2'
                 ]
             ],
             'Empty palette first field is ignored' => [
@@ -429,28 +415,32 @@ class TcaCodeGeneratorTest extends BaseTestCase
                 [
                     'tx_mask_repeater' => [
                         'tca' => [
-                            'field_2' => [
+                            'tx_mask_field_2' => [
+                                'key' => 'field_2',
                                 'label' => 'Field 2',
                                 'order' => '3',
                                 'config' => [
                                     'type' => 'input'
                                 ]
                             ],
-                            'field_1' => [
+                            'tx_mask_field_1' => [
+                                'key' => 'field_1',
                                 'label' => 'Field 1',
                                 'order' => '2',
                                 'config' => [
                                     'type' => 'input'
                                 ]
                             ],
-                            'palette_field' => [
+                            'tx_mask_palette_field' => [
+                                'key' => 'palette_field',
                                 'label' => 'A Palette',
                                 'order' => '1',
                                 'config' => [
                                     'type' => 'palette'
                                 ]
                             ],
-                            'field_3' => [
+                            'tx_mask_field_3' => [
+                                'key' => 'field_3',
                                 'label' => 'Field 3',
                                 'order' => '4',
                                 'config' => [
@@ -459,15 +449,15 @@ class TcaCodeGeneratorTest extends BaseTestCase
                             ],
                         ],
                         'palettes' => [
-                            'palette_field' => [
+                            'tx_mask_palette_field' => [
                                 'showitem' => []
                             ]
                         ]
                     ]
                 ],
                 [
-                    'label' => 'field_1',
-                    'showitem' => '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,field_1,field_2,field_3'
+                    'label' => 'tx_mask_field_1',
+                    'showitem' => '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,tx_mask_field_1,tx_mask_field_2,tx_mask_field_3'
                 ]
             ]
         ];
@@ -479,10 +469,10 @@ class TcaCodeGeneratorTest extends BaseTestCase
      */
     public function processTableTca(string $table, array $json, array $expected)
     {
-        $tableDefinitionCollection = TableDefinitionCollection::createFromInternalArray($json);
+        $tableDefinitionCollection = TableDefinitionCollection::createFromArray($json);
         $tcaGenerator = new TcaCodeGenerator($tableDefinitionCollection);
 
-        self::assertSame($expected, $tcaGenerator->processTableTca($tableDefinitionCollection->getTableDefiniton($table)));
+        self::assertSame($expected, $tcaGenerator->processTableTca($tableDefinitionCollection->getTable($table)));
     }
 
     public function generateFieldsTcaDataProvider(): array
@@ -579,6 +569,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
                                 'key' => 'field_1'
                             ],
                             'tx_mask_tab' => [
+                                'key' => 'tab',
                                 'config' => [
                                     'type' => 'tab'
                                 ]
@@ -624,7 +615,9 @@ class TcaCodeGeneratorTest extends BaseTestCase
                         ]
                     ],
                     'tx_mask_field_1' => [
+                        'tca' => [
 
+                        ]
                     ]
                 ],
                 'tt_content',
@@ -754,7 +747,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
                                     'type' => 'input',
                                     'eval' => 'trim'
                                 ],
-                                'key' => 'field_2',
+                                'key' => 'field',
                                 'inlineParent' => [
                                     'element1' => 'tx_mask_palette',
                                     'element2' => 'tx_mask_palette2'
@@ -791,7 +784,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
      */
     public function generateFieldsTca(array $json, string $table, array $expected): void
     {
-        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromInternalArray($json));
+        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json));
 
         self::assertSame($expected, $tcaGenerator->generateFieldsTca($table));
     }
@@ -862,7 +855,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
      */
     public function generateFileTca(array $json, string $table, string $field, array $expected): void
     {
-        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromInternalArray($json));
+        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json));
 
         $result = $tcaGenerator->generateFieldsTca($table);
         self::assertSame($expected['type'], $result[$field]['config']['type']);
@@ -894,6 +887,14 @@ class TcaCodeGeneratorTest extends BaseTestCase
                                     ''
                                 ]
                             ]
+                        ],
+                        'tca' => [
+                            'header' => [
+                                'key' => 'header'
+                            ],
+                            'bodytext' => [
+                                'key' => 'bodytext'
+                            ]
                         ]
                     ]
                 ],
@@ -918,6 +919,14 @@ class TcaCodeGeneratorTest extends BaseTestCase
                                     '',
                                     ''
                                 ]
+                            ]
+                        ],
+                        'tca' => [
+                            'header' => [
+                                'key' => 'header'
+                            ],
+                            'bodytext' => [
+                                'key' => 'bodytext'
                             ]
                         ]
                     ]
@@ -948,10 +957,16 @@ class TcaCodeGeneratorTest extends BaseTestCase
                         ],
                         'tca' => [
                             'tx_mask_my_tab' => [
+                                'key' => 'my_tab',
                                 'config' => [
                                     'type' => 'tab',
-                                    'key' => 'my_tab'
                                 ]
+                            ],
+                            'header' => [
+                                'key' => 'header'
+                            ],
+                            'bodytext' => [
+                                'key' => 'bodytext'
                             ]
                         ]
                     ]
@@ -982,10 +997,16 @@ class TcaCodeGeneratorTest extends BaseTestCase
                         ],
                         'tca' => [
                             'tx_mask_my_tab' => [
+                                'key' => 'my_tab',
                                 'config' => [
                                     'type' => 'tab',
-                                    'key' => 'my_tab'
                                 ]
+                            ],
+                            'header' => [
+                                'key' => 'header'
+                            ],
+                            'bodytext' => [
+                                'key' => 'bodytext'
                             ]
                         ]
                     ]
@@ -1012,10 +1033,16 @@ class TcaCodeGeneratorTest extends BaseTestCase
                         ],
                         'tca' => [
                             'tx_mask_my_palette' => [
+                                'key' => 'my_palette',
                                 'config' => [
                                     'type' => 'palette',
-                                    'key' => 'my_palette'
                                 ]
+                            ],
+                            'header' => [
+                                'key' => 'header'
+                            ],
+                            'bodytext' => [
+                                'key' => 'bodytext'
                             ]
                         ],
                         'palettes' => [
@@ -1053,15 +1080,22 @@ class TcaCodeGeneratorTest extends BaseTestCase
                         ],
                         'tca' => [
                             'tx_mask_my_palette' => [
+                                'key' => 'my_palette',
                                 'config' => [
                                     'type' => 'palette',
-                                    'key' => 'my_palette'
                                 ]
                             ],
                             'tx_mask_linebreak-1' => [
+                                'key' => 'linebreak-1',
                                 'config' => [
                                     'type' => 'linebreak'
                                 ]
+                            ],
+                            'header' => [
+                                'key' => 'header'
+                            ],
+                            'bodytext' => [
+                                'key' => 'bodytext'
                             ]
                         ],
                         'palettes' => [
@@ -1091,12 +1125,13 @@ class TcaCodeGeneratorTest extends BaseTestCase
     public function setElementsTca(array $json, string $key, string $showItemExpected, array $paletteExpected): void
     {
         $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'] = [];
+        $GLOBALS['TCA']['tt_content']['columns']['header']['config']['type'] = 'input';
 
         $packageManager = $this->prophesize(PackageManager::class);
         $packageManager->isPackageActive('gridelements')->willReturn(false);
         ExtensionManagementUtility::setPackageManager($packageManager->reveal());
 
-        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromInternalArray($json));
+        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json));
         $tcaGenerator->setElementsTca();
 
         self::assertSame($showItemExpected, $GLOBALS['TCA']['tt_content']['types'][$key]['showitem'] ?? '');
@@ -1109,8 +1144,21 @@ class TcaCodeGeneratorTest extends BaseTestCase
             'Label and Icon generated when ctrl provided' => [
                 [
                     'tt_content' => [
+                        'elements' => [
+                            'element1' => [
+                                'key' => 'element1',
+                                'label' => 'Element1',
+                                'columns' => [
+                                    'tx_mask_inline'
+                                ],
+                                'labels' => [
+                                    'Inline Field'
+                                ]
+                            ]
+                        ],
                         'tca' => [
                             'tx_mask_inline' => [
+                                'key' => 'inline',
                                 'config' => [
                                     'type' => 'inline'
                                 ],
@@ -1124,6 +1172,9 @@ class TcaCodeGeneratorTest extends BaseTestCase
                     'tx_mask_inline' => [
                         'tca' => [
                             'tx_mask_field1' => [
+                                'config' => [
+                                    'type' => 'input'
+                                ],
                                 'key' => 'field1',
                                 'order' => 1
                             ]
@@ -1137,8 +1188,21 @@ class TcaCodeGeneratorTest extends BaseTestCase
             'Label and Icon generated when inlineLabel and inlineIcon provided' => [
                 [
                     'tt_content' => [
+                        'elements' => [
+                            'element1' => [
+                                'key' => 'element1',
+                                'label' => 'Element1',
+                                'columns' => [
+                                    'tx_mask_inline'
+                                ],
+                                'labels' => [
+                                    'Inline Field'
+                                ]
+                            ],
+                        ],
                         'tca' => [
                             'tx_mask_inline' => [
+                                'key' => 'inline',
                                 'config' => [
                                     'type' => 'inline'
                                 ],
@@ -1150,8 +1214,12 @@ class TcaCodeGeneratorTest extends BaseTestCase
                     'tx_mask_inline' => [
                         'tca' => [
                             'tx_mask_field1' => [
+                                'config' => [
+                                    'type' => 'input'
+                                ],
                                 'key' => 'field1',
-                                'order' => 1
+                                'order' => 1,
+                                'inlineParent' => 'tx_mask_inline'
                             ]
                         ]
                     ]
@@ -1163,8 +1231,21 @@ class TcaCodeGeneratorTest extends BaseTestCase
             'Non exsiting key for label results in first field' => [
                 [
                     'tt_content' => [
+                        'elements' => [
+                            'element1' => [
+                                'key' => 'element1',
+                                'label' => 'Element1',
+                                'columns' => [
+                                    'tx_mask_inline'
+                                ],
+                                'labels' => [
+                                    'Inline Field'
+                                ]
+                            ],
+                        ],
                         'tca' => [
                             'tx_mask_inline' => [
+                                'key' => 'inline',
                                 'config' => [
                                     'type' => 'inline'
                                 ],
@@ -1178,10 +1259,16 @@ class TcaCodeGeneratorTest extends BaseTestCase
                     'tx_mask_inline' => [
                         'tca' => [
                             'tx_mask_field1' => [
+                                'config' => [
+                                    'type' => 'input'
+                                ],
                                 'key' => 'field1',
                                 'order' => 1
                             ],
                             'tx_mask_field2' => [
+                                'config' => [
+                                    'type' => 'input'
+                                ],
                                 'key' => 'field1',
                                 'order' => 2
                             ]
@@ -1202,10 +1289,114 @@ class TcaCodeGeneratorTest extends BaseTestCase
     public function generateTableTca(array $json, string $table, string $expectedLabel, string $expectedIcon)
     {
         $loader = $this->createLoader($json);
-        $tableDefinition = $loader->load()->getTableDefiniton($table);
-        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromInternalArray($json));
+        $tableDefinition = $loader->load()->getTable($table);
+        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json));
 
         self::assertSame($expectedLabel, $tcaGenerator->generateTableTca($tableDefinition)['ctrl']['label']);
         self::assertSame($expectedIcon, $tcaGenerator->generateTableTca($tableDefinition)['ctrl']['iconfile']);
+    }
+
+    public function getPagePalettesTestDataProvider(): array
+    {
+        return [
+            'Palettes of pages returned' => [
+                [
+                    'pages' => [
+                        'elements' => [
+                            '1' => [
+                                'key' => '1',
+                                'label' => 'Layout 1',
+                                'columns' => [
+                                    'tx_mask_palette1'
+                                ],
+                                'labels' => [
+                                    'Palette 1'
+                                ]
+                            ],
+                            '2' => [
+                                'key' => '2',
+                                'label' => 'Layout 2',
+                                'columns' => [
+                                    'tx_mask_palette2'
+                                ],
+                                'labels' => [
+                                    'Palette 2'
+                                ]
+                            ]
+                        ],
+                        'tca' => [
+                            'tx_mask_palette1' => [
+                                'key' => 'palette1',
+                                'config' => [
+                                    'type' => 'palette'
+                                ]
+                            ],
+                            'tx_mask_palette2' => [
+                                'key' => 'palette2',
+                                'config' => [
+                                    'type' => 'palette'
+                                ]
+                            ],
+                            'tx_mask_field1' => [
+                                'key' => 'field1',
+                                'config' => [
+                                    'type' => 'input'
+                                ],
+                                'inPalette' => 1,
+                                'inlineParent' => [
+                                    '1' => 'tx_mask_palette',
+                                    '2' => 'tx_mask_palette2',
+                                ],
+                                'label' => [
+                                    '1' => 'Palette 1',
+                                    '2' => 'Palette 2'
+                                ]
+                            ],
+                            'tx_mask_field2' => [
+                                'key' => 'field2',
+                                'config' => [
+                                    'type' => 'input'
+                                ],
+                                'inPalette' => 1,
+                                'inlineParent' => [
+                                    '2' => 'tx_mask_palette2'
+                                ],
+                                'label' => [
+                                    '2' => 'Palette 2'
+                                ]
+                            ]
+                        ],
+                        'palettes' => [
+                            'tx_mask_palette1' => [
+                                'label' => 'Palette 1',
+                                'showitem' => [
+                                    'tx_mask_field1'
+                                ]
+                            ],
+                            'tx_mask_palette2' => [
+                                'label' => 'Palette 2',
+                                'showitem' => [
+                                    'tx_mask_field1'
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                '2',
+                [
+                    'tx_mask_palette2'
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider getPagePalettesTestDataProvider
+     */
+    public function getPagePalettesTest(array $json, string $elementKey, array $expected): void
+    {
+        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json));
+        self::assertEquals($expected, array_keys($tcaGenerator->getPagePalettes($elementKey)));
     }
 }

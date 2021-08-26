@@ -40,6 +40,7 @@ class InlineHelperTest extends BaseTestCase
                         'elements' => [
                             'element_1' => [
                                 'key' => 'element_1',
+                                'label' => 'Element 1',
                                 'columns' => [
                                     'tx_mask_file'
                                 ],
@@ -50,6 +51,10 @@ class InlineHelperTest extends BaseTestCase
                         ],
                         'tca' => [
                             'tx_mask_file' => [
+                                'config' => [
+                                    'type' => 'inline'
+                                ],
+                                'key' => 'file',
                                 'options' => 'file'
                             ]
                         ]
@@ -68,6 +73,7 @@ class InlineHelperTest extends BaseTestCase
                         'elements' => [
                             'element_1' => [
                                 'key' => 'element_1',
+                                'label' => 'Element 1',
                                 'columns' => [
                                     'assets'
                                 ],
@@ -95,10 +101,24 @@ class InlineHelperTest extends BaseTestCase
      */
     public function addFilesToData(array $json, string $key, array $data, string $table): void
     {
-        $GLOBALS['TCA']['tt_content']['columns']['assets'] = [
-            'config' => [
-                'type' => 'inline',
-                'foreign_table' => 'sys_file_reference'
+        $GLOBALS['TCA']['tt_content']['columns'] = [
+            'media' => [
+                'config' => [
+                    'type' => 'inline',
+                    'foreign_table' => 'sys_file_reference'
+                ]
+            ],
+            'assets' => [
+                'config' => [
+                    'type' => 'inline',
+                    'foreign_table' => 'sys_file_reference'
+                ]
+            ],
+            'image' => [
+                'config' => [
+                    'type' => 'inline',
+                    'foreign_table' => 'sys_file_reference'
+                ]
             ]
         ];
 
@@ -109,7 +129,7 @@ class InlineHelperTest extends BaseTestCase
         $fileRepository->findByRelation(Argument::cetera())->willReturn([$fileReference]);
         GeneralUtility::setSingletonInstance(FileRepository::class, $fileRepository->reveal());
 
-        $inlineHelper = new InlineHelper(TableDefinitionCollection::createFromInternalArray($json), $backendLayoutRepository->reveal());
+        $inlineHelper = new InlineHelper(TableDefinitionCollection::createFromArray($json), $backendLayoutRepository->reveal());
         $inlineHelper->addFilesToData($data, $table);
 
         self::assertInstanceOf(FileReference::class, $data[$key][0]);
@@ -124,6 +144,7 @@ class InlineHelperTest extends BaseTestCase
                         'elements' => [
                             'element_1' => [
                                 'key' => 'element_1',
+                                'label' => 'Element 1',
                                 'columns' => [
                                     'tx_mask_repeat'
                                 ],
@@ -136,7 +157,8 @@ class InlineHelperTest extends BaseTestCase
                             'tx_mask_repeat' => [
                                 'config' => [
                                     'type' => 'inline'
-                                ]
+                                ],
+                                'key' => 'repeat'
                             ]
                         ]
                     ],
@@ -174,6 +196,7 @@ class InlineHelperTest extends BaseTestCase
                         'elements' => [
                             'element_1' => [
                                 'key' => 'element_1',
+                                'label' => 'Element 1',
                                 'columns' => [
                                     'tx_mask_palette'
                                 ],
@@ -250,7 +273,7 @@ class InlineHelperTest extends BaseTestCase
         $inlineHelper = $this->getAccessibleMock(
             InlineHelper::class,
             ['getInlineElements'],
-            [TableDefinitionCollection::createFromInternalArray($json), $backendLayoutRepository->reveal()]
+            [TableDefinitionCollection::createFromArray($json), $backendLayoutRepository->reveal()]
         );
         $inlineHelper->expects(self::any())->method('getInlineElements')->willReturn($inlineElements);
         $inlineHelper->addIrreToData($data, $table);
@@ -267,6 +290,7 @@ class InlineHelperTest extends BaseTestCase
                         'elements' => [
                             'element_1' => [
                                 'key' => 'element_1',
+                                'label' => 'Element 1',
                                 'columns' => [
                                     'tx_mask_repeat'
                                 ],
@@ -279,7 +303,8 @@ class InlineHelperTest extends BaseTestCase
                             'tx_mask_repeat' => [
                                 'config' => [
                                     'type' => 'inline'
-                                ]
+                                ],
+                                'key' => 'repeat'
                             ]
                         ]
                     ],
@@ -329,7 +354,7 @@ class InlineHelperTest extends BaseTestCase
         $inlineHelper = $this->getAccessibleMock(
             InlineHelper::class,
             ['getInlineElements'],
-            [TableDefinitionCollection::createFromInternalArray($json), $backendLayoutRepository]
+            [TableDefinitionCollection::createFromArray($json), $backendLayoutRepository]
         );
         $inlineHelper->expects(self::once())->method('getInlineElements')->willReturn($inlineElements);
         $inlineHelper->addIrreToData($data, $table);
@@ -346,6 +371,7 @@ class InlineHelperTest extends BaseTestCase
                         'elements' => [
                             'element_1' => [
                                 'key' => 'element_1',
+                                'label' => 'Element 1',
                                 'columns' => [
                                     'tx_mask_repeat'
                                 ],
@@ -358,7 +384,8 @@ class InlineHelperTest extends BaseTestCase
                             'tx_mask_repeat' => [
                                 'config' => [
                                     'type' => 'inline'
-                                ]
+                                ],
+                                'key' => 'repeat'
                             ]
                         ]
                     ],
@@ -407,7 +434,7 @@ class InlineHelperTest extends BaseTestCase
         $inlineHelper = $this->getAccessibleMock(
             InlineHelper::class,
             ['getInlineElements'],
-            [TableDefinitionCollection::createFromInternalArray($json), $backendLayoutRepository->reveal()]
+            [TableDefinitionCollection::createFromArray($json), $backendLayoutRepository->reveal()]
         );
         $inlineHelper->expects(self::once())->method('getInlineElements')->willReturn($inlineElements);
         $inlineHelper->addIrreToData($data, $table);
@@ -423,6 +450,7 @@ class InlineHelperTest extends BaseTestCase
                         'elements' => [
                             'element_1' => [
                                 'key' => 'element_1',
+                                'label' => 'Element 1',
                                 'columns' => [
                                     'tx_mask_repeat'
                                 ],
@@ -435,7 +463,8 @@ class InlineHelperTest extends BaseTestCase
                             'tx_mask_repeat' => [
                                 'config' => [
                                     'type' => 'inline'
-                                ]
+                                ],
+                                'key' => 'repeat'
                             ]
                         ]
                     ],
@@ -481,7 +510,7 @@ class InlineHelperTest extends BaseTestCase
         $inlineHelper = $this->getAccessibleMock(
             InlineHelper::class,
             ['getInlineElements'],
-            [TableDefinitionCollection::createFromInternalArray($json), $backendLayoutRepository->reveal()]
+            [TableDefinitionCollection::createFromArray($json), $backendLayoutRepository->reveal()]
         );
         $inlineHelper->expects(self::once())->method('getInlineElements')->willReturn($inlineElements);
         $inlineHelper->addIrreToData($data, $table);

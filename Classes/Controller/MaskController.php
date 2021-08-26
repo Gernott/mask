@@ -29,6 +29,10 @@ use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
+/**
+ * Class MaskController
+ * @internal
+ */
 class MaskController
 {
     /**

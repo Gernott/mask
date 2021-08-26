@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Definition;
 
+use InvalidArgumentException;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\AffixUtility;
 use TYPO3\CMS\Core\Type\Exception\InvalidEnumerationValueException;
@@ -26,39 +27,36 @@ final class TableDefinitionCollection implements \IteratorAggregate
     /**
      * @var array<TableDefinition>
      */
-    protected $tableDefinitions = [];
+    private $definitions = [];
 
-    public function addTableDefinition(TableDefinition $tableDefinition): void
+    public function addTable(TableDefinition $tableDefinition): void
     {
-        if (!$this->hasTableDefinition($tableDefinition->table)) {
-            $this->tableDefinitions[$tableDefinition->table] = $tableDefinition;
+        if (!$this->hasTable($tableDefinition->table)) {
+            $this->definitions[$tableDefinition->table] = $tableDefinition;
         }
     }
 
-    public function getTableDefiniton(string $table): TableDefinition
+    public function getTable(string $table): TableDefinition
     {
-        if ($this->hasTableDefinition($table)) {
-            return $this->tableDefinitions[$table];
+        if ($this->hasTable($table)) {
+            return $this->definitions[$table];
         }
         throw new \OutOfBoundsException(sprintf('The table "%s" does not exist.', $table), 1628925803);
     }
 
-    public function hasTableDefinition(string $table): bool
+    public function hasTable(string $table): bool
     {
-        if (isset($this->tableDefinitions[$table])) {
-            return true;
-        }
-        return false;
+        return isset($this->definitions[$table]);
     }
 
     public function toArray(): array
     {
-        return array_merge([], ...$this->getTableDefinitionsAsArray());
+        return array_merge([], ...$this->getTablesAsArray());
     }
 
-    public function getTableDefinitionsAsArray(): iterable
+    public function getTablesAsArray(): iterable
     {
-        foreach ($this->tableDefinitions as $definition) {
+        foreach ($this->definitions as $definition) {
             yield [$definition->table => $definition->toArray()];
         }
     }
@@ -66,25 +64,21 @@ final class TableDefinitionCollection implements \IteratorAggregate
     /**
      * @return iterable<TableDefinition>
      */
-    public function getCustomTableDefinitions(): iterable
+    public function getCustomTables(): iterable
     {
-        foreach ($this->tableDefinitions as $tableDefinition) {
+        foreach ($this->definitions as $tableDefinition) {
             if (AffixUtility::hasMaskPrefix($tableDefinition->table)) {
                 yield $tableDefinition;
             }
         }
     }
 
-    public static function createFromInternalArray(array $tableDefinitionArray): TableDefinitionCollection
+    public static function createFromArray(array $tableDefinitionArray): TableDefinitionCollection
     {
         $tcaDefinition = new self();
-        foreach ($tableDefinitionArray as $table => $value) {
-            $elements = $value['elements'] ?? [];
-            $sql = $value['sql'] ?? [];
-            $tca = $value['tca'] ?? [];
-            $palettes = $value['palettes'] ?? [];
-            $tableDefinition = new TableDefinition($table, $tca, $sql, $elements, $palettes);
-            $tcaDefinition->addTableDefinition($tableDefinition);
+        foreach ($tableDefinitionArray as $table => $definition) {
+            $tableDefinition = TableDefinition::createFromTableArray($table, $definition);
+            $tcaDefinition->addTable($tableDefinition);
         }
 
         return $tcaDefinition;
@@ -95,107 +89,112 @@ final class TableDefinitionCollection implements \IteratorAggregate
      */
     public function getIterator(): iterable
     {
-        foreach ($this->tableDefinitions as $tableDefinition) {
-            yield $tableDefinition;
+        foreach ($this->definitions as $definition) {
+            yield clone $definition;
         }
     }
 
     /**
      * Load Field
      */
-    public function loadField(string $table, string $fieldName): array
+    public function loadField(string $table, string $fieldName): ?TcaFieldDefinition
     {
-        if (!$this->hasTableDefinition($table)) {
-            return [];
+        if (!$this->hasTable($table)) {
+            return null;
         }
 
-        $tableDefinition = $this->getTableDefiniton($table);
+        $tableDefinition = $this->getTable($table);
 
-        return $tableDefinition->tca[$fieldName] ?? [];
+        if (!$tableDefinition->tca->hasField($fieldName)) {
+            return null;
+        }
+
+        return $tableDefinition->tca->getField($fieldName);
     }
 
     /**
      * Load Element with all the field configurations
      */
-    public function loadElement(string $table, string $key): array
+    public function loadElement(string $table, string $key): ?ElementTcaDefinition
     {
         // Only tt_content and pages can have elements
         if (!in_array($table, ['tt_content', 'pages'])) {
-            return [];
+            return null;
         }
 
-        if (!$this->hasTableDefinition($table)) {
-            return [];
+        if (!$this->hasTable($table)) {
+            return null;
         }
 
-        $tableDefinition = $this->getTableDefiniton($table);
-
+        $tableDefinition = $this->getTable($table);
         $elements = $tableDefinition->elements;
-        $columns = $elements[$key]['columns'] ?? [];
-
-        if (!is_array($columns)) {
-            return [];
+        if (!$elements->hasElement($key)) {
+            return null;
         }
 
-        $fields = [];
-        foreach ($columns as $fieldName) {
-            $fields[$fieldName] = $tableDefinition->tca[$fieldName] ?? [];
-        }
-
-        if (!empty($fields)) {
-            $elements[$key]['tca'] = $fields;
-        }
-
-        return $elements[$key] ?? [];
+        $element = $elements->getElement($key);
+        return new ElementTcaDefinition($element, $tableDefinition->tca);
     }
 
     /**
      * Loads all the inline fields of an inline-field, recursively!
+     * Not specifying an element key means, the parent key has to be an inline table.
+     *
+     * @param string $parentKey
+     * @param string $elementKey
+     * @return NestedTcaFieldDefinitions
      */
-    public function loadInlineFields(string $parentKey, string $elementKey = ''): array
+    public function loadInlineFields(string $parentKey, string $elementKey): NestedTcaFieldDefinitions
     {
-        $inlineFields = [];
+        $nestedTcaFields = new NestedTcaFieldDefinitions($elementKey);
 
         // Load inline fields of own table
-        if ($this->hasTableDefinition($parentKey)) {
-            $searchTable = $this->getTableDefiniton($parentKey);
+        if ($this->hasTable($parentKey)) {
+            $searchTable = $this->getTable($parentKey);
             if (!$searchTable) {
-                return [];
+                return $nestedTcaFields;
             }
             $searchTables = [$searchTable];
         } else {
-            $searchTables = $this->tableDefinitions;
+            $searchTables = $this->definitions;
         }
 
         // Traverse tables and find palette
         foreach ($searchTables as $tableDefinition) {
-            foreach ($tableDefinition->tca as $key => $tca) {
-                // if inlineParent is an array, it's in a palette on default table
-                if (is_array(($tca['inlineParent'] ?? ''))) {
-                    $inlineParent = $tca['inlineParent'][$elementKey] ?? '';
-                } else {
-                    $inlineParent = $tca['inlineParent'] ?? '';
-                }
-                if ($inlineParent === $parentKey) {
-                    $maskKey = AffixUtility::addMaskPrefix($tca['key']);
-                    if ($this->getFormType($tca['key'], $elementKey, $tableDefinition->table) === FieldType::INLINE) {
-                        $tca['inlineFields'] = $this->loadInlineFields($key, $elementKey);
+            foreach ($tableDefinition->tca as $field) {
+                /** @todo Remove compatibility layer in Mask v8.0 */
+                try {
+                    if (!$field->hasInlineParent($elementKey) || $field->getInlineParent($elementKey) !== $parentKey) {
+                        continue;
                     }
-                    if (($tca['config']['type'] ?? '') === FieldType::PALETTE) {
-                        $tca['inlineFields'] = $this->loadInlineFields($maskKey, $elementKey);
-                    }
-                    $tca['maskKey'] = $maskKey;
-                    $inlineFields[] = $tca;
+                } catch (InvalidArgumentException $e) {
+                    trigger_error(
+                        'Not specifying the element key in method TableDefinitionCollection->loadInlineFields, will not work in Mask v8.0 anymore.',
+                        E_USER_DEPRECATED
+                    );
+                    continue;
                 }
+
+                // This can be called very early, so ignore core fields.
+                if (!$field->isCoreField) {
+                    $fieldType = $this->getFieldType($field->fullKey, $tableDefinition->table, $elementKey);
+                    if ($fieldType->isParentField()) {
+                        foreach ($this->loadInlineFields($field->fullKey, $elementKey) as $inlineField) {
+                            $field->addInlineField($inlineField);
+                        }
+                    }
+                }
+
+                $nestedTcaFields->addField($field);
             }
         }
 
-        $this->sortInlineFieldsByOrder($inlineFields, $elementKey);
-        return $inlineFields;
+        return $nestedTcaFields;
     }
 
     /**
      * Returns the formType of a field in an element
+     * @internal
      */
     public function getFormType(string $fieldKey, string $elementKey = '', string $table = 'tt_content'): string
     {
@@ -204,118 +203,125 @@ final class TableDefinitionCollection implements \IteratorAggregate
             return FieldType::RICHTEXT;
         }
 
-        $element = [];
-        $maskKey = AffixUtility::addMaskPrefix($fieldKey);
+        $tca = [];
 
-        // Check if TCA for mask key exists, else assume it's a core field.
-        $tca = $GLOBALS['TCA'][$table]['columns'][$maskKey] ?? [];
-        if (!$tca) {
+        $fieldDefinition = $this->loadField($table, $fieldKey);
+        if ($fieldDefinition) {
+            // If type is already known, return it. No check here, as this can be trusted.
+            if ($fieldDefinition->type) {
+                return (string)$fieldDefinition->type;
+            }
+            // Load the fields TCA, if not core field.
+            if (!$fieldDefinition->isCoreField) {
+                $tca = $fieldDefinition->toArray();
+            }
+        }
+
+        // If TCA could not be resolved by Mask config, check for global TCA.
+        if (empty($tca)) {
             $tca = $GLOBALS['TCA'][$table]['columns'][$fieldKey] ?? [];
         }
 
-        if ($elementKey) {
-            // Load element and TCA of field
-            $element = $this->loadElement($table, $elementKey);
-            if (array_key_exists('config', $tca) && !$tca['config']) {
-                $tca = $element['tca'][$fieldKey] ?? [];
-            }
+        // If TCA is still empty, error out.
+        if (empty($tca)) {
+            throw new InvalidArgumentException(sprintf('No TCA could be found for the field "%s" in the table "%s".', $fieldKey, $table), 1629484158);
         }
 
-        // if field is in inline table or $GLOBALS["TCA"] is not yet filled, load tca from json
-        if (!$tca || !in_array($table, ['tt_content', 'pages'])) {
-            $tca = $this->loadField($table, $fieldKey);
-            if (!($tca['config'] ?? false)) {
-                $tca = $this->loadField($table, $maskKey);
-            }
-        }
-
+        // The tca "type" attribute has to be set. Can also be a fake one like "palette" or "linebreak".
         $tcaType = $tca['config']['type'] ?? '';
-        $evals = [];
-        if (isset($tca['config']['eval'])) {
-            $evals = explode(',', $tca['config']['eval']);
-        }
-
-        if (($tca['options'] ?? '') === 'file') {
-            return FieldType::FILE;
-        }
-
-        if (($tca['rte'] ?? '') === '1' || (int)($tca['config']['enableRichtext'] ?? '') === 1) {
-            return FieldType::RICHTEXT;
+        if ($tcaType === '') {
+            throw new InvalidArgumentException(sprintf('The TCA type attribute of the field "%s" in the table "%s" must not be empty.', $fieldKey, $table), 1629485122);
         }
 
         // And decide via different tca settings which formType it is
         switch ($tcaType) {
             case 'input':
-                if (($tca['config']['dbType'] ?? '') === 'date') {
-                    $formType = FieldType::DATE;
-                } elseif (($tca['config']['dbType'] ?? '') === 'datetime') {
-                    $formType = FieldType::DATETIME;
-                } elseif (($tca['config']['renderType'] ?? '') === 'inputDateTime') {
-                    $formType = FieldType::TIMESTAMP;
-                } elseif (in_array('int', $evals, true)) {
-                    $formType = FieldType::INTEGER;
-                } elseif (in_array('double2', $evals, true)) {
-                    $formType = FieldType::FLOAT;
-                } elseif (($tca['config']['renderType'] ?? '') === 'inputLink') {
-                    $formType = FieldType::LINK;
-                } else {
-                    $formType = FieldType::STRING;
+                $evals = [];
+                if (isset($tca['config']['eval'])) {
+                    $evals = explode(',', $tca['config']['eval']);
                 }
-                break;
+                if (($tca['config']['dbType'] ?? '') === 'date') {
+                    return FieldType::DATE;
+                }
+                if (($tca['config']['dbType'] ?? '') === 'datetime') {
+                    return FieldType::DATETIME;
+                }
+                if (($tca['config']['renderType'] ?? '') === 'inputDateTime') {
+                    return FieldType::TIMESTAMP;
+                }
+                if (in_array('int', $evals, true)) {
+                    return FieldType::INTEGER;
+                }
+                if (in_array('double2', $evals, true)) {
+                    return FieldType::FLOAT;
+                }
+                if (($tca['config']['renderType'] ?? '') === 'inputLink') {
+                    return FieldType::LINK;
+                }
+                return FieldType::STRING;
             case 'text':
-                $formType = FieldType::TEXT;
-                if ($elementKey && in_array($table, ['tt_content', 'pages'])) {
-                    foreach ($element['columns'] ?? [] as $numberKey => $column) {
+                if (isset($tca['config']['enableRichtext'])) {
+                    return FieldType::RICHTEXT;
+                }
+                // Compatibility for mask prior to v3
+                // Load the element, if element key is provided and search for "rte" option.
+                if ($elementKey !== '') {
+                    $element = $this->loadElement($table, $elementKey);
+                    if (!$element) {
+                        throw new \InvalidArgumentException(sprintf('The element "%s" does not exist in the table "%s".', $elementKey, $table), 1629482680);
+                    }
+                    foreach ($element->elementDefinition->columns as $numberKey => $column) {
                         if ($column === $fieldKey) {
-                            $option = $element['options'][$numberKey] ?? '';
+                            $option = $element->elementDefinition->options[$numberKey] ?? '';
                             if ($option === 'rte') {
-                                $formType = FieldType::RICHTEXT;
+                                return FieldType::RICHTEXT;
                             }
                         }
                     }
                 }
-                break;
+                return FieldType::TEXT;
             case 'inline':
                 if (($tca['config']['foreign_table'] ?? '') === 'sys_file_reference') {
-                    $formType = FieldType::FILE;
-                } elseif (($tca['config']['foreign_table'] ?? '') === 'tt_content') {
-                    $formType = FieldType::CONTENT;
-                } else {
-                    $formType = FieldType::INLINE;
+                    return FieldType::FILE;
                 }
-                break;
+                if (($tca['config']['foreign_table'] ?? '') === 'tt_content') {
+                    return FieldType::CONTENT;
+                }
+                return FieldType::INLINE;
             default:
+                // Check if fake tca type is valid.
                 try {
-                    FieldType::cast($tcaType);
-                    $formType = $tcaType;
+                    return (string)FieldType::cast($tcaType);
                 } catch (InvalidEnumerationValueException $e) {
-                    return '';
+                    throw new \InvalidArgumentException(sprintf('Could not resolve the form type of the field "%s" in the table "%s". Please check, if your TCA is correct.', $fieldKey, $table), 1629484452);
                 }
-                break;
         }
-        return $formType;
+    }
+
+    public function getFieldType(string $fieldKey, string $table = 'tt_content', string $elementKey = ''): FieldType
+    {
+        return FieldType::cast($this->getFormType($fieldKey, $elementKey, $table));
     }
 
     /**
      * Returns type of field (tt_content or pages)
      */
-    public function getFieldType(string $fieldKey, string $elementKey = '', bool $excludeInlineFields = false): string
+    public function getTableByField(string $fieldKey, string $elementKey = '', bool $excludeInlineFields = false): string
     {
-        foreach ($this->tableDefinitions as $tableDefinition) {
-            $table = $tableDefinition->table;
-            if ($excludeInlineFields && !in_array($table, ['tt_content', 'pages'], true)) {
+        foreach ($this->definitions as $table) {
+            if ($excludeInlineFields && !in_array($table->table, ['tt_content', 'pages'], true)) {
                 continue;
             }
-            if (isset($tableDefinition->tca[$fieldKey]) && AffixUtility::hasMaskPrefix($table)) {
-                return $table;
+            if ($table->tca->hasField($fieldKey) && AffixUtility::hasMaskPrefix($table->table)) {
+                return $table->table;
             }
-            foreach ($tableDefinition->elements as $element) {
+            foreach ($table->elements as $element) {
                 // If element key is set, ignore all other elements
-                if ($elementKey !== '' && ($elementKey !== $element['key'])) {
+                if ($elementKey !== '' && ($elementKey !== $element->key)) {
                     continue;
                 }
-                if (isset($tableDefinition->tca[$fieldKey]) || in_array($fieldKey, ($element['columns'] ?? []), true)) {
-                    return $table;
+                if ($table->tca->hasField($fieldKey) || in_array($fieldKey, $element->columns, true)) {
+                    return $table->table;
                 }
             }
         }
@@ -326,25 +332,24 @@ final class TableDefinitionCollection implements \IteratorAggregate
     /**
      * Returns all elements that use this field
      */
-    public function getElementsWhichUseField(string $key, string $table = 'tt_content'): array
+    public function getElementsWhichUseField(string $key, string $table = 'tt_content'): ElementDefinitionCollection
     {
-        if (!$this->hasTableDefinition($table)) {
-            return [];
+        $elementsInUse = new ElementDefinitionCollection($table);
+        if (!$this->hasTable($table)) {
+            return $elementsInUse;
         }
 
-        $definition = $this->getTableDefiniton($table);
-
-        $elementsInUse = [];
+        $definition = $this->getTable($table);
         foreach ($definition->elements as $element) {
-            foreach ($element['columns'] ?? [] as $column) {
+            foreach ($element->columns as $column) {
                 if ($column === $key) {
-                    $elementsInUse[] = $element;
+                    $elementsInUse->addElement($element);
                     break;
                 }
-                if ($this->getFormType($column, $element['key'], $table) === FieldType::PALETTE) {
-                    foreach ($definition->palettes[$column]['showitem'] ?? [] as $item) {
+                if ($this->getFieldType($column, $table, $element->key)->equals(FieldType::PALETTE)) {
+                    foreach ($definition->palettes->getPalette($column)->showitem as $item) {
                         if ($item === $key) {
-                            $elementsInUse[] = $element;
+                            $elementsInUse->addElement($element);
                             break;
                         }
                     }
@@ -359,30 +364,36 @@ final class TableDefinitionCollection implements \IteratorAggregate
      */
     public function getLabel(string $elementKey, string $fieldKey, string $table = 'tt_content'): string
     {
-        if (!$this->hasTableDefinition($table)) {
+        if (!$this->hasTable($table)) {
             return '';
         }
-        $tableDefinition = $this->getTableDefiniton($table);
+        $tableDefinition = $this->getTable($table);
+
+        if (!$tableDefinition->tca->hasField($fieldKey)) {
+            return '';
+        }
 
         // If this field is in a repeating field or palette, the label is in the field configuration.
-        $field = $tableDefinition->tca[$fieldKey] ?? [];
-        if (isset($field['inlineParent'])) {
-            if (is_array($field['label'])) {
-                if (isset($field['label'][$elementKey])) {
-                    return $field['label'][$elementKey];
-                }
-            } else {
-                return $field['label'];
+        $field = $tableDefinition->tca->getField($fieldKey);
+        if ($field->hasInlineParent()) {
+            if (empty($field->labelByElement)) {
+                return $field->label;
+            }
+            if (isset($field->labelByElement[$elementKey])) {
+                return $field->labelByElement[$elementKey];
             }
         }
 
         // Root level fields have their labels defined in element labels array.
         $elements = $tableDefinition->elements;
-        $columns = $elements[$elementKey]['columns'] ?? false;
-        if (!empty($columns)) {
-            $fieldIndex = array_search($fieldKey, $columns, true);
+        if (!$elements->hasElement($elementKey)) {
+            return '';
+        }
+        $element = $elements->getElement($elementKey);
+        if (!empty($element->columns)) {
+            $fieldIndex = array_search($fieldKey, $element->columns, true);
             if ($fieldIndex !== false) {
-                return $elements[$elementKey]['labels'][$fieldIndex];
+                return $element->labels[$fieldIndex];
             }
         }
 
@@ -394,48 +405,25 @@ final class TableDefinitionCollection implements \IteratorAggregate
      */
     public function findFirstNonEmptyLabel(string $table, string $key): string
     {
-        if (!$this->hasTableDefinition($table)) {
+        if (!$this->hasTable($table)) {
             return '';
         }
-        $definition = $this->getTableDefiniton($table);
+        $definition = $this->getTable($table);
 
         $label = '';
         foreach ($definition->elements as $element) {
-            if (in_array($key, $element['columns'] ?? [], true)) {
-                $label = $element['labels'][array_search($key, $element['columns'], true)];
+            if (in_array($key, $element->columns, true)) {
+                $label = $element->labels[array_search($key, $element->columns, true)];
             } else {
-                $label = $definition->tca[$key]['label'][$element['key']] ?? '';
+                $field = $definition->tca->getField($key);
+                if ($field) {
+                    $label = $field->labelByElement[$element->key] ?? '';
+                }
             }
             if ($label !== '') {
                 break;
             }
         }
         return $label;
-    }
-
-    /**
-     * Sort inline fields recursively.
-     */
-    protected function sortInlineFieldsByOrder(array &$inlineFields, string $elementKey = ''): void
-    {
-        uasort(
-            $inlineFields,
-            static function ($columnA, $columnB) use ($elementKey) {
-                if (is_array($columnA['order'])) {
-                    $a = isset($columnA['order'][$elementKey]) ? (int)$columnA['order'][$elementKey] : 0;
-                    $b = isset($columnB['order'][$elementKey]) ? (int)$columnB['order'][$elementKey] : 0;
-                } else {
-                    $a = isset($columnA['order']) ? (int)$columnA['order'] : 0;
-                    $b = isset($columnB['order']) ? (int)$columnB['order'] : 0;
-                }
-                return $a - $b;
-            }
-        );
-
-        foreach ($inlineFields as $field) {
-            if (isset($field['inlineFields']) && is_array($field['inlineFields']) && in_array(($field['config']['type'] ?? ''), ['inline', 'palette'])) {
-                $this->sortInlineFieldsByOrder($field['inlineFields']);
-            }
-        }
     }
 }

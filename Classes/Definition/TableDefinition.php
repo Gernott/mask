@@ -20,44 +20,56 @@ namespace MASK\Mask\Definition;
 final class TableDefinition
 {
     public $table = '';
-    public $elements = [];
-    public $sql = [];
-    public $tca = [];
-    public $palettes = [];
+    /**
+     * @var ElementDefinitionCollection
+     */
+    public $elements;
+    /**
+     * @var SqlDefinition
+     */
+    public $sql;
+    /**
+     * @var TcaDefinition
+     */
+    public $tca;
+    /**
+     * @var PaletteDefinitionCollection
+     */
+    public $palettes;
 
-    public function __construct(string $table, array $tca = [], array $sql = [], array $elements = [], array $palettes = [])
+    public static function createFromTableArray(string $table, array $definition): TableDefinition
     {
         if ($table === '') {
             throw new \InvalidArgumentException('The name of the table must not be empty.', 1628672227);
         }
-        $this->table = $table;
-        $this->elements = $elements;
-        $this->sql = $sql;
-        $this->tca = $tca;
-        $this->palettes = $palettes;
+
+        $tableDefinition = new self();
+        $tableDefinition->table = $table;
+
+        $tableDefinition->tca = TcaDefinition::createFromArray($definition['tca'] ?? [], $table);
+        $tableDefinition->sql = SqlDefinition::createFromArray($definition['sql'] ?? [], $table);
+        $tableDefinition->elements = ElementDefinitionCollection::createFromArray($definition['elements'] ?? [], $table);
+        $tableDefinition->palettes = PaletteDefinitionCollection::createFromArray($definition['palettes'] ?? [], $table);
+
+        return $tableDefinition;
     }
 
     public function toArray(): array
     {
         $definitionArray = [];
         if ($this->elements) {
-            $definitionArray['elements'] = $this->elements;
+            $definitionArray['elements'] = $this->elements->toArray();
         }
         if ($this->sql) {
-            $definitionArray['sql'] = $this->sql;
+            $definitionArray['sql'] = $this->sql->toArray();
         }
         if ($this->tca) {
-            $definitionArray['tca'] = $this->tca;
+            $definitionArray['tca'] = $this->tca->toArray();
         }
         if ($this->palettes) {
-            $definitionArray['palettes'] = $this->palettes;
+            $definitionArray['palettes'] = $this->palettes->toArray();
         }
 
         return $definitionArray;
-    }
-
-    public function getTcaFieldKeys(): array
-    {
-        return array_keys($this->tca);
     }
 }

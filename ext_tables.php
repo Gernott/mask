@@ -21,8 +21,9 @@ $GLOBALS['TBE_STYLES']['skins']['mask']['stylesheetDirectories']['mask'] = 'EXT:
 
 (function () {
     // Allow all inline tables on standard pages
+    /** @var \MASK\Mask\Loader\LoaderInterface $loader */
     $loader = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('mask.loader');
-    foreach ($loader->load()->getCustomTableDefinitions() as $tableDefinition) {
+    foreach ($loader->load()->getCustomTables() as $tableDefinition) {
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages($tableDefinition->table);
     }
 })();

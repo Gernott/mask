@@ -32,7 +32,7 @@ trait StorageRepositoryCreatorTrait
 
     protected function createLoader(array $json): LoaderInterface
     {
-        $tableDefinitionCollection = TableDefinitionCollection::createFromInternalArray($json);
+        $tableDefinitionCollection = TableDefinitionCollection::createFromArray($json);
         $loader = $this->prophesize(LoaderInterface::class);
         $loader->load()->willReturn($tableDefinitionCollection);
 
