@@ -4,50 +4,55 @@ language: php
 
 php: 7.4
 
+install: composer require typo3/cms-core:"$TYPO3"
+script: Build/Scripts/runTests.sh -s $TESTSUITE -p $PHP
+
 jobs:
   include:
-    - stage: "early"
+    - stage: "Early"
       name: "PHP CS Fixer"
-      install: composer require typo3/cms-core:"^10.4"
-      script: Build/Scripts/runTests.sh -s cglGit -n -p 7.4
-
+      script: Build/Scripts/runTests.sh -s cglGit -n -p $PHP
+      env:
+        - TYPO3=^10.4
+        - PHP=7.4
     - stage: "Unit Tests"
-      name: "Unit TYPO3 v10 PHP 7.2"
-      install: composer require typo3/cms-core:"^10.4"
-      script: Build/Scripts/runTests.sh -p 7.2
-
-    - name: "Unit Deprecated TYPO3 v10 PHP 7.2"
-      install: composer require typo3/cms-core:"^10.4"
-      script: Build/Scripts/runTests.sh -p 7.2 -s unitDeprecated
-
-    - name: "Unit TYPO3 v10 PHP 7.3"
-      install: composer require typo3/cms-core:"^10.4"
-      script: Build/Scripts/runTests.sh -p 7.3
-
-    - name: "Unit Deprecated TYPO3 v10 PHP 7.3"
-      install: composer require typo3/cms-core:"^10.4"
-      script: Build/Scripts/runTests.sh -p 7.3 -s unitDeprecated
-
-    - name: "Unit TYPO3 v10 PHP 7.4"
-      install: composer require typo3/cms-core:"^10.4"
-      script: Build/Scripts/runTests.sh -p 7.4
-
-    - name: "Unit Deprecated TYPO3 v10 PHP 7.4"
-      install: composer require typo3/cms-core:"^10.4"
-      script: Build/Scripts/runTests.sh -p 7.4 -s unitDeprecated
-
-    - name: "Unit TYPO3 v11 PHP 7.4"
-      install: composer require typo3/cms-core:"~11.3.0"
-      script: Build/Scripts/runTests.sh -p 7.4
-
-    - name: "Unit Deprecated TYPO3 v11 PHP 7.4"
-      install: composer require typo3/cms-core:"~11.3.0"
-      script: Build/Scripts/runTests.sh -p 7.4 -s unitDeprecated
-
-    - name: "Unit TYPO3 v11 PHP 8.0"
-      install: composer require typo3/cms-core:"~11.3.0"
-      script: Build/Scripts/runTests.sh -p 8.0
-
-    - name: "Unit Deprecated TYPO3 v11 PHP 8.0"
-      install: composer require typo3/cms-core:"~11.3.0"
-      script: Build/Scripts/runTests.sh -p 8.0 -s unitDeprecated
+      env:
+        - TYPO3=^10.4
+        - PHP=7.2
+        - TESTSUITE=unit
+    - env:
+        - TYPO3=^10.4
+        - PHP=7.3
+        - TESTSUITE=unit
+    - env:
+        - TYPO3=^10.4
+        - PHP=7.4
+        - TESTSUITE=unit
+    - env:
+        - TYPO3=~11.3.0
+        - PHP=7.4
+        - TESTSUITE=unit
+    - env:
+        - TYPO3=~11.3.0
+        - PHP=8.0
+        - TESTSUITE=unit
+    - env:
+        - TYPO3=^10.4
+        - PHP=7.2
+        - TESTSUITE=unitDeprecated
+    - env:
+        - TYPO3=^10.4
+        - PHP=7.3
+        - TESTSUITE=unitDeprecated
+    - env:
+        - TYPO3=^10.4
+        - PHP=7.4
+        - TESTSUITE=unitDeprecated
+    - env:
+        - TYPO3=~11.3.0
+        - PHP=7.4
+        - TESTSUITE=unitDeprecated
+    - env:
+        - TYPO3=~11.3.0
+        - PHP=8.0
+        - TESTSUITE=unitDeprecated
