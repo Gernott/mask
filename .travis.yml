@@ -15,44 +15,64 @@ jobs:
       env:
         - TYPO3=^10.4
         - PHP=7.4
+
     - stage: "Unit Tests"
+      name: "PHP 7.2 Unit"
       env:
         - TYPO3=^10.4
         - PHP=7.2
         - TESTSUITE=unit
-    - env:
+
+    - name: "PHP 7.3 Unit"
+      env:
         - TYPO3=^10.4
         - PHP=7.3
         - TESTSUITE=unit
-    - env:
+
+    - name: "PHP 7.4 Unit"
+      env:
         - TYPO3=^10.4
         - PHP=7.4
         - TESTSUITE=unit
-    - env:
+
+    - name: "PHP 7.4 Unit"
+      env:
         - TYPO3=~11.3.0
         - PHP=7.4
         - TESTSUITE=unit
-    - env:
+
+    - name: "PHP 8.0 Unit"
+      env:
         - TYPO3=~11.3.0
         - PHP=8.0
         - TESTSUITE=unit
-    - env:
+
+    - name: "PHP 7.2 Unit Deprecated"
+      env:
         - TYPO3=^10.4
         - PHP=7.2
         - TESTSUITE=unitDeprecated
-    - env:
+
+    - name: "PHP 7.3 Unit Deprecated"
+      env:
         - TYPO3=^10.4
         - PHP=7.3
         - TESTSUITE=unitDeprecated
-    - env:
+
+    - name: "PHP 7.4 Unit Deprecated"
+      env:
         - TYPO3=^10.4
         - PHP=7.4
         - TESTSUITE=unitDeprecated
-    - env:
+
+    - name: "PHP 7.4 Unit Deprecated"
+      env:
         - TYPO3=~11.3.0
         - PHP=7.4
         - TESTSUITE=unitDeprecated
-    - env:
+
+    - name: "PHP 8.0 Unit Deprecated"
+      env:
         - TYPO3=~11.3.0
         - PHP=8.0
         - TESTSUITE=unitDeprecated
