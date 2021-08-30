@@ -259,6 +259,11 @@ class TcaCodeGenerator
      */
     public function generateFieldsTca(string $table): array
     {
+        // Early return if page does not exist.
+        if (!$this->tableDefinitionCollection->hasTable($table)) {
+            return [];
+        }
+
         $additionalTca = [];
         foreach ($this->tableDefinitionCollection->getTable($table)->tca as $field) {
             // Ignore core fields
@@ -443,6 +448,10 @@ class TcaCodeGenerator
      */
     public function addSearchFields(string $table): void
     {
+        if (!$this->tableDefinitionCollection->hasTable($table)) {
+            return;
+        }
+
         $tca = $this->tableDefinitionCollection->getTable($table)->tca;
         $searchFields = [];
 
