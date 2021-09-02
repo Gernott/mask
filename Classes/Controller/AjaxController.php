@@ -303,7 +303,7 @@ class AjaxController
         $storages = $this->storageRepository->load();
         $elements = [];
         foreach ($storages['tt_content']['elements'] ?? [] as $element) {
-            $overlay = $element['hidden'] ? 'overlay-hidden' : null;
+            $overlay = ($element['hidden'] ?? false) ? 'overlay-hidden' : null;
             $translatedLabel = $GLOBALS['LANG']->sl($element['label']);
             $translatedDescription = $GLOBALS['LANG']->sl($element['description']);
             $elements[$element['key']] = [
