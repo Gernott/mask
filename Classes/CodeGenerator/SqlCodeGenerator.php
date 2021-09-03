@@ -101,7 +101,7 @@ class SqlCodeGenerator
 
         // Generate SQL-Statements
         foreach ($json as $type => $_) {
-            if (!$json[$type]['sql'] ?? false) {
+            if (!($json[$type]['sql'] ?? false)) {
                 continue;
             }
 
