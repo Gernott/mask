@@ -107,7 +107,7 @@ class InlineHelper
     public function addIrreToData(&$data, $table = 'tt_content', $cType = ''): void
     {
         if ($cType === '') {
-            $cType = $data['CType'];
+            $cType = $data['CType'] ?? '';
         }
 
         $storage = $this->storageRepository->load();
