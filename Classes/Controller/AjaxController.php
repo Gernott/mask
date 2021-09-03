@@ -257,7 +257,7 @@ class AjaxController
 
         $elements = [];
         foreach ($this->tableDefinitionCollection->getTable('tt_content')->elements as $element) {
-            $overlay = ($element->hidden ?? false) ? 'overlay-hidden' : null;
+            $overlay = $element->hidden ? 'overlay-hidden' : null;
             $translatedLabel = $GLOBALS['LANG']->sl($element->label);
             $translatedDescription = $GLOBALS['LANG']->sl($element->description);
             $elements[$element->key] = [
