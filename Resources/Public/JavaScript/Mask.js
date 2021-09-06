@@ -276,7 +276,6 @@ define([
         this.saving = true;
         this.validate();
         if (!this.hasErrors) {
-          this.mode = 'edit';
           this.global.deletedFields = [];
           const payload = {
             element: this.getPostElement(),
@@ -288,6 +287,7 @@ define([
             .then(
               async function (response) {
                 const res = await response.resolve();
+                this.mode = 'edit';
                 this.showMessages(res);
                 this.loadElements();
                 // load element fields
