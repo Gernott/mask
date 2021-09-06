@@ -368,7 +368,7 @@ class TcaCodeGenerator
 
             // RTE: Add softref
             if (FieldType::cast($formType)->equals(FieldType::RICHTEXT)) {
-                $tcavalue['config']['softref'] = 'typolink_tag,images,email[subst],url';
+                $tcavalue['config']['softref'] = 'typolink_tag,email[subst],url';
             }
 
             // Content: Set foreign_field and default CType in select if restricted.
