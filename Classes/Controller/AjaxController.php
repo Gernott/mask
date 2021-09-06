@@ -900,6 +900,9 @@ class AjaxController
     {
         $config[''] = LocalizationUtility::translate('tx_mask.config.richtextConfiguration.none', 'mask');
         $presets = array_keys($GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets'] ?? []);
+        $presets = array_filter($presets, function ($item) {
+            return $item !== 'sys_news';
+        });
         $presets = array_combine($presets, $presets);
         $config = array_merge($config, $presets);
         return new JsonResponse($config);
