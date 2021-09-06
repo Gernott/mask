@@ -12,10 +12,10 @@ $EM_CONF[$_EXTKEY] = [
     'version' => '7.0.17',
     'constraints' => [
         'depends' => [
-            'typo3' => '10.4.11-11.3.99',
-            'extbase' => '10.4.11-11.3.99',
-            'fluid' => '10.4.11-11.3.99',
-            'fluid_styled_content' => '10.4.11-11.3.99'
+            'typo3' => '10.4.11-11.4.99',
+            'extbase' => '10.4.11-11.4.99',
+            'fluid' => '10.4.11-11.4.99',
+            'fluid_styled_content' => '10.4.11-11.4.99'
         ],
         'conflicts' => [],
         'suggests' => [
