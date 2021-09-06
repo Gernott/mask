@@ -48,7 +48,7 @@ class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
         return new ExpressionFunction('maskBeLayout', static function ($param) {
         }, static function ($arguments, $param = null) {
             $layout = (string)$param;
-            $backend_layout = (string)$arguments['page']['backend_layout'];
+            $backend_layout = (string)($arguments['page']['backend_layout'] ?? '');
             $layoutWithPrefix = 'pagets__' . $layout;
 
             // If backend_layout is set on current page
