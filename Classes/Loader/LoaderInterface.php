@@ -21,22 +21,22 @@ use MASK\Mask\Definition\TableDefinitionCollection;
 
 /**
  * This interface enables to provide loaders for Mask.
- * The ressource is abstracted away and can come from anywhere as long as the
+ * The resource is abstracted away and can come from anywhere as long as the
  * defined Mask configuration has the correct structure.
  */
 interface LoaderInterface
 {
     /**
-     * Loads the Mask configuration from any ressource.
+     * Loads the Mask configuration from any resource.
      *
      * @return TableDefinitionCollection
      */
     public function load(): TableDefinitionCollection;
 
     /**
-     * Takes the tca definition as input and writes it to the given ressource.
+     * Takes the table definition collection as input and writes it to the given resource.
      *
-     * @param TableDefinitionCollection $tcaDefinition
+     * @param TableDefinitionCollection $tableDefinitionCollection
      */
-    public function write(TableDefinitionCollection $tcaDefinition): void;
+    public function write(TableDefinitionCollection $tableDefinitionCollection): void;
 }

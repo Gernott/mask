@@ -75,13 +75,13 @@ final class TableDefinitionCollection implements \IteratorAggregate
 
     public static function createFromArray(array $tableDefinitionArray): TableDefinitionCollection
     {
-        $tcaDefinition = new self();
+        $tableDefinitionCollection = new self();
         foreach ($tableDefinitionArray as $table => $definition) {
             $tableDefinition = TableDefinition::createFromTableArray($table, $definition);
-            $tcaDefinition->addTable($tableDefinition);
+            $tableDefinitionCollection->addTable($tableDefinition);
         }
 
-        return $tcaDefinition;
+        return $tableDefinitionCollection;
     }
 
     /**
