@@ -24,9 +24,16 @@
             <code>[allowedExtensions]</code>
             <div class="t3js-formengine-field-item">
                 <div class="form-control-wrap" style="">
+                    <f:variable name="allowedExtensions" value=""/>
+                    <f:if condition="{field.config.wizards.link.params.allowedExtensions}">
+                        <f:variable name="allowedExtensions" value="{field.config.wizards.link.params.allowedExtensions}"/>
+                    </f:if>
+                    <f:if condition="{field.config.fieldControl.linkPopup.options.allowedExtensions}">
+                        <f:variable name="allowedExtensions" value="{field.config.fieldControl.linkPopup.options.allowedExtensions}"/>
+                    </f:if>
                     <input class="form-control"
                            name="tx_mask_tools_maskmask[storage][tca][--index--][config][fieldControl][linkPopup][options][allowedExtensions]"
-                           type="text" value="{field.config.wizards.link.params.allowedExtensions}"
+                           type="text" value="{allowedExtensions}"
                            title="allowedExtensions"
                            placeholder="commaseperated list of file extensions"/>
                 </div>

@@ -378,6 +378,14 @@ class TcaCodeGenerator
                 }
             }
 
+            // Add backwards compatibility for allowed extensions.
+            if (FieldType::cast($formType)->equals(FieldType::LINK)) {
+                if (isset($tcavalue['config']['wizards']['link']['params']['allowedExtensions'])) {
+                    $tcavalue['config']['fieldControl']['linkPopup']['options']['allowedExtensions'] = $tcavalue['config']['wizards']['link']['params']['allowedExtensions'];
+                    unset($tcavalue['config']['wizards']['link']['params']['allowedExtensions']);
+                }
+            }
+
             // Merge user inputs with file array (for file type overrides)
             ArrayUtility::mergeRecursiveWithOverrule($columns[$tcakey], $tcavalue);
 
