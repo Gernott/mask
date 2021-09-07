@@ -475,306 +475,310 @@ class TcaCodeGeneratorTest extends BaseTestCase
         self::assertSame($expected, $tcaGenerator->processTableTca($tableDefinitionCollection->getTable($table)));
     }
 
-    public function generateFieldsTcaDataProvider(): array
+    public function generateFieldsTcaDataProvider(): iterable
     {
-        return [
-            'Input fields are processd correctly' => [
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field_1' => [
-                                'config' => [
-                                    'type' => 'input',
-                                    'eval' => ''
-                                ],
-                                'key' => 'field_1'
+        yield 'Input fields are processd correctly' => [
+            'json' => [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field_1' => [
+                            'config' => [
+                                'type' => 'input',
+                                'eval' => ''
                             ],
-                            'tx_mask_field_2' => [
-                                'config' => [
-                                    'type' => 'input',
-                                    'eval' => 'trim'
-                                ],
-                                'key' => 'field_2'
-                            ]
+                            'key' => 'field_1'
+                        ],
+                        'tx_mask_field_2' => [
+                            'config' => [
+                                'type' => 'input',
+                                'eval' => 'trim'
+                            ],
+                            'key' => 'field_2'
                         ]
-                    ]
-                ],
-                'tt_content',
-                [
-                    'tx_mask_field_1' => [
-                        'config' => [
-                            'type' => 'input'
-                        ],
-                        'exclude' => 1
-                    ],
-                    'tx_mask_field_2' => [
-                        'config' => [
-                            'type' => 'input',
-                            'eval' => 'trim'
-                        ],
-                        'exclude' => 1
                     ]
                 ]
             ],
-            'Text fields are processd correctly' => [
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field_1' => [
-                                'config' => [
-                                    'type' => 'text',
-                                    'eval' => '',
-                                    'format' => 'typoscript'
-                                ],
-                                'key' => 'field_1'
-                            ],
-                            'tx_mask_field_2' => [
-                                'config' => [
-                                    'type' => 'input',
-                                    'eval' => 'trim'
-                                ],
-                                'key' => 'field_2'
-                            ]
-                        ]
-                    ]
+            'table' => 'tt_content',
+            'expected' => [
+                'tx_mask_field_1' => [
+                    'config' => [
+                        'type' => 'input'
+                    ],
+                    'exclude' => 1
                 ],
-                'tt_content',
-                [
-                    'tx_mask_field_1' => [
-                        'config' => [
-                            'type' => 'text',
-                            'format' => 'typoscript',
-                            'renderType' => 't3editor'
-                        ],
-                        'exclude' => 1
+                'tx_mask_field_2' => [
+                    'config' => [
+                        'type' => 'input',
+                        'eval' => 'trim'
                     ],
-                    'tx_mask_field_2' => [
-                        'config' => [
-                            'type' => 'input',
-                            'eval' => 'trim'
-                        ],
-                        'exclude' => 1
-                    ]
+                    'exclude' => 1
                 ]
-            ],
-            'Tabs are ignored' => [
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field_1' => [
-                                'config' => [
-                                    'type' => 'input',
-                                    'eval' => ''
-                                ],
-                                'key' => 'field_1'
-                            ],
-                            'tx_mask_tab' => [
-                                'key' => 'tab',
-                                'config' => [
-                                    'type' => 'tab'
-                                ]
-                            ],
-                            'tx_mask_field_2' => [
-                                'config' => [
-                                    'type' => 'input',
-                                    'eval' => 'trim'
-                                ],
-                                'key' => 'field_2'
-                            ]
-                        ]
-                    ]
-                ],
-                'tt_content',
-                [
-                    'tx_mask_field_1' => [
-                        'config' => [
-                            'type' => 'input'
-                        ],
-                        'exclude' => 1
-                    ],
-                    'tx_mask_field_2' => [
-                        'config' => [
-                            'type' => 'input',
-                            'eval' => 'trim'
-                        ],
-                        'exclude' => 1
-                    ]
-                ]
-            ],
-            'Foreign table of inline fields is replaced' => [
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field_1' => [
-                                'config' => [
-                                    'type' => 'inline',
-                                    'foreign_table' => '--inlinetable--'
-                                ],
-                                'key' => 'field_1'
-                            ]
-                        ]
-                    ],
-                    'tx_mask_field_1' => [
-                        'tca' => [
+            ]
+        ];
 
-                        ]
-                    ]
-                ],
-                'tt_content',
-                [
-                    'tx_mask_field_1' => [
-                        'config' => [
-                            'type' => 'inline',
-                            'foreign_table' => 'tx_mask_field_1'
-                        ],
-                        'exclude' => 1
-                    ],
-                ]
-            ],
-            'Date fields ranges are applied' => [
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field_1' => [
-                                'config' => [
-                                    'type' => 'input',
-                                    'dbType' => 'date',
-                                    'eval' => 'date',
-                                    'range' => [
-                                        'lower' => '01-01-2021',
-                                        'upper' => '30-12-2021'
-                                    ]
-                                ],
-                                'key' => 'field_1'
+        yield 'Text fields are processed correctly' => [
+            'json' => [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field_1' => [
+                            'config' => [
+                                'type' => 'text',
+                                'eval' => '',
+                                'format' => 'typoscript'
                             ],
-                            'tx_mask_field_2' => [
-                                'config' => [
-                                    'type' => 'input',
-                                    'dbType' => 'datetime',
-                                    'eval' => 'datetime',
-                                    'range' => [
-                                        'upper' => '20:30 30-12-2021'
-                                    ]
-                                ],
-                                'key' => 'field_2'
-                            ]
+                            'key' => 'field_1'
+                        ],
+                        'tx_mask_field_2' => [
+                            'config' => [
+                                'type' => 'input',
+                                'eval' => 'trim'
+                            ],
+                            'key' => 'field_2'
                         ]
-                    ]
-                ],
-                'tt_content',
-                [
-                    'tx_mask_field_1' => [
-                        'config' => [
-                            'type' => 'input',
-                            'dbType' => 'date',
-                            'eval' => 'date',
-                            'range' => [
-                                'lower' => 1609459200,
-                                'upper' => 1640822400
-                            ]
-                        ],
-                        'exclude' => 1
-                    ],
-                    'tx_mask_field_2' => [
-                        'config' => [
-                            'type' => 'input',
-                            'dbType' => 'datetime',
-                            'eval' => 'datetime',
-                            'range' => [
-                                'upper' => 1640896200
-                            ]
-                        ],
-                        'exclude' => 1
                     ]
                 ]
             ],
-            'Content inline fields are processed correctly' => [
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field_1' => [
-                                'cTypes' => [
-                                    'text',
-                                    'textmedia'
-                                ],
-                                'config' => [
-                                    'type' => 'inline',
-                                    'foreign_table' => 'tt_content'
-                                ],
-                                'key' => 'field_1'
+            'table' => 'tt_content',
+            'expected' => [
+                'tx_mask_field_1' => [
+                    'config' => [
+                        'type' => 'text',
+                        'format' => 'typoscript',
+                        'renderType' => 't3editor'
+                    ],
+                    'exclude' => 1
+                ],
+                'tx_mask_field_2' => [
+                    'config' => [
+                        'type' => 'input',
+                        'eval' => 'trim'
+                    ],
+                    'exclude' => 1
+                ]
+            ]
+        ];
+
+        yield 'Tabs are ignored' => [
+            'json' => [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field_1' => [
+                            'config' => [
+                                'type' => 'input',
+                                'eval' => ''
+                            ],
+                            'key' => 'field_1'
+                        ],
+                        'tx_mask_tab' => [
+                            'key' => 'tab',
+                            'config' => [
+                                'type' => 'tab'
                             ]
+                        ],
+                        'tx_mask_field_2' => [
+                            'config' => [
+                                'type' => 'input',
+                                'eval' => 'trim'
+                            ],
+                            'key' => 'field_2'
+                        ]
+                    ]
+                ]
+            ],
+            'table' => 'tt_content',
+            'expected' => [
+                'tx_mask_field_1' => [
+                    'config' => [
+                        'type' => 'input'
+                    ],
+                    'exclude' => 1
+                ],
+                'tx_mask_field_2' => [
+                    'config' => [
+                        'type' => 'input',
+                        'eval' => 'trim'
+                    ],
+                    'exclude' => 1
+                ]
+            ]
+        ];
+
+        yield 'Foreign table of inline fields is replaced' => [
+            'json' => [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field_1' => [
+                            'config' => [
+                                'type' => 'inline',
+                                'foreign_table' => '--inlinetable--'
+                            ],
+                            'key' => 'field_1'
                         ]
                     ]
                 ],
-                'tt_content',
-                [
-                    'tx_mask_field_1' => [
-                        'config' => [
-                            'type' => 'inline',
-                            'foreign_table' => 'tt_content',
-                            'foreign_field' => 'tx_mask_field_1_parent',
-                            'overrideChildTca' => [
-                                'columns' => [
-                                    'CType' => [
-                                        'config' => [
-                                            'default' => 'text'
-                                        ]
+                'tx_mask_field_1' => [
+                    'tca' => [
+
+                    ]
+                ]
+            ],
+            'table' => 'tt_content',
+            'expected' => [
+                'tx_mask_field_1' => [
+                    'config' => [
+                        'type' => 'inline',
+                        'foreign_table' => 'tx_mask_field_1'
+                    ],
+                    'exclude' => 1
+                ],
+            ]
+        ];
+
+        yield 'Date fields ranges are applied' => [
+            'json' => [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field_1' => [
+                            'config' => [
+                                'type' => 'input',
+                                'dbType' => 'date',
+                                'eval' => 'date',
+                                'range' => [
+                                    'lower' => '01-01-2021',
+                                    'upper' => '30-12-2021'
+                                ]
+                            ],
+                            'key' => 'field_1'
+                        ],
+                        'tx_mask_field_2' => [
+                            'config' => [
+                                'type' => 'input',
+                                'dbType' => 'datetime',
+                                'eval' => 'datetime',
+                                'range' => [
+                                    'upper' => '20:30 30-12-2021'
+                                ]
+                            ],
+                            'key' => 'field_2'
+                        ]
+                    ]
+                ]
+            ],
+            'table' => 'tt_content',
+            'expected' => [
+                'tx_mask_field_1' => [
+                    'config' => [
+                        'type' => 'input',
+                        'dbType' => 'date',
+                        'eval' => 'date',
+                        'range' => [
+                            'lower' => 1609459200,
+                            'upper' => 1640822400
+                        ]
+                    ],
+                    'exclude' => 1
+                ],
+                'tx_mask_field_2' => [
+                    'config' => [
+                        'type' => 'input',
+                        'dbType' => 'datetime',
+                        'eval' => 'datetime',
+                        'range' => [
+                            'upper' => 1640896200
+                        ]
+                    ],
+                    'exclude' => 1
+                ]
+            ]
+        ];
+
+        yield 'Content inline fields are processed correctly' => [
+            'json' => [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field_1' => [
+                            'cTypes' => [
+                                'text',
+                                'textmedia'
+                            ],
+                            'config' => [
+                                'type' => 'inline',
+                                'foreign_table' => 'tt_content'
+                            ],
+                            'key' => 'field_1'
+                        ]
+                    ]
+                ]
+            ],
+            'table' => 'tt_content',
+            'expected' => [
+                'tx_mask_field_1' => [
+                    'config' => [
+                        'type' => 'inline',
+                        'foreign_table' => 'tt_content',
+                        'foreign_field' => 'tx_mask_field_1_parent',
+                        'overrideChildTca' => [
+                            'columns' => [
+                                'CType' => [
+                                    'config' => [
+                                        'default' => 'text'
                                     ]
                                 ]
                             ]
-                        ],
-                        'exclude' => 1
-                    ],
-                    'tx_mask_field_1_parent' => [
-                        'config' => [
-                            'type' => 'passthrough'
                         ]
+                    ],
+                    'exclude' => 1
+                ],
+                'tx_mask_field_1_parent' => [
+                    'config' => [
+                        'type' => 'passthrough'
                     ]
                 ]
-            ],
-            'children of palettes are processed' => [
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_palette' => [
-                                'config' => [
-                                    'type' => 'palette',
-                                ],
-                                'key' => 'palette'
+            ]
+        ];
+
+        yield 'children of palettes are processed' => [
+            'json' => [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_palette' => [
+                            'config' => [
+                                'type' => 'palette',
                             ],
-                            'tx_mask_field' => [
-                                'config' => [
-                                    'type' => 'input',
-                                    'eval' => 'trim'
-                                ],
-                                'key' => 'field',
-                                'inlineParent' => [
-                                    'element1' => 'tx_mask_palette',
-                                    'element2' => 'tx_mask_palette2'
-                                ],
-                                'label' => [
-                                    'element1' => 'Field 1',
-                                    'element2' => 'Field 2'
-                                ],
-                                'order' => [
-                                    'element1' => 0,
-                                    'element2' => 0
-                                ]
+                            'key' => 'palette'
+                        ],
+                        'tx_mask_field' => [
+                            'config' => [
+                                'type' => 'input',
+                                'eval' => 'trim'
+                            ],
+                            'key' => 'field',
+                            'inlineParent' => [
+                                'element1' => 'tx_mask_palette',
+                                'element2' => 'tx_mask_palette2'
+                            ],
+                            'label' => [
+                                'element1' => 'Field 1',
+                                'element2' => 'Field 2'
+                            ],
+                            'order' => [
+                                'element1' => 0,
+                                'element2' => 0
                             ]
                         ]
                     ]
-                ],
-                'tt_content',
-                [
-                    'tx_mask_field' => [
-                        'config' => [
-                            'type' => 'input',
-                            'eval' => 'trim'
-                        ],
-                        'exclude' => 1
-                    ],
                 ]
             ],
+            'table' => 'tt_content',
+            'expected' => [
+                'tx_mask_field' => [
+                    'config' => [
+                        'type' => 'input',
+                        'eval' => 'trim'
+                    ],
+                    'exclude' => 1
+                ],
+            ]
         ];
     }
 
