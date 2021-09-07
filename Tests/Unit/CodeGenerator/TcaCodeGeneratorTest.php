@@ -780,6 +780,59 @@ class TcaCodeGeneratorTest extends BaseTestCase
                 ],
             ]
         ];
+
+        yield 'Old wizards link allowed extensions converted to fieldControl' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'key' => 'element1',
+                            'label' => 'Element1',
+                            'columns' => [
+                                'tx_mask_link'
+                            ],
+                            'labels' => [
+                                'Mask Link'
+                            ]
+                        ]
+                    ],
+                    'tca' => [
+                        'tx_mask_link' => [
+                            'config' => [
+                                'type' => 'input',
+                                'renderType' => 'inputLink',
+                                'wizards' => [
+                                    'link' => [
+                                        'params' => [
+                                            'allowedExtensions' => 'jpg'
+                                        ]
+                                    ]
+                                ]
+                            ],
+                            'key' => 'link',
+                            'fullKey' => 'tx_mask_link'
+                        ]
+                    ]
+                ]
+            ],
+            'table' => 'tt_content',
+            'expected' => [
+                'tx_mask_link' => [
+                    'config' => [
+                        'type' => 'input',
+                        'renderType' => 'inputLink',
+                        'fieldControl' => [
+                            'linkPopup' => [
+                                'options' => [
+                                    'allowedExtensions' => 'jpg'
+                                ]
+                            ]
+                        ]
+                    ],
+                    'exclude' => 1,
+                ]
+            ]
+        ];
     }
 
     /**

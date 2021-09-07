@@ -91,6 +91,14 @@ final class TcaFieldDefinition
             $tcaFieldDefinition->type = FieldType::cast(FieldTypeUtility::getFieldType($tcaFieldDefinition->toArray(), $tcaFieldDefinition->fullKey));
         }
 
+        // Backwards compatibility for Link "allowedExtensions"
+        if ($tcaFieldDefinition->type && $tcaFieldDefinition->type->equals(FieldType::LINK)) {
+            if (isset($tcaFieldDefinition->realTca['config']['wizards']['link']['params']['allowedExtensions'])) {
+                $tcaFieldDefinition->realTca['config']['fieldControl']['linkPopup']['options']['allowedExtensions'] = $tcaFieldDefinition->realTca['config']['wizards']['link']['params']['allowedExtensions'];
+                unset($tcaFieldDefinition->realTca['config']['wizards']);
+            }
+        }
+
         // Set full key with mask prefix if not core field
         $tcaFieldDefinition->fullKey = $definition['fullKey'] ?? '';
         if ($tcaFieldDefinition->fullKey === '') {
