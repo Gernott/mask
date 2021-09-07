@@ -431,6 +431,14 @@ class AjaxController
                 }
             }
 
+            // Add backwards compatibility for allowed extensions.
+            if ($fieldType->equals(FieldType::LINK)) {
+                if (isset($field['config']['wizards']['link']['params']['allowedExtensions'])) {
+                    $field['config']['fieldControl']['linkPopup']['options']['allowedExtensions'] = $field['config']['wizards']['link']['params']['allowedExtensions'];
+                    unset($field['config']['wizards']['link']['params']['allowedExtensions']);
+                }
+            }
+
             $newField['isMaskField'] = AffixUtility::hasMaskPrefix($newField['key']);
 
             if (!$fieldType->isGroupingField() && $newField['isMaskField']) {
