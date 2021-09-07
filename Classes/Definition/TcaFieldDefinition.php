@@ -130,6 +130,7 @@ final class TcaFieldDefinition
         unset(
             $definition['options'],
             $definition['key'],
+            $definition['fullKey'],
             $definition['rte'],
             $definition['inlineParent'],
             $definition['inPalette'],
