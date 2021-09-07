@@ -9,6 +9,28 @@ Upgrade Guide
 Mask tries to minimize breaking changes between each version. But sometimes small changes have to be done, which
 require actions to be performed.
 
+From v7.0.x or lower
+====================
+
+To further streamline the Mask API, the `options` key has to be removed from the
+`elements` section in the json file. It was used to resolve field types, which
+didn't have enough information by themselves. The migration is pretty easy:
+
+Either use the Upgrade Wizard manually and run "Update Mask JSON file (RTE options)"
+or use cli commands. The Upgrade Wizard will only show up, if necessary.
+
+Command with TYPO3 CLI:
+
+::
+
+   ./typo3/sysext/core/bin/typo3 upgrade:run moveRteOptions
+
+Or with typo3_console:
+
+::
+
+   ./typo3cms upgrade:run moveRteOptions
+
 .. _upgrade-from-6:
 
 From v6 or lower

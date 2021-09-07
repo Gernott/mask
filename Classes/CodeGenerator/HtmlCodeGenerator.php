@@ -73,7 +73,7 @@ class HtmlCodeGenerator
     protected function generateFieldHtml(string $fieldKey, string $elementKey, string $table, string $datafield = 'data', int $depth = 0): string
     {
         $html = [];
-        $fieldType = $this->tableDefinitionCollection->getFieldType($fieldKey, $table, $elementKey);
+        $fieldType = $this->tableDefinitionCollection->getFieldType($fieldKey, $table);
         if (!$fieldType->isRenderable()) {
             return '';
         }

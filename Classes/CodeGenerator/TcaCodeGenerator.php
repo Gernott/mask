@@ -190,7 +190,7 @@ class TcaCodeGenerator
         $pages = $this->tableDefinitionCollection->getTable('pages');
         $element = $pages->elements->getElement($elementKey);
         foreach ($element->columns as $column) {
-            if ($this->tableDefinitionCollection->getFieldType($column, 'pages', $elementKey)->equals(FieldType::PALETTE)) {
+            if ($this->tableDefinitionCollection->getFieldType($column, 'pages')->equals(FieldType::PALETTE)) {
                 $palettes[$column] = $this->generatePalettesTca($pages->palettes->getPalette($column), 'pages');
             }
         }
@@ -216,7 +216,7 @@ class TcaCodeGenerator
         $element = $this->tableDefinitionCollection->getTable($table)->elements->getElement($elementKey);
         $fieldArray = [];
         foreach ($element->columns as $index => $fieldKey) {
-            $fieldType = $this->tableDefinitionCollection->getFieldType($fieldKey, $table, $elementKey);
+            $fieldType = $this->tableDefinitionCollection->getFieldType($fieldKey, $table);
             // Check if this field is of type tab
             if ($fieldType->equals(FieldType::TAB)) {
                 $label = $this->tableDefinitionCollection->getLabel($elementKey, $fieldKey, $table);

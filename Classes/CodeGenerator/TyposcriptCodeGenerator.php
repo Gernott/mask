@@ -149,7 +149,7 @@ class TyposcriptCodeGenerator
             return $content;
         }
         // As this is called very early, TCA for core fields might not be loaded yet. So ignore them.
-        if (!$fieldDefinition->isCoreField && $this->tableDefinitionCollection->getFieldType($fieldKey, $table, $element->key)->equals(FieldType::PALETTE)) {
+        if (!$fieldDefinition->isCoreField && $this->tableDefinitionCollection->getFieldType($fieldKey, $table)->equals(FieldType::PALETTE)) {
             foreach ($this->tableDefinitionCollection->loadInlineFields($fieldKey, $element->key) as $field) {
                 $content .= ' TCEFORM.' . $table . '.' . $field->fullKey . '.label = ' . $field->getLabel($element->key) . "\n";
             }

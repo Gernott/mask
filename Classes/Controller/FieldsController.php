@@ -109,7 +109,7 @@ class FieldsController
                 $newField['translatedLabel'] = $translatedLabel !== $newField['label'] ? $translatedLabel : '';
             }
 
-            $fieldType = $this->tableDefinitionCollection->getFieldType($newField['key'], $table, $elementKey);
+            $fieldType = $this->tableDefinitionCollection->getFieldType($newField['key'], $table);
 
             // Convert old date format Y-m-d to d-m-Y
             $dbType = $field['config']['dbType'] ?? false;

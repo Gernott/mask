@@ -25,337 +25,349 @@ class StorageRepositoryTest extends BaseTestCase
 {
     use StorageRepositoryCreatorTrait;
 
-    public function loadInlineFieldsDataProvider(): array
+    public function loadInlineFieldsDataProvider(): iterable
     {
-        return [
-            'inline fields loaded' => [
-                [
-                    'tx_mask_a1' => [
-                        'tca' => [
-                            'tx_mask_a' => [
-                                'config' => [
-                                    'type' => 'input'
-                                ],
-                                'key' => 'a',
-                                'inlineParent' => 'tx_mask_a1',
-                                'order' => 1
+        yield 'inline fields loaded' => [
+            'json' => [
+                'tx_mask_a1' => [
+                    'tca' => [
+                        'tx_mask_a' => [
+                            'config' => [
+                                'type' => 'input'
                             ],
-                            'tx_mask_b' => [
-                                'config' => [
-                                    'type' => 'input'
-                                ],
-                                'key' => 'b',
-                                'inlineParent' => 'tx_mask_a1',
-                                'order' => 2
-                            ]
+                            'key' => 'a',
+                            'inlineParent' => 'tx_mask_a1',
+                            'order' => 1
+                        ],
+                        'tx_mask_b' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'b',
+                            'inlineParent' => 'tx_mask_a1',
+                            'order' => 2
                         ]
-                    ]
-                ],
-                'tx_mask_a1',
-                '',
-                [
-                    [
-                        'config' => [
-                            'type' => 'input'
-                        ],
-                        'key' => 'a',
-                        'inlineParent' => 'tx_mask_a1',
-                        'maskKey' => 'tx_mask_a',
-                        'fullKey' => 'tx_mask_a',
-                        'order' => 1
-                    ],
-                    [
-                        'config' => [
-                            'type' => 'input'
-                        ],
-                        'key' => 'b',
-                        'inlineParent' => 'tx_mask_a1',
-                        'maskKey' => 'tx_mask_b',
-                        'fullKey' => 'tx_mask_b',
-                        'order' => 2
                     ]
                 ]
             ],
-            'inline fields loaded recursivelely' => [
+            'parent' => 'tx_mask_a1',
+            'element' => '',
+            'expected' => [
                 [
-                    'tx_mask_a1' => [
-                        'tca' => [
-                            'tx_mask_a' => [
-                                'config' => [
-                                    'type' => 'input'
-                                ],
-                                'key' => 'a',
-                                'inlineParent' => 'tx_mask_a1',
-                                'order' => 1
-                            ],
-                            'tx_mask_b' => [
-                                'config' => [
-                                    'type' => 'inline'
-                                ],
-                                'key' => 'b',
-                                'inlineParent' => 'tx_mask_a1',
-                                'order' => 3
-                            ]
-                        ]
+                    'config' => [
+                        'type' => 'input'
                     ],
-                    'tx_mask_b' => [
-                        'tca' => [
-                            'tx_mask_c' => [
-                                'config' => [
-                                    'type' => 'input'
-                                ],
-                                'key' => 'c',
-                                'inlineParent' => 'tx_mask_b',
-                                'order' => 2
-                            ]
+                    'key' => 'a',
+                    'inlineParent' => 'tx_mask_a1',
+                    'maskKey' => 'tx_mask_a',
+                    'fullKey' => 'tx_mask_a',
+                    'order' => 1,
+                    'type' => 'string'
+                ],
+                [
+                    'config' => [
+                        'type' => 'input'
+                    ],
+                    'key' => 'b',
+                    'inlineParent' => 'tx_mask_a1',
+                    'maskKey' => 'tx_mask_b',
+                    'fullKey' => 'tx_mask_b',
+                    'order' => 2,
+                    'type' => 'string'
+                ]
+            ]
+        ];
+
+        yield 'inline fields loaded recursivelely' => [
+            'json' => [
+                'tx_mask_a1' => [
+                    'tca' => [
+                        'tx_mask_a' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'a',
+                            'inlineParent' => 'tx_mask_a1',
+                            'order' => 1
+                        ],
+                        'tx_mask_b' => [
+                            'config' => [
+                                'type' => 'inline'
+                            ],
+                            'key' => 'b',
+                            'inlineParent' => 'tx_mask_a1',
+                            'order' => 3
                         ]
                     ]
                 ],
-                'tx_mask_a1',
-                '',
-                [
-                    [
-                        'config' => [
-                            'type' => 'input'
-                        ],
-                        'key' => 'a',
-                        'inlineParent' => 'tx_mask_a1',
-                        'maskKey' => 'tx_mask_a',
-                        'fullKey' => 'tx_mask_a',
-                        'order' => 1
-                    ],
-                    [
-                        'config' => [
-                            'type' => 'inline'
-                        ],
-                        'key' => 'b',
-                        'inlineParent' => 'tx_mask_a1',
-                        'inlineFields' => [
-                            [
-                                'config' => [
-                                    'type' => 'input'
-                                ],
-                                'key' => 'c',
-                                'inlineParent' => 'tx_mask_b',
-                                'maskKey' => 'tx_mask_c',
-                                'fullKey' => 'tx_mask_c',
-                                'order' => 2
-                            ]
-                        ],
-                        'maskKey' => 'tx_mask_b',
-                        'fullKey' => 'tx_mask_b',
-                        'order' => 3
+                'tx_mask_b' => [
+                    'tca' => [
+                        'tx_mask_c' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'c',
+                            'inlineParent' => 'tx_mask_b',
+                            'order' => 2
+                        ]
                     ]
                 ]
             ],
-            'inline fields of palette loaded in same table' => [
+            'parent' => 'tx_mask_a1',
+            'element' => '',
+            'expected' => [
                 [
-                    'tt_content' => [
-                        'elements' => [
-                            'element1' => [
-                                'key' => 'element1',
-                                'label' => 'Element 1',
-                                'columns' => [
-                                    'a'
-                                ]
-                            ]
-                        ],
-                        'tca' => [
-                            'tx_mask_a' => [
-                                'config' => [
-                                    'type' => 'palette'
-                                ],
-                                'key' => 'a'
-                            ],
-                            'tx_mask_b' => [
-                                'config' => [
-                                    'type' => 'input'
-                                ],
-                                'key' => 'b',
-                                'inPalette' => '1',
-                                'inlineParent' => [
-                                    'element1' => 'tx_mask_a'
-                                ],
-                                'order' => [
-                                    'element1' => 2
-                                ],
-                            ],
-                            'tx_mask_c' => [
-                                'config' => [
-                                    'type' => 'input'
-                                ],
-                                'key' => 'c',
-                                'inPalette' => '1',
-                                'inlineParent' => [
-                                    'element1' => 'tx_mask_a'
-                                ],
-                                'order' => [
-                                    'element1' => 3
-                                ],
-                            ]
-                        ]
+                    'config' => [
+                        'type' => 'input'
                     ],
+                    'key' => 'a',
+                    'inlineParent' => 'tx_mask_a1',
+                    'maskKey' => 'tx_mask_a',
+                    'fullKey' => 'tx_mask_a',
+                    'order' => 1,
+                    'type' => 'string'
                 ],
-                'tx_mask_a',
-                'element1',
                 [
-                    [
-                        'config' => [
-                            'type' => 'input'
-                        ],
-                        'key' => 'b',
-                        'inPalette' => '1',
-                        'inlineParent' => [
-                            'element1' => 'tx_mask_a'
-                        ],
-                        'order' => [
-                            'element1' => 2
-                        ],
-                        'maskKey' => 'tx_mask_b',
-                        'fullKey' => 'tx_mask_b',
+                    'config' => [
+                        'type' => 'inline'
                     ],
-                    [
-                        'config' => [
-                            'type' => 'input'
-                        ],
-                        'key' => 'c',
-                        'inPalette' => '1',
-                        'inlineParent' => [
-                            'element1' => 'tx_mask_a'
-                        ],
-                        'order' => [
-                            'element1' => 3
-                        ],
-                        'maskKey' => 'tx_mask_c',
-                        'fullKey' => 'tx_mask_c',
-                    ]
+                    'key' => 'b',
+                    'inlineParent' => 'tx_mask_a1',
+                    'inlineFields' => [
+                        [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'c',
+                            'inlineParent' => 'tx_mask_b',
+                            'maskKey' => 'tx_mask_c',
+                            'fullKey' => 'tx_mask_c',
+                            'order' => 2,
+                            'type' => 'string'
+                        ]
+                    ],
+                    'maskKey' => 'tx_mask_b',
+                    'fullKey' => 'tx_mask_b',
+                    'order' => 3,
+                    'type' => 'inline'
                 ]
-            ],
-            'inline fields of palette loaded in inline field' => [
-                [
-                    'tt_content' => [
-                        'elements' => [
-                            'element1' => [
-                                'key' => 'element1',
-                                'label' => 'Element 1',
-                                'columns' => [
-                                    'repeat'
-                                ]
-                            ]
-                        ],
-                        'tca' => [
-                            'tx_mask_repeat' => [
-                                'config' => [
-                                    'type' => 'inline'
-                                ],
-                                'key' => 'repeat'
+            ]
+        ];
+
+        yield 'inline fields of palette loaded in same table' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'key' => 'element1',
+                            'label' => 'Element 1',
+                            'columns' => [
+                                'tx_mask_a'
                             ]
                         ]
                     ],
-                    'tx_mask_repeat' => [
-                        'tca' => [
-                            'tx_mask_a' => [
-                                'config' => [
-                                    'type' => 'input'
-                                ],
-                                'key' => 'a',
-                                'inlineParent' => 'tx_mask_repeat',
-                                'order' => 1
+                    'tca' => [
+                        'tx_mask_a' => [
+                            'config' => [
+                                'type' => 'palette'
                             ],
-                            'tx_mask_b' => [
-                                'config' => [
-                                    'type' => 'input'
-                                ],
-                                'key' => 'b',
-                                'inPalette' => '1',
-                                'inlineParent' => [
-                                    'element1' => 'tx_mask_palette'
-                                ],
-                                'order' => [
-                                    'element1' => 3
-                                ]
+                            'key' => 'a'
+                        ],
+                        'tx_mask_b' => [
+                            'config' => [
+                                'type' => 'input'
                             ],
-                            'tx_mask_c' => [
-                                'config' => [
-                                    'type' => 'input'
-                                ],
-                                'key' => 'c',
-                                'inPalette' => '1',
-                                'inlineParent' => [
-                                    'element1' => 'tx_mask_palette'
-                                ],
-                                'order' => [
-                                    'element1' => 4
-                                ]
+                            'key' => 'b',
+                            'inPalette' => '1',
+                            'inlineParent' => [
+                                'element1' => 'tx_mask_a'
                             ],
-                            'tx_mask_palette' => [
-                                'config' => [
-                                    'type' => 'palette'
-                                ],
-                                'key' => 'palette',
-                                'inlineParent' => 'tx_mask_repeat',
-                                'order' => 2
+                            'order' => [
+                                'element1' => 2
+                            ],
+                        ],
+                        'tx_mask_c' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'c',
+                            'inPalette' => '1',
+                            'inlineParent' => [
+                                'element1' => 'tx_mask_a'
+                            ],
+                            'order' => [
+                                'element1' => 3
                             ],
                         ]
                     ]
                 ],
-                'tx_mask_repeat',
-                'element1',
+            ],
+            'parent' => 'tx_mask_a',
+            'element' => 'element1',
+            'expected' => [
                 [
-                    [
-                        'config' => [
-                            'type' => 'input'
-                        ],
-                        'key' => 'a',
-                        'inlineParent' => 'tx_mask_repeat',
-                        'maskKey' => 'tx_mask_a',
-                        'fullKey' => 'tx_mask_a',
-                        'order' => 1
+                    'config' => [
+                        'type' => 'input'
                     ],
-                    [
-                        'config' => [
-                            'type' => 'palette'
-                        ],
-                        'key' => 'palette',
-                        'inlineParent' => 'tx_mask_repeat',
-                        'maskKey' => 'tx_mask_palette',
-                        'fullKey' => 'tx_mask_palette',
-                        'order' => 2,
-                        'inlineFields' => [
-                            [
-                                'config' => [
-                                    'type' => 'input'
-                                ],
-                                'key' => 'b',
-                                'inPalette' => '1',
-                                'inlineParent' => [
-                                    'element1' => 'tx_mask_palette'
-                                ],
-                                'order' => [
-                                    'element1' => 3
-                                ],
-                                'maskKey' => 'tx_mask_b',
-                                'fullKey' => 'tx_mask_b',
-                            ],
-                            [
-                                'config' => [
-                                    'type' => 'input'
-                                ],
-                                'key' => 'c',
-                                'inPalette' => '1',
-                                'inlineParent' => [
-                                    'element1' => 'tx_mask_palette'
-                                ],
-                                'order' => [
-                                    'element1' => 4
-                                ],
-                                'maskKey' => 'tx_mask_c',
-                                'fullKey' => 'tx_mask_c',
-                            ],
+                    'key' => 'b',
+                    'inPalette' => '1',
+                    'inlineParent' => [
+                        'element1' => 'tx_mask_a'
+                    ],
+                    'order' => [
+                        'element1' => 2
+                    ],
+                    'maskKey' => 'tx_mask_b',
+                    'fullKey' => 'tx_mask_b',
+                    'type' => 'string'
+                ],
+                [
+                    'config' => [
+                        'type' => 'input'
+                    ],
+                    'key' => 'c',
+                    'inPalette' => '1',
+                    'inlineParent' => [
+                        'element1' => 'tx_mask_a'
+                    ],
+                    'order' => [
+                        'element1' => 3
+                    ],
+                    'maskKey' => 'tx_mask_c',
+                    'fullKey' => 'tx_mask_c',
+                    'type' => 'string'
+                ]
+            ]
+        ];
+
+        yield 'inline fields of palette loaded in inline field' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'key' => 'element1',
+                            'label' => 'Element 1',
+                            'columns' => [
+                                'tx_mask_repeat'
+                            ]
                         ]
                     ],
+                    'tca' => [
+                        'tx_mask_repeat' => [
+                            'config' => [
+                                'type' => 'inline'
+                            ],
+                            'key' => 'repeat'
+                        ]
+                    ]
+                ],
+                'tx_mask_repeat' => [
+                    'tca' => [
+                        'tx_mask_a' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'a',
+                            'inlineParent' => 'tx_mask_repeat',
+                            'order' => 1
+                        ],
+                        'tx_mask_b' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'b',
+                            'inPalette' => '1',
+                            'inlineParent' => [
+                                'element1' => 'tx_mask_palette'
+                            ],
+                            'order' => [
+                                'element1' => 3
+                            ]
+                        ],
+                        'tx_mask_c' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'c',
+                            'inPalette' => '1',
+                            'inlineParent' => [
+                                'element1' => 'tx_mask_palette'
+                            ],
+                            'order' => [
+                                'element1' => 4
+                            ]
+                        ],
+                        'tx_mask_palette' => [
+                            'config' => [
+                                'type' => 'palette'
+                            ],
+                            'key' => 'palette',
+                            'inlineParent' => 'tx_mask_repeat',
+                            'order' => 2
+                        ],
+                    ]
                 ]
             ],
+            'parent' => 'tx_mask_repeat',
+            'element' => 'element1',
+            'expected' => [
+                [
+                    'config' => [
+                        'type' => 'input'
+                    ],
+                    'key' => 'a',
+                    'inlineParent' => 'tx_mask_repeat',
+                    'maskKey' => 'tx_mask_a',
+                    'fullKey' => 'tx_mask_a',
+                    'order' => 1,
+                    'type' => 'string'
+                ],
+                [
+                    'config' => [
+                        'type' => 'palette'
+                    ],
+                    'key' => 'palette',
+                    'inlineParent' => 'tx_mask_repeat',
+                    'maskKey' => 'tx_mask_palette',
+                    'fullKey' => 'tx_mask_palette',
+                    'order' => 2,
+                    'type' => 'palette',
+                    'inlineFields' => [
+                        [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'b',
+                            'inPalette' => '1',
+                            'inlineParent' => [
+                                'element1' => 'tx_mask_palette'
+                            ],
+                            'order' => [
+                                'element1' => 3
+                            ],
+                            'maskKey' => 'tx_mask_b',
+                            'fullKey' => 'tx_mask_b',
+                            'type' => 'string'
+                        ],
+                        [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'c',
+                            'inPalette' => '1',
+                            'inlineParent' => [
+                                'element1' => 'tx_mask_palette'
+                            ],
+                            'order' => [
+                                'element1' => 4
+                            ],
+                            'maskKey' => 'tx_mask_c',
+                            'fullKey' => 'tx_mask_c',
+                            'type' => 'string'
+                        ],
+                    ]
+                ],
+            ]
         ];
     }
 
@@ -813,7 +825,6 @@ class StorageRepositoryTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::STRING
             ],
@@ -833,7 +844,6 @@ class StorageRepositoryTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::INTEGER
             ],
@@ -853,7 +863,6 @@ class StorageRepositoryTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::FLOAT
             ],
@@ -874,7 +883,6 @@ class StorageRepositoryTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::DATE
             ],
@@ -895,7 +903,6 @@ class StorageRepositoryTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::DATETIME
             ],
@@ -915,7 +922,6 @@ class StorageRepositoryTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::LINK
             ],
@@ -934,40 +940,8 @@ class StorageRepositoryTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::TEXT
-            ],
-            'Type Richtext is returned' => [
-                [],
-                [
-                    'tt_content' => [
-                        'elements' => [
-                            'element1' => [
-                                'key' => 'element1',
-                                'label' => 'Element 1',
-                                'columns' => [
-                                    'tx_mask_field1'
-                                ],
-                                'options' => [
-                                    'rte'
-                                ]
-                            ]
-                        ],
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'text',
-                                ],
-                                'key' => 'field1'
-                            ]
-                        ]
-                    ]
-                ],
-                'tx_mask_field1',
-                'element1',
-                'tt_content',
-                FieldType::RICHTEXT
             ],
             'Type Richtext is returned if in inline' => [
                 [],
@@ -985,7 +959,6 @@ class StorageRepositoryTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tx_mask_inline',
                 FieldType::RICHTEXT
             ],
@@ -1005,7 +978,6 @@ class StorageRepositoryTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::RICHTEXT
             ],
@@ -1024,7 +996,6 @@ class StorageRepositoryTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::CHECK
             ],
@@ -1043,7 +1014,6 @@ class StorageRepositoryTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::RADIO
             ],
@@ -1062,7 +1032,6 @@ class StorageRepositoryTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::SELECT
             ],
@@ -1081,7 +1050,6 @@ class StorageRepositoryTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::INLINE
             ],
@@ -1101,7 +1069,6 @@ class StorageRepositoryTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::FILE
             ],
@@ -1121,7 +1088,6 @@ class StorageRepositoryTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::FILE
             ],
@@ -1141,7 +1107,6 @@ class StorageRepositoryTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::CONTENT
             ],
@@ -1160,7 +1125,6 @@ class StorageRepositoryTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::TAB
             ],
@@ -1179,7 +1143,6 @@ class StorageRepositoryTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::PALETTE
             ],
@@ -1241,7 +1204,6 @@ class StorageRepositoryTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                'element2',
                 'tt_content',
                 FieldType::INTEGER
             ],
@@ -1260,7 +1222,6 @@ class StorageRepositoryTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::GROUP
             ],
@@ -1281,7 +1242,6 @@ class StorageRepositoryTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::TIMESTAMP
             ],
@@ -1312,7 +1272,6 @@ class StorageRepositoryTest extends BaseTestCase
                     ]
                 ],
                 'date',
-                '',
                 'tt_content',
                 FieldType::DATE
             ],
@@ -1320,7 +1279,6 @@ class StorageRepositoryTest extends BaseTestCase
                 [],
                 [],
                 'bodytext',
-                '',
                 'tt_content',
                 FieldType::RICHTEXT
             ],
@@ -1331,13 +1289,13 @@ class StorageRepositoryTest extends BaseTestCase
      * @test
      * @dataProvider getFormTypeDataProvider
      */
-    public function getFormType(array $tca, array $json, string $fieldKey, string $elementKey, string $table, string $expected): void
+    public function getFormType(array $tca, array $json, string $fieldKey, string $table, string $expected): void
     {
         $GLOBALS['TCA'] = $tca;
 
         $storageRepository = $this->createStorageRepository($json);
 
-        self::assertEquals($expected, $storageRepository->getFormType($fieldKey, $elementKey, $table));
+        self::assertEquals($expected, $storageRepository->getFormType($fieldKey, '', $table));
     }
 
     public function findFirstNonEmptyLabelDataProvider(): array

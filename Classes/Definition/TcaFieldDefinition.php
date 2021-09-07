@@ -19,6 +19,7 @@ namespace MASK\Mask\Definition;
 
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\AffixUtility;
+use MASK\Mask\Utility\FieldTypeUtility;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 
 final class TcaFieldDefinition
@@ -84,6 +85,11 @@ final class TcaFieldDefinition
         $tcaFieldDefinition->realTca = self::extractRealTca($definition);
         // Prior to v6, core fields were determined by empty config array.
         $tcaFieldDefinition->isCoreField = isset($definition['coreField']) || !isset($tcaFieldDefinition->realTca['config']);
+
+        // If the field is not a core field and the field type couldn't be resolved by now, resolve type by tca config.
+        if (!$tcaFieldDefinition->type && !$tcaFieldDefinition->isCoreField) {
+            $tcaFieldDefinition->type = FieldType::cast(FieldTypeUtility::getFieldType($tcaFieldDefinition->toArray(), $tcaFieldDefinition->fullKey));
+        }
 
         // Set full key with mask prefix if not core field
         $tcaFieldDefinition->fullKey = $definition['fullKey'] ?? '';

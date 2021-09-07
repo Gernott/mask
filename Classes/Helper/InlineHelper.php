@@ -136,11 +136,11 @@ class InlineHelper
         // Check type of all element columns
         foreach ($elementFields ?? [] as $field) {
             $elementKey = $element->elementDefinition->key ?? '';
-            $fieldType = $this->tableDefinitionCollection->getFieldType($field, $table, $elementKey);
+            $fieldType = $this->tableDefinitionCollection->getFieldType($field, $table);
 
             if ($fieldType->equals(FieldType::PALETTE)) {
                 foreach ($this->tableDefinitionCollection->loadInlineFields($field, $elementKey) as $paletteField) {
-                    $fieldType = $this->tableDefinitionCollection->getFieldType($paletteField->fullKey, $table, $elementKey);
+                    $fieldType = $this->tableDefinitionCollection->getFieldType($paletteField->fullKey, $table);
                     $this->fillInlineField($data, $fieldType, $paletteField->fullKey, $cType, $table);
                 }
             } else {

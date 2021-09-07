@@ -1149,7 +1149,8 @@ class StorageRepositoryTest extends BaseTestCase
                                     'type' => 'palette'
                                 ],
                                 'key' => 'palette2',
-                                'fullKey' => 'tx_mask_palette2'
+                                'fullKey' => 'tx_mask_palette2',
+                                'type' => 'palette'
                             ],
                             'tx_mask_field' => [
                                 'config' => [
@@ -1167,6 +1168,7 @@ class StorageRepositoryTest extends BaseTestCase
                                     'element2' => 1
                                 ],
                                 'inPalette' => 1,
+                                'type' => 'string'
                             ],
                             'header' => [
                                 'key' => 'header',

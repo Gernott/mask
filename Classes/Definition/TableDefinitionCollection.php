@@ -20,7 +20,7 @@ namespace MASK\Mask\Definition;
 use InvalidArgumentException;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\AffixUtility;
-use TYPO3\CMS\Core\Type\Exception\InvalidEnumerationValueException;
+use MASK\Mask\Utility\FieldTypeUtility;
 
 final class TableDefinitionCollection implements \IteratorAggregate
 {
@@ -177,7 +177,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
 
                 // This can be called very early, so ignore core fields.
                 if (!$field->isCoreField) {
-                    $fieldType = $this->getFieldType($field->fullKey, $tableDefinition->table, $elementKey);
+                    $fieldType = $this->getFieldType($field->fullKey, $tableDefinition->table);
                     if ($fieldType->isParentField()) {
                         foreach ($this->loadInlineFields($field->fullKey, $elementKey) as $inlineField) {
                             $field->addInlineField($inlineField);
@@ -192,21 +192,26 @@ final class TableDefinitionCollection implements \IteratorAggregate
         return $nestedTcaFields;
     }
 
+    public function getFieldType(string $fieldKey, string $table = 'tt_content'): FieldType
+    {
+        return FieldType::cast($this->getFieldTypeString($fieldKey, $table));
+    }
+
     /**
      * Returns the formType of a field in an element
      * @internal
      */
-    public function getFormType(string $fieldKey, string $elementKey = '', string $table = 'tt_content'): string
+    public function getFieldTypeString(string $fieldKey, string $table = 'tt_content'): string
     {
         // @todo Allow bodytext to be normal TEXT field.
         if ($fieldKey === 'bodytext' && $table === 'tt_content') {
             return FieldType::RICHTEXT;
         }
 
-        $tca = [];
-
         $fieldDefinition = $this->loadField($table, $fieldKey);
-        if ($fieldDefinition) {
+
+        if ($fieldDefinition !== null && !$fieldDefinition->isCoreField) {
+            $tca = [];
             // If type is already known, return it. No check here, as this can be trusted.
             if ($fieldDefinition->type) {
                 return (string)$fieldDefinition->type;
@@ -215,92 +220,13 @@ final class TableDefinitionCollection implements \IteratorAggregate
             if (!$fieldDefinition->isCoreField) {
                 $tca = $fieldDefinition->toArray();
             }
+
+            return FieldTypeUtility::getFieldType($tca, $fieldDefinition->fullKey);
         }
 
-        // If TCA could not be resolved by Mask config, check for global TCA.
-        if (empty($tca)) {
-            $tca = $GLOBALS['TCA'][$table]['columns'][$fieldKey] ?? [];
-        }
-
-        // If TCA is still empty, error out.
-        if (empty($tca)) {
-            throw new InvalidArgumentException(sprintf('No TCA could be found for the field "%s" in the table "%s".', $fieldKey, $table), 1629484158);
-        }
-
-        // The tca "type" attribute has to be set. Can also be a fake one like "palette" or "linebreak".
-        $tcaType = $tca['config']['type'] ?? '';
-        if ($tcaType === '') {
-            throw new InvalidArgumentException(sprintf('The TCA type attribute of the field "%s" in the table "%s" must not be empty.', $fieldKey, $table), 1629485122);
-        }
-
-        // And decide via different tca settings which formType it is
-        switch ($tcaType) {
-            case 'input':
-                $evals = [];
-                if (isset($tca['config']['eval'])) {
-                    $evals = explode(',', $tca['config']['eval']);
-                }
-                if (($tca['config']['dbType'] ?? '') === 'date') {
-                    return FieldType::DATE;
-                }
-                if (($tca['config']['dbType'] ?? '') === 'datetime') {
-                    return FieldType::DATETIME;
-                }
-                if (($tca['config']['renderType'] ?? '') === 'inputDateTime') {
-                    return FieldType::TIMESTAMP;
-                }
-                if (in_array('int', $evals, true)) {
-                    return FieldType::INTEGER;
-                }
-                if (in_array('double2', $evals, true)) {
-                    return FieldType::FLOAT;
-                }
-                if (($tca['config']['renderType'] ?? '') === 'inputLink') {
-                    return FieldType::LINK;
-                }
-                return FieldType::STRING;
-            case 'text':
-                if (isset($tca['config']['enableRichtext'])) {
-                    return FieldType::RICHTEXT;
-                }
-                // Compatibility for mask prior to v3
-                // Load the element, if element key is provided and search for "rte" option.
-                if ($elementKey !== '') {
-                    $element = $this->loadElement($table, $elementKey);
-                    if (!$element) {
-                        throw new \InvalidArgumentException(sprintf('The element "%s" does not exist in the table "%s".', $elementKey, $table), 1629482680);
-                    }
-                    foreach ($element->elementDefinition->columns as $numberKey => $column) {
-                        if ($column === $fieldKey) {
-                            $option = $element->elementDefinition->options[$numberKey] ?? '';
-                            if ($option === 'rte') {
-                                return FieldType::RICHTEXT;
-                            }
-                        }
-                    }
-                }
-                return FieldType::TEXT;
-            case 'inline':
-                if (($tca['config']['foreign_table'] ?? '') === 'sys_file_reference') {
-                    return FieldType::FILE;
-                }
-                if (($tca['config']['foreign_table'] ?? '') === 'tt_content') {
-                    return FieldType::CONTENT;
-                }
-                return FieldType::INLINE;
-            default:
-                // Check if fake tca type is valid.
-                try {
-                    return (string)FieldType::cast($tcaType);
-                } catch (InvalidEnumerationValueException $e) {
-                    throw new \InvalidArgumentException(sprintf('Could not resolve the form type of the field "%s" in the table "%s". Please check, if your TCA is correct.', $fieldKey, $table), 1629484452);
-                }
-        }
-    }
-
-    public function getFieldType(string $fieldKey, string $table = 'tt_content', string $elementKey = ''): FieldType
-    {
-        return FieldType::cast($this->getFormType($fieldKey, $elementKey, $table));
+        // If field could not be found in field definition, check for global TCA.
+        $tca = $GLOBALS['TCA'][$table]['columns'][$fieldKey] ?? [];
+        return FieldTypeUtility::getFieldType($tca, $fieldKey);
     }
 
     /**
@@ -346,7 +272,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
                     $elementsInUse->addElement($element);
                     break;
                 }
-                if ($this->getFieldType($column, $table, $element->key)->equals(FieldType::PALETTE)) {
+                if ($this->getFieldType($column, $table)->equals(FieldType::PALETTE)) {
                     foreach ($definition->palettes->getPalette($column)->showitem as $item) {
                         if ($item === $key) {
                             $elementsInUse->addElement($element);

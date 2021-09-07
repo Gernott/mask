@@ -330,7 +330,7 @@ class StorageRepository implements SingletonInterface
                 $json[$table]['sql'][$field->fullKey]
             );
 
-            $fieldType = $this->tableDefinitionCollection->getFieldType($field->fullKey, $table, $this->currentKey);
+            $fieldType = $this->tableDefinitionCollection->getFieldType($field->fullKey, $table);
 
             // If field is of type inline, also delete table entry
             if ($fieldType->equals(FieldType::INLINE)) {
@@ -456,7 +456,7 @@ class StorageRepository implements SingletonInterface
             E_USER_DEPRECATED
         );
 
-        return $this->loader->load()->getFormType($fieldKey, $elementKey, $table);
+        return $this->loader->load()->getFieldTypeString($fieldKey, $table);
     }
 
     /**

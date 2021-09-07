@@ -59,7 +59,8 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     'inlineParent' => 'tx_mask_a1',
                     'maskKey' => 'tx_mask_a',
                     'fullKey' => 'tx_mask_a',
-                    'order' => 1
+                    'order' => 1,
+                    'type' => 'string'
                 ],
                 [
                     'config' => [
@@ -69,7 +70,8 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     'inlineParent' => 'tx_mask_a1',
                     'maskKey' => 'tx_mask_b',
                     'fullKey' => 'tx_mask_b',
-                    'order' => 2
+                    'order' => 2,
+                    'type' => 'string'
                 ]
             ]
         ];
@@ -120,7 +122,8 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     'inlineParent' => 'tx_mask_a1',
                     'maskKey' => 'tx_mask_a',
                     'fullKey' => 'tx_mask_a',
-                    'order' => 1
+                    'order' => 1,
+                    'type' => 'string'
                 ],
                 [
                     'config' => [
@@ -137,12 +140,14 @@ class TableDefinitionCollectionTest extends BaseTestCase
                             'inlineParent' => 'tx_mask_b',
                             'maskKey' => 'tx_mask_c',
                             'fullKey' => 'tx_mask_c',
-                            'order' => 2
+                            'order' => 2,
+                            'type' => 'string'
                         ]
                     ],
                     'maskKey' => 'tx_mask_b',
                     'fullKey' => 'tx_mask_b',
-                    'order' => 3
+                    'order' => 3,
+                    'type' => 'inline'
                 ]
             ]
         ];
@@ -212,6 +217,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     ],
                     'maskKey' => 'tx_mask_b',
                     'fullKey' => 'tx_mask_b',
+                    'type' => 'string'
                 ],
                 [
                     'config' => [
@@ -227,6 +233,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     ],
                     'maskKey' => 'tx_mask_c',
                     'fullKey' => 'tx_mask_c',
+                    'type' => 'string'
                 ]
             ]
         ];
@@ -310,7 +317,8 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     'inlineParent' => 'tx_mask_repeat',
                     'maskKey' => 'tx_mask_a',
                     'fullKey' => 'tx_mask_a',
-                    'order' => 1
+                    'order' => 1,
+                    'type' => 'string'
                 ],
                 [
                     'config' => [
@@ -321,6 +329,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     'maskKey' => 'tx_mask_palette',
                     'fullKey' => 'tx_mask_palette',
                     'order' => 2,
+                    'type' => 'palette',
                     'inlineFields' => [
                         [
                             'config' => [
@@ -336,6 +345,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                             ],
                             'maskKey' => 'tx_mask_b',
                             'fullKey' => 'tx_mask_b',
+                            'type' => 'string'
                         ],
                         [
                             'config' => [
@@ -351,6 +361,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                             ],
                             'maskKey' => 'tx_mask_c',
                             'fullKey' => 'tx_mask_c',
+                            'type' => 'string'
                         ],
                     ]
                 ],
@@ -812,7 +823,6 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::STRING
             ],
@@ -832,7 +842,6 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::INTEGER
             ],
@@ -852,7 +861,6 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::FLOAT
             ],
@@ -873,7 +881,6 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::DATE
             ],
@@ -894,7 +901,6 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::DATETIME
             ],
@@ -914,7 +920,6 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::LINK
             ],
@@ -933,40 +938,8 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::TEXT
-            ],
-            'Type Richtext is returned' => [
-                [],
-                [
-                    'tt_content' => [
-                        'elements' => [
-                            'element1' => [
-                                'key' => 'element1',
-                                'label' => 'Element 1',
-                                'columns' => [
-                                    'tx_mask_field1'
-                                ],
-                                'options' => [
-                                    'rte'
-                                ]
-                            ]
-                        ],
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'text',
-                                ],
-                                'key' => 'field1'
-                            ]
-                        ]
-                    ]
-                ],
-                'tx_mask_field1',
-                'element1',
-                'tt_content',
-                FieldType::RICHTEXT
             ],
             'Type Richtext is returned if in inline' => [
                 [],
@@ -984,7 +957,6 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tx_mask_inline',
                 FieldType::RICHTEXT
             ],
@@ -1004,7 +976,6 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::RICHTEXT
             ],
@@ -1023,7 +994,6 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::CHECK
             ],
@@ -1042,7 +1012,6 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::RADIO
             ],
@@ -1061,7 +1030,6 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::SELECT
             ],
@@ -1080,7 +1048,6 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::INLINE
             ],
@@ -1100,7 +1067,6 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::FILE
             ],
@@ -1120,7 +1086,6 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::FILE
             ],
@@ -1140,7 +1105,6 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::CONTENT
             ],
@@ -1159,7 +1123,6 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::TAB
             ],
@@ -1178,7 +1141,6 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::PALETTE
             ],
@@ -1240,7 +1202,6 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                'element2',
                 'tt_content',
                 FieldType::INTEGER
             ],
@@ -1259,7 +1220,6 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::GROUP
             ],
@@ -1280,7 +1240,6 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     ]
                 ],
                 'tx_mask_field1',
-                '',
                 'tt_content',
                 FieldType::TIMESTAMP
             ],
@@ -1311,7 +1270,6 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     ]
                 ],
                 'date',
-                '',
                 'tt_content',
                 FieldType::DATE
             ],
@@ -1319,7 +1277,6 @@ class TableDefinitionCollectionTest extends BaseTestCase
                 [],
                 [],
                 'bodytext',
-                '',
                 'tt_content',
                 FieldType::RICHTEXT
             ],
@@ -1330,13 +1287,13 @@ class TableDefinitionCollectionTest extends BaseTestCase
      * @test
      * @dataProvider getFormTypeDataProvider
      */
-    public function getFormType(array $tca, array $json, string $fieldKey, string $elementKey, string $table, string $expected): void
+    public function getFormType(array $tca, array $json, string $fieldKey, string $table, string $expected): void
     {
         $GLOBALS['TCA'] = $tca;
 
         $tableDefinitionCollection = TableDefinitionCollection::createFromArray($json);
 
-        self::assertEquals($expected, (string)$tableDefinitionCollection->getFieldType($fieldKey, $table, $elementKey));
+        self::assertEquals($expected, (string)$tableDefinitionCollection->getFieldType($fieldKey, $table));
     }
 
     public function findFirstNonEmptyLabelDataProvider(): array
