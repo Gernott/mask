@@ -1,0 +1,86 @@
+{
+	"tt_content": {
+		"elements": {
+			"b": {
+				"key": "b",
+				"label": "B",
+				"description": "",
+				"shortLabel": "",
+				"color": "#000000",
+				"icon": "",
+				"columns": [
+					"tx_mask_a",
+					"tx_mask_b",
+					"tx_mask_4e12de3d14bd5"
+				],
+				"labels": [
+					"A 2",
+					"B",
+					"Palette 1"
+				]
+			}
+		},
+		"sql": {
+			"tx_mask_a": {
+				"tt_content": {
+					"tx_mask_a": "varchar(255) DEFAULT '' NOT NULL"
+				}
+			},
+			"tx_mask_b": {
+				"tt_content": {
+					"tx_mask_b": "varchar(255) DEFAULT '' NOT NULL"
+				}
+			}
+		},
+		"tca": {
+			"tx_mask_a": {
+				"config": {
+					"type": "input"
+				},
+				"type": "string",
+				"key": "a",
+				"fullKey": "tx_mask_a"
+			},
+			"tx_mask_b": {
+				"config": {
+					"type": "input"
+				},
+				"type": "string",
+				"key": "b",
+				"fullKey": "tx_mask_b"
+			},
+			"tx_mask_4e12de3d14bd5": {
+				"config": {
+					"type": "palette"
+				},
+				"type": "palette",
+				"key": "4e12de3d14bd5",
+				"fullKey": "tx_mask_4e12de3d14bd5"
+			},
+			"header": {
+				"coreField": 1,
+				"type": "string",
+				"key": "header",
+				"fullKey": "header",
+				"inPalette": 1,
+				"inlineParent": {
+					"b": "tx_mask_4e12de3d14bd5"
+				},
+				"label": {
+					"b": "Header"
+				},
+				"order": {
+					"b": 1
+				}
+			}
+		},
+		"palettes": {
+			"tx_mask_4e12de3d14bd5": {
+				"label": "Palette 1",
+				"showitem": [
+					"header"
+				]
+			}
+		}
+	}
+}

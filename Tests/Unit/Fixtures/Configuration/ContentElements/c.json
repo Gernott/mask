@@ -1,0 +1,50 @@
+{
+	"sys_file_reference": {
+		"sql": {
+			"tx_mask_file": {
+				"sys_file_reference": {
+					"tx_mask_file": "int(11) unsigned DEFAULT '0' NOT NULL"
+				}
+			}
+		}
+	},
+	"tt_content": {
+		"elements": {
+			"c": {
+				"key": "c",
+				"label": "C",
+				"description": "",
+				"shortLabel": "",
+				"color": "#000000",
+				"icon": "",
+				"columns": [
+					"tx_mask_file"
+				],
+				"labels": [
+					"File"
+				]
+			}
+		},
+		"sql": {
+			"tx_mask_file": {
+				"tt_content": {
+					"tx_mask_file": "int(11) unsigned DEFAULT '0' NOT NULL"
+				}
+			}
+		},
+		"tca": {
+			"tx_mask_file": {
+				"config": {
+					"appearance": {
+						"fileUploadAllowed": 1
+					}
+				},
+				"type": "file",
+				"key": "file",
+				"fullKey": "tx_mask_file",
+				"imageoverlayPalette": 1
+			}
+		},
+		"palettes": []
+	}
+}

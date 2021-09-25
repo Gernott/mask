@@ -1,0 +1,194 @@
+<?php
+
+declare(strict_types=1);
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
+
+namespace MASK\Mask\Loader;
+
+use MASK\Mask\Definition\ElementDefinitionCollection;
+use MASK\Mask\Definition\PaletteDefinitionCollection;
+use MASK\Mask\Definition\SqlDefinition;
+use MASK\Mask\Definition\TableDefinition;
+use MASK\Mask\Definition\TableDefinitionCollection;
+use MASK\Mask\Definition\TcaDefinition;
+use MASK\Mask\Enumeration\FieldType;
+use MASK\Mask\Utility\GeneralUtility as MaskUtility;
+use Symfony\Component\Finder\Finder;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
+class JsonSplitLoader implements LoaderInterface
+{
+    /**
+     * @var TableDefinitionCollection
+     */
+    protected $tableDefinitionCollection;
+
+    /**
+     * @var array
+     */
+    protected $maskExtensionConfiguration;
+
+    const FOLDER_KEYS = [
+        'tt_content' => 'content_elements_folder',
+        'pages' => 'backend_layouts_folder'
+    ];
+
+    public function __construct(array $maskExtensionConfiguration)
+    {
+        $this->maskExtensionConfiguration = $maskExtensionConfiguration;
+        if ($this->getPath('tt_content') === '') {
+            throw new \InvalidArgumentException(sprintf('The path to "%s" must not be empty.', self::FOLDER_KEYS['tt_content']), 1628599914);
+        }
+    }
+
+    public function load(): TableDefinitionCollection
+    {
+        if ($this->tableDefinitionCollection === null) {
+            $contentElementsFolder = $this->getAbsolutePath('tt_content');
+            if (!file_exists($contentElementsFolder)) {
+                throw new \InvalidArgumentException(sprintf('The folder "%s" does not exist.', $contentElementsFolder), 1628599433);
+            }
+            $definitionArray = [];
+            $definitionArray = $this->mergeElementDefinitions($definitionArray, $contentElementsFolder);
+
+            $backendLayoutsFolder = $this->getAbsolutePath('pages');
+            if ($backendLayoutsFolder !== '' && file_exists($backendLayoutsFolder)) {
+                $definitionArray = $this->mergeElementDefinitions($definitionArray, $backendLayoutsFolder);
+            }
+
+            $this->tableDefinitionCollection = TableDefinitionCollection::createFromArray($definitionArray);
+        }
+        return $this->tableDefinitionCollection;
+    }
+
+    protected function getPath(string $table): string
+    {
+        return $this->maskExtensionConfiguration[self::FOLDER_KEYS[$table]];
+    }
+
+    protected function getAbsolutePath(string $table): string
+    {
+        return MaskUtility::getFileAbsFileName($this->getPath($table)) . '/';
+    }
+
+    protected function mergeElementDefinitions(array &$definitionArray, string $folder): array
+    {
+        foreach ((new Finder())->files()->in($folder) as $file) {
+            if ($file->getFileInfo()->getExtension() !== 'json') {
+                continue;
+            }
+            // @todo replace with JSON_THROW_ON_ERROR in Mask v8.0
+            $json = json_decode($file->getContents(), true, 512, 4194304);
+            ArrayUtility::mergeRecursiveWithOverrule($definitionArray, $json);
+        }
+        return $definitionArray;
+    }
+
+    public function write(TableDefinitionCollection $tableDefinitionCollection): void
+    {
+        // Write content elements and backend layouts
+        $this->writeElementsForTable($tableDefinitionCollection, 'tt_content');
+        $this->writeElementsForTable($tableDefinitionCollection, 'pages');
+
+        // Save new definition in memory.
+        $this->tableDefinitionCollection = $tableDefinitionCollection;
+    }
+
+    protected function writeElementsForTable(TableDefinitionCollection $tableDefinitionCollection, string $table): void
+    {
+        if (!$tableDefinitionCollection->hasTable($table)) {
+            return;
+        }
+
+        $absolutePath = $this->getAbsolutePath($table);
+
+        $elements = [];
+        foreach ($tableDefinitionCollection->getTable($table)->elements as $element) {
+            $elements[] = $element->key;
+        }
+
+        // Delete removed elements
+        foreach ((new Finder())->files()->in($absolutePath) as $file) {
+            if ($file->getFileInfo()->getExtension() !== 'json') {
+                continue;
+            }
+
+            if (!in_array($file->getFilenameWithoutExtension(), $elements, true)) {
+                unlink($file->getPathname());
+            }
+        }
+
+        $tableDefinition = $tableDefinitionCollection->getTable($table);
+        foreach ($tableDefinition->elements as $element) {
+            $elementTableDefinitionCollection = new TableDefinitionCollection();
+            $newElementsDefinitionCollection = new ElementDefinitionCollection();
+            $newTableDefinition = new TableDefinition();
+            $newTcaDefinition = new TcaDefinition();
+            $newPaletteDefinitionCollection = new PaletteDefinitionCollection();
+            $newSqlDefinition = new SqlDefinition();
+            $newTableDefinition->table = $table;
+            $newPaletteDefinitionCollection->table = $table;
+            $newTcaDefinition->table = $table;
+            $newSqlDefinition->table = $table;
+            $newElementsDefinitionCollection->table = $table;
+            $newElementsDefinitionCollection->addElement($element);
+
+            foreach ($element->columns as $column) {
+                $field = $tableDefinition->tca->getField($column);
+                $newTcaDefinition->addField($field);
+                if ($tableDefinition->sql->hasColumn($field->fullKey)) {
+                    $newSqlDefinition->addColumn($tableDefinition->sql->getColumn($field->fullKey));
+                }
+                $fieldType = $tableDefinitionCollection->getFieldType($field->fullKey, $table);
+                if ($fieldType->equals(FieldType::INLINE)) {
+                    $elementTableDefinitionCollection->addTable($tableDefinitionCollection->getTable($field->fullKey));
+                }
+                if ($fieldType->equals(FieldType::PALETTE)) {
+                    $paletteDefinition = $tableDefinition->palettes->getPalette($field->fullKey);
+                    $newPaletteDefinitionCollection->addPalette($paletteDefinition);
+                    foreach ($paletteDefinition->showitem as $item) {
+                        $paletteField = $tableDefinition->tca->getField($item);
+                        $newTcaDefinition->addField($paletteField);
+                        if ($tableDefinition->sql->hasColumn($paletteField->fullKey)) {
+                            $newSqlDefinition->addColumn($tableDefinition->sql->getColumn($paletteField->fullKey));
+                        }
+                    }
+                }
+                if ($tableDefinitionCollection->hasTable('sys_file_reference') && $fieldType->equals(FieldType::FILE)) {
+                    if ($tableDefinitionCollection->getTable('sys_file_reference')->sql->hasColumn($field->fullKey)) {
+                        if (!$elementTableDefinitionCollection->hasTable('sys_file_reference')) {
+                            $sys_file_reference = new TableDefinition();
+                            $sys_file_reference->table = 'sys_file_reference';
+                            $sys_file_reference->sql = new SqlDefinition();
+                            $sys_file_reference->sql->table = 'sys_file_reference';
+                            $elementTableDefinitionCollection->addTable($sys_file_reference);
+                        }
+                        $column = $tableDefinitionCollection->getTable('sys_file_reference')->sql->getColumn($field->fullKey);
+                        $elementTableDefinitionCollection->getTable('sys_file_reference')->sql->addColumn($column);
+                    }
+                }
+            }
+            $newTableDefinition->tca = $newTcaDefinition;
+            $newTableDefinition->sql = $newSqlDefinition;
+            $newTableDefinition->palettes = $newPaletteDefinitionCollection;
+            $newTableDefinition->elements = $newElementsDefinitionCollection;
+            $elementTableDefinitionCollection->addTable($newTableDefinition);
+
+            // @todo replace with JSON_THROW_ON_ERROR in Mask v8.0
+            GeneralUtility::writeFile($absolutePath . $element->key . '.json', json_encode($elementTableDefinitionCollection->toArray(), 4194304 | JSON_PRETTY_PRINT));
+        }
+    }
+}

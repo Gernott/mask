@@ -1,5 +1,9 @@
 # cat=general; type=file [json]; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-json
 json = typo3conf/ext/mask_project/Configuration/Mask/mask.json
+# cat=general; type=folder [content_elements_folder]; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-content-elements-folder
+content_elements_folder = typo3conf/ext/mask_project/Configuration/Mask/ContentElements
+# cat=general; type=folder [backend_layouts_folder]; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-backend-layouts-folder
+backend_layouts_folder = typo3conf/ext/mask_project/Configuration/Mask/BackendLayouts
 # cat=general; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-backendlayout_pids
 backendlayout_pids = 0,1
 
