@@ -46,9 +46,8 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['moveRteOptio
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig($typoScriptCodeGenerator->generatePageTyposcript());
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup($typoScriptCodeGenerator->generateSetupTyposcript());
 
-    /** @var \MASK\Mask\Loader\LoaderInterface $loader */
-    $loader = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('mask.loader');
-    $tables = $loader->load();
+    /** @var \MASK\Mask\Definition\TableDefinitionCollection $tables */
+    $tables = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\Loader\LoaderRegistry::class)->loadActiveDefinition();
     if ($tables->hasTable('pages')) {
         $rootlineFields = [];
         if ($GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields'] !== '') {

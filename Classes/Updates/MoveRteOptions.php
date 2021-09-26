@@ -19,6 +19,7 @@ namespace MASK\Mask\Updates;
 
 use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Loader\LoaderInterface;
+use MASK\Mask\Loader\LoaderRegistry;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
@@ -31,7 +32,7 @@ class MoveRteOptions implements UpgradeWizardInterface
 
     public function __construct()
     {
-        $this->loader = GeneralUtility::makeInstance('mask.loader');
+        $this->loader = GeneralUtility::makeInstance(LoaderRegistry::class)->getActivateLoader();
     }
 
     public function getIdentifier(): string

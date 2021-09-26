@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\DependencyInjection;
 
+use MASK\Mask\Loader\LoaderRegistry;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -26,13 +27,40 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 final class LoaderPass implements CompilerPassInterface
 {
     /**
+     * @var
+     */
+    private $tagName;
+
+    /**
+     * @param string $tagName
+     */
+    public function __construct(string $tagName)
+    {
+        $this->tagName = $tagName;
+    }
+
+    /**
      * @param ContainerBuilder $container
      */
     public function process(ContainerBuilder $container)
     {
-        $definition = $container->getDefinition('mask.loader');
-        if ($definition->isAutoconfigured() && !$definition->isAbstract()) {
+        $loaderFactoryDefinition = $container->findDefinition(LoaderRegistry::class);
+        foreach ($container->findTaggedServiceIds($this->tagName) as $id => $tags) {
+            $definition = $container->findDefinition($id);
+            if (!$definition->isAutoconfigured() || $definition->isAbstract()) {
+                continue;
+            }
+
             $definition->setShared(true)->setPublic(true);
+            foreach ($tags as $attributes) {
+                if (!isset($attributes['identifier'])) {
+                    throw new \InvalidArgumentException(
+                        sprintf('Service tag "mask.loader" required the attribute "identifier to be set. Missing in %s"', $id),
+                        1632644430
+                    );
+                }
+                $loaderFactoryDefinition->addMethodCall('addLoader', [$definition, $attributes['identifier']]);
+            }
         }
     }
 }

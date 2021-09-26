@@ -1,3 +1,5 @@
+# cat=general; type=string; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-loader
+loader_identifier = json
 # cat=general; type=file [json]; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-json
 json = typo3conf/ext/mask_project/Configuration/Mask/mask.json
 # cat=general; type=folder [content_elements_folder]; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-content-elements-folder

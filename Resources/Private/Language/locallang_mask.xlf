@@ -15,6 +15,9 @@
 			<trans-unit id="mlang_labels_tablabel">
 				<source>Create and manage Masks</source>
 			</trans-unit>
+			<trans-unit id="ext_conf_template-loader">
+				<source>The loader to use. Mask provides "json" and "json-split".</source>
+			</trans-unit>
 			<trans-unit id="ext_conf_template-json">
 				<source>File with project-specific mask configuration (JsonLoader)</source>
 			</trans-unit>

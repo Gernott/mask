@@ -9,5 +9,5 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $container, ContainerBuilder $containerBuilder) {
-    $containerBuilder->addCompilerPass(new LoaderPass());
+    $containerBuilder->addCompilerPass(new LoaderPass('mask.loader'));
 };

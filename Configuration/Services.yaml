@@ -9,15 +9,25 @@ services:
   MASK\Mask\:
     resource: '../Classes/*'
 
-  mask.loader:
-    class: MASK\Mask\Loader\JsonLoader
+  MASK\Mask\Loader\JsonLoader:
+    tags:
+      - name: mask.loader
+        identifier: json
 
-  MASK\Mask\Loader\LoaderInterface: '@mask.loader'
+  MASK\Mask\Loader\JsonSplitLoader:
+    tags:
+      - name: mask.loader
+        identifier: json-split
+
+  MASK\Mask\Loader\LoaderInterface:
+    factory:
+      - '@MASK\Mask\Loader\LoaderRegistry'
+      - 'getActivateLoader'
 
   MASK\Mask\Definition\TableDefinitionCollection:
     factory:
-      - '@mask.loader'
-      - 'load'
+      - '@MASK\Mask\Loader\LoaderRegistry'
+      - 'loadActiveDefinition'
 
   extensionconfiguration.mask:
     class: 'array'
@@ -60,9 +70,19 @@ services:
   MASK\Mask\DataProcessing\MaskProcessor:
     public: true
 
+  MASK\Mask\Loader\LoaderRegistry:
+    public: true
+
   MASK\Mask\CodeGenerator\SqlCodeGenerator:
     tags:
       - name: event.listener
         identifier: 'sql-code-generator'
         event: TYPO3\CMS\Core\Database\Event\AlterTableDefinitionStatementsEvent
         method: addDatabaseTablesDefinition
+
+  MASK\Mask\Command\ConvertFormatCommand:
+    tags:
+      - name: 'console.command'
+        command: 'mask:convert'
+        description: 'Converts a Mask storage format into another.'
+        schedulable: false
