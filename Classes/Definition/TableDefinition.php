@@ -51,6 +51,19 @@ final class TableDefinition
         $tableDefinition->elements = ElementDefinitionCollection::createFromArray($definition['elements'] ?? [], $table);
         $tableDefinition->palettes = PaletteDefinitionCollection::createFromArray($definition['palettes'] ?? [], $table);
 
+        // Add core fields (compatibility layer).
+        foreach ($tableDefinition->elements as $element) {
+            foreach ($element->columns as $column) {
+                if (!$tableDefinition->tca->hasField($column)) {
+                    $tcaFieldDefinition = new TcaFieldDefinition();
+                    $tcaFieldDefinition->key = $column;
+                    $tcaFieldDefinition->fullKey = $column;
+                    $tcaFieldDefinition->isCoreField = true;
+                    $tableDefinition->tca->addField($tcaFieldDefinition);
+                }
+            }
+        }
+
         return $tableDefinition;
     }
 
