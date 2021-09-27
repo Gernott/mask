@@ -106,7 +106,8 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'labels' => [
                             'A',
                             'Repeat1'
-                        ]
+                        ],
+                        'sorting' => 0
                     ]
                 ],
                 'sql' => [
@@ -178,7 +179,8 @@ class JsonSplitLoaderTest extends UnitTestCase
                             'A 2',
                             'B',
                             'Palette 1'
-                        ]
+                        ],
+                        'sorting' => 1
                     ]
                 ],
                 'sql' => [
@@ -270,7 +272,8 @@ class JsonSplitLoaderTest extends UnitTestCase
                         ],
                         'labels' => [
                             'File'
-                        ]
+                        ],
+                        'sorting' => 2
                     ]
                 ],
                 'sql' => [
@@ -345,7 +348,8 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'labels' => [
                             'A',
                             'Repeat1'
-                        ]
+                        ],
+                        'sorting' => 0
                     ],
                     'b' => [
                         'key' => 'b',
@@ -363,7 +367,8 @@ class JsonSplitLoaderTest extends UnitTestCase
                             'A 2',
                             'B',
                             'Palette 1'
-                        ]
+                        ],
+                        'sorting' => 1
                     ],
                     'c' => [
                         'key' => 'c',
@@ -377,7 +382,8 @@ class JsonSplitLoaderTest extends UnitTestCase
                         ],
                         'labels' => [
                             'File',
-                        ]
+                        ],
+                        'sorting' => 2
                     ]
                 ],
                 'sql' => [

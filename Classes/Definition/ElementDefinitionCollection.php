@@ -66,7 +66,7 @@ final class ElementDefinitionCollection implements \IteratorAggregate
      */
     public function getIterator(): iterable
     {
-        foreach ($this->definitions as $definition) {
+        foreach ($this->sort($this->definitions) as $definition) {
             yield clone $definition;
         }
     }
@@ -83,5 +83,14 @@ final class ElementDefinitionCollection implements \IteratorAggregate
     public function count(): int
     {
         return count($this->definitions);
+    }
+
+    protected function sort($definitions): array
+    {
+        usort($definitions, function ($a, $b) {
+            return $a->sorting <=> $b->sorting;
+        });
+
+        return $definitions;
     }
 }

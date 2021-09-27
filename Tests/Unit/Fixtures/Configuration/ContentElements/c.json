@@ -22,7 +22,8 @@
 				],
 				"labels": [
 					"File"
-				]
+				],
+				"sorting": 2
 			}
 		},
 		"sql": {

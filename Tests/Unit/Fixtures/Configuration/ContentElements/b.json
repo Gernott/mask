@@ -17,7 +17,8 @@
 					"A 2",
 					"B",
 					"Palette 1"
-				]
+				],
+				"sorting": 1
 			}
 		},
 		"sql": {

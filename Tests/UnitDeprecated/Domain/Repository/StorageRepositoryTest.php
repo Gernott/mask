@@ -464,6 +464,7 @@ class StorageRepositoryTest extends BaseTestCase
                             'tx_mask_column_2',
                             'tx_mask_column_3'
                         ],
+                        'sorting' => 0
                     ]
                 ]
             ],
@@ -478,7 +479,8 @@ class StorageRepositoryTest extends BaseTestCase
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
                                     'tx_mask_column_3'
-                                ]
+                                ],
+                                'sorting' => 0
                             ],
                             'element_2' => [
                                 'key' => 'element_2',
@@ -487,7 +489,8 @@ class StorageRepositoryTest extends BaseTestCase
                                     'tx_mask_column_1',
                                     'tx_mask_column_5',
                                     'tx_mask_column_6'
-                                ]
+                                ],
+                                'sorting' => 0
                             ]
                         ],
                         'tca' => [
@@ -545,7 +548,8 @@ class StorageRepositoryTest extends BaseTestCase
                             'tx_mask_column_1',
                             'tx_mask_column_2',
                             'tx_mask_column_3'
-                        ]
+                        ],
+                        'sorting' => 0
                     ],
                     'element_2' => [
                         'key' => 'element_2',
@@ -559,7 +563,8 @@ class StorageRepositoryTest extends BaseTestCase
                             'tx_mask_column_1',
                             'tx_mask_column_5',
                             'tx_mask_column_6'
-                        ]
+                        ],
+                        'sorting' => 0
                     ]
                 ]
             ],
@@ -574,7 +579,8 @@ class StorageRepositoryTest extends BaseTestCase
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
                                     'tx_mask_column_3'
-                                ]
+                                ],
+                                'sorting' => 0
                             ],
                             'element_2' => [
                                 'key' => 'element_2',
@@ -583,7 +589,8 @@ class StorageRepositoryTest extends BaseTestCase
                                     'tx_mask_column_4',
                                     'tx_mask_column_5',
                                     'tx_mask_column_6'
-                                ]
+                                ],
+                                'sorting' => 0
                             ]
                         ],
                         'tca' => [
@@ -641,7 +648,8 @@ class StorageRepositoryTest extends BaseTestCase
                             'tx_mask_column_1',
                             'tx_mask_column_2',
                             'tx_mask_column_3'
-                        ]
+                        ],
+                        'sorting' => 0
                     ]
                 ]
             ],
@@ -698,7 +706,8 @@ class StorageRepositoryTest extends BaseTestCase
                         'labels' => [],
                         'columns' => [
                             'tx_mask_column_1',
-                        ]
+                        ],
+                        'sorting' => 0
                     ],
                     'element_2' => [
                         'key' => 'element_2',
@@ -710,7 +719,8 @@ class StorageRepositoryTest extends BaseTestCase
                         'labels' => [],
                         'columns' => [
                             'tx_mask_palette_1'
-                        ]
+                        ],
+                        'sorting' => 0
                     ]
                 ]
             ],
@@ -777,7 +787,8 @@ class StorageRepositoryTest extends BaseTestCase
                         'labels' => [],
                         'columns' => [
                             'tx_mask_palette_1',
-                        ]
+                        ],
+                        'sorting' => 0
                     ],
                     'element_2' => [
                         'key' => 'element_2',
@@ -789,7 +800,8 @@ class StorageRepositoryTest extends BaseTestCase
                         'labels' => [],
                         'columns' => [
                             'tx_mask_palette_2'
-                        ]
+                        ],
+                        'sorting' => 0
                     ]
                 ]
             ],
@@ -1428,80 +1440,30 @@ class StorageRepositoryTest extends BaseTestCase
         self::assertSame($expected, $storageRepository->findFirstNonEmptyLabel($table, $key));
     }
 
-    public function loadElementDataProvider(): array
+    public function loadElementDataProvider(): iterable
     {
-        return [
-            'Element with fields returned' => [
-                [
-                    'tt_content' => [
-                        'elements' => [
-                            'element1' => [
-                                'color' => '#000000',
-                                'icon' => 'fa-icon',
-                                'key' => 'element1',
-                                'label' => 'Element 1',
-                                'shortLabel' => 'My short Label',
-                                'description' => 'Element 1 Description',
-                                'columns' => [
-                                    'tx_mask_field1',
-                                    'tx_mask_field2',
-                                    'tx_mask_field3',
-                                ],
-                                'labels' => [
-                                    'Field 1',
-                                    'Field 2',
-                                    'Field 3',
-                                ]
-                            ]
-                        ],
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'input'
-                                ],
-                                'key' => 'field1',
-                                'name' => 'string',
-                                'description' => 'Field 1 Description'
+        yield 'Element with fields returned' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'color' => '#000000',
+                            'icon' => 'fa-icon',
+                            'key' => 'element1',
+                            'label' => 'Element 1',
+                            'shortLabel' => 'My short Label',
+                            'description' => 'Element 1 Description',
+                            'columns' => [
+                                'tx_mask_field1',
+                                'tx_mask_field2',
+                                'tx_mask_field3',
                             ],
-                            'tx_mask_field2' => [
-                                'config' => [
-                                    'eval' => 'int',
-                                    'type' => 'input'
-                                ],
-                                'key' => 'field2',
-                                'name' => 'integer',
-                                'description' => 'Field 2 Description'
-                            ],
-                            'tx_mask_field3' => [
-                                'config' => [
-                                    'type' => 'input'
-                                ],
-                                'renderType' => 'inputLink',
-                                'key' => 'field3',
-                                'name' => 'link',
-                                'description' => 'Field 3 Description'
+                            'labels' => [
+                                'Field 1',
+                                'Field 2',
+                                'Field 3',
                             ]
                         ]
-                    ]
-                ],
-                'tt_content',
-                'element1',
-                [
-                    'color' => '#000000',
-                    'icon' => 'fa-icon',
-                    'key' => 'element1',
-                    'label' => 'Element 1',
-                    'shortLabel' => 'My short Label',
-                    'description' => 'Element 1 Description',
-                    'columns' => [
-                        'tx_mask_field1',
-                        'tx_mask_field2',
-                        'tx_mask_field3',
-                    ],
-                    'labels' => [
-                        'Field 1',
-                        'Field 2',
-                        'Field 3',
                     ],
                     'tca' => [
                         'tx_mask_field1' => [
@@ -1509,9 +1471,7 @@ class StorageRepositoryTest extends BaseTestCase
                                 'type' => 'input'
                             ],
                             'key' => 'field1',
-                            'fullKey' => 'tx_mask_field1',
                             'name' => 'string',
-                            'type' => 'string',
                             'description' => 'Field 1 Description'
                         ],
                         'tx_mask_field2' => [
@@ -1520,9 +1480,7 @@ class StorageRepositoryTest extends BaseTestCase
                                 'type' => 'input'
                             ],
                             'key' => 'field2',
-                            'fullKey' => 'tx_mask_field2',
                             'name' => 'integer',
-                            'type' => 'integer',
                             'description' => 'Field 2 Description'
                         ],
                         'tx_mask_field3' => [
@@ -1531,120 +1489,178 @@ class StorageRepositoryTest extends BaseTestCase
                             ],
                             'renderType' => 'inputLink',
                             'key' => 'field3',
-                            'fullKey' => 'tx_mask_field3',
                             'name' => 'link',
-                            'type' => 'link',
                             'description' => 'Field 3 Description'
                         ]
                     ]
                 ]
             ],
-            'Element with no field returns only element' => [
-                [
-                    'tt_content' => [
-                        'elements' => [
-                            'element1' => [
-                                'color' => '#000000',
-                                'icon' => 'fa-icon',
-                                'key' => 'element1',
-                                'label' => 'Element 1',
-                                'description' => 'Element 1 Description',
-                            ]
+            'table' => 'tt_content',
+            'element' => 'element1',
+            'expected' => [
+                'color' => '#000000',
+                'icon' => 'fa-icon',
+                'key' => 'element1',
+                'label' => 'Element 1',
+                'shortLabel' => 'My short Label',
+                'description' => 'Element 1 Description',
+                'columns' => [
+                    'tx_mask_field1',
+                    'tx_mask_field2',
+                    'tx_mask_field3',
+                ],
+                'labels' => [
+                    'Field 1',
+                    'Field 2',
+                    'Field 3',
+                ],
+                'tca' => [
+                    'tx_mask_field1' => [
+                        'config' => [
+                            'type' => 'input'
                         ],
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'input'
-                                ],
-                                'key' => 'field1',
-                                'name' => 'string',
-                                'description' => 'Field 1 Description'
-                            ],
-                        ]
+                        'key' => 'field1',
+                        'fullKey' => 'tx_mask_field1',
+                        'name' => 'string',
+                        'type' => 'string',
+                        'description' => 'Field 1 Description'
+                    ],
+                    'tx_mask_field2' => [
+                        'config' => [
+                            'eval' => 'int',
+                            'type' => 'input'
+                        ],
+                        'key' => 'field2',
+                        'fullKey' => 'tx_mask_field2',
+                        'name' => 'integer',
+                        'type' => 'integer',
+                        'description' => 'Field 2 Description'
+                    ],
+                    'tx_mask_field3' => [
+                        'config' => [
+                            'type' => 'input'
+                        ],
+                        'renderType' => 'inputLink',
+                        'key' => 'field3',
+                        'fullKey' => 'tx_mask_field3',
+                        'name' => 'link',
+                        'type' => 'link',
+                        'description' => 'Field 3 Description'
                     ]
                 ],
-                'tt_content',
-                'element1',
-                [
-                    'color' => '#000000',
-                    'icon' => 'fa-icon',
-                    'key' => 'element1',
-                    'label' => 'Element 1',
-                    'shortLabel' => '',
-                    'description' => 'Element 1 Description',
-                    'columns' => [],
-                    'labels' => [],
-                    'tca' => []
-                ]
-            ],
-            'Non existing element returns empty array' => [
-                [
-                    'tt_content' => [
-                        'elements' => [
-                            'element1' => [
-                                'color' => '#000000',
-                                'icon' => 'fa-icon',
-                                'key' => 'element1',
-                                'label' => 'Element 1',
-                                'description' => 'Element 1 Description',
-                            ]
-                        ],
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'input'
-                                ],
-                                'key' => 'field1',
-                                'name' => 'string',
-                                'description' => 'Field 1 Description'
-                            ],
-                        ]
-                    ]
-                ],
-                'tt_content',
-                'element2',
-                []
-            ],
-            'Tables other than tt_content or pages return empty array' => [
-                [
-                    'tt_content' => [
-                        'elements' => [
-                            'element1' => [
-                                'color' => '#000000',
-                                'icon' => 'fa-icon',
-                                'key' => 'element1',
-                                'label' => 'Element 1',
-                                'description' => 'Element 1 Description',
-                            ]
-                        ],
-                        'tca' => [
-                            'tx_mask_repeating' => [
-                                'config' => [
-                                    'type' => 'inline'
-                                ],
-                                'key' => 'repeating',
-                                'name' => 'inline',
-                                'description' => 'Field Inline Description'
-                            ],
+                'sorting' => 0
+            ]
+        ];
+
+        yield 'Element with no field returns only element' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'color' => '#000000',
+                            'icon' => 'fa-icon',
+                            'key' => 'element1',
+                            'label' => 'Element 1',
+                            'description' => 'Element 1 Description',
                         ]
                     ],
-                    'tx_mask_repeating' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'input'
-                                ],
-                                'key' => 'field1',
-                                'name' => 'string',
-                                'description' => 'Field 1 Description'
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'input'
                             ],
+                            'key' => 'field1',
+                            'name' => 'string',
+                            'description' => 'Field 1 Description'
+                        ],
+                    ]
+                ]
+            ],
+            'table' => 'tt_content',
+            'element' => 'element1',
+            'expected' => [
+                'color' => '#000000',
+                'icon' => 'fa-icon',
+                'key' => 'element1',
+                'label' => 'Element 1',
+                'shortLabel' => '',
+                'description' => 'Element 1 Description',
+                'columns' => [],
+                'labels' => [],
+                'tca' => [],
+                'sorting' => 0
+            ]
+        ];
+
+        yield 'Non existing element returns empty array' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'color' => '#000000',
+                            'icon' => 'fa-icon',
+                            'key' => 'element1',
+                            'label' => 'Element 1',
+                            'description' => 'Element 1 Description',
                         ]
+                    ],
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'field1',
+                            'name' => 'string',
+                            'description' => 'Field 1 Description'
+                        ],
+                    ]
+                ]
+            ],
+            'table' => 'tt_content',
+            'element' => 'element2',
+            'expected' => [],
+            'sorting' => 0
+        ];
+
+        yield 'Tables other than tt_content or pages return empty array' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'color' => '#000000',
+                            'icon' => 'fa-icon',
+                            'key' => 'element1',
+                            'label' => 'Element 1',
+                            'description' => 'Element 1 Description',
+                        ]
+                    ],
+                    'tca' => [
+                        'tx_mask_repeating' => [
+                            'config' => [
+                                'type' => 'inline'
+                            ],
+                            'key' => 'repeating',
+                            'name' => 'inline',
+                            'description' => 'Field Inline Description'
+                        ],
                     ]
                 ],
-                'tx_mask_repeating',
-                'element2',
-                []
-            ]
+                'tx_mask_repeating' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'field1',
+                            'name' => 'string',
+                            'description' => 'Field 1 Description'
+                        ],
+                    ]
+                ]
+            ],
+            'table' => 'tx_mask_repeating',
+            'element' => 'element2',
+            'expected' => []
         ];
     }
 

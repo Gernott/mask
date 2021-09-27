@@ -132,6 +132,7 @@ class JsonSplitLoader implements LoaderInterface
         }
 
         $tableDefinition = $tableDefinitionCollection->getTable($table);
+        $sorting = 0;
         foreach ($tableDefinition->elements as $element) {
             $elementTableDefinitionCollection = new TableDefinitionCollection();
             $newElementsDefinitionCollection = new ElementDefinitionCollection();
@@ -144,7 +145,14 @@ class JsonSplitLoader implements LoaderInterface
             $newTcaDefinition->table = $table;
             $newSqlDefinition->table = $table;
             $newElementsDefinitionCollection->table = $table;
+
+            // If element had no sorting before, add it here.
+            if ($sorting > 0 && $element->sorting === 0) {
+                $element->sorting = $sorting;
+            }
+
             $newElementsDefinitionCollection->addElement($element);
+            $sorting += 1;
 
             foreach ($element->columns as $column) {
                 $field = $tableDefinition->tca->getField($column);

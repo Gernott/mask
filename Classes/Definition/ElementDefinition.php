@@ -30,6 +30,7 @@ final class ElementDefinition
     // Options were used prior to v6 to identify fields like "rte"
     public $options = [];
     public $hidden = false;
+    public $sorting = 0;
 
     public static function createFromArray(array $elementArray, string $table): ElementDefinition
     {
@@ -53,6 +54,7 @@ final class ElementDefinition
         $elementDefinition->labels = $elementArray['labels'] ?? [];
         $elementDefinition->options = $elementArray['options'] ?? [];
         $elementDefinition->hidden = !empty($elementArray['hidden']);
+        $elementDefinition->sorting = $elementArray['sorting'] ?? 0;
 
         return $elementDefinition;
     }
@@ -67,7 +69,8 @@ final class ElementDefinition
             'color' => $this->color,
             'icon' => $this->icon,
             'columns' => $this->columns,
-            'labels' => $this->labels
+            'labels' => $this->labels,
+            'sorting' => $this->sorting
         ];
 
         if ($this->hidden) {

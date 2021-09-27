@@ -39,7 +39,8 @@
 				"labels": [
 					"A",
 					"Repeat1"
-				]
+				],
+				"sorting": 0
 			}
 		},
 		"sql": {

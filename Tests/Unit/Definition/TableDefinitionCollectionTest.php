@@ -462,6 +462,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                             'tx_mask_column_2',
                             'tx_mask_column_3'
                         ],
+                        'sorting' => 0
                     ]
                 ]
             ],
@@ -476,7 +477,8 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
                                     'tx_mask_column_3'
-                                ]
+                                ],
+                                'sorting' => 0
                             ],
                             'element_2' => [
                                 'key' => 'element_2',
@@ -485,7 +487,8 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                     'tx_mask_column_1',
                                     'tx_mask_column_5',
                                     'tx_mask_column_6'
-                                ]
+                                ],
+                                'sorting' => 0
                             ]
                         ],
                         'tca' => [
@@ -543,7 +546,8 @@ class TableDefinitionCollectionTest extends BaseTestCase
                             'tx_mask_column_1',
                             'tx_mask_column_2',
                             'tx_mask_column_3'
-                        ]
+                        ],
+                        'sorting' => 0
                     ],
                     'element_2' => [
                         'key' => 'element_2',
@@ -557,7 +561,8 @@ class TableDefinitionCollectionTest extends BaseTestCase
                             'tx_mask_column_1',
                             'tx_mask_column_5',
                             'tx_mask_column_6'
-                        ]
+                        ],
+                        'sorting' => 0
                     ]
                 ]
             ],
@@ -572,7 +577,8 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
                                     'tx_mask_column_3'
-                                ]
+                                ],
+                                'sorting' => 0
                             ],
                             'element_2' => [
                                 'key' => 'element_2',
@@ -581,7 +587,8 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                     'tx_mask_column_4',
                                     'tx_mask_column_5',
                                     'tx_mask_column_6'
-                                ]
+                                ],
+                                'sorting' => 0
                             ]
                         ],
                         'tca' => [
@@ -639,7 +646,8 @@ class TableDefinitionCollectionTest extends BaseTestCase
                             'tx_mask_column_1',
                             'tx_mask_column_2',
                             'tx_mask_column_3'
-                        ]
+                        ],
+                        'sorting' => 0
                     ]
                 ]
             ],
@@ -696,7 +704,8 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'labels' => [],
                         'columns' => [
                             'tx_mask_column_1',
-                        ]
+                        ],
+                        'sorting' => 0
                     ],
                     'element_2' => [
                         'key' => 'element_2',
@@ -708,7 +717,8 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'labels' => [],
                         'columns' => [
                             'tx_mask_palette_1'
-                        ]
+                        ],
+                        'sorting' => 0
                     ]
                 ]
             ],
@@ -775,7 +785,8 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'labels' => [],
                         'columns' => [
                             'tx_mask_palette_1',
-                        ]
+                        ],
+                        'sorting' => 0
                     ],
                     'element_2' => [
                         'key' => 'element_2',
@@ -787,7 +798,8 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'labels' => [],
                         'columns' => [
                             'tx_mask_palette_2'
-                        ]
+                        ],
+                        'sorting' => 0
                     ]
                 ]
             ],
@@ -1533,7 +1545,8 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'type' => 'link',
                         'description' => 'Field 3 Description'
                     ]
-                ]
+                ],
+                'sorting' => 0
             ]
         ];
 
@@ -1572,7 +1585,8 @@ class TableDefinitionCollectionTest extends BaseTestCase
                 'description' => 'Element 1 Description',
                 'columns' => [],
                 'labels' => [],
-                'tca' => []
+                'tca' => [],
+                'sorting' => 0
             ]
         ];
 
@@ -1602,7 +1616,8 @@ class TableDefinitionCollectionTest extends BaseTestCase
             ],
             'table' => 'tt_content',
             'element' => 'element2',
-            'expected' => []
+            'expected' => [],
+            'sorting' => 0
         ];
 
         yield 'Tables other than tt_content or pages return empty array' => [

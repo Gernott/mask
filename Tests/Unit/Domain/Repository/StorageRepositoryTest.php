@@ -75,7 +75,8 @@ class StorageRepositoryTest extends BaseTestCase
                                 'Field 1',
                                 'Field 2',
                                 'Header'
-                            ]
+                            ],
+                            'sorting' => 1
                         ]
                     ],
                     'sql' => [
@@ -153,7 +154,8 @@ class StorageRepositoryTest extends BaseTestCase
                             ],
                             'labels' => [
                                 'Header 1',
-                            ]
+                            ],
+                            'sorting' => 1
                         ]
                     ],
                     'tca' => [
@@ -210,7 +212,8 @@ class StorageRepositoryTest extends BaseTestCase
                             ],
                             'labels' => [
                                 'Inline Field',
-                            ]
+                            ],
+                            'sorting' => 1
                         ]
                     ],
                     'sql' => [
@@ -298,6 +301,7 @@ class StorageRepositoryTest extends BaseTestCase
                             'labels' => [
                                 'Timestamp',
                             ],
+                            'sorting' => 1
                         ]
                     ],
                     'sql' => [
@@ -353,7 +357,8 @@ class StorageRepositoryTest extends BaseTestCase
                             ],
                             'labels' => [
                                 'Inline Field',
-                            ]
+                            ],
+                            'sorting' => 1
                         ]
                     ],
                     'sql' => [
@@ -424,7 +429,8 @@ class StorageRepositoryTest extends BaseTestCase
                             ],
                             'labels' => [
                                 'My Palette',
-                            ]
+                            ],
+                            'sorting' => 1
                         ]
                     ],
                     'palettes' => [
@@ -529,7 +535,8 @@ class StorageRepositoryTest extends BaseTestCase
                             ],
                             'labels' => [
                                 'Inline Field',
-                            ]
+                            ],
+                            'sorting' => 1
                         ]
                     ],
                     'sql' => [
@@ -617,7 +624,7 @@ class StorageRepositoryTest extends BaseTestCase
                                 'Palette 1'
                             ],
                             'key' => 'element1',
-                            'label' => 'Element 1'
+                            'label' => 'Element 1',
                         ]
                     ],
                     'palettes' => [
@@ -715,7 +722,8 @@ class StorageRepositoryTest extends BaseTestCase
                             ],
                             'labels' => [
                                 'Palette 1',
-                            ]
+                            ],
+                            'sorting' => 0
                         ],
                         'element2' => [
                             'label' => 'Element 2',
@@ -725,7 +733,8 @@ class StorageRepositoryTest extends BaseTestCase
                             ],
                             'labels' => [
                                 'Palette 2',
-                            ]
+                            ],
+                            'sorting' => 1
                         ]
                     ],
                     'palettes' => [
@@ -805,6 +814,83 @@ class StorageRepositoryTest extends BaseTestCase
                             'type' => 'string'
                         ]
                     ]
+                ]
+            ]
+        ];
+
+        yield 'New content element added as last sorting' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'label' => 'Element 1',
+                            'key' => 'element1',
+                            'shortLabel' => '',
+                            'description' => '',
+                            'icon' => '',
+                            'color' => '#000000',
+                            'sorting' => 0
+                        ],
+                        'element2' => [
+                            'label' => 'Element 2',
+                            'key' => 'element2',
+                            'shortLabel' => '',
+                            'description' => '',
+                            'icon' => '',
+                            'color' => '#000000',
+                            'sorting' => 2
+                        ]
+                    ]
+                ]
+            ],
+            'element' => [
+                'label' => 'Element 3',
+                'key' => 'element3',
+                'shortLabel' => '',
+                'description' => '',
+                'icon' => '',
+                'color' => '#000000'
+            ],
+            'fields' => [],
+            'table' => 'tt_content',
+            'expected' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'label' => 'Element 1',
+                            'key' => 'element1',
+                            'shortLabel' => '',
+                            'description' => '',
+                            'icon' => '',
+                            'color' => '#000000',
+                            'columns' => [],
+                            'labels' => [],
+                            'sorting' => 0
+                        ],
+                        'element2' => [
+                            'label' => 'Element 2',
+                            'key' => 'element2',
+                            'shortLabel' => '',
+                            'description' => '',
+                            'icon' => '',
+                            'color' => '#000000',
+                            'columns' => [],
+                            'labels' => [],
+                            'sorting' => 2
+                        ],
+                        'element3' => [
+                            'label' => 'Element 3',
+                            'key' => 'element3',
+                            'shortLabel' => '',
+                            'description' => '',
+                            'icon' => '',
+                            'color' => '#000000',
+                            'sorting' => 3
+                        ]
+                    ],
+                    'sql' => [],
+                    'tca' => [],
+                    'palettes' => []
                 ]
             ]
         ];
@@ -1140,7 +1226,8 @@ class StorageRepositoryTest extends BaseTestCase
                                 'icon' => '',
                                 'labels' => [
                                     'Palette 2'
-                                ]
+                                ],
+                                'sorting' => 0
                             ]
                         ],
                         'tca' => [
