@@ -211,17 +211,12 @@ final class TableDefinitionCollection implements \IteratorAggregate
         $fieldDefinition = $this->loadField($table, $fieldKey);
 
         if ($fieldDefinition !== null && !$fieldDefinition->isCoreField) {
-            $tca = [];
-            // If type is already known, return it. No check here, as this can be trusted.
+            // If type is already known, return it.
             if ($fieldDefinition->type) {
                 return (string)$fieldDefinition->type;
             }
-            // Load the fields TCA, if not core field.
-            if (!$fieldDefinition->isCoreField) {
-                $tca = $fieldDefinition->toArray();
-            }
 
-            return FieldTypeUtility::getFieldType($tca, $fieldDefinition->fullKey);
+            return FieldTypeUtility::getFieldType($fieldDefinition->toArray(), $fieldDefinition->fullKey);
         }
 
         // If field could not be found in field definition, check for global TCA.

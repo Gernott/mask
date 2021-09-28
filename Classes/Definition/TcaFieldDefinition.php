@@ -58,47 +58,11 @@ final class TcaFieldDefinition
         }
 
         $tcaFieldDefinition = new self();
-        $tcaFieldDefinition->key = $key;
-        // options was used for identifying file fields prior to v6.
-        $fieldType = $definition['type'] ?? $definition['name'] ?? $definition['options'] ?? null;
-        if ($fieldType !== null) {
-            $tcaFieldDefinition->type = FieldType::cast($fieldType);
-        }
-        // "rte" was used to identify RTE fields prior to v6.
-        if (!$tcaFieldDefinition->type && !empty($definition['rte'])) {
-            $tcaFieldDefinition->type = FieldType::cast(FieldType::RICHTEXT);
-        }
-        // Since mask v7.0.0 the path for allowedFileExtensions has changed to root level. Keep this as fallback.
-        $tcaFieldDefinition->allowedFileExtensions = $definition['allowedFileExtensions'] ?? $definition['config']['filter']['0']['parameters']['allowedFileExtensions'] ?? '';
-        // Remove old path.
-        unset($definition['config']['filter']['0']['parameters']['allowedFileExtensions']);
-        $tcaFieldDefinition->inPalette = (bool)($definition['inPalette'] ?? false);
-        $tcaFieldDefinition->cTypes = $definition['cTypes'] ?? [];
-        // If imageoverlayPalette is not set (because of updates to newer version) fallback to default behaviour.
-        if (isset($definition['imageoverlayPalette'])) {
-            $tcaFieldDefinition->imageoverlayPalette = (bool)$definition['imageoverlayPalette'];
-        } elseif ($tcaFieldDefinition->type && $tcaFieldDefinition->type->equals(FieldType::FILE)) {
-            $tcaFieldDefinition->imageoverlayPalette = true;
-        }
-        $tcaFieldDefinition->inlineIcon = $definition['ctrl']['iconfile'] ?? $definition['inlineIcon'] ?? '';
-        $tcaFieldDefinition->inlineLabel = $definition['ctrl']['label'] ?? $definition['inlineLabel'] ?? '';
-        $tcaFieldDefinition->realTca = self::extractRealTca($definition);
+
         // Prior to v6, core fields were determined by empty config array.
-        $tcaFieldDefinition->isCoreField = isset($definition['coreField']) || !isset($tcaFieldDefinition->realTca['config']);
+        $tcaFieldDefinition->isCoreField = isset($definition['coreField']) || !isset($definition['config']);
 
-        // If the field is not a core field and the field type couldn't be resolved by now, resolve type by tca config.
-        if (!$tcaFieldDefinition->type && !$tcaFieldDefinition->isCoreField) {
-            $tcaFieldDefinition->type = FieldType::cast(FieldTypeUtility::getFieldType($tcaFieldDefinition->toArray(), $tcaFieldDefinition->fullKey));
-        }
-
-        // Backwards compatibility for Link "allowedExtensions"
-        if ($tcaFieldDefinition->type && $tcaFieldDefinition->type->equals(FieldType::LINK)) {
-            if (isset($tcaFieldDefinition->realTca['config']['wizards']['link']['params']['allowedExtensions'])) {
-                $tcaFieldDefinition->realTca['config']['fieldControl']['linkPopup']['options']['allowedExtensions'] = $tcaFieldDefinition->realTca['config']['wizards']['link']['params']['allowedExtensions'];
-                unset($tcaFieldDefinition->realTca['config']['wizards']);
-            }
-        }
-
+        $tcaFieldDefinition->key = $key;
         // Set full key with mask prefix if not core field
         $tcaFieldDefinition->fullKey = $definition['fullKey'] ?? '';
         if ($tcaFieldDefinition->fullKey === '') {
@@ -107,6 +71,49 @@ final class TcaFieldDefinition
             } else {
                 $tcaFieldDefinition->fullKey = AffixUtility::addMaskPrefix($tcaFieldDefinition->key);
             }
+        }
+
+        $tcaFieldDefinition->inPalette = (bool)($definition['inPalette'] ?? false);
+        $tcaFieldDefinition->cTypes = $definition['cTypes'] ?? [];
+
+        // "inlineIcon" and "inlineLabel" renamed to ctrl.iconfile and ctrl.label in Mask v7.0.
+        $tcaFieldDefinition->inlineIcon = $definition['ctrl']['iconfile'] ?? $definition['inlineIcon'] ?? '';
+        $tcaFieldDefinition->inlineLabel = $definition['ctrl']['label'] ?? $definition['inlineLabel'] ?? '';
+
+        // Since mask v7.0.0 the path for allowedFileExtensions has changed to root level. Keep this as fallback.
+        $tcaFieldDefinition->allowedFileExtensions = $definition['allowedFileExtensions'] ?? $definition['config']['filter']['0']['parameters']['allowedFileExtensions'] ?? '';
+        unset($definition['config']['filter']['0']['parameters']['allowedFileExtensions']);
+
+        // Migration for Link "allowedExtensions"
+        if (isset($definition['config']['wizards']['link']['params']['allowedExtensions'])) {
+            $definition['config']['fieldControl']['linkPopup']['options']['allowedExtensions'] = $definition['config']['wizards']['link']['params']['allowedExtensions'];
+            unset($definition['config']['wizards']);
+        }
+
+        // Now config is clean. Extract real TCA.
+        $tcaFieldDefinition->realTca = self::extractRealTca($definition);
+
+        // Type resolving.
+        // "options" was used for identifying file fields prior to v6.
+        // "name" was renamed to "type" in mask 7.1.
+        $fieldType = $definition['type'] ?? $definition['name'] ?? $definition['options'] ?? null;
+        if ($fieldType !== null) {
+            $tcaFieldDefinition->type = FieldType::cast($fieldType);
+        }
+        // "rte" was used to identify RTE fields prior to v6.
+        if (!$tcaFieldDefinition->type && !empty($definition['rte'])) {
+            $tcaFieldDefinition->type = FieldType::cast(FieldType::RICHTEXT);
+        }
+        // If the field is not a core field and the field type couldn't be resolved by now, resolve type by tca config.
+        if (!$tcaFieldDefinition->type && !$tcaFieldDefinition->isCoreField) {
+            $tcaFieldDefinition->type = FieldType::cast(FieldTypeUtility::getFieldType($tcaFieldDefinition->toArray(), $tcaFieldDefinition->fullKey));
+        }
+
+        // If imageoverlayPalette is not set (because of updates to newer version), fallback to default behaviour.
+        if (isset($definition['imageoverlayPalette'])) {
+            $tcaFieldDefinition->imageoverlayPalette = (bool)$definition['imageoverlayPalette'];
+        } elseif ($tcaFieldDefinition->type && $tcaFieldDefinition->type->equals(FieldType::FILE)) {
+            $tcaFieldDefinition->imageoverlayPalette = true;
         }
 
         if (isset($definition['inlineParent'])) {
