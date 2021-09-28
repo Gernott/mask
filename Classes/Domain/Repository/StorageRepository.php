@@ -603,7 +603,7 @@ class StorageRepository implements SingletonInterface
         }
 
         // if field is in inline table or $GLOBALS["TCA"] is not yet filled, load tca from json
-        if (!$tca || !in_array($type, ['tt_content', 'pages'])) {
+        if (!$tca || !isset($tca['config']['type']) || !in_array($type, ['tt_content', 'pages'])) {
             $tca = $this->loadField($type, $fieldKey);
             if (!($tca['config'] ?? false)) {
                 $tca = $this->loadField($type, 'tx_mask_' . $fieldKey);
