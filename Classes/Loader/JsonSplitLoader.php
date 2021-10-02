@@ -112,7 +112,6 @@ class JsonSplitLoader implements LoaderInterface
         return $definitionArray;
     }
 
-
     protected function writeElementsForTable(TableDefinitionCollection $tableDefinitionCollection, string $table): void
     {
         if (!$tableDefinitionCollection->hasTable($table)) {
