@@ -1,86 +1,86 @@
 .mask-sidebar {
-  margin-bottom: 20px;
-  width: 350px;
-  max-width: 100%;
-  position: relative;
-  z-index: 1;
-
-  @media screen and (min-width: $bp-edit-flex) {
-    margin-right: 10px;
-    flex-shrink: 0;
-  }
-
-  @media screen and (min-width: $bp-desktop) {
-    margin-bottom: 0;
-  }
-
-  &__background {
-    background-color: $bg-light;
-    border: 1px solid $border-color;
-    position: sticky;
-    top: 10px;
-
-    @media screen and (min-width: $bp-laptop) {
-      min-height: calc(100vh - 20px);
-    }
-  }
-
-  &__inner {
-    display: flex;
-    flex-direction: column;
-  }
-
-  &__toolbar {
-    padding: 10px 10px 0;
-    margin-bottom: 10px;
-  }
-
-  &__content {
-    padding: 10px;
-    flex-grow: 1;
-  }
-
-  textarea {
+    margin-bottom: 20px;
+    width: 350px;
     max-width: 100%;
-  }
-
-  &__toggle-wrap {
-    display: flex;
-    margin-bottom: 10px;
-  }
-
-  &__toggle {
-    flex-grow: 1;
-    padding: 7px;
-    background-color: #ededed;
-    text-align: center;
-    cursor: pointer;
-    width: 50%;
     position: relative;
-    border: 1px solid $border-color;
+    z-index: 1;
 
-    &:first-child {
-      border-left: 0;
-      border-right: 0;
+    @media screen and (min-width: $bp-edit-flex) {
+        margin-right: 10px;
+        flex-shrink: 0;
     }
 
-    &:last-child {
-      border-right: 0;
+    @media screen and (min-width: $bp-desktop) {
+        margin-bottom: 0;
     }
 
-    &:hover {
-      background-color: #e1e0e0;
+    &__background {
+        background-color: $bg-light;
+        border: 1px solid $border-color;
+        position: sticky;
+        top: 10px;
+
+        @media screen and (min-width: $bp-laptop) {
+            min-height: calc(100vh - 20px);
+        }
     }
 
-    &.active {
-      background-color: $bg-light;
-      border-bottom: 0;
+    &__inner {
+        display: flex;
+        flex-direction: column;
     }
 
-    &.has-error {
-      &:before {
-        @extend %error;
-      }
+    &__toolbar {
+        padding: 10px 10px 0;
+        margin-bottom: 10px;
     }
-  }
+
+    &__content {
+        padding: 10px;
+        flex-grow: 1;
+    }
+
+    textarea {
+        max-width: 100%;
+    }
+
+    &__toggle-wrap {
+        display: flex;
+        margin-bottom: 10px;
+    }
+
+    &__toggle {
+        flex-grow: 1;
+        padding: 7px;
+        background-color: #ededed;
+        text-align: center;
+        cursor: pointer;
+        width: 50%;
+        position: relative;
+        border: 1px solid $border-color;
+
+        &:first-child {
+            border-left: 0;
+            border-right: 0;
+        }
+
+        &:last-child {
+            border-right: 0;
+        }
+
+        &:hover {
+            background-color: #e1e0e0;
+        }
+
+        &.active {
+            background-color: $bg-light;
+            border-bottom: 0;
+        }
+
+        &.has-error {
+            &:before {
+                @extend %error;
+            }
+        }
+    }
 }

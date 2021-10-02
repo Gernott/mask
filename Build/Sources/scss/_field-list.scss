@@ -1,28 +1,28 @@
 .mask-field-list {
-  background: none;
-  height: auto;
-  margin: 0;
-  border: 1px dashed #bbb;
-  padding: 10px;
-  background-color: #fff;
-
-  &--empty {
-    background: url('/typo3conf/ext/mask/Resources/Public/Images/empty.svg') no-repeat;
-    background-position: center 35%;
-    background-size: 300px;
-    background-color: #fff;
-  }
-
-  > .dragtarget {
-    display: block;
-    min-height: 438px;
-    padding: 0 0 40px;
+    background: none;
+    height: auto;
     margin: 0;
-    list-style: none;
-  }
+    border: 1px dashed #bbb;
+    padding: 10px;
+    background-color: #fff;
 
-  .mask-field--selectable {
-    width: 100%;
-    border: 1px dashed $border-color;
-  }
+    &--empty {
+        background: url('/typo3conf/ext/mask/Resources/Public/Images/empty.svg') no-repeat;
+        background-position: center 35%;
+        background-size: 300px;
+        background-color: #fff;
+    }
+
+    > .dragtarget {
+        display: block;
+        min-height: 438px;
+        padding: 0 0 40px;
+        margin: 0;
+        list-style: none;
+    }
+
+    .mask-field--selectable {
+        width: 100%;
+        border: 1px dashed $border-color;
+    }
 }

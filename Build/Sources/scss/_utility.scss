@@ -1,33 +1,33 @@
 %error {
-  font-family: FontAwesome;
-  font-size: 15px;
-  text-align: center;
-  content: "\f06a";
-  color: #c83c3c;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: -2px;
-  left: -3px;
-  width: 13px;
-  height: 13px;
-  border-radius: 50%;
-  background-color: #fff;
+    font-family: FontAwesome;
+    font-size: 15px;
+    text-align: center;
+    content: "\f06a";
+    color: #c83c3c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: -2px;
+    left: -3px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background-color: #fff;
 }
 
 .fa.fa-plus-circle {
-  color: #4c7e3a;
+    color: #4c7e3a;
 }
 
 .mask-heart {
-  color: $mask;
+    color: $mask;
 }
 
 .disable-pointer {
-  pointer-events: none;
+    pointer-events: none;
 }
 
 .mb-0 {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
