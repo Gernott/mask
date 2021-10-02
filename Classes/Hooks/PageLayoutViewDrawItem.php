@@ -25,13 +25,14 @@ use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\View\PageLayoutView;
 use TYPO3\CMS\Backend\View\PageLayoutViewDrawItemHookInterface;
+use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
  * Renders the backend preview of mask content elements
+ * @internal
  */
 class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
 {
@@ -77,81 +78,83 @@ class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
         array &$row
     ): void {
         // only render special backend preview if it is a mask element
-        if (AffixUtility::hasMaskCTypePrefix($row['CType'])) {
-            $elementKey = AffixUtility::removeCTypePrefix($row['CType']);
-
-            // fallback to prevent breaking change
-            $templatePathAndFilename = MaskUtility::getTemplatePath(
-                $this->maskExtensionConfiguration,
-                $elementKey,
-                false,
-                MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration['backend'])
-            );
-
-            if (file_exists($templatePathAndFilename)) {
-                // initialize view
-                $view = GeneralUtility::makeInstance(StandaloneView::class);
-
-                // Load the backend template
-                $view->setTemplatePathAndFilename($templatePathAndFilename);
-
-                // if there are paths for layouts and partials set, add them to view
-                if (!empty($this->maskExtensionConfiguration['layouts_backend'])) {
-                    $layoutRootPath = MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration['layouts_backend']);
-                    $view->setLayoutRootPaths([$layoutRootPath]);
-                }
-                if (!empty($this->maskExtensionConfiguration['partials_backend'])) {
-                    $partialRootPath = MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration['partials_backend']);
-                    $view->setPartialRootPaths([$partialRootPath]);
-                }
-
-                // Fetch and assign some useful variables
-                $data = $this->getContentObject($row['uid']);
-                $view->assign('row', $row);
-                $view->assign('data', $data);
-
-                // if the elementLabel contains LLL: then translate it
-                $elementLabel = $this->tableDefinitionCollection->loadElement('tt_content', $elementKey)->elementDefinition->label;
-                if (GeneralUtility::isFirstPartOfStr($elementLabel, 'LLL:')) {
-                    $elementLabel = LocalizationUtility::translate($elementLabel, 'mask');
-                }
-
-                // Render everything
-                $content = $view->render();
-                $editElementUrlParameters = [
-                    'edit' => [
-                        'tt_content' => [
-                            $row['uid'] => 'edit'
-                        ]
-                    ],
-                    'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI')
-                ];
-
-                $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
-                $editElementUrl = $uriBuilder->buildUriFromRoute('record_edit', $editElementUrlParameters);
-                $headerContent = '<strong><a href="' . $editElementUrl . '">' . $elementLabel . '</a></strong><br>';
-                $itemContent .= '<div class="content_preview content_preview_' . $elementKey . '">';
-                $itemContent .= $content;
-                $itemContent .= '</div>';
-                $drawItem = false;
-            }
+        if (!AffixUtility::hasMaskCTypePrefix($row['CType'])) {
+            return;
         }
-    }
 
-    /**
-     * Returns an array with properties of content element with given uid
-     *
-     * @param int $uid of content element to get
-     * @return array with all properties of given content element uid
-     * @throws Exception
-     * @throws \Exception
-     */
-    protected function getContentObject(int $uid): array
-    {
-        $data = BackendUtility::getRecordWSOL('tt_content', $uid);
+        $elementKey = AffixUtility::removeCTypePrefix($row['CType']);
+        $elementTcaDefinition = $this->tableDefinitionCollection->loadElement('tt_content', $elementKey);
+        // If the Mask element couldn't be found, provide a proper error message.
+        if (!$elementTcaDefinition) {
+            $drawItem = false;
+            $itemContent = '<span class="label label-warning">' . LocalizationUtility::translate('tx_mask.error.mask_definition_missing', 'mask', [$elementKey]) . '</span>';
+            return;
+        }
+
+        // fallback to prevent breaking change
+        $templatePathAndFilename = MaskUtility::getTemplatePath(
+            $this->maskExtensionConfiguration,
+            $elementKey,
+            false,
+            MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration['backend'])
+        );
+
+        // User defined backend preview exists. Turn off TYPO3 auto preview.
+        if (!file_exists($templatePathAndFilename)) {
+            return;
+        }
+
+        // Turn off TYPO3 auto preview rendering.
+        $drawItem = false;
+
+        // initialize view
+        $view = GeneralUtility::makeInstance(StandaloneView::class);
+
+        // Load the backend template
+        $view->setTemplatePathAndFilename($templatePathAndFilename);
+
+        // if there are paths for layouts and partials set, add them to the view
+        if (!empty($this->maskExtensionConfiguration['layouts_backend'])) {
+            $layoutRootPath = MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration['layouts_backend']);
+            $view->setLayoutRootPaths([$layoutRootPath]);
+        }
+        if (!empty($this->maskExtensionConfiguration['partials_backend'])) {
+            $partialRootPath = MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration['partials_backend']);
+            $view->setPartialRootPaths([$partialRootPath]);
+        }
+
+        // Fetch and assign some useful variables
+        $data = BackendUtility::getRecordWSOL('tt_content', (int)$row['uid']);
         $this->inlineHelper->addFilesToData($data);
         $this->inlineHelper->addIrreToData($data);
 
-        return $data;
+        $view->assign('row', $row);
+        $view->assign('data', $data);
+
+        // Translate element label
+        $elementLabel = $this->getLanguageService()->sL($elementTcaDefinition->elementDefinition->label);
+
+        // Render everything
+        $content = $view->render();
+        $editElementUrlParameters = [
+            'edit' => [
+                'tt_content' => [
+                    $row['uid'] => 'edit'
+                ]
+            ],
+            'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI')
+        ];
+
+        $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
+        $editElementUrl = $uriBuilder->buildUriFromRoute('record_edit', $editElementUrlParameters);
+        $headerContent = '<strong><a href="' . $editElementUrl . '">' . $elementLabel . '</a></strong><br>';
+        $itemContent .= '<div class="content_preview content_preview_' . $elementKey . '">';
+        $itemContent .= $content;
+        $itemContent .= '</div>';
+    }
+
+    protected function getLanguageService(): LanguageService
+    {
+        return $GLOBALS['LANG'];
     }
 }
