@@ -41,7 +41,7 @@ class JsonSplitLoader implements LoaderInterface
      */
     protected $maskExtensionConfiguration;
 
-    const FOLDER_KEYS = [
+    private const FOLDER_KEYS = [
         'tt_content' => 'content_elements_folder',
         'pages' => 'backend_layouts_folder'
     ];
@@ -49,13 +49,11 @@ class JsonSplitLoader implements LoaderInterface
     public function __construct(array $maskExtensionConfiguration)
     {
         $this->maskExtensionConfiguration = $maskExtensionConfiguration;
-        if ($this->getPath('tt_content') === '') {
-            throw new \InvalidArgumentException(sprintf('The path to "%s" must not be empty.', self::FOLDER_KEYS['tt_content']), 1628599914);
-        }
     }
 
     public function load(): TableDefinitionCollection
     {
+        $this->checkIfPathIsDefined('tt_content');
         if ($this->tableDefinitionCollection === null) {
             $contentElementsFolder = $this->getAbsolutePath('tt_content');
             if (!file_exists($contentElementsFolder)) {
@@ -74,14 +72,31 @@ class JsonSplitLoader implements LoaderInterface
         return $this->tableDefinitionCollection;
     }
 
+    public function write(TableDefinitionCollection $tableDefinitionCollection): void
+    {
+        // Write content elements and backend layouts
+        $this->writeElementsForTable($tableDefinitionCollection, 'tt_content');
+        $this->writeElementsForTable($tableDefinitionCollection, 'pages');
+
+        // Save new definition in memory.
+        $this->tableDefinitionCollection = $tableDefinitionCollection;
+    }
+
+    protected function checkIfPathIsDefined(string $table): void
+    {
+        if ($this->getPath($table) === '') {
+            throw new \InvalidArgumentException(sprintf('The path to "%s" in your extension configuration must not be empty.', self::FOLDER_KEYS[$table]), 1628599914);
+        }
+    }
+
     protected function getPath(string $table): string
     {
-        return $this->maskExtensionConfiguration[self::FOLDER_KEYS[$table]];
+        return $this->maskExtensionConfiguration[self::FOLDER_KEYS[$table]] ?? '';
     }
 
     protected function getAbsolutePath(string $table): string
     {
-        return MaskUtility::getFileAbsFileName($this->getPath($table)) . '/';
+        return MaskUtility::getFileAbsFileName($this->getPath($table));
     }
 
     protected function mergeElementDefinitions(array &$definitionArray, string $folder): array
@@ -97,15 +112,6 @@ class JsonSplitLoader implements LoaderInterface
         return $definitionArray;
     }
 
-    public function write(TableDefinitionCollection $tableDefinitionCollection): void
-    {
-        // Write content elements and backend layouts
-        $this->writeElementsForTable($tableDefinitionCollection, 'tt_content');
-        $this->writeElementsForTable($tableDefinitionCollection, 'pages');
-
-        // Save new definition in memory.
-        $this->tableDefinitionCollection = $tableDefinitionCollection;
-    }
 
     protected function writeElementsForTable(TableDefinitionCollection $tableDefinitionCollection, string $table): void
     {
@@ -113,6 +119,7 @@ class JsonSplitLoader implements LoaderInterface
             return;
         }
 
+        $this->checkIfPathIsDefined($table);
         $absolutePath = $this->getAbsolutePath($table);
 
         $elements = [];
@@ -196,7 +203,7 @@ class JsonSplitLoader implements LoaderInterface
             $elementTableDefinitionCollection->addTable($newTableDefinition);
 
             // @todo replace with JSON_THROW_ON_ERROR in Mask v8.0
-            GeneralUtility::writeFile($absolutePath . $element->key . '.json', json_encode($elementTableDefinitionCollection->toArray(), 4194304 | JSON_PRETTY_PRINT));
+            GeneralUtility::writeFile($absolutePath . '/' . $element->key . '.json', json_encode($elementTableDefinitionCollection->toArray(), 4194304 | JSON_PRETTY_PRINT) . "\n");
         }
     }
 }

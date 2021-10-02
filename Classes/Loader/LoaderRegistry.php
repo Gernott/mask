@@ -57,7 +57,12 @@ class LoaderRegistry
 
     public function getActivateLoader(): LoaderInterface
     {
-        $identifier = $this->maskExtensionConfiguration['loader_identifier'];
+        $identifier = $this->maskExtensionConfiguration['loader_identifier'] ?? '';
+
+        // Fallback to JsonLoader.
+        if ($identifier === '') {
+            return $this->loaders['json'];
+        }
 
         if (!$this->hasLoader($identifier)) {
             throw new \InvalidArgumentException(
