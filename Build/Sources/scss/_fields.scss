@@ -11,7 +11,12 @@
         margin-right: 10px;
     }
 
+    @media screen and (min-width: $bp-laptop) {
+        width: 380px;
+    }
+
     @media screen and (min-width: $bp-desktop) {
+        width: 480px;
         margin-bottom: 0;
     }
 

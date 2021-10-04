@@ -35,6 +35,7 @@
         min-height: 37px;
         flex-grow: 1;
         background-color: #fff;
+        width: calc(100% - 37px);
     }
 
     &__row {
@@ -45,12 +46,12 @@
     &__actions {
         padding-right: 10px;
         text-align: right;
-        width: 69px;
         margin-left: auto;
     }
 
     &__text {
         padding-left: 13px;
+        width: calc(100% - 37px - 36px);
     }
 
     &__label {

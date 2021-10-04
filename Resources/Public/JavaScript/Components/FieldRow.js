@@ -34,6 +34,20 @@ define([
           hideTooltip() {
             Tooltip.hide($(this.$refs['row' + this.index]));
           },
+          setActiveField() {
+            this.global.activeField = this.field;
+            this.global.currentTab = 'general';
+            this.loadMultiUse();
+            if (window.innerWidth < 1100) {
+              // Wait a bit until the Form is rerendered.
+              // @todo Use an updated event for this.
+              setTimeout(function () {
+                document.querySelector('.mask-field-form').scrollIntoView({
+                  behavior: 'smooth'
+                });
+              }, 50);
+            }
+          }
         },
         computed: {
           isMultiUse: function () {
@@ -41,7 +55,7 @@ define([
           }
         },
         template: `
-    <div :class="'field-row-' + fieldKey" class="mask-field__row" @click="global.activeField = field; global.currentTab = 'general'; loadMultiUse();">
+    <div :class="'field-row-' + fieldKey" class="mask-field__row" @click="setActiveField">
         <i v-if="isMultiUse" class="mask-field__multiuse fa fa-info-circle"></i>
         <div class="mask-field__image">
             <div v-html="field.icon"></div>

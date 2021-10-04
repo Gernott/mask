@@ -10,8 +10,13 @@
         flex-shrink: 0;
     }
 
+    @media screen and (min-width: $bp-laptop) {
+        width: 300px;
+    }
+
     @media screen and (min-width: $bp-desktop) {
         margin-bottom: 0;
+        width: 350px;
     }
 
     &__background {
