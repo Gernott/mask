@@ -20,6 +20,7 @@ namespace MASK\Mask\Utility;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility as CoreUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 
 /**
  * General useful methods
@@ -187,12 +188,12 @@ class GeneralUtility
             if ((string)$extKey !== '' && (string)$local !== '') {
                 $filename = Environment::getPublicPath() . '/typo3conf/ext/' . $extKey . '/' . $local;
             }
-        } elseif (!CoreUtility::isAbsPath($filename)) {
+        } elseif (!PathUtility::isAbsolutePath($filename)) {
             // is relative. Prepended with the public web folder
             $filename = Environment::getPublicPath() . '/' . $filename;
         } elseif (!(
-            CoreUtility::isFirstPartOfStr($filename, Environment::getProjectPath())
-            || CoreUtility::isFirstPartOfStr($filename, Environment::getPublicPath())
+            (function_exists('str_starts_with') ? str_starts_with($filename, Environment::getProjectPath()) : CoreUtility::isFirstPartOfStr($filename, Environment::getProjectPath()))
+            || (function_exists('str_starts_with') ? str_starts_with($filename, Environment::getPublicPath()) : CoreUtility::isFirstPartOfStr($filename, Environment::getPublicPath()))
         )) {
             // absolute, but set to blank if not allowed
             $filename = '';
