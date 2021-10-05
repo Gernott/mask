@@ -10,16 +10,16 @@ php:
 
 env:
   - TYPO3=^10.4
-  - TYPO3=~11.4.0
+  - TYPO3=~11.5.0
 
 jobs:
   exclude:
     - php: 8.0
       env: TYPO3=^10.4
     - php: 7.2
-      env: TYPO3=~11.4.0
+      env: TYPO3=~11.5.0
     - php: 7.3
-      env: TYPO3=~11.4.0
+      env: TYPO3=~11.5.0
 
 install: composer require typo3/cms-core:"$TYPO3"
 script: .Build/vendor/phpunit/phpunit/phpunit -c .Build/vendor/typo3/testing-framework/Resources/Core/Build/UnitTests.xml .Build/Web/typo3conf/ext/mask/Tests/Unit
