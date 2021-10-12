@@ -17,6 +17,11 @@ namespace Domain\Repository;
 
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Domain\Repository\StorageRepository;
+use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Package\PackageManager;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\TestingFramework\Core\BaseTestCase;
 
 class StorageRepositoryTest extends BaseTestCase
@@ -1364,6 +1369,9 @@ class StorageRepositoryTest extends BaseTestCase
      */
     public function add($json, $element, $fields, $table, $expected)
     {
+        $packageManager = $this->prophesize(PackageManager::class);
+        $packageManager->resolvePackagePath('EXT:mask/Configuration/Mask/Defaults.php')->willReturn(Environment::getProjectPath() . '/Configuration/Mask/Defaults.php');
+        ExtensionManagementUtility::setPackageManager($packageManager->reveal());
         $storageRepository = $this->createPartialMock(StorageRepository::class, ['load']);
         $storageRepository->expects(self::any())->method('load')->willReturn($json);
         self::assertEquals($expected, $storageRepository->add($element, $fields, $table));
