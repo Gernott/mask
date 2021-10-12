@@ -1369,9 +1369,12 @@ class StorageRepositoryTest extends BaseTestCase
      */
     public function add($json, $element, $fields, $table, $expected)
     {
-        $packageManager = $this->prophesize(PackageManager::class);
-        $packageManager->resolvePackagePath('EXT:mask/Configuration/Mask/Defaults.php')->willReturn(Environment::getProjectPath() . '/Configuration/Mask/Defaults.php');
-        ExtensionManagementUtility::setPackageManager($packageManager->reveal());
+        if (method_exists(PackageManager::class, 'resolvePackagePath')) {
+            $packageManager = $this->prophesize(PackageManager::class);
+            $packageManager->resolvePackagePath('EXT:mask/Configuration/Mask/Defaults.php')->willReturn(Environment::getProjectPath() . '/Configuration/Mask/Defaults.php');
+            ExtensionManagementUtility::setPackageManager($packageManager->reveal());
+        }
+
         $storageRepository = $this->createPartialMock(StorageRepository::class, ['load']);
         $storageRepository->expects(self::any())->method('load')->willReturn($json);
         self::assertEquals($expected, $storageRepository->add($element, $fields, $table));
