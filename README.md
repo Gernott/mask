@@ -46,7 +46,7 @@ That's it. Now you can start creating your own content elements!
 
 | Mask Version | TYPO3 Version | Release Date | Status              | More Info |
 |--------------|---------------|--------------|---------------------|-----------|
-| v7           | v10, v11.4    | 2021-05-12   | regular maintenance | [VueJS based Mask Backend](https://docs.typo3.org/p/mask/mask/master/en-us/ChangeLog/7.0/Index.html)|
+| v7           | v10, v11      | 2021-05-12   | regular maintenance | [VueJS based Mask Backend](https://docs.typo3.org/p/mask/mask/master/en-us/ChangeLog/7.0/Index.html)|
 | v6           | v10, v11.1    | 2020-10-08   | priority bugfixes   | [Palettes, Groups and more](https://docs.typo3.org/p/mask/mask/master/en-us/ChangeLog/6.0/Index.html)|
 | v5           | v10           | 2020-04-18   | discontinued        | Please update to v7                                                                            |
 | v4           | v9            | 2018-10-04   | occasional bugfixes |                                                                                                |

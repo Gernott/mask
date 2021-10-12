@@ -37,13 +37,13 @@ jobs:
 
     - name: "PHP 7.4 Unit"
       env:
-        - TYPO3=~11.4.0
+        - TYPO3=^11.5.0
         - PHP=7.4
         - TESTSUITE=unit
 
     - name: "PHP 8.0 Unit"
       env:
-        - TYPO3=~11.4.0
+        - TYPO3=^11.5.0
         - PHP=8.0
         - TESTSUITE=unit
 
@@ -67,12 +67,12 @@ jobs:
 
     - name: "PHP 7.4 Unit Deprecated"
       env:
-        - TYPO3=~11.4.0
+        - TYPO3=^11.5.0
         - PHP=7.4
         - TESTSUITE=unitDeprecated
 
     - name: "PHP 8.0 Unit Deprecated"
       env:
-        - TYPO3=~11.4.0
+        - TYPO3=^11.5.0
         - PHP=8.0
         - TESTSUITE=unitDeprecated
