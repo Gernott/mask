@@ -404,7 +404,7 @@ class AjaxController
                 'newField' => false,
             ];
 
-            $newField['key'] = $parent ? ($field['coreField'] ? $field['key'] : $field['maskKey']) : $key;
+            $newField['key'] = $parent ? (($field['coreField'] ?? false) ? $field['key'] : $field['maskKey']) : $key;
 
             if ($elementKey !== '') {
                 $newField['label'] = $this->getLabel($field, $table, $newField['key'], $elementKey);
