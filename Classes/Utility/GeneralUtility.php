@@ -26,21 +26,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility as CoreUtility;
 class GeneralUtility
 {
     /**
-     * Searches an array of strings and returns the first string, that is not a tab
-     */
-    public static function getFirstNoneTabField(array $fields): string
-    {
-        if (!empty($fields)) {
-            $potentialFirst = array_shift($fields);
-            if (!is_string($potentialFirst) || strpos($potentialFirst, '--div--') !== false) {
-                return self::getFirstNoneTabField($fields);
-            }
-            return $potentialFirst;
-        }
-        return '';
-    }
-
-    /**
      * Removes all the blank options from the tca
      */
     public static function removeBlankOptions(array $haystack): array

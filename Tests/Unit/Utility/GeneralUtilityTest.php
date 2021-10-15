@@ -199,29 +199,4 @@ class GeneralUtilityTest extends UnitTestCase
     {
         self::assertSame($expected, GeneralUtility::removeBlankOptions($array));
     }
-
-    public function getFirstNoneTabFieldDataProvider()
-    {
-        return [
-            'Tab is first element' => [
-                ['--div--;My Tab', 'tx_mask_the_field', 'tx_mask_another_field'],
-                'tx_mask_the_field'
-            ],
-            'Tab is not first element' => [
-                ['tx_mask_the_field', '--div--;My Tab', 'tx_mask_another_field'],
-                'tx_mask_the_field'
-            ]
-        ];
-    }
-
-    /**
-     * @test
-     * @dataProvider getFirstNoneTabFieldDataProvider
-     * @param $data
-     * @param $expected
-     */
-    public function getFirstNoneTabField($data, $expected)
-    {
-        self::assertSame($expected, GeneralUtility::getFirstNoneTabField($data));
-    }
 }

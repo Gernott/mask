@@ -23,7 +23,6 @@ use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\DateUtility;
-use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -433,7 +432,7 @@ class TcaCodeGenerator
         // take first field for inline label
         $labelField = '';
         if (!empty($fields)) {
-            $labelField = MaskUtility::getFirstNoneTabField($fields);
+            $labelField = $this->getFirstNoneTabField($fields);
             // If first field is palette, get label of first field in this palette.
             if (strpos($labelField, '--palette--;;') === 0) {
                 $palette = str_replace('--palette--;;', '', $labelField);
@@ -469,6 +468,22 @@ class TcaCodeGenerator
         if ($searchFields) {
             $GLOBALS['TCA'][$table]['ctrl']['searchFields'] .= ',' . implode(',', $searchFields);
         }
+    }
+
+    /**
+     * Searches an array of strings and returns the first string, that is not a tab
+     * @todo Move test cases to processTableTca and set protected.
+     */
+    public function getFirstNoneTabField(array $fields): string
+    {
+        if (!empty($fields)) {
+            $potentialFirst = array_shift($fields);
+            if (!is_string($potentialFirst) || strpos($potentialFirst, '--div--') !== false) {
+                return $this->getFirstNoneTabField($fields);
+            }
+            return $potentialFirst;
+        }
+        return '';
     }
 
     protected static function getTcaTemplate(): array

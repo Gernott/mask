@@ -1456,4 +1456,30 @@ class TcaCodeGeneratorTest extends BaseTestCase
         $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json));
         self::assertEquals($expected, array_keys($tcaGenerator->getPagePalettes($elementKey)));
     }
+
+    public function getFirstNoneTabFieldDataProvider()
+    {
+        return [
+            'Tab is first element' => [
+                ['--div--;My Tab', 'tx_mask_the_field', 'tx_mask_another_field'],
+                'tx_mask_the_field'
+            ],
+            'Tab is not first element' => [
+                ['tx_mask_the_field', '--div--;My Tab', 'tx_mask_another_field'],
+                'tx_mask_the_field'
+            ]
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider getFirstNoneTabFieldDataProvider
+     * @param $data
+     * @param $expected
+     */
+    public function getFirstNoneTabField($data, $expected)
+    {
+        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray([]));
+        self::assertSame($expected, $tcaGenerator->getFirstNoneTabField($data));
+    }
 }
