@@ -13,7 +13,6 @@ $EM_CONF[$_EXTKEY] = [
     'constraints' => [
         'depends' => [
             'typo3' => '10.4.16-11.5.99',
-            'extbase' => '10.4.16-11.5.99',
             'fluid' => '10.4.16-11.5.99',
             'fluid_styled_content' => '10.4.16-11.5.99'
         ],

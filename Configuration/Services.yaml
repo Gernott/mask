@@ -37,6 +37,27 @@ services:
     arguments:
       - 'mask'
 
+  querybuilder.backend_layout:
+    class: 'TYPO3\CMS\Core\Database\Query\QueryBuilder'
+    factory:
+      - '@TYPO3\CMS\Core\Database\ConnectionPool'
+      - 'getQueryBuilderForTable'
+    arguments:
+      - 'backend_layout'
+
+  querybuilder.pages:
+    class: 'TYPO3\CMS\Core\Database\Query\QueryBuilder'
+    factory:
+      - '@TYPO3\CMS\Core\Database\ConnectionPool'
+      - 'getQueryBuilderForTable'
+    arguments:
+      - 'pages'
+
+  MASK\Mask\Domain\Repository\BackendLayoutRepository:
+    arguments:
+      - '@querybuilder.backend_layout'
+      - '@querybuilder.pages'
+
   MASK\Mask\Controller\MaskController:
     tags: [ 'backend.controller' ]
 

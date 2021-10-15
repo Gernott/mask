@@ -21,35 +21,28 @@ use MASK\Mask\Backend\BackendLayoutView;
 use RuntimeException;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\View\BackendLayout\BackendLayout;
-use TYPO3\CMS\Core\Database\Connection;
-use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Imaging\IconRegistry;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
-use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
-use TYPO3\CMS\Extbase\Persistence\Repository;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
-/**
- * Repository for \TYPO3\CMS\Extbase\Domain\Model\BackendLayout.
- */
-class BackendLayoutRepository extends Repository
+class BackendLayoutRepository
 {
+    /**
+     * @var QueryBuilder
+     */
+    protected $backendLayoutQueryBuilder;
 
     /**
-     * @var BackendLayoutView
+     * @var QueryBuilder
      */
-    protected $backendLayoutView;
+    protected $pagesQueryBuilder;
 
-    /**
-     * Initializes the repository.
-     */
-    public function initializeObject(): void
+    public function __construct(QueryBuilder $backendLayoutQueryBuilder, QueryBuilder $pagesQueryBuilder)
     {
-        $querySettings = GeneralUtility::makeInstance(Typo3QuerySettings::class);
-        $querySettings->setRespectStoragePage(false);
-        $this->setDefaultQuerySettings($querySettings);
-        $this->backendLayoutView = GeneralUtility::makeInstance(BackendLayoutView::class);
+        $this->backendLayoutQueryBuilder = $backendLayoutQueryBuilder;
+        $this->pagesQueryBuilder = $pagesQueryBuilder;
     }
 
     /**
@@ -57,18 +50,19 @@ class BackendLayoutRepository extends Repository
      */
     public function findAll(array $pageTsPids = []): array
     {
+        $backendLayoutView = GeneralUtility::makeInstance(BackendLayoutView::class);
         $backendLayouts = [];
 
         // search all the pids for backend layouts defined in the pageTS
         foreach ($pageTsPids as $pid) {
             $pageTsConfig = BackendUtility::getPagesTSconfig($pid);
-            $dataProviderContext = $this->backendLayoutView->createDataProviderContext()
+            $dataProviderContext = $backendLayoutView->createDataProviderContext()
                 ->setPageId(0)
                 ->setFieldName('backend_layout')
                 ->setTableName('backend_layout')
                 ->setData([])
                 ->setPageTsConfig($pageTsConfig);
-            $backendLayoutCollections = $this->backendLayoutView->getDataProviderCollection()->getBackendLayoutCollections($dataProviderContext);
+            $backendLayoutCollections = $backendLayoutView->getDataProviderCollection()->getBackendLayoutCollections($dataProviderContext);
             foreach ($backendLayoutCollections['default']->getAll() as $backendLayout) {
                 $backendLayouts[$backendLayout->getIdentifier()] = $backendLayout;
             }
@@ -90,19 +84,22 @@ class BackendLayoutRepository extends Repository
         }
 
         // also search in the database for backendlayouts
-        $databaseBackendLayouts = parent::findAll();
-        /** @var \MASK\Mask\Domain\Model\BackendLayout $layout */
-        foreach ($databaseBackendLayouts as $layout) {
+        $statement = $this->backendLayoutQueryBuilder
+            ->from('backend_layout')
+            ->select('uid', 'title', 'description')
+            ->execute();
+
+        foreach ($statement->fetchAllAssociative() as $layout) {
             $backendLayout = new BackendLayout(
-                $layout->getUid(),
-                $layout->getTitle(),
+                $layout['uid'],
+                $layout['title'],
                 [
                     'backend_layout.' => [
                         'rows.' => []
                     ]
                 ]
             );
-            $backendLayout->setDescription($layout->getDescription());
+            $backendLayout->setDescription($layout['description']);
             $backendLayouts[$backendLayout->getIdentifier()] = $backendLayout;
         }
         return $backendLayouts;
@@ -113,17 +110,12 @@ class BackendLayoutRepository extends Repository
      */
     public function findIdentifierByPid(int $pid): ?string
     {
-        /** @var Connection $connection */
-        $connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable('pages');
-
-        $queryBuilder = $connection->createQueryBuilder();
-        $queryBuilder
+        $statement = $this->pagesQueryBuilder
             ->from('pages')
             ->select('backend_layout', 'backend_layout_next_level', 'uid')
-            ->where('uid = :pid')
-            ->setParameter('pid', $pid);
+            ->where($this->pagesQueryBuilder->expr()->eq('uid', $this->pagesQueryBuilder->createNamedParameter($pid, \PDO::PARAM_INT)))
+            ->execute();
 
-        $statement = $queryBuilder->execute();
         $data = $statement->fetchAssociative();
         $statement->free();
 
@@ -150,14 +142,5 @@ class BackendLayoutRepository extends Repository
             }
         }
         return null;
-    }
-
-    /**
-     * Returns a backendlayout or null, if not found
-     */
-    public function findByIdentifier($identifier, array $pageTsPids = []): ?BackendLayout
-    {
-        $backendLayouts = $this->findAll($pageTsPids);
-        return $backendLayouts[$identifier] ?? null;
     }
 }
