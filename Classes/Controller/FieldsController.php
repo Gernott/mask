@@ -113,7 +113,7 @@ class FieldsController
 
             // Convert old date format Y-m-d to d-m-Y
             $dbType = $field['config']['dbType'] ?? false;
-            if ($dbType && in_array($dbType, ['date', 'datetime'], true)) {
+            if (in_array($dbType, ['date', 'datetime'], true)) {
                 $lower = $field['config']['range']['lower'] ?? false;
                 $upper = $field['config']['range']['upper'] ?? false;
                 if ($lower && DateUtility::isOldDateFormat($lower)) {
