@@ -26,22 +26,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility as CoreUtility;
 class GeneralUtility
 {
     /**
-     * Removes all the blank options from the tca
-     */
-    public static function removeBlankOptions(array $haystack): array
-    {
-        foreach ($haystack as $key => $value) {
-            if (is_array($value)) {
-                $haystack[$key] = self::removeBlankOptions($value);
-            }
-            if ((is_array($haystack[$key]) && empty($haystack[$key])) || (is_string($haystack[$key]) && $haystack[$key] === '')) {
-                unset($haystack[$key]);
-            }
-        }
-        return $haystack;
-    }
-
-    /**
      * Check which template path to return
      */
     public static function getTemplatePath(

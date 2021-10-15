@@ -20,7 +20,6 @@ namespace MASK\Mask\Definition;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\FieldTypeUtility;
-use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 
 final class TcaFieldDefinition
 {
@@ -169,7 +168,7 @@ final class TcaFieldDefinition
             unset($definition['label']);
         }
 
-        $definition = MaskUtility::removeBlankOptions($definition);
+        $definition = self::removeBlankOptions($definition);
 
         return $definition;
     }
@@ -308,5 +307,21 @@ final class TcaFieldDefinition
     public function addInlineField(TcaFieldDefinition $definition): void
     {
         $this->inlineFields[] = $definition;
+    }
+
+    /**
+     * Removes all the blank options from the tca
+     */
+    protected static function removeBlankOptions(array $haystack): array
+    {
+        foreach ($haystack as $key => $value) {
+            if (is_array($value)) {
+                $haystack[$key] = self::removeBlankOptions($value);
+            }
+            if ((is_array($haystack[$key]) && empty($haystack[$key])) || (is_string($haystack[$key]) && $haystack[$key] === '')) {
+                unset($haystack[$key]);
+            }
+        }
+        return $haystack;
     }
 }
