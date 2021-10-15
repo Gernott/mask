@@ -471,7 +471,7 @@ class TcaCodeGenerator
         }
     }
 
-    public static function getTcaTemplate(): array
+    protected static function getTcaTemplate(): array
     {
         return [
             'ctrl' => [
