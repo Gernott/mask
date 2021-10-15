@@ -172,8 +172,8 @@ class AjaxController
         $isNew = (bool)$params['isNew'];
         $elementKey = $params['element']['key'];
         $fields = json_decode($params['fields'], true);
-        $this->storageRepository->update($params['element'], $fields, $params['type'], $isNew);
-        $this->generateAction();
+        $tableDefinitionCollection = $this->storageRepository->update($params['element'], $fields, $params['type'], $isNew);
+        $this->generateAction($tableDefinitionCollection);
         if ($params['type'] === 'tt_content') {
             $html = $this->htmlCodeGenerator->generateHtml($elementKey, $params['type']);
             $this->saveHtml($elementKey, $html);
@@ -198,8 +198,8 @@ class AjaxController
         if ($params['purge']) {
             $this->deleteHtml($params['key']);
         }
-        $this->storageRepository->persist($this->storageRepository->remove('tt_content', $params['key']));
-        $this->generateAction();
+        $tableDefinitionCollection = $this->storageRepository->persist($this->storageRepository->remove('tt_content', $params['key']));
+        $this->generateAction($tableDefinitionCollection);
         $this->addFlashMessage(LocalizationUtility::translate('tx_mask.content.deletedcontentelement', 'mask'));
         return new JsonResponse($this->getFlashMessageQueue()->getAllMessagesAndFlush());
     }
@@ -212,13 +212,13 @@ class AjaxController
     {
         $params = $request->getParsedBody();
         if ((int)$params['element']['hidden'] === 1) {
-            $this->storageRepository->activate('tt_content', $params['element']['key']);
+            $tableDefinitionCollection = $this->storageRepository->activate('tt_content', $params['element']['key']);
             $this->addFlashMessage(LocalizationUtility::translate('tx_mask.content.activatedcontentelement', 'mask'));
         } else {
-            $this->storageRepository->hide('tt_content', $params['element']['key']);
+            $tableDefinitionCollection = $this->storageRepository->hide('tt_content', $params['element']['key']);
             $this->addFlashMessage(LocalizationUtility::translate('tx_mask.content.hiddencontentelement', 'mask'));
         }
-        $this->generateAction();
+        $this->generateAction($tableDefinitionCollection);
         return new JsonResponse($this->getFlashMessageQueue()->getAllMessagesAndFlush());
     }
 
@@ -715,11 +715,11 @@ class AjaxController
     /**
      * Generates all the necessary files
      */
-    protected function generateAction(): void
+    protected function generateAction(TableDefinitionCollection $tableDefinitionCollection): void
     {
         // Set tca to enable DefaultTcaSchema for new inline tables
         $tcaCodeGenerator = GeneralUtility::makeInstance(TcaCodeGenerator::class);
-        $tcaCodeGenerator->setInlineTca();
+        $tcaCodeGenerator->setInlineTca($tableDefinitionCollection);
 
         // Update Database
         $result = $this->sqlCodeGenerator->updateDatabase();

@@ -81,19 +81,21 @@ class StorageRepository implements SingletonInterface
     /**
      * Persist content elements
      */
-    public function write(array $json): void
+    public function write(array $json): TableDefinitionCollection
     {
-        $this->loader->write(TableDefinitionCollection::createFromArray($json));
+        $tableDefinitionCollection = TableDefinitionCollection::createFromArray($json);
+        $this->loader->write($tableDefinitionCollection);
+        return $tableDefinitionCollection;
     }
 
     /**
      * Sort and persist content elements.
      */
-    public function persist(array $json): void
+    public function persist(array $json): TableDefinitionCollection
     {
         // sort content elements by key before saving
         $this->sortJson($json);
-        $this->write($json);
+        return $this->write($json);
     }
 
     /**
@@ -146,37 +148,37 @@ class StorageRepository implements SingletonInterface
     /**
      * Updates Content-Element in Storage-Repository
      */
-    public function update(array $element, array $fields, string $table, bool $isNew): void
+    public function update(array $element, array $fields, string $table, bool $isNew): TableDefinitionCollection
     {
         if (!$isNew) {
             $json = $this->remove($table, $element['key']);
             $this->persist($json);
         }
-        $this->persist($this->add($element, $fields, $table));
+        return $this->persist($this->add($element, $fields, $table));
     }
 
     /**
      * Hides Content-Element
      */
-    public function hide(string $table, string $elementKey): void
+    public function hide(string $table, string $elementKey): TableDefinitionCollection
     {
         // Load
         $json = $this->load();
         $json[$table]['elements'][$elementKey]['hidden'] = 1;
         $this->sortJson($json);
-        $this->write($json);
+        return $this->write($json);
     }
 
     /**
      * Activates Content-Element
      */
-    public function activate(string $table, string $elementKey): void
+    public function activate(string $table, string $elementKey): TableDefinitionCollection
     {
         // Load
         $json = $this->load();
         unset($json[$table]['elements'][$elementKey]['hidden']);
         $this->sortJson($json);
-        $this->write($json);
+        return $this->write($json);
     }
 
     protected function getHighestSorting(array $elements): int
