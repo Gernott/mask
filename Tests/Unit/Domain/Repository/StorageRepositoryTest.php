@@ -18,6 +18,9 @@ declare(strict_types=1);
 namespace MASK\Mask\Tests\Unit\Domain\Repository;
 
 use MASK\Mask\Tests\Unit\StorageRepositoryCreatorTrait;
+use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Package\PackageManager;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\TestingFramework\Core\BaseTestCase;
 
 class StorageRepositoryTest extends BaseTestCase
@@ -903,6 +906,13 @@ class StorageRepositoryTest extends BaseTestCase
     public function add(array $json, array $element, array $fields, string $table, array $expected): void
     {
         $storageRepository = $this->createStorageRepository($json);
+
+        // @todo Replace workaround for resolvePackagePath.
+        if (method_exists(PackageManager::class, 'resolvePackagePath')) {
+            $packageManager = $this->prophesize(PackageManager::class);
+            $packageManager->resolvePackagePath('EXT:mask/Tests/Unit/Fixtures/Defaults.php')->willReturn(Environment::getProjectPath() . '/Tests/Unit/Fixtures/Defaults.php');
+            ExtensionManagementUtility::setPackageManager($packageManager->reveal());
+        }
 
         self::assertEquals($expected, $storageRepository->add($element, $fields, $table));
     }

@@ -23,6 +23,7 @@ use MASK\Mask\Tests\Unit\ConfigurationLoader\FakeConfigurationLoader;
 use MASK\Mask\Tests\Unit\StorageRepositoryCreatorTrait;
 use Prophecy\Argument;
 use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Package\Package;
@@ -967,6 +968,14 @@ class FieldsControllerTest extends BaseTestCase
         $packageManager = $this->prophesize(PackageManager::class);
         $packageManager->isPackageActive('mask')->willReturn(true);
         $packageManager->getPackage('mask')->willReturn($package->reveal());
+
+        // @todo Replace workaround for resolvePackagePath.
+        if (method_exists(PackageManager::class, 'resolvePackagePath')) {
+            $packageManager->resolvePackagePath(Argument::any())->will(function ($path) {
+                return Environment::getProjectPath() . str_replace('EXT:mask', '', $path[0]);
+            });
+        }
+
         ExtensionManagementUtility::setPackageManager($packageManager->reveal());
 
         $iconFactory = $this->prophesize(IconFactory::class);
