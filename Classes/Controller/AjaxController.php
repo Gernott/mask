@@ -771,7 +771,11 @@ class AjaxController
                 }
                 if ($fieldType === $type) {
                     $key = $isMaskField ? 'mask' : 'core';
-                    $label = $isMaskField ? $this->findFirstNonEmptyLabel($table, $tcaField) : LocalizationUtility::translate($tcaConfig['label']);
+                    if ($isMaskField) {
+                        $label = $this->findFirstNonEmptyLabel($table, $tcaField);
+                    } elseif ('' === $label = $GLOBALS['LANG']->sL($tcaConfig['label'])) {
+                        $label = $tcaConfig['label'];
+                    }
                     $fields[$key][] = [
                         'field' => $tcaField,
                         'label' => $label,
