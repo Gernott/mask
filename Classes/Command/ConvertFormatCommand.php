@@ -46,9 +46,9 @@ class ConvertFormatCommand extends Command
         $this->setHelp(
             'Converts a Mask storage format into another.' . LF .
             'The paths configured in the extension configuration are used and will override existing files!' . LF .
-            'First argument is the source format and second argument is the target format.' . LF .  LF .
-            'Usage: mask:convert [source] [target]' . LF .  LF .
-            'Not providing the second argument leads to persisting the first format. This can be used for updating old configuration.' . LF .  LF .
+            'First argument is the source format and second argument is the target format.' . LF . LF .
+            'Usage: mask:convert [source] [target]' . LF . LF .
+            'Not providing the second argument leads to persisting the first format. This can be used for updating old configuration.' . LF . LF .
             'Available formats are: ' . $availableLoaders
         );
 
