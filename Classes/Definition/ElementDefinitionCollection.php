@@ -87,7 +87,7 @@ final class ElementDefinitionCollection implements \IteratorAggregate
 
     protected function sort($definitions): array
     {
-        usort($definitions, function ($a, $b) {
+        usort($definitions, static function ($a, $b) {
             return $a->sorting <=> $b->sorting;
         });
 

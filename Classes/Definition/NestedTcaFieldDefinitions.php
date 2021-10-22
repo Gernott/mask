@@ -65,7 +65,7 @@ final class NestedTcaFieldDefinitions implements \IteratorAggregate
         usort(
             $nestedFields,
             function (TcaFieldDefinition $fieldA, TcaFieldDefinition $fieldB) {
-                return $fieldA->getOrder($this->elementKey) - $fieldB->getOrder($this->elementKey);
+                return $fieldA->getOrder($this->elementKey) <=> $fieldB->getOrder($this->elementKey);
             }
         );
 

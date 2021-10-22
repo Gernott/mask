@@ -65,7 +65,7 @@ final class TcaDefinition implements \IteratorAggregate
     {
         $fields = $this->definitions;
         usort($fields, static function (TcaFieldDefinition $fieldA, TcaFieldDefinition $fieldB) {
-            return $fieldA->order - $fieldB->order;
+            return $fieldA->order <=> $fieldB->order;
         });
         return $fields;
     }
