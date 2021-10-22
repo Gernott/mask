@@ -387,7 +387,7 @@ class StorageRepository implements SingletonInterface
         $json = $this->load();
 
         // Remove
-        $columns = $json[$type]['elements'][$key]['columns'];
+        $columns = $json[$type]['elements'][$key]['columns'] ?? [];
         unset($json[$type]['elements'][$key]);
         if (is_array($columns)) {
             foreach ($columns as $field) {
