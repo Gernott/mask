@@ -24,6 +24,7 @@ use MASK\Mask\Helper\FieldHelper;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\DateUtility;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
+use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -523,6 +524,26 @@ class TcaCodeGenerator
 
     public static function getTcaTemplate()
     {
+        if ((new Typo3Version())->getMajorVersion() === 11) {
+            $sys_language_uid = [
+                'type' => 'language'
+            ];
+        } else {
+            $sys_language_uid = [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'special' => 'languages',
+                'items' => [
+                    [
+                        'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.allLanguages',
+                        -1,
+                        'flags-multiple'
+                    ],
+                ],
+                'default' => 0,
+            ];
+        }
+
         return [
             'ctrl' => [
                 'sortby' => 'sorting',
@@ -584,19 +605,7 @@ class TcaCodeGenerator
                 'sys_language_uid' => [
                     'exclude' => true,
                     'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
-                    'config' => [
-                        'type' => 'select',
-                        'renderType' => 'selectSingle',
-                        'special' => 'languages',
-                        'items' => [
-                            [
-                                'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.allLanguages',
-                                -1,
-                                'flags-multiple'
-                            ],
-                        ],
-                        'default' => 0,
-                    ]
+                    'config' => $sys_language_uid
                 ],
                 'l10n_parent' => [
                     'displayCond' => 'FIELD:sys_language_uid:>:0',
