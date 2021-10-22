@@ -1,6 +1,6 @@
 ![Page and Content masks for TYPO3](Documentation/Images/mask_banner.jpg)
 
-[![Build Status](https://travis-ci.com/Gernott/mask.svg?branch=master)](https://travis-ci.com/Gernott/mask)
+[![Unit Tests](https://github.com/Gernott/mask/actions/workflows/tests.yaml/badge.svg)](https://github.com/Gernott/mask/actions/workflows/tests.yaml)
 
 # Mask
 
