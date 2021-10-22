@@ -644,6 +644,9 @@ class StorageRepository implements SingletonInterface
                     $formType = FieldType::INLINE;
                 }
                 break;
+            case 'category':
+                $formType = FieldType::SELECT;
+                break;
             default:
                 try {
                     FieldType::cast($tcaType);
