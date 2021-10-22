@@ -1,0 +1,208 @@
+name: Unit Tests
+
+on:
+  push:
+    branches:
+      - "*"
+  pull_request:
+    branches:
+      - "*"
+  schedule:
+    - cron: "0 2 * * 1-5"
+jobs:
+  early_cgl:
+    name: Early CGL
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+
+      - uses: actions/checkout@v2
+
+      - name: Validate composer.json
+        run: composer validate --strict
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer require typo3/cms-core:^10.4 --prefer-dist --no-progress
+
+      - name: PHP CS Fixer
+        run: Build/Scripts/runTests.sh -s cglGit -n -p 7.4
+
+  TYPO3_10_4_PHP_7_2:
+    name: TYPO3 v10.4 PHP 7.2
+    needs: early_cgl
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+
+      - uses: actions/checkout@v2
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer require typo3/cms-core:^10.4 --prefer-dist --no-progress
+
+      - name: PHP 7.2 Unit
+        run: Build/Scripts/runTests.sh -s unit -p 7.2
+
+      - name: PHP 7.2 Unit Deprecated
+        run: Build/Scripts/runTests.sh -s unitDeprecated -p 7.2
+
+  TYPO3_10_4_PHP_7_3:
+    name: TYPO3 v10.4 PHP 7.3
+    needs: early_cgl
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+
+      - uses: actions/checkout@v2
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer require typo3/cms-core:^10.4 --prefer-dist --no-progress
+
+      - name: PHP 7.3 Unit
+        run: Build/Scripts/runTests.sh -s unit -p 7.3
+
+      - name: PHP 7.3 Unit Deprecated
+        run: Build/Scripts/runTests.sh -s unitDeprecated -p 7.3
+
+  TYPO3_10_4_PHP_7_4:
+    name: TYPO3 v10.4 PHP 7.4
+    needs: early_cgl
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+
+      - uses: actions/checkout@v2
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer require typo3/cms-core:^10.4 --prefer-dist --no-progress
+
+      - name: PHP 7.4 Unit
+        run: Build/Scripts/runTests.sh -s unit -p 7.4
+
+      - name: PHP 7.4 Unit Deprecated
+        run: Build/Scripts/runTests.sh -s unitDeprecated -p 7.4
+
+  TYPO3_11_5_PHP_7_4:
+    name: TYPO3 v11.5 PHP 7.4
+    needs: early_cgl
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.0
+
+      - uses: actions/checkout@v2
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer require typo3/cms-core:^11.4 --prefer-dist --no-progress
+
+      - name: PHP 7.4 Unit
+        run: Build/Scripts/runTests.sh -s unit -p 7.4
+
+      - name: PHP 7.4 Unit Deprecated
+        run: Build/Scripts/runTests.sh -s unitDeprecated -p 7.4
+
+  TYPO3_11_5_PHP_8_0:
+    name: TYPO3 v11.5 PHP 8.0
+    needs: early_cgl
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.0
+
+      - uses: actions/checkout@v2
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer require typo3/cms-core:^11.4 --prefer-dist --no-progress
+
+      - name: PHP 8.0 Unit
+        run: Build/Scripts/runTests.sh -s unit -p 8.0
+
+      - name: PHP 8.0 Unit Deprecated
+        run: Build/Scripts/runTests.sh -s unitDeprecated -p 8.0
