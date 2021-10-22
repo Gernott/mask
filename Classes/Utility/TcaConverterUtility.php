@@ -118,7 +118,7 @@ class TcaConverterUtility
     protected static function mergeCommaSeperatedOptions(array $tcaArray): string
     {
         $mergedTca = [];
-        foreach($tcaArray as $key => $evalValue) {
+        foreach ($tcaArray as $key => $evalValue) {
             if ($evalValue) {
                 $mergedTca[] = $key;
             }

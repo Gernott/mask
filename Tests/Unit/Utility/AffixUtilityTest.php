@@ -1,6 +1,5 @@
 <?php
 
-
 namespace MASK\Mask\Test\Utility;
 
 use MASK\Mask\Utility\AffixUtility;

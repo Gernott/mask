@@ -12,8 +12,8 @@ class DateUtilityTest extends BaseTestCase
      */
     public function isOldDateFormat()
     {
-        self::assertSame(true, DateUtility::isOldDateFormat('2020-05-01'));
-        self::assertSame(false, DateUtility::isOldDateFormat('10-12-2021'));
+        self::assertTrue(DateUtility::isOldDateFormat('2020-05-01'));
+        self::assertFalse(DateUtility::isOldDateFormat('10-12-2021'));
     }
 
     /**

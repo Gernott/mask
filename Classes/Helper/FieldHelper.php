@@ -19,7 +19,6 @@ namespace MASK\Mask\Helper;
 
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Utility\AffixUtility;
-use MASK\Mask\Utility\GeneralUtility;
 
 /**
  * Methods for types of fields in mask (string, rte, repeating, ...)

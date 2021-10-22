@@ -19,8 +19,8 @@ namespace MASK\Mask\CodeGenerator;
 
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Schema\SchemaException;
-use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Domain\Repository\StorageRepository;
+use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\AffixUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Event\AlterTableDefinitionStatementsEvent;

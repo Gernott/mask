@@ -7,7 +7,6 @@ use TYPO3\TestingFramework\Core\BaseTestCase;
 
 class TcaConverterUtilityTest extends BaseTestCase
 {
-
     public function convertTcaArrayToFlatTestDataProvider()
     {
         return [

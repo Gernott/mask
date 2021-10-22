@@ -15,10 +15,10 @@
 
 namespace MASK\Mask\Test\Helper;
 
-use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Domain\Repository\BackendLayoutRepository;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Domain\Service\SettingsService;
+use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Helper\InlineHelper;
 use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Resource\FileRepository;

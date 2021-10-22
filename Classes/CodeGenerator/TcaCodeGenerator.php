@@ -18,8 +18,8 @@ declare(strict_types=1);
 namespace MASK\Mask\CodeGenerator;
 
 use Exception;
-use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Domain\Repository\StorageRepository;
+use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Helper\FieldHelper;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\DateUtility;

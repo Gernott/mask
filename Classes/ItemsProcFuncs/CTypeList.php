@@ -80,7 +80,7 @@ class CTypeList extends AbstractList
             if (isset($params['inlineParentTableName'])) {
                 $table = $params['inlineParentTableName'];
             // Else we have to figure out from url
-            } else if (preg_match_all('/tx_mask_\w+/', ($GLOBALS['TYPO3_REQUEST']->getParsedBody()['ajax'][0] ?? ''), $pregResult) && count($pregResult[0]) > 1) {
+            } elseif (preg_match_all('/tx_mask_\w+/', ($GLOBALS['TYPO3_REQUEST']->getParsedBody()['ajax'][0] ?? ''), $pregResult) && count($pregResult[0]) > 1) {
                 // Get the second last entry
                 $table = $pregResult[0][count($pregResult[0]) - 2];
             } else {

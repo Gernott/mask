@@ -17,9 +17,9 @@ declare(strict_types=1);
 
 namespace MASK\Mask\CodeGenerator;
 
-use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Domain\Service\SettingsService;
+use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Imaging\IconProvider\ContentElementIconProvider;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
