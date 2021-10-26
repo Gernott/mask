@@ -79,7 +79,14 @@ class InlineHelper
         if ($this->tableDefinitionCollection->hasTable($table)) {
             $tcaKeys = $this->tableDefinitionCollection->getTable($table)->tca->getKeys();
         }
-        $contentFields = array_merge(['media', 'image', 'assets'], $tcaKeys);
+        $imageFields = [];
+        if ($table === 'tt_content') {
+            $imageFields = ['media', 'image', 'assets'];
+        }
+        if ($table === 'pages') {
+            $imageFields = ['media'];
+        }
+        $contentFields = array_merge($imageFields, $tcaKeys);
 
         $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
         foreach ($contentFields as $fieldKey) {
