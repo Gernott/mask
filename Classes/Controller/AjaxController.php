@@ -936,7 +936,7 @@ class AjaxController
         return new JsonResponse(
             [
                 'typo3' => $typo3Version->getMajorVersion(),
-                'mask' => ExtensionManagementUtility::getExtensionVersion('mask')
+                'mask' => ltrim(ExtensionManagementUtility::getExtensionVersion('mask'), 'v')
             ]
         );
     }
