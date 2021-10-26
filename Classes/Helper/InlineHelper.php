@@ -168,7 +168,7 @@ class InlineHelper
             $data[$field] = $elements;
         } elseif (($GLOBALS['TCA'][$table]['columns'][$field]['config']['foreign_table'] ?? '') !== '' && $fieldType->equals(FieldType::SELECT)) {
             $data[$field . '_items'] = $this->getRelations($data[$field], $GLOBALS['TCA'][$table]['columns'][$field]['config']['foreign_table']);
-        } elseif (($GLOBALS['TCA'][$table]['columns'][$field]['config']['internal_type'] === 'db') && $fieldType->equals(FieldType::GROUP)) {
+        } elseif ((($GLOBALS['TCA'][$table]['columns'][$field]['config']['internal_type'] ?? '') !== 'folder') && $fieldType->equals(FieldType::GROUP)) {
             $data[$field . '_items'] = $this->getRelations($data[$field], $GLOBALS['TCA'][$table]['columns'][$field]['config']['allowed']);
         }
     }
