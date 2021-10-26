@@ -84,8 +84,15 @@ class InlineHelper
         $storage = $this->storageRepository->load();
         $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
 
+        $imageFields = [];
+        if ($table === 'tt_content') {
+            $imageFields = ['media', 'image', 'assets'];
+        }
+        if ($table === 'pages') {
+            $imageFields = ['media'];
+        }
         $contentFields = array_merge(
-            ['media', 'image', 'assets'],
+            $imageFields,
             array_keys($storage[$table]['tca'] ?? [])
         );
 
