@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.0.25] - 2021-10-26
+
+### Fixed
+- PHP 8.0 warnings [#438](https://github.com/Gernott/mask/issues/438)
+- The new TCA type `category` is detected as type select
+- Fix deprecation by using the new TCA type `language` for `sys_language_uid`
+
 ## [7.0.24] - 2021-10-20
 
 ### Fixed
