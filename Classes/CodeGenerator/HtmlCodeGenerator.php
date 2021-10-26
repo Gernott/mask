@@ -159,7 +159,7 @@ class HtmlCodeGenerator
                 }
                 break;
             case FieldType::GROUP:
-                if (($GLOBALS['TCA'][$table]['columns'][$fieldKey]['config']['internal_type'] ?? '') === 'db') {
+                if (($GLOBALS['TCA'][$table]['columns'][$fieldKey]['config']['internal_type'] ?? '') !== 'folder') {
                     $html[] = $this->drawWhitespace(0 + $depth) . '<f:for each="{' . $datafield . '.' . $fieldKey . '_items}" as="' . $datafield . '_item' . '">';
                     $html[] = $this->drawWhitespace(1 + $depth) . '<div>{' . $datafield . '_item.uid}' . '</div>';
                     $html[] = $this->drawWhitespace(0 + $depth) . '</f:for>';
