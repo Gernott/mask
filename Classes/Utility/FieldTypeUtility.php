@@ -61,6 +61,9 @@ class FieldTypeUtility
                 if (($tca['config']['renderType'] ?? '') === 'inputLink') {
                     return FieldType::LINK;
                 }
+                if (($tca['config']['renderType'] ?? '') === 'colorpicker') {
+                    return FieldType::COLORPICKER;
+                }
                 return FieldType::STRING;
             case 'text':
                 if (isset($tca['config']['enableRichtext'])) {

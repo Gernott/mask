@@ -40,6 +40,7 @@ final class FieldType extends Enumeration
     public const TAB = 'tab';
     public const PALETTE = 'palette';
     public const LINEBREAK = 'linebreak';
+    public const COLORPICKER = 'colorpicker';
 
     public function isGroupingField(): bool
     {
