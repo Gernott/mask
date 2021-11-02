@@ -13,14 +13,43 @@ any settings, a dummy extension `mask_project` will be created as fallback.
 General
 =======
 
+.. _extension-settings-loader_identifier:
+
+loader_identifier
+_________________
+
+| Can be either `json` or `json-split`.
+| Defines which JsonLoader to use.
+| Refer to the API documentation for more information.
+| Default: `json`
+
 .. _extension-settings-json:
 
 json
 ____
 
+| Only for JsonLoader.
 | File with project specific mask configuration.
 | Mask stores the information, which is needed to generate content elements and extend page templates into one file: `mask.json`. With this setting you can change the path to this file.
 | Default: :code:`typo3conf/ext/mask_project/Configuration/Mask/mask.json`
+
+.. _extension-settings-content_elements_folder:
+
+content_elements_folder
+_______________________
+
+| Only for JsonSplitLoader
+| Folder in which to save content element definitions.
+| Default: `typo3conf/ext/mask_project/Configuration/Mask/ContentElements`
+
+.. _extension-settings-backend_layouts_folder:
+
+backend_layouts_folder
+______________________
+
+| Only for JsonSplitLoader
+| Folder in which to save backend layout definitions.
+| Default: `typo3conf/ext/mask_project/Configuration/Mask/BackendLayouts`
 
 .. _extension-settings-pids:
 

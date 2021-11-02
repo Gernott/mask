@@ -48,10 +48,13 @@ to a dummy extension called `mask_project`. The easiest way to change the paths 
 ::
 
    $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['mask'] = [
+       'loader_identifier' => 'json',
        'backend' => 'EXT:sitepackage/Resources/Private/Mask/Backend/Templates/',
        'backendlayout_pids' => '0,1',
        'content' => 'EXT:sitepackage/Resources/Private/Mask/Frontend/Templates/',
        'json' => 'EXT:sitepackage/Configuration/Mask/mask.json',
+       'content_elements_folder' => 'EXT:sitepackage/Configuration/Mask/ContentElements',
+       'backend_layouts_folder' => 'EXT:sitepackage/Configuration/Mask/BackendLayouts',
        'layouts' => 'EXT:sitepackage/Resources/Private/Mask/Frontend/Layouts/',
        'layouts_backend' => 'EXT:sitepackage/Resources/Private/Mask/Backend/Layouts/',
        'partials' => 'EXT:sitepackage/Resources/Private/Mask/Frontend/Partials/',
