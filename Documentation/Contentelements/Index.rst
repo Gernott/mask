@@ -12,7 +12,7 @@ After following the :ref:`installation <installation>` steps, you can start usin
 New content element wizard
 ==========================
 
-Create your first content element by clicking on the **Create new content element** button. Now a wizard appears, who
+Create your first content element by clicking on the **Create new content element** button. Now a wizard appears, which
 will guide you through some mandatory fields:
 
 * `Label`: Enter the label for this content element. This is the name editors will see when creating the content
@@ -26,7 +26,7 @@ will guide you through some mandatory fields:
 
    The Multi Step Wizard
 
-After you have finished defining the label and the key, click finish and the Mask Builder will opened.
+After you have finished defining the label and the key, click finish and the Mask Builder will open.
 By default the tab `Fields` will be opened.
 
 .. figure:: ../Images/ContentelementsManual/MaskBuilder.png
