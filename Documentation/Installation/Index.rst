@@ -25,6 +25,17 @@ It is important to add Mask as a dependency in your `ext_emconf.php` of your sit
        ]
    ];
 
+For composer installations also add the requirement to your extension's
+`composer.json` file. In TYPO3 v11 the `ext_emconf.php` file is not even needed
+anymore, when in composer mode.
+
+.. code-block:: json
+
+   {
+      "require": {
+         "mask/mask": "^7"
+      }
+   }
 
 Install and configure
 =====================
