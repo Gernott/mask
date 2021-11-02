@@ -47,6 +47,7 @@ Mask
    BackendPreview/Index
    Pagetemplates/Index
    ExtensionSettings/Index
+   API/Index
    Fieldtypes/Index
    Guides/Index
    Glossary/Index
