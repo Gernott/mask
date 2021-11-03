@@ -87,6 +87,7 @@ class InlineHelper
             $imageFields = ['media'];
         }
         $contentFields = array_merge($imageFields, $tcaKeys);
+        $contentFields = array_unique($contentFields);
 
         $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
         foreach ($contentFields as $fieldKey) {
