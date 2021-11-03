@@ -95,6 +95,7 @@ class InlineHelper
             $imageFields,
             array_keys($storage[$table]['tca'] ?? [])
         );
+        $contentFields = array_unique($contentFields);
 
         foreach ($contentFields as $fieldKey) {
             if ($this->storageRepository->getFormType($fieldKey, '', $table) == FieldType::FILE) {
