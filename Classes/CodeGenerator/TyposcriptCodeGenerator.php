@@ -189,18 +189,16 @@ class TyposcriptCodeGenerator
         ], 'lib.maskContentElement');
 
         // for each content element
-        if ($configuration['tt_content']['elements']) {
-            foreach ($configuration['tt_content']['elements'] as $element) {
-                if (!($element['hidden'] ?? false)) {
-                    $cTypeKey = AffixUtility::addMaskCTypePrefix($element['key']);
-                    $templateName = MaskUtility::getTemplatePath($this->extSettings, $element['key'], true, null, true);
-                    $elementContent = [];
-                    $elementContent[] = 'tt_content.' . $cTypeKey . ' =< lib.maskContentElement' . LF;
-                    $elementContent[] = 'tt_content.' . $cTypeKey . ' {' . LF;
-                    $elementContent[] = "\t" . 'templateName = ' . $templateName . LF;
-                    $elementContent[] = '}' . LF . LF;
-                    $setupContent[] = implode('', $elementContent);
-                }
+        foreach (($configuration['tt_content']['elements'] ?? []) as $element) {
+            if (!($element['hidden'] ?? false)) {
+                $cTypeKey = AffixUtility::addMaskCTypePrefix($element['key']);
+                $templateName = MaskUtility::getTemplatePath($this->extSettings, $element['key'], true, null, true);
+                $elementContent = [];
+                $elementContent[] = 'tt_content.' . $cTypeKey . ' =< lib.maskContentElement' . LF;
+                $elementContent[] = 'tt_content.' . $cTypeKey . ' {' . LF;
+                $elementContent[] = "\t" . 'templateName = ' . $templateName . LF;
+                $elementContent[] = '}' . LF . LF;
+                $setupContent[] = implode('', $elementContent);
             }
         }
 
