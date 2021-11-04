@@ -174,11 +174,13 @@ define([
                 </div>
               </div>
               <div class="form-wizards-wrap" v-if="type == 'radio'">
+                <div class="form-wizards-element">
                   <div v-if="checkPrefixLangTitle(value)" class="radio" v-for="(label, value) in field.items">
                       <label>
                           <input type="radio" v-model="global.activeField.tca[tcaKey]" :value="value"> {{ label }} <span v-if="value !== ''">[{{ value }}]</span></option>
                       </label>
                   </div>
+                </div>
               </div>
             </div>
             <div v-if="type == 'cTypes'" class="form-control-wrap">
