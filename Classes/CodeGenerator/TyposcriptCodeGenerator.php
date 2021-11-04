@@ -169,37 +169,37 @@ class TyposcriptCodeGenerator
             return '';
         }
 
-        $setupContent = [];
-
         // for base paths to fluid templates configured in extension settings
-        $setupContent[] = ArrayToTypoScriptConverterUtility::convert([
-            'templateRootPaths' => [
-                10 => rtrim($this->maskExtensionConfiguration['content'], '/') . '/'
+        $setupContent[] = ArrayToTypoScriptConverterUtility::convert(
+            [
+                'templateRootPaths' => [
+                    10 => rtrim($this->maskExtensionConfiguration['content'], '/') . '/'
+                ],
+                'partialRootPaths' => [
+                    10 => rtrim($this->maskExtensionConfiguration['partials'], '/') . '/'
+                ],
+                'layoutRootPaths' => [
+                    10 => rtrim($this->maskExtensionConfiguration['layouts'], '/') . '/'
+                ]
             ],
-            'partialRootPaths' => [
-                10 => rtrim($this->maskExtensionConfiguration['partials'], '/') . '/'
-            ],
-            'layoutRootPaths' => [
-                10 => rtrim($this->maskExtensionConfiguration['layouts'], '/') . '/'
-            ]
-        ], 'lib.maskContentElement');
+            'lib.maskContentElement'
+        );
 
-        $tt_content = $this->tableDefinitionCollection->getTable('tt_content');
-        foreach ($tt_content->elements as $element) {
+        foreach ($this->tableDefinitionCollection->getTable('tt_content')->elements as $element) {
             if ($element->hidden) {
                 continue;
             }
             $cTypeKey = AffixUtility::addMaskCTypePrefix($element->key);
             $templateName = MaskUtility::getTemplatePath($this->maskExtensionConfiguration, $element->key, true, null, true);
             $elementContent = [];
-            $elementContent[] = 'tt_content.' . $cTypeKey . ' =< lib.maskContentElement' . LF;
-            $elementContent[] = 'tt_content.' . $cTypeKey . ' {' . LF;
-            $elementContent[] = "\t" . 'templateName = ' . $templateName . LF;
-            $elementContent[] = '}' . LF . LF;
+            $elementContent[] = "tt_content.$cTypeKey =< lib.maskContentElement";
+            $elementContent[] = "tt_content.$cTypeKey {";
+            $elementContent[] = "\t" . "templateName = $templateName";
+            $elementContent[] = '}';
 
-            $setupContent[] = implode('', $elementContent);
+            $setupContent[] = implode("\n", $elementContent);
         }
 
-        return implode("\n\n", $setupContent);
+        return implode("\n\n", $setupContent) . "\n\n";
     }
 }
