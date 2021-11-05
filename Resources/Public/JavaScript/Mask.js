@@ -516,7 +516,7 @@ define([
         return this.canBeShared(field) && this.isRoot(field) && this.isExistingMaskField(field);
       },
       canBeShared: function (field) {
-        return !['inline', 'palette', 'linebreak', 'tab'].includes(field.name);
+        return !['inline', 'content', 'palette', 'linebreak', 'tab'].includes(field.name);
       },
       getFields: function (field) {
         let fields = this.fields;
