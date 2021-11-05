@@ -516,10 +516,8 @@ class AjaxController
         $type = $request->getQueryParams()['type'];
         $fields = ['mask' => [], 'core' => []];
 
-        $fieldType = FieldType::cast($type);
-
         // Return empty result for non-shareable fields.
-        if (!$fieldType->canBeShared()) {
+        if (!FieldType::cast($type)->canBeShared()) {
             return new JsonResponse($fields);
         }
 
