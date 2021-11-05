@@ -179,6 +179,9 @@ class JsonSplitLoader implements LoaderInterface
                         if ($tableDefinition->sql->hasColumn($paletteField->fullKey)) {
                             $newSqlDefinition->addColumn($tableDefinition->sql->getColumn($paletteField->fullKey));
                         }
+                        if ($tableDefinitionCollection->getFieldType($paletteField->fullKey)->equals(FieldType::INLINE)) {
+                            $elementTableDefinitionCollection->addTable($tableDefinitionCollection->getTable($paletteField->fullKey));
+                        }
                     }
                 }
                 if (
