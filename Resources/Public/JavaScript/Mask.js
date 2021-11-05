@@ -456,33 +456,35 @@ define([
 
         // Step 1: Check if key is in current fields array
         let fields = this.getFields(field);
-        let error = this.checkIfKeyExistsInFields(fields, this.global.activeField);
-        if (error) {
+        let keyExistsInFields = this.checkIfKeyExistsInFields(fields, this.global.activeField);
+        if (keyExistsInFields) {
           this.fieldErrors.existingFieldKeyFields.push(this.global.activeField);
         } else {
-          mask.removeExistingKeyField(this.global.activeField);
+          this.removeExistingKeyField(this.global.activeField);
         }
 
         // Step 2: Check if another field is now valid due to the change
         this.fieldErrors.existingFieldKeyFields.every(function (errorField) {
-          if (errorField !== field && !mask.checkIfKeyExistsInFields(mask.getFields(errorField), errorField)) {
-            mask.removeExistingKeyField(errorField);
+          if (errorField !== field && !this.checkIfKeyExistsInFields(this.getFields(errorField), errorField)) {
+            this.removeExistingKeyField(errorField);
           }
           return true;
-        });
+        }.bind(this));
 
-        // Step 3: Check if key is in possible tca array and avoid ajax check if so
-        if (this.getAvailableTcaKeys()[field.name].includes(field.key)) {
+        // Step 3: Check if key is in possible tca array and avoid ajax check if so (only root level).
+        if (this.isRoot(field) && this.getAvailableTcaKeys()[field.name].includes(field.key)) {
           return;
         }
 
-        // If there is an error already from step 1 or we are not on root or the field isn't new, cancel tca ajax check.
-        if (error || !this.isRoot(field) || !field.newField) {
+        // If key already exists in current fields or the field isn't new (must be valid), cancel tca ajax check.
+        // TCA check is also not needed for fields inside inline. Exception: type inline and content.
+        if (keyExistsInFields || !field.newField || (!this.isRoot(field) && field.name !== 'inline' && field.name !== 'content')) {
           return;
         }
 
         // Check if key already exists in table
         let arguments = {
+          table: this.type,
           key: field.key,
           type: field.name,
           elementKey: ''
@@ -497,11 +499,11 @@ define([
             async function (response) {
               const result = await response.resolve();
               if (result.isAvailable) {
-                mask.removeExistingKeyField(mask.global.activeField);
+                this.removeExistingKeyField(this.global.activeField);
               } else {
-                mask.fieldErrors.existingFieldKeyFields.push(mask.global.activeField);
+                this.fieldErrors.existingFieldKeyFields.push(this.global.activeField);
               }
-            }
+            }.bind(this)
           );
       },
       hasMaskPrefix: function (key) {
