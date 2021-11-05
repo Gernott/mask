@@ -1053,22 +1053,26 @@ class AjaxController
     public function checkFieldKey(ServerRequest $request): Response
     {
         $queryParams = $request->getQueryParams();
+        $table = $queryParams['table'];
         $fieldKey = $queryParams['key'];
         $type = $queryParams['type'];
         $elementKey = $queryParams['elementKey'];
 
-        $keyExists = false;
-        $fieldExists = false;
-
-        if ($type == FieldType::INLINE) {
-            $keyExists = array_key_exists($fieldKey, $this->storageRepository->load());
+        // Check if an inline table with the same key already exists.
+        if ($type === FieldType::INLINE) {
+            return new JsonResponse(['isAvailable' => !array_key_exists($fieldKey, $this->storageRepository->load())]);
         }
 
-        if ($type == FieldType::CONTENT) {
-            $fieldExists = $this->fieldHelper->getFieldType($fieldKey, $elementKey);
+        // Content fields must be absolutely unique for the table, or naming
+        // conflicts may occur.
+        if ($type === FieldType::CONTENT) {
+            return new JsonResponse(['isAvailable' => $this->fieldHelper->getFieldType($fieldKey, $elementKey) === '']);
         }
 
-        return new JsonResponse(['isAvailable' => !$keyExists && !$fieldExists]);
+        // All other fields must be unique per table. Exception: If a field
+        // with the same field type exists, it may be shared.
+        $field = $this->storageRepository->loadField($table, $fieldKey);
+        return new JsonResponse(['isAvailable' => ($field === [] || $this->storageRepository->getFormType($fieldKey, $elementKey, $table) === $type)]);
     }
 
     /**
