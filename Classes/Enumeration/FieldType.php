@@ -48,6 +48,11 @@ final class FieldType extends Enumeration
 
     public function isParentField()
     {
-        return in_array($this->value, [self::INLINE, self::PALETTE]);
+        return in_array($this->value, [self::INLINE, self::PALETTE], true);
+    }
+
+    public function canBeShared(): bool
+    {
+        return !in_array($this->value, [self::INLINE, self::CONTENT, self::PALETTE, self::TAB, self::LINEBREAK], true);
     }
 }

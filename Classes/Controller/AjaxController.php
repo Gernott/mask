@@ -743,44 +743,34 @@ class AjaxController
 
         $table = $request->getQueryParams()['table'];
         $type = $request->getQueryParams()['type'];
-        $emptyFields = ['mask' => [], 'core' => []];
-        $fields = $emptyFields;
+        $fields = ['mask' => [], 'core' => []];
 
-        if (in_array($type, [FieldType::PALETTE, FieldType::LINEBREAK])) {
+        if (!FieldType::cast($type)->canBeShared()) {
             return new JsonResponse($fields);
         }
 
-        if (empty($GLOBALS['TCA'][$table])) {
-            return new JsonResponse($fields);
-        }
-
-        // Grouping and parent fields shouldn't be reusable.
-        if (FieldType::cast($type)->isGroupingField() || FieldType::cast($type)->isParentField()) {
-            $fields = $emptyFields;
-        } elseif (!AffixUtility::hasMaskPrefix($table)) {
-            foreach ($GLOBALS['TCA'][$table]['columns'] as $tcaField => $tcaConfig) {
-                $isMaskField = AffixUtility::hasMaskPrefix($tcaField);
-                if (!$isMaskField && !in_array($tcaField, $allowedFields[$table] ?? [])) {
-                    continue;
+        foreach (($GLOBALS['TCA'][$table]['columns'] ?? []) as $tcaField => $tcaConfig) {
+            $isMaskField = AffixUtility::hasMaskPrefix($tcaField);
+            if (!$isMaskField && !in_array($tcaField, $allowedFields[$table] ?? [])) {
+                continue;
+            }
+            // This is needed because the richtext option of bodytext is set via column overrides.
+            if ($tcaField === 'bodytext' && $table === 'tt_content') {
+                $fieldType = FieldType::RICHTEXT;
+            } else {
+                $fieldType = $this->storageRepository->getFormType($tcaField, '', $table);
+            }
+            if ($fieldType === $type) {
+                $key = $isMaskField ? 'mask' : 'core';
+                if ($isMaskField) {
+                    $label = $this->findFirstNonEmptyLabel($table, $tcaField);
+                } elseif ('' === $label = $GLOBALS['LANG']->sL($tcaConfig['label'])) {
+                    $label = $tcaConfig['label'];
                 }
-                // This is needed because the richtext option of bodytext is set via column overrides.
-                if ($tcaField === 'bodytext' && $table === 'tt_content') {
-                    $fieldType = FieldType::RICHTEXT;
-                } else {
-                    $fieldType = $this->storageRepository->getFormType($tcaField, '', $table);
-                }
-                if ($fieldType === $type) {
-                    $key = $isMaskField ? 'mask' : 'core';
-                    if ($isMaskField) {
-                        $label = $this->findFirstNonEmptyLabel($table, $tcaField);
-                    } elseif ('' === $label = $GLOBALS['LANG']->sL($tcaConfig['label'])) {
-                        $label = $tcaConfig['label'];
-                    }
-                    $fields[$key][] = [
-                        'field' => $tcaField,
-                        'label' => $label,
-                    ];
-                }
+                $fields[$key][] = [
+                    'field' => $tcaField,
+                    'label' => $label,
+                ];
             }
         }
         return new JsonResponse($fields);
