@@ -514,27 +514,16 @@ class AjaxController
 
         $table = $request->getQueryParams()['table'];
         $type = $request->getQueryParams()['type'];
-        $emptyFields = ['mask' => [], 'core' => []];
+        $fields = ['mask' => [], 'core' => []];
 
         $fieldType = FieldType::cast($type);
 
-        // Grouping and parent fields shouldn't be reusable.
-        if ($fieldType->isGroupingField() || $fieldType->isParentField()) {
-            return new JsonResponse($emptyFields);
+        // Return empty result for non-shareable fields.
+        if (!$fieldType->canBeShared()) {
+            return new JsonResponse($fields);
         }
 
-        // Ignore Mask tables.
-        if (AffixUtility::hasMaskPrefix($table)) {
-            return new JsonResponse($emptyFields);
-        }
-
-        // Ignore non-existing tables.
-        if (empty($GLOBALS['TCA'][$table])) {
-            return new JsonResponse($emptyFields);
-        }
-
-        $fields = $emptyFields;
-        foreach ($GLOBALS['TCA'][$table]['columns'] as $tcaField => $tcaConfig) {
+        foreach (($GLOBALS['TCA'][$table]['columns'] ?? []) as $tcaField => $tcaConfig) {
             $isMaskField = AffixUtility::hasMaskPrefix($tcaField);
             if (!$isMaskField && !in_array($tcaField, $allowedFields[$table] ?? [], true)) {
                 continue;

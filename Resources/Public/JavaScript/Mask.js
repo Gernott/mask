@@ -91,6 +91,7 @@ define([
           currentTab: 'general',
           ctypes: {},
           sctructuralFields: ['linebreak', 'palette', 'tab'],
+          nonShareableFields: ['inline', 'content', 'palette', 'linebreak', 'tab'],
           maskPrefix: 'tx_mask_',
           deletedFields: [],
         },
@@ -527,7 +528,7 @@ define([
         return this.canBeShared(field) && this.isRoot(field) && this.isExistingMaskField(field);
       },
       canBeShared: function (field) {
-        return !['inline', 'content', 'palette', 'linebreak', 'tab'].includes(field.name);
+        return !this.global.nonShareableFields.includes(field.name);
       },
       getFields: function (field) {
         let fields = this.fields;
