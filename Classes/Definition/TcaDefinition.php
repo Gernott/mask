@@ -61,7 +61,7 @@ final class TcaDefinition implements \IteratorAggregate
         return array_keys($this->definitions);
     }
 
-    public function getOrderedFields(): array
+    private function getOrderedFields(): array
     {
         $fields = $this->definitions;
         usort($fields, static function (TcaFieldDefinition $fieldA, TcaFieldDefinition $fieldB) {
@@ -75,7 +75,7 @@ final class TcaDefinition implements \IteratorAggregate
      */
     public function getIterator(): iterable
     {
-        foreach ($this->definitions as $definition) {
+        foreach ($this->getOrderedFields() as $definition) {
             yield clone $definition;
         }
     }
@@ -83,7 +83,7 @@ final class TcaDefinition implements \IteratorAggregate
     public function toArray(): array
     {
         $fields = [];
-        foreach ($this->definitions as $definition) {
+        foreach ($this->getOrderedFields() as $definition) {
             $fields[$definition->fullKey] = $definition->toArray();
         }
         return $fields;
