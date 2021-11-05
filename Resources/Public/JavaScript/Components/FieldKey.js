@@ -15,6 +15,13 @@ define([
             this.$refs.fieldKey.focus();
           }
         },
+        methods: {
+          onInput: function () {
+            if (this.validateKey(this.global.activeField)) {
+              this.loadField();
+            }
+          }
+        },
         template: `
           <input
               v-model="global.activeField.key"
@@ -22,7 +29,7 @@ define([
               class="form-control"
               required="required"
               :readOnly="!global.activeField.newField"
-              @input="validateKey(global.activeField); loadField();"
+              @input="onInput"
               ref="fieldKey"
           />
         `

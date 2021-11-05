@@ -437,13 +437,13 @@ define([
       },
       validateKey: function (field) {
         if (this.isEmptyObject(this.global.activeField)) {
-          return;
+          return false;
         }
 
         // Force mask prefix if not a core field
         if (!this.isActiveCoreField && !this.hasMaskPrefix(field.key)) {
           field.key = this.global.maskPrefix;
-          return;
+          return false;
         }
 
         // Force lowercase and remove special chars
@@ -451,7 +451,7 @@ define([
 
         // Skip empty fields (these are validated by empty validator)
         if (field.key === this.global.maskPrefix) {
-          return;
+          return false;
         }
 
         // Step 1: Check if key is in current fields array
@@ -473,13 +473,22 @@ define([
 
         // Step 3: Check if key is in possible tca array and avoid ajax check if so (only root level).
         if (this.isRoot(field) && this.getAvailableTcaKeys()[field.name].includes(field.key)) {
-          return;
+          return false;
         }
 
-        // If key already exists in current fields or the field isn't new (must be valid), cancel tca ajax check.
+        // If key already exists in current fields.
+        if (keyExistsInFields) {
+          return false;
+        }
+
+        // The field isn't new (must be valid).
+        if (!field.newField) {
+          return true;
+        }
+
         // TCA check is also not needed for fields inside inline. Exception: type inline and content.
-        if (keyExistsInFields || !field.newField || (!this.isRoot(field) && field.name !== 'inline' && field.name !== 'content')) {
-          return;
+        if (!this.isRoot(field) && field.name !== 'inline' && field.name !== 'content') {
+          return true;
         }
 
         // Check if key already exists in table
@@ -492,7 +501,7 @@ define([
         if (this.mode === 'edit') {
           arguments.elementKey = this.element.key;
         }
-        new AjaxRequest(TYPO3.settings.ajaxUrls.mask_check_field_key)
+        return (new AjaxRequest(TYPO3.settings.ajaxUrls.mask_check_field_key)
           .withQueryArguments(arguments)
           .get()
           .then(
@@ -500,11 +509,13 @@ define([
               const result = await response.resolve();
               if (result.isAvailable) {
                 this.removeExistingKeyField(this.global.activeField);
+                return true;
               } else {
                 this.fieldErrors.existingFieldKeyFields.push(this.global.activeField);
+                return false;
               }
             }.bind(this)
-          );
+          ));
       },
       hasMaskPrefix: function (key) {
         return key.substr(0, this.global.maskPrefix.length) === this.global.maskPrefix;
