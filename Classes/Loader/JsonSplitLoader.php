@@ -181,18 +181,20 @@ class JsonSplitLoader implements LoaderInterface
                         }
                     }
                 }
-                if ($tableDefinitionCollection->hasTable('sys_file_reference') && $fieldType->equals(FieldType::FILE)) {
-                    if ($tableDefinitionCollection->getTable('sys_file_reference')->sql->hasColumn($field->fullKey)) {
-                        if (!$elementTableDefinitionCollection->hasTable('sys_file_reference')) {
-                            $sys_file_reference = new TableDefinition();
-                            $sys_file_reference->table = 'sys_file_reference';
-                            $sys_file_reference->sql = new SqlDefinition();
-                            $sys_file_reference->sql->table = 'sys_file_reference';
-                            $elementTableDefinitionCollection->addTable($sys_file_reference);
-                        }
-                        $column = $tableDefinitionCollection->getTable('sys_file_reference')->sql->getColumn($field->fullKey);
-                        $elementTableDefinitionCollection->getTable('sys_file_reference')->sql->addColumn($column);
+                if (
+                    $tableDefinitionCollection->hasTable('sys_file_reference')
+                    && $fieldType->equals(FieldType::FILE)
+                    && $tableDefinitionCollection->getTable('sys_file_reference')->sql->hasColumn($field->fullKey)
+                ) {
+                    if (!$elementTableDefinitionCollection->hasTable('sys_file_reference')) {
+                        $sys_file_reference = new TableDefinition();
+                        $sys_file_reference->table = 'sys_file_reference';
+                        $sys_file_reference->sql = new SqlDefinition();
+                        $sys_file_reference->sql->table = 'sys_file_reference';
+                        $elementTableDefinitionCollection->addTable($sys_file_reference);
                     }
+                    $column = $tableDefinitionCollection->getTable('sys_file_reference')->sql->getColumn($field->fullKey);
+                    $elementTableDefinitionCollection->getTable('sys_file_reference')->sql->addColumn($column);
                 }
             }
             $newTableDefinition->tca = $newTcaDefinition;
