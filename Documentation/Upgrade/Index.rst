@@ -16,7 +16,7 @@ From v6 or lower
 
 When upgrading to v7 you might experience an error in the Mask module:
 `The requested resource "/module/tools/MaskMask" was not found.`. This can be
-fixed by deactivating and reactivating the extension. The error is caused by a
+fixed by clearing the browser cache (CTRL + F5). The error is caused by a
 changed way of how the module is registered.
 
 From v5 or lower
