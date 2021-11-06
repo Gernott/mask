@@ -275,12 +275,8 @@ class TableDefinitionCollectionTest extends BaseTestCase
                             ],
                             'key' => 'b',
                             'inPalette' => '1',
-                            'inlineParent' => [
-                                'element1' => 'tx_mask_palette'
-                            ],
-                            'order' => [
-                                'element1' => 3
-                            ]
+                            'inlineParent' => 'tx_mask_palette',
+                            'order' => 3
                         ],
                         'tx_mask_c' => [
                             'config' => [
@@ -288,12 +284,8 @@ class TableDefinitionCollectionTest extends BaseTestCase
                             ],
                             'key' => 'c',
                             'inPalette' => '1',
-                            'inlineParent' => [
-                                'element1' => 'tx_mask_palette'
-                            ],
-                            'order' => [
-                                'element1' => 4
-                            ]
+                            'inlineParent' => 'tx_mask_palette',
+                            'order' => 4
                         ],
                         'tx_mask_palette' => [
                             'config' => [
@@ -336,13 +328,9 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'type' => 'input'
                             ],
                             'key' => 'b',
-                            'inPalette' => '1',
-                            'inlineParent' => [
-                                'element1' => 'tx_mask_palette'
-                            ],
-                            'order' => [
-                                'element1' => 3
-                            ],
+                            'inPalette' => 1,
+                            'inlineParent' => 'tx_mask_palette',
+                            'order' => 3,
                             'maskKey' => 'tx_mask_b',
                             'fullKey' => 'tx_mask_b',
                             'type' => 'string'
@@ -352,13 +340,9 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'type' => 'input'
                             ],
                             'key' => 'c',
-                            'inPalette' => '1',
-                            'inlineParent' => [
-                                'element1' => 'tx_mask_palette'
-                            ],
-                            'order' => [
-                                'element1' => 4
-                            ],
+                            'inPalette' => 1,
+                            'inlineParent' => 'tx_mask_palette',
+                            'order' => 4,
                             'maskKey' => 'tx_mask_c',
                             'fullKey' => 'tx_mask_c',
                             'type' => 'string'
