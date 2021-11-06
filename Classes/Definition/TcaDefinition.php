@@ -83,7 +83,7 @@ final class TcaDefinition implements \IteratorAggregate
     public function toArray(): array
     {
         $fields = [];
-        foreach ($this->getOrderedFields() as $definition) {
+        foreach ($this->definitions as $definition) {
             $fields[$definition->fullKey] = $definition->toArray();
         }
         return $fields;
