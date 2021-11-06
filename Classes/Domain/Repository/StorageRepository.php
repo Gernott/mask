@@ -231,7 +231,7 @@ class StorageRepository implements SingletonInterface
             if ($onRootLevel && !$parent) {
                 $jsonAdd[$defaultTable]['elements'][$elementKey]['columns'][] = $field['key'];
                 $jsonAdd[$defaultTable]['elements'][$elementKey]['labels'][] = $field['label'];
-                $jsonAdd[$defaultTable]['elements'][$elementKey]['descriptions'][] = $field['description'];
+                $jsonAdd[$defaultTable]['elements'][$elementKey]['descriptions'][] = $field['description'] ?? '';
             }
 
             // Add key and config to mask field
