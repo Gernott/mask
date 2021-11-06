@@ -47,6 +47,18 @@ return [
         ],
         'sql' => 'varchar(255) DEFAULT \'\' NOT NULL'
     ],
+    FieldType::COLORPICKER => [
+        'tca_in' => [
+            'l10n_mode' => '',
+            'config.eval.null' => 0,
+            'config.size' => 10
+        ],
+        'tca_out' => [
+            'config.type' => 'input',
+            'config.renderType' => 'colorpicker',
+        ],
+        'sql' => 'varchar(255) DEFAULT \'\' NOT NULL'
+    ],
     FieldType::DATE => [
         'tca_in' => [
             'l10n_mode' => '',

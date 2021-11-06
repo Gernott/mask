@@ -4,6 +4,49 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.0.27] - 2021-11-03
+
+### Fixed
+- File References resolved in custom tt_content type [#439](https://github.com/Gernott/mask/issues/439)
+
+## [7.0.26] - 2021-11-02
+
+### Fixed
+- Do not check for TCA internal type `db` anymore (TYPO3 v11).
+- Other bugfixes
+
+## [7.0.25] - 2021-10-26
+
+### Fixed
+- PHP 8.0 warnings [#438](https://github.com/Gernott/mask/issues/438)
+- The new TCA type `category` is detected as type select
+- Fix deprecation by using the new TCA type `language` for `sys_language_uid`
+
+## [7.0.24] - 2021-10-20
+
+### Fixed
+- Error when overriding core labels [#436](https://github.com/Gernott/mask/issues/436)
+
+## [7.0.23] - 2021-10-20
+
+### Fixed
+- Another PHP 8.0 warning
+
+## [7.0.22] - 2021-10-12
+
+### Fixed
+- Fixed errors regarding backend layouts
+
+## [7.0.21] - 2021-10-05
+
+### Added
+- TYPO3 v11 LTS support
+
+## [7.0.20] - 2021-09-28
+
+### Fixed
+- TCA overrides of mask fields no longer cause errors
+
 ## [7.0.19] - 2021-09-07
 
 ### Added

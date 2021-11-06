@@ -13,7 +13,7 @@ For specific content element
 ============================
 
 One way to set the crop variants is by addressing a specific content element (cType). This does only work for images not
-placed in a repeater field. For this reason the TCA should be extended in `TCA/Overrides/tt_content.php`.
+placed in a repeater field. For this reason the TCA should be extended in `Configuration/TCA/Overrides/tt_content.php`.
 
 Example crop variant definition:
 
@@ -65,3 +65,7 @@ Examples:
    $column = 'image';
 
    $GLOBALS['TCA'][$table]['columns'][$column]['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'] = $teaserCropVariants;
+
+See also:
+
+*  :doc:`TCA Overrides <OverrideTCA>`

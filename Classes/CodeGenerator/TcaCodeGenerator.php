@@ -408,7 +408,7 @@ class TcaCodeGenerator
         $generalTab = '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general';
         $fields = [];
         $firstField = true;
-        foreach ($tableDefinition->tca->getOrderedFields() as $field) {
+        foreach ($tableDefinition->tca as $field) {
             // check if this field is of type tab
             $fieldType = $this->tableDefinitionCollection->getFieldType($field->fullKey, $tableDefinition->table);
             if ($fieldType->equals(FieldType::TAB)) {

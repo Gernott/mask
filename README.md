@@ -15,16 +15,19 @@ to any element. Fields can have several types, for example: text, file, relation
 ## Quickstart
 
 Download Mask with composer by running the command `composer require mask/mask` or install via extension manager.
-It is important to add Mask as a dependency in your `ext_emconf.php`, so you can override the generated TCA.
-Before you start using Mask, you should define the paths to your templates. The easiest way to change the paths is to
-add the snippet below to your `AdditionalConfiguration.php`:
+It is important to add Mask as a dependency in your `ext_emconf.php` and/or `composer.json`, so you can override the
+generated TCA. Before you start using Mask, you should define the paths to your templates. The easiest way to change the
+paths is to add the snippet below to your `AdditionalConfiguration.php`:
 
 ```
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['mask'] = [
+    'loader_identifier' => 'json',
     'backend' => 'EXT:sitepackage/Resources/Private/Mask/Backend/Templates/',
     'backendlayout_pids' => '0,1',
     'content' => 'EXT:sitepackage/Resources/Private/Mask/Frontend/Templates/',
     'json' => 'EXT:sitepackage/Configuration/Mask/mask.json',
+    'content_elements_folder' => 'EXT:sitepackage/Configuration/Mask/ContentElements',
+    'backend_layouts_folder' => 'EXT:sitepackage/Configuration/Mask/BackendLayouts',
     'layouts' => 'EXT:sitepackage/Resources/Private/Mask/Frontend/Layouts/',
     'layouts_backend' => 'EXT:sitepackage/Resources/Private/Mask/Backend/Layouts/',
     'partials' => 'EXT:sitepackage/Resources/Private/Mask/Frontend/Partials/',

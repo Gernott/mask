@@ -1,0 +1,82 @@
+{
+	"tt_content": {
+		"elements": {
+			"d": {
+				"key": "d",
+				"label": "D",
+				"description": "",
+				"shortLabel": "",
+				"color": "#000000",
+				"icon": "",
+				"columns": [
+					"tx_mask_palette"
+				],
+				"labels": [
+					"Palette 1"
+				],
+				"sorting": 3
+			}
+		},
+		"tca": {
+			"tx_mask_palette": {
+				"config": {
+					"type": "palette"
+				},
+				"type": "palette",
+				"key": "palette",
+				"fullKey": "tx_mask_palette"
+			},
+			"tx_mask_inline": {
+				"config": {
+					"appearance": {
+						"collapseAll": 1,
+						"enabledControls": {
+							"dragdrop": 1
+						},
+						"levelLinksPosition": "top",
+						"showAllLocalizationLink": 1,
+						"showPossibleLocalizationRecords": 1
+					},
+					"foreign_field": "parentid",
+					"foreign_sortby": "sorting",
+					"foreign_table": "--inlinetable--",
+					"foreign_table_field": "parenttable",
+					"type": "inline"
+				},
+				"fullKey": "tx_mask_inline",
+				"type": "inline",
+				"key": "inline"
+			}
+		},
+		"palettes": {
+			"tx_mask_palette": {
+				"label": "Palette 1",
+				"showitem": ["tx_mask_inline"]
+			}
+		}
+	},
+	"tx_mask_inline": {
+		"elements": {},
+		"tca": {
+			"tx_mask_field": {
+				"config": {
+					"type": "input"
+				},
+				"label": "Field",
+				"type": "string",
+				"key": "field",
+				"fullKey": "tx_mask_field",
+				"inlineParent": "tx_mask_inline",
+				"order": 1
+			}
+		},
+		"sql": {
+			"tx_mask_field": {
+				"tx_mask_inline": {
+					"tx_mask_field": "varchar(255) DEFAULT '' NOT NULL"
+				}
+			}
+		},
+		"palettes": {}
+	}
+}

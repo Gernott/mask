@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="64" height="64" viewBox="0 0 64 64">
+    <defs>
+        <radialGradient id="radial-gradient" cx="0.471" cy="0.44" r="0.869" gradientTransform="matrix(0.78, 0.626, -0.81, 1.01, 0.46, -0.299)" gradientUnits="objectBoundingBox">
+            <stop offset="0" stop-color="#5baf1a"/>
+            <stop offset="0.887" stop-color="#e6ff00"/>
+            <stop offset="1" stop-color="red"/>
+        </radialGradient>
+        <linearGradient id="linear-gradient" x1="0.702" y1="0.038" x2="0.079" y2="1" gradientUnits="objectBoundingBox">
+            <stop offset="0" stop-color="#4f84d1"/>
+            <stop offset="0.515" stop-color="#b88d37"/>
+            <stop offset="1" stop-color="#de10bc"/>
+        </linearGradient>
+    </defs>
+    <g id="Gruppe_1" data-name="Gruppe 1" transform="translate(-928 -508)">
+        <g id="Gruppe_7" data-name="Gruppe 7" transform="translate(120 52)">
+            <g id="Gruppe_6" data-name="Gruppe 6">
+                <g id="Integer" transform="translate(808 456.5)" style="mix-blend-mode: multiply;isolation: isolate">
+                    <rect id="Rechteck_8" data-name="Rechteck 8" width="64" height="64" transform="translate(0 -0.5)" fill="url(#radial-gradient)"/>
+                    <rect id="Rechteck_8-2" data-name="Rechteck 8" width="64" height="64" transform="translate(0 -0.5)" fill="url(#linear-gradient)" style="mix-blend-mode: darken;isolation: isolate"/>
+                </g>
+            </g>
+        </g>
+        <path id="color" d="M11.331,19.849a2.832,2.832,0,1,0,2.832,2.832A2.829,2.829,0,0,0,11.331,19.849ZM37.048,5.168A22.8,22.8,0,0,0,18.11.469,22.525,22.525,0,0,0,.456,18.052a22.762,22.762,0,0,0,6,20.407c4.186,4.372,9.708,6.885,14.858,6.885a14.347,14.347,0,0,0,2.31-.177,6.69,6.69,0,0,0,4.964-3.637,7.5,7.5,0,0,0,.018-6.779,3.409,3.409,0,0,1,.159-3.363A3.228,3.228,0,0,1,31.6,29.76h6.389a7.186,7.186,0,0,0,7.327-7.195,22.524,22.524,0,0,0-8.265-17.4Zm.938,20.345H31.6a7.527,7.527,0,0,0-6.46,3.655,7.661,7.661,0,0,0-.319,7.513,3.243,3.243,0,0,1-.018,2.911,2.514,2.514,0,0,1-1.823,1.381c-4.363.681-9.637-1.469-13.451-5.451a18.547,18.547,0,0,1-4.9-16.637,18.247,18.247,0,0,1,14.3-14.247A18.556,18.556,0,0,1,34.349,8.451a18.287,18.287,0,0,1,6.717,14.124,2.981,2.981,0,0,1-3.08,2.938ZM14.163,11.353A2.832,2.832,0,1,0,17,14.185,2.829,2.829,0,0,0,14.163,11.353Zm8.5-2.841a2.832,2.832,0,1,0,2.832,2.832,2.829,2.829,0,0,0-2.832-2.832Zm8.5,2.841a2.832,2.832,0,1,0,2.832,2.832A2.829,2.829,0,0,0,31.154,11.353Z" transform="translate(937.341 517.314)" fill="#fff"/>
+    </g>
+</svg>

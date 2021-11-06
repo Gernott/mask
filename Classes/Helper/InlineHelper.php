@@ -87,6 +87,7 @@ class InlineHelper
             $imageFields = ['media'];
         }
         $contentFields = array_merge($imageFields, $tcaKeys);
+        $contentFields = array_unique($contentFields);
 
         $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
         foreach ($contentFields as $fieldKey) {
@@ -284,8 +285,12 @@ class InlineHelper
 
         foreach ($elements as $key => $element) {
             if ($element) {
-                $this->addIrreToData($element, $name, $cType);
-                $this->addFilesToData($element, $name);
+                $childCType = $cType;
+                if ($childTable === 'tt_content') {
+                    $childCType = $element['CType'];
+                }
+                $this->addIrreToData($element, $childTable, $childCType);
+                $this->addFilesToData($element, $childTable);
                 $elements[$key] = $element;
             }
         }

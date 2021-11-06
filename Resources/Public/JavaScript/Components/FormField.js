@@ -1,11 +1,14 @@
 define([
     'TYPO3/CMS/Mask/Contrib/vue',
-    'jquery'
+    'TYPO3/CMS/Mask/Components/Colorpicker'
   ],
-  function (Vue, $) {
+  function (Vue, Colorpicker) {
     return Vue.component(
       'form-field',
       {
+        components: {
+          Colorpicker
+        },
         props: {
           column: Number,
           tcaFields: Object,
@@ -102,7 +105,8 @@ define([
               'datetime': 'date',
               'timestamp': 'date',
               'text': 'textarea',
-              'richtext': 'textarea'
+              'richtext': 'textarea',
+              'colorpicker': 'colorpicker'
             };
             if (this.global.activeField.name in formFieldMap) {
               return formFieldMap[this.global.activeField.name];
@@ -140,6 +144,7 @@ define([
               <div v-if="type == 'number'" class="form-control-wrap">
                 <input v-model="global.activeField.tca[tcaKey]" :id="id" :placeholder="field.placeholder" :min="field.min" :max="field.max" :step="field.step" class="form-control" type="number">
               </div>
+              <colorpicker v-if="type == 'colorpicker'" :global="global" :tcaKey="tcaKey"/>
               <div v-if="type == 'checkbox'" class="form-control-wrap">
                 <div class="checkbox checkbox-type-toggle form-check form-switch" :class="{'checkbox-invert': field.invert}">
                     <input :id="id" class="checkbox-input form-check-input" v-model="global.activeField.tca[tcaKey]" type="checkbox" :true-value="valueOn" :false-value="valueOff" @change="switchDependsOn(tcaKey, field.dependsOn)">
@@ -169,11 +174,13 @@ define([
                 </div>
               </div>
               <div class="form-wizards-wrap" v-if="type == 'radio'">
+                <div class="form-wizards-element">
                   <div v-if="checkPrefixLangTitle(value)" class="radio" v-for="(label, value) in field.items">
                       <label>
                           <input type="radio" v-model="global.activeField.tca[tcaKey]" :value="value"> {{ label }} <span v-if="value !== ''">[{{ value }}]</span></option>
                       </label>
                   </div>
+                </div>
               </div>
             </div>
             <div v-if="type == 'cTypes'" class="form-control-wrap">

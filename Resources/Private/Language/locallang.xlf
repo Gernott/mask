@@ -15,6 +15,9 @@
 			<trans-unit id="tx_mask.field.link">
 				<source>Link</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.colorpicker">
+				<source>Colorpicker</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.date">
 				<source>Date</source>
 			</trans-unit>

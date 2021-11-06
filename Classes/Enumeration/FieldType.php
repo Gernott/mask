@@ -40,6 +40,7 @@ final class FieldType extends Enumeration
     public const TAB = 'tab';
     public const PALETTE = 'palette';
     public const LINEBREAK = 'linebreak';
+    public const COLORPICKER = 'colorpicker';
 
     public function isGroupingField(): bool
     {
@@ -63,6 +64,6 @@ final class FieldType extends Enumeration
 
     public function canBeShared(): bool
     {
-        return !in_array($this->value, [self::INLINE, self::TAB, self::LINEBREAK], true);
+        return !in_array($this->value, [self::INLINE, self::CONTENT, self::PALETTE, self::TAB, self::LINEBREAK], true);
     }
 }

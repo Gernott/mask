@@ -39,7 +39,7 @@ define([
     return;
   }
 
-  const mask = new Vue({
+  new Vue({
     el: '#mask',
     components: {
       draggable,
@@ -91,6 +91,7 @@ define([
           currentTab: 'general',
           ctypes: {},
           sctructuralFields: ['linebreak', 'palette', 'tab'],
+          nonShareableFields: ['inline', 'content', 'palette', 'linebreak', 'tab'],
           maskPrefix: 'tx_mask_',
           deletedFields: [],
         },
@@ -106,50 +107,50 @@ define([
       // Fetch language
       promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_language)).get()
         .then(
-          async function (response) {
-            mask.language = await response.resolve();
+          async response => {
+            this.language = await response.resolve();
           }
         ));
 
       // Fetch tcaFields for existing core and mask fields
       promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_tca_fields)).get()
         .then(
-          async function (response) {
-            mask.tcaFields = await response.resolve();
+          async response => {
+            this.tcaFields = await response.resolve();
           }
         ));
 
       // fetch tab declarations
       promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_tabs)).get()
         .then(
-          async function (response) {
-            mask.tabs = await response.resolve();
+          async response => {
+            this.tabs = await response.resolve();
           }
         ));
 
       // fetch richtext configuration
       promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_richtext_configuration)).get()
         .then(
-          async function (response) {
-            mask.global.richtextConfiguration = await response.resolve();
+          async response => {
+            this.global.richtextConfiguration = await response.resolve();
           }
         ));
 
       // fetch CTypes
       promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_ctypes)).get()
         .then(
-          async function (response) {
+          async response => {
             const result = await response.resolve();
-            mask.global.ctypes = result.ctypes;
+            this.global.ctypes = result.ctypes;
           }
         ));
 
       // fetch field groups
       promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_field_groups)).get()
           .then(
-              async function (response) {
+              async response => {
                 const result = await response.resolve();
-                mask.groups = result.groups;
+                this.groups = result.groups;
               }
           ));
 
@@ -159,77 +160,77 @@ define([
       // fetch backend layouts
       promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_backend_layouts)).get()
           .then(
-              async function (response) {
+              async response => {
                 const backendLayouts = await response.resolve();
-                mask.backendLayouts = backendLayouts['backendLayouts'];
+                this.backendLayouts = backendLayouts['backendLayouts'];
               }
           ));
 
       // fetch fontawesome icons
       promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_icons)).get()
         .then(
-          async function (response) {
-            mask.faIcons = await response.resolve();
+          async response => {
+            this.faIcons = await response.resolve();
           }
         ));
 
       // fetch possible missing files or folders
       promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_missing)).get()
           .then(
-              async function (response) {
+              async response => {
                 const missing = await response.resolve();
-                mask.missingFilesOrFolders = missing.missing;
+                this.missingFilesOrFolders = missing.missing;
               }
           ));
 
       // fetch mask and typo3 version
       promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_versions)).get()
           .then(
-              async function (response) {
+              async response => {
                 const versions = await response.resolve();
-                mask.version = versions.mask;
-                mask.global.typo3Version = versions.typo3;
+                this.version = versions.mask;
+                this.global.typo3Version = versions.typo3;
               }
           ));
 
       // fetch optional extension status
       promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_optional_extension_status)).get()
         .then(
-          async function (response) {
-            mask.optionalExtensionStatus = await response.resolve();
+          async response => {
+            this.optionalExtensionStatus = await response.resolve();
           }
         ));
 
-      promises.push(Icons.getIcon('actions-edit-delete', Icons.sizes.small).done(function (icon) {
-        mask.icons.delete = icon;
+      promises.push(Icons.getIcon('actions-edit-delete', Icons.sizes.small).done(icon => {
+        this.icons.delete = icon;
       }));
-      promises.push(Icons.getIcon('actions-move-move', Icons.sizes.small).done(function (icon) {
-        mask.icons.move = icon;
+      promises.push(Icons.getIcon('actions-move-move', Icons.sizes.small).done(icon => {
+        this.icons.move = icon;
       }));
-      promises.push(Icons.getIcon('actions-edit-pick-date', Icons.sizes.small).done(function (icon) {
-        mask.icons.date = icon;
+      promises.push(Icons.getIcon('actions-edit-pick-date', Icons.sizes.small).done(icon => {
+        this.icons.date = icon;
       }));
-      promises.push(Icons.getIcon('actions-open', Icons.sizes.small).done(function (icon) {
-        mask.icons.edit = icon;
+      promises.push(Icons.getIcon('actions-open', Icons.sizes.small).done(icon => {
+        this.icons.edit = icon;
       }));
-      promises.push(Icons.getIcon('actions-save', Icons.sizes.small).done(function (icon) {
-        mask.icons.save = icon;
+      promises.push(Icons.getIcon('actions-save', Icons.sizes.small).done(icon => {
+        this.icons.save = icon;
       }));
-      promises.push(Icons.getIcon('actions-close', Icons.sizes.small).done(function (icon) {
-        mask.icons.close = icon;
+      promises.push(Icons.getIcon('actions-close', Icons.sizes.small).done(icon => {
+        this.icons.close = icon;
       }));
-      promises.push(Icons.getIcon('spinner-circle-dark', Icons.sizes.small).done(function (icon) {
-        mask.icons.spinner = icon;
+      promises.push(Icons.getIcon('spinner-circle-dark', Icons.sizes.small).done(icon => {
+        this.icons.spinner = icon;
       }));
 
       Promise.all(promises).then(() => {
-        mask.loaded = true;
+        this.loaded = true;
       });
 
       // Trigger input change on TYPO3 datepicker change event.
       if (this.global.typo3Version === 10) {
-        $(document).on('formengine.dp.change', function () {
-          document.querySelectorAll('.t3js-datetimepicker').forEach(function (input) {
+        $(document).on('formengine.dp.change', () => {
+          document.querySelectorAll('.t3js-datetimepicker').forEach(input => {
             input.dispatchEvent((new Event('input')));
           });
         });
@@ -264,9 +265,9 @@ define([
           .withQueryArguments({key: this.element.key})
           .get()
           .then(
-            async function (response) {
+            async response => {
               const result = await response.resolve();
-              mask.fieldErrors.elementKeyAvailable = result.isAvailable;
+              this.fieldErrors.elementKeyAvailable = result.isAvailable;
             }
           );
       },
@@ -285,7 +286,7 @@ define([
           };
           new AjaxRequest(TYPO3.settings.ajaxUrls.mask_save).post(payload)
             .then(
-              async function (response) {
+              async response => {
                 const res = await response.resolve();
                 this.mode = 'edit';
                 this.showMessages(res);
@@ -298,7 +299,7 @@ define([
                     })
                     .get()
                     .then(
-                        async function (response) {
+                        async response => {
                           const result = await response.resolve();
                           this.fields = result.fields;
                           this.addParentReferenceToFields({}, this.fields);
@@ -306,9 +307,9 @@ define([
                             this.findActiveField(this.global.activeField, this.fields);
                           }
                           this.saving = false;
-                        }.bind(this)
+                        }
                     );
-              }.bind(this)
+              }
             );
         } else {
           this.saving = false;
@@ -322,11 +323,11 @@ define([
                 btnClass: 'btn-default',
                 active: true,
                 name: 'ok',
-                trigger: function () {
+                trigger: () => {
                   Modal.dismiss();
-                  mask.getErrorFields().every(function (errorFields) {
+                  this.getErrorFields().every(errorFields => {
                     if (errorFields.length > 0) {
-                      mask.global.activeField = errorFields[0];
+                      this.global.activeField = errorFields[0];
                       return false;
                     }
                     return true;
@@ -356,14 +357,14 @@ define([
       },
       getPostFields: function (fields) {
         const postFields = [];
-        fields.forEach(function (item) {
+        fields.forEach(item => {
           postFields.push({
             key: item.key,
             label: item.label,
             description: item.description,
             name: item.name,
             tca: Object.assign({}, item.tca),
-            fields: mask.getPostFields(item.fields),
+            fields: this.getPostFields(item.fields),
             sql: item.sql
           });
         });
@@ -377,7 +378,7 @@ define([
        */
       findActiveField: function (activeField, fields) {
         let found = false;
-        fields.forEach(function (field) {
+        fields.forEach(field => {
             if (field.key === activeField.key && (this.isEmptyObject(activeField.parent) && this.isEmptyObject(field.parent) || activeField.parent.key === field.parent.key)) {
               this.global.activeField = field;
               found = true;
@@ -385,14 +386,14 @@ define([
             if (!found) {
               this.findActiveField(activeField, field.fields);
             }
-        }.bind(this));
+        });
       },
       loadElements: function () {
         return (new AjaxRequest(TYPO3.settings.ajaxUrls.mask_elements)).get()
             .then(
-                async function (response) {
+                async response => {
                   const result = await response.resolve();
-                  mask.elements = result.elements;
+                  this.elements = result.elements;
                 }
             );
       },
@@ -402,15 +403,15 @@ define([
             .withQueryArguments({key: this.global.activeField.key, type: this.type})
             .get()
             .then(
-              async function (response) {
+              async response => {
                 const result = await response.resolve();
-                mask.global.activeField.tca = result.field.tca;
-                mask.global.activeField.label = result.field.label;
-                mask.global.activeField.description = result.field.description;
-                mask.global.activeField.sql = result.field.sql;
+                this.global.activeField.tca = result.field.tca;
+                this.global.activeField.label = result.field.label;
+                this.global.activeField.description = result.field.description;
+                this.global.activeField.sql = result.field.sql;
               }
             );
-            mask.loadMultiUse();
+          this.loadMultiUse();
         }
       },
       loadMultiUse: function () {
@@ -428,22 +429,22 @@ define([
             .withQueryArguments({key: this.global.activeField.key, elementKey: this.element.key, newField: this.global.activeField.newField ? 1 : 0})
             .get()
             .then(
-                async function (response) {
+                async response => {
                   const result = await response.resolve();
                   // We need to use $set here for reactivity to work, as keys are added dynamically.
-                  mask.$set(mask.multiUseElements, mask.global.activeField.key, result.multiUseElements);
+                  this.$set(this.multiUseElements, this.global.activeField.key, result.multiUseElements);
                 }
             );
       },
       validateKey: function (field) {
         if (this.isEmptyObject(this.global.activeField)) {
-          return;
+          return false;
         }
 
         // Force mask prefix if not a core field
         if (!this.isActiveCoreField && !this.hasMaskPrefix(field.key)) {
           field.key = this.global.maskPrefix;
-          return;
+          return false;
         }
 
         // Force lowercase and remove special chars
@@ -451,38 +452,49 @@ define([
 
         // Skip empty fields (these are validated by empty validator)
         if (field.key === this.global.maskPrefix) {
-          return;
+          return false;
         }
 
         // Step 1: Check if key is in current fields array
         let fields = this.getFields(field);
-        let error = this.checkIfKeyExistsInFields(fields, this.global.activeField);
-        if (error) {
+        let keyExistsInFields = this.checkIfKeyExistsInFields(fields, this.global.activeField);
+        if (keyExistsInFields) {
           this.fieldErrors.existingFieldKeyFields.push(this.global.activeField);
         } else {
-          mask.removeExistingKeyField(this.global.activeField);
+          this.removeExistingKeyField(this.global.activeField);
         }
 
         // Step 2: Check if another field is now valid due to the change
-        this.fieldErrors.existingFieldKeyFields.every(function (errorField) {
-          if (errorField !== field && !mask.checkIfKeyExistsInFields(mask.getFields(errorField), errorField)) {
-            mask.removeExistingKeyField(errorField);
+        this.fieldErrors.existingFieldKeyFields.every(errorField => {
+          if (errorField !== field && !this.checkIfKeyExistsInFields(this.getFields(errorField), errorField)) {
+            this.removeExistingKeyField(errorField);
           }
           return true;
         });
 
-        // Step 3: Check if key is in possible tca array and avoid ajax check if so
-        if (this.getAvailableTcaKeys()[field.name].includes(field.key)) {
-          return;
+        // Step 3: Check if key is in possible tca array and avoid ajax check if so (only root level).
+        if (this.isRoot(field) && this.getAvailableTcaKeys()[field.name].includes(field.key)) {
+          return false;
         }
 
-        // If there is an error already from step 1 or we are not on root or the field isn't new, cancel tca ajax check.
-        if (error || !this.isRoot(field) || !field.newField) {
-          return;
+        // If key already exists in current fields.
+        if (keyExistsInFields) {
+          return false;
+        }
+
+        // The field isn't new (must be valid).
+        if (!field.newField) {
+          return true;
+        }
+
+        // TCA check is also not needed for fields inside inline. Exception: type inline and content.
+        if (!this.isRoot(field) && field.name !== 'inline' && field.name !== 'content') {
+          return true;
         }
 
         // Check if key already exists in table
         let arguments = {
+          table: this.type,
           key: field.key,
           type: field.name,
           elementKey: ''
@@ -490,19 +502,21 @@ define([
         if (this.mode === 'edit') {
           arguments.elementKey = this.element.key;
         }
-        new AjaxRequest(TYPO3.settings.ajaxUrls.mask_check_field_key)
+        return (new AjaxRequest(TYPO3.settings.ajaxUrls.mask_check_field_key)
           .withQueryArguments(arguments)
           .get()
           .then(
-            async function (response) {
+            async response => {
               const result = await response.resolve();
               if (result.isAvailable) {
-                mask.removeExistingKeyField(mask.global.activeField);
+                this.removeExistingKeyField(this.global.activeField);
+                return true;
               } else {
-                mask.fieldErrors.existingFieldKeyFields.push(mask.global.activeField);
+                this.fieldErrors.existingFieldKeyFields.push(this.global.activeField);
+                return false;
               }
             }
-          );
+          ));
       },
       hasMaskPrefix: function (key) {
         return key.substr(0, this.global.maskPrefix.length) === this.global.maskPrefix;
@@ -514,7 +528,7 @@ define([
         return this.canBeShared(field) && this.isRoot(field) && this.isExistingMaskField(field);
       },
       canBeShared: function (field) {
-        return !['inline', 'palette', 'linebreak', 'tab'].includes(field.name);
+        return !this.global.nonShareableFields.includes(field.name);
       },
       getFields: function (field) {
         let fields = this.fields;
@@ -529,13 +543,13 @@ define([
       },
       checkIfKeyExistsInFields: function (fields, checkField) {
         let error = false;
-        fields.every(function (field) {
+        fields.every(field => {
           if (field !== checkField) {
             if (checkField.key === field.key) {
               error = true;
             } else {
               if (!error && field.name === 'palette') {
-                error = mask.checkIfKeyExistsInFields(field.fields, checkField);
+                error = this.checkIfKeyExistsInFields(field.fields, checkField);
               }
             }
             return !error;
@@ -545,7 +559,7 @@ define([
         return error;
       },
       removeExistingKeyField: function (removedField) {
-        mask.fieldErrors.existingFieldKeyFields = mask.fieldErrors.existingFieldKeyFields.filter(function (field) {
+        this.fieldErrors.existingFieldKeyFields = this.fieldErrors.existingFieldKeyFields.filter(field => {
           return field !== removedField;
         });
       },
@@ -630,7 +644,7 @@ define([
         let requests = [];
 
         // load element fields
-        requests.push(this.loadTca().then(function () {
+        requests.push(this.loadTca().then(() => {
           new AjaxRequest(TYPO3.settings.ajaxUrls.mask_load_element)
               .withQueryArguments({
                 type: type,
@@ -638,10 +652,10 @@ define([
               })
               .get()
               .then(
-                  async function (response) {
+                  async response => {
                     const result = await response.resolve();
-                    mask.fields = result.fields;
-                    mask.addParentReferenceToFields({}, mask.fields);
+                    this.fields = result.fields;
+                    this.addParentReferenceToFields({}, this.fields);
                   }
               )
         }));
@@ -653,35 +667,35 @@ define([
             })
             .get()
             .then(
-                async function (response) {
+                async response => {
                   const result = await response.resolve();
                   if (result.multiUseElements.length !== 0) {
-                    mask.multiUseElements = result.multiUseElements;
+                    this.multiUseElements = result.multiUseElements;
                   }
                 }
             ));
 
-        Promise.all(requests).then(function () {
-          mask.loaded = true;
+        Promise.all(requests).then(() => {
+          this.loaded = true;
         });
       },
       addParentReferenceToFields: function (parent, fields) {
-        fields.forEach(function (field) {
+        fields.forEach(field => {
           field.parent = parent;
           this.addParentReferenceToFields(field, field.fields);
-        }.bind(this));
+        });
       },
       loadTca: function () {
         // Fetch fieldtypes and available tca
         return (new AjaxRequest(TYPO3.settings.ajaxUrls.mask_fieldtypes)).get()
           .then(
-            async function (response) {
-              mask.fieldTypes = await response.resolve();
-              mask.fieldTypes.forEach(function (item) {
-                new AjaxRequest(TYPO3.settings.ajaxUrls.mask_existing_tca).withQueryArguments({table: mask.type, type: item.name}).get()
+            async response => {
+              this.fieldTypes = await response.resolve();
+              this.fieldTypes.forEach(item => {
+                new AjaxRequest(TYPO3.settings.ajaxUrls.mask_existing_tca).withQueryArguments({table: this.type, type: item.name}).get()
                   .then(
-                    async function (response) {
-                      mask.availableTca[item.name] = await response.resolve();
+                    async response => {
+                      this.availableTca[item.name] = await response.resolve();
                     }
                   )
               });
@@ -691,10 +705,10 @@ define([
       deleteElement: function (item, purge) {
         new AjaxRequest(TYPO3.settings.ajaxUrls.mask_delete).post({key: item.key, purge: purge})
             .then(
-                async function (response) {
+                async response => {
                   const res = await response.resolve();
-                  mask.showMessages(res);
-                  mask.loadElements();
+                  this.showMessages(res);
+                  this.loadElements();
                 }
             );
       },
@@ -715,17 +729,17 @@ define([
                 text: this.language.deleteModal.delete,
                 active: true,
                 btnClass: 'btn-warning',
-                trigger: function () {
+                trigger: () => {
                   Modal.dismiss();
-                  mask.deleteElement(item, 0);
+                  this.deleteElement(item, 0);
                 }
               },
               {
                 text: this.language.deleteModal.purge,
                 btnClass: 'btn-danger',
-                trigger: function () {
+                trigger: () => {
                   Modal.dismiss();
-                  mask.deleteElement(item, 1);
+                  this.deleteElement(item, 1);
                 }
               }
             ]);
@@ -733,12 +747,12 @@ define([
       fixMissing() {
         (new AjaxRequest(TYPO3.settings.ajaxUrls.mask_fix_missing)).get()
           .then(
-            async function (response) {
+            async response => {
               const fixed = await response.resolve();
               if (fixed['success']) {
-                Notification.success('', mask.language.missingCreated);
-                mask.missingFilesOrFolders = false;
-                mask.loadElements();
+                Notification.success('', this.language.missingCreated);
+                this.missingFilesOrFolders = false;
+                this.loadElements();
               } else {
                 Notification.error('', 'Something went wrong while trying to create missing files.');
               }
@@ -746,7 +760,7 @@ define([
           )
       },
       showMessages: function (res) {
-        Object.keys(res).forEach(function (key) {
+        Object.keys(res).forEach(key => {
           const item = res[key];
           if (item.severity === 0) {
             Notification.success(item.title, item.message);
@@ -819,43 +833,43 @@ define([
         ];
       },
       checkFieldKeyIsEmpty: function (fields) {
-        fields.every(function (item) {
-          if (item.key === mask.global.maskPrefix) {
-            mask.fieldErrors.emptyKeyFields.push(item);
+        fields.every(item => {
+          if (item.key === this.global.maskPrefix) {
+            this.fieldErrors.emptyKeyFields.push(item);
           }
           if (item.fields.length > 0) {
-            mask.checkFieldKeyIsEmpty(item.fields);
+            this.checkFieldKeyIsEmpty(item.fields);
           }
           return true;
         });
       },
       checkTabLabelIsEmpty: function (fields) {
-        fields.every(function (item) {
+        fields.every(item => {
           if (item.name === 'tab' && item.label === '') {
-            mask.fieldErrors.emptyTabLabels.push(item);
+            this.fieldErrors.emptyTabLabels.push(item);
           }
           if (item.fields.length > 0) {
-            mask.checkTabLabelIsEmpty(item.fields);
+            this.checkTabLabelIsEmpty(item.fields);
           }
           return true;
         });
       },
       checkEmptyGroupAllowed: function (fields) {
-        fields.every(function (item) {
-          if (mask.isCoreField(item)) {
+        fields.every(item => {
+          if (this.isCoreField(item)) {
             return true;
           }
           if (item.tca['config.internal_type'] === 'db' && item.tca['config.allowed'] === '') {
-            mask.fieldErrors.emptyGroupAllowedFields.push(item);
+            this.fieldErrors.emptyGroupAllowedFields.push(item);
           }
           if (item.fields.length > 0) {
-            mask.checkEmptyGroupAllowed(item.fields);
+            this.checkEmptyGroupAllowed(item.fields);
           }
           return true;
         });
       },
       checkEmptyRadioItems: function (fields) {
-        fields.every(function (item) {
+        fields.every(item => {
           if (this.isCoreField(item)) {
             return true;
           }
@@ -864,21 +878,21 @@ define([
             if (items.length < 2) {
               this.fieldErrors.emptyRadioItems.push(item);
             } else {
-              items.every(function (radioItem) {
+              items.every(radioItem => {
                 const parts = radioItem.split(',');
                 if (parts.length < 2 || !this.isNumeric(parts[1])) {
                   this.fieldErrors.emptyRadioItems.push(item);
                   return false;
                 }
                 return true;
-              }.bind(this));
+              });
             }
           }
           if (item.fields.length > 0) {
             this.checkEmptyRadioItems(item.fields);
           }
           return true;
-        }.bind(this));
+        });
       },
       handleClone: function (item) {
         // Create a fresh copy of item
@@ -1002,7 +1016,7 @@ define([
           return false;
         }
         let isExisting = false;
-        this.availableTca[field.name].core.forEach(function (item) {
+        this.availableTca[field.name].core.forEach(item => {
           if (item.field === field.key) {
             isExisting = true;
           }
@@ -1025,8 +1039,8 @@ define([
         if (this.isEmptyObject(this.availableTca) || this.isEmptyObject(field)) {
           return [];
         }
-        return this.availableTca[field.name][type].filter(function (item) {
-          return (!mask.currentFieldKeys.includes(item.field) && !mask.deletedFieldKeys.includes(item.field)) || field.key === item.field;
+        return this.availableTca[field.name][type].filter(item => {
+          return (!this.currentFieldKeys.includes(item.field) && !this.deletedFieldKeys.includes(item.field)) || field.key === item.field;
         });
       },
       getFieldKeys: function (fields) {
@@ -1047,12 +1061,12 @@ define([
       },
       getAvailableTcaKeys: function () {
         const keys = {};
-        Object.keys(this.availableTca).forEach(function (key) {
+        Object.keys(this.availableTca).forEach(key => {
           keys[key] = [];
-          mask.availableTca[key].core.forEach(function (item) {
+          this.availableTca[key].core.forEach(item => {
             keys[key].push(item.field);
           });
-          mask.availableTca[key].mask.forEach(function (item) {
+          this.availableTca[key].mask.forEach(item => {
             keys[key].push(item.field);
           });
         });
@@ -1060,7 +1074,7 @@ define([
       },
       openMultiUsageModal() {
         let template = '';
-        this.activeMultiUseElements.forEach(function (item, index) {
+        this.activeMultiUseElements.forEach((item, index) => {
           template += `${index + 1}: ${item.label} (${item.key})\n`;
         });
         Modal.confirm(
@@ -1071,7 +1085,7 @@ define([
               {
                 text: this.language.close,
                 btnClass: 'btn-default',
-                trigger: function () {
+                trigger: () => {
                   Modal.dismiss();
                 }
               },
@@ -1171,7 +1185,7 @@ define([
           return [];
         }
         const defaults = {};
-        this.fieldTypes.forEach(function (item) {
+        this.fieldTypes.forEach(item => {
           defaults[item.name] = item.tca;
         });
         return defaults;
