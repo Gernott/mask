@@ -322,6 +322,36 @@ final class TableDefinitionCollection implements \IteratorAggregate
     }
 
     /**
+     * Returns the description of a field in an element
+     */
+    public function getDescription(string $elementKey, string $fieldKey, string $table = 'tt_content'): string
+    {
+        if (!$this->hasTable($table)) {
+            return '';
+        }
+        $tableDefinition = $this->getTable($table);
+
+        if (!$tableDefinition->tca->hasField($fieldKey)) {
+            return '';
+        }
+
+        // Root level fields have their labels defined in element labels array.
+        $elements = $tableDefinition->elements;
+        if (!$elements->hasElement($elementKey)) {
+            return '';
+        }
+        $element = $elements->getElement($elementKey);
+        if (!empty($element->columns)) {
+            $fieldIndex = array_search($fieldKey, $element->columns, true);
+            if ($fieldIndex !== false) {
+                return $element->descriptions[$fieldIndex];
+            }
+        }
+
+        return '';
+    }
+
+    /**
      * This method searches for an existing label of a multiuse field
      */
     public function findFirstNonEmptyLabel(string $table, string $key): string

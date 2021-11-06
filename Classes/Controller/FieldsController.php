@@ -126,7 +126,7 @@ class FieldsController
 
             $newField['name'] = (string)$fieldType;
             $newField['icon'] = $this->iconFactory->getIcon('mask-fieldtype-' . $newField['name'])->getMarkup();
-            $newField['description'] = $field['description'] ?? '';
+            $newField['description'] = $this->tableDefinitionCollection->getDescription($elementKey, $newField['key'], $table);
             $newField['tca'] = [];
 
             if (isset($field['coreField'])) {

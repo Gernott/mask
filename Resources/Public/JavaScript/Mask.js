@@ -1141,6 +1141,9 @@ define([
       overrideLabelVisible: function () {
         return this.isGeneralTabOpen && this.isActiveCoreField;
       },
+      overrideDescriptionVisible: function () {
+        return this.isGeneralTabOpen && this.isActiveCoreField;
+      },
       isGeneralTabOpen: function () {
         return this.global.currentTab === 'general';
       },

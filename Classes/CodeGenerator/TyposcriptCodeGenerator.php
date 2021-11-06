@@ -108,6 +108,7 @@ class TyposcriptCodeGenerator
             $content .= "\n[isMaskContentType(\"" . $cTypeKey . "\")]\n";
             foreach ($element->columns as $index => $column) {
                 $content = $this->setLabel($column, $index, $element, 'tt_content', $content);
+                $content = $this->setDescriptionForCoreFields($column, $index, $element, 'tt_content', $content);
             }
             $content .= "[end]\n\n";
         }
@@ -155,6 +156,23 @@ class TyposcriptCodeGenerator
             }
         } else {
             $content .= ' TCEFORM.' . $table . '.' . $fieldKey . '.label = ' . $element->labels[$index] . "\n";
+        }
+
+        return $content;
+    }
+
+    /**
+     * Overwrite the description field of a core field via TCEFORM
+     */
+    protected function setDescriptionForCoreFields(string $fieldKey, int $index, ElementDefinition $element, string $table, string $content): string
+    {
+        $fieldDefinition = $this->tableDefinitionCollection->loadField($table, $fieldKey);
+        if (!$fieldDefinition) {
+            return $content;
+        }
+
+        if ($fieldDefinition->isCoreField && array_key_exists($index, $element->descriptions) && $element->descriptions[$index] !== '') {
+            $content .= ' TCEFORM.' . $table . '.' . $fieldKey . '.description = ' . $element->descriptions[$index] . "\n";
         }
 
         return $content;

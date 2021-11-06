@@ -53,6 +53,12 @@
                         </div>
                     </div>
 
+                    <div v-if="overrideDescriptionVisible" class="row">
+                        <div class="form-group col-sm-12 col-xl-6">
+                            <f:render partial="Form/OverrideDescription"/>
+                        </div>
+                    </div>
+
                     <div class="row" v-if="keyFieldVisible || maskFieldGeneralTabOpen">
                         <div v-if="keyFieldVisible" :class="['form-group', 'col-sm-12 col-xl-6', {'has-error': activeFieldHasKeyError}]">
                             <f:render partial="Form/Key"/>

@@ -27,6 +27,7 @@ final class ElementDefinition
     public $icon = '';
     public $columns = [];
     public $labels = [];
+    public $descriptions = [];
     // Options were used prior to v6 to identify fields like "rte"
     public $options = [];
     public $hidden = false;
@@ -52,6 +53,7 @@ final class ElementDefinition
         $elementDefinition->icon = $elementArray['icon'] ?? '';
         $elementDefinition->columns = $elementArray['columns'] ?? [];
         $elementDefinition->labels = $elementArray['labels'] ?? [];
+        $elementDefinition->descriptions = $elementArray['descriptions'] ?? [];
         $elementDefinition->options = $elementArray['options'] ?? [];
         $elementDefinition->hidden = !empty($elementArray['hidden']);
         $elementDefinition->sorting = $elementArray['sorting'] ?? 0;
@@ -70,6 +72,7 @@ final class ElementDefinition
             'icon' => $this->icon,
             'columns' => $this->columns,
             'labels' => $this->labels,
+            'descriptions' => $this->descriptions,
             'sorting' => $this->sorting
         ];
 
