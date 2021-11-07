@@ -184,7 +184,18 @@ class TyposcriptCodeGenerator
         }
 
         if (array_key_exists($index, $element->descriptions) && $element->descriptions[$index] !== '') {
-            $content .= ' TCEFORM.' . $table . '.' . $fieldKey . '.description = ' . $element->descriptions[$index] . "\n";
+            $fieldDescription = $element->descriptions[$index];
+            if (mb_strpos($fieldDescription, "\n")) {
+                $descriptionParts = explode("\n", $fieldDescription);
+                $content .= ' TCEFORM.' . $table . '.' . $fieldKey . '.description ( '. "\n";
+                foreach ($descriptionParts as $part) {
+                    $content .= "\t" . $part . "\n";
+                }
+
+                $content .= ')' . "\n";
+            } else {
+                $content .= ' TCEFORM.' . $table . '.' . $fieldKey . '.description = ' . $fieldDescription . "\n";
+            }
         }
 
         return $content;
