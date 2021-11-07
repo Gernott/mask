@@ -179,6 +179,15 @@ class TcaCodeGenerator
             $GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes'][$cTypeKey] = 'mask-ce-' . $element->key;
             $GLOBALS['TCA']['tt_content']['types'][$cTypeKey]['columnsOverrides']['bodytext']['config']['enableRichtext'] = 1;
             $GLOBALS['TCA']['tt_content']['types'][$cTypeKey]['showitem'] = $prependTabs . $defaultPalette . $fields . $defaultTabs . $gridelements;
+
+            // set for the fields of the element the field description if this is provided
+            foreach ($element->columns as $index => $fieldName) {
+                if (array_key_exists($index, $element->descriptions) && $element->descriptions[$index] !== '') {
+                    $description = $element->descriptions[$index];
+                    // overwrite description via columnsOverrides
+                    $GLOBALS['TCA']['tt_content']['types'][$cTypeKey]['columnsOverrides'][$fieldName]['description'] = $description;
+                }
+            }
         }
     }
 
