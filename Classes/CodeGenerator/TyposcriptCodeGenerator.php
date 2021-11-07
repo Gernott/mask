@@ -25,6 +25,7 @@ use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\ArrayToTypoScriptConverterUtility;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Core\Imaging\IconRegistry;
+use TYPO3\CMS\Core\Information\Typo3Version;
 
 /**
  * Generates all the typoscript needed for mask content elements
@@ -47,14 +48,21 @@ class TyposcriptCodeGenerator
      */
     protected $iconRegistry;
 
+    /**
+     * @var Typo3Version
+     */
+    protected $typo3Version;
+
     public function __construct(
         TableDefinitionCollection $tableDefinitionCollection,
         array $maskExtensionConfiguration,
-        IconRegistry $iconRegistry
+        IconRegistry $iconRegistry,
+        Typo3Version $typo3Version
     ) {
         $this->tableDefinitionCollection = $tableDefinitionCollection;
         $this->maskExtensionConfiguration = $maskExtensionConfiguration;
         $this->iconRegistry = $iconRegistry;
+        $this->typo3Version = $typo3Version;
     }
 
     /**
@@ -108,7 +116,11 @@ class TyposcriptCodeGenerator
             $content .= "\n[isMaskContentType(\"" . $cTypeKey . "\")]\n";
             foreach ($element->columns as $index => $column) {
                 $content = $this->setLabel($column, $index, $element, 'tt_content', $content);
-                $content = $this->setDescriptionForCoreFields($column, $index, $element, 'tt_content', $content);
+
+                // Overwriting description of a field over tsconfig only supported with typo3 11
+                if ($this->typo3Version->getMajorVersion() > 10) {
+                    $content = $this->setDescriptionForCoreFields($column, $index, $element, 'tt_content', $content);
+                }
             }
             $content .= "[end]\n\n";
         }
