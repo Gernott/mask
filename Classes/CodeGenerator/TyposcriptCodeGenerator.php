@@ -119,7 +119,7 @@ class TyposcriptCodeGenerator
 
                 // Overwriting description of a field over tsconfig only supported with typo3 11
                 if ($this->typo3Version->getMajorVersion() > 10) {
-                    $content = $this->setDescriptionForCoreFields($column, $index, $element, 'tt_content', $content);
+                    $content = $this->setDescription($column, $index, $element, 'tt_content', $content);
                 }
             }
             $content .= "[end]\n\n";
@@ -174,16 +174,16 @@ class TyposcriptCodeGenerator
     }
 
     /**
-     * Overwrite the description field of a core field via TCEFORM
+     * Overwrite the description for a field via TCEFORM
      */
-    protected function setDescriptionForCoreFields(string $fieldKey, int $index, ElementDefinition $element, string $table, string $content): string
+    protected function setDescription(string $fieldKey, int $index, ElementDefinition $element, string $table, string $content): string
     {
         $fieldDefinition = $this->tableDefinitionCollection->loadField($table, $fieldKey);
         if (!$fieldDefinition) {
             return $content;
         }
 
-        if ($fieldDefinition->isCoreField && array_key_exists($index, $element->descriptions) && $element->descriptions[$index] !== '') {
+        if (array_key_exists($index, $element->descriptions) && $element->descriptions[$index] !== '') {
             $content .= ' TCEFORM.' . $table . '.' . $fieldKey . '.description = ' . $element->descriptions[$index] . "\n";
         }
 
