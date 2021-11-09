@@ -335,6 +335,17 @@ final class TableDefinitionCollection implements \IteratorAggregate
             return '';
         }
 
+        // If this field is in a repeating field or palette, the label is in the field configuration.
+        $field = $tableDefinition->tca->getField($fieldKey);
+        if ($field->hasInlineParent()) {;
+            if (empty($field->descriptionByElement)) {
+                return $field->description;
+            }
+            if (isset($field->descriptionByElement[$elementKey])) {
+                return $field->descriptionByElement[$elementKey];
+            }
+        }
+
         // Root level fields have their labels defined in element labels array.
         $elements = $tableDefinition->elements;
         if (!$elements->hasElement($elementKey)) {
