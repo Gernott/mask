@@ -177,6 +177,10 @@ final class TcaFieldDefinition
         if (is_array($definition['label'] ?? false)) {
             unset($definition['label']);
         }
+        // Unset label if it is from palette fields
+        if (is_array($definition['description'] ?? false)) {
+            unset($definition['description']);
+        }
 
         $definition = self::removeBlankOptions($definition);
 
@@ -307,7 +311,7 @@ final class TcaFieldDefinition
         }
 
         if (!empty($this->labelByElement)) {
-            $field['label'] = $this->labelByElement;
+           $field['label'] = $this->labelByElement;
         } elseif ($this->label !== '') {
             $field['label'] = $this->label;
         }

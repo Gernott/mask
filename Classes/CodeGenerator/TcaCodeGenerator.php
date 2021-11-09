@@ -400,6 +400,14 @@ class TcaCodeGenerator
                 }
             }
 
+            // add description field for all ctypes if field is in palette
+            if ($field->inPalette && $table === 'tt_content') {
+                foreach ($field->descriptionByElement as $cType => $description) {
+                    $cTypeKey = AffixUtility::addMaskCTypePrefix($cType);
+                    $GLOBALS['TCA']['tt_content']['types'][$cTypeKey]['columnsOverrides'][$field->fullKey]['description'] = $description;
+                }
+            }
+
             // Exlcude all fields for editors by default
             $field->realTca['exclude'] = 1;
 
