@@ -40,6 +40,10 @@
 					"A",
 					"Repeat1"
 				],
+				"descriptions": [
+					"",
+					"description for field tx_mask_repeat1"
+				],
 				"sorting": 0
 			}
 		},

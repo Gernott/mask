@@ -23,6 +23,9 @@
 				"labels": [
 					"File"
 				],
+				"descriptions": [
+					"only images are allowed"
+				],
 				"sorting": 2
 			}
 		},

@@ -43,6 +43,7 @@ class StorageRepositoryTest extends BaseTestCase
                 [
                     'key' => 'tx_mask_field1',
                     'label' => 'Field 1',
+                    'description' => 'Field 1 description',
                     'name' => 'string',
                     'tca' => []
                 ],
@@ -79,6 +80,11 @@ class StorageRepositoryTest extends BaseTestCase
                                 'Field 2',
                                 'Header'
                             ],
+                            'descriptions' => [
+                                'Field 1 description',
+                                '',
+                                ''
+                            ],
                             'sorting' => 1
                         ]
                     ],
@@ -98,7 +104,7 @@ class StorageRepositoryTest extends BaseTestCase
                         'tx_mask_field1' => [
                             'key' => 'field1',
                             'fullKey' => 'tx_mask_field1',
-                            'description' => '',
+                            'description' => 'Field 1 description',
                             'type' => 'string',
                             'config' => [
                                 'type' => 'input'
@@ -158,6 +164,9 @@ class StorageRepositoryTest extends BaseTestCase
                             'labels' => [
                                 'Header 1',
                             ],
+                            'descriptions' => [
+                                '',
+                            ],
                             'sorting' => 1
                         ]
                     ],
@@ -187,6 +196,7 @@ class StorageRepositoryTest extends BaseTestCase
                 [
                     'key' => 'tx_mask_inline_field',
                     'label' => 'Inline Field',
+                    'description' => 'Inline Field description',
                     'name' => 'inline',
                     'tca' => [],
                     'fields' => [
@@ -215,6 +225,9 @@ class StorageRepositoryTest extends BaseTestCase
                             ],
                             'labels' => [
                                 'Inline Field',
+                            ],
+                            'descriptions' => [
+                                'Inline Field description',
                             ],
                             'sorting' => 1
                         ]
@@ -262,7 +275,7 @@ class StorageRepositoryTest extends BaseTestCase
                             'label' => 'Field 1',
                             'inlineParent' => 'tx_mask_inline_field',
                             'order' => 1,
-                            'description' => '',
+                            'description' => 'Inline Field description',
                             'type' => 'string',
                             'config' => [
                                 'type' => 'input'
@@ -283,6 +296,7 @@ class StorageRepositoryTest extends BaseTestCase
                 [
                     'key' => 'tx_mask_timestamp',
                     'label' => 'Timestamp',
+                    'description' => '',
                     'name' => 'timestamp',
                     'tca' => [
                         'config.eval.date' => 1,
@@ -303,6 +317,9 @@ class StorageRepositoryTest extends BaseTestCase
                             ],
                             'labels' => [
                                 'Timestamp',
+                            ],
+                            'descriptions' => [
+                                ''
                             ],
                             'sorting' => 1
                         ]
@@ -360,6 +377,9 @@ class StorageRepositoryTest extends BaseTestCase
                             ],
                             'labels' => [
                                 'Inline Field',
+                            ],
+                            'descriptions' => [
+                                '',
                             ],
                             'sorting' => 1
                         ]
@@ -868,6 +888,7 @@ class StorageRepositoryTest extends BaseTestCase
                             'color' => '#000000',
                             'columns' => [],
                             'labels' => [],
+                            'descriptions' => [],
                             'sorting' => 0
                         ],
                         'element2' => [
@@ -879,6 +900,7 @@ class StorageRepositoryTest extends BaseTestCase
                             'color' => '#000000',
                             'columns' => [],
                             'labels' => [],
+                            'descriptions' => [],
                             'sorting' => 2
                         ],
                         'element3' => [
@@ -1137,6 +1159,9 @@ class StorageRepositoryTest extends BaseTestCase
                                 'label' => 'Element 1',
                                 'labels' => [
                                     'Palette 1'
+                                ],
+                                'descriptions' => [
+                                    '1'
                                 ]
                             ],
                             'element2' => [
@@ -1147,6 +1172,9 @@ class StorageRepositoryTest extends BaseTestCase
                                 'label' => 'Element 2',
                                 'labels' => [
                                     'Palette 2'
+                                ],
+                                'descriptions' => [
+                                    ''
                                 ]
                             ]
                         ],
@@ -1236,6 +1264,9 @@ class StorageRepositoryTest extends BaseTestCase
                                 'icon' => '',
                                 'labels' => [
                                     'Palette 2'
+                                ],
+                                'descriptions' => [
+                                    ''
                                 ],
                                 'sorting' => 0
                             ]

@@ -110,6 +110,10 @@ class JsonSplitLoaderTest extends UnitTestCase
                             'A',
                             'Repeat1'
                         ],
+                        'descriptions' => [
+                            '',
+                            'description for field tx_mask_repeat1'
+                        ],
                         'sorting' => 0
                     ]
                 ],
@@ -182,6 +186,11 @@ class JsonSplitLoaderTest extends UnitTestCase
                             'A 2',
                             'B',
                             'Palette 1'
+                        ],
+                        'descriptions' => [
+                            '',
+                            '',
+                            ''
                         ],
                         'sorting' => 1
                     ]
@@ -276,6 +285,9 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'labels' => [
                             'File'
                         ],
+                        'descriptions' => [
+                            'only images are allowed'
+                        ],
                         'sorting' => 2
                     ]
                 ],
@@ -344,6 +356,9 @@ class JsonSplitLoaderTest extends UnitTestCase
                         ],
                         'labels' => [
                             'Palette 1'
+                        ],
+                        'descriptions' => [
+                            ''
                         ],
                         'sorting' => 3
                     ]
@@ -462,6 +477,10 @@ class JsonSplitLoaderTest extends UnitTestCase
                             'A',
                             'Repeat1'
                         ],
+                        'descriptions' => [
+                            '',
+                            'description for field tx_mask_repeat1'
+                        ],
                         'sorting' => 0
                     ],
                     'b' => [
@@ -481,6 +500,11 @@ class JsonSplitLoaderTest extends UnitTestCase
                             'B',
                             'Palette 1'
                         ],
+                        'descriptions' => [
+                            '',
+                            '',
+                            ''
+                        ],
                         'sorting' => 1
                     ],
                     'c' => [
@@ -496,6 +520,9 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'labels' => [
                             'File',
                         ],
+                        'descriptions' => [
+                            'only images are allowed',
+                        ],
                         'sorting' => 2
                     ],
                     'd' => [
@@ -510,6 +537,9 @@ class JsonSplitLoaderTest extends UnitTestCase
                         ],
                         'labels' => [
                             'Palette 1',
+                        ],
+                        'descriptions' => [
+                            '',
                         ],
                         'sorting' => 3
                     ]
