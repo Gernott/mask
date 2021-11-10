@@ -21,9 +21,10 @@ final class PaletteDefinition
 {
     public $key = '';
     public $label = '';
+    public $description = '';
     public $showitem = [];
 
-    public function __construct(string $key, string $label, array $showitem)
+    public function __construct(string $key, string $label, string $description, array $showitem)
     {
         if ($key === '') {
             throw new \InvalidArgumentException('Palette key must not be empty', 1629293639);
@@ -31,6 +32,7 @@ final class PaletteDefinition
 
         $this->key = $key;
         $this->label = $label;
+        $this->description = $description;
         $this->showitem = $showitem;
     }
 
@@ -38,6 +40,7 @@ final class PaletteDefinition
     {
         return [
             'label' => $this->label,
+            'description' => $this->description,
             'showitem' => $this->showitem
         ];
     }

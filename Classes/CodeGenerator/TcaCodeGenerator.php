@@ -264,6 +264,7 @@ class TcaCodeGenerator
 
         return [
             'label' => $palette->label,
+            'description' => $palette->description,
             'showitem' => implode(',', $showitem)
         ];
     }
