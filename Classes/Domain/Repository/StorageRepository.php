@@ -291,12 +291,12 @@ class StorageRepository implements SingletonInterface
                     // Add palettes entry
                     $jsonAdd[$table]['palettes'][$parent['key']]['showitem'][] = $field['key'];
                     $jsonAdd[$table]['palettes'][$parent['key']]['label'] = $parent['label'];
-                    $jsonAdd[$table]['palettes'][$parent['key']]['description'] = $parent['description'];
+                    $jsonAdd[$table]['palettes'][$parent['key']]['description'] = $parent['description'] ?? '';
                 }
                 if ($parent['name'] === FieldType::INLINE) {
                     $fieldAdd['inlineParent'] = $parent['key'];
                     $fieldAdd['label'] = $field['label'];
-                    $fieldAdd['description'] = $field['description'];
+                    $fieldAdd['description'] = $field['description'] ?? '';
                     $fieldAdd['order'] = $order;
                 }
             }
