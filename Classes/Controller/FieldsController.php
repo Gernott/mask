@@ -107,6 +107,8 @@ class FieldsController
                 $newField['label'] = $this->tableDefinitionCollection->getLabel($elementKey, $newField['key'], $table);
                 $translatedLabel = $this->translateLabel($newField['label']);
                 $newField['translatedLabel'] = $translatedLabel !== $newField['label'] ? $translatedLabel : '';
+
+                $newField['description'] = $this->tableDefinitionCollection->getDescription($elementKey, $newField['key'], $table);
             }
 
             $fieldType = $this->tableDefinitionCollection->getFieldType($newField['key'], $table);
@@ -126,7 +128,6 @@ class FieldsController
 
             $newField['name'] = (string)$fieldType;
             $newField['icon'] = $this->iconFactory->getIcon('mask-fieldtype-' . $newField['name'])->getMarkup();
-            $newField['description'] = $this->tableDefinitionCollection->getDescription($elementKey, $newField['key'], $table);
             $newField['tca'] = [];
 
             if (isset($field['coreField'])) {

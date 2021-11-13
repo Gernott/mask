@@ -285,40 +285,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
      */
     public function getLabel(string $elementKey, string $fieldKey, string $table = 'tt_content'): string
     {
-        if (!$this->hasTable($table)) {
-            return '';
-        }
-        $tableDefinition = $this->getTable($table);
-
-        if (!$tableDefinition->tca->hasField($fieldKey)) {
-            return '';
-        }
-
-        // If this field is in a repeating field or palette, the label is in the field configuration.
-        $field = $tableDefinition->tca->getField($fieldKey);
-        if ($field->hasInlineParent()) {
-            if (empty($field->labelByElement)) {
-                return $field->label;
-            }
-            if (isset($field->labelByElement[$elementKey])) {
-                return $field->labelByElement[$elementKey];
-            }
-        }
-
-        // Root level fields have their labels defined in element labels array.
-        $elements = $tableDefinition->elements;
-        if (!$elements->hasElement($elementKey)) {
-            return '';
-        }
-        $element = $elements->getElement($elementKey);
-        if (!empty($element->columns)) {
-            $fieldIndex = array_search($fieldKey, $element->columns, true);
-            if ($fieldIndex !== false) {
-                return $element->labels[$fieldIndex];
-            }
-        }
-
-        return '';
+        return $this->getFieldPropertyByElement($elementKey, $fieldKey, 'label', $table);
     }
 
     /**
@@ -326,6 +293,17 @@ final class TableDefinitionCollection implements \IteratorAggregate
      */
     public function getDescription(string $elementKey, string $fieldKey, string $table = 'tt_content'): string
     {
+        return $this->getFieldPropertyByElement($elementKey, $fieldKey, 'description', $table);
+    }
+
+    protected function getFieldPropertyByElement(string $elementKey, string $fieldKey, string $property, string $table = 'tt_content'): string
+    {
+        $validProperties = ['label', 'description'];
+
+        if (!in_array($property, $validProperties)) {
+            throw new InvalidArgumentException('The property ' . $property . ' is not a valid. Valid properties are: ' . implode(' ', $validProperties) . '.', 1636825949);
+        }
+
         if (!$this->hasTable($table)) {
             return '';
         }
@@ -338,15 +316,20 @@ final class TableDefinitionCollection implements \IteratorAggregate
         // If this field is in a repeating field or palette, the description is in the field configuration.
         $field = $tableDefinition->tca->getField($fieldKey);
         if ($field->hasInlineParent()) {
-            if (empty($field->descriptionByElement)) {
-                return $field->description;
+            if (empty($field->{$property . 'ByElement'})) {
+                return $field->{$property};
             }
-            if (isset($field->descriptionByElement[$elementKey])) {
-                return $field->descriptionByElement[$elementKey];
+            if (isset($field->{$property . 'ByElement'}[$elementKey])) {
+                return $field->{$property . 'ByElement'}[$elementKey];
             }
         }
 
-        // Root level fields have their descriptions defined in element labels array.
+        // BC: If root field still has property defined directly, take it.
+        if ($field->{$property} !== '') {
+            return $field->{$property};
+        }
+
+        // Root level fields have their properties defined in according element array.
         $elements = $tableDefinition->elements;
         if (!$elements->hasElement($elementKey)) {
             return '';
@@ -355,7 +338,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
         if (!empty($element->columns)) {
             $fieldIndex = array_search($fieldKey, $element->columns, true);
             if ($fieldIndex !== false) {
-                return $element->descriptions[$fieldIndex] ?? '';
+                return $element->{$property . 's'}[$fieldIndex] ?? '';
             }
         }
 

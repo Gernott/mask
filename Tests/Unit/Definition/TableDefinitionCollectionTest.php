@@ -2158,6 +2158,126 @@ class TableDefinitionCollectionTest extends BaseTestCase
         self::assertSame($expected, $tableDefinitionCollection->getLabel($elementKey, $fieldKey, $type));
     }
 
+    public function getDescriptionDataProvider(): iterable
+    {
+        yield 'Backwards compatibility: Description defined in field directly found.' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element_1' => [
+                            'key' => 'element_1',
+                            'label' => 'Element 1',
+                            'labels' => [
+                                'Label 1',
+                                'Label 2',
+                                'Label 3'
+                            ],
+                            'columns' => [
+                                'tx_mask_column_1',
+                                'tx_mask_column_2',
+                                'tx_mask_column_3'
+                            ]
+                            // descriptions not defined on purpose.
+                        ]
+                    ],
+                    'tca' => [
+                        'tx_mask_column_1' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'column_1',
+                            'description' => 'Description column 1'
+                        ],
+                        'tx_mask_column_2' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'column_2',
+                            'description' => 'Description column 2'
+                        ],
+                        'tx_mask_column_3' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'column_3',
+                            'description' => 'Description column 3'
+                        ]
+                    ]
+                ]
+            ],
+            'elementKey' => 'element_1',
+            'fieldKey' => 'tx_mask_column_1',
+            'table' => 'tt_content',
+            'Description column 1'
+        ];
+
+        yield 'Description found in elements description array' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element_1' => [
+                            'key' => 'element_1',
+                            'label' => 'Element 1',
+                            'labels' => [
+                                'Label 1',
+                                'Label 2',
+                                'Label 3'
+                            ],
+                            'columns' => [
+                                'tx_mask_column_1',
+                                'tx_mask_column_2',
+                                'tx_mask_column_3'
+                            ],
+                            'descriptions' => [
+                                'Description column 1',
+                                'Description column 2',
+                                'Description column 3',
+                            ]
+                        ]
+                    ],
+                    'tca' => [
+                        'tx_mask_column_1' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'column_1',
+                        ],
+                        'tx_mask_column_2' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'column_2',
+                        ],
+                        'tx_mask_column_3' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'column_3',
+                        ]
+                    ]
+                ]
+            ],
+            'elementKey' => 'element_1',
+            'fieldKey' => 'tx_mask_column_2',
+            'table' => 'tt_content',
+            'Description column 2'
+        ];
+    }
+
+    /**
+     * Uses same code as getLabel internally.
+     * We test here backwards compatibility.
+     *
+     * @dataProvider getDescriptionDataProvider
+     * @test
+     */
+    public function getDescription(array $json, string $elementKey, string $fieldKey, string $table, string $expected): void
+    {
+        $tableDefinitionCollection = TableDefinitionCollection::createFromArray($json);
+
+        self::assertSame($expected, $tableDefinitionCollection->getDescription($elementKey, $fieldKey, $table));
+    }
+
     public function getFieldTypeDataProvider(): array
     {
         return [
