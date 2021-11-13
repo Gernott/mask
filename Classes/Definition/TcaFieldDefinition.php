@@ -177,7 +177,7 @@ final class TcaFieldDefinition
         if (is_array($definition['label'] ?? false)) {
             unset($definition['label']);
         }
-        // Unset label if it is from palette fields
+        // Unset description if it is from palette fields
         if (is_array($definition['description'] ?? false)) {
             unset($definition['description']);
         }
