@@ -20,6 +20,7 @@ namespace MASK\Mask\CodeGenerator;
 use MASK\Mask\Definition\PaletteDefinition;
 use MASK\Mask\Definition\TableDefinition;
 use MASK\Mask\Definition\TableDefinitionCollection;
+use MASK\Mask\Definition\TcaFieldDefinition;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\DateUtility;
@@ -100,8 +101,8 @@ class TcaCodeGenerator
         $tableTca['columns']['parentid']['config']['foreign_table_where'] = "AND $parentTable.pid=###CURRENT_PID### AND $parentTable.sys_language_uid IN (-1, ###REC_FIELD_sys_language_uid###)";
 
         // Add palettes
-        foreach ($tableDefinition->palettes as $key => $palette) {
-            $tableTca['palettes'][$key] = $this->generatePalettesTca($palette, $table);
+        foreach ($tableDefinition->palettes as $palette) {
+            $tableTca['palettes'][$palette->key] = $this->generatePalettesTca($palette, $table);
         }
 
         $field = $this->tableDefinitionCollection->getTable($parentTable)->tca->getField($table);
@@ -253,8 +254,17 @@ class TcaCodeGenerator
             }
         }
 
+        $description = $palette->description;
+        if ($description === '') {
+            $paletteField = $this->tableDefinitionCollection->loadField($table, $palette->key);
+            if ($paletteField instanceof TcaFieldDefinition) {
+                $description = $paletteField->description;
+            }
+        }
+
         return [
             'label' => $palette->label,
+            'description' => $description,
             'showitem' => implode(',', $showitem)
         ];
     }
@@ -398,6 +408,49 @@ class TcaCodeGenerator
             ArrayUtility::mergeRecursiveWithOverrule($additionalTca[$field->fullKey], $field->realTca);
         }
         return $additionalTca;
+    }
+
+    /**
+     * Generates TCA columns overrides for labels and descriptions.
+     * @todo Do the same with labels. Then we can drop tsconfig overrides completely.
+     */
+    public function generateTCAColumnsOverrides(): array
+    {
+        $table = 'tt_content';
+        if (!$this->tableDefinitionCollection->hasTable($table)) {
+            return [];
+        }
+
+        $TCAColumnsOverrides = [];
+        $tableDefinition = $this->tableDefinitionCollection->getTable($table);
+
+        // Go through all root fields defined in elements and find possible overrides.
+        foreach ($tableDefinition->elements as $element) {
+            $cType = AffixUtility::addMaskCTypePrefix($element->key);
+            foreach ($element->columns as $index => $fieldName) {
+                $fieldDefinition = $this->tableDefinitionCollection->loadField($table, $fieldName);
+                if (!$fieldDefinition instanceof TcaFieldDefinition) {
+                    continue;
+                }
+
+                // As this is called very early, TCA for core fields might not be loaded yet. So ignore them.
+                if (!$fieldDefinition->isCoreField && $fieldDefinition->type->equals(FieldType::PALETTE)) {
+                    foreach ($this->tableDefinitionCollection->loadInlineFields($fieldName, $element->key) as $paletteField) {
+                        $description = $paletteField->getDescription($element->key);
+                        if ($description !== '') {
+                            $TCAColumnsOverrides['tt_content']['types'][$cType]['columnsOverrides'][$paletteField->fullKey]['description'] = $description;
+                        }
+                    }
+                } else {
+                    $description = $element->descriptions[$index] ?? '';
+                    if ($description !== '') {
+                        $TCAColumnsOverrides['tt_content']['types'][$cType]['columnsOverrides'][$fieldDefinition->fullKey]['description'] = $description;
+                    }
+                }
+            }
+        }
+
+        return $TCAColumnsOverrides;
     }
 
     /**

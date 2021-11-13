@@ -110,6 +110,10 @@ class JsonSplitLoaderTest extends UnitTestCase
                             'A',
                             'Repeat1'
                         ],
+                        'descriptions' => [
+                            '',
+                            'description for field tx_mask_repeat1'
+                        ],
                         'sorting' => 0
                     ]
                 ],
@@ -183,6 +187,11 @@ class JsonSplitLoaderTest extends UnitTestCase
                             'B',
                             'Palette 1'
                         ],
+                        'descriptions' => [
+                            '',
+                            '',
+                            ''
+                        ],
                         'sorting' => 1
                     ]
                 ],
@@ -243,6 +252,7 @@ class JsonSplitLoaderTest extends UnitTestCase
                 'palettes' => [
                     'tx_mask_4e12de3d14bd5' => [
                         'label' => 'Palette 1',
+                        'description' => '',
                         'showitem' => ['header']
                     ]
                 ]
@@ -275,6 +285,9 @@ class JsonSplitLoaderTest extends UnitTestCase
                         ],
                         'labels' => [
                             'File'
+                        ],
+                        'descriptions' => [
+                            'only images are allowed'
                         ],
                         'sorting' => 2
                     ]
@@ -345,6 +358,9 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'labels' => [
                             'Palette 1'
                         ],
+                        'descriptions' => [
+                            'Description for palette 1'
+                        ],
                         'sorting' => 3
                     ]
                 ],
@@ -382,6 +398,7 @@ class JsonSplitLoaderTest extends UnitTestCase
                 'palettes' => [
                     'tx_mask_palette' => [
                         'label' => 'Palette 1',
+                        'description' => 'Description for palette 1',
                         'showitem' => ['tx_mask_inline']
                     ]
                 ],
@@ -462,6 +479,10 @@ class JsonSplitLoaderTest extends UnitTestCase
                             'A',
                             'Repeat1'
                         ],
+                        'descriptions' => [
+                            '',
+                            'description for field tx_mask_repeat1'
+                        ],
                         'sorting' => 0
                     ],
                     'b' => [
@@ -481,6 +502,11 @@ class JsonSplitLoaderTest extends UnitTestCase
                             'B',
                             'Palette 1'
                         ],
+                        'descriptions' => [
+                            '',
+                            '',
+                            ''
+                        ],
                         'sorting' => 1
                     ],
                     'c' => [
@@ -496,6 +522,9 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'labels' => [
                             'File',
                         ],
+                        'descriptions' => [
+                            'only images are allowed',
+                        ],
                         'sorting' => 2
                     ],
                     'd' => [
@@ -510,6 +539,9 @@ class JsonSplitLoaderTest extends UnitTestCase
                         ],
                         'labels' => [
                             'Palette 1',
+                        ],
+                        'descriptions' => [
+                            'Description for palette 1',
                         ],
                         'sorting' => 3
                     ]
@@ -642,10 +674,12 @@ class JsonSplitLoaderTest extends UnitTestCase
                 'palettes' => [
                     'tx_mask_4e12de3d14bd5' => [
                         'label' => 'Palette 1',
+                        'description' => '',
                         'showitem' => ['header']
                     ],
                     'tx_mask_palette' => [
                         'label' => 'Palette 1',
+                        'description' => 'Description for palette 1',
                         'showitem' => ['tx_mask_inline']
                     ]
                 ]

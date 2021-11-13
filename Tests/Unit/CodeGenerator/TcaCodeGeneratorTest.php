@@ -1082,9 +1082,15 @@ class TcaCodeGeneratorTest extends BaseTestCase
                                 'shortLabel' => 'Ele 1',
                                 'columns' => [
                                     'tx_mask_my_palette',
+                                    'tx_mask_my_palette2',
                                 ],
                                 'labels' => [
                                     'My Palette',
+                                    'My Palette 2 (without description defined in palettes array)'
+                                ],
+                                'descriptions' => [
+                                    'description for palette with label My Palette',
+                                    ''
                                 ]
                             ]
                         ],
@@ -1094,6 +1100,13 @@ class TcaCodeGeneratorTest extends BaseTestCase
                                 'config' => [
                                     'type' => 'palette',
                                 ]
+                            ],
+                            'tx_mask_my_palette2' => [
+                                'key' => 'my_palette2',
+                                'config' => [
+                                    'type' => 'palette',
+                                ],
+                                'description' => 'Palette Description old position works'
                             ],
                             'header' => [
                                 'key' => 'header'
@@ -1105,17 +1118,28 @@ class TcaCodeGeneratorTest extends BaseTestCase
                         'palettes' => [
                             'tx_mask_my_palette' => [
                                 'label' => 'My Palette',
+                                'description' => 'description for palette with label My Palette',
                                 'showitem' => ['header', 'bodytext']
+                            ],
+                            'tx_mask_my_palette2' => [
+                                'label' => 'My Palette 2 (without description defined in palettes array)',
+                                'showitem' => []
                             ]
-                        ]
+                        ],
                     ]
                 ],
                 'mask_element1',
-                '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,--palette--;;tx_mask_my_palette,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.appearance,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.frames;frames,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.appearanceLinks;appearanceLinks,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,--palette--;;language,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,--palette--;;hidden,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:categories,--div--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_category.tabs.category,categories,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:notes,rowDescription,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended',
+                '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,--palette--;;tx_mask_my_palette,--palette--;;tx_mask_my_palette2,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.appearance,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.frames;frames,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.appearanceLinks;appearanceLinks,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,--palette--;;language,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,--palette--;;hidden,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:categories,--div--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_category.tabs.category,categories,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:notes,rowDescription,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended',
                 [
                     'tx_mask_my_palette' => [
                         'label' => 'My Palette',
+                        'description' => 'description for palette with label My Palette',
                         'showitem' => 'header,bodytext'
+                    ],
+                    'tx_mask_my_palette2' => [
+                        'label' => 'My Palette 2 (without description defined in palettes array)',
+                        'description' => 'Palette Description old position works',
+                        'showitem' => ''
                     ]
                 ]
             ],
@@ -1132,6 +1156,9 @@ class TcaCodeGeneratorTest extends BaseTestCase
                                 ],
                                 'labels' => [
                                     'My Palette',
+                                ],
+                                'descriptions' => [
+                                    '',
                                 ]
                             ]
                         ],
@@ -1158,6 +1185,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
                         'palettes' => [
                             'tx_mask_my_palette' => [
                                 'label' => 'My Palette',
+                                'description' => '',
                                 'showitem' => ['header', 'tx_mask_linebreak-1', 'bodytext']
                             ]
                         ]
@@ -1168,6 +1196,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
                 [
                     'tx_mask_my_palette' => [
                         'label' => 'My Palette',
+                        'description' => '',
                         'showitem' => 'header,--linebreak--,bodytext'
                     ]
                 ]
@@ -1481,5 +1510,207 @@ class TcaCodeGeneratorTest extends BaseTestCase
     {
         $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray([]));
         self::assertSame($expected, $tcaGenerator->getFirstNoneTabField($data));
+    }
+
+    public function generateTCAColumnsOverridesDataProvider(): iterable
+    {
+        yield 'normal root fields TCA override generated' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'key' => 'element1',
+                            'label' => 'Element 1',
+                            'columns' => [
+                                'tx_mask_field1',
+                                'tx_mask_field2',
+                            ],
+                            'descriptions' => [
+                                'Field 1',
+                                'Field 2'
+                            ]
+                        ],
+                        'element2' => [
+                            'key' => 'element2',
+                            'label' => 'Element 2',
+                            'columns' => [
+                                'tx_mask_field3',
+                            ],
+                            'descriptions' => [
+                                'Field 3'
+                            ]
+                        ]
+                    ],
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'field1',
+                            'fullKey' => 'tx_mask_field1'
+                        ],
+                        'tx_mask_field2' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'field1',
+                            'fullKey' => 'tx_mask_field1'
+                        ],
+                        'tx_mask_field3' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'field1',
+                            'fullKey' => 'tx_mask_field1'
+                        ]
+                    ]
+                ]
+            ],
+            'expected' => [
+                'tt_content' => [
+                    'types' => [
+                        'mask_element1' => [
+                            'columnsOverrides' => [
+                                'tx_mask_field1' => [
+                                    'description' => 'Field 1'
+                                ],
+                                'tx_mask_field2' => [
+                                    'description' => 'Field 2'
+                                ]
+                            ]
+                        ],
+                        'mask_element2' => [
+                            'columnsOverrides' => [
+                                'tx_mask_field3' => [
+                                    'description' => 'Field 3'
+                                ],
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        yield 'nothing to generate' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'key' => 'element1',
+                            'label' => 'Element 1',
+                            'columns' => [
+                                'tx_mask_field1',
+                                'tx_mask_field2',
+                            ],
+                            'descriptions' => [
+                                '',
+                                ''
+                            ]
+                        ],
+                    ],
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'field1',
+                            'fullKey' => 'tx_mask_field1'
+                        ],
+                        'tx_mask_field2' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'field1',
+                            'fullKey' => 'tx_mask_field1'
+                        ],
+                    ]
+                ]
+            ],
+            'expected' => []
+        ];
+
+        yield 'fields in palettes generate overrides and palette description is ignored.' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'key' => 'element1',
+                            'label' => 'Element 1',
+                            'columns' => [
+                                'tx_mask_palette',
+                                'tx_mask_field2',
+                            ],
+                            'descriptions' => [
+                                'Palette Description',
+                                'Field 2 Description'
+                            ]
+                        ],
+                    ],
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'field1',
+                            'fullKey' => 'tx_mask_field1',
+                            'inlineParent' => [
+                                'element1' => 'tx_mask_palette'
+                            ],
+                            'inPalette' => '1',
+                            'description' => [
+                                'element1' => 'Field 1 Description'
+                            ]
+                        ],
+                        'tx_mask_field2' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'field1',
+                            'fullKey' => 'tx_mask_field1'
+                        ],
+                        'tx_mask_palette' => [
+                            'config' => [
+                                'type' => 'palette'
+                            ],
+                            'key' => 'palette',
+                            'fullKey' => 'tx_mask_palette'
+                        ],
+                    ],
+                    'palettes' => [
+                        'tx_mask_palette' => [
+                            'showitem' => ['tx_mask_field1'],
+                            'label' => 'Palette',
+                            'description' => 'Palette Description'
+                        ]
+                    ]
+                ]
+            ],
+            'expected' => [
+                'tt_content' => [
+                    'types' => [
+                        'mask_element1' => [
+                            'columnsOverrides' => [
+                                'tx_mask_field1' => [
+                                    'description' => 'Field 1 Description'
+                                ],
+                                'tx_mask_field2' => [
+                                    'description' => 'Field 2 Description'
+                                ]
+                            ]
+                        ],
+                    ]
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider generateTCAColumnsOverridesDataProvider
+     * @test
+     */
+    public function generateTCAColumnsOverrides(array $json, array $expected): void
+    {
+        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json));
+        self::assertEquals($expected, $tcaGenerator->generateTCAColumnsOverrides());
     }
 }

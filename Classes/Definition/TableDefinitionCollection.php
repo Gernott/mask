@@ -285,6 +285,29 @@ final class TableDefinitionCollection implements \IteratorAggregate
      */
     public function getLabel(string $elementKey, string $fieldKey, string $table = 'tt_content'): string
     {
+        return $this->getFieldPropertyByElement($elementKey, $fieldKey, 'label', $table);
+    }
+
+    /**
+     * Returns the description of a field in an element
+     */
+    public function getDescription(string $elementKey, string $fieldKey, string $table = 'tt_content'): string
+    {
+        return $this->getFieldPropertyByElement($elementKey, $fieldKey, 'description', $table);
+    }
+
+    /**
+     * This method can find properties, which are defined in the ElementDefinition.
+     * These are "label" and "description" at the time being.
+     */
+    private function getFieldPropertyByElement(string $elementKey, string $fieldKey, string $property, string $table = 'tt_content'): string
+    {
+        $validProperties = ['label', 'description'];
+
+        if (!in_array($property, $validProperties)) {
+            throw new InvalidArgumentException('The property ' . $property . ' is not a valid. Valid properties are: ' . implode(' ', $validProperties) . '.', 1636825949);
+        }
+
         if (!$this->hasTable($table)) {
             return '';
         }
@@ -294,18 +317,23 @@ final class TableDefinitionCollection implements \IteratorAggregate
             return '';
         }
 
-        // If this field is in a repeating field or palette, the label is in the field configuration.
+        // If this field is in a repeating field or palette, the description is in the field configuration.
         $field = $tableDefinition->tca->getField($fieldKey);
         if ($field->hasInlineParent()) {
-            if (empty($field->labelByElement)) {
-                return $field->label;
+            if (empty($field->{$property . 'ByElement'})) {
+                return $field->{$property};
             }
-            if (isset($field->labelByElement[$elementKey])) {
-                return $field->labelByElement[$elementKey];
+            if (isset($field->{$property . 'ByElement'}[$elementKey])) {
+                return $field->{$property . 'ByElement'}[$elementKey];
             }
         }
 
-        // Root level fields have their labels defined in element labels array.
+        // BC: If root field still has property defined directly, take it.
+        if ($field->{$property} !== '') {
+            return $field->{$property};
+        }
+
+        // Root level fields have their properties defined in according element array.
         $elements = $tableDefinition->elements;
         if (!$elements->hasElement($elementKey)) {
             return '';
@@ -314,7 +342,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
         if (!empty($element->columns)) {
             $fieldIndex = array_search($fieldKey, $element->columns, true);
             if ($fieldIndex !== false) {
-                return $element->labels[$fieldIndex];
+                return $element->{$property . 's'}[$fieldIndex] ?? '';
             }
         }
 

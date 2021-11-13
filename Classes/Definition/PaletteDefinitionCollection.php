@@ -52,7 +52,7 @@ final class PaletteDefinitionCollection implements \IteratorAggregate
         $paletteDefinitionCollection->table = $table;
         foreach ($array as $key => $palette) {
             $paletteDefinitionCollection->addPalette(
-                new PaletteDefinition($key, $palette['label'] ?? '', $palette['showitem'] ?? [])
+                new PaletteDefinition($key, $palette['label'] ?? '', $palette['description'] ?? '', $palette['showitem'] ?? [])
             );
         }
         return $paletteDefinitionCollection;

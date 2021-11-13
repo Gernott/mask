@@ -231,6 +231,7 @@ class StorageRepository implements SingletonInterface
             if ($onRootLevel && !$parent) {
                 $jsonAdd[$defaultTable]['elements'][$elementKey]['columns'][] = $field['key'];
                 $jsonAdd[$defaultTable]['elements'][$elementKey]['labels'][] = $field['label'];
+                $jsonAdd[$defaultTable]['elements'][$elementKey]['descriptions'][] = $field['description'] ?? '';
             }
 
             // Add key and config to mask field
@@ -242,7 +243,6 @@ class StorageRepository implements SingletonInterface
                 ArrayUtility::mergeRecursiveWithOverrule($field['tca'], $defaults[$field['name']]['tca_out'] ?? []);
                 $fieldAdd = TcaConverterUtility::convertFlatTcaToArray($field['tca']);
                 $fieldAdd['key'] = AffixUtility::removeMaskPrefix($field['key']);
-                $fieldAdd['description'] = $field['description'] ?? '';
             } else {
                 $fieldAdd['key'] = $field['key'];
                 $fieldAdd['coreField'] = 1;
@@ -280,19 +280,23 @@ class StorageRepository implements SingletonInterface
                     if ($onRootLevel) {
                         $fieldAdd['inlineParent'][$elementKey] = $parent['key'];
                         $fieldAdd['label'][$elementKey] = $field['label'];
+                        $fieldAdd['description'][$elementKey] = $field['description'];
                         $fieldAdd['order'][$elementKey] = $order;
                     } else {
                         $fieldAdd['inlineParent'] = $parent['key'];
                         $fieldAdd['label'] = $field['label'];
+                        $fieldAdd['description'] = $field['description'];
                         $fieldAdd['order'] = $order;
                     }
                     // Add palettes entry
                     $jsonAdd[$table]['palettes'][$parent['key']]['showitem'][] = $field['key'];
                     $jsonAdd[$table]['palettes'][$parent['key']]['label'] = $parent['label'];
+                    $jsonAdd[$table]['palettes'][$parent['key']]['description'] = $parent['description'] ?? '';
                 }
                 if ($parent['name'] === FieldType::INLINE) {
                     $fieldAdd['inlineParent'] = $parent['key'];
                     $fieldAdd['label'] = $field['label'];
+                    $fieldAdd['description'] = $field['description'] ?? '';
                     $fieldAdd['order'] = $order;
                 }
             }

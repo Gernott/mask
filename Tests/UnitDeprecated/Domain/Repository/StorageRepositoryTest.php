@@ -443,6 +443,7 @@ class StorageRepositoryTest extends BaseTestCase
                         'icon' => '',
                         'color' => '',
                         'labels' => [],
+                        'descriptions' => [],
                         'columns' => [
                             'tx_mask_column_1',
                             'tx_mask_column_2',
@@ -528,6 +529,7 @@ class StorageRepositoryTest extends BaseTestCase
                         'icon' => '',
                         'color' => '',
                         'labels' => [],
+                        'descriptions' => [],
                         'columns' => [
                             'tx_mask_column_1',
                             'tx_mask_column_2',
@@ -543,6 +545,7 @@ class StorageRepositoryTest extends BaseTestCase
                         'icon' => '',
                         'color' => '',
                         'labels' => [],
+                        'descriptions' => [],
                         'columns' => [
                             'tx_mask_column_1',
                             'tx_mask_column_5',
@@ -628,6 +631,7 @@ class StorageRepositoryTest extends BaseTestCase
                         'icon' => '',
                         'color' => '',
                         'labels' => [],
+                        'descriptions' => [],
                         'columns' => [
                             'tx_mask_column_1',
                             'tx_mask_column_2',
@@ -688,6 +692,7 @@ class StorageRepositoryTest extends BaseTestCase
                         'icon' => '',
                         'color' => '',
                         'labels' => [],
+                        'descriptions' => [],
                         'columns' => [
                             'tx_mask_column_1',
                         ],
@@ -701,6 +706,7 @@ class StorageRepositoryTest extends BaseTestCase
                         'icon' => '',
                         'color' => '',
                         'labels' => [],
+                        'descriptions' => [],
                         'columns' => [
                             'tx_mask_palette_1'
                         ],
@@ -769,6 +775,7 @@ class StorageRepositoryTest extends BaseTestCase
                         'icon' => '',
                         'color' => '',
                         'labels' => [],
+                        'descriptions' => [],
                         'columns' => [
                             'tx_mask_palette_1',
                         ],
@@ -782,6 +789,7 @@ class StorageRepositoryTest extends BaseTestCase
                         'icon' => '',
                         'color' => '',
                         'labels' => [],
+                        'descriptions' => [],
                         'columns' => [
                             'tx_mask_palette_2'
                         ],
@@ -1446,6 +1454,11 @@ class StorageRepositoryTest extends BaseTestCase
                                 'Field 1',
                                 'Field 2',
                                 'Field 3',
+                            ],
+                            'descriptions' => [
+                                '',
+                                '',
+                                '',
                             ]
                         ]
                     ],
@@ -1497,6 +1510,11 @@ class StorageRepositoryTest extends BaseTestCase
                     'Field 1',
                     'Field 2',
                     'Field 3',
+                ],
+                'descriptions' => [
+                    '',
+                    '',
+                    '',
                 ],
                 'tca' => [
                     'tx_mask_field1' => [
@@ -1571,6 +1589,7 @@ class StorageRepositoryTest extends BaseTestCase
                 'description' => 'Element 1 Description',
                 'columns' => [],
                 'labels' => [],
+                'descriptions' => [],
                 'tca' => [],
                 'sorting' => 0
             ]

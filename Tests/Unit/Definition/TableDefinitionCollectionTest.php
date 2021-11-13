@@ -441,6 +441,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'icon' => '',
                         'color' => '',
                         'labels' => [],
+                        'descriptions' => [],
                         'columns' => [
                             'tx_mask_column_1',
                             'tx_mask_column_2',
@@ -526,6 +527,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'icon' => '',
                         'color' => '',
                         'labels' => [],
+                        'descriptions' => [],
                         'columns' => [
                             'tx_mask_column_1',
                             'tx_mask_column_2',
@@ -541,6 +543,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'icon' => '',
                         'color' => '',
                         'labels' => [],
+                        'descriptions' => [],
                         'columns' => [
                             'tx_mask_column_1',
                             'tx_mask_column_5',
@@ -626,6 +629,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'icon' => '',
                         'color' => '',
                         'labels' => [],
+                        'descriptions' => [],
                         'columns' => [
                             'tx_mask_column_1',
                             'tx_mask_column_2',
@@ -686,6 +690,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'icon' => '',
                         'color' => '',
                         'labels' => [],
+                        'descriptions' => [],
                         'columns' => [
                             'tx_mask_column_1',
                         ],
@@ -699,6 +704,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'icon' => '',
                         'color' => '',
                         'labels' => [],
+                        'descriptions' => [],
                         'columns' => [
                             'tx_mask_palette_1'
                         ],
@@ -767,6 +773,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'icon' => '',
                         'color' => '',
                         'labels' => [],
+                        'descriptions' => [],
                         'columns' => [
                             'tx_mask_palette_1',
                         ],
@@ -780,6 +787,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'icon' => '',
                         'color' => '',
                         'labels' => [],
+                        'descriptions' => [],
                         'columns' => [
                             'tx_mask_palette_2'
                         ],
@@ -1309,7 +1317,11 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'labels' => [
                                     'Field 1',
                                     'Field 2'
-                                ]
+                                ],
+                                'descriptions' => [
+                                    'Field 1 description',
+                                    'Field 2 descriptions'
+                                ],
                             ],
                             'element2' => [
                                 'key' => 'element2',
@@ -1321,6 +1333,10 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'labels' => [
                                     'Field 1-1',
                                     'Field 3'
+                                ],
+                                'descriptions' => [
+                                    'Field 1-1 descriptions',
+                                    'Field 3 descriptions'
                                 ]
                             ]
                         ]
@@ -1344,6 +1360,10 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'labels' => [
                                     'Palette 1',
                                     'Field 2'
+                                ],
+                                'descriptions' => [
+                                    'Palette 1 descriptions',
+                                    'Field 2 descriptions'
                                 ]
                             ],
                             'element2' => [
@@ -1356,6 +1376,10 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'labels' => [
                                     'Field 1-1',
                                     'Field 3'
+                                ],
+                                'description' => [
+                                    'Field 1-1 description',
+                                    'Field 3 description'
                                 ]
                             ]
                         ],
@@ -1391,6 +1415,10 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'labels' => [
                                     'Field 1-1',
                                     'Field 3'
+                                ],
+                                'descriptions' => [
+                                    'Field 1-1 description',
+                                    'Field 3 description'
                                 ]
                             ]
                         ],
@@ -1444,6 +1472,11 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'Field 1',
                                 'Field 2',
                                 'Field 3',
+                            ],
+                            'descriptions' => [
+                                '',
+                                '',
+                                '',
                             ]
                         ]
                     ],
@@ -1495,6 +1528,11 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     'Field 1',
                     'Field 2',
                     'Field 3',
+                ],
+                'descriptions' => [
+                    '',
+                    '',
+                    '',
                 ],
                 'tca' => [
                     'tx_mask_field1' => [
@@ -1569,6 +1607,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                 'description' => 'Element 1 Description',
                 'columns' => [],
                 'labels' => [],
+                'descriptions' => [],
                 'tca' => [],
                 'sorting' => 0
             ]
@@ -2117,6 +2156,126 @@ class TableDefinitionCollectionTest extends BaseTestCase
         $tableDefinitionCollection = TableDefinitionCollection::createFromArray($json);
 
         self::assertSame($expected, $tableDefinitionCollection->getLabel($elementKey, $fieldKey, $type));
+    }
+
+    public function getDescriptionDataProvider(): iterable
+    {
+        yield 'Backwards compatibility: Description defined in field directly found.' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element_1' => [
+                            'key' => 'element_1',
+                            'label' => 'Element 1',
+                            'labels' => [
+                                'Label 1',
+                                'Label 2',
+                                'Label 3'
+                            ],
+                            'columns' => [
+                                'tx_mask_column_1',
+                                'tx_mask_column_2',
+                                'tx_mask_column_3'
+                            ]
+                            // descriptions not defined on purpose.
+                        ]
+                    ],
+                    'tca' => [
+                        'tx_mask_column_1' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'column_1',
+                            'description' => 'Description column 1'
+                        ],
+                        'tx_mask_column_2' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'column_2',
+                            'description' => 'Description column 2'
+                        ],
+                        'tx_mask_column_3' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'column_3',
+                            'description' => 'Description column 3'
+                        ]
+                    ]
+                ]
+            ],
+            'elementKey' => 'element_1',
+            'fieldKey' => 'tx_mask_column_1',
+            'table' => 'tt_content',
+            'Description column 1'
+        ];
+
+        yield 'Description found in elements description array' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element_1' => [
+                            'key' => 'element_1',
+                            'label' => 'Element 1',
+                            'labels' => [
+                                'Label 1',
+                                'Label 2',
+                                'Label 3'
+                            ],
+                            'columns' => [
+                                'tx_mask_column_1',
+                                'tx_mask_column_2',
+                                'tx_mask_column_3'
+                            ],
+                            'descriptions' => [
+                                'Description column 1',
+                                'Description column 2',
+                                'Description column 3',
+                            ]
+                        ]
+                    ],
+                    'tca' => [
+                        'tx_mask_column_1' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'column_1',
+                        ],
+                        'tx_mask_column_2' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'column_2',
+                        ],
+                        'tx_mask_column_3' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'column_3',
+                        ]
+                    ]
+                ]
+            ],
+            'elementKey' => 'element_1',
+            'fieldKey' => 'tx_mask_column_2',
+            'table' => 'tt_content',
+            'Description column 2'
+        ];
+    }
+
+    /**
+     * Uses same code as getLabel internally.
+     * We test here backwards compatibility.
+     *
+     * @dataProvider getDescriptionDataProvider
+     * @test
+     */
+    public function getDescription(array $json, string $elementKey, string $fieldKey, string $table, string $expected): void
+    {
+        $tableDefinitionCollection = TableDefinitionCollection::createFromArray($json);
+
+        self::assertSame($expected, $tableDefinitionCollection->getDescription($elementKey, $fieldKey, $table));
     }
 
     public function getFieldTypeDataProvider(): array

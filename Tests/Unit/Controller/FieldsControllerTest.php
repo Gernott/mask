@@ -57,6 +57,11 @@ class FieldsControllerTest extends BaseTestCase
                                     'Field 1',
                                     'Field 2',
                                     'Core Header'
+                                ],
+                                'descriptions' => [
+                                    'Field 1 Description',
+                                    'Field 2 Description',
+                                    ''
                                 ]
                             ]
                         ],
@@ -168,6 +173,10 @@ class FieldsControllerTest extends BaseTestCase
                                 'labels' => [
                                     'Field 1',
                                     'Palette 1',
+                                ],
+                                'descriptions' => [
+                                    'Field 1 Description',
+                                    '',
                                 ]
                             ]
                         ],
@@ -346,6 +355,9 @@ class FieldsControllerTest extends BaseTestCase
                                 ],
                                 'labels' => [
                                     'Inline 1',
+                                ],
+                                'descriptions' => [
+                                    '',
                                 ]
                             ]
                         ],
@@ -525,6 +537,9 @@ class FieldsControllerTest extends BaseTestCase
                                 ],
                                 'labels' => [
                                     'Field 1',
+                                ],
+                                'descriptions' => [
+                                    'Field 1 Description',
                                 ]
                             ]
                         ],
@@ -595,6 +610,9 @@ class FieldsControllerTest extends BaseTestCase
                                 ],
                                 'labels' => [
                                     'Field 1',
+                                ],
+                                'descriptions' => [
+                                    'Field 1 Description',
                                 ]
                             ]
                         ],
@@ -661,6 +679,9 @@ class FieldsControllerTest extends BaseTestCase
                                 ],
                                 'labels' => [
                                     'Field 1',
+                                ],
+                                'descriptions' => [
+                                    'Field 1 Description',
                                 ]
                             ]
                         ],
@@ -725,6 +746,10 @@ class FieldsControllerTest extends BaseTestCase
                                 'labels' => [
                                     'Field 1',
                                     'Field 2'
+                                ],
+                                'descriptions' => [
+                                    'Field 1 Description',
+                                    'Field 2 Description'
                                 ]
                             ]
                         ],
@@ -828,6 +853,9 @@ class FieldsControllerTest extends BaseTestCase
                                 ],
                                 'labels' => [
                                     'Field 1',
+                                ],
+                                'descriptions' => [
+                                    'Field 1 Description',
                                 ]
                             ]
                         ],
@@ -899,6 +927,9 @@ class FieldsControllerTest extends BaseTestCase
                                 ],
                                 'labels' => [
                                     'Field 1',
+                                ],
+                                'descriptions' => [
+                                    'Field 1 Description',
                                 ]
                             ]
                         ],

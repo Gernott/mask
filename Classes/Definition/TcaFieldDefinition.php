@@ -33,6 +33,8 @@ final class TcaFieldDefinition
     public $inlineParentByElement = [];
     public $label = '';
     public $labelByElement = [];
+    public $description = '';
+    public $descriptionByElement = [];
     public $order = 0;
     public $orderByElement = [];
     public $cTypes = [];
@@ -131,6 +133,14 @@ final class TcaFieldDefinition
             }
         }
 
+        if (isset($definition['description'])) {
+            if (is_array($definition['description'])) {
+                $tcaFieldDefinition->descriptionByElement = $definition['description'];
+            } else {
+                $tcaFieldDefinition->description = $definition['description'];
+            }
+        }
+
         if (isset($definition['order'])) {
             if (is_array($definition['order'])) {
                 foreach ($definition['order'] as $orderKey => $order) {
@@ -166,6 +176,10 @@ final class TcaFieldDefinition
         // Unset label if it is from palette fields
         if (is_array($definition['label'] ?? false)) {
             unset($definition['label']);
+        }
+        // Unset description if it is from palette fields
+        if (is_array($definition['description'] ?? false)) {
+            unset($definition['description']);
         }
 
         $definition = self::removeBlankOptions($definition);
@@ -243,6 +257,23 @@ final class TcaFieldDefinition
         return $this->label;
     }
 
+    public function getDescription(string $elementKey = ''): string
+    {
+        if (!empty($this->descriptionByElement)) {
+            if ($elementKey === '') {
+                throw new \InvalidArgumentException(sprintf('The field "%s" is in multiple elements. Please specifiy the element key.', $this->fullKey), 1629711093);
+            }
+
+            if (!isset($this->descriptionByElement[$elementKey])) {
+                throw new \InvalidArgumentException(sprintf('The field "%s" does not exist in element "%s".', $this->fullKey, $elementKey), 1629711055);
+            }
+
+            return $this->descriptionByElement[$elementKey];
+        }
+
+        return $this->description;
+    }
+
     public function toArray(bool $withBackwardsCompatibility = false): array
     {
         $field = $this->realTca;
@@ -283,6 +314,12 @@ final class TcaFieldDefinition
             $field['label'] = $this->labelByElement;
         } elseif ($this->label !== '') {
             $field['label'] = $this->label;
+        }
+
+        if (!empty($this->descriptionByElement)) {
+            $field['description'] = $this->descriptionByElement;
+        } elseif ($this->description !== '') {
+            $field['description'] = $this->description;
         }
 
         if (!empty($this->orderByElement)) {

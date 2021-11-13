@@ -231,6 +231,9 @@
 			<trans-unit id="tx_mask.field.overwritelabel">
 				<source>Overwrite label:</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.overwritedescription">
+				<source>Overwrite description:</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.fieldkey">
 				<source>Field key*</source>
 			</trans-unit>
