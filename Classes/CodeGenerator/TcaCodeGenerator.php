@@ -20,6 +20,7 @@ namespace MASK\Mask\CodeGenerator;
 use MASK\Mask\Definition\PaletteDefinition;
 use MASK\Mask\Definition\TableDefinition;
 use MASK\Mask\Definition\TableDefinitionCollection;
+use MASK\Mask\Definition\TcaFieldDefinition;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\DateUtility;
@@ -179,15 +180,6 @@ class TcaCodeGenerator
             $GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes'][$cTypeKey] = 'mask-ce-' . $element->key;
             $GLOBALS['TCA']['tt_content']['types'][$cTypeKey]['columnsOverrides']['bodytext']['config']['enableRichtext'] = 1;
             $GLOBALS['TCA']['tt_content']['types'][$cTypeKey]['showitem'] = $prependTabs . $defaultPalette . $fields . $defaultTabs . $gridelements;
-
-            // set for the fields of the element the field description if this is provided
-            foreach ($element->columns as $index => $fieldName) {
-                if (array_key_exists($index, $element->descriptions) && $element->descriptions[$index] !== '') {
-                    $description = $element->descriptions[$index];
-                    // overwrite description via columnsOverrides
-                    $GLOBALS['TCA']['tt_content']['types'][$cTypeKey]['columnsOverrides'][$fieldName]['description'] = $description;
-                }
-            }
         }
     }
 
@@ -401,14 +393,6 @@ class TcaCodeGenerator
                 }
             }
 
-            // add description field for all ctypes if field is in palette
-            if ($field->inPalette && $table === 'tt_content') {
-                foreach ($field->descriptionByElement as $cType => $description) {
-                    $cTypeKey = AffixUtility::addMaskCTypePrefix($cType);
-                    $GLOBALS['TCA']['tt_content']['types'][$cTypeKey]['columnsOverrides'][$field->fullKey]['description'] = $description;
-                }
-            }
-
             // Exlcude all fields for editors by default
             $field->realTca['exclude'] = 1;
 
@@ -416,6 +400,49 @@ class TcaCodeGenerator
             ArrayUtility::mergeRecursiveWithOverrule($additionalTca[$field->fullKey], $field->realTca);
         }
         return $additionalTca;
+    }
+
+    /**
+     * Generates TCA overrides for labels and descriptions.
+     * @todo Do the same with labels. Then we can drop tsconfig overrides completely.
+     */
+    public function generateTCAOverrides(): array
+    {
+        $table = 'tt_content';
+        if (!$this->tableDefinitionCollection->hasTable($table)) {
+            return [];
+        }
+
+        $TCAOverrides = [];
+        $tableDefinition = $this->tableDefinitionCollection->getTable($table);
+
+        // Go through all root fields defined in elements and find possible overrides.
+        foreach ($tableDefinition->elements as $element) {
+            $cType = AffixUtility::addMaskCTypePrefix($element->key);
+            foreach ($element->columns as $index => $fieldName) {
+                $fieldDefinition = $this->tableDefinitionCollection->loadField($table, $fieldName);
+                if (!$fieldDefinition instanceof TcaFieldDefinition) {
+                    continue;
+                }
+
+                // As this is called very early, TCA for core fields might not be loaded yet. So ignore them.
+                if (!$fieldDefinition->isCoreField && $fieldDefinition->type->equals(FieldType::PALETTE)) {
+                    foreach ($this->tableDefinitionCollection->loadInlineFields($fieldName, $element->key) as $paletteField) {
+                        $description = $paletteField->getDescription($element->key);
+                        if ($description !== '') {
+                            $TCAOverrides['tt_content']['types'][$cType]['columnsOverrides'][$paletteField->fullKey]['description'] = $description;
+                        }
+                    }
+                } else {
+                    $description = $element->descriptions[$index] ?? '';
+                    if ($description !== '') {
+                        $TCAOverrides['tt_content']['types'][$cType]['columnsOverrides'][$fieldDefinition->fullKey]['description'] = $description;
+                    }
+                }
+            }
+        }
+
+        return $TCAOverrides;
     }
 
     /**

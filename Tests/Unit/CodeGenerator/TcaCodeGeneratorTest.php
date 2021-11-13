@@ -1492,4 +1492,206 @@ class TcaCodeGeneratorTest extends BaseTestCase
         $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray([]));
         self::assertSame($expected, $tcaGenerator->getFirstNoneTabField($data));
     }
+
+    public function generateTCAOverridesDataProvider(): iterable
+    {
+        yield 'normal root fields TCA override generated' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'key' => 'element1',
+                            'label' => 'Element 1',
+                            'columns' => [
+                                'tx_mask_field1',
+                                'tx_mask_field2',
+                            ],
+                            'descriptions' => [
+                                'Field 1',
+                                'Field 2'
+                            ]
+                        ],
+                        'element2' => [
+                            'key' => 'element2',
+                            'label' => 'Element 2',
+                            'columns' => [
+                                'tx_mask_field3',
+                            ],
+                            'descriptions' => [
+                                'Field 3'
+                            ]
+                        ]
+                    ],
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'field1',
+                            'fullKey' => 'tx_mask_field1'
+                        ],
+                        'tx_mask_field2' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'field1',
+                            'fullKey' => 'tx_mask_field1'
+                        ],
+                        'tx_mask_field3' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'field1',
+                            'fullKey' => 'tx_mask_field1'
+                        ]
+                    ]
+                ]
+            ],
+            'expected' => [
+                'tt_content' => [
+                    'types' => [
+                        'mask_element1' => [
+                            'columnsOverrides' => [
+                                'tx_mask_field1' => [
+                                    'description' => 'Field 1'
+                                ],
+                                'tx_mask_field2' => [
+                                    'description' => 'Field 2'
+                                ]
+                            ]
+                        ],
+                        'mask_element2' => [
+                            'columnsOverrides' => [
+                                'tx_mask_field3' => [
+                                    'description' => 'Field 3'
+                                ],
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        yield 'nothing to generate' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'key' => 'element1',
+                            'label' => 'Element 1',
+                            'columns' => [
+                                'tx_mask_field1',
+                                'tx_mask_field2',
+                            ],
+                            'descriptions' => [
+                                '',
+                                ''
+                            ]
+                        ],
+                    ],
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'field1',
+                            'fullKey' => 'tx_mask_field1'
+                        ],
+                        'tx_mask_field2' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'field1',
+                            'fullKey' => 'tx_mask_field1'
+                        ],
+                    ]
+                ]
+            ],
+            'expected' => []
+        ];
+
+        yield 'fields in palettes generate overrides and palette description is ignored.' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'key' => 'element1',
+                            'label' => 'Element 1',
+                            'columns' => [
+                                'tx_mask_palette',
+                                'tx_mask_field2',
+                            ],
+                            'descriptions' => [
+                                'Palette Description',
+                                'Field 2 Description'
+                            ]
+                        ],
+                    ],
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'field1',
+                            'fullKey' => 'tx_mask_field1',
+                            'inlineParent' => [
+                                'element1' => 'tx_mask_palette'
+                            ],
+                            'inPalette' => '1',
+                            'description' => [
+                                'element1' => 'Field 1 Description'
+                            ]
+                        ],
+                        'tx_mask_field2' => [
+                            'config' => [
+                                'type' => 'input'
+                            ],
+                            'key' => 'field1',
+                            'fullKey' => 'tx_mask_field1'
+                        ],
+                        'tx_mask_palette' => [
+                            'config' => [
+                                'type' => 'palette'
+                            ],
+                            'key' => 'palette',
+                            'fullKey' => 'tx_mask_palette'
+                        ],
+                    ],
+                    'palettes' => [
+                        'tx_mask_palette' => [
+                            'showitem' => ['tx_mask_field1'],
+                            'label' => 'Palette',
+                            'description' => 'Palette Description'
+                        ]
+                    ]
+                ]
+            ],
+            'expected' => [
+                'tt_content' => [
+                    'types' => [
+                        'mask_element1' => [
+                            'columnsOverrides' => [
+                                'tx_mask_field1' => [
+                                    'description' => 'Field 1 Description'
+                                ],
+                                'tx_mask_field2' => [
+                                    'description' => 'Field 2 Description'
+                                ]
+                            ]
+                        ],
+                    ]
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider generateTCAOverridesDataProvider
+     * @test
+     */
+    public function generateTCAOverrides(array $json, array $expected): void
+    {
+        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json));
+        self::assertEquals($expected, $tcaGenerator->generateTCAOverrides());
+    }
 }
