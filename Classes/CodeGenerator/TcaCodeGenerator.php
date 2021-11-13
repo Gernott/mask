@@ -100,7 +100,7 @@ class TcaCodeGenerator
         $tableTca['columns']['parentid']['config']['foreign_table_where'] = "AND $parentTable.pid=###CURRENT_PID### AND $parentTable.sys_language_uid IN (-1, ###REC_FIELD_sys_language_uid###)";
 
         // Add palettes
-        foreach ($tableDefinition->palettes as $key => $palette) {
+        foreach ($tableDefinition->palettes as $palette) {
             $tableTca['palettes'][$palette->key] = $this->generatePalettesTca($palette, $table);
         }
 
