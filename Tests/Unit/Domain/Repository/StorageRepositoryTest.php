@@ -430,12 +430,14 @@ class StorageRepositoryTest extends BaseTestCase
                         [
                             'key' => 'header',
                             'label' => 'Header',
-                            'name' => 'string'
+                            'name' => 'string',
+                            'description' => '',
                         ],
                         [
                             'key' => 'tx_mask_field',
                             'label' => 'Field',
-                            'name' => 'string'
+                            'name' => 'string',
+                            'description' => '',
                         ]
                     ]
                 ]
