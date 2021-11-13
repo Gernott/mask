@@ -296,6 +296,10 @@ final class TableDefinitionCollection implements \IteratorAggregate
         return $this->getFieldPropertyByElement($elementKey, $fieldKey, 'description', $table);
     }
 
+    /**
+     * This method can find properties, which are defined in the ElementDefinition.
+     * These are "label" and "description" at the time being.
+     */
     private function getFieldPropertyByElement(string $elementKey, string $fieldKey, string $property, string $table = 'tt_content'): string
     {
         $validProperties = ['label', 'description'];
