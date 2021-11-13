@@ -296,7 +296,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
         return $this->getFieldPropertyByElement($elementKey, $fieldKey, 'description', $table);
     }
 
-    protected function getFieldPropertyByElement(string $elementKey, string $fieldKey, string $property, string $table = 'tt_content'): string
+    private function getFieldPropertyByElement(string $elementKey, string $fieldKey, string $property, string $table = 'tt_content'): string
     {
         $validProperties = ['label', 'description'];
 
