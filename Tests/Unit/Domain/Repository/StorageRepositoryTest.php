@@ -1205,7 +1205,7 @@ class StorageRepositoryTest extends BaseTestCase
                                     'Palette 1'
                                 ],
                                 'descriptions' => [
-                                    '1'
+                                    ''
                                 ]
                             ],
                             'element2' => [
