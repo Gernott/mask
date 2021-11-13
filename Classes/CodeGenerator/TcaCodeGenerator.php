@@ -254,9 +254,17 @@ class TcaCodeGenerator
             }
         }
 
+        $description = $palette->description;
+        if ($description === '') {
+            $paletteField = $this->tableDefinitionCollection->loadField($table, $palette->key);
+            if ($paletteField instanceof TcaFieldDefinition) {
+                $description = $paletteField->description;
+            }
+        }
+
         return [
             'label' => $palette->label,
-            'description' => $palette->description,
+            'description' => $description,
             'showitem' => implode(',', $showitem)
         ];
     }
