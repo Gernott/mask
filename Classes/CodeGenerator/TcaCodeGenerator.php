@@ -101,7 +101,7 @@ class TcaCodeGenerator
 
         // Add palettes
         foreach ($tableDefinition->palettes as $key => $palette) {
-            $tableTca['palettes'][$key] = $this->generatePalettesTca($palette, $table);
+            $tableTca['palettes'][$palette->key] = $this->generatePalettesTca($palette, $table);
         }
 
         $field = $this->tableDefinitionCollection->getTable($parentTable)->tca->getField($table);
