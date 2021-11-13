@@ -252,6 +252,7 @@ class JsonSplitLoaderTest extends UnitTestCase
                 'palettes' => [
                     'tx_mask_4e12de3d14bd5' => [
                         'label' => 'Palette 1',
+                        'description' => '',
                         'showitem' => ['header']
                     ]
                 ]
@@ -358,7 +359,7 @@ class JsonSplitLoaderTest extends UnitTestCase
                             'Palette 1'
                         ],
                         'descriptions' => [
-                            ''
+                            'Description for palette 1'
                         ],
                         'sorting' => 3
                     ]
@@ -397,6 +398,7 @@ class JsonSplitLoaderTest extends UnitTestCase
                 'palettes' => [
                     'tx_mask_palette' => [
                         'label' => 'Palette 1',
+                        'description' => 'Description for palette 1',
                         'showitem' => ['tx_mask_inline']
                     ]
                 ],
@@ -539,7 +541,7 @@ class JsonSplitLoaderTest extends UnitTestCase
                             'Palette 1',
                         ],
                         'descriptions' => [
-                            '',
+                            'Description for palette 1',
                         ],
                         'sorting' => 3
                     ]
@@ -672,10 +674,12 @@ class JsonSplitLoaderTest extends UnitTestCase
                 'palettes' => [
                     'tx_mask_4e12de3d14bd5' => [
                         'label' => 'Palette 1',
+                        'description' => '',
                         'showitem' => ['header']
                     ],
                     'tx_mask_palette' => [
                         'label' => 'Palette 1',
+                        'description' => 'Description for palette 1',
                         'showitem' => ['tx_mask_inline']
                     ]
                 ]

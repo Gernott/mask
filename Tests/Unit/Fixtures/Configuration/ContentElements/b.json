@@ -83,6 +83,7 @@
 		"palettes": {
 			"tx_mask_4e12de3d14bd5": {
 				"label": "Palette 1",
+				"description": "",
 				"showitem": [
 					"header"
 				]

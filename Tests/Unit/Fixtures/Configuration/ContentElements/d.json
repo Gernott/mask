@@ -15,7 +15,7 @@
 					"Palette 1"
 				],
 				"descriptions": [
-					""
+					"Description for palette 1"
 				],
 				"sorting": 3
 			}
@@ -54,6 +54,7 @@
 		"palettes": {
 			"tx_mask_palette": {
 				"label": "Palette 1",
+				"description": "Description for palette 1",
 				"showitem": ["tx_mask_inline"]
 			}
 		}

@@ -1085,6 +1085,9 @@ class TcaCodeGeneratorTest extends BaseTestCase
                                 ],
                                 'labels' => [
                                     'My Palette',
+                                ],
+                                'descriptions' => [
+                                    'description for palette with label My Palette',
                                 ]
                             ]
                         ],
@@ -1105,6 +1108,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
                         'palettes' => [
                             'tx_mask_my_palette' => [
                                 'label' => 'My Palette',
+                                'description' => 'description for palette with label My Palette',
                                 'showitem' => ['header', 'bodytext']
                             ]
                         ]
@@ -1115,6 +1119,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
                 [
                     'tx_mask_my_palette' => [
                         'label' => 'My Palette',
+                        'description' => 'description for palette with label My Palette',
                         'showitem' => 'header,bodytext'
                     ]
                 ]
@@ -1132,6 +1137,9 @@ class TcaCodeGeneratorTest extends BaseTestCase
                                 ],
                                 'labels' => [
                                     'My Palette',
+                                ],
+                                'descriptions' => [
+                                    '',
                                 ]
                             ]
                         ],
@@ -1158,6 +1166,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
                         'palettes' => [
                             'tx_mask_my_palette' => [
                                 'label' => 'My Palette',
+                                'description' => '',
                                 'showitem' => ['header', 'tx_mask_linebreak-1', 'bodytext']
                             ]
                         ]
@@ -1168,6 +1177,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
                 [
                     'tx_mask_my_palette' => [
                         'label' => 'My Palette',
+                        'description' => '',
                         'showitem' => 'header,--linebreak--,bodytext'
                     ]
                 ]
