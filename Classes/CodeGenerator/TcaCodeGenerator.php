@@ -403,17 +403,17 @@ class TcaCodeGenerator
     }
 
     /**
-     * Generates TCA overrides for labels and descriptions.
+     * Generates TCA columns overrides for labels and descriptions.
      * @todo Do the same with labels. Then we can drop tsconfig overrides completely.
      */
-    public function generateTCAOverrides(): array
+    public function generateTCAColumnsOverrides(): array
     {
         $table = 'tt_content';
         if (!$this->tableDefinitionCollection->hasTable($table)) {
             return [];
         }
 
-        $TCAOverrides = [];
+        $TCAColumnsOverrides = [];
         $tableDefinition = $this->tableDefinitionCollection->getTable($table);
 
         // Go through all root fields defined in elements and find possible overrides.
@@ -430,19 +430,19 @@ class TcaCodeGenerator
                     foreach ($this->tableDefinitionCollection->loadInlineFields($fieldName, $element->key) as $paletteField) {
                         $description = $paletteField->getDescription($element->key);
                         if ($description !== '') {
-                            $TCAOverrides['tt_content']['types'][$cType]['columnsOverrides'][$paletteField->fullKey]['description'] = $description;
+                            $TCAColumnsOverrides['tt_content']['types'][$cType]['columnsOverrides'][$paletteField->fullKey]['description'] = $description;
                         }
                     }
                 } else {
                     $description = $element->descriptions[$index] ?? '';
                     if ($description !== '') {
-                        $TCAOverrides['tt_content']['types'][$cType]['columnsOverrides'][$fieldDefinition->fullKey]['description'] = $description;
+                        $TCAColumnsOverrides['tt_content']['types'][$cType]['columnsOverrides'][$fieldDefinition->fullKey]['description'] = $description;
                     }
                 }
             }
         }
 
-        return $TCAOverrides;
+        return $TCAColumnsOverrides;
     }
 
     /**

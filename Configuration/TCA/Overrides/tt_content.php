@@ -16,7 +16,7 @@ $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['itemsProcFunc'] = M
 
 $tcaCodeGenerator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\CodeGenerator\TcaCodeGenerator::class);
 $contentColumns = $tcaCodeGenerator->generateFieldsTca('tt_content');
-\TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($GLOBALS['TCA'], $tcaCodeGenerator->generateTCAOverrides());
+\TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($GLOBALS['TCA'], $tcaCodeGenerator->generateTCAColumnsOverrides());
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tt_content', $contentColumns);
 $tcaCodeGenerator->setInlineTca();
 $tcaCodeGenerator->setElementsTca();

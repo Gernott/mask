@@ -1493,7 +1493,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
         self::assertSame($expected, $tcaGenerator->getFirstNoneTabField($data));
     }
 
-    public function generateTCAOverridesDataProvider(): iterable
+    public function generateTCAColumnsOverridesDataProvider(): iterable
     {
         yield 'normal root fields TCA override generated' => [
             'json' => [
@@ -1686,12 +1686,12 @@ class TcaCodeGeneratorTest extends BaseTestCase
     }
 
     /**
-     * @dataProvider generateTCAOverridesDataProvider
+     * @dataProvider generateTCAColumnsOverridesDataProvider
      * @test
      */
-    public function generateTCAOverrides(array $json, array $expected): void
+    public function generateTCAColumnsOverrides(array $json, array $expected): void
     {
         $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json));
-        self::assertEquals($expected, $tcaGenerator->generateTCAOverrides());
+        self::assertEquals($expected, $tcaGenerator->generateTCAColumnsOverrides());
     }
 }
