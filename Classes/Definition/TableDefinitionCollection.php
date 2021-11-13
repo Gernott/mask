@@ -355,7 +355,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
         if (!empty($element->columns)) {
             $fieldIndex = array_search($fieldKey, $element->columns, true);
             if ($fieldIndex !== false) {
-                return $element->descriptions[$fieldIndex];
+                return $element->descriptions[$fieldIndex] ?? '';
             }
         }
 
