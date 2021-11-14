@@ -105,6 +105,10 @@
                 opacity: 0.5;
             }
         }
+
+        td {
+            background-clip: padding-box;
+        }
     }
 
     &__element-name {

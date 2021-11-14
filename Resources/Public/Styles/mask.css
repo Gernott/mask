@@ -734,6 +734,9 @@
   .mask-elements__table tr.disabled {
     opacity: 0.5; }
 
+.mask-elements__table td {
+  background-clip: padding-box; }
+
 .mask-elements__element-name {
   display: flex;
   align-items: center;
