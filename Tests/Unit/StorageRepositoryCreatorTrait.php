@@ -19,6 +19,7 @@ use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Loader\LoaderInterface;
 use MASK\Mask\Tests\Unit\ConfigurationLoader\FakeConfigurationLoader;
+use Prophecy\Argument;
 
 trait StorageRepositoryCreatorTrait
 {
@@ -35,6 +36,7 @@ trait StorageRepositoryCreatorTrait
         $tableDefinitionCollection = TableDefinitionCollection::createFromArray($json);
         $loader = $this->prophesize(LoaderInterface::class);
         $loader->load()->willReturn($tableDefinitionCollection);
+        $loader->write(Argument::any());
 
         return $loader->reveal();
     }

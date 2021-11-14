@@ -101,8 +101,18 @@ class StorageRepository implements SingletonInterface
     /**
      * Adds a new content element.
      */
-    public function add(array $element, array $fields, string $table): array
+    public function add(array $element, array $fields, string $table, bool $isNew): array
     {
+        if ($isNew) {
+            // Add sorting for new element
+            $json = $this->load();
+            $sorting = $this->getHighestSorting($json[$table]['elements'] ?? []) + 1;
+            $element['sorting'] = (string)$sorting;
+        } else {
+            $json = $this->remove($table, $element['key']);
+            $this->persist($json);
+        }
+
         // Load
         $json = $this->load();
         $jsonAdd = [];
@@ -149,16 +159,7 @@ class StorageRepository implements SingletonInterface
      */
     public function update(array $element, array $fields, string $table, bool $isNew): TableDefinitionCollection
     {
-        if ($isNew) {
-            // Add sorting for new element
-            $json = $this->load();
-            $sorting = $this->getHighestSorting($json[$table]['elements'] ?? []) + 1;
-            $element['sorting'] = (string)$sorting;
-        } else {
-            $json = $this->remove($table, $element['key']);
-            $this->persist($json);
-        }
-        return $this->persist($this->add($element, $fields, $table));
+        return $this->persist($this->add($element, $fields, $table, $isNew));
     }
 
     /**
