@@ -91,6 +91,12 @@ final class TcaFieldDefinition
             unset($definition['config']['wizards']);
         }
 
+        // Migration for foreign_record_defaults Mask v2 / TYPO3 v7.
+        if (isset($definition['config']['foreign_record_defaults'])) {
+            $definition['config']['overrideChildTca']['columns']['colPos']['config']['default'] = 999;
+            unset($definition['config']['foreign_record_defaults']);
+        }
+
         // Now config is clean. Extract real TCA.
         $tcaFieldDefinition->realTca = self::extractRealTca($definition);
 
