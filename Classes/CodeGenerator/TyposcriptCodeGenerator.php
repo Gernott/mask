@@ -66,10 +66,9 @@ class TyposcriptCodeGenerator
             return '';
         }
 
-        $tt_content = $this->tableDefinitionCollection->getTable('tt_content');
-        $content = '';
-
         // Register content elements and add them in new content element wizard.
+        $TSConfig = [];
+        $tt_content = $this->tableDefinitionCollection->getTable('tt_content');
         foreach ($tt_content->elements as $element) {
             // Register icons for contentelements
             $iconIdentifier = 'mask-ce-' . $element->key;
@@ -99,65 +98,85 @@ class TyposcriptCodeGenerator
                     ]
                 ]
             ];
-            $content .= "mod.wizards.newContentElement.wizardItems.mask {\n";
-            $content .= ArrayToTypoScriptConverter::convert($wizard, '', 1);
-            $content .= "\tshow := addToList(" . $cTypeKey . ");\n";
-            $content .= "}\n";
 
-            // Switch the labels depending on which content element is selected.
-            $content .= "\n[isMaskContentType(\"" . $cTypeKey . "\")]\n";
-            foreach ($element->columns as $index => $column) {
-                $content = $this->setLabel($column, $index, $element, 'tt_content', $content);
-            }
-            $content .= "[end]\n\n";
+            $TSConfig[] = '';
+            $TSConfig[] = 'mod.wizards.newContentElement.wizardItems.mask {';
+            $TSConfig[] = ArrayToTypoScriptConverter::convert($wizard, '', 1);
+            $TSConfig[] = "show := addToList($cTypeKey)";
+            $TSConfig[] = '}';
+            $TSConfig[] = '';
         }
 
-        return $content;
+        return implode("\n", $TSConfig);
     }
 
     /**
      * Generates the typoscript for pages
      */
-    public function generatePageTyposcript(): string
+    public function generatePageTSConfigOverridesForBackendLayouts(): string
     {
         if (!$this->tableDefinitionCollection->hasTable('pages')) {
             return '';
         }
 
-        $pagesContent = '';
+        $TSConfig = [];
         $pages = $this->tableDefinitionCollection->getTable('pages');
         foreach ($pages->elements as $element) {
             // Labels for pages
-            $pagesContent .= "\n[maskBeLayout('" . $element->key . "')]\n";
+            $TSConfig[] = '';
+            $TSConfig[] = "[maskBeLayout('$element->key')]";
             // if page has backendlayout with this element-key
             foreach ($element->columns as $index => $column) {
-                $pagesContent = $this->setLabel($column, $index, $element, 'pages', $pagesContent);
+                $TSConfig = $this->generateTCEFORM($column, $index, $element, 'pages', $TSConfig);
             }
-            $pagesContent .= "[end]\n";
+            $TSConfig[] = '[end]';
+            $TSConfig[] = '';
         }
 
-        return $pagesContent;
+        return implode("\n", $TSConfig);
     }
 
     /**
      * Sets the label via TCEFORM
      */
-    protected function setLabel(string $fieldKey, int $index, ElementDefinition $element, string $table, string $content): string
+    protected function generateTCEFORM(string $fieldKey, int $index, ElementDefinition $element, string $table, array $TSConfig): array
     {
         $fieldDefinition = $this->tableDefinitionCollection->loadField($table, $fieldKey);
         if (!$fieldDefinition) {
-            return $content;
+            return $TSConfig;
         }
         // As this is called very early, TCA for core fields might not be loaded yet. So ignore them.
         if (!$fieldDefinition->isCoreField && $this->tableDefinitionCollection->getFieldType($fieldKey, $table)->equals(FieldType::PALETTE)) {
             foreach ($this->tableDefinitionCollection->loadInlineFields($fieldKey, $element->key) as $field) {
-                $content .= ' TCEFORM.' . $table . '.' . $field->fullKey . '.label = ' . $field->getLabel($element->key) . "\n";
+                // Add label from field config.
+                $label = $field->getLabel($element->key);
+                if ($label !== '') {
+                    $TSConfig[] = 'TCEFORM.' . $table . '.' . $field->fullKey . '.label = ' . $label;
+                }
+
+                // Add description from field config.
+                $description = $field->getDescription($element->key);
+                if ($description !== '') {
+                    $TSConfig[] = 'TCEFORM.' . $table . '.' . $field->fullKey . '.description (';
+                    $TSConfig[] = $description;
+                    $TSConfig[] = ')';
+                }
             }
         } else {
-            $content .= ' TCEFORM.' . $table . '.' . $fieldKey . '.label = ' . $element->labels[$index] . "\n";
+            // Add label from elements array.
+            if ($element->labels[$index] !== '') {
+                $TSConfig[] = 'TCEFORM.' . $table . '.' . $fieldKey . '.label = ' . $element->labels[$index];
+            }
+
+            // Add description from elements array.
+            if ($element->descriptions[$index] !== '') {
+                $TSConfig[] = 'TCEFORM.' . $table . '.' . $fieldKey . '.description (';
+                $TSConfig[] = $element->descriptions[$index];
+                $TSConfig[] = ')';
+            }
         }
 
-        return $content;
+        return $TSConfig;
     }
 
     /**
