@@ -23,7 +23,7 @@ use MASK\Mask\Definition\TcaFieldDefinition;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Loader\LoaderInterface;
 use MASK\Mask\Utility\AffixUtility;
-use MASK\Mask\Utility\TcaConverterUtility;
+use MASK\Mask\Utility\TcaConverter;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 
@@ -245,7 +245,7 @@ class StorageRepository implements SingletonInterface
                 $defaults = $this->configurationLoader->loadDefaults();
                 $field['tca'] = $field['tca'] ?? [];
                 ArrayUtility::mergeRecursiveWithOverrule($field['tca'], $defaults[$field['name']]['tca_out'] ?? []);
-                $fieldAdd = TcaConverterUtility::convertFlatTcaToArray($field['tca']);
+                $fieldAdd = TcaConverter::convertFlatTcaToArray($field['tca']);
                 $fieldAdd['key'] = AffixUtility::removeMaskPrefix($field['key']);
             } else {
                 $fieldAdd['key'] = $field['key'];

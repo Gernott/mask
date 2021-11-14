@@ -21,7 +21,7 @@ use MASK\Mask\ConfigurationLoader\ConfigurationLoaderInterface;
 use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\DateUtility;
-use MASK\Mask\Utility\TcaConverterUtility;
+use MASK\Mask\Utility\TcaConverter;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Http\Response;
@@ -140,7 +140,7 @@ class FieldsController
                 if ($tableDefinition->sql->hasColumn($newField['key'])) {
                     $newField['sql'] = $this->tableDefinitionCollection->getTable($table)->sql->getColumn($newField['key'])->sqlDefinition;
                 }
-                $newField['tca'] = TcaConverterUtility::convertTcaArrayToFlat($field['config'] ?? []);
+                $newField['tca'] = TcaConverter::convertTcaArrayToFlat($field['config'] ?? []);
                 $newField['tca']['l10n_mode'] = $field['l10n_mode'] ?? '';
             }
 

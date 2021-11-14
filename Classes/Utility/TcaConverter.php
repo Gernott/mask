@@ -19,7 +19,12 @@ namespace MASK\Mask\Utility;
 
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
-class TcaConverterUtility
+/**
+ * Back and forth converting for flat vs array TCA structure.
+ *
+ * @internal
+ */
+class TcaConverter
 {
     /**
      * Converts the content of TCA config to a flat array, where each nesting is seperated with a period.

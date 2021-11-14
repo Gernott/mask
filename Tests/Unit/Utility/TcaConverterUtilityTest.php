@@ -17,7 +17,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Test\Utility;
 
-use MASK\Mask\Utility\TcaConverterUtility;
+use MASK\Mask\Utility\TcaConverter;
 use TYPO3\TestingFramework\Core\BaseTestCase;
 
 class TcaConverterUtilityTest extends BaseTestCase
@@ -105,7 +105,7 @@ class TcaConverterUtilityTest extends BaseTestCase
      */
     public function convertTcaArrayToFlatTest($array, $expected)
     {
-        self::assertSame($expected, TcaConverterUtility::convertTcaArrayToFlat($array));
+        self::assertSame($expected, TcaConverter::convertTcaArrayToFlat($array));
     }
 
     public function convertFlatTcaToArrayTestDataProvider()
@@ -196,6 +196,6 @@ class TcaConverterUtilityTest extends BaseTestCase
      */
     public function convertFlatTcaToArrayTest($array, $expected)
     {
-        self::assertSame($expected, TcaConverterUtility::convertFlatTcaToArray($array));
+        self::assertSame($expected, TcaConverter::convertFlatTcaToArray($array));
     }
 }
