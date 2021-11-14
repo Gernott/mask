@@ -348,6 +348,7 @@ define([
             description: this.element.description,
             color: this.element.color,
             hidden: this.element.hidden,
+            sorting: this.element.sorting,
           };
         } else {
           return {

@@ -272,7 +272,8 @@ class AjaxController
                 'iconMarkup' => $this->iconFactory->getIcon('mask-ce-' . $element->key, Icon::SIZE_DEFAULT, $overlay)->render(),
                 'templateExists' => $this->checkTemplate($element->key) ? 1 : 0,
                 'hidden' => $element->hidden ? 1 : 0,
-                'count' => $this->getElementCount($element->key)
+                'count' => $this->getElementCount($element->key),
+                'sorting' => $element->sorting,
             ];
         }
         $json['elements'] = $elements;

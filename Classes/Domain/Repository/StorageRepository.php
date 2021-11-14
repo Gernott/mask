@@ -109,7 +109,6 @@ class StorageRepository implements SingletonInterface
         $elementKey = $element['key'];
 
         // Set element
-        $element['sorting'] = $this->getHighestSorting($json[$table]['elements'] ?? []) + 1;
         $jsonAdd[$table]['elements'][$elementKey] = $element;
 
         $jsonAdd = $this->setSql($jsonAdd, $fields, $table);
@@ -150,7 +149,12 @@ class StorageRepository implements SingletonInterface
      */
     public function update(array $element, array $fields, string $table, bool $isNew): TableDefinitionCollection
     {
-        if (!$isNew) {
+        if ($isNew) {
+            // Add sorting for new element
+            $json = $this->load();
+            $sorting = $this->getHighestSorting($json[$table]['elements'] ?? []) + 1;
+            $element['sorting'] = (string)$sorting;
+        } else {
             $json = $this->remove($table, $element['key']);
             $this->persist($json);
         }
@@ -186,7 +190,7 @@ class StorageRepository implements SingletonInterface
         $max = 0;
         foreach ($elements as $element) {
             if (($element['sorting'] ?? 0) > $max) {
-                $max = $element['sorting'];
+                $max = (int)$element['sorting'];
             }
         }
         return $max;
