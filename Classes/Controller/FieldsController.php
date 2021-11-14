@@ -130,7 +130,7 @@ class FieldsController
             $newField['icon'] = $this->iconFactory->getIcon('mask-fieldtype-' . $newField['name'])->getMarkup();
             $newField['tca'] = [];
 
-            if (isset($field['coreField'])) {
+            if ($field['coreField'] ?? false) {
                 $nestedFields[] = $newField;
                 continue;
             }
@@ -161,7 +161,7 @@ class FieldsController
 
             if ($fieldType->equals(FieldType::FILE)) {
                 $newField['tca']['imageoverlayPalette'] = $field['imageoverlayPalette'];
-                $newField['tca']['allowedFileExtensions'] = $field['allowedFileExtensions'];
+                $newField['tca']['allowedFileExtensions'] = $field['allowedFileExtensions'] ?? '';
             }
 
             if ($fieldType->equals(FieldType::CONTENT)) {
