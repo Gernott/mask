@@ -22,7 +22,7 @@ use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Imaging\IconProvider\ContentElementIconProvider;
 use MASK\Mask\Utility\AffixUtility;
-use MASK\Mask\Utility\ArrayToTypoScriptConverterUtility;
+use MASK\Mask\Utility\ArrayToTypoScriptConverter;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Core\Imaging\IconRegistry;
 
@@ -100,7 +100,7 @@ class TyposcriptCodeGenerator
                 ]
             ];
             $content .= "mod.wizards.newContentElement.wizardItems.mask {\n";
-            $content .= ArrayToTypoScriptConverterUtility::convert($wizard, '', 1);
+            $content .= ArrayToTypoScriptConverter::convert($wizard, '', 1);
             $content .= "\tshow := addToList(" . $cTypeKey . ");\n";
             $content .= "}\n";
 
@@ -170,7 +170,7 @@ class TyposcriptCodeGenerator
         }
 
         // for base paths to fluid templates configured in extension settings
-        $setupContent[] = ArrayToTypoScriptConverterUtility::convert(
+        $setupContent[] = ArrayToTypoScriptConverter::convert(
             [
                 'templateRootPaths' => [
                     10 => rtrim($this->maskExtensionConfiguration['content'], '/') . '/'

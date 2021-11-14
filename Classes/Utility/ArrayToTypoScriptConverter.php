@@ -17,7 +17,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Utility;
 
-class ArrayToTypoScriptConverterUtility
+class ArrayToTypoScriptConverter
 {
     /**
      * Converts given array to TypoScript
