@@ -29,7 +29,8 @@ return [
         [
             'config.fileFolder' => 6,
             'config.fileFolder_extList' => 6,
-            'config.fileFolder_recursions' => 6
+            'config.fileFolder_recursions' => 6,
+            'config.fieldWizard.selectIcons.disabled' => 6
         ]
     ],
     Tab::LOCALIZATION => [
