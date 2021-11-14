@@ -37,7 +37,8 @@ class StorageRepositoryTest extends BaseTestCase
                 'shortLabel' => '',
                 'description' => '',
                 'icon' => '',
-                'color' => '#000000'
+                'color' => '#000000',
+                'sorting' => '1',
             ],
             'fields' => [
                 [
@@ -87,7 +88,7 @@ class StorageRepositoryTest extends BaseTestCase
                                 '',
                                 ''
                             ],
-                            'sorting' => 1
+                            'sorting' => '1',
                         ]
                     ],
                     'sql' => [
@@ -127,7 +128,8 @@ class StorageRepositoryTest extends BaseTestCase
                         ]
                     ]
                 ]
-            ]
+            ],
+            'isNew' => false,
         ];
 
         yield 'existing typo3 fields do not generate tca nor sql' => [
@@ -138,7 +140,8 @@ class StorageRepositoryTest extends BaseTestCase
                 'shortLabel' => '',
                 'description' => '',
                 'icon' => '',
-                'color' => '#000000'
+                'color' => '#000000',
+                'sorting' => '1'
             ],
             'fields' => [
                 [
@@ -168,7 +171,7 @@ class StorageRepositoryTest extends BaseTestCase
                             'descriptions' => [
                                 '',
                             ],
-                            'sorting' => 1
+                            'sorting' => '1'
                         ]
                     ],
                     'tca' => [
@@ -180,7 +183,8 @@ class StorageRepositoryTest extends BaseTestCase
                         ]
                     ]
                 ]
-            ]
+            ],
+            'isNew' => false,
         ];
 
         yield 'inline fields are added as new table' => [
@@ -191,7 +195,8 @@ class StorageRepositoryTest extends BaseTestCase
                 'shortLabel' => '',
                 'description' => '',
                 'icon' => '',
-                'color' => '#000000'
+                'color' => '#000000',
+                'sorting' => '1',
             ],
             'fields' => [
                 [
@@ -231,7 +236,7 @@ class StorageRepositoryTest extends BaseTestCase
                             'descriptions' => [
                                 'Inline Field description',
                             ],
-                            'sorting' => 1
+                            'sorting' => '1'
                         ]
                     ],
                     'sql' => [
@@ -284,14 +289,16 @@ class StorageRepositoryTest extends BaseTestCase
                         ]
                     ]
                 ]
-            ]
+            ],
+            'isNew' => false,
         ];
 
         yield 'Timestamps range converted to integer' => [
             'json' => [],
             'element' => [
                 'key' => 'element1',
-                'label' => 'Element 1'
+                'label' => 'Element 1',
+                'sorting' => '1',
             ],
             'fields' => [
                 [
@@ -322,7 +329,7 @@ class StorageRepositoryTest extends BaseTestCase
                             'descriptions' => [
                                 ''
                             ],
-                            'sorting' => 1
+                            'sorting' => '1',
                         ]
                     ],
                     'sql' => [
@@ -349,14 +356,16 @@ class StorageRepositoryTest extends BaseTestCase
                         ],
                     ]
                 ],
-            ]
+            ],
+            'isNew' => false,
         ];
 
         yield 'inline fields with no children are not added as new table' => [
             'json' => [],
             'element' => [
                 'label' => 'Element 1',
-                'key' => 'element1'
+                'key' => 'element1',
+                'sorting' => '1',
             ],
             'fields' => [
                 [
@@ -382,7 +391,7 @@ class StorageRepositoryTest extends BaseTestCase
                             'descriptions' => [
                                 'Inline Field description',
                             ],
-                            'sorting' => 1
+                            'sorting' => '1',
                         ]
                     ],
                     'sql' => [
@@ -412,7 +421,8 @@ class StorageRepositoryTest extends BaseTestCase
                         ],
                     ]
                 ],
-            ]
+            ],
+            'isNew' => false,
         ];
 
         yield 'palettes are added' => [
@@ -420,6 +430,7 @@ class StorageRepositoryTest extends BaseTestCase
             'element' => [
                 'label' => 'Element 1',
                 'key' => 'element1',
+                'sorting' => '1',
             ],
             'fields' => [
                 [
@@ -458,7 +469,7 @@ class StorageRepositoryTest extends BaseTestCase
                             'descriptions' => [
                                 '',
                             ],
-                            'sorting' => 1
+                            'sorting' => '1',
                         ]
                     ],
                     'palettes' => [
@@ -526,7 +537,8 @@ class StorageRepositoryTest extends BaseTestCase
                         ]
                     ]
                 ]
-            ]
+            ],
+            'isNew' => false,
         ];
 
         yield 'Fields in palette of inline field point directly to inline table' => [
@@ -534,6 +546,7 @@ class StorageRepositoryTest extends BaseTestCase
             'element' => [
                 'label' => 'Element 1',
                 'key' => 'element1',
+                'sorting' => '1',
             ],
             'fields' => [
                 [
@@ -575,7 +588,7 @@ class StorageRepositoryTest extends BaseTestCase
                             'descriptions' => [
                                 '',
                             ],
-                            'sorting' => 1
+                            'sorting' => '1',
                         ]
                     ],
                     'sql' => [
@@ -648,7 +661,8 @@ class StorageRepositoryTest extends BaseTestCase
                         ]
                     ]
                 ]
-            ]
+            ],
+            'isNew' => false,
         ];
 
         yield 'existing custom field in another element added freshly to palette' => [
@@ -667,6 +681,7 @@ class StorageRepositoryTest extends BaseTestCase
                             ],
                             'key' => 'element1',
                             'label' => 'Element 1',
+                            'sorting' => '0',
                         ]
                     ],
                     'palettes' => [
@@ -735,6 +750,7 @@ class StorageRepositoryTest extends BaseTestCase
             'element' => [
                 'label' => 'Element 2',
                 'key' => 'element2',
+                'sorting' => '1',
             ],
             'fields' => [
                 [
@@ -777,7 +793,7 @@ class StorageRepositoryTest extends BaseTestCase
                             'descriptions' => [
                                 '',
                             ],
-                            'sorting' => 0
+                            'sorting' => '0',
                         ],
                         'element2' => [
                             'label' => 'Element 2',
@@ -791,7 +807,7 @@ class StorageRepositoryTest extends BaseTestCase
                             'descriptions' => [
                                 '',
                             ],
-                            'sorting' => 1
+                            'sorting' => '1',
                         ]
                     ],
                     'palettes' => [
@@ -880,7 +896,8 @@ class StorageRepositoryTest extends BaseTestCase
                         ]
                     ]
                 ]
-            ]
+            ],
+            'isNew' => false,
         ];
 
         yield 'New content element added as last sorting' => [
@@ -894,7 +911,7 @@ class StorageRepositoryTest extends BaseTestCase
                             'description' => '',
                             'icon' => '',
                             'color' => '#000000',
-                            'sorting' => 0
+                            'sorting' => '0',
                         ],
                         'element2' => [
                             'label' => 'Element 2',
@@ -903,7 +920,7 @@ class StorageRepositoryTest extends BaseTestCase
                             'description' => '',
                             'icon' => '',
                             'color' => '#000000',
-                            'sorting' => 2
+                            'sorting' => '2',
                         ]
                     ]
                 ]
@@ -931,7 +948,7 @@ class StorageRepositoryTest extends BaseTestCase
                             'columns' => [],
                             'labels' => [],
                             'descriptions' => [],
-                            'sorting' => 0
+                            'sorting' => '0'
                         ],
                         'element2' => [
                             'label' => 'Element 2',
@@ -943,7 +960,7 @@ class StorageRepositoryTest extends BaseTestCase
                             'columns' => [],
                             'labels' => [],
                             'descriptions' => [],
-                            'sorting' => 2
+                            'sorting' => '2'
                         ],
                         'element3' => [
                             'label' => 'Element 3',
@@ -952,14 +969,15 @@ class StorageRepositoryTest extends BaseTestCase
                             'description' => '',
                             'icon' => '',
                             'color' => '#000000',
-                            'sorting' => 3
+                            'sorting' => '3'
                         ]
                     ],
                     'sql' => [],
                     'tca' => [],
                     'palettes' => []
                 ]
-            ]
+            ],
+            'isNew' => true,
         ];
     }
 
@@ -967,7 +985,7 @@ class StorageRepositoryTest extends BaseTestCase
      * @dataProvider addDataProvider
      * @test
      */
-    public function add(array $json, array $element, array $fields, string $table, array $expected): void
+    public function add(array $json, array $element, array $fields, string $table, array $expected, bool $isNew): void
     {
         $storageRepository = $this->createStorageRepository($json);
 
@@ -978,7 +996,7 @@ class StorageRepositoryTest extends BaseTestCase
             ExtensionManagementUtility::setPackageManager($packageManager->reveal());
         }
 
-        self::assertEquals($expected, $storageRepository->add($element, $fields, $table));
+        self::assertEquals($expected, $storageRepository->add($element, $fields, $table, $isNew));
     }
 
     public function removeDataProvider(): array
