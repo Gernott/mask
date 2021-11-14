@@ -1711,6 +1711,6 @@ class TcaCodeGeneratorTest extends BaseTestCase
     public function generateTCAColumnsOverrides(array $json, array $expected): void
     {
         $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json));
-        self::assertEquals($expected, $tcaGenerator->generateTCAColumnsOverrides());
+        self::assertEquals($expected, $tcaGenerator->generateTCAColumnsOverrides('tt_content'));
     }
 }
