@@ -354,25 +354,38 @@ final class TableDefinitionCollection implements \IteratorAggregate
      */
     public function findFirstNonEmptyLabel(string $table, string $key): string
     {
+        return $this->findFirstNonEmptyProperty($table, $key, 'label');
+    }
+
+    /**
+     * This method searches for an existing description of a multiuse field
+     */
+    public function findFirstNonEmptyDescription(string $table, string $key): string
+    {
+        return $this->findFirstNonEmptyProperty($table, $key, 'description');
+    }
+
+    private function findFirstNonEmptyProperty(string $table, string $key, string $propertyName): string
+    {
         if (!$this->hasTable($table)) {
             return '';
         }
         $definition = $this->getTable($table);
 
-        $label = '';
+        $property = '';
         foreach ($definition->elements as $element) {
             if (in_array($key, $element->columns, true)) {
-                $label = $element->labels[array_search($key, $element->columns, true)];
+                $property = $element->{$propertyName . 's'}[array_search($key, $element->columns, true)];
             } else {
                 $field = $definition->tca->getField($key);
                 if ($field) {
-                    $label = $field->labelByElement[$element->key] ?? '';
+                    $property = $field->{$propertyName . 'ByElement'}[$element->key] ?? '';
                 }
             }
-            if ($label !== '') {
+            if ($property !== '') {
                 break;
             }
         }
-        return $label;
+        return $property;
     }
 }

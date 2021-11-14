@@ -75,6 +75,7 @@ class FieldsController
         }
         $json['field'] = $this->addFields([$key => $field], $table)[0];
         $json['field']['label'] = $this->tableDefinitionCollection->findFirstNonEmptyLabel($table, $key);
+        $json['field']['description'] = $this->tableDefinitionCollection->findFirstNonEmptyDescription($table, $key);
 
         return new JsonResponse($json);
     }
