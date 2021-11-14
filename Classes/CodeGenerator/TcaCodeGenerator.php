@@ -412,11 +412,9 @@ class TcaCodeGenerator
 
     /**
      * Generates TCA columns overrides for labels and descriptions.
-     * @todo Do the same with labels. Then we can drop tsconfig overrides completely.
      */
-    public function generateTCAColumnsOverrides(): array
+    public function generateTCAColumnsOverrides(string $table): array
     {
-        $table = 'tt_content';
         if (!$this->tableDefinitionCollection->hasTable($table)) {
             return [];
         }
@@ -436,15 +434,24 @@ class TcaCodeGenerator
                 // As this is called very early, TCA for core fields might not be loaded yet. So ignore them.
                 if (!$fieldDefinition->isCoreField && $fieldDefinition->type->equals(FieldType::PALETTE)) {
                     foreach ($this->tableDefinitionCollection->loadInlineFields($fieldName, $element->key) as $paletteField) {
+                        $label = $paletteField->getLabel($element->key);
+                        if ($label !== '') {
+                            $TCAColumnsOverrides[$table]['types'][$cType]['columnsOverrides'][$paletteField->fullKey]['label'] = $label;
+                        }
                         $description = $paletteField->getDescription($element->key);
                         if ($description !== '') {
-                            $TCAColumnsOverrides['tt_content']['types'][$cType]['columnsOverrides'][$paletteField->fullKey]['description'] = $description;
+                            $TCAColumnsOverrides[$table]['types'][$cType]['columnsOverrides'][$paletteField->fullKey]['description'] = $description;
                         }
                     }
                 } else {
+                    $label = $element->labels[$index] ?? '';
+                    if ($label !== '') {
+                        $TCAColumnsOverrides[$table]['types'][$cType]['columnsOverrides'][$fieldDefinition->fullKey]['label'] = $label;
+                    }
+
                     $description = $element->descriptions[$index] ?? '';
                     if ($description !== '') {
-                        $TCAColumnsOverrides['tt_content']['types'][$cType]['columnsOverrides'][$fieldDefinition->fullKey]['description'] = $description;
+                        $TCAColumnsOverrides[$table]['types'][$cType]['columnsOverrides'][$fieldDefinition->fullKey]['description'] = $description;
                     }
                 }
             }

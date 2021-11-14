@@ -19,7 +19,7 @@ defined('TYPO3') or die();
 // Include css for styling of backend preview of mask content elements
 $GLOBALS['TBE_STYLES']['skins']['mask']['stylesheetDirectories']['mask'] = 'EXT:mask/Resources/Public/Styles/Backend/';
 
-(function () {
+(static function () {
     // Allow all inline tables on standard pages
     $tables = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\MASK\Mask\Loader\LoaderRegistry::class)->loadActiveDefinition();
     foreach ($tables->getCustomTables() as $tableDefinition) {
