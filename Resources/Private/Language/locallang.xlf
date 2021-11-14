@@ -609,6 +609,9 @@ title3, value3, icon3, description3
 			<trans-unit id="tx_mask.group.tableList">
 				<source>Table List</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.group.selectIcons">
+				<source>Select Icons</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.group.elementBrowser">
 				<source>Element Browser</source>
 			</trans-unit>
@@ -632,6 +635,9 @@ title3, value3, icon3, description3
 			</trans-unit>
 			<trans-unit id="tx_mask.group.tableList.description">
 				<source>Render a list of allowed tables and link to element browser.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.selectIcons.description">
+				<source>Render thumbnails of icons below the select drop-down.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.group.elementBrowser.description">
 				<source>Renders a button to open element browser.</source>

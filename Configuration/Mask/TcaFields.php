@@ -587,6 +587,14 @@ return [
         'code' => 'tableList',
         'documentation' => 'ColumnsConfig/Type/Group.html#fieldwizard-tablelist'
     ],
+    'config.fieldWizard.selectIcons.disabled' => [
+        'type' => 'checkbox',
+        'invert' => true,
+        'label' => 'tx_mask.group.selectIcons',
+        'description' => 'tx_mask.group.selectIcons.description',
+        'code' => 'selectIcons',
+        'documentation' => 'ColumnsConfig/Type/selectSingle.html#selecticons'
+    ],
     'config.fieldWizard' => [
         'type' => 'plainText',
         'label' => 'tx_mask.fieldWizard',
