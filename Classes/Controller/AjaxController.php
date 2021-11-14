@@ -305,6 +305,7 @@ class AjaxController
                 'fields' => [],
                 'key' => '',
                 'label' => '',
+                'description' => '',
                 'translatedLabel' => '',
                 'itemLabel' => LocalizationUtility::translate('tx_mask.field.' . $type, 'mask'),
                 'parent' => [],
