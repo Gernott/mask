@@ -816,9 +816,9 @@ class AjaxController
         foreach ($cTypes ?? [] as $type) {
             if ($type[1] !== '--div--') {
                 if (GeneralUtility::isFirstPartOfStr($type[0], 'LLL:')) {
-                    $items[$type[1]] = LocalizationUtility::translate($type[0], 'mask') . ' (' . $type[1] . ')';
+                    $items[$type[1]] = LocalizationUtility::translate($type[0], 'mask');
                 } else {
-                    $items[$type[1]] = $type[0] . ' (' . $type[1] . ')';
+                    $items[$type[1]] = $type[0];
                 }
             }
         }
