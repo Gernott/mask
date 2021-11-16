@@ -943,9 +943,35 @@ define([
           parentKey = parent.$parent.list[index].key;
         }
 
-        return this.validateMove(parentKey, parentName, draggedField);
+        // Create array to store the keys of the elements into which the dragged element can be dragged
+        const dragRestriction = {allowedFields: [], inInlineField: false};
+        if (draggedField.parent !== undefined) {
+          let field = draggedField.parent;
+          while (field.parent !== undefined) {
+            dragRestriction.allowedFields.push(field.key);
+            if (field.name === 'inline') {
+              let childrenKeys = this.getKeysOfChildFieldsByField(field);
+              dragRestriction.allowedFields = [...dragRestriction.allowedFields, ...childrenKeys];
+              dragRestriction.inInlineField = true;
+              break;
+            }
+            field = field.parent;
+          }
+        }
+
+        return this.validateMove(parentKey, parentName, draggedField, dragRestriction);
       },
-      validateMove: function (newParentKey, newParentName, draggedField) {
+      getKeysOfChildFieldsByField: function(field, keys = []){
+        for (let _field of field.fields) {
+          if (Array.isArray(_field)) continue;
+          keys.push(_field.key);
+          if (_field.fields.length > 0) {
+            keys = this.getKeysOfChildFieldsByField(_field, keys);
+          }
+        }
+        return keys;
+      },
+      validateMove: function (newParentKey, newParentName, draggedField, dragRestriction) {
         if (newParentName !== '') {
           // Elements palette and tab are not allowed in palette
           if (newParentName === 'palette' && ['palette', 'tab'].includes(draggedField.name)) {
@@ -953,7 +979,12 @@ define([
           }
 
           // Existing fields are not allowed as new inline field, but allow moving items inside
-          if (newParentName === 'inline' && !draggedField.newField && newParentKey !== draggedField.parent.key) {
+          if (
+            newParentName === 'inline' &&
+            !draggedField.newField &&
+            ((draggedField.parent.name !== 'palette' && newParentKey !== draggedField.parent.key) ||
+              (draggedField.parent.name === 'palette' && draggedField.parent?.parent?.key !== newParentKey))
+          ) {
             return false;
           }
 
@@ -965,11 +996,16 @@ define([
 
         // Existing fields in inline can't be dragged out besides in palette
         if (
-            draggedField.parent.name === 'inline'
+          draggedField.parent.name === 'inline'
             && !draggedField.newField
             && newParentKey !== draggedField.parent.key
             && (newParentName !== 'palette' || newParentName === '')
         ) {
+          return false;
+        }
+
+        // Check if the newParent is in the allowed list
+        if (!draggedField.newField && dragRestriction.inInlineField && !dragRestriction.allowedFields.includes(newParentKey)) {
           return false;
         }
 
