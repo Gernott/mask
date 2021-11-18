@@ -9,8 +9,8 @@
                     </div>
                 </div>
                 <div class="mask-sidebar__toggle-wrap">
-                    <div class="mask-sidebar__toggle" :class="{active: metaVisible, 'has-error': hasElementErrors}" @click="sidebar = 'meta'">{f:translate(key: 'tx_mask.meta')}</div>
-                    <div class="mask-sidebar__toggle" :class="{active: fieldsVisible, 'has-error': hasFieldErrors}" @click="sidebar = 'fields'">{f:translate(key: 'tx_mask.fields')}</div>
+                    <div class="mask-sidebar__toggle" :class="{active: metaVisible, 'has-error': hasElementErrors}" @click="sidebar = 'meta'"><i class="fa fa-cog"></i> {f:translate(key: 'tx_mask.element.settings')}</div>
+                    <div class="mask-sidebar__toggle" :class="{active: fieldsVisible, 'has-error': hasFieldErrors}" @click="sidebar = 'fields'"><i class="fa fa-reorder"></i> {f:translate(key: 'tx_mask.fields')}</div>
                 </div>
                 <div class="mask-sidebar__content">
                     <div v-show="fieldsVisible">

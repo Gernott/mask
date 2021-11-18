@@ -1061,8 +1061,8 @@ title3, value3, icon3, description3
 			<trans-unit id="tx_mask.close">
 				<source>Close</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.meta">
-				<source>Element Meta Data</source>
+			<trans-unit id="tx_mask.element.settings">
+				<source>Settings</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.fields">
 				<source>Fields</source>
