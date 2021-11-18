@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.0.29] - 2021-11-18
+
+### Fixed
+- Internal value of cType is not shown twice [#444](https://github.com/Gernott/mask/issues/444)
+
+### Added
+- Compatibility b13/container [#449](https://github.com/Gernott/mask/issues/449)
+
 ## [7.0.28] - 2021-11-09
 
 ### Fixed
