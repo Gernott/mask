@@ -30,7 +30,11 @@ jobs:
       - name: Get comment
         id: get-comment
         run: |
-          readonly local comment=$(git tag -n10 -l v${{ steps.get-version.outputs.version }} | sed "s/^v[0-9.]*[ ]*//g")
+          comment=$(git tag -n10 -l v${{ steps.get-version.outputs.version }} | sed "s/^v[0-9.]*[ ]*//g")
+
+          comment="${comment//'%'/'%25'}"
+          comment="${comment//$'\n'/'%0A'}"
+          comment="${comment//$'\r'/'%0D'}"
 
           if [[ -z "${comment// }" ]]; then
             echo ::set-output name=comment::Released version ${{ steps.get-version.outputs.version }} of tailor_ext
