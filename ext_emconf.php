@@ -19,7 +19,8 @@ $EM_CONF[$_EXTKEY] = [
         ],
         'conflicts' => [],
         'suggests' => [
-            'gridelements' => ''
+            'gridelements' => '',
+            'container' => ''
         ],
     ],
 ];
