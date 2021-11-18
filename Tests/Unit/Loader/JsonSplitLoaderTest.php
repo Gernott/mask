@@ -20,12 +20,27 @@ namespace MASK\Mask\Tests\Unit\Loader;
 use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Loader\JsonSplitLoader;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Package\PackageManager;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class JsonSplitLoaderTest extends UnitTestCase
 {
     protected $resetSingletonInstances = true;
+
+    public function setUp(): void
+    {
+        $packageManager = $this->prophesize(PackageManager::class);
+        $packageManager->isPackageActive('mask')->willReturn(true);
+        ExtensionManagementUtility::setPackageManager($packageManager->reveal());
+    }
+
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        GeneralUtility::rmdir(Environment::getPublicPath() . '/typo3conf/ext/mask/var/ContentElements', true);
+    }
 
     /**
      * @test
@@ -50,14 +65,13 @@ class JsonSplitLoaderTest extends UnitTestCase
         $GLOBALS['TCA']['tt_content']['columns']['header']['config']['type'] = 'input';
         $jsonSplitLoader = new JsonSplitLoader(
             [
-                'content_elements_folder' => 'typo3temp/ContentElements',
-                'backend_layouts_folder' => 'typo3temp/BackendLayouts'
+                'content_elements_folder' => 'EXT:mask/var/ContentElements',
+                'backend_layouts_folder' => 'EXT:mask/var/BackendLayouts'
             ]
         );
 
-        $contentElementsPath = Environment::getPublicPath() . '/typo3temp/ContentElements';
+        $contentElementsPath = Environment::getPublicPath() . '/typo3conf/ext/mask/var/ContentElements';
         GeneralUtility::mkdir($contentElementsPath);
-        $this->testFilesToDelete[] = $contentElementsPath;
 
         $jsonSplitLoader->write(TableDefinitionCollection::createFromArray($this->getExpectedConfigurationArray()));
 

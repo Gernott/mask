@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace MASK\Mask\Utility;
 
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility as CoreUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
 
@@ -85,6 +86,10 @@ class GeneralUtility
         if (strpos($filename, 'EXT:') === 0) {
             [$extKey, $local] = explode('/', substr($filename, 4), 2);
             $filename = '';
+            // @todo Use TYPO3 GU::getFileAbsFileName method instead. A loaded extension should be required for extension paths.
+            if (!ExtensionManagementUtility::isLoaded($extKey)) {
+                trigger_error('Your sitepackage extension "' . $extKey . '" is not loaded. Mask v8 will require your extension to be loaded.', E_USER_DEPRECATED);
+            }
             if ((string)$extKey !== '' && (string)$local !== '') {
                 $filename = Environment::getPublicPath() . '/typo3conf/ext/' . $extKey . '/' . $local;
             }

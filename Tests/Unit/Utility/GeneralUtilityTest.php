@@ -19,6 +19,8 @@ namespace MASK\Mask\Tests\Unit;
 
 use MASK\Mask\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Package\PackageManager;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class GeneralUtilityTest extends UnitTestCase
@@ -27,7 +29,7 @@ class GeneralUtilityTest extends UnitTestCase
     {
         return [
             'UpperCamelCase exists' => [
-                ['content' => 'typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/'],
+                ['content' => 'EXT:mask/Tests/Unit/Fixtures/Templates/'],
                 'upper_exists',
                 false,
                 null,
@@ -35,7 +37,7 @@ class GeneralUtilityTest extends UnitTestCase
                 Environment::getPublicPath() . '/typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/UpperExists.html'
             ],
             'File does not exist' => [
-                ['content' => 'typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/'],
+                ['content' => 'EXT:mask/Tests/Unit/Fixtures/Templates/'],
                 'noelement',
                 false,
                 null,
@@ -43,7 +45,7 @@ class GeneralUtilityTest extends UnitTestCase
                 Environment::getPublicPath() . '/typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/Noelement.html'
             ],
             'under_scored exists' => [
-                ['content' => 'typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/'],
+                ['content' => 'EXT:mask/Tests/Unit/Fixtures/Templates/'],
                 'under_scored',
                 false,
                 null,
@@ -51,7 +53,7 @@ class GeneralUtilityTest extends UnitTestCase
                 Environment::getPublicPath() . '/typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/under_scored.html'
             ],
             'Uc_first exists' => [
-                ['content' => 'typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/'],
+                ['content' => 'EXT:mask/Tests/Unit/Fixtures/Templates/'],
                 'uc_first',
                 false,
                 null,
@@ -75,7 +77,7 @@ class GeneralUtilityTest extends UnitTestCase
                 Environment::getPublicPath() . '/typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/UpperExists.html'
             ],
             'Only template is returned' => [
-                ['content' => 'typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/'],
+                ['content' => 'EXT:mask/Tests/Unit/Fixtures/Templates/'],
                 'upper_exists',
                 true,
                 null,
@@ -83,7 +85,7 @@ class GeneralUtilityTest extends UnitTestCase
                 'UpperExists.html'
             ],
             'Only template without extension returned' => [
-                ['content' => 'typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/'],
+                ['content' => 'EXT:mask/Tests/Unit/Fixtures/Templates/'],
                 'upper_exists',
                 true,
                 null,
@@ -115,7 +117,7 @@ class GeneralUtilityTest extends UnitTestCase
                 ''
             ],
             'Empty element key returns empty string' => [
-                ['content' => 'typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/'],
+                ['content' => 'EXT:mask/Tests/Unit/Fixtures/Templates/'],
                 '',
                 false,
                 null,
@@ -136,6 +138,10 @@ class GeneralUtilityTest extends UnitTestCase
      */
     public function getTemplatePath($settings, $elementKey, $onlyTemplateName, $path, $removeExtension, $expectedPath)
     {
+        $packageManager = $this->prophesize(PackageManager::class);
+        $packageManager->isPackageActive('mask')->willReturn(true);
+        ExtensionManagementUtility::setPackageManager($packageManager->reveal());
+
         $this->resetSingletonInstances = true;
         $path = GeneralUtility::getTemplatePath($settings, $elementKey, $onlyTemplateName, $path, $removeExtension);
         self::assertSame($expectedPath, $path);
