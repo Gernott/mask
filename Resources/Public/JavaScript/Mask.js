@@ -371,6 +371,11 @@ define([
         });
         return postFields;
       },
+      closeEdit: function () {
+        this.resetState();
+        this.loadElements();
+        this.mode = 'list';
+      },
       /**
        * This method finds the last active field before saving and sets it again to active.
        * This is necessary, because the fields are loaded freshly after saving and the reference is gone.
@@ -638,7 +643,6 @@ define([
       },
       openEdit: function (type, element) {
         this.loaded = false;
-        this.resetState();
         this.mode = 'edit';
         this.type = type;
         this.element = element;
