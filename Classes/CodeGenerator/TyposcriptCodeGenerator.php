@@ -23,7 +23,7 @@ use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Imaging\IconProvider\ContentElementIconProvider;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\ArrayToTypoScriptConverter;
-use MASK\Mask\Utility\GeneralUtility as MaskUtility;
+use MASK\Mask\Utility\TemplatePathUtility;
 use TYPO3\CMS\Core\Imaging\IconRegistry;
 
 /**
@@ -209,7 +209,7 @@ class TyposcriptCodeGenerator
                 continue;
             }
             $cTypeKey = AffixUtility::addMaskCTypePrefix($element->key);
-            $templateName = MaskUtility::getTemplatePath($this->maskExtensionConfiguration, $element->key, true, null, true);
+            $templateName = TemplatePathUtility::getTemplatePath($this->maskExtensionConfiguration, $element->key, true, null, true);
             $elementContent = [];
             $elementContent[] = "tt_content.$cTypeKey =< lib.maskContentElement";
             $elementContent[] = "tt_content.$cTypeKey {";

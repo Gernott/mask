@@ -17,13 +17,13 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Tests\Unit;
 
-use MASK\Mask\Utility\GeneralUtility;
+use MASK\Mask\Utility\TemplatePathUtility;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Package\PackageManager;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-class GeneralUtilityTest extends UnitTestCase
+class TemplatePathUtilityTest extends UnitTestCase
 {
     public function getTemplatePathDataProvider()
     {
@@ -143,7 +143,7 @@ class GeneralUtilityTest extends UnitTestCase
         ExtensionManagementUtility::setPackageManager($packageManager->reveal());
 
         $this->resetSingletonInstances = true;
-        $path = GeneralUtility::getTemplatePath($settings, $elementKey, $onlyTemplateName, $path, $removeExtension);
+        $path = TemplatePathUtility::getTemplatePath($settings, $elementKey, $onlyTemplateName, $path, $removeExtension);
         self::assertSame($expectedPath, $path);
     }
 }

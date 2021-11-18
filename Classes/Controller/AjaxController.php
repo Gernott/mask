@@ -28,6 +28,7 @@ use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Enumeration\Tab;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
+use MASK\Mask\Utility\TemplatePathUtility;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\View\BackendLayout\BackendLayout;
 use TYPO3\CMS\Core\Cache\CacheManager;
@@ -731,7 +732,7 @@ class AjaxController
     protected function saveHtml(string $key, string $html): bool
     {
         // fallback to prevent breaking change
-        $path = MaskUtility::getTemplatePath($this->maskExtensionConfiguration, $key);
+        $path = TemplatePathUtility::getTemplatePath($this->maskExtensionConfiguration, $key);
         if (file_exists($path)) {
             return false;
         }
@@ -829,7 +830,7 @@ class AjaxController
      */
     protected function getTemplate(string $key): string
     {
-        return MaskUtility::getTemplatePath($this->maskExtensionConfiguration, $key);
+        return TemplatePathUtility::getTemplatePath($this->maskExtensionConfiguration, $key);
     }
 
     /**
@@ -878,8 +879,8 @@ class AjaxController
     protected function deleteHtml(string $key): void
     {
         $paths = [];
-        $paths[] = MaskUtility::getTemplatePath($this->maskExtensionConfiguration, $key);
-        $paths[] = MaskUtility::getTemplatePath($this->maskExtensionConfiguration, $key, false, $this->maskExtensionConfiguration['backend']);
+        $paths[] = TemplatePathUtility::getTemplatePath($this->maskExtensionConfiguration, $key);
+        $paths[] = TemplatePathUtility::getTemplatePath($this->maskExtensionConfiguration, $key, false, $this->maskExtensionConfiguration['backend']);
         foreach ($paths as $path) {
             @unlink($path);
         }

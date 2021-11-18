@@ -21,6 +21,7 @@ use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Helper\InlineHelper;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
+use MASK\Mask\Utility\TemplatePathUtility;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\View\PageLayoutView;
@@ -92,7 +93,7 @@ class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
         }
 
         // fallback to prevent breaking change
-        $templatePathAndFilename = MaskUtility::getTemplatePath(
+        $templatePathAndFilename = TemplatePathUtility::getTemplatePath(
             $this->maskExtensionConfiguration,
             $elementKey,
             false,

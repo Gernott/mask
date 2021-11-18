@@ -24,48 +24,11 @@ use TYPO3\CMS\Core\Utility\PathUtility;
 
 /**
  * General useful methods
+ * @internal
+ * @deprecated Will be removed in Mask v8
  */
 class GeneralUtility
 {
-    /**
-     * Check which template path to return
-     */
-    public static function getTemplatePath(
-        array $settings,
-        string $elementKey,
-        bool $onlyTemplateName = false,
-        ?string $path = null,
-        bool $removeExtension = false
-    ): string {
-        if (!$path) {
-            $path = self::getFileAbsFileName(rtrim($settings['content'], '/') . '/');
-        }
-        if ($path === '' || $elementKey === '') {
-            return '';
-        }
-        $fileExtension = '.html';
-
-        // check if an html file with underscores exist
-        if (file_exists($path . CoreUtility::underscoredToUpperCamelCase($elementKey) . $fileExtension)) {
-            $fileName = CoreUtility::underscoredToUpperCamelCase($elementKey);
-        } elseif (file_exists($path . ucfirst($elementKey) . $fileExtension)) {
-            $fileName = ucfirst($elementKey);
-        } elseif (file_exists($path . $elementKey . $fileExtension)) {
-            $fileName = $elementKey;
-        } else {
-            $fileName = CoreUtility::underscoredToUpperCamelCase($elementKey);
-        }
-
-        if ($removeExtension) {
-            $fileExtension = '';
-        }
-
-        if ($onlyTemplateName) {
-            return $fileName . $fileExtension;
-        }
-        return $path . $fileName . $fileExtension;
-    }
-
     /**
      * Returns the absolute filename of a relative reference, resolves the "EXT:" prefix
      * (way of referring to files inside extensions) and checks that the file is inside
