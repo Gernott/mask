@@ -400,10 +400,6 @@ class AjaxController
 
             $fieldType = $this->tableDefinitionCollection->getFieldType($field->fullKey, $params['table']);
 
-            if (!$fieldType->canBeShared()) {
-                continue;
-            }
-
             // Get fields in palette
             if ($fieldType->equals(FieldType::PALETTE)) {
                 foreach ($this->tableDefinitionCollection->loadInlineFields($field->fullKey, $params['elementKey']) as $paletteField) {
@@ -413,6 +409,10 @@ class AjaxController
                     }
                     $multiUseElements[$paletteField->fullKey] = $this->getMultiUseForField($paletteField->fullKey, $params['elementKey']);
                 }
+                continue;
+            }
+
+            if (!$fieldType->canBeShared()) {
                 continue;
             }
 
