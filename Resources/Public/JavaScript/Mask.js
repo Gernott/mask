@@ -950,39 +950,58 @@ define([
         return this.validateMove(parentKey, parentName, draggedField);
       },
       validateMove: function (newParentKey, newParentName, draggedField) {
-        if (newParentName !== '') {
-          // Elements palette and tab are not allowed in palette
-          if (newParentName === 'palette' && ['palette', 'tab'].includes(draggedField.name)) {
-            return false;
-          }
-
-          // Existing fields are not allowed as new inline field, but allow moving items inside
-          if (newParentName === 'inline' && !draggedField.newField && newParentKey !== draggedField.parent.key) {
-            return false;
-          }
-
-          // Palettes or inline fields with elements are not allowed in inline fields
-          if (newParentName === 'inline' && ['palette', 'inline'].includes(draggedField.name) && draggedField.fields.length > 0) {
-            return false;
-          }
-        }
-
-        // Existing fields in inline can't be dragged out besides in palette
-        if (
-            draggedField.parent.name === 'inline'
-            && !draggedField.newField
-            && newParentKey !== draggedField.parent.key
-            && (newParentName !== 'palette' || newParentName === '')
-        ) {
+        // Rule #1: Palette and tab fields are not allowed in palette.
+        if (newParentName === 'palette' && ['palette', 'tab'].includes(draggedField.name)) {
           return false;
         }
 
-        // Linebreaks are only allowed in palette
+        // Rule #2: Linebreaks are only allowed in palettes.
         if (draggedField.name === 'linebreak' && newParentName !== 'palette') {
           return false;
         }
 
-        return true;
+        // The rule below only applies for existing fields.
+        // As it is the last rule, return early true.
+        if (draggedField.newField) {
+          return true;
+        }
+
+        // Rule #3: Existing fields must never leave their inline parent.
+        // Create a Set to store the keys of the fields into which the dragged field can be dragged.
+        let allowedFields = new Set();
+        let parentField = draggedField.parent;
+        // Go up until inline parent is found.
+        // Can logically only loop 2-times at max (inline <- palette) or (root <- palette).
+        while (true) {
+          // If inline field or root is found, add it to the allowed list and traverse
+          // all sub-fields to find possible new palette parents.
+          if (parentField.name === 'inline') {
+            allowedFields = this.getAllowedFields(parentField.key, parentField.fields);
+            break;
+          }
+          // root field has an empty string as key.
+          if (typeof parentField.name === 'undefined') {
+            allowedFields = this.getAllowedFields('', this.fields);
+            break;
+          }
+          parentField = parentField.parent;
+        }
+
+        // Check if the newParent is in the allowed list
+        return allowedFields.has(newParentKey);
+      },
+      getAllowedFields: function (key, fields) {
+        const allowedFields = new Set();
+        allowedFields.add(key);
+        return new Set([...allowedFields, ...this.getPaletteKeysOfField(fields)]);
+      },
+      getPaletteKeysOfField: function (fields, keys = []) {
+        for (let childField of fields) {
+          if (childField.name === 'palette') {
+            keys.push(childField.key);
+          }
+        }
+        return keys;
       },
       getNewElement: function () {
         return {
@@ -993,6 +1012,9 @@ define([
           icon: '',
           color: '#000000'
         };
+      },
+      isParentField: function (field) {
+        return ['palette', 'inline'].includes(field.name);
       },
       resetActiveField: function () {
         this.global.activeField.tca = Object.assign({}, this.defaultTca[this.global.activeField.name]);
