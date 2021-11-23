@@ -69,7 +69,6 @@
 	},
 	"extra": {
 		"typo3/cms": {
-			"cms-package-dir": "{$vendor-dir}/typo3/cms",
 			"extension-key": "mask",
 			"web-dir": ".Build/Web"
 		}
