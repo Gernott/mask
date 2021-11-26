@@ -63,6 +63,7 @@ That's it. Now you can start creating your own content elements!
 * Mask stores the content in columns in database tables – not as XML (Flexform)
 * Mask reuses existing database fields to conserve the database
 * Mask works only with existing features of the TYPO3 core: backend layouts, Fluid, TypoScript
+* Silent TCA migrations allow for easy TYPO3 upgrades to new major versions
 * Mask allows repeating content with IRRE technology
 * Mask supports multi-language projects
 * Mask supports workspaces and versioning
