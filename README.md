@@ -1,4 +1,4 @@
-![Page and Content masks for TYPO3](Documentation/Images/mask_banner.jpg)
+![Page and Content masks for TYPO3](Resources/Public/Images/banner.jpg)
 
 [![Unit Tests](https://github.com/Gernott/mask/actions/workflows/tests.yaml/badge.svg)](https://github.com/Gernott/mask/actions/workflows/tests.yaml)
 
