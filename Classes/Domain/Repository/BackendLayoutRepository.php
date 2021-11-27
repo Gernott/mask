@@ -73,10 +73,16 @@ class BackendLayoutRepository
                 $iconPath = $backendLayout->getIconPath();
                 if ($iconPath !== '') {
                     $absoluteFilePath = GeneralUtility::getFileAbsFileName($iconPath);
-                    if (empty($absoluteFilePath) || !is_file($absoluteFilePath)) {
+                    // If the absolute path could not be determined, or the file does not exist, check for icon identifier.
+                    if ($absoluteFilePath === '' || !is_file($absoluteFilePath)) {
                         $iconRegistry = GeneralUtility::makeInstance(IconRegistry::class);
-                        $iconConfig = $iconRegistry->getIconConfigurationByIdentifier($iconPath);
-                        $backendLayout->setIconPath($iconConfig['options']['source']);
+                        if ($iconRegistry->isRegistered($iconPath)) {
+                            $iconConfig = $iconRegistry->getIconConfigurationByIdentifier($iconPath);
+                            $backendLayout->setIconPath($iconConfig['options']['source']);
+                        } else {
+                            // Icon path provided by user is invalid. Reset to empty string.
+                            $backendLayout->setIconPath('');
+                        }
                     }
                 }
                 $backendLayouts[$backendLayout->getIdentifier()] = $backendLayout;
