@@ -22,7 +22,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class ConvertFormatCommand extends Command
 {
@@ -31,18 +30,15 @@ class ConvertFormatCommand extends Command
      */
     protected $loaderRegistry;
 
-    /**
-     * @param LoaderRegistry $loaderRegistry
-     */
-    public function injectLoaderRegistry(LoaderRegistry $loaderRegistry)
+    public function __construct(string $name = null, LoaderRegistry $loaderRegistry)
     {
         $this->loaderRegistry = $loaderRegistry;
+        parent::__construct($name);
     }
 
     protected function configure()
     {
-        $loaderRegistry = GeneralUtility::makeInstance(LoaderRegistry::class);
-        $availableLoaders = implode(', ', array_keys($loaderRegistry->getLoaders()));
+        $availableLoaders = implode(', ', array_keys($this->loaderRegistry->getLoaders()));
         $this->setHelp(
             'Converts a Mask storage format into another.' . LF .
             'The paths configured in the extension configuration are used and will override existing files!' . LF .
