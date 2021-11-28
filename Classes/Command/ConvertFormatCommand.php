@@ -77,6 +77,7 @@ class ConvertFormatCommand extends Command
 
         $targetLoader->write($sourceLoader->load());
 
-        return 1;
+        // @todo Return error code, if write was not successfull.
+        return 0;
     }
 }
