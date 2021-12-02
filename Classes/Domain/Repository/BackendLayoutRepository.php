@@ -18,6 +18,7 @@ namespace MASK\Mask\Domain\Repository;
 use Doctrine\DBAL\FetchMode;
 use Exception;
 use MASK\Mask\Backend\BackendLayoutView;
+use MASK\Mask\Utility\CompatibilityUtility;
 use RuntimeException;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\View\BackendLayout\BackendLayout;
@@ -75,7 +76,7 @@ class BackendLayoutRepository extends Repository
                 $backendLayouts[$backendLayout->getIdentifier()] = $backendLayout;
             }
             foreach ($backendLayoutCollections['pagets']->getAll() as $backendLayout) {
-                if (GeneralUtility::isFirstPartOfStr($backendLayout->getTitle(), 'LLL:')) {
+                if (CompatibilityUtility::isFirstPartOfStr($backendLayout->getTitle(), 'LLL:')) {
                     $backendLayout->setTitle(LocalizationUtility::translate($backendLayout->getTitle()));
                 }
                 $iconPath = $backendLayout->getIconPath();
