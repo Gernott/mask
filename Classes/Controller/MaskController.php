@@ -26,7 +26,6 @@ use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
-use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
@@ -41,7 +40,7 @@ class MaskController
     private $moduleTemplate;
 
     /**
-     * @var ViewInterface
+     * @var StandaloneView
      */
     protected $view;
 
@@ -57,10 +56,12 @@ class MaskController
 
     public function __construct(
         ModuleTemplate $moduleTemplate,
-        UriBuilder $uriBuilder
+        UriBuilder $uriBuilder,
+        PageRenderer $pageRenderer
     ) {
         $this->moduleTemplate = $moduleTemplate;
         $this->uriBuilder = $uriBuilder;
+        $this->pageRenderer = $pageRenderer;
     }
 
     /**
@@ -68,9 +69,8 @@ class MaskController
      */
     public function mainAction(ServerRequestInterface $request): ResponseInterface
     {
-        $pageRenderer = $this->moduleTemplate->getPageRenderer();
         $this->initializeView('Wizard/Main');
-        $pageRenderer->addRequireJsConfiguration(
+        $this->pageRenderer->addRequireJsConfiguration(
             [
                 'paths' => [
                     'sortablejs' => PathUtility::getAbsoluteWebPath(
@@ -79,8 +79,8 @@ class MaskController
                 ]
             ]
         );
-        $pageRenderer->loadRequireJsModule('TYPO3/CMS/Mask/Mask');
-        $pageRenderer->addCssFile('EXT:mask/Resources/Public/Styles/mask.css');
+        $this->pageRenderer->loadRequireJsModule('TYPO3/CMS/Mask/Mask');
+        $this->pageRenderer->addCssFile('EXT:mask/Resources/Public/Styles/mask.css');
         $this->moduleTemplate->setContent($this->view->render());
         return new HtmlResponse($this->moduleTemplate->renderContent());
     }
