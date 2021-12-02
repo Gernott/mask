@@ -59,10 +59,7 @@ class GeneralUtility
         } elseif (!PathUtility::isAbsolutePath($filename)) {
             // is relative. Prepended with the public web folder
             $filename = Environment::getPublicPath() . '/' . $filename;
-        } elseif (!(
-            (function_exists('str_starts_with') ? str_starts_with($filename, Environment::getProjectPath()) : CoreUtility::isFirstPartOfStr($filename, Environment::getProjectPath()))
-            || (function_exists('str_starts_with') ? str_starts_with($filename, Environment::getPublicPath()) : CoreUtility::isFirstPartOfStr($filename, Environment::getPublicPath()))
-        )) {
+        } elseif (!(CompatibilityUtility::isFirstPartOfStr($filename, Environment::getProjectPath()) || CompatibilityUtility::isFirstPartOfStr($filename, Environment::getPublicPath()))) {
             // absolute, but set to blank if not allowed
             $filename = '';
         }
