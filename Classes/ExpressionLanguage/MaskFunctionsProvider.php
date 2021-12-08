@@ -58,7 +58,7 @@ class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
 
             // If backend_layout is not set on current page, check backend_layout_next_level on rootline
             $rootline = $arguments['tree']->rootLine;
-            rsort($rootline);
+            $rootline = array_reverse($rootline);
             $rootline = array_splice($rootline, 1, -1);
             foreach ($rootline as $page) {
                 $backend_layout_next_level = (string)$page['backend_layout_next_level'];
