@@ -253,7 +253,7 @@ define([
         this.validate();
       },
       'element.key': function () {
-        if (this.mode === 'edit') {
+        if (this.mode !== 'new') {
           return;
         }
         const validKey = this.checkAllowedCharacters(this.element.key);
