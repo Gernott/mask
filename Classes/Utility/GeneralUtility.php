@@ -25,7 +25,7 @@ use TYPO3\CMS\Core\Utility\PathUtility;
 /**
  * General useful methods
  * @internal
- * @deprecated Will be removed in Mask v8
+ * @todo Remove in Mask v8 and use TYPO3 core GeneralUtility instead.
  */
 class GeneralUtility
 {
