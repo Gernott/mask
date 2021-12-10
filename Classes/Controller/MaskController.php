@@ -65,7 +65,7 @@ class MaskController
     }
 
     /**
-     * action list
+     * The main action.
      */
     public function mainAction(ServerRequestInterface $request): ResponseInterface
     {
