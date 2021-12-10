@@ -1177,4 +1177,23 @@
   padding: 0;
 }
 
+.mask-setup-incomplete {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+}
+.mask-setup-incomplete h1 {
+  font-size: 50px;
+  line-height: 50px;
+}
+.mask-setup-incomplete p {
+  font-size: 22px;
+}
+.mask-setup-incomplete .fa-bomb {
+  font-size: 50px;
+  color: #D4372F;
+}
+
 /*# sourceMappingURL=mask.css.map */

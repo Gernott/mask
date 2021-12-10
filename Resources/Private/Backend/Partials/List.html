@@ -1,18 +1,5 @@
 <div v-show="loaded" v-if="mode == 'list'" class="mask-list" style="display: none;">
-    <div class="mask-list__header">
-        <div class="mask-list__logo-wrap">
-            <f:image src="EXT:mask/Resources/Public/Icons/Extension.svg" class="mask-list__logo"/> <span class="mask-list__label">Mask</span>
-        </div>
-        <div class="mask-list__docs">
-            <a href="https://docs.typo3.org/p/mask/mask/master/en-us/" target="_blank">Documentation <i class="fa fa-book"></i></a>
-        </div>
-        <div class="mask-list__settings-wrap">
-            <a href="{settingsUrl}">
-                <div class="mask-list__settings-label">Settings</div>
-                <core:icon identifier="actions-system-extension-configure" size="default"/>
-            </a>
-        </div>
-    </div>
+    <f:render partial="List/Header" arguments="{_all}"/>
     <div class="mask-elements">
         <div class="mask-elements__column mask-elements__column--elements">
             <div class="mask-elements__header">
@@ -22,7 +9,7 @@
                         <f:translate key="tx_mask.all.contentelements"/>
                     </div>
                 </div>
-                <div v-if="missingFilesOrFolders" @click="fixMissing" class="mask-elements__missing btn btn-warning"><i class="fa fa-wrench"></i> <f:translate key="tx_mask.all.createmissingfolders"/></div>
+                <div v-if="missingFilesOrFolders" @click="fixMissing" class="mask-elements__missing btn btn-warning"><i class="fa fa-warning"></i> <f:translate key="tx_mask.all.createmissingfolders"/></div>
                 <div @click="openNew" class="btn btn-success"><i class="fa fa-plus"></i> <f:translate key="tx_mask.all.create_content_element"/></div>
             </div>
             <div class="mask-elements__table-wrap">
@@ -93,5 +80,17 @@
             </div>
         </div>
     </div>
-    <f:render partial="Footer"/>
+    <f:render partial="List/Footer"/>
+</div>
+
+<div v-show="loaded" v-if="mode == 'setup'" class="mask-list" style="display: none;">
+    <f:render partial="List/Header" arguments="{_all}"/>
+    <div class="mask-setup-incomplete">
+        <div class="mask-setup-incomplete__content">
+            <i class="fa fa-bomb"></i>
+            <h1>Setup incomplete</h1>
+            <p>Your extension configuration setup is incomplete. Please refer to the documentation on how to set up Mask properly.</p>
+        </div>
+    </div>
+    <f:render partial="List/Footer"/>
 </div>

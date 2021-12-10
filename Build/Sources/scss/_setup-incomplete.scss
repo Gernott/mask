@@ -1,0 +1,21 @@
+.mask-setup-incomplete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+
+    h1 {
+        font-size: 50px;
+        line-height: 50px;
+    }
+
+    p {
+        font-size: 22px;
+    }
+
+    .fa-bomb {
+        font-size: 50px;
+        color: $mask;
+    }
+}

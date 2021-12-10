@@ -110,6 +110,9 @@ class ContentElementIconProvider implements IconProviderInterface
 
     protected function getPreviewIconPath(string $key): string
     {
+        if (!($this->maskExtensionConfiguration['preview'] ?? false)) {
+            return '';
+        }
         // the path to the file
         $filePath = MaskUtility::getFileAbsFileName(rtrim($this->maskExtensionConfiguration['preview'], '/') . '/') . $key . '.';
         // search a fitting png or svg file in this path

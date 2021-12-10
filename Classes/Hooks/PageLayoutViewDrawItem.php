@@ -97,7 +97,7 @@ class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
             $this->maskExtensionConfiguration,
             $elementKey,
             false,
-            MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration['backend'])
+            MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration['backend'] ?? '')
         );
 
         // User defined backend preview exists. Turn off TYPO3 auto preview.

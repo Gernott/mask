@@ -31,7 +31,7 @@ ____
 | Only for JsonLoader.
 | File with project specific mask configuration.
 | Mask stores the information, which is needed to generate content elements and extend page templates into one file: `mask.json`. With this setting you can change the path to this file.
-| Default: :code:`EXT:mask/mask_project/Configuration/Mask/mask.json`
+| Default: :code:`EXT:{your_sitepackage}/Configuration/Mask/mask.json`
 
 .. _extension-settings-content_elements_folder:
 
@@ -40,7 +40,7 @@ _______________________
 
 | Only for JsonSplitLoader
 | Folder in which to save content element definitions.
-| Default: `EXT:mask/mask_project/Configuration/Mask/ContentElements`
+| Default: `EXT:{your_sitepackage}/Configuration/Mask/ContentElements`
 
 .. _extension-settings-backend_layouts_folder:
 
@@ -49,7 +49,7 @@ ______________________
 
 | Only for JsonSplitLoader
 | Folder in which to save backend layout definitions.
-| Default: `EXT:mask/mask_project/Configuration/Mask/BackendLayouts`
+| Default: `EXT:{your_sitepackage}/Configuration/Mask/BackendLayouts`
 
 .. _extension-settings-pids:
 
@@ -57,7 +57,6 @@ backendlayout_pids
 __________________
 
 | Page ids from where the in PageTS defined backend layouts should be loaded (comma separated).
-| Default: :code:`0,1`
 
 Frontend
 ========
@@ -69,7 +68,7 @@ _______
 
 | Folder for Content Fluid Templates (with trailing slash).
 | Mask generates a html file with fluid tags for each new content element. Here you can set the path to this file.
-| Default: :code:`EXT:mask/mask_project/Resources/Private/Mask/Frontend/Templates/`
+| Default: :code:`EXT:{your_sitepackage}/Resources/Private/Mask/Frontend/Templates/`
 
 .. _extension-settings-frontent-layouts:
 
@@ -78,7 +77,7 @@ _______
 
 | Folder for Content Fluid Layouts (with trailing slash).
 | Here you can set the path to the fluid layouts of your mask templates.
-| Default: :code:`EXT:mask/mask_project/Resources/Private/Mask/Frontend/Layouts/`
+| Default: :code:`EXT:{your_sitepackage}/Resources/Private/Mask/Frontend/Layouts/`
 
 .. _extension-settings-frontent-partials:
 
@@ -87,7 +86,7 @@ ________
 
 | Folder for Content Fluid Partials (with trailing slash).
 | Here you can set the path to the fluid partials of your mask templates.
-| Default: :code:`EXT:mask/mask_project/Resources/Private/Mask/Frontend/Partials/`
+| Default: :code:`EXT:{your_sitepackage}/Resources/Private/Mask/Frontend/Partials/`
 
 Backend
 =======
@@ -99,7 +98,7 @@ _______
 
 | Folder for Backend Preview Templates (with trailing slash).
 | Here you can set the path the fluid templates for backend previews of your content elements.
-| Default: :code:`EXT:mask/mask_project/Resources/Private/Mask/Backend/Templates/`
+| Default: :code:`EXT:{your_sitepackage}/Resources/Private/Mask/Backend/Templates/`
 
 .. _extension-settings-backend-layouts:
 
@@ -108,7 +107,7 @@ _______________
 
 | Folder for Backend Preview Layouts (with trailing slash).
 | Here you can set the path to the fluid layouts of your mask backend previews.
-| Default: :code:`EXT:mask/mask_project/Resources/Private/Mask/Backend/Layouts/`
+| Default: :code:`EXT:{your_sitepackage}/Resources/Private/Mask/Backend/Layouts/`
 
 .. _extension-settings-backend-partials:
 
@@ -117,7 +116,7 @@ ________________
 
 | Folder for Backend Preview Partials (with trailing slash).
 | Here you can set the path to the fluid partials of your mask backend previews.
-| Default: :code:`EXT:mask/mask_project/Resources/Private/Mask/Backend/Partials/`
+| Default: :code:`EXT:{your_sitepackage}/Resources/Private/Mask/Backend/Partials/`
 
 .. _extension-settings-backend-preview:
 
@@ -127,7 +126,7 @@ _______
 | Folder for preview images (with trailing slash).
 | You can change the preview image of content elements to your preferred png image (32x32 pixel) or svg graphic.
 | Store them with the key of the contentelement as filename (e.g. mykey.png or mykey.svg)
-| Default: :code:`EXT:mask/mask_project/Resources/Public/Mask/`
+| Default: :code:`EXT:{your_sitepackage}/Resources/Public/Mask/`
 |
 
 .. figure:: ../Images/AdministratorManual/ExtensionConfiguration.png

@@ -36,29 +36,49 @@ class JsonLoader implements LoaderInterface
     public function __construct(array $maskExtensionConfiguration)
     {
         $this->maskExtensionConfiguration = $maskExtensionConfiguration;
-        if ($this->maskExtensionConfiguration['json'] === '') {
-            throw new \InvalidArgumentException('The path to the Mask JSON file must not be empty.', 1628599913);
-        }
     }
 
     public function load(): TableDefinitionCollection
     {
+        $maskJsonFilePath = $this->validateGetJsonFilePath();
         if ($this->tableDefinitionCollection === null) {
             $this->tableDefinitionCollection = new TableDefinitionCollection();
-            $file = MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration['json']);
-            if (!file_exists($file)) {
-                throw new \InvalidArgumentException(sprintf('The file "%s" does not exist.', $file), 1628599433);
+            // The file might not exist yet. Will be created as soon as write() is called.
+            if (file_exists($maskJsonFilePath)) {
+                $json = json_decode(file_get_contents($maskJsonFilePath), true, 512, 4194304); // @todo replace with JSON_THROW_ON_ERROR in Mask v8.0
+                $this->tableDefinitionCollection = TableDefinitionCollection::createFromArray($json);
             }
-            $json = json_decode(file_get_contents($file), true, 512, 4194304); // @todo replace with JSON_THROW_ON_ERROR in Mask v8.0
-            $this->tableDefinitionCollection = TableDefinitionCollection::createFromArray($json);
         }
+
         return $this->tableDefinitionCollection;
     }
 
     public function write(TableDefinitionCollection $tableDefinitionCollection): void
     {
-        $file = MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration['json']);
-        GeneralUtility::writeFile($file, json_encode($tableDefinitionCollection->toArray(), 4194304 | JSON_PRETTY_PRINT)); // @todo replace with JSON_THROW_ON_ERROR in Mask v8.0
         $this->tableDefinitionCollection = $tableDefinitionCollection;
+        $maskJsonFilePath = $this->validateGetJsonFilePath();
+        $result = GeneralUtility::writeFile($maskJsonFilePath, json_encode($tableDefinitionCollection->toArray(), 4194304 | JSON_PRETTY_PRINT)); // @todo replace with JSON_THROW_ON_ERROR in Mask v8.0
+        if (!$result) {
+            throw new \InvalidArgumentException('The Mask JSON file "' . $this->maskExtensionConfiguration['json'] . '" could not be written. Check your file permissions.', 1639169283);
+        }
+    }
+
+    protected function validateGetJsonFilePath(): string
+    {
+        $maskJsonPath = $this->getJsonFilePath();
+        if ($maskJsonPath === '' && isset($this->maskExtensionConfiguration['json'])) {
+            throw new \InvalidArgumentException('The path to the Mask JSON file "' . $this->maskExtensionConfiguration['json'] . '" is not a correct path in the file system.');
+        }
+
+        return $maskJsonPath;
+    }
+
+    protected function getJsonFilePath(): string
+    {
+        if (($this->maskExtensionConfiguration['json'] ?? '') === '') {
+           return '';
+        }
+
+        return MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration['json']);
     }
 }

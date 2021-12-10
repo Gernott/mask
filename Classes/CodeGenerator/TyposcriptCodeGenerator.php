@@ -189,20 +189,26 @@ class TyposcriptCodeGenerator
         }
 
         // for base paths to fluid templates configured in extension settings
-        $setupContent[] = ArrayToTypoScriptConverter::convert(
-            [
-                'templateRootPaths' => [
-                    10 => rtrim($this->maskExtensionConfiguration['content'], '/') . '/'
-                ],
-                'partialRootPaths' => [
-                    10 => rtrim($this->maskExtensionConfiguration['partials'], '/') . '/'
-                ],
-                'layoutRootPaths' => [
-                    10 => rtrim($this->maskExtensionConfiguration['layouts'], '/') . '/'
-                ]
-            ],
-            'lib.maskContentElement'
-        );
+        $paths = [];
+        if ($this->maskExtensionConfiguration['content'] ?? false) {
+            $paths['templateRootPaths'] = [
+                10 => rtrim($this->maskExtensionConfiguration['content'], '/') . '/'
+            ];
+        }
+
+        if ($this->maskExtensionConfiguration['partials'] ?? false) {
+            $paths['partialRootPaths'] = [
+                10 => rtrim($this->maskExtensionConfiguration['content'], '/') . '/'
+            ];
+        }
+
+        if ($this->maskExtensionConfiguration['layouts'] ?? false) {
+            $paths['layoutRootPaths'] = [
+                10 => rtrim($this->maskExtensionConfiguration['content'], '/') . '/'
+            ];
+        }
+
+        $setupContent[] = ArrayToTypoScriptConverter::convert($paths, 'lib.maskContentElement');
 
         foreach ($this->tableDefinitionCollection->getTable('tt_content')->elements as $element) {
             if ($element->hidden) {

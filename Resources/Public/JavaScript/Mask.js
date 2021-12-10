@@ -102,139 +102,156 @@ define([
       }
     },
     mounted: function () {
-      const promises = [];
-
-      // Fetch language
-      promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_language)).get()
-        .then(
-          async response => {
-            this.language = await response.resolve();
-          }
-        ));
-
-      // Fetch tcaFields for existing core and mask fields
-      promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_tca_fields)).get()
-        .then(
-          async response => {
-            this.tcaFields = await response.resolve();
-          }
-        ));
-
-      // fetch tab declarations
-      promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_tabs)).get()
-        .then(
-          async response => {
-            this.tabs = await response.resolve();
-          }
-        ));
-
-      // fetch richtext configuration
-      promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_richtext_configuration)).get()
-        .then(
-          async response => {
-            this.global.richtextConfiguration = await response.resolve();
-          }
-        ));
-
-      // fetch CTypes
-      promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_ctypes)).get()
+      const setupCompletePromise = new AjaxRequest(TYPO3.settings.ajaxUrls.mask_setup_complete).get()
         .then(
           async response => {
             const result = await response.resolve();
-            this.global.ctypes = result.ctypes;
+            return result.setupComplete;
           }
-        ));
+        );
 
-      // fetch field groups
-      promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_field_groups)).get()
-          .then(
-              async response => {
-                const result = await response.resolve();
-                this.groups = result.groups;
-              }
-          ));
-
-      // fetch elements
-      promises.push(this.loadElements());
-
-      // fetch backend layouts
-      promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_backend_layouts)).get()
-          .then(
-              async response => {
-                const backendLayouts = await response.resolve();
-                this.backendLayouts = backendLayouts['backendLayouts'];
-              }
-          ));
-
-      // fetch fontawesome icons
-      promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_icons)).get()
+      Promise.resolve(setupCompletePromise)
         .then(
-          async response => {
-            this.faIcons = await response.resolve();
+          setupComplete => {
+            if (!setupComplete) {
+              this.mode = 'setup';
+            }
+
+            const promises = [];
+
+            // Fetch language
+            promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_language)).get()
+              .then(
+                async response => {
+                  this.language = await response.resolve();
+                }
+              ));
+
+            // Fetch tcaFields for existing core and mask fields
+            promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_tca_fields)).get()
+              .then(
+                async response => {
+                  this.tcaFields = await response.resolve();
+                }
+              ));
+
+            // fetch tab declarations
+            promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_tabs)).get()
+              .then(
+                async response => {
+                  this.tabs = await response.resolve();
+                }
+              ));
+
+            // fetch richtext configuration
+            promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_richtext_configuration)).get()
+              .then(
+                async response => {
+                  this.global.richtextConfiguration = await response.resolve();
+                }
+              ));
+
+            // fetch CTypes
+            promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_ctypes)).get()
+              .then(
+                async response => {
+                  const result = await response.resolve();
+                  this.global.ctypes = result.ctypes;
+                }
+              ));
+
+            // fetch field groups
+            promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_field_groups)).get()
+              .then(
+                async response => {
+                  const result = await response.resolve();
+                  this.groups = result.groups;
+                }
+              ));
+
+            // fetch elements
+            promises.push(this.loadElements());
+
+            // fetch backend layouts
+            promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_backend_layouts)).get()
+              .then(
+                async response => {
+                  const backendLayouts = await response.resolve();
+                  this.backendLayouts = backendLayouts['backendLayouts'];
+                }
+              ));
+
+            // fetch fontawesome icons
+            promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_icons)).get()
+              .then(
+                async response => {
+                  this.faIcons = await response.resolve();
+                }
+              ));
+
+            // fetch possible missing files or folders
+            promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_missing)).get()
+              .then(
+                async response => {
+                  const missing = await response.resolve();
+                  this.missingFilesOrFolders = missing.missing;
+                }
+              ));
+
+            // fetch mask and typo3 version
+            promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_versions)).get()
+              .then(
+                async response => {
+                  const versions = await response.resolve();
+                  this.version = versions.mask;
+                  this.global.typo3Version = versions.typo3;
+                }
+              ));
+
+            // fetch optional extension status
+            promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_optional_extension_status)).get()
+              .then(
+                async response => {
+                  this.optionalExtensionStatus = await response.resolve();
+                }
+              ));
+
+            promises.push(Icons.getIcon('actions-edit-delete', Icons.sizes.small).done(icon => {
+              this.icons.delete = icon;
+            }));
+            promises.push(Icons.getIcon('actions-move-move', Icons.sizes.small).done(icon => {
+              this.icons.move = icon;
+            }));
+            promises.push(Icons.getIcon('actions-edit-pick-date', Icons.sizes.small).done(icon => {
+              this.icons.date = icon;
+            }));
+            promises.push(Icons.getIcon('actions-open', Icons.sizes.small).done(icon => {
+              this.icons.edit = icon;
+            }));
+            promises.push(Icons.getIcon('actions-save', Icons.sizes.small).done(icon => {
+              this.icons.save = icon;
+            }));
+            promises.push(Icons.getIcon('actions-close', Icons.sizes.small).done(icon => {
+              this.icons.close = icon;
+            }));
+            promises.push(Icons.getIcon('spinner-circle-dark', Icons.sizes.small).done(icon => {
+              this.icons.spinner = icon;
+            }));
+
+            Promise.all(promises).then(() => {
+              this.loaded = true;
+            });
+
+            // Trigger input change on TYPO3 datepicker change event.
+            if (this.global.typo3Version === 10) {
+              $(document).on('formengine.dp.change', () => {
+                document.querySelectorAll('.t3js-datetimepicker').forEach(input => {
+                  input.dispatchEvent((new Event('input')));
+                });
+              });
+            }
           }
-        ));
-
-      // fetch possible missing files or folders
-      promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_missing)).get()
-          .then(
-              async response => {
-                const missing = await response.resolve();
-                this.missingFilesOrFolders = missing.missing;
-              }
-          ));
-
-      // fetch mask and typo3 version
-      promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_versions)).get()
-          .then(
-              async response => {
-                const versions = await response.resolve();
-                this.version = versions.mask;
-                this.global.typo3Version = versions.typo3;
-              }
-          ));
-
-      // fetch optional extension status
-      promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_optional_extension_status)).get()
-        .then(
-          async response => {
-            this.optionalExtensionStatus = await response.resolve();
-          }
-        ));
-
-      promises.push(Icons.getIcon('actions-edit-delete', Icons.sizes.small).done(icon => {
-        this.icons.delete = icon;
-      }));
-      promises.push(Icons.getIcon('actions-move-move', Icons.sizes.small).done(icon => {
-        this.icons.move = icon;
-      }));
-      promises.push(Icons.getIcon('actions-edit-pick-date', Icons.sizes.small).done(icon => {
-        this.icons.date = icon;
-      }));
-      promises.push(Icons.getIcon('actions-open', Icons.sizes.small).done(icon => {
-        this.icons.edit = icon;
-      }));
-      promises.push(Icons.getIcon('actions-save', Icons.sizes.small).done(icon => {
-        this.icons.save = icon;
-      }));
-      promises.push(Icons.getIcon('actions-close', Icons.sizes.small).done(icon => {
-        this.icons.close = icon;
-      }));
-      promises.push(Icons.getIcon('spinner-circle-dark', Icons.sizes.small).done(icon => {
-        this.icons.spinner = icon;
-      }));
-
-      Promise.all(promises).then(() => {
-        this.loaded = true;
-      });
-
-      // Trigger input change on TYPO3 datepicker change event.
-      if (this.global.typo3Version === 10) {
-        $(document).on('formengine.dp.change', () => {
-          document.querySelectorAll('.t3js-datetimepicker').forEach(input => {
-            input.dispatchEvent((new Event('input')));
-          });
-        });
-      }
+        )
     },
     watch: {
       element: {
@@ -289,7 +306,10 @@ define([
               async response => {
                 const res = await response.resolve();
                 this.mode = 'edit';
-                this.showMessages(res);
+                this.showMessages(res.messages);
+                if (res.hasError) {
+                  return;
+                }
                 this.loadElements();
                 // load element fields
                 new AjaxRequest(TYPO3.settings.ajaxUrls.mask_load_element)
@@ -753,14 +773,16 @@ define([
         (new AjaxRequest(TYPO3.settings.ajaxUrls.mask_fix_missing)).get()
           .then(
             async response => {
-              const fixed = await response.resolve();
-              if (fixed['success']) {
-                Notification.success('', this.language.missingCreated);
-                this.missingFilesOrFolders = false;
-                this.loadElements();
-              } else {
-                Notification.error('', 'Something went wrong while trying to create missing files.');
-              }
+              const result = await response.resolve();
+              this.showMessages(result.messages);
+              new AjaxRequest(TYPO3.settings.ajaxUrls.mask_missing).get()
+                .then(
+                  async response => {
+                    const missing = await response.resolve();
+                    this.missingFilesOrFolders = missing.missing;
+                    this.loadElements();
+                  }
+                );
             }
           )
       },
@@ -769,6 +791,8 @@ define([
           const item = res[key];
           if (item.severity === 0) {
             Notification.success(item.title, item.message);
+          } else if (item.severity === 1) {
+            Notification.warning(item.title, item.message);
           } else {
             Notification.error(item.title, item.message);
           }

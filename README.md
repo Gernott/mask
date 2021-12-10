@@ -16,11 +16,12 @@ to any element. Fields can have several types, for example: text, file, relation
 
 Download Mask with composer by running the command `composer require mask/mask` or install via extension manager.
 It is important to add Mask as a dependency in your `ext_emconf.php` and/or `composer.json`, so you can override the
-generated TCA. Before you start using Mask, you should define the paths to your templates. The easiest way to change the
-paths is to add the snippet below to your `AdditionalConfiguration.php`:
+generated TCA. Before you start using Mask, you must define various paths. The easiest way to change the
+paths is to add the snippet below to your `LocalConfiguration.php` in the `EXTENSIONS` section:
 
 ```
-$GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['mask'] = [
+...
+'mask' => [
     'loader_identifier' => 'json',
     'backend' => 'EXT:sitepackage/Resources/Private/Mask/Backend/Templates/',
     'backendlayout_pids' => '0,1',
@@ -33,7 +34,8 @@ $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['mask'] = [
     'partials' => 'EXT:sitepackage/Resources/Private/Mask/Frontend/Partials/',
     'partials_backend' => 'EXT:sitepackage/Resources/Private/Mask/Backend/Partials/',
     'preview' => 'EXT:sitepackage/Resources/Public/Mask/',
-];
+],
+...
 ```
 
 Adjust the paths to your sitepackage extension and activate Mask. When you visit the Mask backend, you will have the

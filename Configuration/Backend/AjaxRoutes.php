@@ -103,5 +103,9 @@ return [
     'mask_optional_extension_status' => [
         'path' => '/mask/extensions',
         'target' => AjaxController::class . '::optionalExtensionStatus'
-    ]
+    ],
+    'mask_setup_complete' => [
+        'path' => '/mask/setupComplete',
+        'target' => AjaxController::class . '::setupComplete'
+    ],
 ];

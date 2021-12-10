@@ -41,13 +41,13 @@ Install and configure
 =====================
 
 Download Mask with composer by running the command `composer require mask/mask` or install via extension manager.
-The first thing you should do is to define the paths to your template directories. If you don't do this, Mask falls back
-to a dummy extension called `mask_project`. The easiest way to change the paths is to add the snippet below to your
-`AdditionalConfiguration.php`:
+The first thing you have to do is to define the paths to various template directories.
+The easiest way to change the paths is to add the snippet below to your `LocalConfiguration.php` in the :php:`EXTENSIONS` section:
 
 ::
 
-   $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['mask'] = [
+   ...
+   'mask' = [
        'loader_identifier' => 'json',
        'backend' => 'EXT:sitepackage/Resources/Private/Mask/Backend/Templates/',
        'backendlayout_pids' => '0,1',
@@ -60,7 +60,8 @@ to a dummy extension called `mask_project`. The easiest way to change the paths 
        'partials' => 'EXT:sitepackage/Resources/Private/Mask/Frontend/Partials/',
        'partials_backend' => 'EXT:sitepackage/Resources/Private/Mask/Backend/Partials/',
        'preview' => 'EXT:sitepackage/Resources/Public/Mask/',
-   ];
+   ],
+   ...
 
 Explanations for the settings can be found :ref:`here <extension-settings>`.
 Adjust the paths to your needs and activate the extension. When you visit the Mask backend, you will have the option to

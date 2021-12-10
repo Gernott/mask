@@ -76,7 +76,7 @@ class AjaxController
         'backend',
         'layouts_backend',
         'partials_backend',
-        'preview'
+        'preview',
     ];
 
     public function __construct(
@@ -104,51 +104,96 @@ class AjaxController
         $this->tableDefinitionCollection = $tableDefinitionCollection;
     }
 
+    public function setupComplete(ServerRequestInterface $request): Response
+    {
+        // If the loader identifier is not defined or "json" and the path to the mask.json exists, the setup is complete.
+        if (($this->maskExtensionConfiguration['loader_identifier'] ?? 'json') === 'json' && ($this->maskExtensionConfiguration['json'] ?? '') === '') {
+            return new JsonResponse(['setupComplete' => 0]);
+        }
+
+        // If the loader identifier is "json-split" and the content elements folder exists, the setup is complete.
+        if (($this->maskExtensionConfiguration['loader_identifier'] ?? '') === 'json-split' && ($this->maskExtensionConfiguration['content_elements_folder'] ?? '') === '') {
+            return new JsonResponse(['setupComplete' => 0]);
+        }
+
+        return new JsonResponse(['setupComplete' => 1]);
+    }
+
     public function missingFilesOrFolders(ServerRequestInterface $request): Response
     {
-        $json['missing'] = 0;
         foreach (self::$folderPathKeys as $key) {
-            if (!file_exists(MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration[$key]))) {
-                $json['missing'] = 1;
-                break;
+            if (!isset($this->maskExtensionConfiguration[$key])) {
+                continue;
+            }
+            $path = MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration[$key]);
+            if ($path === '') {
+                continue;
+            }
+            if (!file_exists($path)) {
+                return new JsonResponse(['missing' => 1]);
             }
         }
 
-        if (!$json['missing']) {
-            $json['missing'] = !file_exists(MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration['json']));
+        // If no elements exist, there can't be any missing templates.
+        if (!$this->tableDefinitionCollection->hasTable('tt_content')) {
+            return new JsonResponse(['missing' => 0]);
         }
 
-        if ($json['missing'] || !$this->tableDefinitionCollection->hasTable('tt_content')) {
-            return new JsonResponse($json);
-        }
-
+        // Loop through each element and check if template exists.
         foreach ($this->tableDefinitionCollection->getTable('tt_content')->elements as $element) {
-            if (!$this->checkTemplate($element->key)) {
-                $json['missing'] = 1;
-                break;
+            if (!$this->contentElementTemplateExists($element->key)) {
+                return new JsonResponse(['missing' => 1]);
             }
         }
-        return new JsonResponse($json);
+
+        return new JsonResponse(['missing' => 0]);
     }
 
     public function fixMissingFilesOrFolders(ServerRequestInterface $request): Response
     {
-        $success = true;
         foreach (self::$folderPathKeys as $key) {
-            $success &= $this->createFolder($this->maskExtensionConfiguration[$key]);
-        }
-        $success &= $this->createMaskJsonFile($this->maskExtensionConfiguration['json']);
-
-        if (!$this->tableDefinitionCollection->hasTable('tt_content')) {
-            return new JsonResponse(['success' => $success]);
-        }
-
-        foreach ($this->tableDefinitionCollection->getTable('tt_content')->elements as $element) {
-            if (!$this->checkTemplate($element['key'])) {
-                $success &= $this->createHtml($element['key']);
+            if (!isset($this->maskExtensionConfiguration[$key])) {
+                continue;
+            }
+            $path = MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration[$key]);
+            if ($path === '') {
+                continue;
+            }
+            if (!file_exists($path)) {
+                if ($this->createFolder($this->maskExtensionConfiguration[$key])) {
+                    $this->addFlashMessage('Successfully created directory: ' . $path);
+                } else {
+                    $this->addFlashMessage('Failed to create directory: ' . $path, '', AbstractMessage::ERROR);
+                }
             }
         }
-        return new JsonResponse(['success' => $success]);
+
+        if (!$this->tableDefinitionCollection->hasTable('tt_content')) {
+            return new JsonResponse(['messages' => $this->getFlashMessageQueue()->getAllMessagesAndFlush()]);
+        }
+
+        $success = true;
+        $numberTemplateFilesCreated = 0;
+        foreach ($this->tableDefinitionCollection->getTable('tt_content')->elements as $element) {
+            if (!$this->contentElementTemplateExists($element->key)) {
+                try {
+                    $success &= $this->createHtml($element->key);
+                    $numberTemplateFilesCreated++;
+                } catch (\Exception $e) {
+                    $success = false;
+                }
+            }
+        }
+
+        if (!$success) {
+            $this->addFlashMessage('Failed to create template files. Please check your extension configuration "content"', '', AbstractMessage::ERROR);
+        }
+
+        if ($numberTemplateFilesCreated > 0 && $success) {
+            $this->addFlashMessage('Successfully created ' . $numberTemplateFilesCreated . ' template files.');
+        }
+
+        return new JsonResponse(['messages' => $this->getFlashMessageQueue()->getAllMessagesAndFlush()]);
     }
 
     /**
@@ -174,18 +219,26 @@ class AjaxController
         $isNew = (bool)$params['isNew'];
         $elementKey = $params['element']['key'];
         $fields = json_decode($params['fields'], true);
-        $tableDefinitionCollection = $this->storageRepository->update($params['element'], $fields, $params['type'], $isNew);
+        try {
+            $tableDefinitionCollection = $this->storageRepository->update($params['element'], $fields, $params['type'], $isNew);
+        } catch (\Exception $e) {
+            $this->addFlashMessage($e->getMessage(), '', AbstractMessage::ERROR);
+            return new JsonResponse(['messages' => $this->getFlashMessageQueue()->getAllMessagesAndFlush(), 'hasError' => 1]);
+        }
         $this->generateAction($tableDefinitionCollection);
         if ($params['type'] === 'tt_content') {
-            $html = $this->htmlCodeGenerator->generateHtml($elementKey, $params['type']);
-            $this->saveHtml($elementKey, $html);
+            try {
+                $this->createHtml($elementKey);
+            } catch (\Exception $e) {
+                $this->addFlashMessage('Creating template file has failed. Please check your extension setting "content".', '', AbstractMessage::WARNING);
+            }
         }
         if ($isNew) {
             $this->addFlashMessage(LocalizationUtility::translate('tx_mask.content.newcontentelement', 'mask'));
         } else {
             $this->addFlashMessage(LocalizationUtility::translate('tx_mask.content.updatedcontentelement', 'mask'));
         }
-        return new JsonResponse($this->getFlashMessageQueue()->getAllMessagesAndFlush());
+        return new JsonResponse(['messages' => $this->getFlashMessageQueue()->getAllMessagesAndFlush(), 'hasError' => 0]);
     }
 
     /**
@@ -272,7 +325,7 @@ class AjaxController
                 'translatedLabel' => $translatedLabel !== '' ? $translatedLabel : $element->label,
                 'shortLabel' => $element->shortLabel,
                 'iconMarkup' => $this->iconFactory->getIcon('mask-ce-' . $element->key, Icon::SIZE_DEFAULT, $overlay)->render(),
-                'templateExists' => $this->checkTemplate($element->key) ? 1 : 0,
+                'templateExists' => $this->contentElementTemplateExists($element->key) ? 1 : 0,
                 'hidden' => $element->hidden ? 1 : 0,
                 'count' => $this->getElementCount($element->key),
                 'sorting' => $element->sorting,
@@ -734,11 +787,11 @@ class AjaxController
     {
         // fallback to prevent breaking change
         $path = TemplatePathUtility::getTemplatePath($this->maskExtensionConfiguration, $key);
+        // Do not override existing files.
         if (file_exists($path)) {
             return false;
         }
-        GeneralUtility::writeFile($path, $html);
-        return true;
+        return GeneralUtility::writeFile($path, $html);
     }
 
     /**
@@ -820,7 +873,7 @@ class AjaxController
     /**
      * Check if template file exists.
      */
-    protected function checkTemplate(string $key): bool
+    protected function contentElementTemplateExists(string $key): bool
     {
         $templatePath = $this->getTemplate($key);
         return file_exists($templatePath) && is_file($templatePath);
@@ -847,20 +900,6 @@ class AjaxController
                 octdec($GLOBALS['TYPO3_CONF_VARS']['SYS']['folderCreateMask']),
                 true
             );
-        }
-        return $success;
-    }
-
-    /**
-     * Create Mask json file if it doesn't exist and add empty array.
-     */
-    protected function createMaskJsonFile(string $path): bool
-    {
-        $success = true;
-        $path = MaskUtility::getFileAbsFileName($path);
-        if (!file_exists($path)) {
-            $success = $this->createFolder(dirname($path));
-            $this->storageRepository->write([]);
         }
         return $success;
     }

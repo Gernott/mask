@@ -1,26 +1,26 @@
 # cat=general; type=string; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-loader
-loader_identifier = json
+loader_identifier =
 # cat=general; type=file [json]; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-json
-json = EXT:mask_project/Configuration/Mask/mask.json
+json =
 # cat=general; type=folder [content_elements_folder]; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-content-elements-folder
-content_elements_folder = EXT:mask_project/Configuration/Mask/ContentElements
+content_elements_folder =
 # cat=general; type=folder [backend_layouts_folder]; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-backend-layouts-folder
-backend_layouts_folder = EXT:mask_project/Configuration/Mask/BackendLayouts
+backend_layouts_folder =
 # cat=general; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-backendlayout_pids
-backendlayout_pids = 0,1
+backendlayout_pids =
 
 # cat=frontend; type=folder; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-content
-content = EXT:mask_project/Resources/Private/Mask/Frontend/Templates/
+content =
 # cat=frontend; type=folder; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-layouts
-layouts = EXT:mask_project/Resources/Private/Mask/Frontend/Layouts/
+layouts =
 # cat=frontend; type=folder; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-partials
-partials = EXT:mask_project/Resources/Private/Mask/Frontend/Partials/
+partials =
 
 # cat=backend; type=folder; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-backend
-backend = EXT:mask_project/Resources/Private/Mask/Backend/Templates/
+backend =
 # cat=backend; type=folder; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-layouts_backend
-layouts_backend = EXT:mask_project/Resources/Private/Mask/Backend/Layouts/
+layouts_backend =
 # cat=backend; type=folder; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-partials_backend
-partials_backend = EXT:mask_project/Resources/Private/Mask/Backend/Partials/
+partials_backend =
 # cat=backend; type=folder; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-preview
-preview = EXT:mask_project/Resources/Public/Mask/
+preview =

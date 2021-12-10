@@ -53,21 +53,24 @@ class JsonSplitLoader implements LoaderInterface
 
     public function load(): TableDefinitionCollection
     {
-        $this->checkIfPathIsDefined('tt_content');
+        $contentElementsFolder = $this->validateGetContentElementFolderPath('tt_content');
         if ($this->tableDefinitionCollection === null) {
-            $contentElementsFolder = $this->getAbsolutePath('tt_content');
-            if (!file_exists($contentElementsFolder)) {
-                throw new \InvalidArgumentException(sprintf('The folder "%s" does not exist.', $contentElementsFolder), 1628599433);
-            }
-            $definitionArray = [];
-            $definitionArray = $this->mergeElementDefinitions($definitionArray, $contentElementsFolder);
+            $this->tableDefinitionCollection = new TableDefinitionCollection();
+            if (file_exists($contentElementsFolder)) {
+                $definitionArray = [];
+                $definitionArray = $this->mergeElementDefinitions($definitionArray, $contentElementsFolder);
 
-            $backendLayoutsFolder = $this->getAbsolutePath('pages');
-            if ($backendLayoutsFolder !== '' && file_exists($backendLayoutsFolder)) {
-                $definitionArray = $this->mergeElementDefinitions($definitionArray, $backendLayoutsFolder);
-            }
+                // If optional backendLayoutsFolder is not empty, validate the path.
+                $backendLayoutsFolder = $this->getAbsolutePath('pages');
+                if ($backendLayoutsFolder !== '') {
+                    $backendLayoutsFolder = $this->validateGetContentElementFolderPath('pages');
+                    if (file_exists($backendLayoutsFolder)) {
+                        $definitionArray = $this->mergeElementDefinitions($definitionArray, $backendLayoutsFolder);
+                    }
+                }
 
-            $this->tableDefinitionCollection = TableDefinitionCollection::createFromArray($definitionArray);
+                $this->tableDefinitionCollection = TableDefinitionCollection::createFromArray($definitionArray);
+            }
         }
         return $this->tableDefinitionCollection;
     }
@@ -82,11 +85,14 @@ class JsonSplitLoader implements LoaderInterface
         $this->tableDefinitionCollection = $tableDefinitionCollection;
     }
 
-    protected function checkIfPathIsDefined(string $table): void
+    protected function validateGetContentElementFolderPath(string $table): string
     {
-        if ($this->getPath($table) === '') {
-            throw new \InvalidArgumentException(sprintf('The path to "%s" in your extension configuration must not be empty.', self::FOLDER_KEYS[$table]), 1628599914);
+        $path = $this->getAbsolutePath($table);
+        if ($path === '' && isset($this->maskExtensionConfiguration[self::FOLDER_KEYS[$table]])) {
+            throw new \InvalidArgumentException('The path to the file "' . self::FOLDER_KEYS[$table] . '" is not a correct path in the file system.');
         }
+
+        return $path;
     }
 
     protected function getPath(string $table): string
@@ -118,8 +124,11 @@ class JsonSplitLoader implements LoaderInterface
             return;
         }
 
-        $this->checkIfPathIsDefined($table);
-        $absolutePath = $this->getAbsolutePath($table);
+        $absolutePath = $this->validateGetContentElementFolderPath($table);
+
+        if (!file_exists($absolutePath)) {
+            GeneralUtility::mkdir_deep($absolutePath);
+        }
 
         $elements = [];
         foreach ($tableDefinitionCollection->getTable($table)->elements as $element) {
@@ -207,7 +216,12 @@ class JsonSplitLoader implements LoaderInterface
             $elementTableDefinitionCollection->addTable($newTableDefinition);
 
             // @todo replace with JSON_THROW_ON_ERROR in Mask v8.0
-            GeneralUtility::writeFile($absolutePath . '/' . $element->key . '.json', json_encode($elementTableDefinitionCollection->toArray(), 4194304 | JSON_PRETTY_PRINT) . "\n");
+            $filePath = $absolutePath . '/' . $element->key . '.json';
+            $result = GeneralUtility::writeFile($filePath, json_encode($elementTableDefinitionCollection->toArray(), 4194304 | JSON_PRETTY_PRINT) . "\n");
+
+            if (!$result) {
+                throw new \InvalidArgumentException('The file "' . $filePath . '" could not be written. Check your file permissions.', 1639169283);
+            }
         }
     }
 }
