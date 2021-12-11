@@ -198,13 +198,13 @@ class TyposcriptCodeGenerator
 
         if ($this->maskExtensionConfiguration['partials'] ?? false) {
             $paths['partialRootPaths'] = [
-                10 => rtrim($this->maskExtensionConfiguration['content'], '/') . '/'
+                10 => rtrim($this->maskExtensionConfiguration['partials'], '/') . '/'
             ];
         }
 
         if ($this->maskExtensionConfiguration['layouts'] ?? false) {
             $paths['layoutRootPaths'] = [
-                10 => rtrim($this->maskExtensionConfiguration['content'], '/') . '/'
+                10 => rtrim($this->maskExtensionConfiguration['layouts'], '/') . '/'
             ];
         }
 
