@@ -113,11 +113,17 @@ define([
       Promise.resolve(setupCompletePromise)
         .then(
           setupComplete => {
-            if (!setupComplete) {
-              this.mode = 'setup';
-            }
-
             const promises = [];
+
+            // fetch mask and typo3 version
+            promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_versions)).get()
+              .then(
+                async response => {
+                  const versions = await response.resolve();
+                  this.version = versions.mask;
+                  this.global.typo3Version = versions.typo3;
+                }
+              ));
 
             // Fetch language
             promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_language)).get()
@@ -126,6 +132,15 @@ define([
                   this.language = await response.resolve();
                 }
               ));
+
+            // Return early, if setup is incomplete.
+            if (!setupComplete) {
+              this.mode = 'setup';
+              Promise.all(promises).then(() => {
+                this.loaded = true;
+              });
+              return;
+            }
 
             // Fetch tcaFields for existing core and mask fields
             promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_tca_fields)).get()
@@ -195,16 +210,6 @@ define([
                 async response => {
                   const missing = await response.resolve();
                   this.missingFilesOrFolders = missing.missing;
-                }
-              ));
-
-            // fetch mask and typo3 version
-            promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_versions)).get()
-              .then(
-                async response => {
-                  const versions = await response.resolve();
-                  this.version = versions.mask;
-                  this.global.typo3Version = versions.typo3;
                 }
               ));
 
