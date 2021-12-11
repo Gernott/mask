@@ -716,6 +716,8 @@ class JsonSplitLoaderTest extends UnitTestCase
      */
     public function brokenConfigurationRaisesException(): void
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectDeprecationMessage('Expected content_elements_folder to be a correct file system path. The value "" was given.');
         $this->expectExceptionCode(1639218892);
         $jsonSplitLoader = new JsonSplitLoader(['content_elements_folder' => '../folder']);
         $jsonSplitLoader->load();

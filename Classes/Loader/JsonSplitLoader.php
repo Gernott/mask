@@ -89,7 +89,7 @@ class JsonSplitLoader implements LoaderInterface
     {
         $path = $this->getAbsolutePath($table);
         if ($path === '' && isset($this->maskExtensionConfiguration[self::FOLDER_KEYS[$table]])) {
-            throw new \InvalidArgumentException('The path to the file "' . self::FOLDER_KEYS[$table] . '" is not a correct path in the file system.', 1639218892);
+            throw new \InvalidArgumentException('Expected ' . self::FOLDER_KEYS[$table] . ' to be a correct file system path. The value "' . $path . '" was given.', 1639218892);
         }
 
         return $path;
