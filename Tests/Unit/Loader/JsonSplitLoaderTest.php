@@ -70,11 +70,9 @@ class JsonSplitLoaderTest extends UnitTestCase
             ]
         );
 
-        $contentElementsPath = Environment::getPublicPath() . '/typo3conf/ext/mask/var/ContentElements';
-        GeneralUtility::mkdir($contentElementsPath);
-
         $jsonSplitLoader->write(TableDefinitionCollection::createFromArray($this->getExpectedConfigurationArray()));
 
+        $contentElementsPath = Environment::getPublicPath() . '/typo3conf/ext/mask/var/ContentElements';
         self::assertFileExists($contentElementsPath . '/a.json');
         self::assertFileExists($contentElementsPath . '/b.json');
         self::assertFileExists($contentElementsPath . '/c.json');
