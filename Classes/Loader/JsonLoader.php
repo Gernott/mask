@@ -67,7 +67,7 @@ class JsonLoader implements LoaderInterface
     {
         $maskJsonPath = $this->getJsonFilePath();
         if ($maskJsonPath === '' && isset($this->maskExtensionConfiguration['json'])) {
-            throw new \InvalidArgumentException('The path to the Mask JSON file "' . $this->maskExtensionConfiguration['json'] . '" is not a correct path in the file system.');
+            throw new \InvalidArgumentException('The path to the Mask JSON file "' . $this->maskExtensionConfiguration['json'] . '" is not a correct path in the file system.', 1639220370);
         }
 
         return $maskJsonPath;
