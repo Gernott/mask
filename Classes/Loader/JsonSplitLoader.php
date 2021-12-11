@@ -53,7 +53,7 @@ class JsonSplitLoader implements LoaderInterface
 
     public function load(): TableDefinitionCollection
     {
-        $contentElementsFolder = $this->validateGetContentElementFolderPath('tt_content');
+        $contentElementsFolder = $this->validateFolderPath('tt_content');
         if ($this->tableDefinitionCollection === null) {
             $this->tableDefinitionCollection = new TableDefinitionCollection();
             if (file_exists($contentElementsFolder)) {
@@ -63,7 +63,7 @@ class JsonSplitLoader implements LoaderInterface
                 // If optional backendLayoutsFolder is not empty, validate the path.
                 $backendLayoutsFolder = $this->getAbsolutePath('pages');
                 if ($backendLayoutsFolder !== '') {
-                    $backendLayoutsFolder = $this->validateGetContentElementFolderPath('pages');
+                    $backendLayoutsFolder = $this->validateFolderPath('pages');
                     if (file_exists($backendLayoutsFolder)) {
                         $definitionArray = $this->mergeElementDefinitions($definitionArray, $backendLayoutsFolder);
                     }
@@ -85,11 +85,11 @@ class JsonSplitLoader implements LoaderInterface
         $this->tableDefinitionCollection = $tableDefinitionCollection;
     }
 
-    protected function validateGetContentElementFolderPath(string $table): string
+    protected function validateFolderPath(string $table): string
     {
         $path = $this->getAbsolutePath($table);
         if ($path === '' && isset($this->maskExtensionConfiguration[self::FOLDER_KEYS[$table]])) {
-            throw new \InvalidArgumentException('The path to the file "' . self::FOLDER_KEYS[$table] . '" is not a correct path in the file system.');
+            throw new \InvalidArgumentException('The path to the file "' . self::FOLDER_KEYS[$table] . '" is not a correct path in the file system.', 1639218892);
         }
 
         return $path;
@@ -124,7 +124,7 @@ class JsonSplitLoader implements LoaderInterface
             return;
         }
 
-        $absolutePath = $this->validateGetContentElementFolderPath($table);
+        $absolutePath = $this->validateFolderPath($table);
 
         if (!file_exists($absolutePath)) {
             GeneralUtility::mkdir_deep($absolutePath);

@@ -712,4 +712,14 @@ class JsonSplitLoaderTest extends UnitTestCase
             ]
         ];
     }
+
+    /**
+     * @test
+     */
+    public function brokenConfigurationRaisesException(): void
+    {
+        $this->expectExceptionCode(1639218892);
+        $jsonSplitLoader = new JsonSplitLoader(['content_elements_folder' => '../folder']);
+        $jsonSplitLoader->load();
+    }
 }
