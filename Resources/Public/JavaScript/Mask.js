@@ -96,7 +96,11 @@ define([
           deletedFields: [],
         },
         loaded: false,
-        missingFilesOrFolders: false,
+        missingFilesOrFolders: {
+          missing: false,
+          missingFolders: {},
+          missingTemplates: {},
+        },
         saving: false,
         ticks: 0,
       }
@@ -208,8 +212,7 @@ define([
             promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_missing)).get()
               .then(
                 async response => {
-                  const missing = await response.resolve();
-                  this.missingFilesOrFolders = missing.missing;
+                  this.missingFilesOrFolders = await response.resolve();
                 }
               ));
 
@@ -774,6 +777,50 @@ define([
               }
             ]);
       },
+      showMissingFilesOrFolder() {
+        let template = '';
+        // isArray means empty array from json_encode.
+        if (!Array.isArray(this.missingFilesOrFolders.missingFolders)) {
+          template += this.language.missingFolders + ':\n';
+          for (const [key, value] of Object.entries(this.missingFilesOrFolders.missingFolders)) {
+            template += `${value} (${key})\n`;
+          }
+        }
+
+        // isArray means empty array from json_encode.
+        if (!Array.isArray(this.missingFilesOrFolders.missingTemplates)) {
+          if (template !== '') {
+            template += '\n';
+          }
+          template += this.language.missingTemplates + ':\n';
+          for (const [key, value] of Object.entries(this.missingFilesOrFolders.missingTemplates)) {
+            template += `${value} (${key}) \n`;
+          }
+        }
+
+        Modal.confirm(
+          this.language.createMissingFilesOrFolders,
+          template,
+          Severity.info,
+          [
+            {
+              text: this.language.close,
+              btnClass: 'btn btn-default',
+              trigger: () => {
+                Modal.dismiss();
+              }
+            },
+            {
+              text: this.language.create,
+              btnClass: 'btn btn-info',
+              trigger: () => {
+                Modal.dismiss();
+                this.fixMissing();
+              }
+            }
+          ]
+        );
+      },
       fixMissing() {
         (new AjaxRequest(TYPO3.settings.ajaxUrls.mask_fix_missing)).get()
           .then(
@@ -783,8 +830,7 @@ define([
               new AjaxRequest(TYPO3.settings.ajaxUrls.mask_missing).get()
                 .then(
                   async response => {
-                    const missing = await response.resolve();
-                    this.missingFilesOrFolders = missing.missing;
+                    this.missingFilesOrFolders = await response.resolve();
                     this.loadElements();
                   }
                 );

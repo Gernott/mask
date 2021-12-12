@@ -842,7 +842,7 @@ title3, value3, icon3, description3
 				<source></source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.create">
-				<source></source>
+				<source>Create</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.create_content_element">
 				<source>Create new content element</source>
@@ -919,11 +919,17 @@ title3, value3, icon3, description3
 					extension manager.
 				</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.all.createmissingfolders">
-				<source>Create missing directories and files</source>
+			<trans-unit id="tx_mask.all.missingFilesOrFolders">
+				<source>Missing directories or templates</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.all.createmissingtemplate">
-				<source>Create missing template</source>
+			<trans-unit id="tx_mask.all.createmissingfolders">
+				<source>Create missing directories and templates</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.missingFolders">
+				<source>Missing directories</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.missingTemplates">
+				<source>Missing templates</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.createdmissingfolders">
 				<source>Missing directories and files were created.</source>

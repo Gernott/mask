@@ -121,23 +121,30 @@ class AjaxController
 
     public function missingFilesOrFolders(ServerRequestInterface $request): Response
     {
+        $missing = 0;
+        $missingFolders = $this->getMissingFolders();
         if ($this->getMissingFolders() !== []) {
-            return new JsonResponse(['missing' => 1]);
+            $missing = 1;
         }
 
         // If no elements exist, there can't be any missing templates.
         if (!$this->tableDefinitionCollection->hasTable('tt_content')) {
-            return new JsonResponse(['missing' => 0]);
+            return new JsonResponse(['missing' => $missing, 'missingFolders' => $missingFolders, 'missingTemplates' => []]);
         }
 
         // Loop through each element and check if template exists.
+        $missingTemplates = [];
         foreach ($this->tableDefinitionCollection->getTable('tt_content')->elements as $element) {
             if (!$this->contentElementTemplateExists($element->key)) {
-                return new JsonResponse(['missing' => 1]);
+                $missingTemplates[$element->key] = TemplatePathUtility::getTemplatePath($this->maskExtensionConfiguration, $element->key, true);
             }
         }
 
-        return new JsonResponse(['missing' => 0]);
+        if ($missingTemplates !== []) {
+            return new JsonResponse(['missing' => 1, 'missingFolders' => $missingFolders, 'missingTemplates' => $missingTemplates]);
+        }
+
+        return new JsonResponse(['missing' => $missing, 'missingFolders' => $missingFolders, 'missingTemplates' => $missingTemplates]);
     }
 
     public function fixMissingFilesOrFolders(ServerRequestInterface $request): Response
@@ -672,6 +679,7 @@ class AjaxController
         $language['fieldsMissing'] = LocalizationUtility::translate('tx_mask.fieldsMissing', 'mask');
         $language['missingCreated'] = LocalizationUtility::translate('tx_mask.all.createdmissingfolders', 'mask');
         $language['reset'] = LocalizationUtility::translate('tx_mask.reset_settings_success', 'mask');
+        $language['create'] = LocalizationUtility::translate('tx_mask.all.create', 'mask');
 
         $language['deleteModal'] = [
             'title' => LocalizationUtility::translate('tx_mask.field.titleDelete', 'mask'),
@@ -705,6 +713,10 @@ class AjaxController
             'placeholder1' => LocalizationUtility::translate('tx_mask.multistep.placeholder1', 'mask'),
             'placeholder2' => LocalizationUtility::translate('tx_mask.multistep.placeholder2', 'mask'),
         ];
+
+        $language['createMissingFilesOrFolders'] = LocalizationUtility::translate('tx_mask.all.createmissingfolders', 'mask');
+        $language['missingFolders'] = LocalizationUtility::translate('tx_mask.all.missingFolders', 'mask');
+        $language['missingTemplates'] = LocalizationUtility::translate('tx_mask.all.missingTemplates', 'mask');
 
         return new JsonResponse($language);
     }
@@ -907,7 +919,7 @@ class AjaxController
                 continue;
             }
             if (!file_exists($path)) {
-                $missingFolders[$key] = $path;
+                $missingFolders[$key] = $this->maskExtensionConfiguration[$key];
             }
         }
 

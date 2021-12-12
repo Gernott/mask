@@ -9,7 +9,7 @@
                         <f:translate key="tx_mask.all.contentelements"/>
                     </div>
                 </div>
-                <div v-if="missingFilesOrFolders" @click="fixMissing" class="mask-elements__missing btn btn-warning"><i class="fa fa-warning"></i> <f:translate key="tx_mask.all.createmissingfolders"/></div>
+                <div v-if="missingFilesOrFolders.missing" @click="showMissingFilesOrFolder" class="mask-elements__missing btn btn-warning"><i class="fa fa-warning"></i> <f:translate key="tx_mask.all.missingFilesOrFolders"/></div>
                 <div @click="openNew" class="btn btn-success"><i class="fa fa-plus"></i> <f:translate key="tx_mask.all.create_content_element"/></div>
             </div>
             <div class="mask-elements__table-wrap">
