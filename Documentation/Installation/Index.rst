@@ -70,6 +70,18 @@ create all missing files and folders defined here.
 .. note::
    This is also great to have in version control so others will have this already set up when checking out the project.
 
+.. versionadded:: 7.1.0
+
+If you didn't configure yet anything and visit the Mask module, you are able to
+auto-configure the paths. You simply have to provide an extension key of a
+**loaded** extension.
+
+.. figure:: ../Images/Mask7.1/AutoConfiguration.png
+   :alt: Mask auto-configuration
+   :class: with-border
+
+   Mask warns you about missing configuration
+
 Include TypoScript
 ==================
 

@@ -16,11 +16,10 @@ to any element. Fields can have several types, for example: text, file, relation
 
 Download Mask with composer by running the command `composer require mask/mask` or install via extension manager.
 It is important to add Mask as a dependency in your `ext_emconf.php` and/or `composer.json`, so you can override the
-generated TCA. Before you start using Mask, you must define various paths. The easiest way to change the
-paths is to add the snippet below to your `LocalConfiguration.php` in the `EXTENSIONS` section:
+generated TCA. Before you start using Mask, you must define various paths. Add the snippet below to your
+`LocalConfiguration.php` in the `EXTENSIONS` section:
 
 ```
-...
 'mask' => [
     'loader_identifier' => 'json',
     'backend' => 'EXT:sitepackage/Resources/Private/Mask/Backend/Templates/',
@@ -35,12 +34,15 @@ paths is to add the snippet below to your `LocalConfiguration.php` in the `EXTEN
     'partials_backend' => 'EXT:sitepackage/Resources/Private/Mask/Backend/Partials/',
     'preview' => 'EXT:sitepackage/Resources/Public/Mask/',
 ],
-...
 ```
 
 Adjust the paths to your sitepackage extension and activate Mask. When you visit the Mask backend, you will have the
 option to create all missing files and folders defined here. This is also great to have in version control so others
 will have this already set up when checking out.
+
+Alternatively, leave the configuration empty and visit the Mask module. There
+will be an Auto-Configuration form, that will generate all the above
+configuration for you automatically, if you provide a key of a loaded extension.
 
 Mask requires `fluid_styled_content` so go to your static includes in the template module and include it there.
 **After** that also include the Mask static TypoScript.
