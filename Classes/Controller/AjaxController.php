@@ -269,7 +269,7 @@ class AjaxController
 
     public function backendLayouts(ServerRequestInterface $request): Response
     {
-        $backendLayouts = $this->backendLayoutRepository->findAll(GeneralUtility::trimExplode(',', $this->maskExtensionConfiguration['backendlayout_pids']));
+        $backendLayouts = $this->backendLayoutRepository->findAll(GeneralUtility::trimExplode(',', $this->maskExtensionConfiguration['backendlayout_pids'] ?? ''));
         $json['backendLayouts'] = [];
         /** @var BackendLayout $backendLayout */
         foreach ($backendLayouts as $key => $backendLayout) {
@@ -902,7 +902,7 @@ class AjaxController
     {
         $paths = [];
         $paths[] = TemplatePathUtility::getTemplatePath($this->maskExtensionConfiguration, $key);
-        $paths[] = TemplatePathUtility::getTemplatePath($this->maskExtensionConfiguration, $key, false, $this->maskExtensionConfiguration['backend']);
+        $paths[] = TemplatePathUtility::getTemplatePath($this->maskExtensionConfiguration, $key, false, $this->maskExtensionConfiguration['backend'] ?? '');
         foreach ($paths as $path) {
             @unlink($path);
         }
