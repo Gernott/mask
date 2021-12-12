@@ -50,7 +50,7 @@ in IDEs. Also, it is processed much faster than arrays.
 This was an important part in implementing the new :php:`JsonSplitLoader`, too.
 The Loaders can only deal with this type of object. And this is good.
 
-You can use this API by injecting the class directly in the construcor. It is
+You can use this API by injecting the class directly in the constructor. It is
 registered as a service and will be retrieved by the :php:`LoaderRegistry` in
 the DI cache.
 
