@@ -143,6 +143,7 @@ More new features
 *  New colorpicker field
 *  selectIcons option for select (Thanks to Can Karadağ)
 *  Improved drag validation in Mask builder (Thanks to Can Karadağ)
+*  Palette descriptions (only v11)
 *  Removed last extbase usage in backend context (Mask is now extbase-free)
 
 .. figure:: ../../Images/Mask7.1/ColorPicker.png
