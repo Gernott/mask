@@ -108,4 +108,8 @@ return [
         'path' => '/mask/setupComplete',
         'target' => AjaxController::class . '::setupComplete'
     ],
+    'mask_setup_autoconfigure' => [
+        'path' => '/mask/autoConfigure',
+        'target' => AjaxController::class . '::autoConfigureSetup'
+    ],
 ];

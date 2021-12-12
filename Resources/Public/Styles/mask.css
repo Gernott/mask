@@ -1179,21 +1179,31 @@
 
 .mask-setup-incomplete {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align: center;
   height: 100%;
+}
+.mask-setup-incomplete__content {
+  max-width: 750px;
+  margin: 0 auto 20px;
+}
+.mask-setup-incomplete__text {
+  text-align: center;
+  font-size: 22px;
 }
 .mask-setup-incomplete h1 {
   font-size: 50px;
   line-height: 50px;
 }
-.mask-setup-incomplete p {
-  font-size: 22px;
+.mask-setup-incomplete .fa-info-circle {
+  cursor: pointer;
 }
-.mask-setup-incomplete .fa-bomb {
-  font-size: 50px;
-  color: #D4372F;
+.mask-setup-incomplete__form {
+  width: 850px;
+  max-width: 100%;
+  border: 1px solid #ccc;
+  padding: 20px;
 }
 
 /*# sourceMappingURL=mask.css.map */

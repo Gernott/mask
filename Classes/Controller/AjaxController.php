@@ -33,6 +33,7 @@ use MASK\Mask\Utility\TemplatePathUtility;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\View\BackendLayout\BackendLayout;
 use TYPO3\CMS\Core\Cache\CacheManager;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Http\JsonResponse;
@@ -118,6 +119,42 @@ class AjaxController
         }
 
         return new JsonResponse(['setupComplete' => 1]);
+    }
+
+    public function autoConfigureSetup(ServerRequestInterface $request): Response
+    {
+        $parameters = $request->getParsedBody();
+        $extensionKey = $parameters['extension'];
+        $loader = $parameters['loader'];
+
+        if ($extensionKey === '') {
+            return new JsonResponse(['result' => ['error' => 'required!']]);
+        }
+
+        if (!ExtensionManagementUtility::isLoaded($extensionKey)) {
+            return new JsonResponse(['result' => ['error' => 'must be loaded!']]);
+        }
+
+        $extensionConfiguration = new ExtensionConfiguration();
+        $configuration = [];
+        $configuration['loader_identifier'] = $loader;
+        if ($loader === 'json') {
+            $configuration['json'] = 'EXT:' . $extensionKey . '/Configuration/Mask/mask.json';
+        } else {
+            $configuration['content_elements_folder'] = 'EXT:' . $extensionKey . '/Configuration/Mask/ContentElements';
+            $configuration['backend_layouts_folder'] = 'EXT:' . $extensionKey . '/Configuration/Mask/BackendLayouts';
+        }
+        $configuration['content'] = 'EXT:' . $extensionKey . '/Resources/Private/Mask/Frontend/Templates/';
+        $configuration['layouts'] = 'EXT:' . $extensionKey . '/Resources/Private/Mask/Frontend/Layouts/';
+        $configuration['partials'] = 'EXT:' . $extensionKey . '/Resources/Private/Mask/Frontend/Partials/';
+        $configuration['backend'] = 'EXT:' . $extensionKey . '/Resources/Private/Mask/Backend/Templates/';
+        $configuration['partials_backend'] = 'EXT:' . $extensionKey . '/Resources/Private/Mask/Backend/Partials/';
+        $configuration['preview'] = 'EXT:' . $extensionKey . '/Resources/Public/Mask/';
+        $configuration['backendlayout_pids'] = $extensionConfiguration->get('mask', 'backendlayout_pids');
+
+        $extensionConfiguration->set('mask', '', $configuration);
+
+        return new JsonResponse(['result' => ['error' => '']]);
     }
 
     public function missingFilesOrFolders(ServerRequestInterface $request): Response

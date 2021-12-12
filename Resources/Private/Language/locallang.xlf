@@ -1133,6 +1133,27 @@ title3, value3, icon3, description3
 			<trans-unit id="tx_mask.error.mask_definition_missing">
 				<source>Element "%s" is missing in Mask definition.</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.setup_incomplete">
+				<source>Setup incomplete</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.setup_incomplete.text">
+				<source>Your extension configuration setup is incomplete. Please refer to the <![CDATA[<a href="https://docs.typo3.org/p/mask/mask/main/en-us/Installation/Index.html" target="_blank">]]>documentation <![CDATA[<i class="fa fa-book"></i></a>]]> on how to set up Mask properly.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.auto_configuration">
+				<source>Auto-Configuration</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.auto_configuration.text">
+				<source>You can auto-configure Mask by providing an extension key. Mask will create default paths with the provided extension.<![CDATA[<br><b>The extension must be loaded.</b>]]></source>
+			</trans-unit>
+			<trans-unit id="tx_mask.learn_about_loaders">
+				<source>Learn more about Loaders</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.extension_key">
+				<source>Extension-Key</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.submit">
+				<source>Submit</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
