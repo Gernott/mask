@@ -875,16 +875,8 @@ class AjaxController
      */
     protected function contentElementTemplateExists(string $key): bool
     {
-        $templatePath = $this->getTemplate($key);
+        $templatePath = TemplatePathUtility::getTemplatePath($this->maskExtensionConfiguration, $key);
         return file_exists($templatePath) && is_file($templatePath);
-    }
-
-    /**
-     * Returns the template for the given key.
-     */
-    protected function getTemplate(string $key): string
-    {
-        return TemplatePathUtility::getTemplatePath($this->maskExtensionConfiguration, $key);
     }
 
     /**
