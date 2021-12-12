@@ -58,7 +58,7 @@
 				<source>Replacements</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.slug.generatorOptions.replacements.description">
-				<source>It allows to replace strings of a slug part. Add one of more array items with the key being the string to replace and the value being the replacement string.</source>
+				<source>It allows to replace strings of a slug part. One entry each line, comma separated. The first entry is the search string and the second entry is the replace string.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.slug.fallbackCharacter">
 				<source>Fallback character</source>

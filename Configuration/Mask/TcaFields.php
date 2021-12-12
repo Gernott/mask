@@ -130,7 +130,8 @@ return [
         'documentation' => 'ColumnsConfig/Type/Slug.html#generatoroptions'
     ],
     'config.generatorOptions.replacements' => [
-        'type' => 'text',
+        'type' => 'textarea',
+        'rows' => 5,
         'label' => 'tx_mask.field.slug.generatorOptions.replacements',
         'description' => 'tx_mask.field.slug.generatorOptions.replacements.description',
         'code' => 'generatorOptions.replacements',
