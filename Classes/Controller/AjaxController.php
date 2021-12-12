@@ -152,7 +152,11 @@ class AjaxController
         $configuration['preview'] = 'EXT:' . $extensionKey . '/Resources/Public/Mask/';
         $configuration['backendlayout_pids'] = $extensionConfiguration->get('mask', 'backendlayout_pids');
 
-        $extensionConfiguration->set('mask', '', $configuration);
+        if ((new Typo3Version())->getMajorVersion() > 10) {
+            $extensionConfiguration->set('mask', $configuration);
+        } else {
+            $extensionConfiguration->set('mask', '', $configuration);
+        }
 
         return new JsonResponse(['result' => ['error' => '']]);
     }
