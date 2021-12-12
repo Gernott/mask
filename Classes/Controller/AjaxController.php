@@ -169,7 +169,7 @@ class AjaxController
         }
 
         if (!$this->tableDefinitionCollection->hasTable('tt_content')) {
-            return new JsonResponse(['messages' => $this->getFlashMessageQueue()->getAllMessagesAndFlush()]);
+            return new JsonResponse(['messages' => $this->flashMessageQueue->getAllMessagesAndFlush()]);
         }
 
         $success = true;
@@ -193,7 +193,7 @@ class AjaxController
             $this->addFlashMessage('Successfully created ' . $numberTemplateFilesCreated . ' template files.');
         }
 
-        return new JsonResponse(['messages' => $this->getFlashMessageQueue()->getAllMessagesAndFlush()]);
+        return new JsonResponse(['messages' => $this->flashMessageQueue->getAllMessagesAndFlush()]);
     }
 
     /**
@@ -223,7 +223,7 @@ class AjaxController
             $tableDefinitionCollection = $this->storageRepository->update($params['element'], $fields, $params['type'], $isNew);
         } catch (\Exception $e) {
             $this->addFlashMessage($e->getMessage(), '', AbstractMessage::ERROR);
-            return new JsonResponse(['messages' => $this->getFlashMessageQueue()->getAllMessagesAndFlush(), 'hasError' => 1]);
+            return new JsonResponse(['messages' => $this->flashMessageQueue->getAllMessagesAndFlush(), 'hasError' => 1]);
         }
         $this->generateAction($tableDefinitionCollection);
         if ($params['type'] === 'tt_content') {
@@ -238,7 +238,7 @@ class AjaxController
         } else {
             $this->addFlashMessage(LocalizationUtility::translate('tx_mask.content.updatedcontentelement', 'mask'));
         }
-        return new JsonResponse(['messages' => $this->getFlashMessageQueue()->getAllMessagesAndFlush(), 'hasError' => 0]);
+        return new JsonResponse(['messages' => $this->flashMessageQueue->getAllMessagesAndFlush(), 'hasError' => 0]);
     }
 
     /**
@@ -256,7 +256,7 @@ class AjaxController
         $tableDefinitionCollection = $this->storageRepository->persist($this->storageRepository->remove('tt_content', $params['key']));
         $this->generateAction($tableDefinitionCollection);
         $this->addFlashMessage(LocalizationUtility::translate('tx_mask.content.deletedcontentelement', 'mask'));
-        return new JsonResponse($this->getFlashMessageQueue()->getAllMessagesAndFlush());
+        return new JsonResponse($this->flashMessageQueue->getAllMessagesAndFlush());
     }
 
     /**
@@ -274,7 +274,7 @@ class AjaxController
             $this->addFlashMessage(LocalizationUtility::translate('tx_mask.content.hiddencontentelement', 'mask'));
         }
         $this->generateAction($tableDefinitionCollection);
-        return new JsonResponse($this->getFlashMessageQueue()->getAllMessagesAndFlush());
+        return new JsonResponse($this->flashMessageQueue->getAllMessagesAndFlush());
     }
 
     public function backendLayouts(ServerRequestInterface $request): Response
@@ -862,12 +862,7 @@ class AjaxController
             $severity,
             $storeInSession
         );
-        $this->getFlashMessageQueue()->enqueue($flashMessage);
-    }
-
-    protected function getFlashMessageQueue()
-    {
-        return $this->flashMessageQueue;
+        $this->flashMessageQueue->enqueue($flashMessage);
     }
 
     /**
