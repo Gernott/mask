@@ -88,7 +88,7 @@ class JsonSplitLoader implements LoaderInterface
     protected function validateFolderPath(string $table): string
     {
         $path = $this->getAbsolutePath($table);
-        if ($path === '' && isset($this->maskExtensionConfiguration[self::FOLDER_KEYS[$table]])) {
+        if ($path === '' && isset($this->maskExtensionConfiguration[self::FOLDER_KEYS[$table]]) && $this->maskExtensionConfiguration[self::FOLDER_KEYS[$table]] !== '') {
             throw new \InvalidArgumentException('Expected ' . self::FOLDER_KEYS[$table] . ' to be a correct file system path. The value "' . $path . '" was given.', 1639218892);
         }
 

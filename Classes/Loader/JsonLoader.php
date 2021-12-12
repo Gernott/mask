@@ -66,7 +66,7 @@ class JsonLoader implements LoaderInterface
     protected function validateGetJsonFilePath(): string
     {
         $maskJsonPath = $this->getJsonFilePath();
-        if ($maskJsonPath === '' && isset($this->maskExtensionConfiguration['json'])) {
+        if ($maskJsonPath === '' && isset($this->maskExtensionConfiguration['json']) && $this->maskExtensionConfiguration['json'] !== '') {
             throw new \InvalidArgumentException('Expected "json" to be a valid file path. The value "' . $this->maskExtensionConfiguration['json'] . '" was given.', 1639220370);
         }
 

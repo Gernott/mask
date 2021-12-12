@@ -106,13 +106,14 @@ class AjaxController
 
     public function setupComplete(ServerRequestInterface $request): Response
     {
-        // If the loader identifier is NOT DEFINED OR "json" AND the path to the mask.json DOES NOT exists, the setup is incomplete.
-        if (($this->maskExtensionConfiguration['loader_identifier'] ?? 'json') === 'json' && ($this->maskExtensionConfiguration['json'] ?? '') === '') {
+        // If the loader identifier is NOT DEFINED OR "json" AND the path to the mask.json DOES NOT exist, the setup is incomplete.
+        $loaderIdentifier = $this->maskExtensionConfiguration['loader_identifier'] ?? '';
+        if (($loaderIdentifier === '' || $loaderIdentifier === 'json') && ($this->maskExtensionConfiguration['json'] ?? '') === '') {
             return new JsonResponse(['setupComplete' => 0]);
         }
 
-        // If the loader identifier IS "json-split" AND the content elements folder DOES NOT exists, the setup is incomplete.
-        if (($this->maskExtensionConfiguration['loader_identifier'] ?? '') === 'json-split' && ($this->maskExtensionConfiguration['content_elements_folder'] ?? '') === '') {
+        // If the loader identifier IS "json-split" AND the content elements' folder DOES NOT exist, the setup is incomplete.
+        if ($loaderIdentifier === 'json-split' && ($this->maskExtensionConfiguration['content_elements_folder'] ?? '') === '') {
             return new JsonResponse(['setupComplete' => 0]);
         }
 
