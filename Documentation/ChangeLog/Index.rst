@@ -11,5 +11,6 @@ Have a look at `CHANGELOG.md <https://github.com/Gernott/mask/blob/master/CHANGE
    :maxdepth: 1
    :titlesonly:
 
+   7.1/Index
    7.0/Index
    6.0/Index

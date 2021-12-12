@@ -8,6 +8,7 @@
 
 .. role:: php(code)
 .. role:: sql(code)
+.. role:: shell(code)
 
 .. default-role:: code
 .. highlight:: php
