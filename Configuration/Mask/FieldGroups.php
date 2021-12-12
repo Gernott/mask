@@ -8,6 +8,7 @@ return [
         FieldType::FLOAT => 'input',
         FieldType::LINK => 'input',
         FieldType::COLORPICKER => 'input',
+        FieldType::SLUG => 'input',
 
         FieldType::TEXT => 'text',
         FieldType::RICHTEXT => 'text',

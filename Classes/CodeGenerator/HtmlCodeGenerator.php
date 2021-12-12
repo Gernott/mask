@@ -156,6 +156,7 @@ class HtmlCodeGenerator
             case FieldType::STRING:
             case FieldType::INTEGER:
             case FieldType::COLORPICKER:
+            case FieldType::SLUG:
                 $html[] = $this->drawWhitespace(0 + $depth) . '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">';
                 $html[] = $this->drawWhitespace(1 + $depth) . '{' . $datafield . '.' . $fieldKey . '}';
                 $html[] = $this->drawWhitespace(0 + $depth) . '</f:if>';

@@ -708,6 +708,7 @@ class AjaxController
             Tab::LOCALIZATION => 'tx_mask.tabs.localization',
             Tab::VALIDATION => 'tx_mask.tabs.validation',
             Tab::WIZARDS => 'tx_mask.tabs.wizards',
+            Tab::GENERATOR => 'tx_mask.tabs.generator'
         ];
 
         foreach ($tabs as $key => $tab) {

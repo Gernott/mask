@@ -59,6 +59,22 @@ return [
         ],
         'sql' => 'varchar(255) DEFAULT \'\' NOT NULL'
     ],
+    FieldType::SLUG => [
+        'tca_in' => [
+            'config.eval.slug' => 'unique',
+            'config.size' => 10
+        ],
+        'tca_out' => [
+            'config.type' => 'slug',
+            'config.generatorOptions.fieldSeparator' => '/',
+            'config.generatorOptions.prefixParentPageSlug' => 1,
+            'config.eval' => 'unique',
+            'config.fallbackCharacter' => '-',
+            'config.prependSlash' => 1,
+        ],
+
+        'sql' => 'varchar(255) DEFAULT \'\' NOT NULL'
+    ],
     FieldType::DATE => [
         'tca_in' => [
             'l10n_mode' => '',

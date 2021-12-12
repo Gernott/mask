@@ -112,7 +112,7 @@ class TcaConverter
             $accessor->setValue($tcaArray, $propertyPath, $value);
         }
 
-        if (isset($tcaArray['config']['eval'])) {
+        if (isset($tcaArray['config']['eval']) && is_array(($tcaArray['config']['eval']))) {
             $tcaArray['config']['eval'] = self::mergeCommaSeperatedOptions($tcaArray['config']['eval']);
         }
 
