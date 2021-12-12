@@ -121,17 +121,8 @@ class AjaxController
 
     public function missingFilesOrFolders(ServerRequestInterface $request): Response
     {
-        foreach (self::$folderPathKeys as $key) {
-            if (!isset($this->maskExtensionConfiguration[$key])) {
-                continue;
-            }
-            $path = MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration[$key]);
-            if ($path === '') {
-                continue;
-            }
-            if (!file_exists($path)) {
-                return new JsonResponse(['missing' => 1]);
-            }
+        if ($this->getMissingFolders() !== []) {
+            return new JsonResponse(['missing' => 1]);
         }
 
         // If no elements exist, there can't be any missing templates.
@@ -151,20 +142,11 @@ class AjaxController
 
     public function fixMissingFilesOrFolders(ServerRequestInterface $request): Response
     {
-        foreach (self::$folderPathKeys as $key) {
-            if (!isset($this->maskExtensionConfiguration[$key])) {
-                continue;
-            }
-            $path = MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration[$key]);
-            if ($path === '') {
-                continue;
-            }
-            if (!file_exists($path)) {
-                if ($this->createFolder($this->maskExtensionConfiguration[$key])) {
-                    $this->addFlashMessage('Successfully created directory: ' . $path);
-                } else {
-                    $this->addFlashMessage('Failed to create directory: ' . $path, '', AbstractMessage::ERROR);
-                }
+        foreach ($this->getMissingFolders() as $missingFolderPath) {
+            if ($this->createFolder($missingFolderPath)) {
+                $this->addFlashMessage('Successfully created directory: ' . $missingFolderPath);
+            } else {
+                $this->addFlashMessage('Failed to create directory: ' . $missingFolderPath, '', AbstractMessage::ERROR);
             }
         }
 
@@ -911,5 +893,24 @@ class AjaxController
         foreach ($paths as $path) {
             @unlink($path);
         }
+    }
+
+    protected function getMissingFolders(): array
+    {
+        $missingFolders = [];
+        foreach (self::$folderPathKeys as $key) {
+            if (!isset($this->maskExtensionConfiguration[$key])) {
+                continue;
+            }
+            $path = MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration[$key]);
+            if ($path === '') {
+                continue;
+            }
+            if (!file_exists($path)) {
+                $missingFolders[$key] = $path;
+            }
+        }
+
+        return $missingFolders;
     }
 }
