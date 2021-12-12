@@ -57,6 +57,17 @@ class JsonLoader implements LoaderInterface
     {
         $this->tableDefinitionCollection = $tableDefinitionCollection;
         $maskJsonFilePath = $this->validateGetJsonFilePath();
+
+        // Create folder for json file, if it doesn't exist.
+        if (!file_exists($maskJsonFilePath)) {
+            $maskJsonFolderPath = explode('/', $maskJsonFilePath);
+            array_pop($maskJsonFolderPath);
+            $maskJsonFolderPath = implode('/', $maskJsonFolderPath);
+            if (!file_exists($maskJsonFolderPath)) {
+                GeneralUtility::mkdir_deep($maskJsonFolderPath);
+            }
+        }
+
         $result = GeneralUtility::writeFile($maskJsonFilePath, json_encode($tableDefinitionCollection->toArray(), 4194304 | JSON_PRETTY_PRINT)); // @todo replace with JSON_THROW_ON_ERROR in Mask v8.0
         if (!$result) {
             throw new \InvalidArgumentException('The Mask JSON file "' . $this->maskExtensionConfiguration['json'] . '" could not be written. Check your file permissions.', 1639169283);
