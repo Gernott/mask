@@ -271,25 +271,25 @@ define([
                   }
                 ));
 
-              promises.push(Icons.getIcon('actions-edit-delete', Icons.sizes.small).done(icon => {
+              promises.push(Icons.getIcon('actions-edit-delete', Icons.sizes.small).then(icon => {
                 this.icons.delete = icon;
               }));
-              promises.push(Icons.getIcon('actions-move-move', Icons.sizes.small).done(icon => {
+              promises.push(Icons.getIcon('actions-move-move', Icons.sizes.small).then(icon => {
                 this.icons.move = icon;
               }));
-              promises.push(Icons.getIcon('actions-edit-pick-date', Icons.sizes.small).done(icon => {
+              promises.push(Icons.getIcon('actions-edit-pick-date', Icons.sizes.small).then(icon => {
                 this.icons.date = icon;
               }));
-              promises.push(Icons.getIcon('actions-open', Icons.sizes.small).done(icon => {
+              promises.push(Icons.getIcon('actions-open', Icons.sizes.small).then(icon => {
                 this.icons.edit = icon;
               }));
-              promises.push(Icons.getIcon('actions-save', Icons.sizes.small).done(icon => {
+              promises.push(Icons.getIcon('actions-save', Icons.sizes.small).then(icon => {
                 this.icons.save = icon;
               }));
-              promises.push(Icons.getIcon('actions-close', Icons.sizes.small).done(icon => {
+              promises.push(Icons.getIcon('actions-close', Icons.sizes.small).then(icon => {
                 this.icons.close = icon;
               }));
-              promises.push(Icons.getIcon('spinner-circle-dark', Icons.sizes.small).done(icon => {
+              promises.push(Icons.getIcon('spinner-circle-dark', Icons.sizes.small).then(icon => {
                 this.icons.spinner = icon;
               }));
 
@@ -672,7 +672,7 @@ define([
             this.loaded = true;
             MultiStepWizard.dismiss();
           });
-        }).done(() => {
+        }).then(() => {
           MultiStepWizard.show();
           if (this.isTYPO3v11) {
             MultiStepWizard.setup.forceSelection = false;

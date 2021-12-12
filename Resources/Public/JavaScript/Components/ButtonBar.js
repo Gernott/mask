@@ -68,16 +68,16 @@ define([
               }
             },
             mounted() {
-              Icons.getIcon('actions-edit-hide', Icons.sizes.small).done((icon) => {
+              Icons.getIcon('actions-edit-hide', Icons.sizes.small).then((icon) => {
                 this.toggleIcons.actionsEditHide = icon;
               });
-              Icons.getIcon('actions-edit-unhide', Icons.sizes.small).done((icon) => {
+              Icons.getIcon('actions-edit-unhide', Icons.sizes.small).then((icon) => {
                 this.toggleIcons.actionsEditUnhide = icon;
               });
-              Icons.getIcon('spinner-circle-dark', Icons.sizes.small).done((icon) => {
+              Icons.getIcon('spinner-circle-dark', Icons.sizes.small).then((icon) => {
                 this.toggleIcons.spinnerCircleDark = icon;
               });
-              Icons.getIcon('sysnote-type-2', Icons.sizes.small).done((icon) => {
+              Icons.getIcon('sysnote-type-2', Icons.sizes.small).then((icon) => {
                 this.htmlIcon = icon;
               });
               Tooltip.initialize(`.${this.table}-${this.element.key}-bar [data-bs-toggle="tooltip"]`, {
