@@ -105,6 +105,11 @@ class TcaConverter
                 $key = 'config.eval.' . $value;
                 $value = 1;
             }
+            // This is for slug as it has a fake tca property for eval unique, uniqueInSite, ...
+            if ($key === 'config.eval.slug' && in_array($value, ['unique', 'uniqueInPid', 'uniqueInSite'])) {
+                $key = 'config.eval.' . $value;
+                $value = 1;
+            }
             $explodedKey = explode('.', $key);
             $propertyPath = array_reduce($explodedKey, static function ($carry, $property) {
                 return $carry . "[$property]";
@@ -112,7 +117,7 @@ class TcaConverter
             $accessor->setValue($tcaArray, $propertyPath, $value);
         }
 
-        if (isset($tcaArray['config']['eval']) && is_array(($tcaArray['config']['eval']))) {
+        if (isset($tcaArray['config']['eval'])) {
             $tcaArray['config']['eval'] = self::mergeCommaSeperatedOptions($tcaArray['config']['eval']);
         }
 

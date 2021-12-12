@@ -61,14 +61,13 @@ return [
     ],
     FieldType::SLUG => [
         'tca_in' => [
+            'config.size' => 10,
             'config.eval.slug' => 'unique',
-            'config.size' => 10
         ],
         'tca_out' => [
             'config.type' => 'slug',
             'config.generatorOptions.fieldSeparator' => '/',
             'config.generatorOptions.prefixParentPageSlug' => 1,
-            'config.eval' => 'unique',
             'config.fallbackCharacter' => '-',
             'config.prependSlash' => 1,
         ],
