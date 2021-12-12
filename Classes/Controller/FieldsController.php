@@ -169,6 +169,10 @@ class FieldsController
                 $newField['tca']['cTypes'] = $field['cTypes'] ?? [];
             }
 
+            if ($fieldType->equals(FieldType::SLUG) && isset($field['config']['eval'])) {
+                $newField['tca']['config.eval.slug'] = $field['config']['eval'];
+            }
+
             // Set defaults for mask fields
             foreach ($defaults[(string)$fieldType]['tca_in'] ?? [] as $tcaKey => $defaultValue) {
                 $newField['tca'][$tcaKey] = $newField['tca'][$tcaKey] ?? $defaultValue;
