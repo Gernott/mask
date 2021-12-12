@@ -29,5 +29,11 @@
         max-width: 100%;
         border: 1px solid $border-color;
         padding: 20px;
+
+        .control-label {
+            padding-top: 7px;
+            margin-bottom: 0;
+            text-align: right;
+        }
     }
 }

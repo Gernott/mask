@@ -1205,5 +1205,10 @@
   border: 1px solid #ccc;
   padding: 20px;
 }
+.mask-setup-incomplete__form .control-label {
+  padding-top: 7px;
+  margin-bottom: 0;
+  text-align: right;
+}
 
 /*# sourceMappingURL=mask.css.map */
