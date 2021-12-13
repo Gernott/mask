@@ -45,7 +45,7 @@ final class ElementDefinition
             throw new \InvalidArgumentException('Element label must not be empty', 1629292453);
         }
 
-        $elementDefinition->key = $elementArray['key'];
+        $elementDefinition->key = (string)$elementArray['key'];
         $elementDefinition->label = $elementArray['label'] ?? '';
         $elementDefinition->description = $elementArray['description'] ?? '';
         $elementDefinition->shortLabel = $elementArray['shortLabel'] ?? '';
