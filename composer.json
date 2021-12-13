@@ -9,6 +9,16 @@
 		"issues": "https://github.com/gernott/mask/issues/",
 		"chat": "https://typo3.org/community/meet/chat-slack"
 	},
+	"funding": [
+		{
+			"type": "Nikita Hovratov (Developer)",
+			"url": "https://www.paypal.com/donate/?hosted_button_id=H2BYU35VHSGFY"
+		},
+		{
+			"type": "WEBprofil - Gernot Ploiner e.U. (Founder)",
+			"url": "https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=QBA9FNKYU98BQ"
+		}
+	],
 	"keywords": [
 		"TYPO3 CMS",
 		"Mask",
