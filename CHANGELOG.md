@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.1.0] - 2021-12-14
+
+This is a big release (despite only the minor version has changed)! Huge cleanup
+of the code, which enabled cool new features.
+
+Read the [release article](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/7.1/Index.html) to learn more about
+the new version.
+
+### Added
+- JsonSplitLoader (split the Mask configuration into multiple json files)
+- API for retrieving the Mask configuration
+- Colorpicker field
+- Description Overrides
+- Auto-Configuration to get started faster with Mask
+
 ## [7.0.31] - 2021-12-08
 
 ### Fixed
