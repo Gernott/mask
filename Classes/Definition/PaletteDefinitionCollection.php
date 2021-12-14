@@ -59,9 +59,9 @@ final class PaletteDefinitionCollection implements \IteratorAggregate
     }
 
     /**
-     * @return iterable<PaletteDefinition>
+     * @return \Traversable<PaletteDefinition>
      */
-    public function getIterator(): iterable
+    public function getIterator(): \Traversable
     {
         foreach ($this->definitions as $definition) {
             yield clone $definition;

@@ -71,9 +71,9 @@ final class TcaDefinition implements \IteratorAggregate
     }
 
     /**
-     * @return iterable<TcaFieldDefinition>
+     * @return \Traversable<TcaFieldDefinition>
      */
-    public function getIterator(): iterable
+    public function getIterator(): \Traversable
     {
         foreach ($this->getOrderedFields() as $definition) {
             yield clone $definition;
