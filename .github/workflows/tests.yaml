@@ -206,3 +206,36 @@ jobs:
 
       - name: PHP 8.0 Unit Deprecated
         run: Build/Scripts/runTests.sh -s unitDeprecated -p 8.0
+
+  TYPO3_11_5_PHP_8_1:
+    name: TYPO3 v11.5 PHP 8.1
+    needs: early_cgl
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.1
+
+      - uses: actions/checkout@v2
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer require typo3/cms-core:^11.4 --prefer-dist --no-progress
+
+      - name: PHP 8.1 Unit
+        run: Build/Scripts/runTests.sh -s unit -p 8.1
+
+      - name: PHP 8.1 Unit Deprecated
+        run: Build/Scripts/runTests.sh -s unitDeprecated -p 8.1
