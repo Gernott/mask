@@ -166,14 +166,14 @@ Deprecations
 A lot of methods have been moved from :php:`StorageRepository` into :php:`TableDefinitionCollection`.
 The following methods are now deprecated:
 
-*  :php:`\MASK\Mask\Domain\Repository\StorageReposiry->loadField()`
-*  :php:`\MASK\Mask\Domain\Repository\StorageReposiry->loadInlineFields()`
-*  :php:`\MASK\Mask\Domain\Repository\StorageReposiry->loadElement()`
-*  :php:`\MASK\Mask\Domain\Repository\StorageReposiry->getFormType()`
-*  :php:`\MASK\Mask\Domain\Repository\StorageReposiry->getElementsWhichUseField()`
-*  :php:`\MASK\Mask\Domain\Repository\StorageReposiry->findFirstNonEmptyLabel()`
-*  :php:`\MASK\Mask\Domain\Repository\StorageReposiry->getLabel()`
-*  :php:`\MASK\Mask\Domain\Repository\StorageReposiry->getFieldType()`
+*  :php:`\MASK\Mask\Domain\Repository\StorageRepository->loadField()`
+*  :php:`\MASK\Mask\Domain\Repository\StorageRepository->loadInlineFields()`
+*  :php:`\MASK\Mask\Domain\Repository\StorageRepository->loadElement()`
+*  :php:`\MASK\Mask\Domain\Repository\StorageRepository->getFormType()`
+*  :php:`\MASK\Mask\Domain\Repository\StorageRepository->getElementsWhichUseField()`
+*  :php:`\MASK\Mask\Domain\Repository\StorageRepository->findFirstNonEmptyLabel()`
+*  :php:`\MASK\Mask\Domain\Repository\StorageRepository->getLabel()`
+*  :php:`\MASK\Mask\Domain\Repository\StorageRepository->getFieldType()`
 
 The :php:`MASK\Mask\Helper\FieldHelper` class is now deprecated.
 
