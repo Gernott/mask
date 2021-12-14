@@ -59,9 +59,9 @@ final class SqlDefinition implements \IteratorAggregate
     }
 
     /**
-     * @return iterable<SqlColumnDefinition>
+     * @return \Traversable<SqlColumnDefinition>
      */
-    public function getIterator(): iterable
+    public function getIterator(): \Traversable
     {
         foreach ($this->definitions as $definition) {
             yield clone $definition;

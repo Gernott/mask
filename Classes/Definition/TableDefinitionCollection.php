@@ -85,9 +85,9 @@ final class TableDefinitionCollection implements \IteratorAggregate
     }
 
     /**
-     * @return iterable<TableDefinition>
+     * @return \Traversable
      */
-    public function getIterator(): iterable
+    public function getIterator(): \Traversable
     {
         foreach ($this->definitions as $definition) {
             yield clone $definition;
