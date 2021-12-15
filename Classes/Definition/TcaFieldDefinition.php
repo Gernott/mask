@@ -75,7 +75,7 @@ final class TcaFieldDefinition
         }
 
         $tcaFieldDefinition->inPalette = (bool)($definition['inPalette'] ?? false);
-        $tcaFieldDefinition->cTypes = $definition['cTypes'] ?? [];
+        $tcaFieldDefinition->cTypes = (array)($definition['cTypes'] ?? []);
 
         // "inlineIcon" and "inlineLabel" renamed to ctrl.iconfile and ctrl.label in Mask v7.0.
         $tcaFieldDefinition->inlineIcon = $definition['ctrl']['iconfile'] ?? $definition['inlineIcon'] ?? '';
