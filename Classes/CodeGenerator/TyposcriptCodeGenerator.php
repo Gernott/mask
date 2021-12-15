@@ -164,12 +164,12 @@ class TyposcriptCodeGenerator
             }
         } else {
             // Add label from elements array.
-            if ($element->labels[$index] !== '') {
+            if (($element->labels[$index] ?? '') !== '') {
                 $TSConfig[] = 'TCEFORM.' . $table . '.' . $fieldKey . '.label = ' . $element->labels[$index];
             }
 
             // Add description from elements array.
-            if ($element->descriptions[$index] !== '') {
+            if (($element->descriptions[$index] ?? '') !== '') {
                 $TSConfig[] = 'TCEFORM.' . $table . '.' . $fieldKey . '.description (';
                 $TSConfig[] = $element->descriptions[$index];
                 $TSConfig[] = ')';
