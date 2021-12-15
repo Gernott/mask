@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace MASK\Mask\Updates;
 
 use MASK\Mask\Definition\TableDefinitionCollection;
+use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Loader\LoaderInterface;
 use MASK\Mask\Loader\LoaderRegistry;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -58,6 +59,9 @@ class MoveRteOptions implements UpgradeWizardInterface
             foreach ($tableDefinition->elements as $element) {
                 foreach ($element->options as $index => $option) {
                     if ($option === 'rte') {
+                        $field = $tableDefinitionArray[$tableDefinition->table]['elements'][$element->key]['columns'][$index];
+                        $tableDefinitionArray[$tableDefinition->table]['tca'][$field]['config']['enableRichtext'] = 1;
+                        $tableDefinitionArray[$tableDefinition->table]['tca'][$field]['type'] = FieldType::RICHTEXT;
                         unset($tableDefinitionArray[$tableDefinition->table]['elements'][$element->key]['options'][$index]);
                     }
                 }

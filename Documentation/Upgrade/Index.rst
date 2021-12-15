@@ -14,7 +14,11 @@ From v7.0.x or lower
 
 To further streamline the Mask API, the `options` key has to be removed from the
 `elements` section in the json file. It was used to resolve field types, which
-didn't have enough information by themselves. The migration is pretty easy:
+didn't have enough information by themselves.
+
+.. note::
+
+   This only affects installations, which were originally created on TYPO3 v7 / Mask v2 (or lower).
 
 Either use the Upgrade Wizard manually and run "Update Mask JSON file (RTE options)"
 or use cli commands. The Upgrade Wizard will only show up, if necessary.
