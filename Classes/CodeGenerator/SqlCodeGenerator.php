@@ -96,7 +96,13 @@ class SqlCodeGenerator
 
             foreach ($tableDefinition->sql as $column) {
                 $table = $tableDefinitionCollection->getTableByField($column->column);
-                $fieldType = $tableDefinitionCollection->getFieldType($column->column, $table);
+                try {
+                    $fieldType = $tableDefinitionCollection->getFieldType($column->column, $table);
+                    // In older Mask versions, the sys_file_reference table definition might be polluted.
+                    // Catch the failed field type resolving and skip this field.
+                } catch (\InvalidArgumentException $e) {
+                    continue;
+                }
                 if ($fieldType->equals(FieldType::INLINE) && !$tableDefinitionCollection->hasTable($column->column)) {
                     continue;
                 }
