@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\CodeGenerator;
 
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Exception;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Loader\LoaderInterface;
@@ -67,9 +68,14 @@ class SqlCodeGenerator
             $updateSuggestions = array_merge(...array_values($updateSuggestions));
             $connection = $connectionPool->getConnectionByName($connectionName);
             foreach ($updateSuggestions as $statement) {
+                // @todo Remove compatibility layer for doctrine 2.10 in Mask v8
                 try {
-                    $connection->executeStatement($statement);
-                } catch (Exception $exception) {
+                    if (method_exists($connection, 'executeStatement')) {
+                        $connection->executeStatement($statement);
+                    } else {
+                        $connection->executeUpdate($statement);
+                    }
+                } catch (Exception|DBALException $exception) {
                     return [
                         'error' => $exception->getPrevious()->getMessage()
                     ];
