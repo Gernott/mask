@@ -83,7 +83,7 @@ final class TcaFieldDefinition
 
         // Since mask v7.0.0 the path for allowedFileExtensions has changed to root level. Keep this as fallback.
         $tcaFieldDefinition->allowedFileExtensions = $definition['allowedFileExtensions'] ?? $definition['config']['filter']['0']['parameters']['allowedFileExtensions'] ?? '';
-        unset($definition['config']['filter']['0']['parameters']['allowedFileExtensions']);
+        unset($definition['config']['filter']);
 
         // Migration for Link "allowedExtensions"
         if (isset($definition['config']['wizards']['link']['params']['allowedExtensions'])) {
