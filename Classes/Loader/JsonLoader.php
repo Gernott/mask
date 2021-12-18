@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Loader;
 
+use MASK\Mask\ConfigurationLoader\ConfigurationLoaderInterface;
 use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Definition\TcaFieldDefinition;
 use MASK\Mask\Enumeration\FieldType;
@@ -36,10 +37,16 @@ class JsonLoader implements LoaderInterface
     protected $maskExtensionConfiguration;
 
     use DefaultTcaCompatibilityTrait;
+    use ConfigCleanerTrait;
 
     public function __construct(array $maskExtensionConfiguration)
     {
         $this->maskExtensionConfiguration = $maskExtensionConfiguration;
+    }
+
+    public function setConfigurationLoader(ConfigurationLoaderInterface $configurationLoader): void
+    {
+        $this->configurationLoader = $configurationLoader;
     }
 
     public function load(): TableDefinitionCollection
@@ -73,6 +80,7 @@ class JsonLoader implements LoaderInterface
             }
         }
 
+        $this->cleanUpConfig($this->tableDefinitionCollection);
         $this->addMissingDefaults($this->tableDefinitionCollection);
 
         return $this->tableDefinitionCollection;

@@ -105,7 +105,7 @@ class TcaConverterUtilityTest extends BaseTestCase
      */
     public function convertTcaArrayToFlatTest($array, $expected)
     {
-        self::assertSame($expected, TcaConverter::convertTcaArrayToFlat($array));
+        self::assertSame($expected, TcaConverter::convertTcaArrayToFlat($array, ['config']));
     }
 
     public function convertFlatTcaToArrayTestDataProvider()

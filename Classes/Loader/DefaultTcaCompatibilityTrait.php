@@ -17,22 +17,13 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Loader;
 
-use MASK\Mask\ConfigurationLoader\ConfigurationLoaderInterface;
 use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Utility\TcaConverter;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 
 trait DefaultTcaCompatibilityTrait
 {
-    /**
-     * @var ConfigurationLoaderInterface
-     */
-    protected $configurationLoader;
-
-    public function setConfigurationLoader(ConfigurationLoaderInterface $configurationLoader): void
-    {
-        $this->configurationLoader = $configurationLoader;
-    }
+    use WithConfigurationLoaderTrait;
 
     public function addMissingDefaults(TableDefinitionCollection $tableDefinitionCollection): void
     {
@@ -44,7 +35,7 @@ trait DefaultTcaCompatibilityTrait
                 }
                 $tcaDefaults = $this->configurationLoader->loadDefaults()[(string)$tcaFieldDefinition->type];
                 $tcaDefaults = $tcaDefaults['tca_out'] ?? [];
-                $flatTcaFieldDefinition = TcaConverter::convertTcaArrayToFlat($tcaFieldDefinition->realTca, []);
+                $flatTcaFieldDefinition = TcaConverter::convertTcaArrayToFlat($tcaFieldDefinition->realTca);
 
                 // If the defaults are a subset of the current tca, continue.
                 if (array_diff_assoc($tcaDefaults, $flatTcaFieldDefinition) === []) {
