@@ -19,6 +19,8 @@ namespace MASK\Mask\Loader;
 
 use MASK\Mask\ConfigurationLoader\ConfigurationLoaderInterface;
 use MASK\Mask\Definition\TableDefinitionCollection;
+use MASK\Mask\Definition\TcaFieldDefinition;
+use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use MASK\Mask\Utility\TcaConverter;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
@@ -66,10 +68,28 @@ class JsonLoader implements LoaderInterface
                     continue;
                 }
                 // Add defaults, if missing.
-                $realTcaFieldDefinition = $this->tableDefinitionCollection->loadField($tableDefinition->table, $tcaFieldDefinition->fullKey);
-                $tcaDefaults = $this->configurationLoader->loadDefaults()[(string)$realTcaFieldDefinition->type];
+                $tcaDefaults = $this->configurationLoader->loadDefaults()[(string)$tcaFieldDefinition->type];
                 $tcaDefaults = TcaConverter::convertFlatTcaToArray($tcaDefaults['tca_out'] ?? []);
-                ArrayUtility::mergeRecursiveWithOverrule($realTcaFieldDefinition->realTca, $tcaDefaults);
+                ArrayUtility::mergeRecursiveWithOverrule($tcaFieldDefinition->realTca, $tcaDefaults);
+            }
+        }
+
+        // Compatibility layer for old rte resolving
+        foreach ($this->tableDefinitionCollection as $tableDefinition) {
+            foreach ($tableDefinition->elements as $element) {
+                if ($element->options === []) {
+                    continue;
+                }
+                foreach ($element->options as $index => $option) {
+                    if ($option === 'rte') {
+                        trigger_error('Migration for options rte done in element "' . $element->key . '". Please update your json definition.', E_USER_DEPRECATED);
+                        $fieldKey = $element->columns[$index];
+                        $field = $this->tableDefinitionCollection->loadField($tableDefinition->table, $fieldKey);
+                        if ($field instanceof TcaFieldDefinition) {
+                            $field->type = new FieldType(FieldType::RICHTEXT);
+                        }
+                    }
+                }
             }
         }
 

@@ -1,0 +1,27 @@
+{
+	"tt_content": {
+		"elements": {
+			"element1": {
+				"label": "Element 1",
+				"key": "element1",
+				"labels": {
+					"0": "RTE Field"
+				},
+				"columns": {
+					"0": "tx_mask_rte"
+				},
+				"options": {
+					"0": "rte"
+				}
+			}
+		},
+		"tca": {
+			"tx_mask_rte": {
+				"config": {
+					"type": "text"
+				},
+				"key": "rte"
+			}
+		}
+	}
+}
