@@ -199,6 +199,8 @@ return [
         'tca_in' => [
             'l10n_mode' => '',
             'config.appearance.levelLinksPosition' => 'top',
+            'config.appearance.showPossibleLocalizationRecords' => 1,
+            'config.appearance.showAllLocalizationLink' => 1,
         ],
         'tca_out' => [
             'config.type' => 'inline',
@@ -206,9 +208,6 @@ return [
             'config.overrideChildTca.columns.colPos.config.default' => 999,
             'config.foreign_sortby' => 'sorting',
             'config.appearance.collapseAll' => 1,
-            'config.appearance.levelLinksPosition' => 'top',
-            'config.appearance.showPossibleLocalizationRecords' => 1,
-            'config.appearance.showAllLocalizationLink' => 1,
             'config.appearance.useSortable' => 1,
             'config.appearance.enabledControls.dragdrop' => 1
         ],
