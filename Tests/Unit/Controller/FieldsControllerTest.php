@@ -21,19 +21,17 @@ use MASK\Mask\Controller\FieldsController;
 use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Tests\Unit\ConfigurationLoader\FakeConfigurationLoader;
 use MASK\Mask\Tests\Unit\StorageRepositoryCreatorTrait;
+use MASK\Mask\Tests\Unit\PackageManagerTrait;
 use Prophecy\Argument;
 use Psr\Http\Message\ServerRequestInterface;
-use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
-use TYPO3\CMS\Core\Package\Package;
-use TYPO3\CMS\Core\Package\PackageManager;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\TestingFramework\Core\BaseTestCase;
 
 class FieldsControllerTest extends BaseTestCase
 {
     use StorageRepositoryCreatorTrait;
+    use PackageManagerTrait;
 
     public function loadElementDataProvider(): array
     {
@@ -994,20 +992,7 @@ class FieldsControllerTest extends BaseTestCase
             ]
         ];
 
-        $package = $this->prophesize(Package::class);
-        $package->getPackagePath()->willReturn(realpath(__DIR__ . '/../../../') . '/');
-        $packageManager = $this->prophesize(PackageManager::class);
-        $packageManager->isPackageActive('mask')->willReturn(true);
-        $packageManager->getPackage('mask')->willReturn($package->reveal());
-
-        // @todo Replace workaround for resolvePackagePath.
-        if (method_exists(PackageManager::class, 'resolvePackagePath')) {
-            $packageManager->resolvePackagePath(Argument::any())->will(function ($path) {
-                return Environment::getProjectPath() . str_replace('EXT:mask', '', $path[0]);
-            });
-        }
-
-        ExtensionManagementUtility::setPackageManager($packageManager->reveal());
+        $this->registerPackageManager();
 
         $iconFactory = $this->prophesize(IconFactory::class);
         $icon = new Icon();
