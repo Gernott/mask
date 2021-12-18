@@ -14,7 +14,10 @@ From v7.0.x or lower
 
 To further streamline the Mask API, the `options` key has to be removed from the
 `elements` section in the json file. It was used to resolve field types, which
-didn't have enough information by themselves.
+didn't have enough information by their own (e.g. type richtext).
+
+There is a **compatibility layer** in Mask v7 which will trigger a deprecation
+warning, if the field was migrated. This fallback will be removed in Mask v8.
 
 .. note::
 
