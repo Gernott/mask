@@ -160,18 +160,16 @@ More new features
 
    The new colorpicker field
 
-Upgrade
-=======
-
-In order to streamline the field type resolving, a small breaking change had to
-be introduced for richtext fields. This only affects installations, which were
-originally created on TYPO3 v7 / Mask v2 or lower. Please check the Upgrade
-module, if your installation needs to run an Upgrade Wizard.
-
-Read more in the :ref:`Upgrade Guide <upgrade>`.
-
 Deprecations
 ============
+
+In order to streamline the field type resolving, a small change had to be
+introduced for richtext fields. This only affects installations, which were
+originally created on TYPO3 v7 / Mask v2 or lower. Please check the Upgrade
+module, if your installation needs to run an Upgrade Wizard. There is a
+compatibility layer, so nothing will break if you ignore it.
+
+Read more in the :ref:`Upgrade Guide <upgrade>`.
 
 A lot of methods have been moved from :php:`StorageRepository` into :php:`TableDefinitionCollection`.
 The following methods are now deprecated:
