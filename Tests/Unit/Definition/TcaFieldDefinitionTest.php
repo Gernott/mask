@@ -46,6 +46,50 @@ class TcaFieldDefinitionTest extends UnitTestCase
                 'imageoverlayPalette' => 1,
             ]
         ];
+
+        yield 'Legacy Link format (wizards) transformed to fieldControl' => [
+            'json' => [
+                'key' => 'link',
+                'config' => [
+                    'type' => 'input',
+                    'wizards' => [
+                        '_PADDING' => '2',
+                        'link' => [
+                            'type' => 'popup',
+                            'title' => 'Link',
+                            'icon' => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_link.gif',
+                            'module' => [
+                                'name' => 'wizard_link',
+                                'urlParameters' => [
+                                    'mode' => 'wizard'
+                                ]
+                            ],
+                            'JSopenParams' => 'height=300,width=500,status=0,menubar=0,scrollbars=1',
+                            'params' => [
+                                'blindLinkOptions' => 'page,files',
+                                'allowedExtensions' => 'jpg'
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            'expected' => [
+                'key' => 'link',
+                'fullKey' => 'tx_mask_link',
+                'type' => 'link',
+                'config' => [
+                    'type' => 'input',
+                    'fieldControl' => [
+                        'linkPopup' => [
+                            'options' => [
+                                'blindLinkOptions' => 'page,files',
+                                'allowedExtensions' => 'jpg'
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     /**
