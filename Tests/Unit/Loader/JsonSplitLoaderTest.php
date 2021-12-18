@@ -682,7 +682,6 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'key' => 'file',
                         'fullKey' => 'tx_mask_file',
                         'imageoverlayPalette' => 1,
-                        'options' => 'file',
                     ],
                     'tx_mask_palette' => [
                         'config' => [
