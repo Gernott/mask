@@ -85,9 +85,11 @@ final class TcaFieldDefinition
         $tcaFieldDefinition->allowedFileExtensions = $definition['allowedFileExtensions'] ?? $definition['config']['filter']['0']['parameters']['allowedFileExtensions'] ?? '';
         unset($definition['config']['filter']);
 
-        // Migration for Link "allowedExtensions"
-        if (isset($definition['config']['wizards']['link']['params']['allowedExtensions'])) {
-            $definition['config']['fieldControl']['linkPopup']['options']['allowedExtensions'] = $definition['config']['wizards']['link']['params']['allowedExtensions'];
+        // Migration for type Link (Changed in TYPO3 v8 / Mask v3)
+        if (($definition['config']['wizards']['link']['module']['name'] ?? '') === 'wizard_link') {
+            $definition['config']['fieldControl']['linkPopup']['options']['allowedExtensions'] = $definition['config']['wizards']['link']['params']['allowedExtensions'] ?? '';
+            $definition['config']['fieldControl']['linkPopup']['options']['blindLinkOptions'] = $definition['config']['wizards']['link']['params']['blindLinkOptions'] ?? '';
+            $definition['type'] = FieldType::LINK;
             unset($definition['config']['wizards']);
         }
 
@@ -165,6 +167,8 @@ final class TcaFieldDefinition
         // Unset some values that are not needed in TCA
         unset(
             $definition['options'],
+            $definition['type'],
+            $definition['name'],
             $definition['key'],
             $definition['fullKey'],
             $definition['rte'],
@@ -298,7 +302,7 @@ final class TcaFieldDefinition
             $field['maskKey'] = $this->fullKey;
         }
 
-        if ($this->type && $this->type->equals(FieldType::FILE)) {
+        if ($this->type instanceof FieldType && $this->type->equals(FieldType::FILE)) {
             $field['imageoverlayPalette'] = $this->imageoverlayPalette ? 1 : 0;
         }
 

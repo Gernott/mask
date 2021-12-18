@@ -1523,7 +1523,6 @@ class StorageRepositoryTest extends BaseTestCase
                         ],
                         'key' => 'field1',
                         'fullKey' => 'tx_mask_field1',
-                        'name' => 'string',
                         'type' => 'string',
                         'description' => 'Field 1 Description'
                     ],
@@ -1534,7 +1533,6 @@ class StorageRepositoryTest extends BaseTestCase
                         ],
                         'key' => 'field2',
                         'fullKey' => 'tx_mask_field2',
-                        'name' => 'integer',
                         'type' => 'integer',
                         'description' => 'Field 2 Description'
                     ],
@@ -1545,7 +1543,6 @@ class StorageRepositoryTest extends BaseTestCase
                         'renderType' => 'inputLink',
                         'key' => 'field3',
                         'fullKey' => 'tx_mask_field3',
-                        'name' => 'link',
                         'type' => 'link',
                         'description' => 'Field 3 Description'
                     ]
