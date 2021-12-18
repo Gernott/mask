@@ -160,7 +160,8 @@ return [
             'config.appearance.fileUploadAllowed' => 1
         ],
         'tca_out' => [
-            'options' => 'file'
+            'config.type' => 'inline',
+            'config.foreign_table' => 'sys_file_reference',
         ],
         'sql' => 'int(11) unsigned DEFAULT \'0\' NOT NULL'
     ],

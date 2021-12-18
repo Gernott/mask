@@ -11,6 +11,7 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 class JsonLoaderTest extends UnitTestCase
 {
     use PackageManagerTrait;
+
     /**
      * @test
      */
@@ -21,9 +22,10 @@ class JsonLoaderTest extends UnitTestCase
         $jsonLoader = new JsonLoader(
             [
                 'json' => 'EXT:mask/Tests/UnitDeprecated/Fixtures/Configuration/legacyRte.json',
-            ],
-            new FakeConfigurationLoader()
+            ]
         );
+
+        $jsonLoader->setConfigurationLoader(new FakeConfigurationLoader());
 
         $tableDefinitionCollection = $jsonLoader->load();
         self::assertTrue($tableDefinitionCollection->loadField('tt_content', 'tx_mask_rte')->type->equals(FieldType::RICHTEXT), 'Field tx_mask_rte is not a richtext.');

@@ -22,8 +22,6 @@ use MASK\Mask\Loader\JsonLoader;
 use MASK\Mask\Tests\Unit\ConfigurationLoader\FakeConfigurationLoader;
 use MASK\Mask\Tests\Unit\PackageManagerTrait;
 use TYPO3\CMS\Core\Core\Environment;
-use TYPO3\CMS\Core\Package\PackageManager;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
@@ -32,13 +30,6 @@ class JsonLoaderTest extends UnitTestCase
     protected $resetSingletonInstances = true;
 
     use PackageManagerTrait;
-
-    public function setUp(): void
-    {
-        $packageManager = $this->prophesize(PackageManager::class);
-        $packageManager->isPackageActive('mask')->willReturn(true);
-        ExtensionManagementUtility::setPackageManager($packageManager->reveal());
-    }
 
     public function tearDown(): void
     {
@@ -56,9 +47,10 @@ class JsonLoaderTest extends UnitTestCase
         $jsonLoader = new JsonLoader(
             [
                 'json' => 'EXT:mask/Tests/Unit/Fixtures/Configuration/mask.json',
-            ],
-            new FakeConfigurationLoader()
+            ]
         );
+
+        $jsonLoader->setConfigurationLoader(new FakeConfigurationLoader());
 
         self::assertEquals($this->getExpectedConfigurationArray(), $jsonLoader->load()->toArray());
     }
@@ -74,9 +66,9 @@ class JsonLoaderTest extends UnitTestCase
         $jsonLoader = new JsonLoader(
             [
                 'json' => 'EXT:mask/var/mask.json',
-            ],
-            new FakeConfigurationLoader()
+            ]
         );
+        $jsonLoader->setConfigurationLoader(new FakeConfigurationLoader());
         $jsonLoader->write(TableDefinitionCollection::createFromArray($this->getExpectedConfigurationArray()));
         $jsonPath = Environment::getPublicPath() . '/typo3conf/ext/mask/var/mask.json';
         self::assertFileExists($jsonPath);
@@ -329,13 +321,14 @@ class JsonLoaderTest extends UnitTestCase
                         'config' => [
                             'appearance' => [
                                 'fileUploadAllowed' => 1
-                            ]
+                            ],
+                            'type' => 'inline',
+                            'foreign_table' => 'sys_file_reference',
                         ],
                         'type' => 'file',
                         'key' => 'file',
                         'fullKey' => 'tx_mask_file',
                         'imageoverlayPalette' => 1,
-                        'options' => 'file',
                     ],
                     'tx_mask_palette' => [
                         'config' => [
@@ -383,7 +376,7 @@ class JsonLoaderTest extends UnitTestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectDeprecationMessage('Expected "json" to be a valid file path. The value "../mask.json" was given.');
         $this->expectExceptionCode(1639220370);
-        $jsonLoader = new JsonLoader(['json' => '../mask.json'], new FakeConfigurationLoader());
+        $jsonLoader = new JsonLoader(['json' => '../mask.json']);
         $jsonLoader->load();
     }
 }

@@ -1,0 +1,45 @@
+{
+	"tt_content": {
+		"elements": {
+			"element1": {
+				"key": "element1",
+				"label": "Element 1",
+				"labels": {
+					"0": "Integer Field",
+					"1": "File Field",
+					"2": "RTE Field"
+				},
+				"columns": {
+					"0": "tx_mask_integer",
+					"1": "tx_mask_file",
+					"2": "tx_mask_rte"
+				}
+			}
+		},
+		"tca": {
+			"tx_mask_integer": {
+				"config": {
+					"type": "input",
+					"eval": "int,required"
+				},
+				"key": "integer"
+			},
+			"tx_mask_file": {
+				"config": {
+					"minitems": "",
+					"maxitems": ""
+				},
+				"key": "file",
+				"options": "file"
+			},
+			"tx_mask_rte": {
+				"key": "rte",
+				"config": {
+					"type": "text"
+				},
+				"type": "richtext",
+				"exclude": "1"
+			}
+		}
+	}
+}
