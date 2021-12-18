@@ -85,7 +85,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
     }
 
     /**
-     * @return \Traversable
+     * @return iterable<TableDefinition>
      */
     public function getIterator(): \Traversable
     {

@@ -46,7 +46,7 @@ final class NestedTcaFieldDefinitions implements \IteratorAggregate
     }
 
     /**
-     * @return \Traversable<TcaFieldDefinition>
+     * @return iterable<TcaFieldDefinition>
      */
     public function getIterator(): \Traversable
     {

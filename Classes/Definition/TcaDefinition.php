@@ -71,7 +71,7 @@ final class TcaDefinition implements \IteratorAggregate
     }
 
     /**
-     * @return \Traversable<TcaFieldDefinition>
+     * @return iterable<TcaFieldDefinition>
      */
     public function getIterator(): \Traversable
     {

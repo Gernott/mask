@@ -59,7 +59,7 @@ final class SqlDefinition implements \IteratorAggregate
     }
 
     /**
-     * @return \Traversable<SqlColumnDefinition>
+     * @return iterable<SqlColumnDefinition>
      */
     public function getIterator(): \Traversable
     {
