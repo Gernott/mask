@@ -52,7 +52,7 @@ final class NestedTcaFieldDefinitions implements \IteratorAggregate
     {
         $this->sortInlineFieldsByOrder();
         foreach ($this->nestedFields as $field) {
-            yield clone $field;
+            yield $field;
         }
     }
 
