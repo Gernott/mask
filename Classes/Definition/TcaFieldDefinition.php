@@ -108,18 +108,18 @@ final class TcaFieldDefinition
             $tcaFieldDefinition->type = FieldType::cast($fieldType);
         }
         // "rte" was used to identify RTE fields prior to v6.
-        if (!$tcaFieldDefinition->type && !empty($definition['rte'])) {
+        if (!$tcaFieldDefinition->type instanceof FieldType && !empty($definition['rte'])) {
             $tcaFieldDefinition->type = FieldType::cast(FieldType::RICHTEXT);
         }
         // If the field is not a core field and the field type couldn't be resolved by now, resolve type by tca config.
-        if (!$tcaFieldDefinition->type && !$tcaFieldDefinition->isCoreField) {
+        if (!$tcaFieldDefinition->type instanceof FieldType && !$tcaFieldDefinition->isCoreField) {
             $tcaFieldDefinition->type = FieldType::cast(FieldTypeUtility::getFieldType($tcaFieldDefinition->toArray(), $tcaFieldDefinition->fullKey));
         }
 
         // If imageoverlayPalette is not set (because of updates to newer version), fallback to default behaviour.
         if (isset($definition['imageoverlayPalette'])) {
             $tcaFieldDefinition->imageoverlayPalette = (bool)$definition['imageoverlayPalette'];
-        } elseif ($tcaFieldDefinition->type && $tcaFieldDefinition->type->equals(FieldType::FILE)) {
+        } elseif ($tcaFieldDefinition->type instanceof FieldType && $tcaFieldDefinition->type->equals(FieldType::FILE)) {
             $tcaFieldDefinition->imageoverlayPalette = true;
         }
 
