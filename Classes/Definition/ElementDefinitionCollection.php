@@ -67,7 +67,7 @@ final class ElementDefinitionCollection implements \IteratorAggregate
     public function getIterator(): \Traversable
     {
         foreach ($this->sort($this->definitions) as $definition) {
-            yield clone $definition;
+            yield $definition;
         }
     }
 

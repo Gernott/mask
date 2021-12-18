@@ -64,7 +64,7 @@ final class SqlDefinition implements \IteratorAggregate
     public function getIterator(): \Traversable
     {
         foreach ($this->definitions as $definition) {
-            yield clone $definition;
+            yield $definition;
         }
     }
 
