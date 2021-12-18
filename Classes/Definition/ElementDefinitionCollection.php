@@ -62,7 +62,7 @@ final class ElementDefinitionCollection implements \IteratorAggregate
     }
 
     /**
-     * @return \Traversable<ElementDefinition>
+     * @return iterable<ElementDefinition>
      */
     public function getIterator(): \Traversable
     {

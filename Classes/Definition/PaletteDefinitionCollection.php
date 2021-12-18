@@ -59,7 +59,7 @@ final class PaletteDefinitionCollection implements \IteratorAggregate
     }
 
     /**
-     * @return \Traversable<PaletteDefinition>
+     * @return iterable<PaletteDefinition>
      */
     public function getIterator(): \Traversable
     {
