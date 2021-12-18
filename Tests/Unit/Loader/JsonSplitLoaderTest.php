@@ -22,8 +22,6 @@ use MASK\Mask\Loader\JsonSplitLoader;
 use MASK\Mask\Tests\Unit\ConfigurationLoader\FakeConfigurationLoader;
 use MASK\Mask\Tests\Unit\PackageManagerTrait;
 use TYPO3\CMS\Core\Core\Environment;
-use TYPO3\CMS\Core\Package\PackageManager;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
@@ -32,13 +30,6 @@ class JsonSplitLoaderTest extends UnitTestCase
     protected $resetSingletonInstances = true;
 
     use PackageManagerTrait;
-
-    public function setUp(): void
-    {
-        $packageManager = $this->prophesize(PackageManager::class);
-        $packageManager->isPackageActive('mask')->willReturn(true);
-        ExtensionManagementUtility::setPackageManager($packageManager->reveal());
-    }
 
     public function tearDown(): void
     {
@@ -56,9 +47,10 @@ class JsonSplitLoaderTest extends UnitTestCase
             [
                 'content_elements_folder' => 'EXT:mask/Tests/Unit/Fixtures/Configuration/ContentElements',
                 'backend_layouts_folder' => 'EXT:mask/Tests/Unit/Fixtures/Configuration/BackendLayouts'
-            ],
-            new FakeConfigurationLoader()
+            ]
         );
+
+        $jsonSplitLoader->setConfigurationLoader(new FakeConfigurationLoader());
 
         self::assertEquals($this->getExpectedConfigurationArray(), $jsonSplitLoader->load()->toArray());
     }
@@ -75,9 +67,10 @@ class JsonSplitLoaderTest extends UnitTestCase
             [
                 'content_elements_folder' => 'EXT:mask/var/ContentElements',
                 'backend_layouts_folder' => 'EXT:mask/var/BackendLayouts'
-            ],
-            new FakeConfigurationLoader()
+            ]
         );
+
+        $jsonSplitLoader->setConfigurationLoader(new FakeConfigurationLoader());
 
         $jsonSplitLoader->write(TableDefinitionCollection::createFromArray($this->getExpectedConfigurationArray()));
 
@@ -324,8 +317,10 @@ class JsonSplitLoaderTest extends UnitTestCase
                     'tx_mask_file' => [
                         'config' => [
                             'appearance' => [
-                                'fileUploadAllowed' => 1
-                            ]
+                                'fileUploadAllowed' => 1,
+                            ],
+                            'type' => 'inline',
+                            'foreign_table' => 'sys_file_reference'
                         ],
                         'type' => 'file',
                         'key' => 'file',
@@ -676,7 +671,9 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'config' => [
                             'appearance' => [
                                 'fileUploadAllowed' => 1
-                            ]
+                            ],
+                            'type' => 'inline',
+                            'foreign_table' => 'sys_file_reference'
                         ],
                         'type' => 'file',
                         'key' => 'file',
@@ -729,7 +726,8 @@ class JsonSplitLoaderTest extends UnitTestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectDeprecationMessage('Expected content_elements_folder to be a correct file system path. The value "" was given.');
         $this->expectExceptionCode(1639218892);
-        $jsonSplitLoader = new JsonSplitLoader(['content_elements_folder' => '../folder'], new FakeConfigurationLoader());
+        $jsonSplitLoader = new JsonSplitLoader(['content_elements_folder' => '../folder']);
+        $jsonSplitLoader->setConfigurationLoader(new FakeConfigurationLoader());
         $jsonSplitLoader->load();
     }
 }

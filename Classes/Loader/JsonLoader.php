@@ -17,13 +17,10 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Loader;
 
-use MASK\Mask\ConfigurationLoader\ConfigurationLoaderInterface;
 use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Definition\TcaFieldDefinition;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
-use MASK\Mask\Utility\TcaConverter;
-use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class JsonLoader implements LoaderInterface
@@ -38,15 +35,11 @@ class JsonLoader implements LoaderInterface
      */
     protected $maskExtensionConfiguration;
 
-    /**
-     * @var ConfigurationLoaderInterface
-     */
-    protected $configurationLoader;
+    use DefaultTcaCompatibilityTrait;
 
-    public function __construct(array $maskExtensionConfiguration, ConfigurationLoaderInterface $configurationLoader)
+    public function __construct(array $maskExtensionConfiguration)
     {
         $this->maskExtensionConfiguration = $maskExtensionConfiguration;
-        $this->configurationLoader = $configurationLoader;
     }
 
     public function load(): TableDefinitionCollection
@@ -58,19 +51,6 @@ class JsonLoader implements LoaderInterface
             if (file_exists($maskJsonFilePath)) {
                 $json = json_decode(file_get_contents($maskJsonFilePath), true, 512, 4194304); // @todo replace with JSON_THROW_ON_ERROR in Mask v8.0
                 $this->tableDefinitionCollection = TableDefinitionCollection::createFromArray($json);
-            }
-        }
-
-        // Compatibility layer
-        foreach ($this->tableDefinitionCollection as $tableDefinition) {
-            foreach ($tableDefinition->tca as $tcaFieldDefinition) {
-                if ($tcaFieldDefinition->isCoreField) {
-                    continue;
-                }
-                // Add defaults, if missing.
-                $tcaDefaults = $this->configurationLoader->loadDefaults()[(string)$tcaFieldDefinition->type];
-                $tcaDefaults = TcaConverter::convertFlatTcaToArray($tcaDefaults['tca_out'] ?? []);
-                ArrayUtility::mergeRecursiveWithOverrule($tcaFieldDefinition->realTca, $tcaDefaults);
             }
         }
 
@@ -92,6 +72,8 @@ class JsonLoader implements LoaderInterface
                 }
             }
         }
+
+        $this->addMissingDefaults($this->tableDefinitionCollection);
 
         return $this->tableDefinitionCollection;
     }
