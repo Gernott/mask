@@ -26,7 +26,6 @@ use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Definition\TcaDefinition;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
-use MASK\Mask\Utility\TcaConverter;
 use Symfony\Component\Finder\Finder;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -78,20 +77,6 @@ class JsonSplitLoader implements LoaderInterface
                 }
 
                 $this->tableDefinitionCollection = TableDefinitionCollection::createFromArray($definitionArray);
-            }
-        }
-
-        // Compatibility layer
-        foreach ($this->tableDefinitionCollection as $tableDefinition) {
-            foreach ($tableDefinition->tca as $tcaFieldDefinition) {
-                if ($tcaFieldDefinition->isCoreField) {
-                    continue;
-                }
-                // Add defaults, if missing.
-                $realTcaFieldDefinition = $this->tableDefinitionCollection->loadField($tableDefinition->table, $tcaFieldDefinition->fullKey);
-                $tcaDefaults = $this->configurationLoader->loadDefaults()[(string)$realTcaFieldDefinition->type];
-                $tcaDefaults = TcaConverter::convertFlatTcaToArray($tcaDefaults['tca_out'] ?? []);
-                ArrayUtility::mergeRecursiveWithOverrule($realTcaFieldDefinition->realTca, $tcaDefaults);
             }
         }
 
