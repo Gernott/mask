@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Loader;
 
+use MASK\Mask\ConfigurationLoader\ConfigurationLoaderInterface;
 use MASK\Mask\Definition\ElementDefinitionCollection;
 use MASK\Mask\Definition\PaletteDefinitionCollection;
 use MASK\Mask\Definition\SqlDefinition;
@@ -46,7 +47,13 @@ class JsonSplitLoader implements LoaderInterface
         'pages' => 'backend_layouts_folder'
     ];
 
+    use ConfigCleanerTrait;
     use DefaultTcaCompatibilityTrait;
+
+    public function setConfigurationLoader(ConfigurationLoaderInterface $configurationLoader): void
+    {
+        $this->configurationLoader = $configurationLoader;
+    }
 
     public function __construct(array $maskExtensionConfiguration)
     {
@@ -75,6 +82,7 @@ class JsonSplitLoader implements LoaderInterface
             }
         }
 
+        $this->cleanUpConfig($this->tableDefinitionCollection);
         $this->addMissingDefaults($this->tableDefinitionCollection);
 
         return $this->tableDefinitionCollection;

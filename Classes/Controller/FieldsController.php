@@ -141,7 +141,7 @@ class FieldsController
                 if ($tableDefinition->sql->hasColumn($newField['key'])) {
                     $newField['sql'] = $this->tableDefinitionCollection->getTable($table)->sql->getColumn($newField['key'])->sqlDefinition;
                 }
-                $newField['tca'] = TcaConverter::convertTcaArrayToFlat($field['config'] ?? []);
+                $newField['tca'] = TcaConverter::convertTcaArrayToFlat($field['config'] ?? [], ['config']);
                 $newField['tca']['l10n_mode'] = $field['l10n_mode'] ?? '';
             }
 
