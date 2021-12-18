@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.1.5] - 2021-12-18
+
+### Fixed
+- Add compatibility layer for breaking change [Read more](https://docs.typo3.org/p/mask/mask/main/en-us/Upgrade/Index.html#from-v7-0-x-or-lower)
+- Default values for type content
+- Default TCA output values now always applied (Compatibility fix) [Read more](https://github.com/Gernott/mask/commit/f81dec13f4883155385b805985e8d90ca7e9be68)
+- Add compatibility layer for old link TCA format (wizards)
+
+### Added
+- Unknown/outdated configuration now removed, when persisting mask json
+
 ## [7.1.4] - 2021-12-18
 
 ### Fixed
