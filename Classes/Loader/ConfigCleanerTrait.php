@@ -31,6 +31,9 @@ trait ConfigCleanerTrait
     {
         foreach ($tableDefinitionCollection as $tableDefinition) {
             foreach ($tableDefinition->tca as $tcaFieldDefinition) {
+                if ($tcaFieldDefinition->isCoreField) {
+                    continue;
+                }
                 $tabConfig = $this->configurationLoader->loadTab((string)$tcaFieldDefinition->type);
                 $tcaOptions = [];
                 foreach ($tabConfig as $options) {
