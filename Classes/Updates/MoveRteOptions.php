@@ -59,7 +59,10 @@ class MoveRteOptions implements UpgradeWizardInterface
             foreach ($tableDefinition->elements as $element) {
                 foreach ($element->options as $index => $option) {
                     if ($option === 'rte') {
-                        $field = $tableDefinitionArray[$tableDefinition->table]['elements'][$element->key]['columns'][$index];
+                        $field = $tableDefinitionArray[$tableDefinition->table]['elements'][$element->key]['columns'][$index] ?? '';
+                        if ($field === '') {
+                            continue;
+                        }
                         $tableDefinitionArray[$tableDefinition->table]['tca'][$field]['config']['enableRichtext'] = 1;
                         $tableDefinitionArray[$tableDefinition->table]['tca'][$field]['type'] = FieldType::RICHTEXT;
                         unset($tableDefinitionArray[$tableDefinition->table]['elements'][$element->key]['options'][$index]);
