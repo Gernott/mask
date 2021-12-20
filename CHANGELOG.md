@@ -4,6 +4,46 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.1.6] - 2021-12-19
+
+### Fixed
+- Core fields of old mask json files do not throw exceptions anymore [#457](https://github.com/Gernott/mask/issues/457)
+
+## [7.1.5] - 2021-12-18
+
+### Fixed
+- Add compatibility layer for breaking change [Read more](https://docs.typo3.org/p/mask/mask/main/en-us/Upgrade/Index.html#from-v7-0-x-or-lower)
+- Default values for type content
+- Default TCA output values now always applied (Compatibility fix) [Read more](https://github.com/Gernott/mask/commit/f81dec13f4883155385b805985e8d90ca7e9be68)
+- Add compatibility layer for old link TCA format (wizards)
+
+### Added
+- Unknown/outdated configuration now removed, when persisting mask json
+
+## [7.1.4] - 2021-12-18
+
+### Fixed
+- Error with file fields (TCA attribute empty)
+- Another doctrine/dbal compatibility
+- Error in database update schema, when field does not exist
+
+## [7.1.3] - 2021-12-15
+
+### Fixed
+- Upgrade Wizard now correctly updates old rte format
+- PHP 8 warnings
+- Type Safety for cTypes
+
+## [7.1.2] - 2021-12-14
+
+### Fixed
+Compatibility PHP 8.1 [#455](https://github.com/Gernott/mask/issues/455)
+
+## [7.1.1] - 2021-12-14
+
+### Fixed
+Compatibility with doctrine/dbal 2.10 [#454](https://github.com/Gernott/mask/issues/454)
+
 ## [7.1.0] - 2021-12-14
 
 This is a big release (despite only the minor version has changed)! Huge cleanup
