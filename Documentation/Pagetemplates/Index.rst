@@ -15,11 +15,14 @@ sitepackage. The page record is not available by default in mask elements!
 
 Mask does not create any backend layouts. You have to do it by yourself. There are 2 different methods:
 
-* Go to the list module and create a new Backend Layout record
-* Define your Backend Layouts with TSconfig
+*  Go to the list module and create a new Backend Layout record
+*  Define your Backend Layouts with TSconfig (recommended)
 
-Mask will know about your database backend layouts, if they can be found in the pids defined in the :ref:`extension settings<extension-settings-pids>`.
-Backend Layouts defined with TSconfig will always be found.
+Mask will know about all your database backend layouts. The ones defined by
+TSconfig will only be found, if they are within the rootline of the pids defined
+in the :ref:`extension settings<extension-settings-pids>`. By default this value
+is `0`, thus all will be found.
+
 
 .. figure:: ../Images/PageTemplates/BackendLayout.png
    :alt: Backend Layout in Mask
