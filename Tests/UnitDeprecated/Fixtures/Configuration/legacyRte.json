@@ -11,7 +11,8 @@
 					"0": "tx_mask_rte"
 				},
 				"options": {
-					"0": "rte"
+					"0": "rte",
+					"1": "rte"
 				}
 			}
 		},

@@ -70,7 +70,13 @@ class JsonLoader implements LoaderInterface
                 foreach ($element->options as $index => $option) {
                     if ($option === 'rte') {
                         trigger_error('Migration for options rte done in element "' . $element->key . '". Please update your json definition.', E_USER_DEPRECATED);
-                        $fieldKey = $element->columns[$index];
+                        $fieldKey = $element->columns[$index] ?? '';
+
+                        // Sometimes these options are orphans and weren't removed..
+                        if ($fieldKey === '') {
+                            continue;
+                        }
+
                         $field = $this->tableDefinitionCollection->loadField($tableDefinition->table, $fieldKey);
                         if ($field instanceof TcaFieldDefinition) {
                             $field->type = new FieldType(FieldType::RICHTEXT);
