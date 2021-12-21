@@ -267,7 +267,8 @@ final class TableDefinitionCollection implements \IteratorAggregate
                     $elementsInUse->addElement($element);
                     break;
                 }
-                if ($this->getFieldType($column, $table)->equals(FieldType::PALETTE)) {
+                $fieldDefinition = $this->loadField($table, $column);
+                if ($fieldDefinition instanceof TcaFieldDefinition && !$fieldDefinition->isCoreField && $fieldDefinition->type->equals(FieldType::PALETTE)) {
                     foreach ($definition->palettes->getPalette($column)->showitem as $item) {
                         if ($item === $key) {
                             $elementsInUse->addElement($element);

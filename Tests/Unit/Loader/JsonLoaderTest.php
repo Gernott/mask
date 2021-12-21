@@ -241,7 +241,7 @@ class JsonLoaderTest extends UnitTestCase
                         ],
                         'fullKey' => 'tx_mask_a',
                         'type' => 'string',
-                        'key' => 'a'
+                        'key' => 'a',
                     ],
                     'tx_mask_b' => [
                         'config' => [
@@ -249,7 +249,7 @@ class JsonLoaderTest extends UnitTestCase
                         ],
                         'fullKey' => 'tx_mask_b',
                         'type' => 'string',
-                        'key' => 'b'
+                        'key' => 'b',
                     ],
                     'tx_mask_repeat1' => [
                         'config' => [
@@ -315,6 +315,9 @@ class JsonLoaderTest extends UnitTestCase
                         ],
                         'order' => [
                             'b' => 1
+                        ],
+                        'description' => [
+                            'b' => ''
                         ]
                     ],
                     'tx_mask_file' => [
