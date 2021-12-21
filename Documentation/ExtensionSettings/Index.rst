@@ -57,6 +57,7 @@ backendlayout_pids
 __________________
 
 | Page ids from where the in PageTS defined backend layouts should be loaded (comma separated).
+| Default: 0 (root-pid, all layouts are found)
 
 Frontend
 ========
