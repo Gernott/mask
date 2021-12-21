@@ -17,8 +17,6 @@ setUpDockerComposeDotEnv() {
     # use $UID directly itself since it is a shell variable and not an env variable, so
     # we have to set it explicitly here.
     echo "HOST_UID=`id -u`" >> .env
-    # Your local home directory for composer and npm caching
-    echo "HOST_HOME=${HOME}" >> .env
     # Your local user
     echo "ROOT_DIR"=${ROOT_DIR} >> .env
     echo "HOST_USER=${USER}" >> .env
