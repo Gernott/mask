@@ -66,4 +66,9 @@ final class FieldType extends Enumeration
     {
         return !in_array($this->value, [self::INLINE, self::CONTENT, self::PALETTE, self::TAB, self::LINEBREAK], true);
     }
+
+    public function hasDescription(): bool
+    {
+        return $this->value === self::PALETTE || $this->canBeShared();
+    }
 }
