@@ -198,9 +198,7 @@ final class TcaFieldDefinition
             unset($definition['description']);
         }
 
-        $definition = self::removeBlankOptions($definition, $definition['type']);
-
-        return $definition;
+        return self::removeBlankOptions($definition, $definition['config']['type'] ?? '');
     }
 
     public function hasInlineParent($elementKey = ''): bool
