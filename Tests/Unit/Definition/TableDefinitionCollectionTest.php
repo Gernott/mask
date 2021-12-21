@@ -35,7 +35,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                             ],
                             'key' => 'a',
                             'inlineParent' => 'tx_mask_a1',
-                            'order' => 1
+                            'order' => 3
                         ],
                         'tx_mask_b' => [
                             'config' => [
@@ -43,7 +43,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                             ],
                             'key' => 'b',
                             'inlineParent' => 'tx_mask_a1',
-                            'order' => 2
+                            'order' => 1
                         ]
                     ]
                 ]
@@ -55,10 +55,10 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     'config' => [
                         'type' => 'input'
                     ],
-                    'key' => 'a',
+                    'key' => 'b',
                     'inlineParent' => 'tx_mask_a1',
-                    'maskKey' => 'tx_mask_a',
-                    'fullKey' => 'tx_mask_a',
+                    'maskKey' => 'tx_mask_b',
+                    'fullKey' => 'tx_mask_b',
                     'order' => 1,
                     'type' => 'string'
                 ],
@@ -66,17 +66,17 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     'config' => [
                         'type' => 'input'
                     ],
-                    'key' => 'b',
+                    'key' => 'a',
                     'inlineParent' => 'tx_mask_a1',
-                    'maskKey' => 'tx_mask_b',
-                    'fullKey' => 'tx_mask_b',
-                    'order' => 2,
+                    'maskKey' => 'tx_mask_a',
+                    'fullKey' => 'tx_mask_a',
+                    'order' => 3,
                     'type' => 'string'
-                ]
+                ],
             ]
         ];
 
-        yield 'inline fields loaded recursivelely' => [
+        yield 'inline fields loaded recursively' => [
             'json' => [
                 'tx_mask_a1' => [
                     'tca' => [
@@ -194,7 +194,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'element1' => 'tx_mask_a'
                             ],
                             'order' => [
-                                'element1' => 3
+                                'element1' => 1
                             ],
                         ]
                     ]
@@ -203,6 +203,22 @@ class TableDefinitionCollectionTest extends BaseTestCase
             'parent' => 'tx_mask_a',
             'element' => 'element1',
             'expected' => [
+                [
+                    'config' => [
+                        'type' => 'input'
+                    ],
+                    'key' => 'c',
+                    'inPalette' => '1',
+                    'inlineParent' => [
+                        'element1' => 'tx_mask_a'
+                    ],
+                    'order' => [
+                        'element1' => 1
+                    ],
+                    'maskKey' => 'tx_mask_c',
+                    'fullKey' => 'tx_mask_c',
+                    'type' => 'string'
+                ],
                 [
                     'config' => [
                         'type' => 'input'
@@ -219,22 +235,6 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     'fullKey' => 'tx_mask_b',
                     'type' => 'string'
                 ],
-                [
-                    'config' => [
-                        'type' => 'input'
-                    ],
-                    'key' => 'c',
-                    'inPalette' => '1',
-                    'inlineParent' => [
-                        'element1' => 'tx_mask_a'
-                    ],
-                    'order' => [
-                        'element1' => 3
-                    ],
-                    'maskKey' => 'tx_mask_c',
-                    'fullKey' => 'tx_mask_c',
-                    'type' => 'string'
-                ]
             ]
         ];
 
