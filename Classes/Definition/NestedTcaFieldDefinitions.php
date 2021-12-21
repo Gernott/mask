@@ -32,9 +32,8 @@ final class NestedTcaFieldDefinitions implements \IteratorAggregate
 
     public function toArray(): array
     {
-        $this->sortInlineFieldsByOrder();
         $nestedFields = [];
-        foreach ($this->nestedFields as $field) {
+        foreach ($this->sortInlineFieldsByOrder($this->nestedFields) as $field) {
             $nestedFields[] = $field->toArray(true);
         }
         return $nestedFields;
@@ -50,8 +49,7 @@ final class NestedTcaFieldDefinitions implements \IteratorAggregate
      */
     public function getIterator(): \Traversable
     {
-        $this->sortInlineFieldsByOrder();
-        foreach ($this->nestedFields as $field) {
+        foreach ($this->sortInlineFieldsByOrder($this->nestedFields) as $field) {
             yield $field;
         }
     }
@@ -60,7 +58,7 @@ final class NestedTcaFieldDefinitions implements \IteratorAggregate
      * Sort inline fields recursively.
      * @param array<TcaFieldDefinition> $nestedFields
      */
-    private function sortInlineFieldsByOrder(array $nestedFields = []): void
+    private function sortInlineFieldsByOrder(array $nestedFields = []): array
     {
         usort(
             $nestedFields,
@@ -71,8 +69,10 @@ final class NestedTcaFieldDefinitions implements \IteratorAggregate
 
         foreach ($nestedFields as $field) {
             if (!empty($field->inlineFields)) {
-                $this->sortInlineFieldsByOrder($field->inlineFields);
+                $field->inlineFields = $this->sortInlineFieldsByOrder($field->inlineFields);
             }
         }
+
+        return $nestedFields;
     }
 }
