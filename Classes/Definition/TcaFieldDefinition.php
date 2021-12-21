@@ -23,6 +23,12 @@ use MASK\Mask\Utility\FieldTypeUtility;
 
 final class TcaFieldDefinition
 {
+    private const ALLOWED_VALUES_BY_TYPE = [
+        'slug' => [
+            'replacements'
+        ]
+    ];
+
     public $key = '';
     public $fullKey = '';
     /** @var FieldType */
@@ -192,7 +198,7 @@ final class TcaFieldDefinition
             unset($definition['description']);
         }
 
-        $definition = self::removeBlankOptions($definition);
+        $definition = self::removeBlankOptions($definition, $definition['type']);
 
         return $definition;
     }
@@ -359,11 +365,14 @@ final class TcaFieldDefinition
     /**
      * Removes all the blank options from the tca
      */
-    protected static function removeBlankOptions(array $haystack): array
+    protected static function removeBlankOptions(array $haystack, string $type = ''): array
     {
         foreach ($haystack as $key => $value) {
+            if ($type !== '' && array_key_exists($type, self::ALLOWED_VALUES_BY_TYPE) && in_array($key, self::ALLOWED_VALUES_BY_TYPE[$type])) {
+                continue;
+            }
             if (is_array($value)) {
-                $haystack[$key] = self::removeBlankOptions($value);
+                $haystack[$key] = self::removeBlankOptions($value, $type);
             }
             if ((is_array($haystack[$key]) && empty($haystack[$key])) || (is_string($haystack[$key]) && $haystack[$key] === '')) {
                 unset($haystack[$key]);
