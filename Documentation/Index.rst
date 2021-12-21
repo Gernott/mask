@@ -29,8 +29,8 @@ Mask
       2015-2021
 
    :Authors:
-     WEBprofil - Gernot Ploiner e.U.
-     Nikita Hovratov
+     | WEBprofil - Gernot Ploiner e.U.
+     | Nikita Hovratov
 
    :License:
       This document is published under the Open Content License
