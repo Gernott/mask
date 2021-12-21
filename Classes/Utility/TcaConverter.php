@@ -62,6 +62,15 @@ class TcaConverter
                     $replacementsAsText .= $search . ',' . $replace . PHP_EOL;
                 }
                 $tca[] = [$fullPath => trim($replacementsAsText)];
+            } elseif ($key === 'fields') {
+                $fields = [];
+                foreach ($value as $field) {
+                    if (is_array($field)) {
+                        $field = implode('|', $field);
+                    }
+                    $fields[] = $field;
+                }
+                $tca[] = [$fullPath => implode(',',  $fields)];
             } elseif (is_array($value)) {
                 $tca[] = self::convertTcaArrayToFlat($value, $path);
             } elseif ($key === 'eval' || $key === 'blindLinkOptions') {
@@ -115,6 +124,16 @@ class TcaConverter
                     $replacements[trim($search)] = trim($replace);
                 }
                 $value = $replacements;
+            }
+            if ($key === 'config.generatorOptions.fields') {
+                $fields = [];
+                foreach (explode(',', $value) as $field) {
+                    if (strpos($field, '|') !== false) {
+                        $field = explode('|', $field);
+                    }
+                    $fields[] = $field;
+                }
+                $value = $fields;
             }
             // This is for timestamps as it has a fake tca property for eval date, datetime, ...
             if ($key === 'config.eval' && in_array($value, ['date', 'datetime', 'time', 'timesec'])) {
