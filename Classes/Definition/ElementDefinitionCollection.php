@@ -85,12 +85,37 @@ final class ElementDefinitionCollection implements \IteratorAggregate
         return count($this->definitions);
     }
 
-    protected function sort($definitions): array
+    private function sort($definitions): array
     {
-        usort($definitions, static function ($a, $b) {
-            return $a->sorting <=> $b->sorting;
-        });
+        if (PHP_VERSION_ID < 80000) {
+            $this->stable_usort($definitions, static function ($a, $b) {
+                return $a->sorting <=> $b->sorting;
+            });
+        } else {
+            usort($definitions, static function ($a, $b) {
+                return $a->sorting <=> $b->sorting;
+            });
+        }
 
         return $definitions;
+    }
+
+    /**
+     * Taken from https://wiki.php.net/rfc/stable_sorting
+     */
+    private function stable_usort(array &$array, callable $compare): void
+    {
+        $arrayAndPos = [];
+        $pos = 0;
+        foreach ($array as $value) {
+            $arrayAndPos[] = [$value, $pos++];
+        }
+        usort($arrayAndPos, static function($a, $b) use($compare) {
+            return $compare($a[0], $b[0]) ?: $a[1] <=> $b[1];
+        });
+        $array = [];
+        foreach ($arrayAndPos as $elem) {
+            $array[] = $elem[0];
+        }
     }
 }

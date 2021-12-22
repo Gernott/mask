@@ -56,7 +56,7 @@ final class ElementDefinition
         $elementDefinition->descriptions = $elementArray['descriptions'] ?? [];
         $elementDefinition->options = $elementArray['options'] ?? [];
         $elementDefinition->hidden = !empty($elementArray['hidden']);
-        $elementDefinition->sorting = $elementArray['sorting'] ?? 0;
+        $elementDefinition->sorting = (int)($elementArray['sorting'] ?? 0);
 
         return $elementDefinition;
     }
