@@ -33,12 +33,14 @@ class DescriptionsByElementCompatibilityTest extends UnitTestCase
                             'Field direct description',
                             'Palette 1',
                             'Inline Field',
+                            ''
                         ],
                         'columns' => [
                             'tx_mask_field',
                             'tx_mask_direct',
                             'tx_mask_palette',
                             'tx_mask_inline',
+                            'header'
                         ],
                     ],
                 ],
@@ -94,6 +96,9 @@ class DescriptionsByElementCompatibilityTest extends UnitTestCase
                         'type' => 'inline',
                         'description' => 'Inline Field Description'
                     ],
+                    'header' => [
+                        'key' => 'header'
+                    ]
                 ],
                 'palettes' => [
                     'tx_mask_palette' => [
@@ -119,18 +124,21 @@ class DescriptionsByElementCompatibilityTest extends UnitTestCase
                             'Field direct description',
                             'Palette 1',
                             'Inline Field',
+                            '',
                         ],
                         'columns' => [
                             'tx_mask_field',
                             'tx_mask_direct',
                             'tx_mask_palette',
                             'tx_mask_inline',
+                            'header',
                         ],
                         'descriptions' => [
                             '',
                             'Direct description',
                             'Palette description',
                             'Inline Field Description',
+                            '',
                         ],
                         'description' => '',
                         'shortLabel' => '',
@@ -202,6 +210,11 @@ class DescriptionsByElementCompatibilityTest extends UnitTestCase
                         'fullKey' => 'tx_mask_inline',
                         'type' => 'inline',
                     ],
+                    'header' => [
+                        'key' => 'header',
+                        'fullKey' => 'header',
+                        'coreField' => 1
+                    ]
                 ],
                 'palettes' => [
                     'tx_mask_palette' => [
