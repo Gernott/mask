@@ -19,6 +19,7 @@ namespace MASK\Mask\CodeGenerator;
 
 use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Enumeration\FieldType;
+use MASK\Mask\Loader\LoaderInterface;
 use MASK\Mask\Utility\AffixUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -29,18 +30,18 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class HtmlCodeGenerator
 {
     /**
-     * @var TableDefinitionCollection
+     * @var LoaderInterface
      */
-    protected $tableDefinitionCollection;
+    protected $loader;
 
     /**
      * @var int
      */
     protected $indent = 4;
 
-    public function __construct(TableDefinitionCollection $tableDefinitionCollection)
+    public function __construct(LoaderInterface $loader)
     {
-        $this->tableDefinitionCollection = $tableDefinitionCollection;
+        $this->loader = $loader;
     }
 
     /**
@@ -48,7 +49,8 @@ class HtmlCodeGenerator
      */
     public function generateHtml(string $elementKey, string $table): string
     {
-        $element = $this->tableDefinitionCollection->loadElement($table, $elementKey);
+        $tableDefinitionCollection = $this->loader->load();
+        $element = $tableDefinitionCollection->loadElement($table, $elementKey);
 
         if (!$element) {
             return '';
@@ -72,8 +74,9 @@ class HtmlCodeGenerator
      */
     protected function generateFieldHtml(string $fieldKey, string $elementKey, string $table, string $datafield = 'data', int $depth = 0): string
     {
+        $tableDefinitionCollection = $this->loader->load();
         $html = [];
-        $fieldType = $this->tableDefinitionCollection->getFieldType($fieldKey, $table);
+        $fieldType = $tableDefinitionCollection->getFieldType($fieldKey, $table);
         if (!$fieldType->isRenderable()) {
             return '';
         }
@@ -127,7 +130,7 @@ class HtmlCodeGenerator
                 $html[] = $this->drawWhitespace(1 + $depth) . '<ul>';
                 $html[] = $this->drawWhitespace(2 + $depth) . '<f:for each="{' . $datafield . '.' . $fieldKey . '}" as="' . $datafield . '_item' . '">';
                 $html[] = $this->drawWhitespace(3 + $depth) . '<li>';
-                foreach ($this->tableDefinitionCollection->loadInlineFields($fieldKey, $elementKey) as $inlineField) {
+                foreach ($tableDefinitionCollection->loadInlineFields($fieldKey, $elementKey) as $inlineField) {
                     $html[] = $this->generateFieldHtml($inlineField->fullKey, $elementKey, $fieldKey, $datafield . '_item', 4 + $depth);
                 }
                 $html[] = $this->drawWhitespace(3 + $depth) . '</li>';
@@ -136,7 +139,7 @@ class HtmlCodeGenerator
                 $html[] = $this->drawWhitespace(0 + $depth) . '</f:if>';
                 break;
             case FieldType::PALETTE:
-                foreach ($this->tableDefinitionCollection->loadInlineFields($fieldKey, $elementKey) as $paletteField) {
+                foreach ($tableDefinitionCollection->loadInlineFields($fieldKey, $elementKey) as $paletteField) {
                     $part = $this->generateFieldHtml($paletteField->fullKey, $elementKey, $table, $datafield, $depth);
                     if ($part !== '') {
                         $html[] = $part;
