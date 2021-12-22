@@ -63,15 +63,14 @@ return [
         'tca_in' => [
             'config.size' => 10,
             'config.eval.slug' => 'unique',
-        ],
-        'tca_out' => [
-            'config.type' => 'slug',
             'config.generatorOptions.fieldSeparator' => '/',
             'config.generatorOptions.prefixParentPageSlug' => 1,
             'config.fallbackCharacter' => '-',
             'config.prependSlash' => 1,
         ],
-
+        'tca_out' => [
+            'config.type' => 'slug',
+        ],
         'sql' => 'varchar(255) DEFAULT \'\' NOT NULL'
     ],
     FieldType::DATE => [
