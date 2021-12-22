@@ -26,7 +26,6 @@ trait DescriptionByElementCompatibilityTrait
 {
     public function addMissingDescriptionsByElement(TableDefinitionCollection $tableDefinitionCollection): void
     {
-        // Add defaults, if missing. This can happen on updates or when the defaults change.
         foreach ($tableDefinitionCollection as $tableDefinition) {
             // Fields on custom tables can't have descriptions by element.
             if (AffixUtility::hasMaskPrefix($tableDefinition->table)) {
