@@ -41,7 +41,9 @@ trait ConfigCleanerTrait
                         $tcaOptions[] = array_keys($row);
                     }
                 }
-                $tcaOptions = array_merge([], ...$tcaOptions);
+                // These fields are not defined in the tabs files, but instead are hard-coded in the template.
+                $fieldsToNotThrowAway = ['label', 'description'];
+                $tcaOptions = array_merge([], $fieldsToNotThrowAway, ...$tcaOptions);
 
                 $tcaFieldDefinition->realTca = array_filter(TcaConverter::convertTcaArrayToFlat($tcaFieldDefinition->realTca), static function ($key) use ($tcaOptions) {
                     return in_array($key, $tcaOptions, true);
