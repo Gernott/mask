@@ -178,6 +178,8 @@ class InlineHelper
             $data[$field . '_items'] = $this->getRelations($data[$field], $GLOBALS['TCA'][$table]['columns'][$field]['config']['foreign_table']);
         } elseif ((($GLOBALS['TCA'][$table]['columns'][$field]['config']['internal_type'] ?? '') !== 'folder') && $fieldType->equals(FieldType::GROUP)) {
             $data[$field . '_items'] = $this->getRelations($data[$field], $GLOBALS['TCA'][$table]['columns'][$field]['config']['allowed']);
+        } elseif ($fieldType->equals(FieldType::SELECT) && ($GLOBALS['TCA'][$table]['columns'][$field]['config']['renderType'] ?? '') === 'selectCheckBox') {
+            $data[$field . '_items'] = isset($data[$field]) && strlen($data[$field]) > 0 ? explode(',', $data[$field]) : [];
         }
     }
 
