@@ -90,6 +90,51 @@ class TcaFieldDefinitionTest extends UnitTestCase
                 ]
             ]
         ];
+
+        yield 'Blank options are removed' => [
+            'json' => [
+                'config' => [
+                    'type' => 'input'
+                ],
+                'type' => 'string',
+                'key' => 'field1',
+                'foo' => '',
+                'bar' => 'baz',
+            ],
+            'expected' => [
+                'config' => [
+                    'type' => 'input'
+                ],
+                'type' => 'string',
+                'key' => 'field1',
+                'fullKey' => 'tx_mask_field1',
+                'bar' => 'baz',
+            ]
+        ];
+
+        yield 'Allowed blank options by type not removed' => [
+            'json' => [
+                'config' => [
+                    'type' => 'slug',
+                    'replacements' => [
+                        'foo' => ''
+                    ]
+                ],
+                'type' => 'slug',
+                'key' => 'field1',
+            ],
+            'expected' => [
+                'config' => [
+                    'type' => 'slug',
+                    'replacements' => [
+                        'foo' => ''
+                    ]
+                ],
+                'type' => 'slug',
+                'key' => 'field1',
+                'fullKey' => 'tx_mask_field1',
+            ]
+        ];
     }
 
     /**

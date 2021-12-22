@@ -23,8 +23,8 @@ use MASK\Mask\Utility\FieldTypeUtility;
 
 final class TcaFieldDefinition
 {
-    private const ALLOWED_VALUES_BY_TYPE = [
-        'slug' => [
+    private const ALLOWED_EMPTY_VALUES_BY_TYPE = [
+        FieldType::SLUG => [
             'replacements'
         ]
     ];
@@ -366,7 +366,7 @@ final class TcaFieldDefinition
     protected static function removeBlankOptions(array $haystack, string $type = ''): array
     {
         foreach ($haystack as $key => $value) {
-            if ($type !== '' && array_key_exists($type, self::ALLOWED_VALUES_BY_TYPE) && in_array($key, self::ALLOWED_VALUES_BY_TYPE[$type])) {
+            if ($type !== '' && array_key_exists($type, self::ALLOWED_EMPTY_VALUES_BY_TYPE) && in_array($key, self::ALLOWED_EMPTY_VALUES_BY_TYPE[$type], true)) {
                 continue;
             }
             if (is_array($value)) {
