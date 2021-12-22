@@ -34,7 +34,7 @@ trait DescriptionByElementCompatibilityTrait
             }
 
             foreach ($tableDefinition->tca as $tcaFieldDefinition) {
-                if (!$tcaFieldDefinition->type->isRenderable()) {
+                if ($tcaFieldDefinition->type instanceof FieldType && !$tcaFieldDefinition->type->isRenderable()) {
                     continue;
                 }
 
@@ -45,17 +45,19 @@ trait DescriptionByElementCompatibilityTrait
                 }
 
                 // Go through all palette fields on the root level.
-                if ($tcaFieldDefinition->type->equals(FieldType::PALETTE)) {
+                if ($tcaFieldDefinition->type instanceof FieldType && $tcaFieldDefinition->type->equals(FieldType::PALETTE)) {
                     $paletteField = $tableDefinition->palettes->getPalette($tcaFieldDefinition->fullKey);
                     foreach ($paletteField->showitem as $item) {
                         $itemField = $tableDefinitionCollection->loadField($tableDefinition->table, $item);
 
-                        if (!$tcaFieldDefinition->type->hasDescription()) {
-                            continue;
-                        }
+                        if ($itemField instanceof TcaFieldDefinition) {
+                            if ($itemField->type instanceof FieldType && !$itemField->type->hasDescription()) {
+                                continue;
+                            }
 
-                        if ($itemField instanceof TcaFieldDefinition && $itemField->descriptionByElement === []) {
-                            $this->fillDescriptions($tableDefinitionCollection, $itemField, $tableDefinition->table);
+                            if ($itemField->descriptionByElement === []) {
+                                $this->fillDescriptions($tableDefinitionCollection, $itemField, $tableDefinition->table);
+                            }
                         }
                     }
                 }
@@ -87,7 +89,7 @@ trait DescriptionByElementCompatibilityTrait
         }
 
         // If palette, add it to the palette definition as well.
-        if ($tcaFieldDefinition->type->equals(FieldType::PALETTE)) {
+        if ($tcaFieldDefinition->type instanceof FieldType && $tcaFieldDefinition->type->equals(FieldType::PALETTE)) {
             $paletteDefinition = $tableDefinitionCollection->getTable($table)->palettes->getPalette($tcaFieldDefinition->fullKey);
             if ($paletteDefinition->description === '') {
                 $paletteDefinition->description = $descriptionToUse;
