@@ -40,7 +40,7 @@
 				<source>Fields</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.slug.generatorOptions.fields.description">
-				<source>Holds information about the record fields to be used for slug generation. To use multiple fields add a comma between the field keys, if you want to define multiple fields that in case the first field is empty the second provided field is used, separate the field keys with a pipe.</source>
+				<source>Holds information about the record fields to be used for slug generation. To use multiple fields add a comma between the field keys. If you want to define a fallback field, separate the field keys with a pipe. Example: nav_title|title,other_field</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.slug.generatorOptions.fieldSeparator">
 				<source>Field Separator</source>
