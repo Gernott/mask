@@ -90,7 +90,7 @@ Why Mask
 
 Mask in not the only content element creation extension. There is also `Dynamic Content Elements (DCE) <https://extensions.typo3.org/extension/dce>`__ .
 In contrast to Mask, DCE utilizes flexforms extensively. The downsides of using
-flexform is already discussed above. The backend module is build the good old
+flexform is already discussed above. The backend module is built the good old
 fashioned way. The overview of the fields of an element can become a bit
 overwhelming, if your element grows. Also you have to adjust the TCA manually
 after TYPO3 upgrades, as there are no migrations. DCE loads your content
@@ -120,7 +120,7 @@ A content element consists of:
 *  PHP - Data Processing
 
 As you can see, there is a lot of initial setup and additional configuration
-needed for creation one single element. Read the :ref:`official documentation for
+needed for creating one single element. Read the :ref:`official documentation for
 custom content elements <t3coreapi:adding-your-own-content-elements>` for a
 complete overview.
 
