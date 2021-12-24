@@ -46,7 +46,8 @@ class ConfigCleanerTraitTest extends UnitTestCase
                         'key' => 'rte',
                         'config' => [
                             'type' => 'text',
-                            'foo' => 'bar'
+                            'foo' => 'bar',
+                            'enableRichtext' => 1
                         ],
                         'type' => 'richtext',
                         'exclude' => '1',
@@ -78,6 +79,10 @@ class ConfigCleanerTraitTest extends UnitTestCase
                 ],
                 'tca' => [
                     'tx_mask_rte' => [
+                        'config' => [
+                            'type' => 'text',
+                            'enableRichtext' => 1
+                        ],
                         'key' => 'rte',
                         'fullKey' => 'tx_mask_rte',
                         'type' => 'richtext',
