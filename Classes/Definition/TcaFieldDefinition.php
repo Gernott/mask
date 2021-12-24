@@ -25,7 +25,7 @@ final class TcaFieldDefinition
 {
     private const ALLOWED_EMPTY_VALUES_BY_TYPE = [
         FieldType::SLUG => [
-            'replacements'
+            'config.generatorOptions.replacements'
         ]
     ];
 
@@ -105,9 +105,6 @@ final class TcaFieldDefinition
             unset($definition['config']['foreign_record_defaults']);
         }
 
-        // Now config is clean. Extract real TCA.
-        $tcaFieldDefinition->realTca = self::extractRealTca($definition);
-
         // Type resolving.
         // "options" was used for identifying file fields prior to v6.
         // "name" was renamed to "type" in mask 7.1.
@@ -115,6 +112,10 @@ final class TcaFieldDefinition
         if ($fieldType !== null) {
             $tcaFieldDefinition->type = FieldType::cast($fieldType);
         }
+
+        // Now config is clean. Extract real TCA.
+        $tcaFieldDefinition->realTca = self::extractRealTca($definition, $tcaFieldDefinition);
+
         // "rte" was used to identify RTE fields prior to v6.
         if (!$tcaFieldDefinition->type instanceof FieldType && !empty($definition['rte'])) {
             $tcaFieldDefinition->type = FieldType::cast(FieldType::RICHTEXT);
@@ -168,7 +169,7 @@ final class TcaFieldDefinition
         return $tcaFieldDefinition;
     }
 
-    private static function extractRealTca(array $definition): array
+    private static function extractRealTca(array $definition, TcaFieldDefinition $fieldDefinition): array
     {
         // Unset some values that are not needed in TCA
         unset(
@@ -198,7 +199,7 @@ final class TcaFieldDefinition
             unset($definition['description']);
         }
 
-        return self::removeBlankOptions($definition, $definition['config']['type'] ?? '');
+        return self::removeBlankOptions($definition, $fieldDefinition);
     }
 
     public function hasInlineParent($elementKey = ''): bool
@@ -363,18 +364,26 @@ final class TcaFieldDefinition
     /**
      * Removes all the blank options from the tca
      */
-    protected static function removeBlankOptions(array $haystack, string $type = ''): array
+    protected static function removeBlankOptions(array $haystack, TcaFieldDefinition $fieldDefinition, array $path = []): array
     {
         foreach ($haystack as $key => $value) {
-            if ($type !== '' && array_key_exists($type, self::ALLOWED_EMPTY_VALUES_BY_TYPE) && in_array($key, self::ALLOWED_EMPTY_VALUES_BY_TYPE[$type], true)) {
+            $path[] = $key;
+            $fullPath = implode('.', $path);
+            if (
+                $fieldDefinition->type instanceof FieldType
+                && array_key_exists((string)$fieldDefinition->type, self::ALLOWED_EMPTY_VALUES_BY_TYPE)
+                && in_array($fullPath, self::ALLOWED_EMPTY_VALUES_BY_TYPE[(string)$fieldDefinition->type], true)
+            ) {
+                array_pop($path);
                 continue;
             }
             if (is_array($value)) {
-                $haystack[$key] = self::removeBlankOptions($value, $type);
+                $haystack[$key] = self::removeBlankOptions($value, $fieldDefinition, $path);
             }
             if ((is_array($haystack[$key]) && empty($haystack[$key])) || (is_string($haystack[$key]) && $haystack[$key] === '')) {
                 unset($haystack[$key]);
             }
+            array_pop($path);
         }
         return $haystack;
     }

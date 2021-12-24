@@ -116,8 +116,10 @@ class TcaFieldDefinitionTest extends UnitTestCase
             'json' => [
                 'config' => [
                     'type' => 'slug',
-                    'replacements' => [
-                        'foo' => ''
+                    'generatorOptions' => [
+                        'replacements' => [
+                            'foo' => ''
+                        ]
                     ]
                 ],
                 'type' => 'slug',
@@ -126,8 +128,10 @@ class TcaFieldDefinitionTest extends UnitTestCase
             'expected' => [
                 'config' => [
                     'type' => 'slug',
-                    'replacements' => [
-                        'foo' => ''
+                    'generatorOptions' => [
+                        'replacements' => [
+                            'foo' => ''
+                        ]
                     ]
                 ],
                 'type' => 'slug',
