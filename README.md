@@ -4,50 +4,45 @@
 
 # Mask
 
-Create your own content elements and page templates. Easy to use, even without programming skills, because of the
-comfortable drag and drop user interface. All content is stored in structured database tables.
+Mask is a content element builder that generates TypoScript, TSconfig and TCA on
+the fly. You can build your own custom content elements in a user-friendly
+backend module via drag and drop. Your configuration is stored in json files,
+which can be shared across projects.
 
-## What does it do?
-
-Mask is a TYPO3 extension for creating content elements and extending page templates. It’s possible to add new fields
-to any element. Fields can have several types, for example: text, file, relations, rich text, ...
+Mask provides different ield types, that you can use to
+customize your content elements. Depending on the type there are different
+options available. Field types are grouped roughly into input, repeating and
+structural fields. With these given tools, you can cover almost all typical
+requirements for your projects. And if not, Mask can be extended
+via TCA overrides or DataProcessors.
 
 ## Quickstart
 
-Download Mask with composer by running the command `composer require mask/mask` or install via extension manager.
-It is important to add Mask as a dependency in your `ext_emconf.php` and/or `composer.json`, so you can override the
-generated TCA. Before you start using Mask, you must define various paths. Add the snippet below to your
-`LocalConfiguration.php` in the `EXTENSIONS` section:
+1. Add Mask as a dependency in your `ext_emconf.php` and/or `composer.json` of your sitepackage.
+2. Download Mask with composer by running the command `composer require mask/mask` or install via extension manager.
+3. Activate Mask in the extension manager (not needed in TYPO3 v11 composer mode).
+4. Mask requires `fluid_styled_content` so go to your static includes in the template module and include it there.
+5. Also include the Mask static TypoScript.
+6. Navigate to the Mask module and enter your sitepackage extension key for auto-configuration (your extension must be loaded!).
+7. Start creating your own content elements!
 
-```
-'mask' => [
-    'loader_identifier' => 'json',
-    'backend' => 'EXT:sitepackage/Resources/Private/Mask/Backend/Templates/',
-    'backendlayout_pids' => '0,1',
-    'content' => 'EXT:sitepackage/Resources/Private/Mask/Frontend/Templates/',
-    'json' => 'EXT:sitepackage/Configuration/Mask/mask.json',
-    'content_elements_folder' => 'EXT:sitepackage/Configuration/Mask/ContentElements',
-    'backend_layouts_folder' => 'EXT:sitepackage/Configuration/Mask/BackendLayouts',
-    'layouts' => 'EXT:sitepackage/Resources/Private/Mask/Frontend/Layouts/',
-    'layouts_backend' => 'EXT:sitepackage/Resources/Private/Mask/Backend/Layouts/',
-    'partials' => 'EXT:sitepackage/Resources/Private/Mask/Frontend/Partials/',
-    'partials_backend' => 'EXT:sitepackage/Resources/Private/Mask/Backend/Partials/',
-    'preview' => 'EXT:sitepackage/Resources/Public/Mask/',
-],
-```
+## Manual configuration
 
-Adjust the paths to your sitepackage extension and activate Mask. When you visit the Mask backend, you will have the
-option to create all missing files and folders defined here. This is also great to have in version control so others
-will have this already set up when checking out.
+If you don't want to use the default folder structure created by the auto-configuration, you can adjust every path in
+the extension configuration of Mask.
 
-Alternatively, leave the configuration empty and visit the Mask module. There
-will be an Auto-Configuration form, that will generate all the above
-configuration for you automatically, if you provide a key of a loaded extension.
+## Advantages of Mask
 
-Mask requires `fluid_styled_content` so go to your static includes in the template module and include it there.
-**After** that also include the Mask static TypoScript.
+* Mask stores the content in columns in database tables – not as XML (Flexform)
+* Mask reuses existing database fields to conserve the database
+* Mask works only with existing features of the TYPO3 core: backend layouts, Fluid, TypoScript
+* Silent TCA migrations allow for easy TYPO3 upgrades to new major versions
+* Mask allows repeating content with IRRE technology
+* Mask supports multi-language projects
+* Mask supports workspaces and versioning
+* The Mask backend is a single page application based on VueJS for even more comfort
 
-That's it. Now you can start creating your own content elements!
+Read a detailed explanation for each advantage and why to use Mask over other alternatives in the [official documentation](https://docs.typo3.org/p/mask/mask/main/en-us/Introduction/Index.html).
 
 ## Mask versions
 
@@ -61,17 +56,6 @@ That's it. Now you can start creating your own content elements!
 | v3           | v8            | 2017-05-23   | discontinued        |                                                                                                |
 | v2           | v7            | 2016-05-10   | discontinued        |                                                                                                |
 | v1           | v6, v7        | 2015-08-12   | discontinued        |                                                                                                |
-
-## Advantages of Mask
-
-* Mask stores the content in columns in database tables – not as XML (Flexform)
-* Mask reuses existing database fields to conserve the database
-* Mask works only with existing features of the TYPO3 core: backend layouts, Fluid, TypoScript
-* Silent TCA migrations allow for easy TYPO3 upgrades to new major versions
-* Mask allows repeating content with IRRE technology
-* Mask supports multi-language projects
-* Mask supports workspaces and versioning
-* The Mask backend is a single page application based on VueJS for even more comfort
 
 ## Need help?
 
