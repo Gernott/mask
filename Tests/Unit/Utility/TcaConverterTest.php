@@ -108,7 +108,17 @@ class TcaConverterTest extends BaseTestCase
                 [
                     'config.generatorOptions.fields' => 'a|b,c'
                 ],
-            ]
+            ],
+            'slug eval converted to special slug eval' => [
+                [
+                    'type' => 'slug',
+                    'eval' => 'unique'
+                ],
+                [
+                    'config.type' => 'slug',
+                    'config.eval.slug' => 'unique',
+                ],
+            ],
         ];
     }
 
@@ -210,6 +220,18 @@ class TcaConverterTest extends BaseTestCase
                                 'c'
                             ]
                         ]
+                    ]
+                ]
+            ],
+            'slug eval converted to normal eval' => [
+                [
+                    'config.type' => 'slug',
+                    'config.eval.slug' => 'unique',
+                ],
+                [
+                    'config' => [
+                        'type' => 'slug',
+                        'eval' => 'unique',
                     ]
                 ]
             ],
