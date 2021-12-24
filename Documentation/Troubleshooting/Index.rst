@@ -48,6 +48,8 @@ filled with values. In this case either completely delete the column and run
 the database analyzer anew or update the old default values with the new one.
 For example :sql:`UPDATE tt_content SET tx_mask_field = 0 WHERE tx_mask_field IS NULL`.
 
+.. _row-size-too-large:
+
 On save error: Row size too large
 =================================
 

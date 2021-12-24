@@ -1,5 +1,7 @@
 .. include:: ../../Includes.txt
 
+.. _mask-v7.0:
+
 ==============
 Mask version 7
 ==============
