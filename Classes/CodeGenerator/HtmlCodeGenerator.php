@@ -156,7 +156,6 @@ class HtmlCodeGenerator
             case FieldType::STRING:
             case FieldType::INTEGER:
             case FieldType::COLORPICKER:
-            case FieldType::SLUG:
                 $html[] = $this->drawWhitespace(0 + $depth) . '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">';
                 $html[] = $this->drawWhitespace(1 + $depth) . '{' . $datafield . '.' . $fieldKey . '}';
                 $html[] = $this->drawWhitespace(0 + $depth) . '</f:if>';
@@ -175,6 +174,9 @@ class HtmlCodeGenerator
                 $html[] = $this->drawWhitespace(0 + $depth) . '<f:if condition="{' . $datafield . '.' . $fieldKey . '}">';
                 $html[] = $this->drawWhitespace(1 + $depth) . '{' . $datafield . '.' . $fieldKey . ' -> f:format.nl2br()}';
                 $html[] = $this->drawWhitespace(0 + $depth) . '</f:if>';
+                break;
+            case FieldType::SLUG:
+                $html[] = $this->drawWhitespace(0 + $depth) . '<div id="{' . $datafield . '.' . $fieldKey . '}"></div>';
                 break;
         }
         return implode("\n", $html);
