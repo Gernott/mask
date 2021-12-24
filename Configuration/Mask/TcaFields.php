@@ -95,6 +95,62 @@ return [
         ],
         'documentation' => 'ColumnsConfig/Type/inputDateTime.html#eval'
     ],
+    // This is for slug only to define slug config
+    'config.eval.slug' => [
+        'type' => 'radio',
+        'label' => 'tx_mask.field.slug_eval',
+        'description' => 'tx_mask.field.slug_eval.description',
+        'code' => 'eval',
+        'items' => [
+            'unique' => 'tx_mask.field.slug_unique',
+            'uniqueInSite' => 'tx_mask.field.slug_unique_in_site',
+            'uniqueInPid' => 'tx_mask.field.slug_unique_in_pid',
+        ],
+        'documentation' => 'ColumnsConfig/Type/Slug.html#eval'
+    ],
+    'config.generatorOptions.fields' => [
+        'type' => 'text',
+        'label' => 'tx_mask.field.slug.generatorOptions.fields',
+        'description' => 'tx_mask.field.slug.generatorOptions.fields.description',
+        'code' => 'generatorOptions.fields',
+        'documentation' => 'ColumnsConfig/Type/Slug.html#generatoroptions'
+    ],
+    'config.generatorOptions.fieldSeparator' => [
+        'type' => 'text',
+        'label' => 'tx_mask.field.slug.generatorOptions.fieldSeparator',
+        'description' => 'tx_mask.field.slug.generatorOptions.fieldSeparator.description',
+        'code' => 'generatorOptions.fieldSeparator',
+        'documentation' => 'ColumnsConfig/Type/Slug.html#generatoroptions'
+    ],
+    'config.generatorOptions.prefixParentPageSlug' => [
+        'type' => 'checkbox',
+        'label' => 'tx_mask.field.slug.generatorOptions.prefixParentPageSlug',
+        'description' => 'tx_mask.field.slug.generatorOptions.prefixParentPageSlug.description',
+        'code' => 'generatorOptions.prefixParentPageSlug',
+        'documentation' => 'ColumnsConfig/Type/Slug.html#generatoroptions'
+    ],
+    'config.generatorOptions.replacements' => [
+        'type' => 'textarea',
+        'rows' => 5,
+        'label' => 'tx_mask.field.slug.generatorOptions.replacements',
+        'description' => 'tx_mask.field.slug.generatorOptions.replacements.description',
+        'code' => 'generatorOptions.replacements',
+        'documentation' => 'ColumnsConfig/Type/Slug.html#generatoroptions'
+    ],
+    'config.prependSlash' => [
+        'type' => 'checkbox',
+        'label' => 'tx_mask.field.slug.prependSlash',
+        'description' => 'tx_mask.field.slug.prependSlash.description',
+        'code' => 'prependSlash',
+        'documentation' => 'ColumnsConfig/Type/Slug.html#prependslash'
+    ],
+    'config.fallbackCharacter' => [
+        'type' => 'text',
+        'label' => 'tx_mask.field.slug.fallbackCharacter',
+        'description' => 'tx_mask.field.slug.fallbackCharacter.description',
+        'code' => 'fallbackCharacter',
+        'documentation' => 'ColumnsConfig/Type/Slug.html#fallbackcharacter'
+    ],
     'config.eval.required' => [
         'type' => 'checkbox',
         'label' => 'tx_mask.field.required',

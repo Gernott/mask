@@ -41,6 +41,7 @@ final class FieldType extends Enumeration
     public const PALETTE = 'palette';
     public const LINEBREAK = 'linebreak';
     public const COLORPICKER = 'colorpicker';
+    public const SLUG = 'slug';
 
     public function isGroupingField(): bool
     {

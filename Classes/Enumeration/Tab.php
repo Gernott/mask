@@ -30,4 +30,5 @@ final class Tab extends Enumeration
     public const LOCALIZATION = 'localization';
     public const VALIDATION = 'validation';
     public const WIZARDS = 'wizards';
+    public const GENERATOR = 'generator';
 }

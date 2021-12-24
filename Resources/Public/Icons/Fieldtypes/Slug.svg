@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+    <g id="Gruppe_5" data-name="Gruppe 5" transform="translate(-83 -1003)">
+        <g id="Gruppe_3" data-name="Gruppe 3" transform="translate(-8)">
+            <g id="Gruppe_1" data-name="Gruppe 1" transform="translate(91 1003)">
+                <g id="g30">
+                    <rect id="rect28" width="64" height="64" fill="#ac9d93"/>
+                </g>
+            </g>
+            <g id="Gruppe_2" data-name="Gruppe 2" transform="translate(-0.331 1)">
+                <path id="Pfad_1" data-name="Pfad 1" d="M37,0H5.286A5.3,5.3,0,0,0,0,5.3V29.163a5.3,5.3,0,0,0,5.286,5.3h7.928v6.959a.99.99,0,0,0,.991.994.946.946,0,0,0,.586-.2l10.315-7.755H37a5.3,5.3,0,0,0,5.286-5.3V5.3A5.3,5.3,0,0,0,37,0ZM38.32,29.163A1.327,1.327,0,0,1,37,30.489H23.785l-1.057.8-5.55,4.176V30.489H5.286a1.327,1.327,0,0,1-1.321-1.326V5.3A1.327,1.327,0,0,1,5.286,3.977H37A1.327,1.327,0,0,1,38.32,5.3Z" transform="translate(102.023 1013.032)" fill="#fff"/>
+            </g>
+        </g>
+        <g id="Gruppe_4" data-name="Gruppe 4" transform="translate(-75.69 3.81)">
+            <line id="Linie_1" data-name="Linie 1" x1="2.713" y2="20.19" transform="translate(185.477 1016.69)" fill="none" stroke="#fff" stroke-width="3"/>
+            <line id="Linie_5" data-name="Linie 5" x1="2.713" y2="20.19" transform="translate(193.477 1016.69)" fill="none" stroke="#fff" stroke-width="3"/>
+            <line id="Linie_3" data-name="Linie 3" y2="19.379" transform="translate(200.379 1022.134) rotate(90)" fill="none" stroke="#fff" stroke-width="3"/>
+            <line id="Linie_4" data-name="Linie 4" y2="19.379" transform="translate(200.379 1031.403) rotate(90)" fill="none" stroke="#fff" stroke-width="3"/>
+        </g>
+    </g>
+</svg>

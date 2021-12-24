@@ -175,6 +175,9 @@ class HtmlCodeGenerator
                 $html[] = $this->drawWhitespace(1 + $depth) . '{' . $datafield . '.' . $fieldKey . ' -> f:format.nl2br()}';
                 $html[] = $this->drawWhitespace(0 + $depth) . '</f:if>';
                 break;
+            case FieldType::SLUG:
+                $html[] = $this->drawWhitespace(0 + $depth) . '<div id="{' . $datafield . '.' . $fieldKey . '}"></div>';
+                break;
         }
         return implode("\n", $html);
     }

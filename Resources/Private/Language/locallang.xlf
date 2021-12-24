@@ -18,6 +18,60 @@
 			<trans-unit id="tx_mask.field.colorpicker">
 				<source>Colorpicker</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.slug">
+				<source>Slug</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.slug_eval">
+				<source>Validation</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.slug_eval.description">
+				<source>Configuration of field evaluation.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.slug_unique">
+				<source>Unique</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.slug_unique_in_site">
+				<source>Unique in site</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.slug_unique_in_pid">
+				<source>Unique in pid</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.slug.generatorOptions.fields">
+				<source>Fields</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.slug.generatorOptions.fields.description">
+				<source>Holds information about the record fields to be used for slug generation. To use multiple fields add a comma between the field keys. If you want to define a fallback field, separate the field keys with a pipe. Example: nav_title|title,other_field</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.slug.generatorOptions.fieldSeparator">
+				<source>Field Separator</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.slug.generatorOptions.fieldSeparator.description">
+				<source>This value will divide the slug parts. If a section value contains this very value, it will be replaced by the value given in fallbackCharacter.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.slug.generatorOptions.prefixParentPageSlug">
+				<source>Prefix parent page slug</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.slug.generatorOptions.prefixParentPageSlug.description">
+				<source>The slugs of parent pages will be prefixed to the slug for the page itself. Disable it for shorter URLs, but take the higher chance of collision into consideration.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.slug.generatorOptions.replacements">
+				<source>Replacements</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.slug.generatorOptions.replacements.description">
+				<source>It allows to replace strings of a slug part. One entry each line, comma separated. The first entry is the search string and the second entry is the replace string.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.slug.fallbackCharacter">
+				<source>Fallback character</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.slug.fallbackCharacter.description">
+				<source>Character that represents the separator of slug sections, that contain the fieldSeparator.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.slug.prependSlash">
+				<source>Prepend slash</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.slug.prependSlash.description">
+				<source>Defines whether a slug field should contain a prepending slash, e.g. for nested categories with speaking segments</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.date">
 				<source>Date</source>
 			</trans-unit>
@@ -962,6 +1016,9 @@ title3, value3, icon3, description3
 			<trans-unit id="tx_mask.tabs.files">
 				<source>Files</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.tabs.generator">
+				<source>Generator</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.imageoverlayPalette">
 				<source>Imageoverlay palette</source>
 			</trans-unit>
@@ -1057,6 +1114,9 @@ title3, value3, icon3, description3
 			</trans-unit>
 			<trans-unit id="tx_mask.choice">
 				<source>Choice</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.special">
+				<source>Special</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.repeating">
 				<source>Repeating</source>

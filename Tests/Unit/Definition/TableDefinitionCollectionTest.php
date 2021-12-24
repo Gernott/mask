@@ -1284,6 +1284,43 @@ class TableDefinitionCollectionTest extends BaseTestCase
                 'tt_content',
                 FieldType::RICHTEXT
             ],
+            'Colorpicker resolved' => [
+                [],
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'tx_mask_field1' => [
+                                'config' => [
+                                    'type' => 'input',
+                                    'renderType' => 'colorpicker',
+                                ],
+                                'key' => 'field1'
+                            ]
+                        ]
+                    ]
+                ],
+                'tx_mask_field1',
+                'tt_content',
+                FieldType::COLORPICKER
+            ],
+            'Slug resolved' => [
+                [],
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'tx_mask_field1' => [
+                                'config' => [
+                                    'type' => 'slug',
+                                ],
+                                'key' => 'field1'
+                            ]
+                        ]
+                    ]
+                ],
+                'tx_mask_field1',
+                'tt_content',
+                FieldType::SLUG
+            ]
         ];
     }
 

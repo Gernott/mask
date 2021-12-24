@@ -436,6 +436,10 @@ class AjaxController
                         'label' => LocalizationUtility::translate('tx_mask.choice', 'mask')
                     ],
                     [
+                        'name' => 'special',
+                        'label' => LocalizationUtility::translate('tx_mask.special', 'mask')
+                    ],
+                    [
                         'name' => 'repeating',
                         'label' => LocalizationUtility::translate('tx_mask.repeating', 'mask')
                     ],
@@ -708,6 +712,7 @@ class AjaxController
             Tab::LOCALIZATION => 'tx_mask.tabs.localization',
             Tab::VALIDATION => 'tx_mask.tabs.validation',
             Tab::WIZARDS => 'tx_mask.tabs.wizards',
+            Tab::GENERATOR => 'tx_mask.tabs.generator'
         ];
 
         foreach ($tabs as $key => $tab) {

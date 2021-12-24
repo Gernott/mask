@@ -20,7 +20,7 @@ namespace MASK\Mask\Test\Utility;
 use MASK\Mask\Utility\TcaConverter;
 use TYPO3\TestingFramework\Core\BaseTestCase;
 
-class TcaConverterUtilityTest extends BaseTestCase
+class TcaConverterTest extends BaseTestCase
 {
     public function convertTcaArrayToFlatTestDataProvider()
     {
@@ -96,6 +96,42 @@ class TcaConverterUtilityTest extends BaseTestCase
                     'config.fieldControl.linkPopup.options.blindLinkOptions.folder' => 1,
                 ]
             ],
+            'slug fields converted to flat array structure' => [
+                [
+                    'generatorOptions' => [
+                        'fields' => [
+                            ['a', 'b'],
+                            'c'
+                        ]
+                    ]
+                ],
+                [
+                    'config.generatorOptions.fields' => 'a|b,c'
+                ],
+            ],
+            'slug eval converted to special slug eval' => [
+                [
+                    'type' => 'slug',
+                    'eval' => 'unique'
+                ],
+                [
+                    'config.type' => 'slug',
+                    'config.eval.slug' => 'unique',
+                ],
+            ],
+            'slug replacements converted from array back to csv' => [
+                [
+                    'generatorOptions' => [
+                        'replacements' => [
+                            'a' => 'b',
+                            'c' => '',
+                        ]
+                    ]
+                ],
+                [
+                    'config.generatorOptions.replacements' => "a,b\nc,"
+                ]
+            ],
         ];
     }
 
@@ -103,12 +139,12 @@ class TcaConverterUtilityTest extends BaseTestCase
      * @test
      * @dataProvider convertTcaArrayToFlatTestDataProvider
      */
-    public function convertTcaArrayToFlatTest($array, $expected)
+    public function convertTcaArrayToFlatTest(array $array, array $expected): void
     {
         self::assertSame($expected, TcaConverter::convertTcaArrayToFlat($array, ['config']));
     }
 
-    public function convertFlatTcaToArrayTestDataProvider()
+    public function convertFlatTcaToArrayTestDataProvider(): iterable
     {
         return [
             'Simple flat array is converted to original TCA array' => [
@@ -185,16 +221,56 @@ class TcaConverterUtilityTest extends BaseTestCase
                     ]
                 ],
             ],
+            'slug fields converted to nested array structure' => [
+                [
+                    'config.generatorOptions.fields' => 'a|b,c'
+                ],
+                [
+                    'config' => [
+                        'generatorOptions' => [
+                            'fields' => [
+                                ['a', 'b'],
+                                'c'
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            'slug eval converted to normal eval' => [
+                [
+                    'config.type' => 'slug',
+                    'config.eval.slug' => 'unique',
+                ],
+                [
+                    'config' => [
+                        'type' => 'slug',
+                        'eval' => 'unique',
+                    ]
+                ]
+            ],
+            'slug replacements converted from csv to array representation' => [
+                [
+                    'config.generatorOptions.replacements' => "a,b\nc,"
+                ],
+                [
+                    'config' => [
+                        'generatorOptions' => [
+                            'replacements' => [
+                                'a' => 'b',
+                                'c' => '',
+                            ]
+                        ]
+                    ]
+                ],
+            ],
         ];
     }
 
     /**
      * @test
      * @dataProvider convertFlatTcaToArrayTestDataProvider
-     * @param $array
-     * @param $expected
      */
-    public function convertFlatTcaToArrayTest($array, $expected)
+    public function convertFlatTcaToArrayTest(array $array, array $expected): void
     {
         self::assertSame($expected, TcaConverter::convertFlatTcaToArray($array));
     }
