@@ -21,7 +21,7 @@ class DefaultTcaCompatibilityTraitTest extends UnitTestCase
     {
         $this->registerPackageManager();
 
-        $loader = new class {
+        $loader = new class() {
             use DefaultTcaCompatibilityTrait;
         };
 

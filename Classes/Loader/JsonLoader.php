@@ -128,7 +128,7 @@ class JsonLoader implements LoaderInterface
     protected function getJsonFilePath(): string
     {
         if (($this->maskExtensionConfiguration['json'] ?? '') === '') {
-           return '';
+            return '';
         }
 
         return MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration['json']);

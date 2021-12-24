@@ -110,7 +110,7 @@ final class ElementDefinitionCollection implements \IteratorAggregate
         foreach ($array as $value) {
             $arrayAndPos[] = [$value, $pos++];
         }
-        usort($arrayAndPos, static function($a, $b) use($compare) {
+        usort($arrayAndPos, static function ($a, $b) use ($compare) {
             return $compare($a[0], $b[0]) ?: $a[1] <=> $b[1];
         });
         $array = [];
