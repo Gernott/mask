@@ -62,7 +62,7 @@ return [
     FieldType::SLUG => [
         'tca_in' => [
             'config.size' => 10,
-            'config.eval.slug' => 'unique',
+            'config.eval.slug' => 'uniqueInPid',
             'config.generatorOptions.fieldSeparator' => '/',
             'config.generatorOptions.prefixParentPageSlug' => 1,
             'config.fallbackCharacter' => '-',
