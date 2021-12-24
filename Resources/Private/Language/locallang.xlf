@@ -1115,6 +1115,9 @@ title3, value3, icon3, description3
 			<trans-unit id="tx_mask.choice">
 				<source>Choice</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.special">
+				<source>Special</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.repeating">
 				<source>Repeating</source>
 			</trans-unit>

@@ -436,6 +436,10 @@ class AjaxController
                         'label' => LocalizationUtility::translate('tx_mask.choice', 'mask')
                     ],
                     [
+                        'name' => 'special',
+                        'label' => LocalizationUtility::translate('tx_mask.special', 'mask')
+                    ],
+                    [
                         'name' => 'repeating',
                         'label' => LocalizationUtility::translate('tx_mask.repeating', 'mask')
                     ],
