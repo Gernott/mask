@@ -35,6 +35,7 @@ trait ConfigCleanerTrait
                     continue;
                 }
                 $tabConfig = $this->configurationLoader->loadTab((string)$tcaFieldDefinition->type);
+                $defaultsOut = array_keys($this->configurationLoader->loadDefaults()[(string)$tcaFieldDefinition->type]['tca_out'] ?? []);
                 $tcaOptions = [];
                 foreach ($tabConfig as $options) {
                     foreach ($options as $row) {
@@ -43,11 +44,13 @@ trait ConfigCleanerTrait
                 }
                 // These fields are not defined in the tabs files, but instead are hard-coded in the template.
                 $fieldsToNotThrowAway = ['label', 'description'];
-                $tcaOptions = array_merge([], $fieldsToNotThrowAway, ...$tcaOptions);
+                $tcaOptions = array_merge([], $fieldsToNotThrowAway, $defaultsOut, ...$tcaOptions);
 
-                $tcaFieldDefinition->realTca = array_filter(TcaConverter::convertTcaArrayToFlat($tcaFieldDefinition->realTca), static function ($key) use ($tcaOptions) {
+                 $cleanedConfig = array_filter(TcaConverter::convertTcaArrayToFlat($tcaFieldDefinition->realTca), static function ($key) use ($tcaOptions) {
                     return in_array($key, $tcaOptions, true);
                 }, ARRAY_FILTER_USE_KEY);
+
+                $tcaFieldDefinition->realTca = TcaConverter::convertFlatTcaToArray($cleanedConfig);
             }
         }
     }
