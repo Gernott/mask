@@ -62,7 +62,7 @@ class TcaConverter
                     $replacementsAsText .= $search . ',' . $replace . PHP_EOL;
                 }
                 $tca[] = [$fullPath => trim($replacementsAsText)];
-            } elseif ($key === 'fields') {
+            } elseif ($fullPath === 'config.generatorOptions.fields') {
                 $fields = [];
                 foreach ($value as $field) {
                     if (is_array($field)) {
