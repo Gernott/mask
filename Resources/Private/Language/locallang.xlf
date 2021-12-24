@@ -25,7 +25,7 @@
 				<source>Slug Mode</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.slug_eval.description">
-				<source>Configuration of field evaluation. No other eval setting is checked for. It is possible to set multiple keywords, however it is recommended not to do so.</source>
+				<source>Configuration of field evaluation.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.slug_unique">
 				<source>Unique</source>
