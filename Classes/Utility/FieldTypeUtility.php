@@ -80,6 +80,8 @@ class FieldTypeUtility
                 return FieldType::INLINE;
             case 'category':
                 return FieldType::SELECT;
+            case 'slug':
+                return FieldType::SLUG;
             default:
                 // Check if fake tca type is valid.
                 try {
