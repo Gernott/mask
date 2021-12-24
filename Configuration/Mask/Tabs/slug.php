@@ -16,7 +16,6 @@ return [
         [
             'config.generatorOptions.fieldSeparator' => 6,
             'config.fallbackCharacter' => 6,
-
         ],
         [
             'config.generatorOptions.prefixParentPageSlug' => 6,
