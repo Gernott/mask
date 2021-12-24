@@ -9,13 +9,14 @@ Installation
 .. note::
    Before you start using mask, you should have set up your :ref:`sitepackage<sitepackage>`.
 
-Add Mask as dependency
-======================
+Preparations
+============
 
-It is important to add Mask as a dependency in your `ext_emconf.php` of your sitepackage. This ensures, Mask is loaded
-**before** your Theme extension. Only then, you can override the generated TCA from Mask in your Overrides folder.
+It is important to add Mask as a dependency in your `ext_emconf.php` of your
+sitepackage. This ensures, Mask is loaded **before** your Theme extension. Only
+then, you can override the generated TCA from Mask in your Overrides folder.
 
-::
+.. code-block:: php
 
    $EM_CONF[$_EXTKEY] = [
        'constraints' => [
@@ -37,56 +38,46 @@ anymore, when in composer mode.
       }
    }
 
+.. note::
+
+   If you add the dependency after Mask is already installed and activated, you
+   need to rebuild the loading order by reinstalling your extension.
+
 Install and configure
 =====================
 
-Download Mask with composer by running the command `composer require mask/mask` or install via extension manager.
-The first thing you have to do is to define the paths to various template directories.
-The easiest way to change the paths is to add the snippet below to your `LocalConfiguration.php` in the :php:`EXTENSIONS` section:
+.. rst-class:: bignums
 
-::
+   1. Download Mask with composer by running the command `composer require mask/mask` or install via extension manager.
 
-   ...
-   'mask' = [
-       'loader_identifier' => 'json',
-       'backend' => 'EXT:sitepackage/Resources/Private/Mask/Backend/Templates/',
-       'backendlayout_pids' => '0,1',
-       'content' => 'EXT:sitepackage/Resources/Private/Mask/Frontend/Templates/',
-       'json' => 'EXT:sitepackage/Configuration/Mask/mask.json',
-       'content_elements_folder' => 'EXT:sitepackage/Configuration/Mask/ContentElements',
-       'backend_layouts_folder' => 'EXT:sitepackage/Configuration/Mask/BackendLayouts',
-       'layouts' => 'EXT:sitepackage/Resources/Private/Mask/Frontend/Layouts/',
-       'layouts_backend' => 'EXT:sitepackage/Resources/Private/Mask/Backend/Layouts/',
-       'partials' => 'EXT:sitepackage/Resources/Private/Mask/Frontend/Partials/',
-       'partials_backend' => 'EXT:sitepackage/Resources/Private/Mask/Backend/Partials/',
-       'preview' => 'EXT:sitepackage/Resources/Public/Mask/',
-   ],
-   ...
+   2. Activate Mask in the extension manager (not needed in TYPO3 v11 composer mode)
 
-Explanations for the settings can be found :ref:`here <extension-settings>`.
-Adjust the paths to your needs and activate the extension. When you visit the Mask backend, you will have the option to
-create all missing files and folders defined here.
+   3. Mask requires `fluid_styled_content` so go to your static includes in the template module and include it there.
 
-.. note::
-   This is also great to have in version control so others will have this already set up when checking out the project.
+      :ref:`Read here how to include static templates <t3sitepackage:typo3-backend-typoscript-template>`
 
-.. versionadded:: 7.1.0
+      | You can install this core extension in composer mode with the command
+      | `composer require typo3/cms-fluid-styled-content`
 
-If you didn't configure yet anything and visit the Mask module, you are able to
-auto-configure the paths. You simply have to provide an extension key of a
-**loaded** extension.
+   4. Also include the Mask static TypoScript.
 
-.. figure:: ../Images/Mask7.1/AutoConfiguration.png
-   :alt: Mask auto-configuration
-   :class: with-border
+   5. Navigate to the Mask module and enter your sitepackage extension key for auto-configuration (your extension must be loaded!).
 
-   Mask warns you about missing configuration
+   6. Start creating your own content elements!
 
-Include TypoScript
-==================
+Manual configuration
+====================
 
-Mask works best with :ref:`fluid_styled_content <fluid-styled-content>` so go to your static includes in the template
-module and include it there. **After** that also include the Mask static TypoScript.
+If you don't want to use the default folder structure created by the auto-configuration, you can adjust every path in
+the :ref:`extension configuration <extension-settings>` of Mask.
+
+.. tip::
+
+   It is great to have the `LocalConfiguration.php` file (where the extension configuration is stored)
+   in version control so others will have this already set up when checking out the project.
+
+Screenshots
+===========
 
 .. figure:: ../Images/AdministratorManual/TypoScriptTemplate.png
    :alt: Include TypoScript Template
@@ -94,4 +85,10 @@ module and include it there. **After** that also include the Mask static TypoScr
 
    Include TypoScript Template
 
-That's it. Now you can start creating your own content elements!
+.. versionadded:: 7.1.0
+
+.. figure:: ../Images/Mask7.1/AutoConfiguration.png
+   :alt: Mask auto-configuration
+   :class: with-border
+
+   Mask warns you about missing configuration
