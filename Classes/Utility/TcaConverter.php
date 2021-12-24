@@ -129,7 +129,7 @@ class TcaConverter
                 $replacements = [];
                 foreach (explode("\n", $value) as $line) {
                     [$search, $replace] = explode(',', $line);
-                    $replacements[trim($search)] = trim($replace);
+                    $replacements[trim($search)] = trim($replace ?? '');
                 }
                 $value = $replacements;
             }
