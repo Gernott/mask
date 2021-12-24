@@ -48,18 +48,18 @@ class TcaConverter
         foreach ($config as $key => $value) {
             $path[] = $key;
             $fullPath = implode('.', $path);
-            if ($key === 'items') {
+            if ($fullPath === 'config.items') {
                 $items = $value;
                 $itemText = '';
                 foreach ($items as $item) {
                     $itemText .= implode(',', $item) . "\n";
                 }
                 $tca[] = [$fullPath => trim($itemText)];
-            } elseif ($key === 'replacements') {
+            } elseif ($fullPath === 'config.generatorOptions.replacements') {
                 $replacements = $value;
                 $replacementsAsText = '';
                 foreach ($replacements as $search => $replace) {
-                    $replacementsAsText .= $search . ',' . $replace . PHP_EOL;
+                    $replacementsAsText .= $search . ',' . $replace . "\n";
                 }
                 $tca[] = [$fullPath => trim($replacementsAsText)];
             } elseif ($fullPath === 'config.generatorOptions.fields') {

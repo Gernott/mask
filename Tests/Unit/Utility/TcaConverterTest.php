@@ -119,6 +119,19 @@ class TcaConverterTest extends BaseTestCase
                     'config.eval.slug' => 'unique',
                 ],
             ],
+            'slug replacements converted from array back to csv' => [
+                [
+                    'generatorOptions' => [
+                        'replacements' => [
+                            'a' => 'b',
+                            'c' => '',
+                        ]
+                    ]
+                ],
+                [
+                    'config.generatorOptions.replacements' => "a,b\nc,"
+                ]
+            ],
         ];
     }
 
@@ -234,6 +247,21 @@ class TcaConverterTest extends BaseTestCase
                         'eval' => 'unique',
                     ]
                 ]
+            ],
+            'slug replacements converted from csv to array representation' => [
+                [
+                    'config.generatorOptions.replacements' => "a,b\nc,"
+                ],
+                [
+                    'config' => [
+                        'generatorOptions' => [
+                            'replacements' => [
+                                'a' => 'b',
+                                'c' => '',
+                            ]
+                        ]
+                    ]
+                ],
             ],
         ];
     }
