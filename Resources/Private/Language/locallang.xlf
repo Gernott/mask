@@ -22,7 +22,7 @@
 				<source>Slug</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.slug_eval">
-				<source>Slug Mode</source>
+				<source>Validation</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.slug_eval.description">
 				<source>Configuration of field evaluation.</source>
