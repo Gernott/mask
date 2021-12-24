@@ -18,7 +18,7 @@ class DescriptionsByElementCompatibilityTest extends UnitTestCase
      */
     public function descriptionsByElementsAddedIfMissing(): void
     {
-        $loader = new class {
+        $loader = new class() {
             use DescriptionByElementCompatibilityTrait;
         };
 
