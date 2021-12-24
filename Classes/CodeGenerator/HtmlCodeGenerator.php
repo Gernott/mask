@@ -82,11 +82,11 @@ class HtmlCodeGenerator
         switch ((string)$fieldType) {
             case FieldType::SELECT:
                 if (($GLOBALS['TCA'][$table]['columns'][$fieldKey]['config']['foreign_table'] ?? '') !== '') {
-                    $html[] =  $this->drawWhitespace(0 + $depth) . '<f:for each="{' . $datafield . '.' . $fieldKey . '_items}" as="' . $datafield . '_item' . '">';
+                    $html[] = $this->drawWhitespace(0 + $depth) . '<f:for each="{' . $datafield . '.' . $fieldKey . '_items}" as="' . $datafield . '_item' . '">';
                     $html[] = $this->drawWhitespace(1 + $depth) . '<div>{' . $datafield . '_item.uid}' . '</div>';
                     $html[] = $this->drawWhitespace(0 + $depth) . '</f:for>';
                 } elseif (($GLOBALS['TCA'][$table]['columns'][$fieldKey]['config']['renderType'] ?? '') === 'selectCheckBox') {
-                    $html[] =  $this->drawWhitespace(0 + $depth) . '<f:for each="{' . $datafield . '.' . $fieldKey . '_items}" as="' . $datafield . '_item' . '">';
+                    $html[] = $this->drawWhitespace(0 + $depth) . '<f:for each="{' . $datafield . '.' . $fieldKey . '_items}" as="' . $datafield . '_item' . '">';
                     $html[] = $this->drawWhitespace(1 + $depth) . '<div>{' . $datafield . '_item}' . '</div>';
                     $html[] = $this->drawWhitespace(0 + $depth) . '</f:for>';
                 } else {
