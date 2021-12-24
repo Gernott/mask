@@ -8,24 +8,125 @@ Introduction
 
 .. _what-it-does:
 
-What does it do?
-================
+What is Mask
+============
 
-Mask is a TYPO3-extension for creating content elements and extending page templates. It is possible to add new fields
-to any backend layout and create completely customized content elements without writing any line of code. Fields can
-be one of several types. For example: text, file, select, checkbox, ...
+Mask is a content element builder that generates TypoScript, TSconfig and TCA on
+the fly. You can build your own custom content elements in a user-friendly
+backend module via drag and drop. Your configuration is stored in json files,
+which can be shared across projects.
+
+Mask provides different :ref:`field types <fieldtypes>`, that you can use to
+customize your content elements. Depending on the type there are different
+options available. Field types are grouped roughly into input, repeating and
+structural fields. With these given tools, you can cover almost all typical
+requirements for your projects. And if not, Mask can be extended
+via :ref:`TCA overrides <tcaoverride-guide>` or :ref:`DataProcessors <data-processor-guide>`.
 
 Advantages of Mask
 ==================
 
-* Mask stores content seperately in columns of database tables - **not** as XML (Flexform)
-* Mask reuses existing database fields of the `tt_content` table to conserve the database
-* Mask uses already existing features of the TYPO3 core: Backend Layouts, Fluid, TypoScript, TCA
-* Mask allows repeating content and nesting content elements with IRRE-technology
-* Mask supports multi-language projects
-* Mask supports workspaces and versioning
-* Mask supports frontend user restrictions
-* The Mask backend is a single page application based on VueJS for even more comfort
+   Mask stores content seperately in columns of database tables - **not** as XML (Flexform)
+
+Flexform is a technique to define sheets and TCA fields inside a specified XML
+definition. It was originally invented back in the days for `TemplaVoilà! <https://extensions.typo3.org/extension/templavoila>`__.
+Then it gained popularity in other areas like extension plugin configuration,
+because it was easy to define a bunch of fields without worrying about SQL
+column definitions (besides the one needed for the flexform itself).
+
+The big disadvantage is, that flexform is a so called anonymoues construct and
+is not designed for complex relations. It disallows inline fields inside inline
+fields for example. The other thing is the lack of type safety, which is usually
+accomplished with sql column types and appropriate PHP class attributes.
+
+   Mask reuses existing database fields of the :sql:`tt_content` table to conserve the database
+
+Whenever you create a new field in Mask, a new column in the :sql:`tt_content`
+table will be created. But you can also choose to pick an existing TYPO3 core
+field or another field you have already created. While this is great, you need
+to take care your table won't exceed the :ref:`maximum row size <row-size-too-large>`.
+
+   Mask uses already existing features of the TYPO3 core: Backend Layouts, Fluid, TypoScript, TCA
+
+This is arguably Mask's unique selling point. With Mask, we didn't invent
+something completely new. TYPO3 already provides all necessary technology to
+create custom content elements. Mask eases the setup for this and provides a
+nice user interface to interact with these APIs without the need to program
+anything yourself.
+
+   Mask is easy to update and TCA migrations are done automatically
+
+TYPO3 continously deprecates and breaks stuff in new versions (which is necessary).
+And although there are now tools like rector, which ease the upgrades to a factor
+of 100x it is even easier with Mask. You usually don't need to do anything, but
+to update Mask to a newer version. This is possible because Mask provides
+migrations for older json definitions. Keep an eye on necessary :ref:`upgrade wizards <upgrade>`
+though.
+
+   Mask allows repeating content and nesting content elements with IRRE-technology (Inline-Relational-Record-Editing)
+
+It is very easy to create repeating (inline) fields with Mask. You can visually
+see, how your fields are nested in the builder module. An inline field is
+nothing else than a new table in your database, for which a relation is created
+to. There is no limit how much you are allowed to nest, but keep it to a sane
+amount for the sake of performance.
+
+   | Mask supports multi-language projects
+   | Mask supports workspaces and versioning
+   | Mask supports frontend user restrictions
+
+As already mentioned, Mask only uses TYPO3 core principles. This includes of
+course language, workspaces and any kind of restrictions.
+
+   The Mask backend is a single page application based on VueJS for even more comfort
+
+In v7.0 Mask received a :ref:`complete overhaul <mask-v7.0>` for the backend
+module. Instead of the good old jQuery spaghetti code, Mask runs on a clean
+VueJS application in the background. You will notice it, as there are no
+reloads of the frame between switching views anymore.
+
+Why Mask
+========
+
+Mask in not the only content element creation extension. There is also `Dynamic Content Elements (DCE) <https://extensions.typo3.org/extension/dce>`__ .
+In contrast to Mask, DCE utilizes flexforms extensively. The downsides of using
+flexform is already discussed above. The backend module is build the good old
+fashioned way. The overview of the fields of an element can become a bit
+overwhelming, if your element grows. Also you have to adjust the TCA manually
+after TYPO3 upgrades, as there are no migrations. DCE loads your content
+elements via plugins, instead of the modern `FLUIDTEMPLATE cObject <https://docs.typo3.org/m/typo3/reference-typoscript/main/en-us/ContentObjects/Fluidtemplate/Index.html>`__
+way like Mask does.
+
+Nevertheless, DCE is a well-maintained extension and does the main job of
+creating content elements in an easy way as well. It is up to you to decide,
+what style fits you better.
+
+Creating custom content elements manually
+=========================================
+
+Everything that Mask offers can be done manually in your own extension, of
+course. But this can be very tedious, as a lot of code is needed for one single
+element in various places.
+
+A content element consists of:
+
+*  PHP (TCA) - Field definitions, general table configuration
+*  PHP (TCA) - Registration in the cTypes (content element types) select box
+*  PHP (TCA) - Overrides on per element level
+*  PHP - Icon registration
+*  TSconfig - Registration in the new content element wizard
+*  TypoScript - Setup of the fluid template path
+*  SQL - Extending the database schema
+*  PHP - Data Processing
+
+As you can see, there is a lot of initial setup and additional configuration
+needed for creation one single element. Read the :ref:`official documentation for
+custom content elements <t3coreapi:adding-your-own-content-elements>` for a
+complete overview.
+
+With Mask, you mostly don't have to care about all of this anymore and you can
+concentrate on your real work: Creating **awesome** content elements for your
+customer's (or whoever else's) website.
 
 Who is Mask for
 ===============
