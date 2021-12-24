@@ -1,66 +1,20 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Generator: Adobe Illustrator 15.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-
-<svg
-   version="1.1"
-   id="Ebene_1"
-   x="0px"
-   y="0px"
-   width="64px"
-   height="64px"
-   viewBox="0 0 64 64"
-   enable-background="new 0 0 64 64"
-   xml:space="preserve"
-   sodipodi:docname="Slug.svg"
-   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg"><defs
-   id="defs45" /><sodipodi:namedview
-   id="namedview43"
-   pagecolor="#ffffff"
-   bordercolor="#666666"
-   borderopacity="1.0"
-   inkscape:pageshadow="2"
-   inkscape:pageopacity="0.0"
-   inkscape:pagecheckerboard="0"
-   showgrid="false"
-   inkscape:snap-text-baseline="true"
-   inkscape:zoom="12.515625"
-   inkscape:cx="41.108614"
-   inkscape:cy="38.791511"
-   inkscape:window-width="1920"
-   inkscape:window-height="1009"
-   inkscape:window-x="1912"
-   inkscape:window-y="-8"
-   inkscape:window-maximized="1"
-   inkscape:current-layer="Ebene_1" />
-<g
-   id="g30"
-   style="fill:#ac9d93">
-	<rect
-   fill="#47B5AF"
-   width="64"
-   height="64"
-   id="rect28"
-   style="fill:#ac9d93" />
-</g>
-
-    <path
-   fill="#FFFFFF"
-   d="M51.502,42.528c0,1.104-0.896,2-2,2H14.506c-1.104,0-2-0.896-2-2v-2.013c0-1.104,0.896-2,2-2h34.996  c1.104,0,2,0.896,2,2V42.528z"
-   id="path40" />
-<text
-   xml:space="preserve"
-   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;line-height:0.85;font-family:Calibri;-inkscape-font-specification:'Calibri, Normal';font-variant-ligatures:normal;font-variant-caps:all-small-caps;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:-0.03px;fill:#000000;fill-opacity:1;stroke:none"
-   x="12.457685"
-   y="34.585205"
-   id="text2899"><tspan
-     sodipodi:role="line"
-     id="tspan2897"
-     x="12.457685"
-     y="34.585205"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Calibri;-inkscape-font-specification:'Calibri, Normal';font-variant-ligatures:normal;font-variant-caps:all-small-caps;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff"
-     rotate="0 0 0 0"
-     dx="0 -1.9975034 -1.9975034">URL</tspan></text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+    <g id="Gruppe_5" data-name="Gruppe 5" transform="translate(-83 -1003)">
+        <g id="Gruppe_3" data-name="Gruppe 3" transform="translate(-8)">
+            <g id="Gruppe_1" data-name="Gruppe 1" transform="translate(91 1003)">
+                <g id="g30">
+                    <rect id="rect28" width="64" height="64" fill="#ac9d93"/>
+                </g>
+            </g>
+            <g id="Gruppe_2" data-name="Gruppe 2" transform="translate(-0.331 1)">
+                <path id="Pfad_1" data-name="Pfad 1" d="M37,0H5.286A5.3,5.3,0,0,0,0,5.3V29.163a5.3,5.3,0,0,0,5.286,5.3h7.928v6.959a.99.99,0,0,0,.991.994.946.946,0,0,0,.586-.2l10.315-7.755H37a5.3,5.3,0,0,0,5.286-5.3V5.3A5.3,5.3,0,0,0,37,0ZM38.32,29.163A1.327,1.327,0,0,1,37,30.489H23.785l-1.057.8-5.55,4.176V30.489H5.286a1.327,1.327,0,0,1-1.321-1.326V5.3A1.327,1.327,0,0,1,5.286,3.977H37A1.327,1.327,0,0,1,38.32,5.3Z" transform="translate(102.023 1013.032)" fill="#fff"/>
+            </g>
+        </g>
+        <g id="Gruppe_4" data-name="Gruppe 4" transform="translate(-75.69 3.81)">
+            <line id="Linie_1" data-name="Linie 1" x1="2.713" y2="20.19" transform="translate(185.477 1016.69)" fill="none" stroke="#fff" stroke-width="3"/>
+            <line id="Linie_5" data-name="Linie 5" x1="2.713" y2="20.19" transform="translate(193.477 1016.69)" fill="none" stroke="#fff" stroke-width="3"/>
+            <line id="Linie_3" data-name="Linie 3" y2="19.379" transform="translate(200.379 1022.134) rotate(90)" fill="none" stroke="#fff" stroke-width="3"/>
+            <line id="Linie_4" data-name="Linie 4" y2="19.379" transform="translate(200.379 1031.403) rotate(90)" fill="none" stroke="#fff" stroke-width="3"/>
+        </g>
+    </g>
+</svg>
