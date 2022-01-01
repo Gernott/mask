@@ -64,7 +64,6 @@ return [
             'config.size' => 10,
             'config.eval.slug' => 'uniqueInPid',
             'config.generatorOptions.fieldSeparator' => '/',
-            'config.generatorOptions.prefixParentPageSlug' => 1,
             'config.fallbackCharacter' => '-',
             'config.prependSlash' => 1,
         ],

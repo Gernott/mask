@@ -48,12 +48,6 @@
 			<trans-unit id="tx_mask.field.slug.generatorOptions.fieldSeparator.description">
 				<source>This value will divide the slug parts. If a section value contains this very value, it will be replaced by the value given in fallbackCharacter.</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.slug.generatorOptions.prefixParentPageSlug">
-				<source>Prefix parent page slug</source>
-			</trans-unit>
-			<trans-unit id="tx_mask.field.slug.generatorOptions.prefixParentPageSlug.description">
-				<source>The slugs of parent pages will be prefixed to the slug for the page itself. Disable it for shorter URLs, but take the higher chance of collision into consideration.</source>
-			</trans-unit>
 			<trans-unit id="tx_mask.field.slug.generatorOptions.replacements">
 				<source>Replacements</source>
 			</trans-unit>

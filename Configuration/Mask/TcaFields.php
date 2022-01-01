@@ -122,13 +122,6 @@ return [
         'code' => 'generatorOptions.fieldSeparator',
         'documentation' => 'ColumnsConfig/Type/Slug.html#generatoroptions'
     ],
-    'config.generatorOptions.prefixParentPageSlug' => [
-        'type' => 'checkbox',
-        'label' => 'tx_mask.field.slug.generatorOptions.prefixParentPageSlug',
-        'description' => 'tx_mask.field.slug.generatorOptions.prefixParentPageSlug.description',
-        'code' => 'generatorOptions.prefixParentPageSlug',
-        'documentation' => 'ColumnsConfig/Type/Slug.html#generatoroptions'
-    ],
     'config.generatorOptions.replacements' => [
         'type' => 'textarea',
         'rows' => 5,

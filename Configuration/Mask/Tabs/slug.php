@@ -18,7 +18,6 @@ return [
             'config.fallbackCharacter' => 6,
         ],
         [
-            'config.generatorOptions.prefixParentPageSlug' => 6,
             'config.prependSlash' => 6,
         ]
     ]
