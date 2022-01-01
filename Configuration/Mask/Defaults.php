@@ -65,7 +65,6 @@ return [
             'config.eval.slug' => 'uniqueInPid',
             'config.generatorOptions.fieldSeparator' => '/',
             'config.fallbackCharacter' => '-',
-            'config.prependSlash' => 1,
         ],
         'tca_out' => [
             'config.type' => 'slug',
