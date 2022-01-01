@@ -250,7 +250,7 @@ class InlineHelper
                 ->add(GeneralUtility::makeInstance(DeletedRestriction::class));
         }
         if (BackendUtility::isTableWorkspaceEnabled($childTable)) {
-            $queryBuilder->getRestrictions()->add(GeneralUtility::makeInstance(WorkspaceRestriction::class, (int)$GLOBALS['BE_USER']->workspace));
+            $queryBuilder->getRestrictions()->add(GeneralUtility::makeInstance(WorkspaceRestriction::class, GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('workspace', 'id')));
         }
         $queryBuilder
             ->select('*')
