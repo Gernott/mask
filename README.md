@@ -9,7 +9,7 @@ the fly. You can build your own custom content elements in a user-friendly
 backend module via drag and drop. Your configuration is stored in json files,
 which can be shared across projects.
 
-Mask provides different ield types, that you can use to
+Mask provides different field types, that you can use to
 customize your content elements. Depending on the type there are different
 options available. Field types are grouped roughly into input, repeating and
 structural fields. With these given tools, you can cover almost all typical
