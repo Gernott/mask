@@ -136,7 +136,7 @@ fi
 # --- run php-cs-fixer on files ---
 # ---------------------------------
 exist_php_executable
-php_no_xdebug .Build/bin/php-cs-fixer fix \
+php_no_xdebug .Build/vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix \
     -v ${DRYRUN} \
     --path-mode intersection \
     --config=Build/php-cs-fixer.php \

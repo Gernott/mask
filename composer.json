@@ -48,7 +48,7 @@
 	"require-dev": {
 		"typo3/testing-framework": "^6",
 		"phpunit/phpunit": "^8.4",
-		"friendsofphp/php-cs-fixer": "^3.0",
+		"friendsofphp/php-cs-fixer": "^3.4",
 		"typo3/tailor": "^1.2"
 	},
 	"require": {
