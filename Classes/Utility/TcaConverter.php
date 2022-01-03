@@ -70,7 +70,7 @@ class TcaConverter
                     }
                     $fields[] = $field;
                 }
-                $tca[] = [$fullPath => implode(',',  $fields)];
+                $tca[] = [$fullPath => implode(',', $fields)];
             } elseif (is_array($value)) {
                 $tca[] = self::convertTcaArrayToFlat($value, $path);
             } elseif ($fullPath === 'config.eval' || $key === 'blindLinkOptions') {
