@@ -1,0 +1,180 @@
+{
+	"tt_content": {
+		"elements": {
+			"e": {
+				"key": "e",
+				"label": "E",
+				"description": "",
+				"shortLabel": "",
+				"color": "#000000",
+				"icon": "",
+				"columns": [
+					"tx_mask_inline_e"
+				],
+				"labels": [
+					"Inline"
+				],
+				"descriptions": [
+					"Description for inline 1"
+				],
+				"sorting": 3
+			}
+		},
+		"tca": {
+			"tx_mask_inline_e": {
+				"config": {
+					"appearance": {
+						"collapseAll": 1,
+						"enabledControls": {
+							"dragdrop": 1
+						},
+						"levelLinksPosition": "top",
+						"showAllLocalizationLink": 1,
+						"showPossibleLocalizationRecords": 1
+					},
+					"foreign_field": "parentid",
+					"foreign_sortby": "sorting",
+					"foreign_table": "--inlinetable--",
+					"foreign_table_field": "parenttable",
+					"type": "inline"
+				},
+				"fullKey": "tx_mask_inline_e",
+				"type": "inline",
+				"key": "inline"
+			}
+		},
+		"sql": {},
+		"palettes": {}
+	},
+	"tx_mask_inline_e": {
+		"elements": {},
+		"tca": {
+			"tx_mask_field": {
+				"config": {
+					"type": "input"
+				},
+				"label": "Field",
+				"type": "string",
+				"key": "field",
+				"fullKey": "tx_mask_field",
+				"inlineParent": "tx_mask_inline_e",
+				"order": 1
+			},
+			"tx_mask_inline_inner": {
+				"config": {
+					"type": "inline"
+				},
+				"label": "Inline Inner",
+				"type": "inline",
+				"key": "inline_inner",
+				"fullKey": "tx_mask_inline_inner",
+				"inlineParent": "tx_mask_inline_e",
+				"order": 2
+			},
+			"tx_mask_inline_palette": {
+				"config": {
+					"type": "palette"
+				},
+				"label": "Inline Palette",
+				"type": "palette",
+				"key": "inline_palette",
+				"fullKey": "tx_mask_inline_palette",
+				"inlineParent": "tx_mask_inline_e",
+				"order": 3
+			},
+			"tx_mask_inline_palette_field": {
+				"config": {
+					"type": "input"
+				},
+				"label": "Inline Palette Field",
+				"type": "string",
+				"key": "inline_palette_field",
+				"fullKey": "tx_mask_inline_palette_field",
+				"inPalette": 1,
+				"inlineParent": "tx_mask_inline_palette",
+				"order": 1
+			}
+		},
+		"sql": {
+			"tx_mask_field": {
+				"tx_mask_inline_e": {
+					"tx_mask_field": "varchar(255) DEFAULT '' NOT NULL"
+				}
+			},
+			"tx_mask_inline_palette_field": {
+				"tx_mask_inline_e": {
+					"tx_mask_inline_palette_field": "varchar(255) DEFAULT '' NOT NULL"
+				}
+			}
+		},
+		"palettes": {
+			"tx_mask_inline_palette": {
+				"label": "Inline Palette",
+				"description": "",
+				"showitem": [
+					"tx_mask_inline_palette_field"
+				]
+			}
+		}
+	},
+	"tx_mask_inline_inner": {
+		"elements": {},
+		"tca": {
+			"tx_mask_field": {
+				"config": {
+					"type": "input"
+				},
+				"label": "Field",
+				"type": "string",
+				"key": "field",
+				"fullKey": "tx_mask_field",
+				"inlineParent": "tx_mask_inline_inner",
+				"order": 1
+			},
+			"tx_mask_inline_palette": {
+				"config": {
+					"type": "palette"
+				},
+				"label": "Inline Palette",
+				"type": "palette",
+				"key": "inline_palette",
+				"fullKey": "tx_mask_inline_palette",
+				"inlineParent": "tx_mask_inline_inner",
+				"order": 2
+			},
+			"tx_mask_inline_palette_field": {
+				"config": {
+					"type": "input"
+				},
+				"label": "Inline Palette Field",
+				"type": "string",
+				"key": "inline_palette_field",
+				"fullKey": "tx_mask_inline_palette_field",
+				"inPalette": 1,
+				"inlineParent": "tx_mask_inline_palette",
+				"order": 1
+			}
+		},
+		"sql": {
+			"tx_mask_field": {
+				"tx_mask_inline_inner": {
+					"tx_mask_field": "varchar(255) DEFAULT '' NOT NULL"
+				}
+			},
+			"tx_mask_inline_palette_field": {
+				"tx_mask_inline_inner": {
+					"tx_mask_inline_palette_field": "varchar(255) DEFAULT '' NOT NULL"
+				}
+			}
+		},
+		"palettes": {
+			"tx_mask_inline_palette": {
+				"label": "Inline Palette",
+				"description": "",
+				"showitem": [
+					"tx_mask_inline_palette_field"
+				]
+			}
+		}
+	}
+}
