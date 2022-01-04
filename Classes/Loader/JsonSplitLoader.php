@@ -24,6 +24,7 @@ use MASK\Mask\Definition\SqlDefinition;
 use MASK\Mask\Definition\TableDefinition;
 use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Definition\TcaDefinition;
+use MASK\Mask\Definition\TcaFieldDefinition;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use Symfony\Component\Finder\Finder;
@@ -190,7 +191,7 @@ class JsonSplitLoader implements LoaderInterface
                 }
                 $fieldType = $tableDefinitionCollection->getFieldType($field->fullKey, $table);
                 if ($fieldType->equals(FieldType::INLINE)) {
-                    $elementTableDefinitionCollection->addTable($tableDefinitionCollection->getTable($field->fullKey));
+                    $this->addInlineRecursive($field, $elementTableDefinitionCollection, $tableDefinitionCollection);
                 }
                 if ($fieldType->equals(FieldType::PALETTE)) {
                     $paletteDefinition = $tableDefinition->palettes->getPalette($field->fullKey);
@@ -234,6 +235,21 @@ class JsonSplitLoader implements LoaderInterface
 
             if (!$result) {
                 throw new \InvalidArgumentException('The file "' . $filePath . '" could not be written. Check your file permissions.', 1639169283);
+            }
+        }
+    }
+
+    /**
+     * @param TcaFieldDefinition $field
+     * @param TableDefinitionCollection $elementTableDefinitionCollection
+     * @param TableDefinitionCollection $tableDefinitionCollection
+     */
+    private function addInlineRecursive(TcaFieldDefinition $field, TableDefinitionCollection &$elementTableDefinitionCollection, TableDefinitionCollection $tableDefinitionCollection) {
+        $elementTableDefinitionCollection->addTable($tableDefinitionCollection->getTable($field->fullKey));
+        foreach ($tableDefinitionCollection->getTable($field->fullKey)->tca as $inlineChild) {
+            $fieldType = $tableDefinitionCollection->getFieldType($inlineChild->fullKey, $field->fullKey);
+            if ($fieldType->equals(FieldType::INLINE)) {
+                $this->addInlineRecursive($inlineChild, $elementTableDefinitionCollection, $tableDefinitionCollection);
             }
         }
     }

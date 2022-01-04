@@ -79,6 +79,7 @@ class JsonSplitLoaderTest extends UnitTestCase
         self::assertFileExists($contentElementsPath . '/b.json');
         self::assertFileExists($contentElementsPath . '/c.json');
         self::assertFileExists($contentElementsPath . '/d.json');
+        self::assertFileExists($contentElementsPath . '/e.json');
 
         $configurationA = [
             'tx_mask_repeat1' => [
@@ -423,6 +424,191 @@ class JsonSplitLoaderTest extends UnitTestCase
         ];
 
         self::assertEquals($configurationD, json_decode(file_get_contents($contentElementsPath . '/d.json'), true));
+
+        $configurationE = [
+            'tt_content' => [
+                'elements' => [
+                    'e' => [
+                        'key' => 'e',
+                        'label' => 'E',
+                        'description' => '',
+                        'shortLabel' => '',
+                        'color' => '#000000',
+                        'icon' => '',
+                        'columns' => [
+                            0 => 'tx_mask_inline_e',
+                        ],
+                        'labels' => [
+                            0 => 'Inline',
+                        ],
+                        'descriptions' => [
+                            0 => 'Description for inline 1',
+                        ],
+                        'sorting' => 3,
+                    ],
+                ],
+                'tca' => [
+                    'tx_mask_inline_e' => [
+                        'config' => [
+                            'appearance' => [
+                                'collapseAll' => 1,
+                                'enabledControls' => [
+                                    'dragdrop' => 1,
+                                ],
+                                'levelLinksPosition' => 'top',
+                                'showAllLocalizationLink' => 1,
+                                'showPossibleLocalizationRecords' => 1,
+                            ],
+                            'foreign_field' => 'parentid',
+                            'foreign_sortby' => 'sorting',
+                            'foreign_table' => '--inlinetable--',
+                            'foreign_table_field' => 'parenttable',
+                            'type' => 'inline',
+                        ],
+                        'fullKey' => 'tx_mask_inline_e',
+                        'type' => 'inline',
+                        'key' => 'inline',
+                    ],
+                ],
+                'sql' => [],
+                'palettes' => [],
+            ],
+            'tx_mask_inline_e' => [
+                'elements' => [
+                ],
+                'tca' => [
+                    'tx_mask_field' => [
+                        'config' => [
+                            'type' => 'input',
+                        ],
+                        'label' => 'Field',
+                        'type' => 'string',
+                        'key' => 'field',
+                        'fullKey' => 'tx_mask_field',
+                        'inlineParent' => 'tx_mask_inline_e',
+                        'order' => 1,
+                    ],
+                    'tx_mask_inline_inner' => [
+                        'config' => [
+                            'type' => 'inline',
+                        ],
+                        'label' => 'Inline Inner',
+                        'type' => 'inline',
+                        'key' => 'inline_inner',
+                        'fullKey' => 'tx_mask_inline_inner',
+                        'inlineParent' => 'tx_mask_inline_e',
+                        'order' => 2,
+                    ],
+                    'tx_mask_inline_palette' => [
+                        'config' => [
+                            'type' => 'palette',
+                        ],
+                        'label' => 'Inline Palette',
+                        'type' => 'palette',
+                        'key' => 'inline_palette',
+                        'fullKey' => 'tx_mask_inline_palette',
+                        'inlineParent' => 'tx_mask_inline_e',
+                        'order' => 3,
+                    ],
+                    'tx_mask_inline_palette_field' => [
+                        'config' => [
+                            'type' => 'input',
+                        ],
+                        'label' => 'Inline Palette Field',
+                        'type' => 'string',
+                        'key' => 'inline_palette_field',
+                        'fullKey' => 'tx_mask_inline_palette_field',
+                        'inPalette' => 1,
+                        'inlineParent' => 'tx_mask_inline_palette',
+                        'order' => 1,
+                    ],
+                ],
+                'sql' => [
+                    'tx_mask_field' => [
+                        'tx_mask_inline_e' => [
+                            'tx_mask_field' => 'varchar(255) DEFAULT \'\' NOT NULL',
+                        ],
+                    ],
+                    'tx_mask_inline_palette_field' => [
+                        'tx_mask_inline_e' => [
+                            'tx_mask_inline_palette_field' => 'varchar(255) DEFAULT \'\' NOT NULL',
+                        ],
+                    ],
+                ],
+                'palettes' => [
+                    'tx_mask_inline_palette' => [
+                        'label' => 'Inline Palette',
+                        'description' => '',
+                        'showitem' => [
+                            0 => 'tx_mask_inline_palette_field',
+                        ],
+                    ],
+                ],
+            ],
+            'tx_mask_inline_inner' => [
+                'elements' => [
+                ],
+                'tca' => [
+                    'tx_mask_field' => [
+                        'config' => [
+                            'type' => 'input',
+                        ],
+                        'label' => 'Field',
+                        'type' => 'string',
+                        'key' => 'field',
+                        'fullKey' => 'tx_mask_field',
+                        'inlineParent' => 'tx_mask_inline_inner',
+                        'order' => 1,
+                    ],
+                    'tx_mask_inline_palette' => [
+                        'config' => [
+                            'type' => 'palette',
+                        ],
+                        'label' => 'Inline Palette',
+                        'type' => 'palette',
+                        'key' => 'inline_palette',
+                        'fullKey' => 'tx_mask_inline_palette',
+                        'inlineParent' => 'tx_mask_inline_inner',
+                        'order' => 2,
+                    ],
+                    'tx_mask_inline_palette_field' => [
+                        'config' => [
+                            'type' => 'input',
+                        ],
+                        'label' => 'Inline Palette Field',
+                        'type' => 'string',
+                        'key' => 'inline_palette_field',
+                        'fullKey' => 'tx_mask_inline_palette_field',
+                        'inPalette' => 1,
+                        'inlineParent' => 'tx_mask_inline_palette',
+                        'order' => 1,
+                    ],
+                ],
+                'sql' => [
+                    'tx_mask_field' => [
+                        'tx_mask_inline_inner' => [
+                            'tx_mask_field' => 'varchar(255) DEFAULT \'\' NOT NULL',
+                        ],
+                    ],
+                    'tx_mask_inline_palette_field' => [
+                        'tx_mask_inline_inner' => [
+                            'tx_mask_inline_palette_field' => 'varchar(255) DEFAULT \'\' NOT NULL',
+                        ],
+                    ],
+                ],
+                'palettes' => [
+                    'tx_mask_inline_palette' => [
+                        'label' => 'Inline Palette',
+                        'description' => '',
+                        'showitem' => [
+                            0 => 'tx_mask_inline_palette_field',
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        self::assertEquals($configurationE, json_decode(file_get_contents($contentElementsPath . '/e.json'), true));
     }
 
     protected function getExpectedConfigurationArray(): array
@@ -477,6 +663,137 @@ class JsonSplitLoaderTest extends UnitTestCase
                     ]
                 ],
                 'palettes' => []
+            ],
+            'tx_mask_inline_e' => [
+                'elements' => [
+                ],
+                'tca' => [
+                    'tx_mask_field' => [
+                        'config' => [
+                            'type' => 'input',
+                        ],
+                        'label' => 'Field',
+                        'type' => 'string',
+                        'key' => 'field',
+                        'fullKey' => 'tx_mask_field',
+                        'inlineParent' => 'tx_mask_inline_e',
+                        'order' => 1,
+                    ],
+                    'tx_mask_inline_inner' => [
+                        'config' => [
+                            'type' => 'inline',
+                        ],
+                        'label' => 'Inline Inner',
+                        'type' => 'inline',
+                        'key' => 'inline_inner',
+                        'fullKey' => 'tx_mask_inline_inner',
+                        'inlineParent' => 'tx_mask_inline_e',
+                        'order' => 2,
+                    ],
+                    'tx_mask_inline_palette' => [
+                        'config' => [
+                            'type' => 'palette',
+                        ],
+                        'label' => 'Inline Palette',
+                        'type' => 'palette',
+                        'key' => 'inline_palette',
+                        'fullKey' => 'tx_mask_inline_palette',
+                        'inlineParent' => 'tx_mask_inline_e',
+                        'order' => 3,
+                    ],
+                    'tx_mask_inline_palette_field' => [
+                        'config' => [
+                            'type' => 'input',
+                        ],
+                        'label' => 'Inline Palette Field',
+                        'type' => 'string',
+                        'key' => 'inline_palette_field',
+                        'fullKey' => 'tx_mask_inline_palette_field',
+                        'inPalette' => 1,
+                        'inlineParent' => 'tx_mask_inline_palette',
+                        'order' => 1,
+                    ],
+                ],
+                'sql' => [
+                    'tx_mask_field' => [
+                        'tx_mask_inline_e' => [
+                            'tx_mask_field' => 'varchar(255) DEFAULT \'\' NOT NULL',
+                        ],
+                    ],
+                    'tx_mask_inline_palette_field' => [
+                        'tx_mask_inline_e' => [
+                            'tx_mask_inline_palette_field' => 'varchar(255) DEFAULT \'\' NOT NULL',
+                        ],
+                    ],
+                ],
+                'palettes' => [
+                    'tx_mask_inline_palette' => [
+                        'label' => 'Inline Palette',
+                        'showitem' => [
+                            0 => 'tx_mask_inline_palette_field',
+                        ],
+                    ],
+                ],
+            ],
+            'tx_mask_inline_inner' => [
+                'elements' => [
+                ],
+                'tca' => [
+                    'tx_mask_field' => [
+                        'config' => [
+                            'type' => 'input',
+                        ],
+                        'label' => 'Field',
+                        'type' => 'string',
+                        'key' => 'field',
+                        'fullKey' => 'tx_mask_field',
+                        'inlineParent' => 'tx_mask_inline_inner',
+                        'order' => 1,
+                    ],
+                    'tx_mask_inline_palette' => [
+                        'config' => [
+                            'type' => 'palette',
+                        ],
+                        'label' => 'Inline Palette',
+                        'type' => 'palette',
+                        'key' => 'inline_palette',
+                        'fullKey' => 'tx_mask_inline_palette',
+                        'inlineParent' => 'tx_mask_inline_inner',
+                        'order' => 2,
+                    ],
+                    'tx_mask_inline_palette_field' => [
+                        'config' => [
+                            'type' => 'input',
+                        ],
+                        'label' => 'Inline Palette Field',
+                        'type' => 'string',
+                        'key' => 'inline_palette_field',
+                        'fullKey' => 'tx_mask_inline_palette_field',
+                        'inPalette' => 1,
+                        'inlineParent' => 'tx_mask_inline_palette',
+                        'order' => 1,
+                    ],
+                ],
+                'sql' => [
+                    'tx_mask_field' => [
+                        'tx_mask_inline_inner' => [
+                            'tx_mask_field' => 'varchar(255) DEFAULT \'\' NOT NULL',
+                        ],
+                    ],
+                    'tx_mask_inline_palette_field' => [
+                        'tx_mask_inline_inner' => [
+                            'tx_mask_inline_palette_field' => 'varchar(255) DEFAULT \'\' NOT NULL',
+                        ],
+                    ],
+                ],
+                'palettes' => [
+                    'tx_mask_inline_palette' => [
+                        'label' => 'Inline Palette',
+                        'showitem' => [
+                            0 => 'tx_mask_inline_palette_field',
+                        ],
+                    ],
+                ],
             ],
             'tt_content' => [
                 'elements' => [
@@ -560,7 +877,25 @@ class JsonSplitLoaderTest extends UnitTestCase
                             'Description for palette 1',
                         ],
                         'sorting' => 3
-                    ]
+                    ],
+                    'e' => [
+                        'key' => 'e',
+                        'label' => 'E',
+                        'description' => '',
+                        'shortLabel' => '',
+                        'color' => '#000000',
+                        'icon' => '',
+                        'columns' => [
+                            0 => 'tx_mask_inline_e',
+                        ],
+                        'labels' => [
+                            0 => 'Inline',
+                        ],
+                        'descriptions' => [
+                            0 => 'Description for inline 1',
+                        ],
+                        'sorting' => 3,
+                    ],
                 ],
                 'sql' => [
                     'tx_mask_a' => [
@@ -642,6 +977,27 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'fullKey' => 'tx_mask_inline',
                         'type' => 'inline',
                         'key' => 'inline'
+                    ],
+                    'tx_mask_inline_e' => [
+                        'config' => [
+                            'appearance' => [
+                                'collapseAll' => 1,
+                                'enabledControls' => [
+                                    'dragdrop' => 1,
+                                ],
+                                'levelLinksPosition' => 'top',
+                                'showAllLocalizationLink' => 1,
+                                'showPossibleLocalizationRecords' => 1,
+                            ],
+                            'foreign_field' => 'parentid',
+                            'foreign_sortby' => 'sorting',
+                            'foreign_table' => '--inlinetable--',
+                            'foreign_table_field' => 'parenttable',
+                            'type' => 'inline',
+                        ],
+                        'fullKey' => 'tx_mask_inline_e',
+                        'type' => 'inline',
+                        'key' => 'inline',
                     ],
                     'tx_mask_4e12de3d14bd5' => [
                         'config' => [
