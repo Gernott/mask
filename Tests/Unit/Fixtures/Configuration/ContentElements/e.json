@@ -110,6 +110,7 @@
 		"palettes": {
 			"tx_mask_inline_palette": {
 				"label": "Inline Palette",
+				"description": "",
 				"showitem": [
 					"tx_mask_inline_palette_field"
 				]
@@ -169,6 +170,7 @@
 		"palettes": {
 			"tx_mask_inline_palette": {
 				"label": "Inline Palette",
+				"description": "",
 				"showitem": [
 					"tx_mask_inline_palette_field"
 				]

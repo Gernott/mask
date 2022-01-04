@@ -491,6 +491,15 @@ class JsonSplitLoaderTest extends UnitTestCase
                     'tx_mask_inline_inner' => [
                         'config' => [
                             'type' => 'inline',
+                            'foreign_table' => '--inlinetable--',
+                            'foreign_field' => 'parentid',
+                            'foreign_table_field' => 'parenttable',
+                            'foreign_sortby' => 'sorting',
+                            'appearance' => [
+                                'enabledControls' => [
+                                    'dragdrop' => 1
+                                ],
+                            ],
                         ],
                         'label' => 'Inline Inner',
                         'type' => 'inline',
@@ -682,6 +691,15 @@ class JsonSplitLoaderTest extends UnitTestCase
                     'tx_mask_inline_inner' => [
                         'config' => [
                             'type' => 'inline',
+                            'foreign_table' => '--inlinetable--',
+                            'foreign_field' => 'parentid',
+                            'foreign_table_field' => 'parenttable',
+                            'foreign_sortby' => 'sorting',
+                            'appearance' => [
+                                'enabledControls' => [
+                                    'dragdrop' => 1
+                                ]
+                            ]
                         ],
                         'label' => 'Inline Inner',
                         'type' => 'inline',
@@ -729,6 +747,7 @@ class JsonSplitLoaderTest extends UnitTestCase
                 'palettes' => [
                     'tx_mask_inline_palette' => [
                         'label' => 'Inline Palette',
+                        'description' => '',
                         'showitem' => [
                             0 => 'tx_mask_inline_palette_field',
                         ],
@@ -789,6 +808,7 @@ class JsonSplitLoaderTest extends UnitTestCase
                 'palettes' => [
                     'tx_mask_inline_palette' => [
                         'label' => 'Inline Palette',
+                        'description' => '',
                         'showitem' => [
                             0 => 'tx_mask_inline_palette_field',
                         ],
