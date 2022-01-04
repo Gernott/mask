@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.1.14] - 2022-01-04
+
+### Fixed
+- JsonSplitLoader resolves now nested inline fields correctly (Thanks to Can Karadağ)
+- Fetch workspace ID from context API (thanks to Susanne Moog)
+- php-cs-fixer tests in CI
+
 ## [7.1.13] - 2021-12-25
 
 ### Fixed
