@@ -134,18 +134,22 @@ class BackendLayoutRepository
         } else {
             $requestPage = $statement->fetch();
         }
+        
+        if (is_array($requestPage)) {
+            $backend_layout = $requestPage['backend_layout'];
+            $backend_layout_next_level = $requestPage['backend_layout_next_level'];
+           
+            // If backend_layout is set on current page
+            if (!empty($backend_layout)) {
+                return $backend_layout;
+            }
 
-        $backend_layout = $requestPage['backend_layout'];
-        $backend_layout_next_level = $requestPage['backend_layout_next_level'];
-        // If backend_layout is set on current page
-        if (!empty($backend_layout)) {
-            return $backend_layout;
+            // If backend_layout_next_level is set on current page
+            if (!empty($backend_layout_next_level)) {
+                return $backend_layout_next_level;
+            }
         }
 
-        // If backend_layout_next_level is set on current page
-        if (!empty($backend_layout_next_level)) {
-            return $backend_layout_next_level;
-        }
         $rootLineUtility = GeneralUtility::makeInstance(RootlineUtility::class, $pid);
         try {
             $rootline = $rootLineUtility->get();
