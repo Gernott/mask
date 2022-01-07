@@ -43,6 +43,8 @@ class BackendLayoutRepository
     public function __construct(QueryBuilder $backendLayoutQueryBuilder, QueryBuilder $pagesQueryBuilder)
     {
         $this->backendLayoutQueryBuilder = $backendLayoutQueryBuilder;
+        // We don't want any restrictions here. In preview mode, we need to be able to retrieve the page nevertheless.
+        $pagesQueryBuilder->setRestrictions($pagesQueryBuilder->getRestrictions()->removeAll());
         $this->pagesQueryBuilder = $pagesQueryBuilder;
     }
 
