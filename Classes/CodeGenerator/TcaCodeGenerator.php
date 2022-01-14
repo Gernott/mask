@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\CodeGenerator;
 
+use InvalidArgumentException;
 use MASK\Mask\Definition\PaletteDefinition;
 use MASK\Mask\Definition\TableDefinition;
 use MASK\Mask\Definition\TableDefinitionCollection;
@@ -218,7 +219,13 @@ class TcaCodeGenerator
         $element = $this->tableDefinitionCollection->getTable($table)->elements->getElement($elementKey);
         $fieldArray = [];
         foreach ($element->columns as $index => $fieldKey) {
-            $fieldType = $this->tableDefinitionCollection->getFieldType($fieldKey, $table);
+            // In case the configuration relies on a field of an extension loaded
+            // after Mask, fall back to string type.
+            try {
+                $fieldType = $this->tableDefinitionCollection->getFieldType($fieldKey, $table);
+            } catch (InvalidArgumentException $e) {
+                $fieldType = new FieldType(FieldType::STRING);
+            }
             // Check if this field is of type tab
             if ($fieldType->equals(FieldType::TAB)) {
                 $label = $this->tableDefinitionCollection->getLabel($elementKey, $fieldKey, $table);
@@ -521,7 +528,14 @@ class TcaCodeGenerator
         $searchFields = [];
 
         foreach ($tca as $field) {
-            $fieldType = $this->tableDefinitionCollection->getFieldType($field->fullKey, $table);
+            // In case the configuration relies on a field of an extension loaded
+            // after Mask, fall back to string type. This will be true for the
+            // most cases. And if not, it's no big deal if they are searchable.
+            try {
+                $fieldType = $this->tableDefinitionCollection->getFieldType($field->fullKey, $table);
+            } catch (InvalidArgumentException $e) {
+                $fieldType = new FieldType(FieldType::STRING);
+            }
             if ($fieldType->isSearchable()) {
                 $searchFields[] = $field->key;
             }
