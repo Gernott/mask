@@ -22,6 +22,7 @@ use MASK\Mask\CodeGenerator\SqlCodeGenerator;
 use MASK\Mask\CodeGenerator\TcaCodeGenerator;
 use MASK\Mask\ConfigurationLoader\ConfigurationLoader;
 use MASK\Mask\Definition\TableDefinitionCollection;
+use MASK\Mask\Definition\TcaFieldDefinition;
 use MASK\Mask\Domain\Repository\BackendLayoutRepository;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Enumeration\FieldType;
@@ -611,7 +612,14 @@ class AjaxController
 
         foreach (($GLOBALS['TCA'][$table]['columns'] ?? []) as $tcaField => $tcaConfig) {
             $isMaskField = AffixUtility::hasMaskPrefix($tcaField);
-            if (!$isMaskField && !in_array($tcaField, $allowedFields[$table] ?? [], true)) {
+            // Skip the field, if it is not a mask field, AND it is not in the allow-list
+            // AND it is also not an already defined field in the configuration.
+            // This may be an extension field or a core field, which was previously allowed.
+            if (
+                !$isMaskField
+                && !in_array($tcaField, $allowedFields[$table] ?? [], true)
+                && !$this->tableDefinitionCollection->loadField($table, $tcaField) instanceof TcaFieldDefinition
+            ) {
                 continue;
             }
 
