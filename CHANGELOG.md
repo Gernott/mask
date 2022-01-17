@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.1.15] - 2022-01-17
+
+### Fixed
+- Fix preview mode
+- Prevent empty TCA error for extension fields
+- Fix backend layout resolving [#466](https://github.com/Gernott/mask/issues/466)
+
 ## [7.1.14] - 2022-01-04
 
 ### Fixed
