@@ -50,6 +50,10 @@ class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
 
             // If backend_layout is not set on current page, check backend_layout_next_level on rootline
             $rootline = $arguments['tree']->rootLine;
+            // Sort rootline by (indexed) key, because the order depends on the context.
+            // For example calling the condition matcher in the FormEngineDataProvider
+            // returns the rootline in reversed order.
+            ksort($rootline);
             $rootline = array_reverse($rootline);
             $rootline = array_splice($rootline, 1, -1);
             foreach ($rootline as $page) {
