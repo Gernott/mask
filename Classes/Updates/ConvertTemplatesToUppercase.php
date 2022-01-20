@@ -57,7 +57,7 @@ class ConvertTemplatesToUppercase implements UpgradeWizardInterface
 
     public function updateNecessary(): bool
     {
-        return count($this->getTemplates()) > 0;
+        return count($this->getTemplates() ?: []) > 0;
     }
 
     public function getPrerequisites(): array
@@ -65,9 +65,14 @@ class ConvertTemplatesToUppercase implements UpgradeWizardInterface
         return [];
     }
 
-    protected function getTemplates(): Finder
+    protected function getTemplates(): ?Finder
     {
         $settings = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('mask');
+
+        if (($settings['content'] ?? '') === '') {
+            return null;
+        }
+
         if (strpos($settings['content'], 'EXT:') === 0) {
             $absolutePath = MaskUtility::getFileAbsFileName($settings['content']);
         } else {
