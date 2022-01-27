@@ -60,10 +60,11 @@ class InlineHelper
      */
     public function addFilesToData(array &$data, string $table = 'tt_content'): void
     {
+        $uid = $data['uid'];
         if ($data['_LOCALIZED_UID'] ?? false) {
             $uid = $data['_LOCALIZED_UID'];
-        } else {
-            $uid = $data['uid'];
+        } elseif ($data['_PAGES_OVERLAY_UID'] ?? false) {
+            $uid = $data['_PAGES_OVERLAY_UID'];
         }
 
         // using is_numeric in favor to is_int
