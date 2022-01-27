@@ -236,13 +236,10 @@ class InlineHelper
 
         // by default, the uid of the parent is $data["uid"]
         $parentUid = $data['uid'];
-        $languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
-        if ($languageAspect->getId() !== 0) {
-            if (isset($data['_LOCALIZED_UID'])) {
-                $parentUid = $data['_LOCALIZED_UID'];
-            } elseif (isset($data['_PAGES_OVERLAY_UID'])) {
-                $parentUid = $data['_PAGES_OVERLAY_UID'];
-            }
+        if (isset($data['_LOCALIZED_UID'])) {
+            $parentUid = $data['_LOCALIZED_UID'];
+        } elseif (isset($data['_PAGES_OVERLAY_UID'])) {
+            $parentUid = $data['_PAGES_OVERLAY_UID'];
         }
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($childTable);
 
