@@ -270,7 +270,12 @@ class InlineHelper
             $queryBuilder->andWhere($queryBuilder->expr()->eq('parenttable', $queryBuilder->createNamedParameter($parenttable)));
         }
 
-        $rows = $queryBuilder->execute()->fetchAll();
+        $statement = $queryBuilder->execute();
+        if (method_exists($statement, 'fetchAllAssociative')) {
+            $rows = $statement->fetchAllAssociative();
+        } else {
+            $rows = $statement->fetchAll();
+        }
 
         // and recursively add them to an array
         $elements = [];
