@@ -24,10 +24,10 @@ use MASK\Mask\Utility\AffixUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\FrontendGroupRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\WorkspaceRestriction;
 use TYPO3\CMS\Core\Database\RelationHandler;
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -242,39 +242,53 @@ class InlineHelper
             }
         }
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($childTable);
-        $queryBuilder->getRestrictions()->add(GeneralUtility::makeInstance(FrontendGroupRestriction::class));
-        if (ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isBackend()) {
-            $queryBuilder
-                ->getRestrictions()
-                ->removeAll()
-                ->add(GeneralUtility::makeInstance(DeletedRestriction::class));
+
+        $workspaceId = GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('workspace', 'id');
+        $inWorkspacePreviewMode = $workspaceId > 0;
+        $isFrontendRequest = ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend();
+
+        if ($isFrontendRequest && !empty($GLOBALS['TCA'][$childTable]['ctrl']['enablecolumns']['fe_group'])) {
+            $queryBuilder->getRestrictions()->add(GeneralUtility::makeInstance(FrontendGroupRestriction::class));
         }
+
+        // Remove default restrictions for workspace preview in order to fetch the original record uids.
+        if ($inWorkspacePreviewMode) {
+            $queryBuilder->getRestrictions()->removeAll();
+        }
+
         if (BackendUtility::isTableWorkspaceEnabled($childTable)) {
-            $queryBuilder->getRestrictions()->add(GeneralUtility::makeInstance(WorkspaceRestriction::class, GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('workspace', 'id')));
+            $queryBuilder->getRestrictions()->add(GeneralUtility::makeInstance(WorkspaceRestriction::class, $workspaceId));
         }
+
         $queryBuilder
             ->select('*')
             ->from($childTable)
-            ->where($queryBuilder->expr()->eq($parentFieldName, $parentUid))
+            ->where($queryBuilder->expr()->eq($parentFieldName, $queryBuilder->createNamedParameter($parentUid, \PDO::PARAM_INT)))
             ->orderBy('sorting');
 
         if ($childTable !== 'tt_content') {
-            $queryBuilder->andWhere('parenttable LIKE :parenttable');
-            $queryBuilder->setParameter('parenttable', $parenttable);
+            $queryBuilder->andWhere($queryBuilder->expr()->eq('parenttable', $queryBuilder->createNamedParameter($parenttable)));
         }
 
         $rows = $queryBuilder->execute()->fetchAll();
 
         // and recursively add them to an array
         $elements = [];
-        if (ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend()) {
+        if ($isFrontendRequest) {
+            /** @var PageRepository $pageRepository */
+            $pageRepository = $GLOBALS['TSFE']->sys_page;
             foreach ($rows as $element) {
-                $GLOBALS['TSFE']->sys_page->versionOL($childTable, $element);
+                if ($inWorkspacePreviewMode) {
+                    $pageRepository->versionOL($childTable, $element);
+                }
                 $elements[$element['uid']] = $element;
             }
         } else {
             foreach ($rows as $element) {
-                $elements[$element['uid']] = BackendUtility::getRecordWSOL($childTable, $element['uid']);
+                if ($inWorkspacePreviewMode) {
+                    $element = BackendUtility::getRecordWSOL($childTable, $element['uid']);
+                }
+                $elements[$element['uid']] = $element;
             }
         }
 
