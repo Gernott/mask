@@ -154,14 +154,13 @@ define([
         const setupCompletePromise = new AjaxRequest(TYPO3.settings.ajaxUrls.mask_setup_complete).get()
           .then(
             async response => {
-              const result = await response.resolve();
-              return result.setupComplete;
+              return await response.resolve();
             }
           );
 
         Promise.resolve(setupCompletePromise)
           .then(
-            setupComplete => {
+            setupCompleteResult => {
               const promises = [];
 
               // fetch mask and typo3 version
@@ -183,8 +182,11 @@ define([
                 ));
 
               // Return early, if setup is incomplete.
-              if (!setupComplete) {
+              if (!setupCompleteResult.setupComplete) {
                 this.mode = 'setup';
+                if (setupCompleteResult.loader !== '') {
+                  this.setupConfiguration.loader = setupCompleteResult.loader;
+                }
                 Promise.all(promises).then(() => {
                   this.loaded = true;
                 });
