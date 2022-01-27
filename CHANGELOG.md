@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.1.17] - 2022-01-27
+
+### Fixed
+- Inline items disabled in LIVE workspace are now visible in custom workspace. [#468](https://github.com/Gernott/mask/issues/468)
+- Disabled records are no longer loaded in backend preview.
+- Page inline fields are now translated correctly.
+- Avoid deprecated method call to fetchAll.
+- Auto-Configuration won't remove config for other loader anymore.
+
 ## [7.1.16] - 2022-01-20
 
 ### Fixed
