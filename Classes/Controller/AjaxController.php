@@ -111,15 +111,15 @@ class AjaxController
         // If the loader identifier is NOT DEFINED OR "json" AND the path to the mask.json DOES NOT exist, the setup is incomplete.
         $loaderIdentifier = $this->maskExtensionConfiguration['loader_identifier'] ?? '';
         if (($loaderIdentifier === '' || $loaderIdentifier === 'json') && ($this->maskExtensionConfiguration['json'] ?? '') === '') {
-            return new JsonResponse(['setupComplete' => 0]);
+            return new JsonResponse(['setupComplete' => 0, 'loader' => $loaderIdentifier]);
         }
 
         // If the loader identifier IS "json-split" AND the content elements' folder DOES NOT exist, the setup is incomplete.
         if ($loaderIdentifier === 'json-split' && ($this->maskExtensionConfiguration['content_elements_folder'] ?? '') === '') {
-            return new JsonResponse(['setupComplete' => 0]);
+            return new JsonResponse(['setupComplete' => 0, 'loader' => $loaderIdentifier]);
         }
 
-        return new JsonResponse(['setupComplete' => 1]);
+        return new JsonResponse(['setupComplete' => 1, 'loader' => $loaderIdentifier]);
     }
 
     public function autoConfigureSetup(ServerRequestInterface $request): Response
@@ -137,7 +137,7 @@ class AjaxController
         }
 
         $extensionConfiguration = new ExtensionConfiguration();
-        $configuration = [];
+        $configuration = $extensionConfiguration->get('mask');
         $configuration['loader_identifier'] = $loader;
         if ($loader === 'json') {
             $configuration['json'] = 'EXT:' . $extensionKey . '/Configuration/Mask/mask.json';
