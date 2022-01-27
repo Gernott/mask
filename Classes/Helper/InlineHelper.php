@@ -283,14 +283,16 @@ class InlineHelper
                 if ($inWorkspacePreviewMode) {
                     $pageRepository->versionOL($childTable, $element);
                 }
-                $elements[$element['uid']] = $element;
+                if ($element !== false) {
+                    $elements[$element['uid']] = $element;
+                }
             }
         } else {
             foreach ($rows as $element) {
                 if ($inWorkspacePreviewMode) {
                     $element = BackendUtility::getRecordWSOL($childTable, $element['uid']);
                     // Ignore disabled elements in backend preview.
-                    if ($element[$GLOBALS['TCA'][$childTable]['ctrl']['enablecolumns']['disabled']] ?? false) {
+                    if ($element === null || $element[$GLOBALS['TCA'][$childTable]['ctrl']['enablecolumns']['disabled']] ?? false) {
                         continue;
                     }
                 }
