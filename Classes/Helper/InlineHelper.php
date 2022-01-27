@@ -293,7 +293,7 @@ class InlineHelper
                 if ($inWorkspacePreviewMode) {
                     $element = BackendUtility::getRecordWSOL($childTable, $element['uid']);
                     // Ignore disabled elements in backend preview.
-                    if ($element === null || $element[$GLOBALS['TCA'][$childTable]['ctrl']['enablecolumns']['disabled']] ?? false) {
+                    if ($element === null || ($element[$GLOBALS['TCA'][$childTable]['ctrl']['enablecolumns']['disabled']] ?? false)) {
                         continue;
                     }
                 }
