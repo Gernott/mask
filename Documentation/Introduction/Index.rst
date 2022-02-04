@@ -88,7 +88,7 @@ reloads of the frame between switching views anymore.
 Why Mask
 ========
 
-Mask in not the only content element creation extension. There is also `Dynamic Content Elements (DCE) <https://extensions.typo3.org/extension/dce>`__ .
+Mask is not the only content element creation extension. There is also `Dynamic Content Elements (DCE) <https://extensions.typo3.org/extension/dce>`__ .
 In contrast to Mask, DCE utilizes flexforms extensively. The downsides of using
 flexform is already discussed above. The backend module is built the good old
 fashioned way. The overview of the fields of an element can become a bit
