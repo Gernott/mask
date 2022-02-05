@@ -6,11 +6,6 @@ parameters:
 			path: ../../Classes/Controller/AjaxController.php
 
 		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: ../../Classes/Definition/TableDefinitionCollection.php
-
-		-
 			message: "#^PHPDoc tag @var has invalid value \\(\\)\\: Unexpected token \"\\\\n     \", expected type at offset 15$#"
 			count: 1
 			path: ../../Classes/DependencyInjection/LoaderPass.php

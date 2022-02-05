@@ -149,9 +149,6 @@ final class TableDefinitionCollection implements \IteratorAggregate
         // Load inline fields of own table
         if ($this->hasTable($parentKey)) {
             $searchTable = $this->getTable($parentKey);
-            if (!$searchTable) {
-                return $nestedTcaFields;
-            }
             $searchTables = [$searchTable];
         } else {
             $searchTables = $this->definitions;
