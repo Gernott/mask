@@ -24,3 +24,4 @@ parameters:
   excludePaths:
     # ext_emconf.php get the $_EXTKEY set from outsite. We'll ignore all of them
     - ../../ext_emconf.php
+    - ../../var
