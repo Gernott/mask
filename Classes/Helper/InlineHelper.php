@@ -186,12 +186,8 @@ class InlineHelper
 
     /**
      * Returns the selected relations of select or group element
-     *
-     * @param $uidList
-     * @param $allowed
-     * @return array
      */
-    protected function getRelations($uidList, $allowed)
+    protected function getRelations(string $uidList, string $allowed): array
     {
         $relationHandler = GeneralUtility::makeInstance(RelationHandler::class);
         $relationHandler->start(
