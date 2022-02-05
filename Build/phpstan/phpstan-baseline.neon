@@ -6,11 +6,6 @@ parameters:
 			path: ../../Classes/Controller/AjaxController.php
 
 		-
-			message: "#^PHPDoc tag @var has invalid value \\(\\)\\: Unexpected token \"\\\\n     \", expected type at offset 15$#"
-			count: 1
-			path: ../../Classes/DependencyInjection/LoaderPass.php
-
-		-
 			message: "#^Cannot call method fetch\\(\\) on Doctrine\\\\DBAL\\\\Result\\|int\\.$#"
 			count: 1
 			path: ../../Classes/Domain/Repository/BackendLayoutRepository.php

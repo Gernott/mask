@@ -27,7 +27,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 final class LoaderPass implements CompilerPassInterface
 {
     /**
-     * @var
+     * @var string
      */
     private $tagName;
 
