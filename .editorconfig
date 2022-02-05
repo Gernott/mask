@@ -16,6 +16,9 @@ trim_trailing_whitespace = true
 [*.{ts,js}]
 indent_size = 2
 
+[*.neon]
+indent_size = 2
+
 # JSON-Files
 [*.json]
 indent_style = tab
