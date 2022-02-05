@@ -67,7 +67,7 @@ class EditLinkViewHelper extends AbstractTagBasedViewHelper
             ];
             $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
             $uri = $uriBuilder->buildUriFromRoute('record_edit', $urlParameters);
-            $this->tag->addAttribute('href', $uri);
+            $this->tag->addAttribute('href', (string)$uri);
         }
 
         $this->tag->setContent($this->renderChildren());

@@ -1,11 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Parameter \\#2 \\$attributeValue of method TYPO3Fluid\\\\Fluid\\\\Core\\\\ViewHelper\\\\TagBuilder\\:\\:addAttribute\\(\\) expects array\\|string\\|Traversable\\|null, TYPO3\\\\CMS\\\\Core\\\\Http\\\\Uri given\\.$#"
-			count: 1
-			path: ../../Classes/ViewHelpers/EditLinkViewHelper.php
-
-		-
 			message: "#^Property MASK\\\\Mask\\\\ViewHelpers\\\\EditLinkViewHelper\\:\\:\\$doEdit \\(bool\\) does not accept default value of type int\\.$#"
 			count: 1
 			path: ../../Classes/ViewHelpers/EditLinkViewHelper.php
