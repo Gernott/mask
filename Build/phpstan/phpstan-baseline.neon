@@ -11,6 +11,11 @@ parameters:
 			path: ../../Classes/Controller/AjaxController.php
 
 		-
+			message: "#^Parameter \\#1 \\.\\.\\.\\$predicates of method TYPO3\\\\CMS\\\\Core\\\\Database\\\\Query\\\\QueryBuilder\\:\\:where\\(\\) expects array\\<int, mixed\\>\\|Doctrine\\\\DBAL\\\\Query\\\\Expression\\\\CompositeExpression, string given\\.$#"
+			count: 1
+			path: ../../Classes/Controller/AjaxController.php
+
+		-
 			message: "#^PHPDoc tag @return with type iterable\\<MASK\\\\Mask\\\\Definition\\\\ElementDefinition\\> is not subtype of native type Traversable\\.$#"
 			count: 1
 			path: ../../Classes/Definition/ElementDefinitionCollection.php
@@ -61,6 +66,11 @@ parameters:
 			path: ../../Classes/Domain/Repository/BackendLayoutRepository.php
 
 		-
+			message: "#^Parameter \\#1 \\.\\.\\.\\$predicates of method TYPO3\\\\CMS\\\\Core\\\\Database\\\\Query\\\\QueryBuilder\\:\\:where\\(\\) expects array\\<int, mixed\\>\\|Doctrine\\\\DBAL\\\\Query\\\\Expression\\\\CompositeExpression, string given\\.$#"
+			count: 1
+			path: ../../Classes/Domain/Repository/BackendLayoutRepository.php
+
+		-
 			message: "#^Cannot call method fetchAll\\(\\) on Doctrine\\\\DBAL\\\\Result\\|int\\.$#"
 			count: 1
 			path: ../../Classes/Helper/InlineHelper.php
@@ -72,6 +82,16 @@ parameters:
 
 		-
 			message: "#^PHPDoc tag @param has invalid value \\(\\$uidList\\)\\: Unexpected token \"\\$uidList\", expected type at offset 90$#"
+			count: 1
+			path: ../../Classes/Helper/InlineHelper.php
+
+		-
+			message: "#^Parameter \\#1 \\.\\.\\.\\$predicates of method TYPO3\\\\CMS\\\\Core\\\\Database\\\\Query\\\\QueryBuilder\\:\\:where\\(\\) expects array\\<int, mixed\\>\\|Doctrine\\\\DBAL\\\\Query\\\\Expression\\\\CompositeExpression, string given\\.$#"
+			count: 1
+			path: ../../Classes/Helper/InlineHelper.php
+
+		-
+			message: "#^Parameter \\#1 \\.\\.\\.\\$where of method TYPO3\\\\CMS\\\\Core\\\\Database\\\\Query\\\\QueryBuilder\\:\\:andWhere\\(\\) expects array\\<int, string\\>\\|Doctrine\\\\DBAL\\\\Query\\\\Expression\\\\CompositeExpression, string given\\.$#"
 			count: 1
 			path: ../../Classes/Helper/InlineHelper.php
 
