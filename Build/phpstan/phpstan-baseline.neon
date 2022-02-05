@@ -6,24 +6,9 @@ parameters:
 			path: ../../Classes/Controller/AjaxController.php
 
 		-
-			message: "#^Cannot call method fetch\\(\\) on Doctrine\\\\DBAL\\\\Result\\|int\\.$#"
-			count: 1
-			path: ../../Classes/Domain/Repository/BackendLayoutRepository.php
-
-		-
-			message: "#^Cannot call method fetchAll\\(\\) on Doctrine\\\\DBAL\\\\Result\\|int\\.$#"
-			count: 1
-			path: ../../Classes/Domain/Repository/BackendLayoutRepository.php
-
-		-
 			message: "#^Parameter \\#1 \\.\\.\\.\\$predicates of method TYPO3\\\\CMS\\\\Core\\\\Database\\\\Query\\\\QueryBuilder\\:\\:where\\(\\) expects array\\<int, mixed\\>\\|Doctrine\\\\DBAL\\\\Query\\\\Expression\\\\CompositeExpression, string given\\.$#"
 			count: 1
 			path: ../../Classes/Domain/Repository/BackendLayoutRepository.php
-
-		-
-			message: "#^Cannot call method fetchAll\\(\\) on Doctrine\\\\DBAL\\\\Result\\|int\\.$#"
-			count: 1
-			path: ../../Classes/Helper/InlineHelper.php
 
 		-
 			message: "#^PHPDoc tag @param has invalid value \\(\\$allowed\\)\\: Unexpected token \"\\$allowed\", expected type at offset 113$#"
@@ -99,9 +84,4 @@ parameters:
 			message: "#^PHPDoc tag @param has invalid value \\(\\$settings\\)\\: Unexpected token \"\\$settings\", expected type at offset 80$#"
 			count: 1
 			path: ../../Tests/Unit/Utility/TemplatePathUtilityTest.php
-
-		-
-			message: "#^Parameter \\#2 \\$packageCache of static method TYPO3\\\\CMS\\\\Core\\\\Core\\\\Bootstrap\\:\\:createPackageManager\\(\\) expects TYPO3\\\\CMS\\\\Core\\\\Package\\\\Cache\\\\PackageCacheInterface, TYPO3\\\\CMS\\\\Core\\\\Cache\\\\Frontend\\\\PhpFrontend given\\.$#"
-			count: 1
-			path: ../phpunit/UnitTestsBootstrap.php
 

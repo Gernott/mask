@@ -26,8 +26,29 @@ parameters:
     - ../../ext_emconf.php
     - ../../var
 
+  # These errors are due to breaking changes between TYPO3 v10 and v11
   ignoreErrors:
-    - # Parameters changed from TYPO3 v10 to v11
+    -
       message: "#^Method TYPO3\\\\CMS\\\\Core\\\\Configuration\\\\ExtensionConfiguration\\:\\:set\\(\\) invoked with 3 parameters, 1\\-2 required\\.$#"
       count: 1
       path: ../../Classes/Controller/AjaxController.php
+
+    -
+      message: "#^Cannot call method fetch\\(\\) on Doctrine\\\\DBAL\\\\Result\\|int\\.$#"
+      count: 1
+      path: ../../Classes/Domain/Repository/BackendLayoutRepository.php
+
+    -
+      message: "#^Cannot call method fetchAll\\(\\) on Doctrine\\\\DBAL\\\\Result\\|int\\.$#"
+      count: 1
+      path: ../../Classes/Domain/Repository/BackendLayoutRepository.php
+
+    -
+      message: "#^Cannot call method fetchAll\\(\\) on Doctrine\\\\DBAL\\\\Result\\|int\\.$#"
+      count: 1
+      path: ../../Classes/Helper/InlineHelper.php
+
+    -
+      message: "#^Parameter \\#2 \\$packageCache of static method TYPO3\\\\CMS\\\\Core\\\\Core\\\\Bootstrap\\:\\:createPackageManager\\(\\) expects TYPO3\\\\CMS\\\\Core\\\\Package\\\\Cache\\\\PackageCacheInterface, TYPO3\\\\CMS\\\\Core\\\\Cache\\\\Frontend\\\\PhpFrontend given\\.$#"
+      count: 1
+      path: ../phpunit/UnitTestsBootstrap.php
