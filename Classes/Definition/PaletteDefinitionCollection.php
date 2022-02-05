@@ -59,13 +59,11 @@ final class PaletteDefinitionCollection implements \IteratorAggregate
     }
 
     /**
-     * @return iterable<PaletteDefinition>
+     * @return \Traversable|PaletteDefinition[]
      */
     public function getIterator(): \Traversable
     {
-        foreach ($this->definitions as $definition) {
-            yield $definition;
-        }
+        return new \ArrayIterator($this->definitions);
     }
 
     public function toArray(): array

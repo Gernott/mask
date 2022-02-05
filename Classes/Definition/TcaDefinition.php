@@ -71,13 +71,11 @@ final class TcaDefinition implements \IteratorAggregate
     }
 
     /**
-     * @return iterable<TcaFieldDefinition>
+     * @return \Traversable|TcaFieldDefinition[]
      */
     public function getIterator(): \Traversable
     {
-        foreach ($this->getOrderedFields() as $definition) {
-            yield $definition;
-        }
+        return new \ArrayIterator($this->getOrderedFields());
     }
 
     public function toArray(): array

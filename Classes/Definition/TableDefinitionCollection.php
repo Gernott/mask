@@ -85,13 +85,11 @@ final class TableDefinitionCollection implements \IteratorAggregate
     }
 
     /**
-     * @return iterable<TableDefinition>
+     * @return \Traversable|TableDefinition[]
      */
     public function getIterator(): \Traversable
     {
-        foreach ($this->definitions as $definition) {
-            yield $definition;
-        }
+        return new \ArrayIterator($this->definitions);
     }
 
     /**

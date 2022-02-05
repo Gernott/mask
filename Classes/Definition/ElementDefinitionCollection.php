@@ -62,13 +62,11 @@ final class ElementDefinitionCollection implements \IteratorAggregate
     }
 
     /**
-     * @return iterable<ElementDefinition>
+     * @return \Traversable|ElementDefinition[]
      */
     public function getIterator(): \Traversable
     {
-        foreach ($this->sort($this->definitions) as $definition) {
-            yield $definition;
-        }
+        return new \ArrayIterator($this->sort($this->definitions));
     }
 
     public function toArray(): array

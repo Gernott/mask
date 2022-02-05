@@ -45,13 +45,11 @@ final class NestedTcaFieldDefinitions implements \IteratorAggregate
     }
 
     /**
-     * @return iterable<TcaFieldDefinition>
+     * @return \Traversable|TcaFieldDefinition[]
      */
     public function getIterator(): \Traversable
     {
-        foreach ($this->sortInlineFieldsByOrder($this->nestedFields) as $field) {
-            yield $field;
-        }
+        return new \ArrayIterator($this->sortInlineFieldsByOrder($this->nestedFields));
     }
 
     /**

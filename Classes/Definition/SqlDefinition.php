@@ -59,13 +59,11 @@ final class SqlDefinition implements \IteratorAggregate
     }
 
     /**
-     * @return iterable<SqlColumnDefinition>
+     * @return \Traversable|SqlColumnDefinition[]
      */
     public function getIterator(): \Traversable
     {
-        foreach ($this->definitions as $definition) {
-            yield $definition;
-        }
+        return new \ArrayIterator($this->definitions);
     }
 
     public function toArray(): array

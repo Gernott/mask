@@ -1,11 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Access to an undefined property object\\:\\:\\$table\\.$#"
-			count: 3
-			path: ../../Classes/CodeGenerator/SqlCodeGenerator.php
-
-		-
 			message: "#^Method TYPO3\\\\CMS\\\\Core\\\\Configuration\\\\ExtensionConfiguration\\:\\:set\\(\\) invoked with 3 parameters, 1\\-2 required\\.$#"
 			count: 1
 			path: ../../Classes/Controller/AjaxController.php
@@ -16,39 +11,9 @@ parameters:
 			path: ../../Classes/Controller/AjaxController.php
 
 		-
-			message: "#^PHPDoc tag @return with type iterable\\<MASK\\\\Mask\\\\Definition\\\\ElementDefinition\\> is not subtype of native type Traversable\\.$#"
-			count: 1
-			path: ../../Classes/Definition/ElementDefinitionCollection.php
-
-		-
-			message: "#^PHPDoc tag @return with type iterable\\<MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\> is not subtype of native type Traversable\\.$#"
-			count: 1
-			path: ../../Classes/Definition/NestedTcaFieldDefinitions.php
-
-		-
-			message: "#^PHPDoc tag @return with type iterable\\<MASK\\\\Mask\\\\Definition\\\\PaletteDefinition\\> is not subtype of native type Traversable\\.$#"
-			count: 1
-			path: ../../Classes/Definition/PaletteDefinitionCollection.php
-
-		-
-			message: "#^PHPDoc tag @return with type iterable\\<MASK\\\\Mask\\\\Definition\\\\SqlColumnDefinition\\> is not subtype of native type Traversable\\.$#"
-			count: 1
-			path: ../../Classes/Definition/SqlDefinition.php
-
-		-
 			message: "#^Negated boolean expression is always false\\.$#"
 			count: 1
 			path: ../../Classes/Definition/TableDefinitionCollection.php
-
-		-
-			message: "#^PHPDoc tag @return with type iterable\\<MASK\\\\Mask\\\\Definition\\\\TableDefinition\\> is not subtype of native type Traversable\\.$#"
-			count: 1
-			path: ../../Classes/Definition/TableDefinitionCollection.php
-
-		-
-			message: "#^PHPDoc tag @return with type iterable\\<MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\> is not subtype of native type Traversable\\.$#"
-			count: 1
-			path: ../../Classes/Definition/TcaDefinition.php
 
 		-
 			message: "#^PHPDoc tag @var has invalid value \\(\\)\\: Unexpected token \"\\\\n     \", expected type at offset 15$#"
