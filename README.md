@@ -3,6 +3,8 @@
 [![Unit Tests](https://github.com/Gernott/mask/actions/workflows/tests.yaml/badge.svg)](https://github.com/Gernott/mask/actions/workflows/tests.yaml)
 [![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat)](https://github.com/phpstan/phpstan)
 
+[![Verified TYPO3 Extension](Resources/Public/Images/verified.svg) Verified TYPO3 Extension](https://typo3.com/typo3-cms/verified-extensions-integrations-for-typo3/extensions/mask-create-custom-content-elements-in-typo3)
+
 # Mask
 
 Mask is a content element builder that generates TypoScript, TSconfig and TCA on
