@@ -25,3 +25,9 @@ parameters:
     # ext_emconf.php get the $_EXTKEY set from outsite. We'll ignore all of them
     - ../../ext_emconf.php
     - ../../var
+
+  ignoreErrors:
+    - # Parameters changed from TYPO3 v10 to v11
+      message: "#^Method TYPO3\\\\CMS\\\\Core\\\\Configuration\\\\ExtensionConfiguration\\:\\:set\\(\\) invoked with 3 parameters, 1\\-2 required\\.$#"
+      count: 1
+      path: ../../Classes/Controller/AjaxController.php
