@@ -1,11 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Method MASK\\\\Mask\\\\Backend\\\\BackendLayoutView\\:\\:determinePageId\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../Classes/Backend/BackendLayoutView.php
-
-		-
 			message: "#^Method MASK\\\\Mask\\\\CodeGenerator\\\\SqlCodeGenerator\\:\\:getSqlByConfiguration\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/CodeGenerator/SqlCodeGenerator.php
