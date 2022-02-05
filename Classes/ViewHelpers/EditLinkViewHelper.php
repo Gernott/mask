@@ -33,7 +33,7 @@ class EditLinkViewHelper extends AbstractTagBasedViewHelper
     /**
      * @var bool
      */
-    protected $doEdit = 1;
+    protected $doEdit = true;
 
     /**
      * @return BackendUserAuthentication

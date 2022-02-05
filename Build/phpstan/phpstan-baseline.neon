@@ -1,11 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Property MASK\\\\Mask\\\\ViewHelpers\\\\EditLinkViewHelper\\:\\:\\$doEdit \\(bool\\) does not accept default value of type int\\.$#"
-			count: 1
-			path: ../../Classes/ViewHelpers/EditLinkViewHelper.php
-
-		-
 			message: "#^PHPDoc tag @param has invalid value \\(\\$data\\)\\: Unexpected token \"\\$data\", expected type at offset 85$#"
 			count: 1
 			path: ../../Tests/Unit/CodeGenerator/TcaCodeGeneratorTest.php
