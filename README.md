@@ -1,6 +1,7 @@
 ![Page and Content masks for TYPO3](Resources/Public/Images/banner.jpg)
 
 [![Unit Tests](https://github.com/Gernott/mask/actions/workflows/tests.yaml/badge.svg)](https://github.com/Gernott/mask/actions/workflows/tests.yaml)
+[![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat)](https://github.com/phpstan/phpstan)
 
 # Mask
 
