@@ -55,7 +55,7 @@ final class LoaderPass implements CompilerPassInterface
             foreach ($tags as $attributes) {
                 if (!isset($attributes['identifier'])) {
                     throw new \InvalidArgumentException(
-                        sprintf('Service tag "mask.loader" required the attribute "identifier to be set. Missing in %s"', $id),
+                        'Service tag "mask.loader" requires the attribute "identifier" to be set. Missing in "' . $id . '".',
                         1632644430
                     );
                 }
