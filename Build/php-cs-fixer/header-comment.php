@@ -19,10 +19,12 @@ if (PHP_SAPI !== 'cli') {
     die('This script supports command line usage only. Please check your command.');
 }
 
-$finder = PhpCsFixer\Finder::create()
+$finder = (new \PhpCsFixer\Finder())
     ->name('*.php')
     ->in(__DIR__ . '/../../')
     ->exclude('Acceptance/Support/_generated') // EXT:core
+    ->exclude('var')
+    ->exclude('Build')
     // Configuration files do not need header comments
     ->exclude('Configuration')
     ->exclude('Tests/Unit/Fixtures')
@@ -49,7 +51,7 @@ LICENSE.txt file that was distributed with this source code.
 The TYPO3 project - inspiring people to share!
 COMMENT;
 
-return PhpCsFixer\Config::create()
+return (new \PhpCsFixer\Config())
     ->setRiskyAllowed(false)
     ->setRules([
         'header_comment' => [

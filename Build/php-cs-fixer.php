@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -11,6 +12,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+
 /**
  * This file represents the configuration for Code Sniffing PSR-2-related
  * automatic checks of coding guidelines
