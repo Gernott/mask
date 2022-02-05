@@ -48,6 +48,7 @@ Options:
             - lint: PHP linting
             - unit (default): PHP unit tests
             - unitDeprecated: deprecated PHP unit tests
+            - phpstan: phpstan tests
 
     -p <7.2|7.3>
         Specifies the PHP minor version to be used
@@ -216,6 +217,12 @@ case ${TEST_SUITE} in
     unitDeprecated)
         setUpDockerComposeDotEnv
         docker-compose run unitDeprecated
+        SUITE_EXIT_CODE=$?
+        docker-compose down
+        ;;
+    phpstan)
+        setUpDockerComposeDotEnv
+        docker-compose run phpstan
         SUITE_EXIT_CODE=$?
         docker-compose down
         ;;

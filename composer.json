@@ -49,7 +49,12 @@
 		"typo3/testing-framework": "^6",
 		"phpunit/phpunit": "^8.4",
 		"friendsofphp/php-cs-fixer": "^3.4",
-		"typo3/tailor": "^1.2"
+		"typo3/tailor": "^1.2",
+		"phpstan/phpstan": "^1.4",
+		"bnf/phpstan-psr-container": "^1.0",
+		"friendsoftypo3/phpstan-typo3": "^0.9.0",
+		"jangregor/phpstan-prophecy": "^1.0",
+		"phpstan/phpstan-phpunit": "^1.0"
 	},
 	"require": {
 		"php": "^7.2 || ^8.0",

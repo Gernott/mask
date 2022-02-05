@@ -10,3 +10,4 @@ Build/phpunit/.phpunit.result.cache
 Documentation-GENERATED-temp/
 .env
 .vscode
+.cache/
