@@ -1,0 +1,172 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Method MASK\\\\Mask\\\\Backend\\\\BackendLayoutView\\:\\:determinePageId\\(\\) should return int\\|false but return statement is missing\\.$#"
+			count: 1
+			path: ../../Classes/Backend/BackendLayoutView.php
+
+		-
+			message: "#^Access to an undefined property object\\:\\:\\$table\\.$#"
+			count: 3
+			path: ../../Classes/CodeGenerator/SqlCodeGenerator.php
+
+		-
+			message: "#^Method TYPO3\\\\CMS\\\\Core\\\\Configuration\\\\ExtensionConfiguration\\:\\:set\\(\\) invoked with 3 parameters, 1\\-2 required\\.$#"
+			count: 1
+			path: ../../Classes/Controller/AjaxController.php
+
+		-
+			message: "#^PHPDoc tag @return with type iterable\\<MASK\\\\Mask\\\\Definition\\\\ElementDefinition\\> is not subtype of native type Traversable\\.$#"
+			count: 1
+			path: ../../Classes/Definition/ElementDefinitionCollection.php
+
+		-
+			message: "#^PHPDoc tag @return with type iterable\\<MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\> is not subtype of native type Traversable\\.$#"
+			count: 1
+			path: ../../Classes/Definition/NestedTcaFieldDefinitions.php
+
+		-
+			message: "#^PHPDoc tag @return with type iterable\\<MASK\\\\Mask\\\\Definition\\\\PaletteDefinition\\> is not subtype of native type Traversable\\.$#"
+			count: 1
+			path: ../../Classes/Definition/PaletteDefinitionCollection.php
+
+		-
+			message: "#^PHPDoc tag @return with type iterable\\<MASK\\\\Mask\\\\Definition\\\\SqlColumnDefinition\\> is not subtype of native type Traversable\\.$#"
+			count: 1
+			path: ../../Classes/Definition/SqlDefinition.php
+
+		-
+			message: "#^If condition is always true\\.$#"
+			count: 4
+			path: ../../Classes/Definition/TableDefinition.php
+
+		-
+			message: "#^If condition is always true\\.$#"
+			count: 2
+			path: ../../Classes/Definition/TableDefinitionCollection.php
+
+		-
+			message: "#^Negated boolean expression is always false\\.$#"
+			count: 1
+			path: ../../Classes/Definition/TableDefinitionCollection.php
+
+		-
+			message: "#^PHPDoc tag @return with type iterable\\<MASK\\\\Mask\\\\Definition\\\\TableDefinition\\> is not subtype of native type Traversable\\.$#"
+			count: 1
+			path: ../../Classes/Definition/TableDefinitionCollection.php
+
+		-
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			count: 1
+			path: ../../Classes/Definition/TableDefinitionCollection.php
+
+		-
+			message: "#^PHPDoc tag @return with type iterable\\<MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\> is not subtype of native type Traversable\\.$#"
+			count: 1
+			path: ../../Classes/Definition/TcaDefinition.php
+
+		-
+			message: "#^Result of && is always false\\.$#"
+			count: 2
+			path: ../../Classes/Definition/TcaFieldDefinition.php
+
+		-
+			message: "#^Ternary operator condition is always true\\.$#"
+			count: 1
+			path: ../../Classes/Definition/TcaFieldDefinition.php
+
+		-
+			message: "#^PHPDoc tag @var has invalid value \\(\\)\\: Unexpected token \"\\\\n     \", expected type at offset 15$#"
+			count: 1
+			path: ../../Classes/DependencyInjection/LoaderPass.php
+
+		-
+			message: "#^Cannot call method fetch\\(\\) on Doctrine\\\\DBAL\\\\Result\\|int\\.$#"
+			count: 1
+			path: ../../Classes/Domain/Repository/BackendLayoutRepository.php
+
+		-
+			message: "#^Cannot call method fetchAll\\(\\) on Doctrine\\\\DBAL\\\\Result\\|int\\.$#"
+			count: 1
+			path: ../../Classes/Domain/Repository/BackendLayoutRepository.php
+
+		-
+			message: "#^Property MASK\\\\Mask\\\\Definition\\\\TableDefinition\\:\\:\\$elements \\(MASK\\\\Mask\\\\Definition\\\\ElementDefinitionCollection\\) in empty\\(\\) is not falsy\\.$#"
+			count: 1
+			path: ../../Classes/Form/FormDataProvider/TcaTypesShowitemMaskBeLayoutFields.php
+
+		-
+			message: "#^Cannot call method fetchAll\\(\\) on Doctrine\\\\DBAL\\\\Result\\|int\\.$#"
+			count: 1
+			path: ../../Classes/Helper/InlineHelper.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$allowed\\)\\: Unexpected token \"\\$allowed\", expected type at offset 113$#"
+			count: 1
+			path: ../../Classes/Helper/InlineHelper.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$uidList\\)\\: Unexpected token \"\\$uidList\", expected type at offset 90$#"
+			count: 1
+			path: ../../Classes/Helper/InlineHelper.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between array and null will always evaluate to false\\.$#"
+			count: 1
+			path: ../../Classes/Helper/InlineHelper.php
+
+		-
+			message: "#^Variable \\$replace on left side of \\?\\? always exists and is not nullable\\.$#"
+			count: 1
+			path: ../../Classes/Utility/TcaConverter.php
+
+		-
+			message: "#^Parameter \\#2 \\$attributeValue of method TYPO3Fluid\\\\Fluid\\\\Core\\\\ViewHelper\\\\TagBuilder\\:\\:addAttribute\\(\\) expects array\\|string\\|Traversable\\|null, TYPO3\\\\CMS\\\\Core\\\\Http\\\\Uri given\\.$#"
+			count: 1
+			path: ../../Classes/ViewHelpers/EditLinkViewHelper.php
+
+		-
+			message: "#^Property MASK\\\\Mask\\\\ViewHelpers\\\\EditLinkViewHelper\\:\\:\\$doEdit \\(bool\\) does not accept default value of type int\\.$#"
+			count: 1
+			path: ../../Classes/ViewHelpers/EditLinkViewHelper.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$data\\)\\: Unexpected token \"\\$data\", expected type at offset 85$#"
+			count: 1
+			path: ../../Tests/Unit/CodeGenerator/TcaCodeGeneratorTest.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$expected\\)\\: Unexpected token \"\\$expected\", expected type at offset 105$#"
+			count: 1
+			path: ../../Tests/Unit/CodeGenerator/TcaCodeGeneratorTest.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$elementKey\\)\\: Unexpected token \"\\$elementKey\", expected type at offset 104$#"
+			count: 1
+			path: ../../Tests/Unit/Utility/TemplatePathUtilityTest.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$expectedPath\\)\\: Unexpected token \"\\$expectedPath\", expected type at offset 182$#"
+			count: 1
+			path: ../../Tests/Unit/Utility/TemplatePathUtilityTest.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$onlyTemplateName\\)\\: Unexpected token \"\\$onlyTemplateName\", expected type at offset 130$#"
+			count: 1
+			path: ../../Tests/Unit/Utility/TemplatePathUtilityTest.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$path\\)\\: Unexpected token \"\\$path\", expected type at offset 162$#"
+			count: 1
+			path: ../../Tests/Unit/Utility/TemplatePathUtilityTest.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$settings\\)\\: Unexpected token \"\\$settings\", expected type at offset 80$#"
+			count: 1
+			path: ../../Tests/Unit/Utility/TemplatePathUtilityTest.php
+
+		-
+			message: "#^Parameter \\#2 \\$packageCache of static method TYPO3\\\\CMS\\\\Core\\\\Core\\\\Bootstrap\\:\\:createPackageManager\\(\\) expects TYPO3\\\\CMS\\\\Core\\\\Package\\\\Cache\\\\PackageCacheInterface, TYPO3\\\\CMS\\\\Core\\\\Cache\\\\Frontend\\\\PhpFrontend given\\.$#"
+			count: 1
+			path: ../phpunit/UnitTestsBootstrap.php
+
