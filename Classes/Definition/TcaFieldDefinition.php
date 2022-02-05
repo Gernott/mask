@@ -31,7 +31,7 @@ final class TcaFieldDefinition
 
     public $key = '';
     public $fullKey = '';
-    /** @var FieldType */
+    /** @var ?FieldType */
     public $type;
     public $isCoreField = false;
     public $inPalette = false;

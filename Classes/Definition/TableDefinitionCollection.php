@@ -379,9 +379,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
                 $property = $element->{$propertyName . 's'}[array_search($key, $element->columns, true)];
             } else {
                 $field = $definition->tca->getField($key);
-                if ($field) {
-                    $property = $field->{$propertyName . 'ByElement'}[$element->key] ?? '';
-                }
+                $property = $field->{$propertyName . 'ByElement'}[$element->key] ?? '';
             }
             if ($property !== '') {
                 break;
