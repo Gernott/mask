@@ -242,8 +242,8 @@ jobs:
       - name: PHP 8.1 Unit Deprecated
         run: Build/Scripts/runTests.sh -s unitDeprecated -p 8.1
 
-  Phpstan:
-    name: Phpstan TYPO3 v11.5 PHP 8.1
+  PHPStan:
+    name: PHPStan TYPO3 v11.5 PHP 8.1
     needs: early_cgl
     runs-on: ubuntu-latest
 
@@ -269,5 +269,5 @@ jobs:
       - name: Install dependencies
         run: composer require typo3/cms-core:^11.5 --prefer-dist --no-progress
 
-      - name: Phpstan
+      - name: PHPStan
         run: .Build/bin/phpstan analyse -c Build/phpstan/phpstan.neon --no-progress --no-interaction --memory-limit 4G
