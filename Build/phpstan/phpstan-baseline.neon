@@ -1,11 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Method MASK\\\\Mask\\\\Backend\\\\BackendLayoutView\\:\\:determinePageId\\(\\) should return int\\|false but return statement is missing\\.$#"
-			count: 1
-			path: ../../Classes/Backend/BackendLayoutView.php
-
-		-
 			message: "#^Access to an undefined property object\\:\\:\\$table\\.$#"
 			count: 3
 			path: ../../Classes/CodeGenerator/SqlCodeGenerator.php
