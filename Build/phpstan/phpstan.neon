@@ -25,6 +25,7 @@ parameters:
     # ext_emconf.php get the $_EXTKEY set from outsite. We'll ignore all of them
     - ../../ext_emconf.php
     - ../../var
+    - ../../.Build
 
   # These errors are due to breaking changes between TYPO3 v10 and v11
   ignoreErrors:
