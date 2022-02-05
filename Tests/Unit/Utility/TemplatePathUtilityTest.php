@@ -130,13 +130,8 @@ class TemplatePathUtilityTest extends UnitTestCase
     /**
      * @test
      * @dataProvider getTemplatePathDataProvider
-     * @param $settings
-     * @param $elementKey
-     * @param $onlyTemplateName
-     * @param $path
-     * @param $expectedPath
      */
-    public function getTemplatePath($settings, $elementKey, $onlyTemplateName, $path, $removeExtension, $expectedPath)
+    public function getTemplatePath(array $settings, string $elementKey, bool $onlyTemplateName, ?string $path, bool $removeExtension, string $expectedPath): void
     {
         $packageManager = $this->prophesize(PackageManager::class);
         $packageManager->isPackageActive('mask')->willReturn(true);

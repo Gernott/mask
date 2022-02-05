@@ -1,37 +1,3 @@
 parameters:
-	ignoreErrors:
-		-
-			message: "#^PHPDoc tag @param has invalid value \\(\\$data\\)\\: Unexpected token \"\\$data\", expected type at offset 85$#"
-			count: 1
-			path: ../../Tests/Unit/CodeGenerator/TcaCodeGeneratorTest.php
-
-		-
-			message: "#^PHPDoc tag @param has invalid value \\(\\$expected\\)\\: Unexpected token \"\\$expected\", expected type at offset 105$#"
-			count: 1
-			path: ../../Tests/Unit/CodeGenerator/TcaCodeGeneratorTest.php
-
-		-
-			message: "#^PHPDoc tag @param has invalid value \\(\\$elementKey\\)\\: Unexpected token \"\\$elementKey\", expected type at offset 104$#"
-			count: 1
-			path: ../../Tests/Unit/Utility/TemplatePathUtilityTest.php
-
-		-
-			message: "#^PHPDoc tag @param has invalid value \\(\\$expectedPath\\)\\: Unexpected token \"\\$expectedPath\", expected type at offset 182$#"
-			count: 1
-			path: ../../Tests/Unit/Utility/TemplatePathUtilityTest.php
-
-		-
-			message: "#^PHPDoc tag @param has invalid value \\(\\$onlyTemplateName\\)\\: Unexpected token \"\\$onlyTemplateName\", expected type at offset 130$#"
-			count: 1
-			path: ../../Tests/Unit/Utility/TemplatePathUtilityTest.php
-
-		-
-			message: "#^PHPDoc tag @param has invalid value \\(\\$path\\)\\: Unexpected token \"\\$path\", expected type at offset 162$#"
-			count: 1
-			path: ../../Tests/Unit/Utility/TemplatePathUtilityTest.php
-
-		-
-			message: "#^PHPDoc tag @param has invalid value \\(\\$settings\\)\\: Unexpected token \"\\$settings\", expected type at offset 80$#"
-			count: 1
-			path: ../../Tests/Unit/Utility/TemplatePathUtilityTest.php
+	ignoreErrors: []
 

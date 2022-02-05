@@ -467,7 +467,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
      * @dataProvider processTableTcaDataProvider
      * @test
      */
-    public function processTableTca(string $table, array $json, array $expected)
+    public function processTableTca(string $table, array $json, array $expected): void
     {
         $tableDefinitionCollection = TableDefinitionCollection::createFromArray($json);
         $tcaGenerator = new TcaCodeGenerator($tableDefinitionCollection);
@@ -1450,10 +1450,8 @@ class TcaCodeGeneratorTest extends BaseTestCase
     /**
      * @test
      * @dataProvider getFirstNoneTabFieldDataProvider
-     * @param $data
-     * @param $expected
      */
-    public function getFirstNoneTabField($data, $expected)
+    public function getFirstNoneTabField(array $data, string $expected): void
     {
         $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray([]));
         self::assertSame($expected, $tcaGenerator->getFirstNoneTabField($data));
