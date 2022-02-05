@@ -1,11 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Variable \\$replace on left side of \\?\\? always exists and is not nullable\\.$#"
-			count: 1
-			path: ../../Classes/Utility/TcaConverter.php
-
-		-
 			message: "#^Parameter \\#2 \\$attributeValue of method TYPO3Fluid\\\\Fluid\\\\Core\\\\ViewHelper\\\\TagBuilder\\:\\:addAttribute\\(\\) expects array\\|string\\|Traversable\\|null, TYPO3\\\\CMS\\\\Core\\\\Http\\\\Uri given\\.$#"
 			count: 1
 			path: ../../Classes/ViewHelpers/EditLinkViewHelper.php

@@ -128,8 +128,10 @@ class TcaConverter
             if ($key === 'config.generatorOptions.replacements') {
                 $replacements = [];
                 foreach (explode("\n", $value) as $line) {
-                    [$search, $replace] = explode(',', $line);
-                    $replacements[trim($search)] = trim($replace ?? '');
+                    $searchReplace = explode(',', $line);
+                    $search = $searchReplace[0];
+                    $replace = $searchReplace[1] ?? '';
+                    $replacements[trim($search)] = trim($replace);
                 }
                 $value = $replacements;
             }
