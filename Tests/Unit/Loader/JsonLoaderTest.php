@@ -79,8 +79,6 @@ class JsonLoaderTest extends UnitTestCase
     {
         return [
             'tx_mask_repeat1' => [
-                'elements' => [
-                ],
                 'sql' => [
                     'tx_mask_a' => [
                         'tx_mask_repeat1' => [
@@ -101,11 +99,8 @@ class JsonLoaderTest extends UnitTestCase
                         'order' => 1
                     ]
                 ],
-                'palettes' => [
-                ]
             ],
             'tx_mask_inline' => [
-                'elements' => [],
                 'sql' => [
                     'tx_mask_field' => [
                         'tx_mask_inline' => [
@@ -126,7 +121,6 @@ class JsonLoaderTest extends UnitTestCase
                         'order' => 1
                     ]
                 ],
-                'palettes' => []
             ],
             'tt_content' => [
                 'elements' => [
@@ -356,7 +350,6 @@ class JsonLoaderTest extends UnitTestCase
                 ]
             ],
             'sys_file_reference' => [
-                'elements' => [],
                 'sql' => [
                     'tx_mask_file' => [
                         'sys_file_reference' => [
@@ -364,9 +357,7 @@ class JsonLoaderTest extends UnitTestCase
                         ]
                     ]
                 ],
-                'tca' => [],
-                'palettes' => []
-            ]
+            ],
         ];
     }
 

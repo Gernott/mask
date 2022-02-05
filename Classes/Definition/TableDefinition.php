@@ -21,19 +21,19 @@ final class TableDefinition
 {
     public $table = '';
     /**
-     * @var ElementDefinitionCollection
+     * @var ?ElementDefinitionCollection
      */
     public $elements;
     /**
-     * @var SqlDefinition
+     * @var ?SqlDefinition
      */
     public $sql;
     /**
-     * @var TcaDefinition
+     * @var ?TcaDefinition
      */
     public $tca;
     /**
-     * @var PaletteDefinitionCollection
+     * @var ?PaletteDefinitionCollection
      */
     public $palettes;
 
@@ -70,16 +70,16 @@ final class TableDefinition
     public function toArray(): array
     {
         $definitionArray = [];
-        if ($this->elements) {
+        if ($this->elements instanceof ElementDefinitionCollection && $this->elements->count() > 0) {
             $definitionArray['elements'] = $this->elements->toArray();
         }
-        if ($this->sql) {
+        if ($this->sql instanceof SqlDefinition && $this->sql->count() > 0) {
             $definitionArray['sql'] = $this->sql->toArray();
         }
-        if ($this->tca) {
+        if ($this->tca instanceof TcaDefinition && $this->tca->count() > 0) {
             $definitionArray['tca'] = $this->tca->toArray();
         }
-        if ($this->palettes) {
+        if ($this->palettes instanceof PaletteDefinitionCollection && $this->palettes->count() > 0) {
             $definitionArray['palettes'] = $this->palettes->toArray();
         }
 

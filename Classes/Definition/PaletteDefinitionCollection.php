@@ -76,4 +76,9 @@ final class PaletteDefinitionCollection implements \IteratorAggregate
         }
         return $palettes;
     }
+
+    public function count(): int
+    {
+        return count($this->definitions);
+    }
 }

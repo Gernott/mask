@@ -141,9 +141,7 @@ class DefaultTcaCompatibilityTraitTest extends UnitTestCase
                         'exclude' => 1
                     ]
                 ],
-                'sql' => [],
-                'palettes' => []
-            ]
+            ],
         ];
 
         $tableDefinitionCollection = TableDefinitionCollection::createFromArray($input);

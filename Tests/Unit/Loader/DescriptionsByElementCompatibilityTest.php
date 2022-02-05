@@ -239,7 +239,6 @@ class DescriptionsByElementCompatibilityTest extends UnitTestCase
                         ]
                     ]
                 ],
-                'sql' => []
             ],
         ];
 

@@ -32,11 +32,6 @@ parameters:
 
 		-
 			message: "#^If condition is always true\\.$#"
-			count: 4
-			path: ../../Classes/Definition/TableDefinition.php
-
-		-
-			message: "#^If condition is always true\\.$#"
 			count: 2
 			path: ../../Classes/Definition/TableDefinitionCollection.php
 

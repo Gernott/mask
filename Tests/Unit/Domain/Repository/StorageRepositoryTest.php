@@ -972,10 +972,7 @@ class StorageRepositoryTest extends BaseTestCase
                             'sorting' => '3'
                         ]
                     ],
-                    'sql' => [],
-                    'tca' => [],
-                    'palettes' => []
-                ]
+                ],
             ],
             'isNew' => true,
         ];

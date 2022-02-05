@@ -88,4 +88,9 @@ final class TcaDefinition implements \IteratorAggregate
         }
         return $fields;
     }
+
+    public function count(): int
+    {
+        return count($this->definitions);
+    }
 }

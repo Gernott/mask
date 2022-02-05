@@ -83,8 +83,6 @@ class JsonSplitLoaderTest extends UnitTestCase
 
         $configurationA = [
             'tx_mask_repeat1' => [
-                'elements' => [
-                ],
                 'sql' => [
                     'tx_mask_a' => [
                         'tx_mask_repeat1' => [
@@ -105,8 +103,6 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'order' => 1
                     ]
                 ],
-                'palettes' => [
-                ]
             ],
             'tt_content' => [
                 'elements' => [
@@ -175,9 +171,7 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'fullKey' => 'tx_mask_repeat1',
                     ]
                 ],
-                'palettes' => [
-                ]
-            ]
+            ],
         ];
 
         self::assertEquals($configurationA, json_decode(file_get_contents($contentElementsPath . '/a.json'), true));
@@ -329,15 +323,13 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'imageoverlayPalette' => 1
                     ]
                 ],
-                'palettes' => []
-            ]
+            ],
         ];
 
         self::assertEquals($configurationC, json_decode(file_get_contents($contentElementsPath . '/c.json'), true));
 
         $configurationD = [
             'tx_mask_inline' => [
-                'elements' => [],
                 'sql' => [
                     'tx_mask_field' => [
                         'tx_mask_inline' => [
@@ -358,7 +350,6 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'order' => 1
                     ]
                 ],
-                'palettes' => []
             ],
             'tt_content' => [
                 'elements' => [
@@ -419,7 +410,6 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'showitem' => ['tx_mask_inline']
                     ]
                 ],
-                'sql' => []
             ]
         ];
 
@@ -470,12 +460,8 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'key' => 'inline',
                     ],
                 ],
-                'sql' => [],
-                'palettes' => [],
             ],
             'tx_mask_inline_e' => [
-                'elements' => [
-                ],
                 'tca' => [
                     'tx_mask_field' => [
                         'config' => [
@@ -555,8 +541,6 @@ class JsonSplitLoaderTest extends UnitTestCase
                 ],
             ],
             'tx_mask_inline_inner' => [
-                'elements' => [
-                ],
                 'tca' => [
                     'tx_mask_field' => [
                         'config' => [
@@ -624,8 +608,6 @@ class JsonSplitLoaderTest extends UnitTestCase
     {
         return [
             'tx_mask_repeat1' => [
-                'elements' => [
-                ],
                 'sql' => [
                     'tx_mask_a' => [
                         'tx_mask_repeat1' => [
@@ -646,11 +628,8 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'order' => 1
                     ]
                 ],
-                'palettes' => [
-                ]
             ],
             'tx_mask_inline' => [
-                'elements' => [],
                 'sql' => [
                     'tx_mask_field' => [
                         'tx_mask_inline' => [
@@ -671,11 +650,8 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'order' => 1
                     ]
                 ],
-                'palettes' => []
             ],
             'tx_mask_inline_e' => [
-                'elements' => [
-                ],
                 'tca' => [
                     'tx_mask_field' => [
                         'config' => [
@@ -755,8 +731,6 @@ class JsonSplitLoaderTest extends UnitTestCase
                 ],
             ],
             'tx_mask_inline_inner' => [
-                'elements' => [
-                ],
                 'tca' => [
                     'tx_mask_field' => [
                         'config' => [
@@ -1079,7 +1053,6 @@ class JsonSplitLoaderTest extends UnitTestCase
                 ]
             ],
             'sys_file_reference' => [
-                'elements' => [],
                 'sql' => [
                     'tx_mask_file' => [
                         'sys_file_reference' => [
@@ -1087,9 +1060,7 @@ class JsonSplitLoaderTest extends UnitTestCase
                         ]
                     ]
                 ],
-                'tca' => [],
-                'palettes' => []
-            ]
+            ],
         ];
     }
 

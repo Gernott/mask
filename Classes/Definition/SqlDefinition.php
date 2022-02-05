@@ -76,4 +76,9 @@ final class SqlDefinition implements \IteratorAggregate
         }
         return $sqlColumnDefinitions;
     }
+
+    public function count(): int
+    {
+        return count($this->definitions);
+    }
 }

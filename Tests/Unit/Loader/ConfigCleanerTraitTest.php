@@ -103,9 +103,7 @@ class ConfigCleanerTraitTest extends UnitTestCase
                         'type' => 'richtext',
                     ]
                 ],
-                'sql' => [],
-                'palettes' => []
-            ]
+            ],
         ];
 
         $tableDefinitionCollection = TableDefinitionCollection::createFromArray($input);
