@@ -270,4 +270,4 @@ jobs:
         run: composer require typo3/cms-core:^11.5 --prefer-dist --no-progress
 
       - name: Phpstan
-        run: Build/Scripts/runTests.sh -s phpstan -p 8.1
+        run: .Build/bin/phpstan analyse -c Build/phpstan/phpstan.neon --no-progress --no-interaction --memory-limit 4G
