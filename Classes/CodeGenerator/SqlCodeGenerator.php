@@ -126,7 +126,7 @@ class SqlCodeGenerator
 
             // If type/table is an irre table, then create table for it
             if (AffixUtility::hasMaskPrefix($tableDefinition->table)) {
-                $sql[] = "CREATE TABLE {$tableDefinition->table} (
+                $sql[] = "CREATE TABLE $tableDefinition->table (
                          parentid int(11) DEFAULT '0' NOT NULL,
                          parenttable varchar(255) DEFAULT '',
                      );";
