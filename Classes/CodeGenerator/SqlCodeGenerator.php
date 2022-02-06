@@ -52,6 +52,8 @@ class SqlCodeGenerator
 
     /**
      * Updates the database if necessary
+     *
+     * @return array{error?: string, success?: string}
      */
     public function updateDatabase(): array
     {
@@ -88,6 +90,8 @@ class SqlCodeGenerator
 
     /**
      * returns sql statements of all elements and pages and irre
+     *
+     * @return string[]
      */
     protected function getSqlByConfiguration(): array
     {
