@@ -19,13 +19,11 @@ parameters:
     - phpstan-constants.php
 
   paths:
-    - ../../
-
-  excludePaths:
-    # ext_emconf.php get the $_EXTKEY set from outsite. We'll ignore all of them
-    - ../../ext_emconf.php
-    - ../../var
-    - ../../.Build
+    - ../../Classes
+    - ../../Tests
+    - ../../Configuration
+    - ../../ext_localconf.php
+    - ../../ext_tables.php
 
   # These errors are due to breaking changes between TYPO3 v10 and v11
   ignoreErrors:
