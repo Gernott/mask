@@ -1,6 +1,8 @@
 ![Page and Content masks for TYPO3](Resources/Public/Images/banner.jpg)
 
 [![release](https://img.shields.io/github/v/release/gernott/mask?sort=semver)](https://github.com/Gernott/mask)
+[![TYPO3](https://img.shields.io/badge/TYPO3-v11-ff8700)](https://typo3.org/)
+[![TYPO3](https://img.shields.io/badge/TYPO3-v10-ff8700)](https://typo3.org/)
 [![Unit Tests](https://github.com/Gernott/mask/actions/workflows/tests.yaml/badge.svg)](https://github.com/Gernott/mask/actions/workflows/tests.yaml)
 [![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat)](https://github.com/phpstan/phpstan)
 
