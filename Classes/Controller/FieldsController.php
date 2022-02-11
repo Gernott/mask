@@ -34,8 +34,19 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  */
 class FieldsController
 {
+    /**
+     * @var TableDefinitionCollection
+     */
     protected $tableDefinitionCollection;
+
+    /**
+     * @var IconFactory
+     */
     protected $iconFactory;
+
+    /**
+     * @var ConfigurationLoaderInterface
+     */
     protected $configurationLoader;
 
     public function __construct(

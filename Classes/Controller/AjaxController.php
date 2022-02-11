@@ -59,18 +59,64 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
  */
 class AjaxController
 {
+    /**
+     * @var StorageRepository
+     */
     protected $storageRepository;
+
+    /**
+     * @var IconFactory
+     */
     protected $iconFactory;
+
+    /**
+     * @var SqlCodeGenerator
+     */
     protected $sqlCodeGenerator;
+
+    /**
+     * @var HtmlCodeGenerator
+     */
     protected $htmlCodeGenerator;
+
+    /**
+     * @var BackendLayoutRepository
+     */
     protected $backendLayoutRepository;
+
+    /**
+     * @var ImageService
+     */
     protected $imageService;
+
+    /**
+     * @var ResourceFactory
+     */
     protected $resourceFactory;
+
+    /**
+     * @var ConfigurationLoader
+     */
     protected $configurationLoader;
+
+    /**
+     * @var FlashMessageQueue
+     */
     protected $flashMessageQueue;
+
+    /**
+     * @var array
+     */
     protected $maskExtensionConfiguration;
+
+    /**
+     * @var TableDefinitionCollection
+     */
     protected $tableDefinitionCollection;
 
+    /**
+     * @var string[]
+     */
     protected static $folderPathKeys = [
         'content',
         'layouts',

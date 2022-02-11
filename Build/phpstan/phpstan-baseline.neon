@@ -181,62 +181,12 @@ parameters:
 			path: ../../Classes/Controller/AjaxController.php
 
 		-
-			message: "#^Property MASK\\\\Mask\\\\Controller\\\\AjaxController\\:\\:\\$backendLayoutRepository has no type specified\\.$#"
+			message: "#^Property MASK\\\\Mask\\\\Controller\\\\AjaxController\\:\\:\\$flashMessageQueue type has no value type specified in iterable type TYPO3\\\\CMS\\\\Core\\\\Messaging\\\\FlashMessageQueue\\.$#"
 			count: 1
 			path: ../../Classes/Controller/AjaxController.php
 
 		-
-			message: "#^Property MASK\\\\Mask\\\\Controller\\\\AjaxController\\:\\:\\$configurationLoader has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Controller/AjaxController.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Controller\\\\AjaxController\\:\\:\\$flashMessageQueue has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Controller/AjaxController.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Controller\\\\AjaxController\\:\\:\\$folderPathKeys has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Controller/AjaxController.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Controller\\\\AjaxController\\:\\:\\$htmlCodeGenerator has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Controller/AjaxController.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Controller\\\\AjaxController\\:\\:\\$iconFactory has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Controller/AjaxController.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Controller\\\\AjaxController\\:\\:\\$imageService has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Controller/AjaxController.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Controller\\\\AjaxController\\:\\:\\$maskExtensionConfiguration has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Controller/AjaxController.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Controller\\\\AjaxController\\:\\:\\$resourceFactory has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Controller/AjaxController.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Controller\\\\AjaxController\\:\\:\\$sqlCodeGenerator has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Controller/AjaxController.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Controller\\\\AjaxController\\:\\:\\$storageRepository has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Controller/AjaxController.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Controller\\\\AjaxController\\:\\:\\$tableDefinitionCollection has no type specified\\.$#"
+			message: "#^Property MASK\\\\Mask\\\\Controller\\\\AjaxController\\:\\:\\$maskExtensionConfiguration type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Controller/AjaxController.php
 
@@ -262,21 +212,6 @@ parameters:
 
 		-
 			message: "#^Method MASK\\\\Mask\\\\Controller\\\\FieldsController\\:\\:cleanUpConfig\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../Classes/Controller/FieldsController.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Controller\\\\FieldsController\\:\\:\\$configurationLoader has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Controller/FieldsController.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Controller\\\\FieldsController\\:\\:\\$iconFactory has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Controller/FieldsController.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Controller\\\\FieldsController\\:\\:\\$tableDefinitionCollection has no type specified\\.$#"
 			count: 1
 			path: ../../Classes/Controller/FieldsController.php
 
