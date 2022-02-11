@@ -149,6 +149,7 @@ class AjaxController
         $configuration['layouts'] = 'EXT:' . $extensionKey . '/Resources/Private/Mask/Frontend/Layouts/';
         $configuration['partials'] = 'EXT:' . $extensionKey . '/Resources/Private/Mask/Frontend/Partials/';
         $configuration['backend'] = 'EXT:' . $extensionKey . '/Resources/Private/Mask/Backend/Templates/';
+        $configuration['layouts_backend'] = 'EXT:' . $extensionKey . '/Resources/Private/Mask/Backend/Layouts/';
         $configuration['partials_backend'] = 'EXT:' . $extensionKey . '/Resources/Private/Mask/Backend/Partials/';
         $configuration['preview'] = 'EXT:' . $extensionKey . '/Resources/Public/Mask/';
         $configuration['backendlayout_pids'] = $extensionConfiguration->get('mask', 'backendlayout_pids');
