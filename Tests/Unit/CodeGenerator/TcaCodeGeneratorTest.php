@@ -1546,12 +1546,14 @@ class TcaCodeGeneratorTest extends BaseTestCase
                             'key' => 'element1',
                             'label' => 'Element 1',
                             'columns' => [
+                                'tx_mask_tab',
                                 'tx_mask_field1',
                                 'tx_mask_field2',
                             ],
                             'descriptions' => [
+                                'Tab 1',
                                 '',
-                                ''
+                                '',
                             ]
                         ],
                     ],
@@ -1570,6 +1572,13 @@ class TcaCodeGeneratorTest extends BaseTestCase
                             'key' => 'field1',
                             'fullKey' => 'tx_mask_field1'
                         ],
+                        'tx_mask_tab' => [
+                            'config' => [
+                                'type' => 'tab',
+                            ],
+                            'key' => 'tab',
+                            'fullKey' => 'tx_mask_tab',
+                        ]
                     ]
                 ]
             ],

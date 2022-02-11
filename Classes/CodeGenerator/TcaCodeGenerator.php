@@ -438,6 +438,11 @@ class TcaCodeGenerator
                     continue;
                 }
 
+                // Do not generate any overrides for tabs.
+                if ($fieldDefinition->type instanceof FieldType && $fieldDefinition->type->equals(FieldType::TAB)) {
+                    continue;
+                }
+
                 // As this is called very early, TCA for core fields might not be loaded yet. So ignore them.
                 if (!$fieldDefinition->isCoreField && $fieldDefinition->type->equals(FieldType::PALETTE)) {
                     foreach ($this->tableDefinitionCollection->loadInlineFields($fieldName, $element->key) as $paletteField) {
