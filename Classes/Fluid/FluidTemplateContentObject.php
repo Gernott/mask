@@ -39,6 +39,10 @@ class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\Fluid
             $variables['data'] = $data;
         }
 
+        if (!array_key_exists('parentRecord', $variables)) {
+            $variables['parentRecord'] = $this->cObj->parentRecord['data'] ?? [];
+        }
+
         return $variables;
     }
 }
