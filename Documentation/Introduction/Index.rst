@@ -88,18 +88,10 @@ reloads of the frame between switching views anymore.
 Why Mask
 ========
 
-Mask is not the only content element creation extension. There is also `Dynamic Content Elements (DCE) <https://extensions.typo3.org/extension/dce>`__ .
-In contrast to Mask, DCE utilizes flexforms extensively. The downsides of using
-flexform is already discussed above. The backend module is built the good old
-fashioned way. The overview of the fields of an element can become a bit
-overwhelming, if your element grows. Also you have to adjust the TCA manually
-after TYPO3 upgrades, as there are no migrations. DCE loads your content
-elements via plugins, instead of the modern `FLUIDTEMPLATE cObject <https://docs.typo3.org/m/typo3/reference-typoscript/main/en-us/ContentObjects/Fluidtemplate/Index.html>`__
-way like Mask does.
-
-Nevertheless, DCE is a well-maintained extension and does the main job of
-creating content elements in an easy way as well. It is up to you to decide,
-what style fits you better.
+Mask is not the only content element creation extension. There are also other
+similar extensions around. In contrast to Mask, the most other utilize flexforms
+extensively. The downsides of using flexform is already discussed above. It is
+up to you to decide, what style fits you better.
 
 Creating custom content elements manually
 =========================================
