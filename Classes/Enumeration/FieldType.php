@@ -55,7 +55,7 @@ final class FieldType extends Enumeration
 
     public function isSearchable(): bool
     {
-        return in_array($this->value, [self::STRING, self::TEXT], true);
+        return in_array($this->value, [self::STRING, self::TEXT, self::RICHTEXT], true);
     }
 
     public function isRenderable(): bool
