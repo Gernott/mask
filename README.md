@@ -10,7 +10,7 @@
 
 [:blue_book: Official Documentation](https://docs.typo3.org/p/mask/mask/main/en-us/Index.html)
 
-# Mask
+# Mask :performing_arts:
 
 Mask is a content element builder that generates TypoScript, TSconfig and TCA on
 the fly. You can build your own custom content elements in a user-friendly
@@ -24,7 +24,7 @@ structural fields. With these given tools, you can cover almost all typical
 requirements for your projects. And if not, Mask can be extended
 via TCA overrides or DataProcessors.
 
-## Quickstart
+## Quickstart :rocket:
 
 1. Add Mask as a dependency in your `ext_emconf.php` and/or `composer.json` of your sitepackage.
 2. Download Mask with composer by running the command `composer require mask/mask` or install via extension manager.
@@ -34,12 +34,12 @@ via TCA overrides or DataProcessors.
 6. Navigate to the Mask module and enter your sitepackage extension key for auto-configuration (your extension must be loaded!).
 7. Start creating your own content elements!
 
-## Manual configuration
+## Manual configuration :pencil2:
 
 If you don't want to use the default folder structure created by the auto-configuration, you can adjust every path in
 the extension configuration of Mask.
 
-## Advantages of Mask
+## Advantages of Mask :white_check_mark:
 
 * Mask stores the content in columns in database tables – not as XML (Flexform)
 * Mask reuses existing database fields to conserve the database
@@ -52,7 +52,7 @@ the extension configuration of Mask.
 
 Read a detailed explanation for each advantage and why to use Mask over other alternatives in the [official documentation](https://docs.typo3.org/p/mask/mask/main/en-us/Introduction/Index.html).
 
-## Mask versions
+## Mask versions :calendar:
 
 | Mask Version | TYPO3 Version | Release Date | Status              | More Info |
 |--------------|---------------|--------------|---------------------|-----------|
@@ -65,21 +65,26 @@ Read a detailed explanation for each advantage and why to use Mask over other al
 | v2           | v7            | 2016-05-10   | discontinued        |                                                                                                |
 | v1           | v6, v7        | 2015-08-12   | discontinued        |                                                                                                |
 
-## Need help?
+## Need help? :left_speech_bubble:
 
 * Read how to install, configure and use mask in the [official documentation](https://docs.typo3.org/p/mask/mask/master/en-us/)
 * Join the "#ext-mask" channel on [TYPO3 Slack](https://typo3.org/community/meet/chat-slack) and ask the mask community.
 * [Visit our website](https://mask.webprofil.at) to find more information about mask
 
-## Found a bug?
+## Found a bug? :boom:
 
 * First check out the master branch and verify that the issue is not yet solved
 * Have a look at the existing [issues](https://github.com/gernott/mask/issues/), to prevent duplicates
 * If not found, report the bug in our [issue tracker](https://github.com/gernott/mask/issues/new/)
 
-## Like a new feature?
+## Like a new feature? :bulb:
 
-* Have a look at our [wishlist](https://mask.webprofil.at/featurelist/overview/)
+* Have a look at our [project page](https://github.com/Gernott/mask/projects/1)
 * If your idea is not listed here, get in [contact](https://mask.webprofil.at/imprint/) with us
 * If you want to sponsor a feature, get in [contact](https://mask.webprofil.at/imprint/) with us
 * If you want to develop a feature, get in [contact](https://mask.webprofil.at/imprint/) to plan a strategy
+
+## [Sponsors](https://docs.typo3.org/p/mask/mask/main/en-us/Sponsors/Index.html) :handshake:
+
+See a list of all [sponsors](https://docs.typo3.org/p/mask/mask/main/en-us/Sponsors/Index.html), who helped Mask to
+become what it is today.
