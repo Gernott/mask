@@ -8,6 +8,8 @@
 
 [![Verified TYPO3 Extension](Resources/Public/Images/verified.svg) Verified TYPO3 Extension](https://typo3.com/typo3-cms/verified-extensions-integrations-for-typo3/extensions/mask-create-custom-content-elements-in-typo3)
 
+[:blue_book: Official Documentation](https://docs.typo3.org/p/mask/mask/main/en-us/Index.html)
+
 # Mask
 
 Mask is a content element builder that generates TypoScript, TSconfig and TCA on
