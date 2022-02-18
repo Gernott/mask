@@ -20,4 +20,4 @@ $contentColumns = $tcaCodeGenerator->generateFieldsTca('tt_content');
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tt_content', $contentColumns);
 $tcaCodeGenerator->setInlineTca();
 $tcaCodeGenerator->setElementsTca();
-$tcaCodeGenerator->addSearchFields('tt_content');
+$GLOBALS['TCA']['tt_content']['ctrl']['searchFields'] = $tcaCodeGenerator->addSearchFields('tt_content');
