@@ -541,6 +541,62 @@ class StorageRepositoryTest extends BaseTestCase
             'isNew' => false,
         ];
 
+        yield 'empty palettes are added' => [
+            'json' => [],
+            'element' => [
+                'label' => 'Element 1',
+                'key' => 'element1',
+                'sorting' => '1',
+            ],
+            'fields' => [
+                [
+                    'key' => 'tx_mask_palette',
+                    'label' => 'My Palette',
+                    'name' => 'palette',
+                    'fields' => [],
+                ]
+            ],
+            'table' => 'tt_content',
+            'expected' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'label' => 'Element 1',
+                            'key' => 'element1',
+                            'columns' => [
+                                'tx_mask_palette',
+                            ],
+                            'labels' => [
+                                'My Palette',
+                            ],
+                            'descriptions' => [
+                                '',
+                            ],
+                            'sorting' => '1',
+                        ]
+                    ],
+                    'palettes' => [
+                        'tx_mask_palette' => [
+                            'label' => 'My Palette',
+                            'description' => '',
+                            'showitem' => [],
+                        ]
+                    ],
+                    'tca' => [
+                        'tx_mask_palette' => [
+                            'config' => [
+                                'type' => 'palette'
+                            ],
+                            'key' => 'palette',
+                            'fullKey' => 'tx_mask_palette',
+                            'type' => 'palette'
+                        ],
+                    ]
+                ]
+            ],
+            'isNew' => false,
+        ];
+
         yield 'Fields in palette of inline field point directly to inline table' => [
             'json' => [],
             'element' => [

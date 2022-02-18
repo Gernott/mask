@@ -278,6 +278,13 @@ class StorageRepository implements SingletonInterface
                 }
             }
 
+            // Create palette
+            if (FieldType::cast($fieldAdd['type'])->equals(FieldType::PALETTE)) {
+                $jsonAdd[$table]['palettes'][$fieldAdd['fullKey']]['showitem'] = [];
+                $jsonAdd[$table]['palettes'][$fieldAdd['fullKey']]['label'] = $field['label'];
+                $jsonAdd[$table]['palettes'][$fieldAdd['fullKey']]['description'] = $field['description'] ?? '';
+            }
+
             // Add label, order and flags to child fields
             if (isset($parent)) {
                 if ($parent['name'] === FieldType::PALETTE) {
@@ -293,10 +300,8 @@ class StorageRepository implements SingletonInterface
                         $fieldAdd['description'] = $field['description'];
                         $fieldAdd['order'] = $order;
                     }
-                    // Add palettes entry
+                    // Add field to showitem array
                     $jsonAdd[$table]['palettes'][$parent['key']]['showitem'][] = $field['key'];
-                    $jsonAdd[$table]['palettes'][$parent['key']]['label'] = $parent['label'];
-                    $jsonAdd[$table]['palettes'][$parent['key']]['description'] = $parent['description'] ?? '';
                 }
                 if ($parent['name'] === FieldType::INLINE) {
                     $fieldAdd['inlineParent'] = $parent['key'];
