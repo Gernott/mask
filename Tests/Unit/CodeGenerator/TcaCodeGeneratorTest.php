@@ -1667,4 +1667,165 @@ class TcaCodeGeneratorTest extends BaseTestCase
         $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json));
         self::assertEquals($expected, $tcaGenerator->generateTCAColumnsOverrides('tt_content'));
     }
+
+    public function addSearchFieldsReturnsCorrectFieldStringDataProvider(): iterable
+    {
+        yield 'No fields return current search string as is' => [
+            'json' => [
+                'tt_content' => [
+                    'tca' => [],
+                ],
+            ],
+            'table' => 'tt_content',
+            'currentTca' => 'header,bodytext',
+            'expected' => 'header,bodytext',
+        ];
+
+        yield 'If there are no search fields at all, empty string should be returned' => [
+            'json' => [
+                'tt_content' => [
+                    'tca' => [],
+                ],
+            ],
+            'table' => 'tt_content',
+            'currentTca' => '',
+            'expected' => '',
+        ];
+
+        yield 'One searchable field is added to the list' => [
+            'json' => [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_string' => [
+                            'config' => [
+                                'type' => 'input',
+                            ],
+                            'key' => 'string',
+                            'fullKey' => 'tx_mask_string',
+                            'type' => 'string',
+                        ],
+                    ],
+                ],
+            ],
+            'table' => 'tt_content',
+            'currentTca' => 'header,bodytext',
+            'expected' => 'header,bodytext,tx_mask_string',
+        ];
+
+        yield 'One searchable field is added to the empty list' => [
+            'json' => [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_string' => [
+                            'config' => [
+                                'type' => 'input',
+                            ],
+                            'key' => 'string',
+                            'fullKey' => 'tx_mask_string',
+                            'type' => 'string',
+                        ],
+                    ],
+                ],
+            ],
+            'table' => 'tt_content',
+            'currentTca' => '',
+            'expected' => 'tx_mask_string',
+        ];
+
+        yield 'Multiple searchable fields are added to the list' => [
+            'json' => [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_string' => [
+                            'config' => [
+                                'type' => 'input',
+                            ],
+                            'key' => 'string',
+                            'fullKey' => 'tx_mask_string',
+                            'type' => 'string',
+                        ],
+                        'tx_mask_richtext' => [
+                            'config' => [
+                                'type' => 'text',
+                            ],
+                            'key' => 'richtext',
+                            'fullKey' => 'tx_mask_richtext',
+                            'type' => 'richtext',
+                        ],
+                    ],
+                ],
+            ],
+            'table' => 'tt_content',
+            'currentTca' => 'header,bodytext',
+            'expected' => 'header,bodytext,tx_mask_string,tx_mask_richtext',
+        ];
+
+        yield 'Non-searchable field is not added to the list' => [
+            'json' => [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_int' => [
+                            'config' => [
+                                'type' => 'input',
+                            ],
+                            'key' => 'int',
+                            'fullKey' => 'tx_mask_int',
+                            'type' => 'integer',
+                        ],
+                    ],
+                ],
+            ],
+            'table' => 'tt_content',
+            'currentTca' => 'header,bodytext',
+            'expected' => 'header,bodytext',
+        ];
+
+        yield 'Non-existing table returns current TCA' => [
+            'json' => [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_int' => [
+                            'config' => [
+                                'type' => 'input',
+                            ],
+                            'key' => 'int',
+                            'fullKey' => 'tx_mask_int',
+                            'type' => 'integer',
+                        ],
+                    ],
+                ],
+            ],
+            'table' => 'non_existing_table',
+            'currentTca' => 'header,bodytext',
+            'expected' => 'header,bodytext',
+        ];
+
+        yield 'Fields are not added twice' => [
+            'json' => [
+                'tt_content' => [
+                    'tca' => [
+                        'header' => [
+                            'key' => 'header',
+                            'fullKey' => 'header',
+                            'type' => 'string',
+                        ],
+                    ],
+                ],
+            ],
+            'table' => 'tt_content',
+            'currentTca' => 'header,bodytext',
+            'expected' => 'header,bodytext',
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider addSearchFieldsReturnsCorrectFieldStringDataProvider
+     */
+    public function addSearchFieldsReturnsCorrectFieldString(array $json, string $table, string $currentTca, string $expected): void
+    {
+        $GLOBALS['TCA'][$table]['ctrl']['searchFields'] = $currentTca;
+        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json));
+        self::assertEquals($expected, $tcaGenerator->addSearchFields($table));
+    }
 }

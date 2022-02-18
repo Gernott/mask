@@ -29,6 +29,7 @@ use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Generates all the TCA needed for mask content elements and backend layout fields.
@@ -523,14 +524,15 @@ class TcaCodeGenerator
     /**
      * Add search fields to find mask elements or pages
      */
-    public function addSearchFields(string $table): void
+    public function addSearchFields(string $table): string
     {
+        $searchFieldsString = $GLOBALS['TCA'][$table]['ctrl']['searchFields'] ?? '';
         if (!$this->tableDefinitionCollection->hasTable($table)) {
-            return;
+            return $searchFieldsString;
         }
 
+        $searchFields = GeneralUtility::trimExplode(',', $searchFieldsString, true);
         $tca = $this->tableDefinitionCollection->getTable($table)->tca;
-        $searchFields = [];
 
         foreach ($tca as $field) {
             // In case the configuration relies on a field of an extension loaded
@@ -541,14 +543,16 @@ class TcaCodeGenerator
             } catch (InvalidArgumentException $e) {
                 $fieldType = new FieldType(FieldType::STRING);
             }
-            if ($fieldType->isSearchable()) {
-                $searchFields[] = $field->key;
+            if ($fieldType->isSearchable() && !in_array($field->fullKey, $searchFields, true)) {
+                $searchFields[] = $field->fullKey;
             }
         }
 
-        if ($searchFields) {
-            $GLOBALS['TCA'][$table]['ctrl']['searchFields'] .= ',' . implode(',', $searchFields);
+        if ($searchFields === []) {
+            return '';
         }
+
+        return implode(',', $searchFields);
     }
 
     /**
