@@ -1668,6 +1668,9 @@ class TcaCodeGeneratorTest extends BaseTestCase
         self::assertEquals($expected, $tcaGenerator->generateTCAColumnsOverrides('tt_content'));
     }
 
+    /**
+     * @return mixed[]
+     */
     public function addSearchFieldsReturnsCorrectFieldStringDataProvider(): iterable
     {
         yield 'No fields return current search string as is' => [
@@ -1821,6 +1824,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
     /**
      * @test
      * @dataProvider addSearchFieldsReturnsCorrectFieldStringDataProvider
+     * @param mixed[] $json
      */
     public function addSearchFieldsReturnsCorrectFieldString(array $json, string $table, string $currentTca, string $expected): void
     {
