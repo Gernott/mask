@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.1.19] - 2022-02-18
+
+### Fixed
+- Richtext fields are now searchable in LiveSearch (Thanks Nitori) [#471](https://github.com/Gernott/mask/pull/471)
+- Fixed search fields generation in general
+- Error prevented, when creating empty inline field
+- Error prevented, when creating empty palette
+
 ## [7.1.18] - 2022-02-11
 
 ### Fixed
