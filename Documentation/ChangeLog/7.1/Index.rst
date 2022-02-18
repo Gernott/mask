@@ -32,7 +32,7 @@ stored the configuration into a single mask.json file. This is now the so called
 provides a second Loader, the :php:`JsonSplitLoader`. This Loader is capable of
 splitting the configuration into multiple smaller json files. Each file contains
 the entire configuration needed for a single content element. This means it is
-independant of all other files. Hence, it can be copied over to other projects.
+independent of all other files. Hence, it can be copied over to other projects.
 This also helps greatly with versioning, as new elements are way easier to see
 in the history and changes can be pointed directly to the according content
 elements.
@@ -131,7 +131,7 @@ ConvertFormat command
 
 The new ConvertFormat command can be used to convert from one format into
 another. This means, you can migrate your single mask.json file into many
-splitted json files.
+split json files.
 
 Example:
 

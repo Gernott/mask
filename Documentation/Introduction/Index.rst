@@ -26,7 +26,7 @@ via :ref:`TCA overrides <tcaoverride-guide>` or :ref:`DataProcessors <data-proce
 Advantages of Mask
 ==================
 
-   Mask stores content seperately in columns of database tables - **not** as XML (Flexform)
+   Mask stores content separately in columns of database tables - **not** as XML (Flexform)
 
 Flexform is a technique to define sheets and TCA fields inside a specified XML
 definition. It was originally invented back in the days for `TemplaVoilà! <https://extensions.typo3.org/extension/templavoila>`__.
@@ -34,7 +34,7 @@ Then it gained popularity in other areas like extension plugin configuration,
 because it was easy to define a bunch of fields without worrying about SQL
 column definitions (besides the one needed for the flexform itself).
 
-The big disadvantage is, that flexform is a so called anonymoues construct and
+The big disadvantage is, that flexform is a so called anonymous construct and
 is not designed for complex relations. It disallows inline fields inside inline
 fields for example. The other thing is the lack of type safety, which is usually
 accomplished with sql column types and appropriate PHP class attributes.
@@ -56,7 +56,7 @@ anything yourself.
 
    Mask is easy to update and TCA migrations are done automatically
 
-TYPO3 continously deprecates and breaks stuff in new versions (which is necessary).
+TYPO3 continuously deprecates and breaks stuff in new versions (which is necessary).
 And although there are now tools like rector, which ease the upgrades to a factor
 of 100x it is even easier with Mask. You usually don't need to do anything, but
 to update Mask to a newer version. This is possible because Mask provides

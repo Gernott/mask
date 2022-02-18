@@ -74,7 +74,7 @@ Solutions
 
 * Try to minimize the usage of :ref:`string <fields-string>`, :ref:`link <fields-link>` and :ref:`select <fields-select>` fields. They all use `varchar(255)`.
 
-* If possible, reuse exisiting TYPO3 core and Mask fields.
+* If possible, reuse existing TYPO3 core and Mask fields.
 
 * You can manipulate mask.json and set lower max values for varchar.
 
