@@ -3,7 +3,7 @@
 [![release](https://img.shields.io/github/v/release/gernott/mask?sort=semver)](https://github.com/Gernott/mask)
 [![TYPO3](https://img.shields.io/badge/TYPO3-v11-ff8700)](https://typo3.org/)
 [![TYPO3](https://img.shields.io/badge/TYPO3-v10-ff8700)](https://typo3.org/)
-[![Unit Tests](https://github.com/Gernott/mask/actions/workflows/tests.yaml/badge.svg)](https://github.com/Gernott/mask/actions/workflows/tests.yaml)
+[![Tests](https://img.shields.io/github/workflow/status/Gernott/mask/Unit%20Tests?label=Tests)](https://github.com/Gernott/mask/actions/workflows/tests.yaml)
 [![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat)](https://github.com/phpstan/phpstan)
 
 [![Verified TYPO3 Extension](Resources/Public/Images/verified.svg) Verified TYPO3 Extension](https://typo3.com/typo3-cms/verified-extensions-integrations-for-typo3/extensions/mask-create-custom-content-elements-in-typo3)
