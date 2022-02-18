@@ -106,7 +106,8 @@ List of logo sponsors
 
 List of further sponsors
 ------------------------
-Roland Klein
-Johannes Reß
-René Carolus
-Korbinian Kugelmann
+*  Roland Klein
+*  Johannes Reß
+*  René Carolus
+*  Korbinian Kugelmann
+*  Krystian Szymukowicz
