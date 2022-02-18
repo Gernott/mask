@@ -239,6 +239,12 @@ class TcaCodeGenerator
                 }
             } elseif ($fieldType->equals(FieldType::PALETTE)) {
                 $fieldArray[] = '--palette--;;' . $fieldKey;
+            } elseif ($fieldType->equals(FieldType::INLINE)) {
+                // Make sure only inline fields with at least 1 field are added.
+                $inlineFields = $this->tableDefinitionCollection->loadInlineFields($fieldKey, $element->key);
+                if ($inlineFields->toArray() !== []) {
+                    $fieldArray[] = $fieldKey;
+                }
             } else {
                 $fieldArray[] = $fieldKey;
             }
@@ -436,6 +442,15 @@ class TcaCodeGenerator
             foreach ($element->columns as $index => $fieldName) {
                 $fieldDefinition = $this->tableDefinitionCollection->loadField($table, $fieldName);
                 if (!$fieldDefinition instanceof TcaFieldDefinition) {
+                    continue;
+                }
+
+                // Do not generate any overrides for empty inline fields.
+                if (
+                    $fieldDefinition->type instanceof FieldType
+                    && $fieldDefinition->type->equals(FieldType::INLINE)
+                    && $this->tableDefinitionCollection->loadInlineFields($fieldDefinition->fullKey, $element->key)->toArray() === []
+                ) {
                     continue;
                 }
 
