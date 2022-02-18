@@ -939,6 +939,46 @@ class TcaCodeGeneratorTest extends BaseTestCase
                 '',
                 []
             ],
+            'Empty inline fields are ignored' => [
+                [
+                    'tt_content' => [
+                        'elements' => [
+                            'element1' => [
+                                'key' => 'element1',
+                                'label' => 'Element1',
+                                'shortLabel' => 'Ele 1',
+                                'columns' => [
+                                    'header',
+                                    'tx_mask_inline',
+                                ],
+                                'labels' => [
+                                    '',
+                                    ''
+                                ]
+                            ]
+                        ],
+                        'tca' => [
+                            'header' => [
+                                'key' => 'header'
+                            ],
+                            'tx_mask_inline' => [
+                                'config' => [
+                                    'type' => 'inline',
+                                ],
+                                'type' => 'inline',
+                                'key' => 'inline',
+                                'fullKey' => 'tx_mask_inline',
+                            ]
+                        ]
+                    ],
+                    'tx_mask_inline' => [
+                        'tca' => [],
+                    ]
+                ],
+                'mask_element1',
+                '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,header,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.appearance,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.frames;frames,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.appearanceLinks;appearanceLinks,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,--palette--;;language,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,--palette--;;hidden,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:categories,--div--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_category.tabs.category,categories,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:notes,rowDescription,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended',
+                []
+            ],
             'General tab can be overriden' => [
                 [
                     'tt_content' => [
@@ -1536,6 +1576,38 @@ class TcaCodeGeneratorTest extends BaseTestCase
                     ]
                 ]
             ]
+        ];
+
+        yield 'no overrides for empty inline fields generated' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'key' => 'element1',
+                            'label' => 'Element 1',
+                            'columns' => [
+                                'tx_mask_inline',
+                            ],
+                            'descriptions' => [
+                                'Inline 1',
+                            ]
+                        ],
+                    ],
+                    'tca' => [
+                        'tx_mask_inline' => [
+                            'config' => [
+                                'type' => 'inline'
+                            ],
+                            'key' => 'inline',
+                            'fullKey' => 'tx_mask_inline'
+                        ],
+                    ]
+                ],
+                'tx_mask_inline' => [
+                    'tca' => [],
+                ]
+            ],
+            'expected' => [],
         ];
 
         yield 'nothing to generate' => [
