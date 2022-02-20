@@ -192,19 +192,19 @@ class TyposcriptCodeGenerator
         $paths = [];
         if ($this->maskExtensionConfiguration['content'] ?? false) {
             $paths['templateRootPaths'] = [
-                10 => rtrim($this->maskExtensionConfiguration['content'], '/') . '/'
+                10 => $this->maskExtensionConfiguration['content']
             ];
         }
 
         if ($this->maskExtensionConfiguration['partials'] ?? false) {
             $paths['partialRootPaths'] = [
-                10 => rtrim($this->maskExtensionConfiguration['partials'], '/') . '/'
+                10 => $this->maskExtensionConfiguration['partials']
             ];
         }
 
         if ($this->maskExtensionConfiguration['layouts'] ?? false) {
             $paths['layoutRootPaths'] = [
-                10 => rtrim($this->maskExtensionConfiguration['layouts'], '/') . '/'
+                10 => $this->maskExtensionConfiguration['layouts']
             ];
         }
 

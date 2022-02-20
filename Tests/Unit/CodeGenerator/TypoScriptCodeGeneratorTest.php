@@ -59,13 +59,13 @@ class TypoScriptCodeGeneratorTest extends UnitTestCase
             'expected' =>
 'lib.maskContentElement {
 	templateRootPaths {
-		10 = EXT:sitepackage/Resources/Private/Mask/Templates/
+		10 = EXT:sitepackage/Resources/Private/Mask/Templates
 	}
 	partialRootPaths {
-		10 = EXT:sitepackage/Resources/Private/Mask/Partials/
+		10 = EXT:sitepackage/Resources/Private/Mask/Partials
 	}
 	layoutRootPaths {
-		10 = EXT:sitepackage/Resources/Private/Mask/Layouts/
+		10 = EXT:sitepackage/Resources/Private/Mask/Layouts
 	}
 }
 
@@ -89,7 +89,7 @@ tt_content.mask_element1 {
             'expected' =>
 'lib.maskContentElement {
 	templateRootPaths {
-		10 = EXT:sitepackage/Resources/Private/Mask/Templates/
+		10 = EXT:sitepackage/Resources/Private/Mask/Templates
 	}
 }
 

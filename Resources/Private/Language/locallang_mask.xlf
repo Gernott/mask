@@ -28,25 +28,25 @@
 				<source>Folder in which to store backend layout definitions (JsonSplitLoader)</source>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-content">
-				<source>Folder for Content Fluid Templates (with trailing slash)</source>
+				<source>Folder for Content Fluid Templates</source>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-backend">
-				<source>Folder for Backend Preview Templates (with trailing slash)</source>
+				<source>Folder for Backend Preview Templates</source>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-preview">
-				<source>Folder for 32x32 pixel png preview-images (e.g. mykey.png) for contentelements (with trailing slash)</source>
+				<source>Folder for 32x32 pixel png preview-images (e.g. mykey.png) for contentelements</source>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-layouts">
-				<source>Folder for Content Fluid Layouts (with trailing slash)</source>
+				<source>Folder for Content Fluid Layouts</source>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-partials">
-				<source>Folder for Content Fluid Partials (with trailing slash)</source>
+				<source>Folder for Content Fluid Partials</source>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-layouts_backend">
-				<source>Folder for Backend Preview Layouts (with trailing slash)</source>
+				<source>Folder for Backend Preview Layouts</source>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-partials_backend">
-				<source>Folder for Backend Preview Partials (with trailing slash)</source>
+				<source>Folder for Backend Preview Partials</source>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-backendlayout_pids">
 				<source>PageIds from where the in PageTS defined backend layouts should be loaded (comma separated)</source>

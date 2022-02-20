@@ -114,11 +114,12 @@ class ContentElementIconProvider implements IconProviderInterface
             return '';
         }
         // the path to the file
-        $filePath = MaskUtility::getFileAbsFileName(rtrim($this->maskExtensionConfiguration['preview'], '/') . '/') . $key . '.';
+        $absoluteIconPath = MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration['preview']);
+        $filePath = rtrim($absoluteIconPath, '/') . '/' . $key;
         // search a fitting png or svg file in this path
         $fileExtensions = ['png', 'svg'];
         foreach ($fileExtensions as $fileExtension) {
-            $iconPath = $filePath . $fileExtension;
+            $iconPath = $filePath . '.' . $fileExtension;
             if (file_exists($iconPath)) {
                 return $iconPath;
             }

@@ -42,6 +42,7 @@ class TemplatePathUtility
         if ($path === '' || $elementKey === '') {
             return '';
         }
+        $path = rtrim($path, '/') . '/';
         $fileExtension = '.html';
 
         // check if a html file with underscores exist

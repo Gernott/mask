@@ -67,27 +67,27 @@ Frontend
 content
 _______
 
-| Folder for Content Fluid Templates (with trailing slash).
+| Folder for Content Fluid Templates.
 | Mask generates a html file with fluid tags for each new content element. Here you can set the path to this file.
-| Default: :code:`EXT:{your_sitepackage}/Resources/Private/Mask/Frontend/Templates/`
+| Default: :code:`EXT:{your_sitepackage}/Resources/Private/Mask/Frontend/Templates`
 
 .. _extension-settings-frontent-layouts:
 
 layouts
 _______
 
-| Folder for Content Fluid Layouts (with trailing slash).
+| Folder for Content Fluid Layouts.
 | Here you can set the path to the fluid layouts of your mask templates.
-| Default: :code:`EXT:{your_sitepackage}/Resources/Private/Mask/Frontend/Layouts/`
+| Default: :code:`EXT:{your_sitepackage}/Resources/Private/Mask/Frontend/Layouts`
 
 .. _extension-settings-frontent-partials:
 
 partials
 ________
 
-| Folder for Content Fluid Partials (with trailing slash).
+| Folder for Content Fluid Partials.
 | Here you can set the path to the fluid partials of your mask templates.
-| Default: :code:`EXT:{your_sitepackage}/Resources/Private/Mask/Frontend/Partials/`
+| Default: :code:`EXT:{your_sitepackage}/Resources/Private/Mask/Frontend/Partials`
 
 Backend
 =======
@@ -97,37 +97,37 @@ Backend
 backend
 _______
 
-| Folder for Backend Preview Templates (with trailing slash).
+| Folder for Backend Preview Templates.
 | Here you can set the path the fluid templates for backend previews of your content elements.
-| Default: :code:`EXT:{your_sitepackage}/Resources/Private/Mask/Backend/Templates/`
+| Default: :code:`EXT:{your_sitepackage}/Resources/Private/Mask/Backend/Templates`
 
 .. _extension-settings-backend-layouts:
 
 layouts_backend
 _______________
 
-| Folder for Backend Preview Layouts (with trailing slash).
+| Folder for Backend Preview Layouts.
 | Here you can set the path to the fluid layouts of your mask backend previews.
-| Default: :code:`EXT:{your_sitepackage}/Resources/Private/Mask/Backend/Layouts/`
+| Default: :code:`EXT:{your_sitepackage}/Resources/Private/Mask/Backend/Layouts`
 
 .. _extension-settings-backend-partials:
 
 partials_backend
 ________________
 
-| Folder for Backend Preview Partials (with trailing slash).
+| Folder for Backend Preview Partials.
 | Here you can set the path to the fluid partials of your mask backend previews.
-| Default: :code:`EXT:{your_sitepackage}/Resources/Private/Mask/Backend/Partials/`
+| Default: :code:`EXT:{your_sitepackage}/Resources/Private/Mask/Backend/Partials`
 
 .. _extension-settings-backend-preview:
 
 preview
 _______
 
-| Folder for preview images (with trailing slash).
+| Folder for preview images.
 | You can change the preview image of content elements to your preferred png image (32x32 pixel) or svg graphic.
 | Store them with the key of the contentelement as filename (e.g. mykey.png or mykey.svg)
-| Default: :code:`EXT:{your_sitepackage}/Resources/Public/Mask/`
+| Default: :code:`EXT:{your_sitepackage}/Resources/Public/Mask`
 |
 
 .. figure:: ../Images/AdministratorManual/ExtensionConfiguration.png
