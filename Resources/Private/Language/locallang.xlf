@@ -628,7 +628,7 @@ title3, value3, icon3, description3
 				<source>Allowed</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.group.allowed.description">
-				<source>db: table names, folder: file extensions (comma separated)</source>
+				<source>table names, comma separated (internal_type="db")</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.group.internalType.folder">
 				<source>Folder</source>
