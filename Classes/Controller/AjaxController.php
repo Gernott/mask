@@ -191,14 +191,13 @@ class AjaxController
             $configuration['content_elements_folder'] = 'EXT:' . $extensionKey . '/Configuration/Mask/ContentElements';
             $configuration['backend_layouts_folder'] = 'EXT:' . $extensionKey . '/Configuration/Mask/BackendLayouts';
         }
-        $configuration['content'] = 'EXT:' . $extensionKey . '/Resources/Private/Mask/Frontend/Templates/';
-        $configuration['layouts'] = 'EXT:' . $extensionKey . '/Resources/Private/Mask/Frontend/Layouts/';
-        $configuration['partials'] = 'EXT:' . $extensionKey . '/Resources/Private/Mask/Frontend/Partials/';
-        $configuration['backend'] = 'EXT:' . $extensionKey . '/Resources/Private/Mask/Backend/Templates/';
-        $configuration['layouts_backend'] = 'EXT:' . $extensionKey . '/Resources/Private/Mask/Backend/Layouts/';
-        $configuration['partials_backend'] = 'EXT:' . $extensionKey . '/Resources/Private/Mask/Backend/Partials/';
+        $configuration['content'] = 'EXT:' . $extensionKey . '/Resources/Private/Mask/Frontend/Templates';
+        $configuration['layouts'] = 'EXT:' . $extensionKey . '/Resources/Private/Mask/Frontend/Layouts';
+        $configuration['partials'] = 'EXT:' . $extensionKey . '/Resources/Private/Mask/Frontend/Partials';
+        $configuration['backend'] = 'EXT:' . $extensionKey . '/Resources/Private/Mask/Backend/Templates';
+        $configuration['layouts_backend'] = 'EXT:' . $extensionKey . '/Resources/Private/Mask/Backend/Layouts';
+        $configuration['partials_backend'] = 'EXT:' . $extensionKey . '/Resources/Private/Mask/Backend/Partials';
         $configuration['preview'] = 'EXT:' . $extensionKey . '/Resources/Public/Mask/';
-        $configuration['backendlayout_pids'] = $extensionConfiguration->get('mask', 'backendlayout_pids');
 
         if ((new Typo3Version())->getMajorVersion() > 10) {
             $extensionConfiguration->set('mask', $configuration);
