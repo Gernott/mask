@@ -182,22 +182,23 @@ class AjaxController
             return new JsonResponse(['result' => ['error' => 'must be loaded!']]);
         }
 
+        $extensionPath = 'EXT:' . $extensionKey;
         $extensionConfiguration = new ExtensionConfiguration();
         $configuration = $extensionConfiguration->get('mask');
         $configuration['loader_identifier'] = $loader;
         if ($loader === 'json') {
-            $configuration['json'] = 'EXT:' . $extensionKey . '/Configuration/Mask/mask.json';
+            $configuration['json'] = $extensionPath . '/Configuration/Mask/mask.json';
         } else {
-            $configuration['content_elements_folder'] = 'EXT:' . $extensionKey . '/Configuration/Mask/ContentElements';
-            $configuration['backend_layouts_folder'] = 'EXT:' . $extensionKey . '/Configuration/Mask/BackendLayouts';
+            $configuration['content_elements_folder'] = $extensionPath . '/Configuration/Mask/ContentElements';
+            $configuration['backend_layouts_folder'] = $extensionPath . '/Configuration/Mask/BackendLayouts';
         }
-        $configuration['content'] = 'EXT:' . $extensionKey . '/Resources/Private/Mask/Frontend/Templates';
-        $configuration['layouts'] = 'EXT:' . $extensionKey . '/Resources/Private/Mask/Frontend/Layouts';
-        $configuration['partials'] = 'EXT:' . $extensionKey . '/Resources/Private/Mask/Frontend/Partials';
-        $configuration['backend'] = 'EXT:' . $extensionKey . '/Resources/Private/Mask/Backend/Templates';
-        $configuration['layouts_backend'] = 'EXT:' . $extensionKey . '/Resources/Private/Mask/Backend/Layouts';
-        $configuration['partials_backend'] = 'EXT:' . $extensionKey . '/Resources/Private/Mask/Backend/Partials';
-        $configuration['preview'] = 'EXT:' . $extensionKey . '/Resources/Public/Mask/';
+        $configuration['content'] = $extensionPath . '/Resources/Private/Mask/Frontend/Templates';
+        $configuration['layouts'] = $extensionPath . '/Resources/Private/Mask/Frontend/Layouts';
+        $configuration['partials'] = $extensionPath . '/Resources/Private/Mask/Frontend/Partials';
+        $configuration['backend'] = $extensionPath . '/Resources/Private/Mask/Backend/Templates';
+        $configuration['layouts_backend'] = $extensionPath . '/Resources/Private/Mask/Backend/Layouts';
+        $configuration['partials_backend'] = $extensionPath . '/Resources/Private/Mask/Backend/Partials';
+        $configuration['preview'] = $extensionPath . '/Resources/Public/Mask/';
 
         if ((new Typo3Version())->getMajorVersion() > 10) {
             $extensionConfiguration->set('mask', $configuration);
