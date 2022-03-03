@@ -181,11 +181,6 @@ parameters:
 			path: ../../Classes/Controller/AjaxController.php
 
 		-
-			message: "#^Property MASK\\\\Mask\\\\Controller\\\\AjaxController\\:\\:\\$flashMessageQueue type has no value type specified in iterable type TYPO3\\\\CMS\\\\Core\\\\Messaging\\\\FlashMessageQueue\\.$#"
-			count: 1
-			path: ../../Classes/Controller/AjaxController.php
-
-		-
 			message: "#^Property MASK\\\\Mask\\\\Controller\\\\AjaxController\\:\\:\\$maskExtensionConfiguration type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Controller/AjaxController.php
