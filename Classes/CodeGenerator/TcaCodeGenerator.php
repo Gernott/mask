@@ -64,7 +64,12 @@ class TcaCodeGenerator
                 continue;
             }
             // Enhance boilerplate table tca with user settings
-            $GLOBALS['TCA'][$table] = $this->generateTableTca($tableDefinition);
+            try {
+                $GLOBALS['TCA'][$table] = $this->generateTableTca($tableDefinition);
+            } catch (InvalidArgumentException $e) {
+                continue;
+            }
+
             ExtensionManagementUtility::addTCAcolumns($table, $this->generateFieldsTca($table));
         }
     }
