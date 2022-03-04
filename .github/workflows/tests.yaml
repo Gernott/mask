@@ -11,7 +11,7 @@ on:
     - cron: "0 2 * * 1-5"
 jobs:
   early_cgl:
-    name: Early CGL
+    name: CGL
     runs-on: ubuntu-latest
 
     steps:
@@ -46,7 +46,6 @@ jobs:
 
   TYPO3_10_4_PHP_7_2:
     name: TYPO3 v10.4 PHP 7.2
-    needs: early_cgl
     runs-on: ubuntu-latest
 
     steps:
@@ -79,7 +78,6 @@ jobs:
 
   TYPO3_10_4_PHP_7_3:
     name: TYPO3 v10.4 PHP 7.3
-    needs: early_cgl
     runs-on: ubuntu-latest
 
     steps:
@@ -112,7 +110,6 @@ jobs:
 
   TYPO3_10_4_PHP_7_4:
     name: TYPO3 v10.4 PHP 7.4
-    needs: early_cgl
     runs-on: ubuntu-latest
 
     steps:
@@ -145,7 +142,6 @@ jobs:
 
   TYPO3_11_5_PHP_7_4:
     name: TYPO3 v11.5 PHP 7.4
-    needs: early_cgl
     runs-on: ubuntu-latest
 
     steps:
@@ -178,7 +174,6 @@ jobs:
 
   TYPO3_11_5_PHP_8_0:
     name: TYPO3 v11.5 PHP 8.0
-    needs: early_cgl
     runs-on: ubuntu-latest
 
     steps:
@@ -211,7 +206,6 @@ jobs:
 
   TYPO3_11_5_PHP_8_1:
     name: TYPO3 v11.5 PHP 8.1
-    needs: early_cgl
     runs-on: ubuntu-latest
 
     steps:
@@ -244,7 +238,6 @@ jobs:
 
   PHPStan:
     name: PHPStan TYPO3 v11.5 PHP 8.1
-    needs: early_cgl
     runs-on: ubuntu-latest
 
     steps:
