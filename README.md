@@ -3,14 +3,11 @@
 [![release](https://img.shields.io/github/v/release/gernott/mask?sort=semver)](https://github.com/Gernott/mask)
 [![TYPO3](https://img.shields.io/badge/TYPO3-v11-ff8700)](https://typo3.org/)
 [![TYPO3](https://img.shields.io/badge/TYPO3-v10-ff8700)](https://typo3.org/)
+[![TYPO3](https://img.shields.io/badge/TYPO3-verified-ff8700)](https://typo3.com/typo3-cms/verified-extensions-integrations-for-typo3/extensions/mask-create-custom-content-elements-in-typo3)
 [![Tests](https://img.shields.io/github/workflow/status/Gernott/mask/Unit%20Tests?label=Tests)](https://github.com/Gernott/mask/actions/workflows/tests.yaml)
 [![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat)](https://github.com/phpstan/phpstan)
 
-[![Verified TYPO3 Extension](Resources/Public/Images/verified.svg) Verified TYPO3 Extension](https://typo3.com/typo3-cms/verified-extensions-integrations-for-typo3/extensions/mask-create-custom-content-elements-in-typo3)
-
-[:blue_book: Official Documentation](https://docs.typo3.org/p/mask/mask/main/en-us/Index.html)
-
-# Mask :performing_arts:
+# TYPO3 extension `mask` :performing_arts:
 
 Mask is a content element builder that generates TypoScript, TSconfig and TCA on
 the fly. You can build your own custom content elements in a user-friendly
@@ -23,6 +20,12 @@ options available. Field types are grouped roughly into input, repeating and
 structural fields. With these given tools, you can cover almost all typical
 requirements for your projects. And if not, Mask can be extended
 via TCA overrides or DataProcessors.
+
+|                  | URL                                            |
+|------------------|------------------------------------------------|
+| **Repository:**  | https://github.com/Gernott/mask                |
+| **Read online:** | https://docs.typo3.org/p/mask/mask/main/en-us/ |
+| **TER:**         | https://extensions.typo3.org/extension/mask    |
 
 ## Quickstart :rocket:
 
