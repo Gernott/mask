@@ -37,9 +37,7 @@ class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\Fluid
             $inlineHelper->addFilesToData($data, 'pages');
             $inlineHelper->addIrreToData($data, 'pages');
             $variables['data'] = $data;
-        }
-
-        if (!array_key_exists('parentRecord', $variables)) {
+        } elseif (!array_key_exists('parentRecord', $variables)) {
             $variables['parentRecord'] = $this->cObj->parentRecord['data'] ?? [];
         }
 
