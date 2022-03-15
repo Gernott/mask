@@ -157,4 +157,8 @@ List of further sponsors
 GitHub sponsors
 ---------------
 
-*  Krystian Szymukowicz
+*  `Krystian Szymukowicz <https://github.com/kszymukowicz>`__
+*  `Elementare Teilchen <https://github.com/ElementareTeilchen>`__
+*  `Birger Fühne <https://github.com/bfuhne>`__
+*  `Guido Schmechel <https://github.com/ayacoo>`__
+*  `Wolfgang Wagner <https://github.com/wowaTYPO3>`__
