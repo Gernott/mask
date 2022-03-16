@@ -19,10 +19,11 @@ namespace MASK\Mask\Imaging\IconProvider;
 
 use InvalidArgumentException;
 use MASK\Mask\Definition\TableDefinitionCollection;
-use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconProviderInterface;
+use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Extbase\Object\Exception;
 
 class ContentElementIconProvider implements IconProviderInterface
@@ -40,10 +41,19 @@ class ContentElementIconProvider implements IconProviderInterface
      */
     protected $maskExtensionConfiguration;
 
-    public function __construct(TableDefinitionCollection $tableDefinitionCollection, array $maskExtensionConfiguration)
-    {
+    /**
+     * @var ResourceFactory
+     */
+    protected $resourceFactory;
+
+    public function __construct(
+        TableDefinitionCollection $tableDefinitionCollection,
+        array $maskExtensionConfiguration,
+        ResourceFactory $resourceFactory
+    ) {
         $this->tableDefinitionCollection = $tableDefinitionCollection;
         $this->maskExtensionConfiguration = $maskExtensionConfiguration;
+        $this->resourceFactory = $resourceFactory;
     }
 
     /**
@@ -105,7 +115,7 @@ class ContentElementIconProvider implements IconProviderInterface
      */
     protected function isPreviewIconAvailable(string $key): bool
     {
-        return file_exists($this->getPreviewIconPath($key));
+        return $this->getPreviewIconPath($key) !== '';
     }
 
     protected function getPreviewIconPath(string $key): string
@@ -113,20 +123,21 @@ class ContentElementIconProvider implements IconProviderInterface
         if (!($this->maskExtensionConfiguration['preview'] ?? false)) {
             return '';
         }
-        // the path to the file
-        $absoluteIconPath = MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration['preview']);
-        $filePath = rtrim($absoluteIconPath, '/') . '/' . $key;
         // search a fitting png or svg file in this path
         $fileExtensions = ['png', 'svg'];
+        $previewPath = rtrim($this->maskExtensionConfiguration['preview'], '/');
         foreach ($fileExtensions as $fileExtension) {
-            $iconPath = $filePath . '.' . $fileExtension;
-            if (file_exists($iconPath)) {
-                return $iconPath;
+            try {
+                $icon = $this->resourceFactory->retrieveFileOrFolderObject($previewPath . '/' . $key . '.' . $fileExtension);
+            } catch (InvalidArgumentException $e) {
+                continue;
+            }
+            if ($icon instanceof File) {
+                return '/' . ltrim($icon->getPublicUrl(), '/');
             }
         }
 
-        // if nothing found, return the path to the png file
-        return $filePath . '.png';
+        return '';
     }
 
     /**
