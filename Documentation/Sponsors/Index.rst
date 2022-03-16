@@ -162,3 +162,4 @@ GitHub sponsors
 *  `Birger Fühne <https://github.com/bfuhne>`__
 *  `Guido Schmechel <https://github.com/ayacoo>`__
 *  `Wolfgang Wagner <https://github.com/wowaTYPO3>`__
+*  `Michael Paulisch <https://github.com/micha68g>`__
