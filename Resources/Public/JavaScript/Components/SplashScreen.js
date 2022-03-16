@@ -7,6 +7,7 @@ define([
           {
             props: {
               loaded: Boolean,
+              logoPath: String,
             },
             template: `
     <transition name="fade">
@@ -15,7 +16,7 @@ define([
                 <div class="circle circle-1"></div>
                 <div class="circle circle-2"></div>
             </div>
-            <img src="/typo3conf/ext/mask/Resources/Public/Icons/Extension.svg" class="mask-splashscreen__logo"/>
+            <img :src="logoPath" class="mask-splashscreen__logo"/>
             <h1 class="mask-splashscreen__label">Mask</h1>
         </div>
     </transition>
