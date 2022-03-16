@@ -19,6 +19,7 @@ namespace MASK\Mask\Tests\Unit\CodeGenerator;
 
 use MASK\Mask\CodeGenerator\TyposcriptCodeGenerator;
 use MASK\Mask\Definition\TableDefinitionCollection;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Imaging\IconRegistry;
 use TYPO3\CMS\Core\Package\PackageManager;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -30,6 +31,9 @@ class TypoScriptCodeGeneratorTest extends UnitTestCase
     {
         $packageManager = $this->prophesize(PackageManager::class);
         $packageManager->isPackageActive('sitepackage')->willReturn(true);
+        if (method_exists(ExtensionManagementUtility::class, 'resolvePackagePath')) {
+            $packageManager->resolvePackagePath('EXT:sitepackage/Resources/Private/Mask/Templates/')->willReturn(Environment::getPublicPath() . '/typo3conf/ext/sitepackage/Resources/Private/Mask/Templates');
+        }
         ExtensionManagementUtility::setPackageManager($packageManager->reveal());
     }
 

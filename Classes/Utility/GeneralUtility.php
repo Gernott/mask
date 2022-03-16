@@ -18,6 +18,8 @@ declare(strict_types=1);
 namespace MASK\Mask\Utility;
 
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Information\Typo3Version;
+use TYPO3\CMS\Core\Package\Exception as PackageException;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility as CoreUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
@@ -42,19 +44,28 @@ class GeneralUtility
      */
     public static function getFileAbsFileName(string $filename): string
     {
+        $originalFileName = $filename;
         if ($filename === '') {
             return '';
         }
         // Extension
         if (strpos($filename, 'EXT:') === 0) {
             [$extKey, $local] = explode('/', substr($filename, 4), 2);
-            $filename = '';
+            if ($extKey === '' || $local === '') {
+                return '';
+            }
+            $filename = Environment::getPublicPath() . '/typo3conf/ext/' . $extKey . '/' . $local;
             // @todo Use TYPO3 GU::getFileAbsFileName method instead. A loaded extension should be required for extension paths.
             if (!ExtensionManagementUtility::isLoaded($extKey)) {
                 trigger_error('Your sitepackage extension "' . $extKey . '" is not loaded. Mask v8 will require your extension to be loaded.', E_USER_DEPRECATED);
             }
-            if ((string)$extKey !== '' && (string)$local !== '') {
-                $filename = Environment::getPublicPath() . '/typo3conf/ext/' . $extKey . '/' . $local;
+            // This is for v11 with typo3/cms-composer-installers v4
+            if (!file_exists($filename) && (new Typo3Version())->getMajorVersion() > 10) {
+                try {
+                    $filename = ExtensionManagementUtility::resolvePackagePath($originalFileName);
+                } catch (PackageException $e) {
+                    $filename = '';
+                }
             }
         } elseif (!PathUtility::isAbsolutePath($filename)) {
             // is relative. Prepended with the public web folder
