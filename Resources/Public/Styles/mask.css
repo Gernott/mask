@@ -476,7 +476,7 @@
   background-color: #fff;
 }
 .mask-field-list--empty {
-  background: url("/typo3conf/ext/mask/Resources/Public/Images/empty.svg") no-repeat;
+  background: url("../Images/empty.svg") no-repeat;
   background-position: center 35%;
   background-size: 300px;
   background-color: #fff;
