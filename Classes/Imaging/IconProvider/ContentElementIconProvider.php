@@ -22,6 +22,7 @@ use MASK\Mask\Definition\TableDefinitionCollection;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconProviderInterface;
+use TYPO3\CMS\Core\Resource\Exception\FolderDoesNotExistException;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Extbase\Object\Exception;
@@ -129,7 +130,7 @@ class ContentElementIconProvider implements IconProviderInterface
         foreach ($fileExtensions as $fileExtension) {
             try {
                 $icon = $this->resourceFactory->retrieveFileOrFolderObject($previewPath . '/' . $key . '.' . $fileExtension);
-            } catch (InvalidArgumentException $e) {
+            } catch (InvalidArgumentException|FolderDoesNotExistException $e) {
                 continue;
             }
             if ($icon instanceof File) {
