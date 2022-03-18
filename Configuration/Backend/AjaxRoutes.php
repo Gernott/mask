@@ -112,4 +112,8 @@ return [
         'path' => '/mask/autoConfigure',
         'target' => AjaxController::class . '::autoConfigureSetup'
     ],
+    'mask_tables' => [
+        'path' => '/mask/tables',
+        'target' => AjaxController::class . '::tables'
+    ],
 ];

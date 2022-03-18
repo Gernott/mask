@@ -188,6 +188,11 @@ define([
                 <option v-for="(item, key) in global.ctypes" :value="key">{{ item }} <span v-if="key !== ''">[{{ key }}]</span></option>
               </select>
             </div>
+            <div v-if="type == 'foreign_table'" class="form-control-wrap">
+              <select v-model="global.activeField.tca[tcaKey]" class="form-control form-select">
+                <option v-for="(item, key) in global.foreignTables" :value="key">{{ key }} <span v-if="key !== ''">({{ item }})</span></option>
+              </select>
+            </div>
           </div>
         `
       }

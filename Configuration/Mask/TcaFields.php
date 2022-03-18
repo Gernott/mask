@@ -495,7 +495,7 @@ return [
         ]
     ],
     'config.foreign_table' => [
-        'type' => 'text',
+        'type' => 'foreign_table',
         'label' => 'tx_mask.field.select.foreign_table',
         'description' => 'tx_mask.field.select.foreign_table.description',
         'code' => 'foreign_table',

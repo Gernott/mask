@@ -43,6 +43,7 @@ use TYPO3\CMS\Core\Http\ServerRequest;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Information\Typo3Version;
+use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageQueue;
@@ -711,6 +712,23 @@ class AjaxController
         return new JsonResponse($tcaFields);
     }
 
+    public function tables(ServerRequestInterface $request): Response
+    {
+        $items = ['' => ''];
+        $tables = $GLOBALS['TCA'] ?? [];
+        foreach ($tables as $tableKey => $table) {
+            // Hidden tables should usually not be used as references.
+            if ($table['ctrl']['hideTable'] ?? false) {
+                continue;
+            }
+            $items[$tableKey] = $this->getLanguageService()->sL($table['ctrl']['title']);
+        }
+
+        ksort($items);
+        $json['foreignTables'] = $items;
+        return new JsonResponse($json);
+    }
+
     protected function translateTcaFieldLabels($key, $field, $tcaFields)
     {
         $tcaFields[$key]['label'] = LocalizationUtility::translate($field['label'], 'mask');
@@ -1026,5 +1044,10 @@ class AjaxController
         }
 
         return $missingFolders;
+    }
+
+    protected function getLanguageService(): LanguageService
+    {
+        return $GLOBALS['LANG'];
     }
 }
