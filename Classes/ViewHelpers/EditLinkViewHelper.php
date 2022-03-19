@@ -54,6 +54,7 @@ class EditLinkViewHelper extends AbstractTagBasedViewHelper
      */
     public function render(): string
     {
+        trigger_error('The MASK\Mask\ViewHelpers\EditLinkViewHelper will be removed in Mask v8. Please use be:link.editRecord instead.', E_USER_DEPRECATED);
         $element = $this->arguments['element'];
 
         if ($this->doEdit && $this->getBackendUser()->recordEditAccessInternals('tt_content', $element)) {

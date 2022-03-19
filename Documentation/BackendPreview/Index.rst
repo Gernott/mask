@@ -28,13 +28,18 @@ modify it for your needs.
 Preview for content field types
 ===============================
 
-You can use a ViewHelper of Mask to show an edit icon for every child element:
+You can use a core ViewHelper to show an edit icon for every child element:
 
 .. code-block:: html
 
-    <f:for each="{data.tx_mask_mycontent}" as="data_item">
-      <mask:editLink element="{data_item}"><core:icon identifier="actions-open" size="small" /> Edit element</mask:editLink><br />
-    </f:for>
+      <html xmlns:be="http://typo3.org/ns/TYPO3/CMS/Backend/ViewHelpers">
+
+      <f:for each="{data.tx_mask_mycontent}" as="data_item">
+          <be:link.editRecord uid="{data_item.uid}" table="tt_content">
+              <core:icon identifier="actions-open" size="small" /> Edit record
+          </be:link.editRecord><br>
+      </f:for>
+
 
 Preview image for a content element
 ===================================
