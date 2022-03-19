@@ -46,10 +46,11 @@ use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageQueue;
+use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Resource\ProcessedFile;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Service\ImageService;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
@@ -82,11 +83,6 @@ class AjaxController
      * @var BackendLayoutRepository
      */
     protected $backendLayoutRepository;
-
-    /**
-     * @var ImageService
-     */
-    protected $imageService;
 
     /**
      * @var ResourceFactory
@@ -132,7 +128,6 @@ class AjaxController
         SqlCodeGenerator $sqlCodeGenerator,
         HtmlCodeGenerator $htmlCodeGenerator,
         BackendLayoutRepository $backendLayoutRepository,
-        ImageService $imageService,
         ResourceFactory $resourceFactory,
         ConfigurationLoader $configurationLoader,
         TableDefinitionCollection $tableDefinitionCollection,
@@ -143,7 +138,6 @@ class AjaxController
         $this->sqlCodeGenerator = $sqlCodeGenerator;
         $this->htmlCodeGenerator = $htmlCodeGenerator;
         $this->backendLayoutRepository = $backendLayoutRepository;
-        $this->imageService = $imageService;
         $this->resourceFactory = $resourceFactory;
         $this->configurationLoader = $configurationLoader;
         $this->flashMessageQueue = new FlashMessageQueue('mask');
@@ -368,9 +362,10 @@ class AjaxController
                     'width' => '32',
                     'height' => '32c'
                 ];
-                $processedImage = $this->imageService->applyProcessingInstructions($image, $processingInstructions);
-                $imageUri = $this->imageService->getImageUri($processedImage);
-                $backendLayout->setIconPath($imageUri);
+                if ($image instanceof File) {
+                    $processedImage = $image->process(ProcessedFile::CONTEXT_IMAGECROPSCALEMASK, $processingInstructions);
+                    $backendLayout->setIconPath($processedImage->getPublicUrl());
+                }
             }
             $json['backendLayouts'][] = [
                 'key' => $key,
