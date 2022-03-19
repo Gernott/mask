@@ -28,7 +28,6 @@ use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Enumeration\Tab;
 use MASK\Mask\Utility\AffixUtility;
-use MASK\Mask\Utility\CompatibilityUtility;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use MASK\Mask\Utility\TemplatePathUtility;
 use Psr\Http\Message\ServerRequestInterface;
@@ -751,11 +750,7 @@ class AjaxController
         $cTypes = $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'];
         foreach ($cTypes ?? [] as $type) {
             if ($type[1] !== '--div--') {
-                if (CompatibilityUtility::isFirstPartOfStr($type[0], 'LLL:')) {
-                    $items[$type[1]] = $this->translateLabel($type[0]);
-                } else {
-                    $items[$type[1]] = $type[0];
-                }
+                $items[$type[1]] = $this->getLanguageService()->sL($type[0]);
             }
         }
         $json['ctypes'] = $items;
