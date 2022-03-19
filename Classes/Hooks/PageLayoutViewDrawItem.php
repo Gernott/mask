@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Hooks;
 
+use MASK\Mask\Definition\ElementTcaDefinition;
 use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Helper\InlineHelper;
 use MASK\Mask\Utility\AffixUtility;
@@ -28,7 +29,6 @@ use TYPO3\CMS\Backend\View\PageLayoutView;
 use TYPO3\CMS\Backend\View\PageLayoutViewDrawItemHookInterface;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
@@ -86,9 +86,11 @@ class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
         $elementKey = AffixUtility::removeCTypePrefix($row['CType']);
         $elementTcaDefinition = $this->tableDefinitionCollection->loadElement('tt_content', $elementKey);
         // If the Mask element couldn't be found, provide a proper error message.
-        if (!$elementTcaDefinition) {
+        if (!$elementTcaDefinition instanceof ElementTcaDefinition) {
             $drawItem = false;
-            $itemContent = '<span class="label label-warning">' . LocalizationUtility::translate('tx_mask.error.mask_definition_missing', 'mask', [$elementKey]) . '</span>';
+            $itemContent = '<span class="label label-warning">'
+                . sprintf($this->getLanguageService()->sL('LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.error.mask_definition_missing'), $elementKey)
+                . '</span>';
             return;
         }
 
