@@ -19,7 +19,7 @@ return [
     ],
     Tab::DATABASE => [
         [
-            'config.foreign_table' => 6,
+            'config.foreign_table' => 12,
         ],
         [
             'config.foreign_table_where' => 12

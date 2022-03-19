@@ -240,6 +240,9 @@ define([
               // fetch elements
               promises.push(this.loadElements());
 
+              // fetch tables
+              promises.push(this.loadTables());
+
               // fetch backend layouts
               promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_backend_layouts)).get()
                 .then(
@@ -481,6 +484,15 @@ define([
                   this.$set(this.multiUseElements, this.global.activeField.key, result.multiUseElements);
                 }
             );
+      },
+      loadTables: function () {
+        return (new AjaxRequest(TYPO3.settings.ajaxUrls.mask_tables)).get()
+          .then(
+            async response => {
+              const result = await response.resolve();
+              this.global.foreignTables = result.foreignTables;
+            }
+          );
       },
       validateKey: function (field) {
         if (this.isEmptyObject(this.global.activeField)) {
