@@ -17,7 +17,6 @@ declare(strict_types=1);
 
 namespace MASK\Mask\ViewHelpers;
 
-use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -33,14 +32,9 @@ class ContentViewHelper extends AbstractViewHelper
      */
     protected $cObj;
 
-    /**
-     * Injects Configuration Manager
-     *
-     * @param ConfigurationManagerInterface $configurationManager
-     */
-    public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager): void
+    public function injectContentObjectRenderer(ContentObjectRenderer $contentObjectRenderer): void
     {
-        $this->cObj = $configurationManager->getContentObject();
+        $this->cObj = $contentObjectRenderer;
     }
 
     public function initializeArguments(): void
