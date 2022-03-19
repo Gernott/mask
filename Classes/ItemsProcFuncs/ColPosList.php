@@ -17,8 +17,8 @@ declare(strict_types=1);
 
 namespace MASK\Mask\ItemsProcFuncs;
 
+use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Render the allowed colPos for nested content elements
@@ -37,7 +37,7 @@ class ColPosList
             // only allow mask nested element column
             $params['items'] = [
                 [
-                    LocalizationUtility::translate('mask_content_colpos', 'mask'),
+                    $this->getLanguageService()->sL('LLL:EXT:mask/Resources/Private/Language/locallang.xlf:mask_content_colpos'),
                     999,
                     null,
                     null
@@ -53,5 +53,10 @@ class ColPosList
                 $this
             );
         }
+    }
+
+    protected function getLanguageService(): LanguageService
+    {
+        return $GLOBALS['LANG'];
     }
 }

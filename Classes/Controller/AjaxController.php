@@ -51,7 +51,6 @@ use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Service\ImageService;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
@@ -314,9 +313,9 @@ class AjaxController
             }
         }
         if ($isNew) {
-            $this->addFlashMessage(LocalizationUtility::translate('tx_mask.content.newcontentelement', 'mask'));
+            $this->addFlashMessage($this->translateLabel('tx_mask.content.newcontentelement'));
         } else {
-            $this->addFlashMessage(LocalizationUtility::translate('tx_mask.content.updatedcontentelement', 'mask'));
+            $this->addFlashMessage($this->translateLabel('tx_mask.content.updatedcontentelement'));
         }
         return new JsonResponse(['messages' => $this->flashMessageQueue->getAllMessagesAndFlush(), 'hasError' => 0]);
     }
@@ -335,7 +334,7 @@ class AjaxController
         }
         $tableDefinitionCollection = $this->storageRepository->persist($this->storageRepository->remove('tt_content', $params['key']));
         $this->generateAction($tableDefinitionCollection);
-        $this->addFlashMessage(LocalizationUtility::translate('tx_mask.content.deletedcontentelement', 'mask'));
+        $this->addFlashMessage($this->translateLabel('tx_mask.content.deletedcontentelement'));
         return new JsonResponse($this->flashMessageQueue->getAllMessagesAndFlush());
     }
 
@@ -348,10 +347,10 @@ class AjaxController
         $params = $request->getParsedBody();
         if ((int)$params['element']['hidden'] === 1) {
             $tableDefinitionCollection = $this->storageRepository->activate('tt_content', $params['element']['key']);
-            $this->addFlashMessage(LocalizationUtility::translate('tx_mask.content.activatedcontentelement', 'mask'));
+            $this->addFlashMessage($this->translateLabel('tx_mask.content.activatedcontentelement'));
         } else {
             $tableDefinitionCollection = $this->storageRepository->hide('tt_content', $params['element']['key']);
-            $this->addFlashMessage(LocalizationUtility::translate('tx_mask.content.hiddencontentelement', 'mask'));
+            $this->addFlashMessage($this->translateLabel('tx_mask.content.hiddencontentelement'));
         }
         $this->generateAction($tableDefinitionCollection);
         return new JsonResponse($this->flashMessageQueue->getAllMessagesAndFlush());
@@ -442,7 +441,7 @@ class AjaxController
                 'label' => '',
                 'description' => '',
                 'translatedLabel' => '',
-                'itemLabel' => LocalizationUtility::translate('tx_mask.field.' . $type, 'mask'),
+                'itemLabel' => $this->translateLabel('tx_mask.field.' . $type),
                 'parent' => [],
                 'group' => $grouping[$type],
                 'newField' => true,
@@ -470,31 +469,31 @@ class AjaxController
                 'groups' => [
                     [
                         'name' => 'input',
-                        'label' => LocalizationUtility::translate('tx_mask.input', 'mask')
+                        'label' => $this->translateLabel('tx_mask.input')
                     ],
                     [
                         'name' => 'text',
-                        'label' => LocalizationUtility::translate('tx_mask.text', 'mask')
+                        'label' => $this->translateLabel('tx_mask.text')
                     ],
                     [
                         'name' => 'date',
-                        'label' => LocalizationUtility::translate('tx_mask.date', 'mask')
+                        'label' => $this->translateLabel('tx_mask.date')
                     ],
                     [
                         'name' => 'choice',
-                        'label' => LocalizationUtility::translate('tx_mask.choice', 'mask')
+                        'label' => $this->translateLabel('tx_mask.choice')
                     ],
                     [
                         'name' => 'special',
-                        'label' => LocalizationUtility::translate('tx_mask.special', 'mask')
+                        'label' => $this->translateLabel('tx_mask.special')
                     ],
                     [
                         'name' => 'repeating',
-                        'label' => LocalizationUtility::translate('tx_mask.repeating', 'mask')
+                        'label' => $this->translateLabel('tx_mask.repeating')
                     ],
                     [
                         'name' => 'structure',
-                        'label' => LocalizationUtility::translate('tx_mask.structure', 'mask')
+                        'label' => $this->translateLabel('tx_mask.structure')
                     ]
                 ]
             ]
@@ -731,16 +730,16 @@ class AjaxController
 
     protected function translateTcaFieldLabels($key, $field, $tcaFields)
     {
-        $tcaFields[$key]['label'] = LocalizationUtility::translate($field['label'], 'mask');
+        $tcaFields[$key]['label'] = $this->translateLabel($field['label']);
         if (isset($field['placeholder'])) {
-            $tcaFields[$key]['placeholder'] = LocalizationUtility::translate($field['placeholder'], 'mask');
+            $tcaFields[$key]['placeholder'] = $this->translateLabel($field['placeholder']);
         }
         if (isset($field['description'])) {
-            $tcaFields[$key]['description'] = LocalizationUtility::translate($field['description'], 'mask');
+            $tcaFields[$key]['description'] = $this->translateLabel($field['description']);
         }
         if (isset($tcaFields[$key]['items'])) {
             foreach ($tcaFields[$key]['items'] as $itemKey => $item) {
-                $tcaFields[$key]['items'][$itemKey] = LocalizationUtility::translate($item, 'mask');
+                $tcaFields[$key]['items'][$itemKey] = $this->translateLabel($item);
             }
         }
         return $tcaFields;
@@ -753,7 +752,7 @@ class AjaxController
         foreach ($cTypes ?? [] as $type) {
             if ($type[1] !== '--div--') {
                 if (CompatibilityUtility::isFirstPartOfStr($type[0], 'LLL:')) {
-                    $items[$type[1]] = LocalizationUtility::translate($type[0], 'mask');
+                    $items[$type[1]] = $this->translateLabel($type[0]);
                 } else {
                     $items[$type[1]] = $type[0];
                 }
@@ -789,61 +788,61 @@ class AjaxController
         ];
 
         foreach ($tabs as $key => $tab) {
-            $tabs[$key] = LocalizationUtility::translate($tab, 'mask');
+            $tabs[$key] = $this->translateLabel($tab);
         }
         $language['tabs'] = $tabs;
 
-        $language['ok'] = LocalizationUtility::translate('tx_mask.ok', 'mask');
-        $language['close'] = LocalizationUtility::translate('tx_mask.close', 'mask');
-        $language['alert'] = LocalizationUtility::translate('tx_mask.alert', 'mask');
-        $language['fieldsMissing'] = LocalizationUtility::translate('tx_mask.fieldsMissing', 'mask');
-        $language['missingCreated'] = LocalizationUtility::translate('tx_mask.all.createdmissingfolders', 'mask');
-        $language['reset'] = LocalizationUtility::translate('tx_mask.reset_settings_success', 'mask');
-        $language['create'] = LocalizationUtility::translate('tx_mask.all.create', 'mask');
+        $language['ok'] = $this->translateLabel('tx_mask.ok');
+        $language['close'] = $this->translateLabel('tx_mask.close');
+        $language['alert'] = $this->translateLabel('tx_mask.alert');
+        $language['fieldsMissing'] = $this->translateLabel('tx_mask.fieldsMissing');
+        $language['missingCreated'] = $this->translateLabel('tx_mask.all.createdmissingfolders');
+        $language['reset'] = $this->translateLabel('tx_mask.reset_settings_success');
+        $language['create'] = $this->translateLabel('tx_mask.all.create');
 
         $language['deleteModal'] = [
-            'title' => LocalizationUtility::translate('tx_mask.field.titleDelete', 'mask'),
-            'content' => LocalizationUtility::translate('tx_mask.all.confirmdelete', 'mask'),
-            'close' => LocalizationUtility::translate('tx_mask.all.abort', 'mask'),
-            'delete' => LocalizationUtility::translate('tx_mask.all.delete', 'mask'),
-            'purge' => LocalizationUtility::translate('tx_mask.all.purge', 'mask'),
+            'title' => $this->translateLabel('tx_mask.field.titleDelete'),
+            'content' => $this->translateLabel('tx_mask.all.confirmdelete'),
+            'close' => $this->translateLabel('tx_mask.all.abort'),
+            'delete' => $this->translateLabel('tx_mask.all.delete'),
+            'purge' => $this->translateLabel('tx_mask.all.purge'),
         ];
 
         $language['tooltip'] = [
-            'editElement' => LocalizationUtility::translate('tx_mask.tooltip.edit_element', 'mask'),
-            'deleteElement' => LocalizationUtility::translate('tx_mask.tooltip.delete_element', 'mask'),
-            'enableElement' => LocalizationUtility::translate('tx_mask.tooltip.enable_element', 'mask'),
-            'disableElement' => LocalizationUtility::translate('tx_mask.tooltip.disable_element', 'mask'),
-            'html' => LocalizationUtility::translate('tx_mask.tooltip.html', 'mask'),
-            'deleteField' => LocalizationUtility::translate('tx_mask.field.delete', 'mask'),
+            'editElement' => $this->translateLabel('tx_mask.tooltip.edit_element'),
+            'deleteElement' => $this->translateLabel('tx_mask.tooltip.delete_element'),
+            'enableElement' => $this->translateLabel('tx_mask.tooltip.enable_element'),
+            'disableElement' => $this->translateLabel('tx_mask.tooltip.disable_element'),
+            'html' => $this->translateLabel('tx_mask.tooltip.html'),
+            'deleteField' => $this->translateLabel('tx_mask.field.delete'),
         ];
 
-        $language['deleted'] = LocalizationUtility::translate('tx_mask.content.deletedcontentelement', 'mask');
-        $language['icon'] = LocalizationUtility::translate('tx_mask.all.icon', 'mask');
-        $language['color'] = LocalizationUtility::translate('tx_mask.all.color', 'mask');
-        $language['usage'] = LocalizationUtility::translate('tx_mask.content.count', 'mask');
-        $language['elementKey'] = LocalizationUtility::translate('tx_mask.all.fieldkey', 'mask');
-        $language['elementLabel'] = LocalizationUtility::translate('tx_mask.all.fieldLabel', 'mask');
+        $language['deleted'] = $this->translateLabel('tx_mask.content.deletedcontentelement');
+        $language['icon'] = $this->translateLabel('tx_mask.all.icon');
+        $language['color'] = $this->translateLabel('tx_mask.all.color');
+        $language['usage'] = $this->translateLabel('tx_mask.content.count');
+        $language['elementKey'] = $this->translateLabel('tx_mask.all.fieldkey');
+        $language['elementLabel'] = $this->translateLabel('tx_mask.all.fieldLabel');
 
         $language['multistep'] = [
-            'chooseKey' => LocalizationUtility::translate('tx_mask.multistep.chooseKey', 'mask'),
-            'chooseLabel' => LocalizationUtility::translate('tx_mask.multistep.chooseKey', 'mask'),
-            'text1' => LocalizationUtility::translate('tx_mask.multistep.text1', 'mask'),
-            'text2' => LocalizationUtility::translate('tx_mask.multistep.text2', 'mask'),
-            'placeholder1' => LocalizationUtility::translate('tx_mask.multistep.placeholder1', 'mask'),
-            'placeholder2' => LocalizationUtility::translate('tx_mask.multistep.placeholder2', 'mask'),
+            'chooseKey' => $this->translateLabel('tx_mask.multistep.chooseKey'),
+            'chooseLabel' => $this->translateLabel('tx_mask.multistep.chooseKey'),
+            'text1' => $this->translateLabel('tx_mask.multistep.text1'),
+            'text2' => $this->translateLabel('tx_mask.multistep.text2'),
+            'placeholder1' => $this->translateLabel('tx_mask.multistep.placeholder1'),
+            'placeholder2' => $this->translateLabel('tx_mask.multistep.placeholder2'),
         ];
 
-        $language['createMissingFilesOrFolders'] = LocalizationUtility::translate('tx_mask.all.createmissingfolders', 'mask');
-        $language['missingFolders'] = LocalizationUtility::translate('tx_mask.all.missingFolders', 'mask');
-        $language['missingTemplates'] = LocalizationUtility::translate('tx_mask.all.missingTemplates', 'mask');
+        $language['createMissingFilesOrFolders'] = $this->translateLabel('tx_mask.all.createmissingfolders');
+        $language['missingFolders'] = $this->translateLabel('tx_mask.all.missingFolders');
+        $language['missingTemplates'] = $this->translateLabel('tx_mask.all.missingTemplates');
 
         return new JsonResponse($language);
     }
 
     public function richtextConfiguration(ServerRequestInterface $request): Response
     {
-        $config[''] = LocalizationUtility::translate('tx_mask.config.richtextConfiguration.none', 'mask');
+        $config[''] = $this->translateLabel('tx_mask.config.richtextConfiguration.none');
         $presets = array_keys($GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets'] ?? []);
         $presets = array_filter($presets, function ($item) {
             return $item !== 'sys_news';
@@ -1044,6 +1043,11 @@ class AjaxController
         }
 
         return $missingFolders;
+    }
+
+    protected function translateLabel(string $key): string
+    {
+        return $this->getLanguageService()->sL('LLL:EXT:mask/Resources/Private/Language/locallang.xlf:' . $key);
     }
 
     protected function getLanguageService(): LanguageService

@@ -26,12 +26,21 @@ use Prophecy\Argument;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\TestingFramework\Core\BaseTestCase;
 
 class FieldsControllerTest extends BaseTestCase
 {
     use StorageRepositoryCreatorTrait;
     use PackageManagerTrait;
+
+    public function setUp(): void
+    {
+        // Default LANG prophecy just returns incoming value as label if calling ->sL()
+        $languageServiceProphecy = $this->prophesize(LanguageService::class);
+        $languageServiceProphecy->sL(Argument::cetera())->willReturnArgument(0);
+        $GLOBALS['LANG'] = $languageServiceProphecy->reveal();
+    }
 
     public function loadElementDataProvider(): array
     {

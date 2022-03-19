@@ -26,7 +26,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Imaging\IconFactory;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Core\Localization\LanguageService;
 
 /**
  * Class FieldsController
@@ -117,7 +117,7 @@ class FieldsController
 
             if ($elementKey !== '') {
                 $newField['label'] = $this->tableDefinitionCollection->getLabel($elementKey, $newField['key'], $table);
-                $translatedLabel = $this->translateLabel($newField['label']);
+                $translatedLabel = $this->getLanguageService()->sL($newField['label']);
                 $newField['translatedLabel'] = $translatedLabel !== $newField['label'] ? $translatedLabel : '';
 
                 $newField['description'] = $this->tableDefinitionCollection->getDescription($elementKey, $newField['key'], $table);
@@ -227,17 +227,8 @@ class FieldsController
         }, ARRAY_FILTER_USE_KEY);
     }
 
-    /**
-     * Translates label for the given key.
-     * A key not beginning with 'LLL' is returned as is.
-     */
-    protected function translateLabel(string $key): string
+    protected function getLanguageService(): LanguageService
     {
-        if (empty($key) || strpos($key, 'LLL') !== 0) {
-            return $key;
-        }
-
-        $result = LocalizationUtility::translate($key);
-        return empty($result) ? $key : $result;
+        return $GLOBALS['LANG'];
     }
 }

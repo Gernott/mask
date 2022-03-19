@@ -18,15 +18,14 @@ declare(strict_types=1);
 namespace MASK\Mask\Domain\Repository;
 
 use MASK\Mask\Backend\BackendLayoutView;
-use MASK\Mask\Utility\CompatibilityUtility;
 use RuntimeException;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\View\BackendLayout\BackendLayout;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Imaging\IconRegistry;
+use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 class BackendLayoutRepository
 {
@@ -70,9 +69,7 @@ class BackendLayoutRepository
                 $backendLayouts[$backendLayout->getIdentifier()] = $backendLayout;
             }
             foreach ($backendLayoutCollections['pagets']->getAll() as $backendLayout) {
-                if (CompatibilityUtility::isFirstPartOfStr($backendLayout->getTitle(), 'LLL:')) {
-                    $backendLayout->setTitle(LocalizationUtility::translate($backendLayout->getTitle()));
-                }
+                $backendLayout->setTitle($this->getLanguageService()->sL($backendLayout->getTitle()));
                 $iconPath = $backendLayout->getIconPath();
                 if ($iconPath !== '') {
                     $absoluteFilePath = GeneralUtility::getFileAbsFileName($iconPath);
@@ -160,5 +157,10 @@ class BackendLayoutRepository
             }
         }
         return null;
+    }
+
+    protected function getLanguageService(): LanguageService
+    {
+        return $GLOBALS['LANG'];
     }
 }

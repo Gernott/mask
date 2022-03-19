@@ -25,7 +25,6 @@ use TYPO3\CMS\Core\Imaging\IconProviderInterface;
 use TYPO3\CMS\Core\Resource\Exception\FolderDoesNotExistException;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
-use TYPO3\CMS\Extbase\Object\Exception;
 
 class ContentElementIconProvider implements IconProviderInterface
 {
@@ -57,19 +56,10 @@ class ContentElementIconProvider implements IconProviderInterface
         $this->resourceFactory = $resourceFactory;
     }
 
-    /**
-     * @param Icon $icon
-     * @param array $options
-     * @throws Exception
-     */
     public function prepareIconMarkup(Icon $icon, array $options = []): void
     {
-        // error checking
         if (empty($options['contentElementKey'])) {
-            throw new InvalidArgumentException(
-                'The option "contentElementKey" is required and must not be empty',
-                1440754978
-            );
+            throw new InvalidArgumentException('The option "contentElementKey" is required and must not be empty', 1440754978);
         }
         $icon->setMarkup($this->generateMarkup($options));
     }
