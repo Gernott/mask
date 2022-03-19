@@ -49,6 +49,7 @@ class ContentViewHelper extends AbstractViewHelper
      */
     public function render(): string
     {
+        trigger_error('The MASK\Mask\ViewHelpers\ContentViewHelper will be removed in Mask v8. Please use f:cObject in combination with lib.tx_mask.content instead.', E_USER_DEPRECATED);
         $conf = [
             'tables' => 'tt_content',
             'source' => $this->arguments['uid'],
