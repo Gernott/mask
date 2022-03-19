@@ -6,7 +6,7 @@
 Glossary
 ========
 
-Here you can find explanations for common terms when working Mask.
+Here you can find explanations for common terms when working with Mask.
 
 .. _fluid-styled-content:
 
