@@ -20,7 +20,6 @@ as the appropriate field type.
    Type/Integer
    Type/Float
    Type/Link
-   Type/Colorpicker
    Type/Date
    Type/Datetime
    Type/Timestamp
@@ -30,6 +29,8 @@ as the appropriate field type.
    Type/Radio
    Type/Select
    Type/Group
+   Type/Colorpicker
+   Type/Slug
    Type/Inline
    Type/Content
    Type/File
