@@ -20,3 +20,8 @@ easier.
    :class: with-border
 
    Tab field
+
+Official Documentation
+----------------------
+
+Read about tabs in the :ref:`official documentation <t3tca:types-properties-showitem>`.

@@ -19,3 +19,8 @@ Palettes allow you to group multiple fields. They will by default be shown next 
    :class: with-border
 
    Palette field
+
+Official Documentation
+----------------------
+
+Read about palettes in the :ref:`official documentation <t3tca:palettes>`.

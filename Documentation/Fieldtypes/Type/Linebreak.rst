@@ -20,3 +20,8 @@ is too little space to fit them all in one line.
    :class: with-border
 
    Linebreak field
+
+Official Documentation
+----------------------
+
+Read about linebreaks in the :ref:`official documentation <t3tca:palettes-linebreaks>`.
