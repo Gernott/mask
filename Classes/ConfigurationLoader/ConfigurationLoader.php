@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\ConfigurationLoader;
 
+use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class ConfigurationLoader implements ConfigurationLoaderInterface
@@ -61,6 +62,21 @@ class ConfigurationLoader implements ConfigurationLoaderInterface
             return $this->tcaFields;
         }
         $this->tcaFields = require GeneralUtility::getFileAbsFileName('EXT:mask/Configuration/Mask/TcaFields.php');
+
+        $typo3Version = (new Typo3Version())->getMajorVersion();
+
+        // levelLinksPosition "none" deprecated since TYPO3 v11.
+        if ($typo3Version > 10) {
+            unset($this->tcaFields['config.appearance.levelLinksPosition']['items']['none']);
+        }
+
+        // Remove options not available in current TYPO3 version.
+        foreach ($this->tcaFields as $key => $tcaField) {
+            if (($tcaField['version'] ?? 0) > $typo3Version) {
+                unset($this->tcaFields[$key]);
+            }
+        }
+
         return $this->tcaFields;
     }
 

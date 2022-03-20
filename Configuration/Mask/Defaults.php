@@ -195,6 +195,7 @@ return [
             'config.appearance.levelLinksPosition' => 'top',
             'config.appearance.showPossibleLocalizationRecords' => 1,
             'config.appearance.showAllLocalizationLink' => 1,
+            'config.appearance.showNewRecordLink' => 1,
         ],
         'tca_out' => [
             'config.type' => 'inline',
@@ -212,6 +213,7 @@ return [
             'config.appearance.levelLinksPosition' => 'top',
             'config.appearance.showPossibleLocalizationRecords' => 1,
             'config.appearance.showAllLocalizationLink' => 1,
+            'config.appearance.showNewRecordLink' => 1,
         ],
         'tca_out' => [
             'config.type' => 'inline',

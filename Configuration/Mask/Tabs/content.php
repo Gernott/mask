@@ -17,7 +17,8 @@ return [
     TAB::APPEARANCE => [
         [
             'config.appearance.newRecordLinkTitle' => 6,
-            'config.appearance.levelLinksPosition' => 6
+            'config.appearance.levelLinksPosition' => 6,
+            'config.appearance.showNewRecordLink' => 6,
         ],
         [
             'config.appearance.expandSingle' => 6,

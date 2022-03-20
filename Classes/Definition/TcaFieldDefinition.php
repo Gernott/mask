@@ -20,6 +20,7 @@ namespace MASK\Mask\Definition;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\FieldTypeUtility;
+use TYPO3\CMS\Core\Information\Typo3Version;
 
 final class TcaFieldDefinition
 {
@@ -111,6 +112,17 @@ final class TcaFieldDefinition
         $fieldType = $definition['type'] ?? $definition['name'] ?? $definition['options'] ?? null;
         if ($fieldType !== null) {
             $tcaFieldDefinition->type = FieldType::cast($fieldType);
+        }
+
+        // Migrate levelLinksPosition "none" to showNewRecordLink=false (TYPO3 v11).
+        if (
+            (new Typo3Version())->getMajorVersion() > 10
+            && $tcaFieldDefinition->type instanceof FieldType
+            && ($tcaFieldDefinition->type->equals(FieldType::INLINE) || $tcaFieldDefinition->type->equals(FieldType::CONTENT))
+            && ($definition['config']['appearance']['levelLinksPosition'] ?? '') === 'none'
+        ) {
+            $definition['config']['appearance']['levelLinksPosition'] = 'top';
+            $definition['config']['appearance']['showNewRecordLink'] = 0;
         }
 
         // Now config is clean. Extract real TCA.

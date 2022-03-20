@@ -438,6 +438,12 @@ title3, value3, icon3, description3
 			<trans-unit id="tx_mask.field.inline.level_links_position.none">
 				<source>None</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.show_new_record_link.label">
+				<source>Show "New record" link</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.show_new_record_link.description">
+				<source>If disabled, the "New record" link button is removed.</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.allowed_content">
 				<source>Allowed content elements</source>
 			</trans-unit>

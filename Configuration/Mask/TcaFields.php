@@ -729,6 +729,13 @@ return [
         'code' => 'levelLinksPosition',
         'documentation' => 'ColumnsConfig/Type/Inline.html?highlight=levellinksposition#appearance'
     ],
+    'config.appearance.showNewRecordLink' => [
+        'type' => 'checkbox',
+        'label' => 'tx_mask.field.inline.show_new_record_link.label',
+        'description' => 'tx_mask.field.inline.show_new_record_link.description',
+        'code' => 'showNewRecordLink',
+        'version' => 11,
+    ],
     'ctrl.label' => [
         'type' => 'text',
         'label' => 'tx_mask.all.label',

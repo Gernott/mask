@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace MASK\Mask\Tests\Unit\Definition;
 
 use MASK\Mask\Definition\TcaFieldDefinition;
+use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class TcaFieldDefinitionTest extends UnitTestCase
@@ -138,6 +139,48 @@ class TcaFieldDefinitionTest extends UnitTestCase
                 'key' => 'field1',
                 'fullKey' => 'tx_mask_field1',
             ]
+        ];
+
+        $expected = [
+            'config' => [
+                'type' => 'inline',
+                'appearance' => [
+                    'levelLinksPosition' => 'none',
+                ]
+            ],
+            'type' => 'inline',
+            'key' => 'inline1',
+            'fullKey' => 'tx_mask_inline1',
+        ];
+
+        if ((new Typo3Version())->getMajorVersion() > 10) {
+            $expected = [
+                'config' => [
+                    'type' => 'inline',
+                    'appearance' => [
+                        'levelLinksPosition' => 'top',
+                        'showNewRecordLink' => 0,
+                    ]
+                ],
+                'type' => 'inline',
+                'key' => 'inline1',
+                'fullKey' => 'tx_mask_inline1',
+            ];
+        }
+
+        yield 'levelLinksPosition "none" migrated in TYPO3 v11 to showNewRecordLink' => [
+            'json' => [
+                'config' => [
+                    'type' => 'inline',
+                    'appearance' => [
+                        'levelLinksPosition' => 'none',
+                    ]
+                ],
+                'type' => 'inline',
+                'key' => 'inline1',
+                'fullKey' => 'tx_mask_inline1',
+            ],
+            'expected' => $expected,
         ];
     }
 

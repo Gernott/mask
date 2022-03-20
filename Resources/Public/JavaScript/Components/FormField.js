@@ -72,6 +72,10 @@ define([
         },
         computed: {
           field: function () {
+            if (typeof this.tcaFields[this.tcaKey] === 'undefined') {
+              return {available: false};
+            }
+            this.tcaFields[this.tcaKey].available = true;
             if (this.global.activeField.name in this.tcaFields[this.tcaKey]) {
               return this.tcaFields[this.tcaKey][this.global.activeField.name];
             } else if ('other' in this.tcaFields[this.tcaKey]) {
@@ -128,7 +132,7 @@ define([
           }
         },
         template: `
-          <div :class="['form-group', 'col-sm-12 col-xl-' + column, {'has-error': hasError}]">
+          <div v-if="field.available" :class="['form-group', 'col-sm-12 col-xl-' + column, {'has-error': hasError}]">
             <label class="t3js-formengine-label" :for="tcaKey">
                 {{ field.label }}
             </label>
