@@ -28,7 +28,7 @@ File field using :ref:`FAL<t3coreapi:using-fal>`.
 Available TCA options
 ---------------------
 
-*  imageoverlayPalette (custom Mask option, which enables the core TCA palette `imageoverlayPalette` used for images)
+*  :ref:`imageoverlayPalette <columns-inline-examples-fal>` (custom Mask option, which enables the core TCA palette `imageoverlayPalette` used for images)
 *  :ref:`config.minitems <t3tca:tca_property_minitems>`
 *  :ref:`config.maxitems <t3tca:tca_property_maxitems>`
 *  :ref:`allowedFileExtensions <t3tca:columns-group-properties-appearance>` (used in :ref:`overrideChildTca <columns-inline-properties-overrideChildTca>`)

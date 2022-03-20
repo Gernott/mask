@@ -19,11 +19,6 @@ define([
           forceRenderer: Function,
           id: String
         },
-        data: function () {
-          return {
-            documentation: 'https://docs.typo3.org/m/typo3/reference-tca/10.4/en-us/'
-          };
-        },
         beforeMount: function () {
           // Load richtextConfiguration with presets
           if (this.tcaKey === 'config.richtextConfiguration') {
@@ -135,7 +130,7 @@ define([
             <label class="t3js-formengine-label" :for="tcaKey">
                 {{ field.label }}
             </label>
-            <code>[{{ field.code }}]</code><a v-if="!!field.documentation" :href="documentation + field.documentation" target="_blank" title="Show option in official TYPO3 documentation"><i class="fa fa-question-circle"/></a>
+            <code>[{{ field.code }}]</code><a v-if="field.documentation !== ''" :href="field.documentation" target="_blank" title="Show option in official TYPO3 documentation"><i class="fa fa-question-circle"/></a>
             <div class="t3js-formengine-field-item">
               <span class="formengine-field-item-description text-muted" v-if="field.description">{{ field.description }}</span>
               <div v-if="type == 'text'" class="form-control-wrap">

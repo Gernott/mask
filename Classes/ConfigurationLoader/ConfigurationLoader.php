@@ -63,17 +63,35 @@ class ConfigurationLoader implements ConfigurationLoaderInterface
         }
         $this->tcaFields = require GeneralUtility::getFileAbsFileName('EXT:mask/Configuration/Mask/TcaFields.php');
 
-        $typo3Version = (new Typo3Version())->getMajorVersion();
+        $typo3Version = new Typo3Version();
 
         // levelLinksPosition "none" deprecated since TYPO3 v11.
-        if ($typo3Version > 10) {
+        if ($typo3Version->getMajorVersion() > 10) {
             unset($this->tcaFields['config.appearance.levelLinksPosition']['items']['none']);
         }
 
         // Remove options not available in current TYPO3 version.
+        $documentationBase = 'https://docs.typo3.org/m/typo3/reference-tca/' . $typo3Version->getBranch() . '/en-us/';
         foreach ($this->tcaFields as $key => $tcaField) {
-            if (($tcaField['version'] ?? 0) > $typo3Version) {
+            if (($tcaField['version'] ?? 0) > $typo3Version->getMajorVersion()) {
                 unset($this->tcaFields[$key]);
+                continue;
+            }
+
+            // Set documentation link
+            if (isset($tcaField['documentation'][$typo3Version->getMajorVersion()])) {
+                $this->tcaFields[$key]['documentation'] = $documentationBase . $tcaField['documentation'][$typo3Version->getMajorVersion()];
+            } elseif ($tcaField['collision'] ?? false) {
+                unset($tcaField['collision']);
+                foreach ($tcaField as $fieldType => $fieldTypeConfig) {
+                    if (isset($fieldTypeConfig['documentation'][$typo3Version->getMajorVersion()])) {
+                        $this->tcaFields[$key][$fieldType]['documentation'] = $documentationBase . $fieldTypeConfig['documentation'][$typo3Version->getMajorVersion()];
+                    } else {
+                        $this->tcaFields[$key][$fieldType]['documentation'] = '';
+                    }
+                }
+            } else {
+                $this->tcaFields[$key]['documentation'] = '';
             }
         }
 
