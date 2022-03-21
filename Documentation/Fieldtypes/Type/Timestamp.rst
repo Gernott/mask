@@ -28,7 +28,7 @@ An input field for a date (stored as UNIX timestamp).
 Available TCA options
 ---------------------
 
-*  `config.eval <https://docs.typo3.org/m/typo3/reference-tca/11.5/en-us/ColumnsConfig/Type/Input/DateTime/Properties/Eval.html>`__
+*  :ref:`config.eval <columns-input-renderType-inputDateTime-eval>`
 *  :ref:`config.default <t3tca:tca_property_default>`
 *  :ref:`config.placeholder <t3tca:tca_property_placeholder>`
 *  :ref:`config.range.lower <t3tca:columns-input-datetime-properties-range>`

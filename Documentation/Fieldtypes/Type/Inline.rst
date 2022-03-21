@@ -34,7 +34,7 @@ Available TCA options
 *  :ref:`config.maxitems <t3tca:tca_property_maxitems>`
 *  :ref:`config.appearance.newRecordLinkTitle <t3tca:columns-inline-properties-appearance>`
 *  :ref:`config.appearance.levelLinksPosition <t3tca:columns-inline-properties-appearance>`
-*  `config.appearance.showNewRecordLink <https://docs.typo3.org/m/typo3/reference-tca/main/en-us/ColumnsConfig/Type/Inline/Properties/ShowNewRecordLink.html>`__ (only v11 or higher)
+*  :ref:`config.appearance.showNewRecordLink <columns-inline-properties-showNewRecordLink>` (only v11 or higher)
 *  :ref:`config.appearance.collapseAll <t3tca:columns-inline-properties-appearance>`
 *  :ref:`config.appearance.expandSingle <t3tca:columns-inline-properties-appearance>`
 *  :ref:`config.appearance.useSortable <t3tca:columns-inline-properties-appearance>`
