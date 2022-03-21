@@ -16,4 +16,4 @@ There are many resources out there to get started. These are a few of those:
 
 - https://www.sitepackagebuilder.com/
 - https://extensions.typo3.org/extension/bootstrap_package/
-- https://docs.typo3.org/m/typo3/tutorial-sitepackage/master/en-us/
+- https://docs.typo3.org/m/typo3/tutorial-sitepackage/main/en-us/

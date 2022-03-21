@@ -5,7 +5,7 @@
 ChangeLog
 =========
 
-Have a look at `CHANGELOG.md <https://github.com/Gernott/mask/blob/master/CHANGELOG.md>`__ for a complete changelog.
+Have a look at `CHANGELOG.md <https://github.com/Gernott/mask/blob/main/CHANGELOG.md>`__ for a complete changelog.
 
 .. toctree::
    :maxdepth: 1

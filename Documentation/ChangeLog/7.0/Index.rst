@@ -73,7 +73,7 @@ Technical improvements
 * Remove dead code.
 * Unit Tests added.
 
-`git diff master v6 --shortstat`:
+`git diff main v6 --shortstat`:
 
 ::
 

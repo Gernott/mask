@@ -9,7 +9,7 @@ you Mask `v7.1`! The focus of this version was to implement a proper API for
 Mask. For this, lots of refactoring had to be done and many tests had to be
 written (20k deleted lines!):
 
-`git diff master v7.0.19 --shortstat`
+`git diff main v7.0.19 --shortstat`
 
 .. code-block:: shell
 

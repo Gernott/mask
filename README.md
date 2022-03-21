@@ -62,8 +62,8 @@ Read a detailed explanation for each advantage and why to use Mask over other al
 | v8.0         | v11, v12      | March 2023   | -                   | Compatibility TYPO3 v12 |
 | v7.2         | v10, v11      | Summer 2022  | development         | Slug field, tbd. |
 | v7.1         | v10, v11      | 2021-12-14   | regular maintenance | [JsonSplitLoader, new API](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/7.1/Index.html) |
-| v7.0         | v10, v11      | 2021-05-12   | discontinued        | [VueJS based Mask Backend](https://docs.typo3.org/p/mask/mask/master/en-us/ChangeLog/7.0/Index.html)|
-| v6           | v10, v11.1    | 2020-10-08   | critical bugfixes   | [Palettes, Groups and more](https://docs.typo3.org/p/mask/mask/master/en-us/ChangeLog/6.0/Index.html)|
+| v7.0         | v10, v11      | 2021-05-12   | discontinued        | [VueJS based Mask Backend](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/7.0/Index.html)|
+| v6           | v10, v11.1    | 2020-10-08   | critical bugfixes   | [Palettes, Groups and more](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/6.0/Index.html)|
 | v5           | v10           | 2020-04-18   | discontinued        | Please update to v7                                                                            |
 | v4           | v9            | 2018-10-04   | discontinued        |                                                                                                |
 | v3           | v8            | 2017-05-23   | discontinued        |                                                                                                |
@@ -72,13 +72,13 @@ Read a detailed explanation for each advantage and why to use Mask over other al
 
 ## Need help? :left_speech_bubble:
 
-* Read how to install, configure and use mask in the [official documentation](https://docs.typo3.org/p/mask/mask/master/en-us/)
+* Read how to install, configure and use mask in the [official documentation](https://docs.typo3.org/p/mask/mask/main/en-us/)
 * Join the "#ext-mask" channel on [TYPO3 Slack](https://typo3.org/community/meet/chat-slack) and ask the mask community.
 * [Visit our website](https://mask.webprofil.at) to find more information about mask
 
 ## Found a bug? :boom:
 
-* First check out the master branch and verify that the issue is not yet solved
+* First check out the main branch and verify that the issue is not yet solved
 * Have a look at the existing [issues](https://github.com/gernott/mask/issues/), to prevent duplicates
 * If not found, report the bug in our [issue tracker](https://github.com/gernott/mask/issues/new/)
 

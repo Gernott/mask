@@ -182,7 +182,7 @@ the new version.
 - Missing rte_ckeditor extension does no longer break Mask [#417](https://github.com/Gernott/mask/issues/417)
 
 ### Changed
-- Varchar size for link fields changed back to 255 [Read more](https://docs.typo3.org/p/mask/mask/master/en-us/Troubleshooting/Index.html#on-save-error-row-size-too-large)
+- Varchar size for link fields changed back to 255 [Read more](https://docs.typo3.org/p/mask/mask/main/en-us/Troubleshooting/Index.html#on-save-error-row-size-too-large)
 
 ### Added
 - Troubleshooting guide for `row size too large` error.
@@ -267,7 +267,7 @@ the new version.
 ## [7.0.0] - 2021-05-12
 
 This huge release contains a completetely rewritten Mask Backend!
-Check out the [release article](https://docs.typo3.org/p/mask/mask/master/en-us/ChangeLog/7.0/Index.html) for in depth information.
+Check out the [release article](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/7.0/Index.html) for in depth information.
 
 ### Changed
 - Completey new Mask Backend based on VueJS
@@ -438,7 +438,7 @@ Check out the [release article](https://docs.typo3.org/p/mask/mask/master/en-us/
 - timestamp element
 
 There should be no problem to upgrade from 5 to 6 in most cases.
-For more details read the [release notes](https://github.com/gernott/mask/blob/master/Documentation/ChangeLog/6.0/Index.rst)
+For more details read the [release notes](https://github.com/gernott/mask/blob/main/Documentation/ChangeLog/6.0/Index.rst)
 
 ### [5.1.3] - 2020-09-02
 

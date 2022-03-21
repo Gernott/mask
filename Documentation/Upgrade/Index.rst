@@ -54,7 +54,7 @@ From v5 or lower
 richtextConfiguration has to be removed
 ---------------------------------------
 
-Because of a `changed loading order <https://docs.typo3.org/c/typo3/cms-core/master/en-us/Changelog/10.2/Important-88655-ChangedLoadingOrderOfRTEConfiguration.html>`__
+Because of a `changed loading order <https://docs.typo3.org/c/typo3/cms-core/main/en-us/Changelog/10.2/Important-88655-ChangedLoadingOrderOfRTEConfiguration.html>`__
 of the RTE configuration it is required to remove the `richtextConfiguration` entry from `mask.json` or else all of your
 RTE fields will have the TYPO3 default RTE config set.
 
