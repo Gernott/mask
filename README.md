@@ -60,7 +60,7 @@ Read a detailed explanation for each advantage and why to use Mask over other al
 | Mask Version | TYPO3 Version | Release Date | Status              | More Info |
 |--------------|---------------|--------------|---------------------|-----------|
 | v8.0         | v11, v12      | March 2023   | -                   | Compatibility TYPO3 v12 |
-| v7.2         | v10, v11      | Summer 2022  | development         | Slug field, tbd. |
+| v7.2         | v10, v11      | Summer 2022  | development         | Slug field, new TYPO3 v11 features |
 | v7.1         | v10, v11      | 2021-12-14   | regular maintenance | [JsonSplitLoader, new API](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/7.1/Index.html) |
 | v7.0         | v10, v11      | 2021-05-12   | discontinued        | [VueJS based Mask Backend](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/7.0/Index.html)|
 | v6           | v10, v11.1    | 2020-10-08   | critical bugfixes   | [Palettes, Groups and more](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/6.0/Index.html)|
