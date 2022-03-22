@@ -36,7 +36,7 @@ class TemplatePathUtility
         ?string $path = null,
         bool $removeExtension = false
     ): string {
-        if (!$path) {
+        if ($path === null) {
             $path = GeneralUtility::getFileAbsFileName(rtrim($settings['content'] ?? '', '/') . '/');
         }
         if ($path === '' || $elementKey === '') {

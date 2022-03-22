@@ -100,11 +100,19 @@ class TemplatePathUtilityTest extends UnitTestCase
                 false,
                 'UpperExists.html'
             ],
-            'Empty path returns empty string' => [
+            'Null path returns empty string, if content is also empty' => [
                 ['content' => ''],
                 'does_not_exist',
                 false,
                 null,
+                false,
+                ''
+            ],
+            'Empty path always returns an empty string' => [
+                ['content' => 'EXT:mask/Tests/Unit/Fixtures/Templates/'],
+                'upper_exists',
+                false,
+                '',
                 false,
                 ''
             ],
