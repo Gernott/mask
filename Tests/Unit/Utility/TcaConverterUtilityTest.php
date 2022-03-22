@@ -133,9 +133,9 @@ class TcaConverterUtilityTest extends BaseTestCase
                     ]
                 ]
             ],
-            'Items converted to items array' => [
+            'Items converted to array and are trimmed' => [
                 [
-                    'config.items' => "label,item\nlabel2,item2"
+                    'config.items' => "label, item\nlabel2, item2"
                 ],
                 [
                     'config' => [

@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace MASK\Mask\Utility;
 
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use TYPO3\CMS\Core\Utility\GeneralUtility as CoreGeneralUtility;
 
 /**
  * Back and forth converting for flat vs array TCA structure.
@@ -96,7 +97,7 @@ class TcaConverter
             if ($key === 'config.items') {
                 $items = [];
                 foreach (explode("\n", $value) as $line) {
-                    $items[] = explode(',', $line);
+                    $items[] = CoreGeneralUtility::trimExplode(',', $line);
                 }
                 $value = $items;
             }
