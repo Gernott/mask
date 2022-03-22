@@ -17,7 +17,7 @@ define([
                 <div class="circle circle-2"></div>
             </div>
             <img :src="logoPath" class="mask-splashscreen__logo"/>
-            <h1 class="mask-splashscreen__label">Mask</h1>
+            <h1 class="mask-splashscreen__label">#StandWithUkraine</h1>
         </div>
     </transition>
         `
