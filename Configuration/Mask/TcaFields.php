@@ -59,6 +59,16 @@ return [
             'max' => 50,
             'step' => 5
         ],
+        'category' => [
+            'type' => 'number',
+            'min' => 1,
+            'label' => 'tx_mask.field.category.size',
+            'description' => 'tx_mask.field.category.size.description',
+            'code' => 'size',
+            'documentation' => [
+                11 => 'ColumnsConfig/CommonProperties/Size.html#tca-property-size',
+            ]
+        ],
         'select' => [
             'type' => 'number',
             'min' => 1,
@@ -1039,6 +1049,65 @@ return [
         'version' => '>= 11',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Inline/Properties/ShowNewRecordLink.html',
+        ]
+    ],
+    'config.relationship' => [
+        'type' => 'radio',
+        'items' => [
+            'oneToOne' => 'tx_mask.field.category.relationship.oneToOne',
+            'oneToMany' => 'tx_mask.field.category.relationship.oneToMany',
+            'manyToMany' => 'tx_mask.field.category.relationship.manyToMany',
+        ],
+        'label' => 'tx_mask.field.category.relationship.label',
+        'description' => 'tx_mask.field.category.relationship.description',
+        'code' => 'relationship',
+        'documentation' => [
+            11 => 'ColumnsConfig/Type/Category/Properties/Relationship.html',
+        ]
+    ],
+    'config.exclusiveKeys' => [
+        'type' => 'text',
+        'label' => 'tx_mask.field.category.exclusiveKeys.label',
+        'description' => 'tx_mask.field.category.exclusiveKeys.description',
+        'code' => 'exclusiveKeys',
+        'documentation' => [
+            11 => 'ColumnsConfig/Type/Category/Properties/ExclusiveKeys.html',
+        ]
+    ],
+    'config.treeConfig.startingPoints' => [
+        'type' => 'text',
+        'label' => 'tx_mask.field.category.treeConfig.startingPoints.label',
+        'description' => 'tx_mask.field.category.treeConfig.startingPoints.description',
+        'code' => 'startingPoints',
+        'documentation' => [
+            11 => 'ColumnsConfig/Type/Category/Properties/TreeConfig.html',
+        ]
+    ],
+    'config.treeConfig.appearance.showHeader' => [
+        'type' => 'checkbox',
+        'label' => 'tx_mask.field.category.treeConfig.appearance.showHeader.label',
+        'description' => 'tx_mask.field.category.treeConfig.appearance.showHeader.description',
+        'code' => 'showHeader',
+        'documentation' => [
+            11 => 'ColumnsConfig/Type/Category/Properties/TreeConfig.html',
+        ]
+    ],
+    'config.treeConfig.appearance.expandAll' => [
+        'type' => 'checkbox',
+        'label' => 'tx_mask.field.category.treeConfig.appearance.expandAll.label',
+        'description' => 'tx_mask.field.category.treeConfig.appearance.expandAll.description',
+        'code' => 'expandAll',
+        'documentation' => [
+            11 => 'ColumnsConfig/Type/Category/Properties/TreeConfig.html',
+        ]
+    ],
+    'config.treeConfig.appearance.nonSelectableLevels' => [
+        'type' => 'text',
+        'label' => 'tx_mask.field.category.treeConfig.appearance.nonSelectableLevels.label',
+        'description' => 'tx_mask.field.category.treeConfig.appearance.nonSelectableLevels.description',
+        'code' => 'nonSelectableLevels',
+        'documentation' => [
+            11 => 'ColumnsConfig/Type/Category/Properties/TreeConfig.html',
         ]
     ],
     'ctrl.label' => [

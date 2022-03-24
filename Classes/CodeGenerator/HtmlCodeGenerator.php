@@ -93,6 +93,11 @@ class HtmlCodeGenerator
                     $html[] = $this->drawWhitespace(0 + $depth) . $this->getVariable($datafield, $fieldKey);
                 }
                 break;
+            case FieldType::CATEGORY:
+                $html[] = $this->drawWhitespace(0 + $depth) . '<f:for each="{' . $datafield . '.' . $fieldKey . '_items}" as="category">';
+                $html[] = $this->drawWhitespace(1 + $depth) . '<div>{category.title}</div>';
+                $html[] = $this->drawWhitespace(0 + $depth) . '</f:for>';
+                break;
             case FieldType::RADIO:
             case FieldType::CHECK:
                 $html[] = $this->drawWhitespace(0 + $depth) . $this->getVariable($datafield, $fieldKey);

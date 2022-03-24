@@ -160,10 +160,12 @@ class InlineHelper
 
     protected function fillInlineField(array &$data, FieldType $fieldType, string $field, string $cType, string $table): void
     {
+        $tcaFieldConfig = $GLOBALS['TCA'][$table]['columns'][$field] ?? [];
         // if it is of type inline and has to be filled (IRRE, FAL)
         if ($fieldType->equals(FieldType::INLINE) && $this->tableDefinitionCollection->hasTable($field)) {
             $elements = $this->getInlineElements($data, $field, $cType, 'parentid', $table);
             $data[$field] = $elements;
+
         // or if it is of type Content (Nested Content) and has to be filled
         } elseif ($fieldType->equals(FieldType::CONTENT)) {
             $elements = $this->getInlineElements(
@@ -175,25 +177,30 @@ class InlineHelper
                 'tt_content'
             );
             $data[$field] = $elements;
-        } elseif (($GLOBALS['TCA'][$table]['columns'][$field]['config']['foreign_table'] ?? '') !== '' && $fieldType->equals(FieldType::SELECT)) {
-            $data[$field . '_items'] = $this->getRelations($data[$field], $GLOBALS['TCA'][$table]['columns'][$field]['config']['foreign_table']);
-        } elseif ((($GLOBALS['TCA'][$table]['columns'][$field]['config']['internal_type'] ?? '') !== 'folder') && $fieldType->equals(FieldType::GROUP)) {
-            $data[$field . '_items'] = $this->getRelations($data[$field], $GLOBALS['TCA'][$table]['columns'][$field]['config']['allowed']);
-        } elseif (($GLOBALS['TCA'][$table]['columns'][$field]['config']['renderType'] ?? '') === 'selectCheckBox' && $fieldType->equals(FieldType::SELECT)) {
+        } elseif ($fieldType->equals(FieldType::CATEGORY)) {
+            if ($tcaFieldConfig['config']['relationship'] === 'manyToMany') {
+                $data[$field . '_items'] = $this->getRelations('', ($tcaFieldConfig['config']['foreign_table'] ?? ''), $tcaFieldConfig['config']['MM'] ?? '', (int)$data['uid'], $table, $tcaFieldConfig['config'] ?? []);
+            } else {
+                $data[$field . '_items'] = $this->getRelations((string)($data[$field] ?? ''), ($tcaFieldConfig['config']['foreign_table'] ?? ''), $tcaFieldConfig['config']['MM'] ?? '', (int)$data['uid'], $table, $tcaFieldConfig['config'] ?? []);
+            }
+        } elseif (($tcaFieldConfig['config']['foreign_table'] ?? '') !== '' && $fieldType->equals(FieldType::SELECT)) {
+            $data[$field . '_items'] = $this->getRelations((string)($data[$field] ?? ''), $tcaFieldConfig['config']['foreign_table'], $tcaFieldConfig['config']['MM'] ?? '', (int)$data['uid'], $table, $tcaFieldConfig['config'] ?? []);
+        } elseif ((($tcaFieldConfig['config']['internal_type'] ?? '') !== 'folder') && $fieldType->equals(FieldType::GROUP)) {
+            $data[$field . '_items'] = $this->getRelations((string)($data[$field] ?? ''), $tcaFieldConfig['config']['allowed'], $tcaFieldConfig['config']['MM'] ?? '', (int)$data['uid'], $table, $tcaFieldConfig['config'] ?? []);
+        } elseif (($tcaFieldConfig['config']['renderType'] ?? '') === 'selectCheckBox' && $fieldType->equals(FieldType::SELECT)) {
             $data[$field . '_items'] = ($data[$field] ?? '') !== '' ? explode(',', $data[$field]) : [];
         }
     }
 
     /**
+     * @param array<mixed, mixed> $tcaFieldConf
+     *
      * Returns the selected relations of select or group element
      */
-    protected function getRelations(string $uidList, string $allowed): array
+    protected function getRelations(string $uidList, string $allowed, string $mmTable, int $uid, string $table, array $tcaFieldConf = []): array
     {
         $relationHandler = GeneralUtility::makeInstance(RelationHandler::class);
-        $relationHandler->start(
-            $uidList,
-            $allowed
-        );
+        $relationHandler->start($uidList, $allowed, $mmTable, $uid, $table, $tcaFieldConf);
         $relationHandler->getFromDB();
         $relations = $relationHandler->getResolvedItemArray();
         $records = [];

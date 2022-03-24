@@ -33,6 +33,7 @@ final class FieldType extends Enumeration
     public const CHECK = 'check';
     public const RADIO = 'radio';
     public const SELECT = 'select';
+    public const CATEGORY = 'category';
     public const GROUP = 'group';
     public const FILE = 'file';
     public const INLINE = 'inline';

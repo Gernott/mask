@@ -152,6 +152,17 @@ return [
         ],
         'sql' => 'varchar(255) DEFAULT \'\' NOT NULL'
     ],
+    FieldType::CATEGORY => [
+        'tca_in' => [
+            'config.relationship' => 'manyToMany',
+            'config.treeConfig.appearance.showHeader' => 1,
+            'config.treeConfig.appearance.expandAll' => 1,
+            'config.treeConfig.appearance.nonSelectableLevels' => '0',
+        ],
+        'tca_out' => [
+            'config.type' => 'category',
+        ],
+    ],
     FieldType::RADIO => [
         'tca_in' => [
             'l10n_mode' => '',

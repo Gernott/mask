@@ -79,7 +79,7 @@ class FieldTypeUtility
                 }
                 return FieldType::INLINE;
             case 'category':
-                return FieldType::SELECT;
+                return FieldType::CATEGORY;
             case 'slug':
                 return FieldType::SLUG;
             default:

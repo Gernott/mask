@@ -868,9 +868,18 @@ class AjaxController
      */
     protected function generateAction(TableDefinitionCollection $tableDefinitionCollection): void
     {
-        // Set tca to enable DefaultTcaSchema for new inline tables
+        // Set TCA to enable DefaultTcaSchema
         $tcaCodeGenerator = GeneralUtility::makeInstance(TcaCodeGenerator::class);
         $tcaCodeGenerator->setInlineTca($tableDefinitionCollection);
+        foreach ($tableDefinitionCollection as $tableDefinition) {
+            if (!AffixUtility::hasMaskPrefix($tableDefinition->table)) {
+                $fieldTca = $tcaCodeGenerator->generateFieldsTca($tableDefinition->table);
+                if ($fieldTca === []) {
+                    continue;
+                }
+                ExtensionManagementUtility::addTCAcolumns($tableDefinition->table, $fieldTca);
+            }
+        }
 
         // Update Database
         $result = $this->sqlCodeGenerator->updateDatabase();

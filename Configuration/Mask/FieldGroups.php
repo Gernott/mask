@@ -18,6 +18,7 @@ return [
     FieldType::CHECK => 'choice',
     FieldType::RADIO => 'choice',
     FieldType::SELECT => 'choice',
+    FieldType::CATEGORY => 'choice',
     FieldType::GROUP => 'choice',
 
     FieldType::COLORPICKER => 'special',

@@ -93,6 +93,9 @@
 			<trans-unit id="tx_mask.field.select">
 				<source>Selectbox</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.category">
+				<source>Category</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.group">
 				<source>Group</source>
 			</trans-unit>
@@ -671,6 +674,57 @@ title3, value3, icon3, description3
 			</trans-unit>
 			<trans-unit id="tx_mask.group.multiple">
 				<source>Multiple</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.category.size">
+				<source>Size</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.category.description">
+				<source>Maximal number of elements to be displayed by default.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.category.relationship.label">
+				<source>Relationship</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.category.relationship.description">
+				<source>The database relationship.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.category.relationship.oneToOne">
+				<source>One to one</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.category.relationship.oneToMany">
+				<source>One to many</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.category.relationship.manyToMany">
+				<source>Many to many</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.category.exclusiveKeys.label">
+				<source>Exclusive keys</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.category.exclusiveKeys.description">
+				<source>List of sys_category uids that exclude any other category.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.category.treeConfig.startingPoints.label">
+				<source>Starting point(s)</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.category.treeConfig.startingPoints.description">
+				<source>Allows to set multiple records as roots.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.category.treeConfig.appearance.showHeader.label">
+				<source>Show header</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.category.treeConfig.appearance.showHeader.description">
+				<source>Whether to show the header of the tree that contains a field to filter the records and allows to expand or collapse all nodes.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.category.treeConfig.appearance.expandAll.label">
+				<source>Expand all</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.category.treeConfig.appearance.expandAll.description">
+				<source>Whether to show the tree with all nodes expanded.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.category.treeConfig.appearance.nonSelectableLevels.label">
+				<source>Non-selectable levels</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.category.treeConfig.appearance.nonSelectableLevels.description">
+				<source>Comma-separated list of levels that will not be selectable, by default the root node (which is “0”) cannot be selected.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.group.editPopup.description">
 				<source>Shortcut to edit referenced elements directly in a popup.</source>
