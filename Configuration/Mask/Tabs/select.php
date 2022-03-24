@@ -31,6 +31,9 @@ return [
             'config.fileFolder' => 6,
             'config.fileFolder_extList' => 6,
             'config.fileFolder_recursions' => 6,
+            'config.fileFolderConfig.folder' => 6,
+            'config.fileFolderConfig.allowedExtensions' => 6,
+            'config.fileFolderConfig.depth' => 6,
             'config.fieldWizard.selectIcons.disabled' => 6
         ]
     ],

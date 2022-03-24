@@ -696,6 +696,7 @@ return [
         'label' => 'tx_mask.field.select.file_folder',
         'description' => 'tx_mask.field.select.file_folder.description',
         'code' => 'fileFolder',
+        'version' => 10,
         'documentation' => [
             10 => 'ColumnsConfig/Type/selectSingle.html#filefolder',
             11 => 'ColumnsConfig/Type/Select/Properties/FileFolderConfig.html#columns-select-properties-filefolder',
@@ -706,6 +707,7 @@ return [
         'label' => 'tx_mask.field.select.file_folder_ext_list',
         'description' => 'tx_mask.field.select.file_folder_ext_list.description',
         'code' => 'fileFolder_extList',
+        'version' => 10,
         'documentation' => [
             10 => 'ColumnsConfig/Type/selectSingle.html#filefolder-extlist',
             11 => 'ColumnsConfig/Type/Select/Properties/FileFolderConfig.html#columns-select-properties-filefolder-extlist',
@@ -718,8 +720,41 @@ return [
         'label' => 'tx_mask.field.select.file_folder_recursions',
         'description' => 'tx_mask.field.select.file_folder_recursions.description',
         'code' => 'fileFolder_recursions',
+        'version' => 10,
         'documentation' => [
             10 => 'ColumnsConfig/Type/selectSingle.html#filefolder-recursions',
+            11 => 'ColumnsConfig/Type/Select/Properties/FileFolderConfig.html#columns-select-properties-filefolder-recursions',
+        ]
+    ],
+    'config.fileFolderConfig.folder' => [
+        'type' => 'text',
+        'label' => 'tx_mask.field.select.file_folder_ext_list',
+        'description' => 'tx_mask.field.select.file_folder_ext_list.description',
+        'code' => 'folder',
+        'version' => '>= 11',
+        'documentation' => [
+            11 => 'ColumnsConfig/Type/Select/Properties/FileFolderConfig.html#columns-select-properties-filefolder',
+        ],
+    ],
+    'config.fileFolderConfig.allowedExtensions' => [
+        'type' => 'text',
+        'label' => 'tx_mask.field.select.file_folder_ext_list',
+        'description' => 'tx_mask.field.select.file_folder_ext_list.description',
+        'code' => 'allowedExtensions',
+        'version' => '>= 11',
+        'documentation' => [
+            11 => 'ColumnsConfig/Type/Select/Properties/FileFolderConfig.html#columns-select-properties-filefolder-extlist',
+        ]
+    ],
+    'config.fileFolderConfig.depth' => [
+        'type' => 'number',
+        'min' => 0,
+        'max' => 99,
+        'label' => 'tx_mask.field.select.file_folder_recursions',
+        'description' => 'tx_mask.field.select.file_folder_recursions.description',
+        'code' => 'depth',
+        'version' => '>= 11',
+        'documentation' => [
             11 => 'ColumnsConfig/Type/Select/Properties/FileFolderConfig.html#columns-select-properties-filefolder-recursions',
         ]
     ],
@@ -1001,7 +1036,7 @@ return [
         'label' => 'tx_mask.field.inline.show_new_record_link.label',
         'description' => 'tx_mask.field.inline.show_new_record_link.description',
         'code' => 'showNewRecordLink',
-        'version' => 11,
+        'version' => '>= 11',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Inline/Properties/ShowNewRecordLink.html',
         ]

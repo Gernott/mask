@@ -168,7 +168,7 @@ class TcaFieldDefinitionTest extends UnitTestCase
             ];
         }
 
-        yield 'levelLinksPosition "none" migrated in TYPO3 v11 to showNewRecordLink' => [
+        yield '#94765: levelLinksPosition "none" migrated in TYPO3 v11 to showNewRecordLink' => [
             'json' => [
                 'config' => [
                     'type' => 'inline',
@@ -179,6 +179,49 @@ class TcaFieldDefinitionTest extends UnitTestCase
                 'type' => 'inline',
                 'key' => 'inline1',
                 'fullKey' => 'tx_mask_inline1',
+            ],
+            'expected' => $expected,
+        ];
+
+        $expected = [
+            'config' => [
+                'type' => 'select',
+                'fileFolder' => 'EXT:some_extension/some/folder/',
+                'fileFolder_extList' => 'jpg,png',
+                'fileFolder_recursions' => 10,
+            ],
+            'type' => 'select',
+            'key' => 'select',
+            'fullKey' => 'tx_mask_select',
+        ];
+
+        if ((new Typo3Version())->getMajorVersion() > 10) {
+            $expected = [
+                'config' => [
+                    'type' => 'select',
+                    'fileFolderConfig' => [
+                        'folder' => 'EXT:some_extension/some/folder/',
+                        'allowedExtensions' => 'jpg,png',
+                        'depth' => 10,
+                    ]
+                ],
+                'type' => 'select',
+                'key' => 'select',
+                'fullKey' => 'tx_mask_select',
+            ];
+        }
+
+        yield '#94406: fileFolderConfig migration (only TYPO3 v11).' => [
+            'json' => [
+                'config' => [
+                    'type' => 'select',
+                    'fileFolder' => 'EXT:some_extension/some/folder/',
+                    'fileFolder_extList' => 'jpg,png',
+                    'fileFolder_recursions' => 10,
+                ],
+                'type' => 'select',
+                'key' => 'select',
+                'fullKey' => 'tx_mask_select',
             ],
             'expected' => $expected,
         ];

@@ -73,7 +73,18 @@ class ConfigurationLoader implements ConfigurationLoaderInterface
         // Remove options not available in current TYPO3 version.
         $documentationBase = 'https://docs.typo3.org/m/typo3/reference-tca/' . $typo3Version->getBranch() . '/en-us/';
         foreach ($this->tcaFields as $key => $tcaField) {
-            if (($tcaField['version'] ?? 0) > $typo3Version->getMajorVersion()) {
+            $isAvailable = true;
+            if (array_key_exists('version', $tcaField)) {
+                $availableVersion = (string)$tcaField['version'];
+                $availableVersionConstraint = explode(' ', $availableVersion);
+                if (isset($availableVersionConstraint[1])) {
+                    $isAvailable = (bool)version_compare((string)$typo3Version->getMajorVersion(), $availableVersionConstraint[1], $availableVersionConstraint[0]);
+                } else {
+                    $isAvailable = version_compare((string)$typo3Version->getMajorVersion(), $availableVersionConstraint[0], '=');
+                }
+            }
+
+            if (!$isAvailable) {
                 unset($this->tcaFields[$key]);
                 continue;
             }

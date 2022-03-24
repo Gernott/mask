@@ -84,28 +84,6 @@ final class TcaFieldDefinition
         $tcaFieldDefinition->inPalette = (bool)($definition['inPalette'] ?? false);
         $tcaFieldDefinition->cTypes = (array)($definition['cTypes'] ?? []);
 
-        // "inlineIcon" and "inlineLabel" renamed to ctrl.iconfile and ctrl.label in Mask v7.0.
-        $tcaFieldDefinition->inlineIcon = $definition['ctrl']['iconfile'] ?? $definition['inlineIcon'] ?? '';
-        $tcaFieldDefinition->inlineLabel = $definition['ctrl']['label'] ?? $definition['inlineLabel'] ?? '';
-
-        // Since mask v7.0.0 the path for allowedFileExtensions has changed to root level. Keep this as fallback.
-        $tcaFieldDefinition->allowedFileExtensions = $definition['allowedFileExtensions'] ?? $definition['config']['filter']['0']['parameters']['allowedFileExtensions'] ?? '';
-        unset($definition['config']['filter']);
-
-        // Migration for type Link (Changed in TYPO3 v8 / Mask v3)
-        if (($definition['config']['wizards']['link']['module']['name'] ?? '') === 'wizard_link') {
-            $definition['config']['fieldControl']['linkPopup']['options']['allowedExtensions'] = $definition['config']['wizards']['link']['params']['allowedExtensions'] ?? '';
-            $definition['config']['fieldControl']['linkPopup']['options']['blindLinkOptions'] = $definition['config']['wizards']['link']['params']['blindLinkOptions'] ?? '';
-            $definition['type'] = FieldType::LINK;
-            unset($definition['config']['wizards']);
-        }
-
-        // Migration for foreign_record_defaults Mask v2 / TYPO3 v7.
-        if (isset($definition['config']['foreign_record_defaults'])) {
-            $definition['config']['overrideChildTca']['columns']['colPos']['config']['default'] = 999;
-            unset($definition['config']['foreign_record_defaults']);
-        }
-
         // Type resolving.
         // "options" was used for identifying file fields prior to v6.
         // "name" was renamed to "type" in mask 7.1.
@@ -114,16 +92,7 @@ final class TcaFieldDefinition
             $tcaFieldDefinition->type = FieldType::cast($fieldType);
         }
 
-        // Migrate levelLinksPosition "none" to showNewRecordLink=false (TYPO3 v11).
-        if (
-            (new Typo3Version())->getMajorVersion() > 10
-            && $tcaFieldDefinition->type instanceof FieldType
-            && ($tcaFieldDefinition->type->equals(FieldType::INLINE) || $tcaFieldDefinition->type->equals(FieldType::CONTENT))
-            && ($definition['config']['appearance']['levelLinksPosition'] ?? '') === 'none'
-        ) {
-            $definition['config']['appearance']['levelLinksPosition'] = 'top';
-            $definition['config']['appearance']['showNewRecordLink'] = 0;
-        }
+        $definition = self::migrateTCA($definition, $tcaFieldDefinition);
 
         // Now config is clean. Extract real TCA.
         $tcaFieldDefinition->realTca = self::extractRealTca($definition, $tcaFieldDefinition);
@@ -132,6 +101,7 @@ final class TcaFieldDefinition
         if (!$tcaFieldDefinition->type instanceof FieldType && !empty($definition['rte'])) {
             $tcaFieldDefinition->type = FieldType::cast(FieldType::RICHTEXT);
         }
+
         // If the field is not a core field and the field type couldn't be resolved by now, resolve type by tca config.
         if (!$tcaFieldDefinition->type instanceof FieldType && !$tcaFieldDefinition->isCoreField) {
             $tcaFieldDefinition->type = FieldType::cast(FieldTypeUtility::getFieldType($tcaFieldDefinition->toArray(), $tcaFieldDefinition->fullKey));
@@ -398,5 +368,69 @@ final class TcaFieldDefinition
             array_pop($path);
         }
         return $haystack;
+    }
+
+    /**
+     * @param array<mixed, mixed> $definition
+     * @return array<mixed, mixed>
+     */
+    protected static function migrateTCA(array $definition, TcaFieldDefinition $tcaFieldDefinition): array
+    {
+        $typo3Version = new Typo3Version();
+
+        // "inlineIcon" and "inlineLabel" renamed to ctrl.iconfile and ctrl.label in Mask v7.0.
+        $tcaFieldDefinition->inlineIcon = $definition['ctrl']['iconfile'] ?? $definition['inlineIcon'] ?? '';
+        $tcaFieldDefinition->inlineLabel = $definition['ctrl']['label'] ?? $definition['inlineLabel'] ?? '';
+
+        // Since mask v7.0.0 the path for allowedFileExtensions has changed to root level. Keep this as fallback.
+        $tcaFieldDefinition->allowedFileExtensions = $definition['allowedFileExtensions'] ?? $definition['config']['filter']['0']['parameters']['allowedFileExtensions'] ?? '';
+        unset($definition['config']['filter']);
+
+        // Migration for type Link (Changed in TYPO3 v8 / Mask v3)
+        if (($definition['config']['wizards']['link']['module']['name'] ?? '') === 'wizard_link') {
+            $definition['config']['fieldControl']['linkPopup']['options']['allowedExtensions'] = $definition['config']['wizards']['link']['params']['allowedExtensions'] ?? '';
+            $definition['config']['fieldControl']['linkPopup']['options']['blindLinkOptions'] = $definition['config']['wizards']['link']['params']['blindLinkOptions'] ?? '';
+            $tcaFieldDefinition->type = new FieldType(FieldType::LINK);
+            unset($definition['config']['wizards']);
+        }
+
+        // Migration for foreign_record_defaults Mask v2 / TYPO3 v7.
+        if (isset($definition['config']['foreign_record_defaults'])) {
+            $definition['config']['overrideChildTca']['columns']['colPos']['config']['default'] = 999;
+            unset($definition['config']['foreign_record_defaults']);
+        }
+
+        // #94765: Migrate levelLinksPosition "none" to showNewRecordLink=false (TYPO3 v11).
+        if (
+            $typo3Version->getMajorVersion() > 10
+            && $tcaFieldDefinition->type instanceof FieldType
+            && ($tcaFieldDefinition->type->equals(FieldType::INLINE) || $tcaFieldDefinition->type->equals(FieldType::CONTENT))
+            && ($definition['config']['appearance']['levelLinksPosition'] ?? '') === 'none'
+        ) {
+            $definition['config']['appearance']['levelLinksPosition'] = 'top';
+            $definition['config']['appearance']['showNewRecordLink'] = 0;
+        }
+
+        // #94406: Migrate folder config to fileFolderConfig (TYPO3 v11).
+        if (
+            $typo3Version->getMajorVersion() > 10
+            && $tcaFieldDefinition->type instanceof FieldType
+            && $tcaFieldDefinition->type->equals(FieldType::SELECT)
+        ) {
+            if (isset($definition['config']['fileFolder'])) {
+                $definition['config']['fileFolderConfig']['folder'] = $definition['config']['fileFolder'];
+                unset($definition['config']['fileFolder']);
+            }
+            if (isset($definition['config']['fileFolder_extList'])) {
+                $definition['config']['fileFolderConfig']['allowedExtensions'] = $definition['config']['fileFolder_extList'];
+                unset($definition['config']['fileFolder_extList']);
+            }
+            if (isset($definition['config']['fileFolder_recursions'])) {
+                $definition['config']['fileFolderConfig']['depth'] = $definition['config']['fileFolder_recursions'];
+                unset($definition['config']['fileFolder_recursions']);
+            }
+        }
+
+        return $definition;
     }
 }
