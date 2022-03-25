@@ -718,7 +718,6 @@ class AjaxController
     }
 
     /**
-     * @param array{label: string, description?: string, placeholder?: string, keyValueLabels?: array{key: string, value: string}} $field
      * @param array<string, array<string, mixed>> $tcaFields
      * @return array<string, array<string, mixed>>
      */
@@ -734,6 +733,13 @@ class AjaxController
         if (isset($field['keyValueLabels'])) {
             $tcaFields[$key]['keyValueLabels']['key'] = $this->translateLabel($field['keyValueLabels']['key']);
             $tcaFields[$key]['keyValueLabels']['value'] = $this->translateLabel($field['keyValueLabels']['value']);
+        }
+        if (isset($field['keyValueSelectItems'])) {
+            foreach (['key', 'value'] as $keyValue) {
+                foreach ($field['keyValueSelectItems'][$keyValue] as $selectItemIndex => $selectItem) {
+                    $tcaFields[$key]['keyValueSelectItems'][$keyValue][$selectItemIndex]['label'] = $this->translateLabel($selectItem['label']);
+                }
+            }
         }
         if (isset($tcaFields[$key]['items'])) {
             foreach ($tcaFields[$key]['items'] as $itemKey => $item) {
@@ -800,7 +806,8 @@ class AjaxController
             Tab::LOCALIZATION => 'tx_mask.tabs.localization',
             Tab::VALIDATION => 'tx_mask.tabs.validation',
             Tab::WIZARDS => 'tx_mask.tabs.wizards',
-            Tab::GENERATOR => 'tx_mask.tabs.generator'
+            Tab::GENERATOR => 'tx_mask.tabs.generator',
+            Tab::ITEM_GROUP_SORTING=> 'tx_mask.tabs.itemGroupSorting',
         ];
 
         foreach ($tabs as $key => $tab) {

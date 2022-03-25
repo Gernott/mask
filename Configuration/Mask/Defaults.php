@@ -147,6 +147,7 @@ return [
             'l10n_mode' => '',
             'config.renderType' => 'selectSingle',
             'config.itemGroups' => [],
+            'config.sortItems' => [],
         ],
         'tca_out' => [
             'config.type' => 'select'

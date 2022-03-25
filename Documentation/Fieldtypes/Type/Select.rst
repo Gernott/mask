@@ -29,8 +29,9 @@ Available TCA options
 
 *  :ref:`config.renderType <t3tca:columns-select-introduction>`
 *  :ref:`config.default <t3tca:tca_property_default>`
-*  :ref:`config.itemGroups <t3tca:columns-select-properties-item-groups>`
 *  :ref:`config.items <t3tca:columns-select-properties-items>`
+*  :ref:`config.itemGroups <t3tca:columns-select-properties-item-groups>`
+*  :ref:`config.sortItems <t3tca:columns-select-properties-sort-items>`
 *  :ref:`config.minitems <t3tca:tca_property_minitems>`
 *  :ref:`config.maxitems <t3tca:tca_property_maxitems>`
 *  :ref:`config.foreign_table <t3tca:columns-select-properties-foreign-table>`

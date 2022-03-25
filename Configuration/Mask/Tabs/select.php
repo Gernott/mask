@@ -9,11 +9,14 @@ return [
             'config.default' => 6,
         ],
         [
-            'config.itemGroups' => 12,
-        ],
-        [
             'config.items' => 12
         ]
+    ],
+    Tab::ITEM_GROUP_SORTING => [
+        [
+            'config.itemGroups' => 12,
+            'config.sortItems' => 12,
+        ],
     ],
     Tab::VALIDATION => [
         [

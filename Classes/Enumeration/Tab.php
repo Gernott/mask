@@ -31,4 +31,5 @@ final class Tab extends Enumeration
     public const VALIDATION = 'validation';
     public const WIZARDS = 'wizards';
     public const GENERATOR = 'generator';
+    public const ITEM_GROUP_SORTING = 'itemGroupSorting';
 }

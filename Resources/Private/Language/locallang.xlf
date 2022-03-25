@@ -333,6 +333,18 @@
 			<trans-unit id="tx_mask.content.select.itemGroups.description">
 				<source>Register item groups for use in items.</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.content.select.sortItems.label">
+				<source>Sort items</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.select.sortItems.description">
+				<source>Sort items by value or label.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.select.sortItems.key">
+				<source>Value or Key</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.select.sortItems.value">
+				<source>Ascending or descending</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.content.check.items.description">
 				<source>One label each line, max 31</source>
 			</trans-unit>
@@ -1090,6 +1102,21 @@ title3, value3, icon3, description3
 			</trans-unit>
 			<trans-unit id="tx_mask.tabs.generator">
 				<source>Generator</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.tabs.itemGroupSorting">
+				<source>Groups / Sorting</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.select.sortItems.labels.value">
+				<source>Value</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.select.sortItems.labels.label">
+				<source>Label</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.select.sortItems.labels.asc">
+				<source>Ascending</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.select.sortItems.labels.desc">
+				<source>Descending</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.imageoverlayPalette">
 				<source>Imageoverlay palette</source>

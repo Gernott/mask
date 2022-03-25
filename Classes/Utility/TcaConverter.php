@@ -72,7 +72,7 @@ class TcaConverter
                     $fields[] = $field;
                 }
                 $tca[] = [$fullPath => implode(',', $fields)];
-            } elseif ($fullPath === 'config.itemGroups') {
+            } elseif ($fullPath === 'config.itemGroups' || $fullPath === 'config.sortItems') {
                 $tca[] = [$fullPath => self::convertAssociativeArrayToKeyValuePairs($value)];
             } elseif (is_array($value)) {
                 $tca[] = self::convertTcaArrayToFlat($value, $path);
@@ -159,7 +159,7 @@ class TcaConverter
                 $value = 1;
             }
             // This is for key-value pair fields.
-            if ($key === 'config.itemGroups') {
+            if ($key === 'config.itemGroups' || $key === 'config.sortItems') {
                 $value = self::convertKeyValuePairsToAssociativeArray($value);
             }
             $explodedKey = explode('.', $key);

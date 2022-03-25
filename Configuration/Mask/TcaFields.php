@@ -661,6 +661,43 @@ return [
             11 => 'ColumnsConfig/Type/Select/Properties/ItemGroups.html',
         ]
     ],
+    'config.sortItems' => [
+        'type' => 'keyValue',
+        'code' => 'sortItems',
+        'label' => 'tx_mask.content.select.sortItems.label',
+        'description' => 'tx_mask.content.select.sortItems.description',
+        'keyValueLabels' => [
+            'key' => 'tx_mask.content.select.sortItems.key',
+            'value' => 'tx_mask.content.select.sortItems.value',
+        ],
+        'keyValueSelectItems' => [
+            'key' => [
+                [
+                    'value' => 'label',
+                    'label' => 'tx_mask.content.select.sortItems.labels.label',
+                ],
+                [
+                    'value' => 'value',
+                    'label' => 'tx_mask.content.select.sortItems.labels.value',
+                ],
+            ],
+            'value' => [
+                [
+                    'value' => 'asc',
+                    'label' => 'tx_mask.content.select.sortItems.labels.asc',
+                ],
+                [
+                    'value' => 'desc',
+                    'label' => 'tx_mask.content.select.sortItems.labels.desc',
+                ]
+            ]
+        ],
+        'maxItems' => 1,
+        'documentation' => [
+            10 => 'ColumnsConfig/Type/selectCheckBox.html#sortitems',
+            11 => 'ColumnsConfig/Type/Select/Properties/SortItems.html',
+        ]
+    ],
     'config.renderType' => [
         'collision' => true,
         FieldType::SELECT => [
