@@ -424,9 +424,17 @@ class AjaxController
     public function fieldTypes(ServerRequestInterface $request): Response
     {
         $json = [];
+        $availability = [
+            FieldType::CATEGORY => 11,
+        ];
+        $typo3Version = new Typo3Version();
         $defaults = $this->configurationLoader->loadDefaults();
         $grouping = $this->configurationLoader->loadFieldGroups();
         foreach (FieldType::getConstants() as $type) {
+            if (isset($availability[$type]) && $typo3Version->getMajorVersion() < $availability[$type]) {
+                continue;
+            }
+
             $config = [
                 'name' => $type,
                 'icon' => $this->iconFactory->getIcon('mask-fieldtype-' . $type)->getMarkup(),
@@ -754,8 +762,15 @@ class AjaxController
 
     public function tabs(ServerRequestInterface $request): Response
     {
+        $availability = [
+            FieldType::CATEGORY => 11,
+        ];
+        $typo3Version = new Typo3Version();
         $tabs = [];
         foreach (FieldType::getConstants() as $type) {
+            if (isset($availability[$type]) && $typo3Version->getMajorVersion() < $availability[$type]) {
+                continue;
+            }
             $tabs[$type] = $this->configurationLoader->loadTab($type);
         }
         return new JsonResponse($tabs);
