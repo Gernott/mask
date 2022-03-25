@@ -28,6 +28,7 @@ as the appropriate field type.
    Type/Check
    Type/Radio
    Type/Select
+   Type/Category
    Type/Group
    Type/Colorpicker
    Type/Slug
