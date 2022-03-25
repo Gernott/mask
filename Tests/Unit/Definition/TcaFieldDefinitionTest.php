@@ -225,6 +225,51 @@ class TcaFieldDefinitionTest extends UnitTestCase
             ],
             'expected' => $expected,
         ];
+
+        yield 'arrays set to stop recursion are not checked for empty values inside' => [
+            'json' => [
+                'config' => [
+                    'type' => 'select',
+                    'itemGroups' => [
+                        'group1' => '',
+                    ],
+                ],
+                'type' => 'select',
+                'key' => 'select',
+                'fullKey' => 'tx_mask_select',
+            ],
+            'expected' => [
+                'config' => [
+                    'type' => 'select',
+                    'itemGroups' => [
+                        'group1' => '',
+                    ],
+                ],
+                'type' => 'select',
+                'key' => 'select',
+                'fullKey' => 'tx_mask_select',
+            ]
+        ];
+
+        yield 'arrays set to stop recursion can themselves be removed though' => [
+            'json' => [
+                'config' => [
+                    'type' => 'select',
+                    'itemGroups' => [],
+                ],
+                'type' => 'select',
+                'key' => 'select',
+                'fullKey' => 'tx_mask_select',
+            ],
+            'expected' => [
+                'config' => [
+                    'type' => 'select',
+                ],
+                'type' => 'select',
+                'key' => 'select',
+                'fullKey' => 'tx_mask_select',
+            ]
+        ];
     }
 
     /**

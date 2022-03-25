@@ -30,6 +30,11 @@ final class TcaFieldDefinition
         ],
         FieldType::SELECT => [
             'config.items',
+        ]
+    ];
+
+    private const STOP_RECURSIVE_VALUES_BY_TYPE = [
+        FieldType::SELECT => [
             'config.itemGroups',
         ]
     ];
@@ -363,7 +368,14 @@ final class TcaFieldDefinition
                 array_pop($path);
                 continue;
             }
-            if (is_array($value)) {
+            if (
+                is_array($value)
+                && !(
+                    $fieldDefinition->type instanceof FieldType
+                    && array_key_exists((string)$fieldDefinition->type, self::STOP_RECURSIVE_VALUES_BY_TYPE)
+                    && in_array($fullPath, self::STOP_RECURSIVE_VALUES_BY_TYPE[(string)$fieldDefinition->type], true)
+                )
+            ) {
                 $haystack[$key] = self::removeBlankOptions($value, $fieldDefinition, $path);
             }
             if ((is_array($haystack[$key]) && empty($haystack[$key])) || (is_string($haystack[$key]) && $haystack[$key] === '')) {
