@@ -193,7 +193,7 @@ class InlineHelper
     }
 
     /**
-     * @param array<mixed, mixed> $tcaFieldConf
+     * @param array<string, mixed> $tcaFieldConf
      *
      * Returns the selected relations of select or group element
      */

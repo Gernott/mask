@@ -371,8 +371,8 @@ final class TcaFieldDefinition
     }
 
     /**
-     * @param array<mixed, mixed> $definition
-     * @return array<mixed, mixed>
+     * @param array<string, mixed> $definition
+     * @return array<string, mixed>
      */
     protected static function migrateTCA(array $definition, TcaFieldDefinition $tcaFieldDefinition): array
     {

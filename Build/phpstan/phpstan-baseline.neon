@@ -161,26 +161,6 @@ parameters:
 			path: ../../Classes/Controller/AjaxController.php
 
 		-
-			message: "#^Method MASK\\\\Mask\\\\Controller\\\\AjaxController\\:\\:translateTcaFieldLabels\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../Classes/Controller/AjaxController.php
-
-		-
-			message: "#^Method MASK\\\\Mask\\\\Controller\\\\AjaxController\\:\\:translateTcaFieldLabels\\(\\) has parameter \\$field with no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Controller/AjaxController.php
-
-		-
-			message: "#^Method MASK\\\\Mask\\\\Controller\\\\AjaxController\\:\\:translateTcaFieldLabels\\(\\) has parameter \\$key with no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Controller/AjaxController.php
-
-		-
-			message: "#^Method MASK\\\\Mask\\\\Controller\\\\AjaxController\\:\\:translateTcaFieldLabels\\(\\) has parameter \\$tcaFields with no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Controller/AjaxController.php
-
-		-
 			message: "#^Property MASK\\\\Mask\\\\Controller\\\\AjaxController\\:\\:\\$maskExtensionConfiguration type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Controller/AjaxController.php

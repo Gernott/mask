@@ -270,9 +270,6 @@ class AjaxController
 
     /**
      * Generates Fluid HTML for Contentelements
-     *
-     * @param ServerRequestInterface $request
-     * @return Response
      */
     public function showHtmlAction(ServerRequestInterface $request): Response
     {
@@ -315,9 +312,6 @@ class AjaxController
 
     /**
      * Delete a content element
-     *
-     * @param ServerRequestInterface $request
-     * @return Response
      */
     public function delete(ServerRequestInterface $request): Response
     {
@@ -331,10 +325,6 @@ class AjaxController
         return new JsonResponse($this->flashMessageQueue->getAllMessagesAndFlush());
     }
 
-    /**
-     * @param ServerRequestInterface $request
-     * @return Response
-     */
     public function toggleVisibility(ServerRequestInterface $request): Response
     {
         $params = $request->getParsedBody();
@@ -519,9 +509,6 @@ class AjaxController
      * Checks all fields of an element for multi usage.
      * These fields CAN NOT be shared: inline, palette, tab, fields in inline.
      * These fields CAN be shared: all other first level fields, all other fields in first level palettes.
-     *
-     * @param ServerRequestInterface $request
-     * @return Response
      */
     public function loadAllMultiUse(ServerRequestInterface $request): Response
     {
@@ -730,7 +717,12 @@ class AjaxController
         return new JsonResponse($json);
     }
 
-    protected function translateTcaFieldLabels($key, $field, $tcaFields)
+    /**
+     * @param array{label: string, description?: string, placeholder?: string} $field
+     * @param array<string, array<string, mixed>> $tcaFields
+     * @return array<string, array<string, mixed>>
+     */
+    protected function translateTcaFieldLabels(string $key, array $field, array $tcaFields): array
     {
         $tcaFields[$key]['label'] = $this->translateLabel($field['label']);
         if (isset($field['placeholder'])) {
@@ -923,8 +915,6 @@ class AjaxController
 
     /**
      * Checks if a key for an element is available
-     * @param ServerRequest $request
-     * @return Response
      */
     public function checkElementKey(ServerRequest $request): Response
     {
@@ -938,9 +928,6 @@ class AjaxController
      * Checks if a key for a field is available.
      * Inline fields and content fields must not be used across elements.
      * Other "normal" fields can be used in different elements, but changes are applied for both.
-     *
-     * @param ServerRequest $request
-     * @return Response
      */
     public function checkFieldKey(ServerRequest $request): Response
     {
