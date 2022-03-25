@@ -16,7 +16,7 @@ return [
                 11 => 'ColumnsConfig/CommonProperties/Default.html#tca-property-default',
             ],
         ],
-        'check' => [
+        FieldType::CHECK => [
             'type' => 'number',
             'min' => 0,
             'max' => 31,
@@ -59,7 +59,7 @@ return [
             'max' => 50,
             'step' => 5
         ],
-        'category' => [
+        FieldType::CATEGORY => [
             'type' => 'number',
             'min' => 1,
             'label' => 'tx_mask.field.category.size',
@@ -69,7 +69,7 @@ return [
                 11 => 'ColumnsConfig/CommonProperties/Size.html#tca-property-size',
             ]
         ],
-        'select' => [
+        FieldType::SELECT => [
             'type' => 'number',
             'min' => 1,
             'label' => 'tx_mask.field.select.size',
@@ -80,7 +80,7 @@ return [
                 11 => 'ColumnsConfig/CommonProperties/Size.html#tca-property-size',
             ]
         ],
-        'group' => [
+        FieldType::GROUP => [
             'type' => 'number',
             'min' => 1,
             'label' => 'tx_mask.field.select.size',
@@ -513,7 +513,7 @@ return [
     ],
     'config.cols' => [
         'collision' => true,
-        'check' => [
+        FieldType::CHECK => [
             'type' => 'text',
             'label' => 'tx_mask.content.check.columns',
             'description' => 'tx_mask.content.check.columns.description',
@@ -610,7 +610,7 @@ return [
     ],
     'config.items' => [
         'collision' => true,
-        'check' => [
+        FieldType::CHECK => [
             'type' => 'textarea',
             'rows' => 10,
             'label' => 'tx_mask.content.check.items',
@@ -622,7 +622,7 @@ return [
                 11 => 'ColumnsConfig/Type/Check/Properties/Items.html',
             ]
         ],
-        'radio' => [
+        FieldType::RADIO => [
             'type' => 'textarea',
             'rows' => 10,
             'code' => 'items',
@@ -634,7 +634,7 @@ return [
                 11 => 'ColumnsConfig/Type/Radio/Properties/Items.html',
             ]
         ],
-        'select' => [
+        FieldType::SELECT => [
             'type' => 'textarea',
             'rows' => 10,
             'code' => 'items',
@@ -649,7 +649,7 @@ return [
     ],
     'config.renderType' => [
         'collision' => true,
-        'select' => [
+        FieldType::SELECT => [
             'type' => 'select',
             'label' => 'tx_mask.field.check.renderType',
             'description' => 'tx_mask.field.check.renderType.description',
@@ -665,7 +665,7 @@ return [
                 11 => 'ColumnsConfig/Type/Select/Index.html',
             ]
         ],
-        'check' => [
+        FieldType::CHECK => [
             'type' => 'radio',
             'label' => 'tx_mask.field.check.renderType',
             'description' => 'tx_mask.field.check.renderType.description',
