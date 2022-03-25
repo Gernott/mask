@@ -25,7 +25,7 @@ define([
         },
         methods: {
           hideTooltip() {
-            if (this.typo3Version === 11) {
+            if (this.typo3Version > 10) {
               Tooltip.hide(this.$refs[this.type.name]);
             } else {
               Tooltip.hide($(this.$refs[this.type.name]));

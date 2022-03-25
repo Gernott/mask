@@ -718,7 +718,7 @@ class AjaxController
     }
 
     /**
-     * @param array{label: string, description?: string, placeholder?: string} $field
+     * @param array{label: string, description?: string, placeholder?: string, keyValueLabels?: array{key: string, value: string}} $field
      * @param array<string, array<string, mixed>> $tcaFields
      * @return array<string, array<string, mixed>>
      */
@@ -730,6 +730,10 @@ class AjaxController
         }
         if (isset($field['description'])) {
             $tcaFields[$key]['description'] = $this->translateLabel($field['description']);
+        }
+        if (isset($field['keyValueLabels'])) {
+            $tcaFields[$key]['keyValueLabels']['key'] = $this->translateLabel($field['keyValueLabels']['key']);
+            $tcaFields[$key]['keyValueLabels']['value'] = $this->translateLabel($field['keyValueLabels']['value']);
         }
         if (isset($tcaFields[$key]['items'])) {
             foreach ($tcaFields[$key]['items'] as $itemKey => $item) {

@@ -9,6 +9,9 @@ return [
             'config.default' => 6,
         ],
         [
+            'config.itemGroups' => 12,
+        ],
+        [
             'config.items' => 12
         ]
     ],

@@ -27,6 +27,10 @@ final class TcaFieldDefinition
     private const ALLOWED_EMPTY_VALUES_BY_TYPE = [
         FieldType::SLUG => [
             'config.generatorOptions.replacements'
+        ],
+        FieldType::SELECT => [
+            'config.items',
+            'config.itemGroups',
         ]
     ];
 

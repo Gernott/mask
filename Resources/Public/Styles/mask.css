@@ -1211,4 +1211,12 @@
   text-align: right;
 }
 
+.key-value-table {
+  table-layout: fixed;
+}
+.key-value-table th:nth-child(1),
+.key-value-table th:nth-child(4) {
+  width: 50px;
+}
+
 /*# sourceMappingURL=mask.css.map */

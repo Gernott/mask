@@ -132,6 +132,26 @@ class TcaConverterTest extends BaseTestCase
                     'config.generatorOptions.replacements' => "a,b\nc,"
                 ]
             ],
+            'associative array transformed to key value pairs' => [
+                [
+                    'itemGroups' => [
+                        'group1' => 'Label Group 1',
+                        'group2' => 'Label Group 2',
+                    ]
+                ],
+                [
+                    'config.itemGroups' => [
+                        [
+                            'key' => 'group1',
+                            'value' => 'Label Group 1',
+                        ],
+                        [
+                            'key' => 'group2',
+                            'value' => 'Label Group 2',
+                        ]
+                    ],
+                ],
+            ],
         ];
     }
 
@@ -262,6 +282,28 @@ class TcaConverterTest extends BaseTestCase
                         ]
                     ]
                 ],
+            ],
+            'key value pairs transformed to associative array' => [
+                [
+                    'config.itemGroups' => [
+                        [
+                            'key' => 'group1',
+                            'value' => 'Label Group 1',
+                        ],
+                        [
+                            'key' => 'group2',
+                            'value' => 'Label Group 2',
+                        ]
+                    ],
+                ],
+                [
+                    'config' => [
+                        'itemGroups' => [
+                            'group1' => 'Label Group 1',
+                            'group2' => 'Label Group 2',
+                        ]
+                    ]
+                ]
             ],
         ];
     }

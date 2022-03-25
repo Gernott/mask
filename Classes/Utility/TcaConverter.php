@@ -72,6 +72,8 @@ class TcaConverter
                     $fields[] = $field;
                 }
                 $tca[] = [$fullPath => implode(',', $fields)];
+            } elseif ($fullPath === 'config.itemGroups') {
+                $tca[] = [$fullPath => self::convertAssociativeArrayToKeyValuePairs($value)];
             } elseif (is_array($value)) {
                 $tca[] = self::convertTcaArrayToFlat($value, $path);
             } elseif ($fullPath === 'config.eval' || $key === 'blindLinkOptions') {
@@ -156,6 +158,10 @@ class TcaConverter
                 $key = 'config.eval.' . $value;
                 $value = 1;
             }
+            // This is for key-value pair fields.
+            if ($key === 'config.itemGroups') {
+                $value = self::convertKeyValuePairsToAssociativeArray($value);
+            }
             $explodedKey = explode('.', $key);
             $propertyPath = array_reduce($explodedKey, static function ($carry, $property) {
                 return $carry . "[$property]";
@@ -172,6 +178,36 @@ class TcaConverter
         }
 
         return $tcaArray;
+    }
+
+    /**
+     * @param array<int, array{key: string, value: string}> $keyValue
+     * @return array<string, string>
+     */
+    protected static function convertKeyValuePairsToAssociativeArray(array $keyValue): array
+    {
+        $associativeArray = [];
+        foreach ($keyValue as $pairs) {
+            $associativeArray[$pairs['key']] = $pairs['value'];
+        }
+        return $associativeArray;
+    }
+
+    /**
+     * @param array<string, string> $associativeArray
+     * @return array<int, array{key: string, value: string}>
+     */
+    protected static function convertAssociativeArrayToKeyValuePairs(array $associativeArray): array
+    {
+        $keyValue = [];
+        foreach ($associativeArray as $key => $value) {
+            $keyValue[] = [
+                'key' => $key,
+                'value' => $value
+            ];
+        }
+
+        return $keyValue;
     }
 
     protected static function mergeCommaSeperatedOptions(array $tcaArray): string

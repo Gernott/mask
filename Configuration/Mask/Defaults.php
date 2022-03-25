@@ -145,7 +145,8 @@ return [
     FieldType::SELECT => [
         'tca_in' => [
             'l10n_mode' => '',
-            'config.renderType' => 'selectSingle'
+            'config.renderType' => 'selectSingle',
+            'config.itemGroups' => [],
         ],
         'tca_out' => [
             'config.type' => 'select'

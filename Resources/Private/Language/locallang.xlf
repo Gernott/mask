@@ -321,6 +321,18 @@
 			<trans-unit id="tx_mask.content.check.items">
 				<source>Items</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.content.select.itemGroups.key">
+				<source>Group identifier</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.select.itemGroups.value">
+				<source>Label</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.select.itemGroups.label">
+				<source>Item Groups</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.select.itemGroups.description">
+				<source>Register item groups for use in items.</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.content.check.items.description">
 				<source>One label each line, max 31</source>
 			</trans-unit>

@@ -1,0 +1,8 @@
+.key-value-table {
+  table-layout: fixed;
+
+  th:nth-child(1),
+  th:nth-child(4) {
+    width: 50px;
+  }
+}

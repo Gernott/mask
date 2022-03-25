@@ -647,6 +647,20 @@ return [
             ]
         ]
     ],
+    'config.itemGroups' => [
+        'type' => 'keyValue',
+        'code' => 'itemGroups',
+        'label' => 'tx_mask.content.select.itemGroups.label',
+        'description' => 'tx_mask.content.select.itemGroups.description',
+        'keyValueLabels' => [
+            'key' => 'tx_mask.content.select.itemGroups.key',
+            'value' => 'tx_mask.content.select.itemGroups.value',
+        ],
+        'documentation' => [
+            10 => 'ColumnsConfig/Type/selectCheckBox.html#itemgroups',
+            11 => 'ColumnsConfig/Type/Select/Properties/ItemGroups.html',
+        ]
+    ],
     'config.renderType' => [
         'collision' => true,
         FieldType::SELECT => [

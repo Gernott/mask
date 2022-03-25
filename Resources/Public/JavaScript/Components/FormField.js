@@ -1,13 +1,15 @@
 define([
     'TYPO3/CMS/Mask/Contrib/vue',
-    'TYPO3/CMS/Mask/Components/Colorpicker'
+    'TYPO3/CMS/Mask/Components/Colorpicker',
+    'TYPO3/CMS/Mask/Components/KeyValueList',
   ],
-  function (Vue, Colorpicker) {
+  function (Vue, Colorpicker, KeyValueList) {
     return Vue.component(
       'form-field',
       {
         components: {
-          Colorpicker
+          Colorpicker,
+          KeyValueList,
         },
         props: {
           column: Number,
@@ -191,6 +193,7 @@ define([
                 <option v-for="(item, key) in global.foreignTables" :value="key">{{ key }} <span v-if="key !== ''">({{ item }})</span></option>
               </select>
             </div>
+            <key-value-list v-model="global.activeField.tca[tcaKey]" v-if="type == 'keyValue'" :global="global" :tcaKey="tcaKey" :icons="icons" :tca-fields="tcaFields"/>
           </div>
         `
       }

@@ -282,6 +282,9 @@ define([
               promises.push(Icons.getIcon('actions-move-move', Icons.sizes.small).then(icon => {
                 this.icons.move = icon;
               }));
+              promises.push(Icons.getIcon('actions-add', Icons.sizes.small).then(icon => {
+                this.icons.add = icon;
+              }));
               promises.push(Icons.getIcon('actions-edit-pick-date', Icons.sizes.small).then(icon => {
                 this.icons.date = icon;
               }));
