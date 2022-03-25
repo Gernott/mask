@@ -336,6 +336,12 @@ title2, value2, icon2, description2
 title3, value3, icon3, description3
 ...</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.select.appearance.expandAll.label">
+				<source>Expand all</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.appearance.expandAll.description">
+				<source>If set, all select groups are initially expanded (only for selectCheckbox).</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.check.default.description">
 				<source>The checked state of each checkbox corresponds to the bitset representation of the default value.</source>
 			</trans-unit>

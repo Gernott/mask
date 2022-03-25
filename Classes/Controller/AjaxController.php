@@ -759,11 +759,26 @@ class AjaxController
         ];
         $typo3Version = new Typo3Version();
         $tabs = [];
+        $availableTcaFields = $this->configurationLoader->loadTcaFields();
         foreach (FieldType::getConstants() as $type) {
             if (isset($availability[$type]) && $typo3Version->getMajorVersion() < $availability[$type]) {
                 continue;
             }
             $tabs[$type] = $this->configurationLoader->loadTab($type);
+            // Remove unavailable TCA options
+            foreach ($tabs[$type] as $tabType => $rows) {
+                foreach ($rows as $rowIndex => $fields) {
+                    foreach ($fields as $tcaField => $ize) {
+                        if (!array_key_exists($tcaField, $availableTcaFields)) {
+                            unset($tabs[$type][$tabType][$rowIndex][$tcaField]);
+                        }
+                    }
+                    // Remove empty rows
+                    if (empty($tabs[$type][$tabType][$rowIndex])) {
+                        unset($tabs[$type][$tabType][$rowIndex]);
+                    }
+                }
+            }
         }
         return new JsonResponse($tabs);
     }

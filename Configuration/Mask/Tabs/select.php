@@ -48,7 +48,10 @@ return [
     Tab::EXTENDED => [
         [
             'config.size' => 6,
-            'config.autoSizeMax' => 6
+            'config.autoSizeMax' => 6,
+        ],
+        [
+            'config.appearance.expandAll' => 6,
         ]
     ]
 ];

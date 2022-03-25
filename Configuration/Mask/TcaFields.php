@@ -1110,6 +1110,16 @@ return [
             11 => 'ColumnsConfig/Type/Category/Properties/TreeConfig.html',
         ]
     ],
+    'config.appearance.expandAll' => [
+        'type' => 'checkbox',
+        'label' => 'tx_mask.field.select.appearance.expandAll.label',
+        'description' => 'tx_mask.field.select.appearance.expandAll.description',
+        'code' => 'expandAll',
+        'version' => '>= 11',
+        'documentation' => [
+            11 => 'ColumnsConfig/Type/Select/Properties/CheckBoxAppearance.html',
+        ]
+    ],
     'ctrl.label' => [
         'type' => 'text',
         'label' => 'tx_mask.all.label',
