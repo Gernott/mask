@@ -520,7 +520,7 @@ return [
             'code' => 'cols',
             'documentation' => [
                 10 => 'ColumnsConfig/Type/checkDefault.html#cols',
-                11 => 'ColumnsConfig/Type/Check/Properties/Items.html#columns-check-properties-items',
+                11 => 'ColumnsConfig/Type/Check/Properties/Cols.html',
             ]
         ],
         'other' => [

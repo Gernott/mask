@@ -32,6 +32,6 @@ Available TCA options
 *  :ref:`config.behaviour.allowLanguageSynchronization <t3tca:tca_property_behaviour_allowLanguageSynchronization>`
 *  :ref:`config.items <t3tca:columns-check-properties-items>`
 *  :ref:`config.default <t3tca:columns-check-properties-default>`
-*  :ref:`config.cols <t3tca:columns-check-properties-items>`
+*  :ref:`config.cols <t3tca:columns-check-properties-cols>`
 
 See a complete overview of Check TCA options in the :ref:`official documentation <t3tca:columns-check>`.
