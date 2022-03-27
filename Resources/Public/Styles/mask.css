@@ -1211,12 +1211,15 @@
   text-align: right;
 }
 
-.key-value-table {
-  table-layout: fixed;
-}
-.key-value-table th:nth-child(1),
-.key-value-table th:nth-child(4) {
+.item-table th:first-child,
+.item-table th:last-child {
   width: 50px;
+}
+.item-table .js-draggable {
+  cursor: pointer;
+}
+.item-table .sortable-chosen td {
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 /*# sourceMappingURL=mask.css.map */

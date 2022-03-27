@@ -29,6 +29,21 @@ final class TableDefinitionCollection implements \IteratorAggregate
      */
     private $definitions = [];
 
+    /**
+     * @var ArrayDefinitionSorter
+     */
+    private $arrayDefinitionSorter;
+
+    public function __construct()
+    {
+        $this->arrayDefinitionSorter = new ArrayDefinitionSorter();
+        $this->arrayDefinitionSorter->setExcludedKeys(
+            [
+                'itemGroups',
+            ]
+        );
+    }
+
     public function addTable(TableDefinition $tableDefinition): void
     {
         if (!$this->hasTable($tableDefinition->table)) {
@@ -51,7 +66,8 @@ final class TableDefinitionCollection implements \IteratorAggregate
 
     public function toArray(): array
     {
-        return array_merge([], ...$this->getTablesAsArray());
+        $array = array_merge([], ...$this->getTablesAsArray());
+        return $this->arrayDefinitionSorter->sort($array);
     }
 
     public function getTablesAsArray(): iterable

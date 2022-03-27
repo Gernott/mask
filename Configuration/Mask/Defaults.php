@@ -135,7 +135,8 @@ return [
     FieldType::CHECK => [
         'tca_in' => [
             'l10n_mode' => '',
-            'config.renderType' => ''
+            'config.renderType' => '',
+            'config.items' => [],
         ],
         'tca_out' => [
             'config.type' => 'check'
@@ -148,6 +149,7 @@ return [
             'config.renderType' => 'selectSingle',
             'config.itemGroups' => [],
             'config.sortItems' => [],
+            'config.items' => [],
         ],
         'tca_out' => [
             'config.type' => 'select'
@@ -168,7 +170,7 @@ return [
     FieldType::RADIO => [
         'tca_in' => [
             'l10n_mode' => '',
-            'config.items' => ''
+            'config.items' => [],
         ],
         'tca_out' => [
             'config.type' => 'radio'

@@ -5,11 +5,11 @@ use MASK\Mask\Enumeration\Tab;
 return [
     Tab::GENERAL => [
         [
-            'config.items' => 12
+            'config.default' => 6
         ],
         [
-            'config.default' => 6
-        ]
+            'config.items' => 12
+        ],
     ],
     Tab::LOCALIZATION => [
         [

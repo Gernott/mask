@@ -316,10 +316,25 @@
 				<source>Columns</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.check.columns.description">
-				<source>1-31 or inline. Default: 1</source>
+				<source>Define in how many columns the checkboxes should be displayed. Can be a value between 1-31 or inline. Default: 1</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.check.items">
 				<source>Items</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.check.items.invertStateDisplay">
+				<source>Invert state display</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.check.items.iconIdentifierChecked">
+				<source>Icon checked</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.check.items.iconIdentifierUnchecked">
+				<source>Icon unchecked</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.check.items.labelChecked">
+				<source>Label "checked"</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.check.items.labelUnchecked">
+				<source>Label "unchecked"</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.select.itemGroups.key">
 				<source>Group identifier</source>
@@ -340,13 +355,13 @@
 				<source>Sort items by value or label.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.select.sortItems.key">
-				<source>Value or Key</source>
+				<source>Label or value</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.select.sortItems.value">
 				<source>Ascending or descending</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.check.items.description">
-				<source>One label each line, max 31</source>
+				<source>Optionally define one or more checkboxes with additional options. Default is one single checkbox. Multiple checkboxes will be put together in a checkbox-group.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.check.items.placeholder">
 				<source>option 1
@@ -571,7 +586,10 @@ title3, value3, icon3, description3
 				<source>Telephone</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.radio.items">
-				<source>One entry each line, comma separated. The first entry is the displayed title and the second entry is the value (title, value). Values must be integers.</source>
+				<source>The first entry is the displayed title and the second entry is the value (title, value). Values must be integers.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.radio.items.value">
+				<source>Integer value</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.richtext.cols">
 				<source>Columns</source>
@@ -976,11 +994,14 @@ title3, value3, icon3, description3
 			<trans-unit id="tx_mask.page.updatedpage">
 				<source>Backend-Layout was updated.</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.page.extend">
-				<source></source>
-			</trans-unit>
 			<trans-unit id="tx_mask.all.create">
 				<source>Create</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.add">
+				<source>Add</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.drag">
+				<source>Drag</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.create_content_element">
 				<source>Create new content element</source>
@@ -1117,6 +1138,21 @@ title3, value3, icon3, description3
 			</trans-unit>
 			<trans-unit id="tx_mask.content.select.sortItems.labels.desc">
 				<source>Descending</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.items.label">
+				<source>Label</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.items.value">
+				<source>Value</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.items.icon">
+				<source>Icon</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.items.group">
+				<source>Group</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.select.items.description">
+				<source>Description</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.imageoverlayPalette">
 				<source>Imageoverlay palette</source>

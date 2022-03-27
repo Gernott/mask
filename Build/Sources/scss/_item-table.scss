@@ -1,0 +1,16 @@
+.item-table {
+  th:first-child,
+  th:last-child {
+    width: 50px;
+  }
+
+  .js-draggable {
+    cursor: pointer;
+  }
+
+  .sortable-chosen {
+    td {
+      background-color: rgba(#000, 0.1);
+    }
+  }
+}

@@ -28,7 +28,6 @@ use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 
 /**
- * StorageRepository
  * This class is responsible for the persistence of content elements.
  * It manages adding, removing and updating operations.
  * For read only use cases, TableDefinitonCollection should be used directly.
@@ -94,7 +93,6 @@ class StorageRepository implements SingletonInterface
     public function persist(array $json): TableDefinitionCollection
     {
         // sort content elements by key before saving
-        $this->sortJson($json);
         return $this->write($json);
     }
 
@@ -163,26 +161,22 @@ class StorageRepository implements SingletonInterface
     }
 
     /**
-     * Hides Content-Element
+     * Hides a content element
      */
     public function hide(string $table, string $elementKey): TableDefinitionCollection
     {
-        // Load
         $json = $this->load();
         $json[$table]['elements'][$elementKey]['hidden'] = 1;
-        $this->sortJson($json);
         return $this->write($json);
     }
 
     /**
-     * Activates Content-Element
+     * Activates a content element
      */
     public function activate(string $table, string $elementKey): TableDefinitionCollection
     {
-        // Load
         $json = $this->load();
         unset($json[$table]['elements'][$elementKey]['hidden']);
-        $this->sortJson($json);
         return $this->write($json);
     }
 
@@ -396,27 +390,6 @@ class StorageRepository implements SingletonInterface
             unset($json[$table]);
         }
         return $json;
-    }
-
-    /**
-     * Sorts the json entries
-     */
-    protected function sortJson(array &$array): void
-    {
-        // check if array is not a hash table, because we only want to sort hash tables
-        if (
-            empty($array)
-            || !(array_keys($array) !== range(0, count($array) - 1))
-        ) {
-            return;
-        }
-
-        ksort($array);
-        foreach ($array as &$item) {
-            if (is_array($item)) {
-                $this->sortJson($item);
-            }
-        }
     }
 
     /**

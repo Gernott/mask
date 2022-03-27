@@ -30,7 +30,10 @@ final class TcaFieldDefinition
         ],
         FieldType::SELECT => [
             'config.items',
-        ]
+        ],
+        FieldType::CHECK => [
+            'config.items',
+        ],
     ];
 
     private const STOP_RECURSIVE_VALUES_BY_TYPE = [

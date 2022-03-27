@@ -983,13 +983,12 @@ define([
             return true;
           }
           if (item.name === 'radio') {
-            const items = item.tca['config.items'].split("\n");
-            if (items.length < 2) {
+            const items = item.tca['config.items'];
+            if (items.length === 0) {
               this.fieldErrors.emptyRadioItems.push(item);
             } else {
               items.every(radioItem => {
-                const parts = radioItem.split(',');
-                if (parts.length < 2 || !this.isNumeric(parts[1])) {
+                if (!this.isNumeric(radioItem[1])) {
                   this.fieldErrors.emptyRadioItems.push(item);
                   return false;
                 }

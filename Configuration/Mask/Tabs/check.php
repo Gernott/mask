@@ -5,8 +5,12 @@ use MASK\Mask\Enumeration\Tab;
 return [
     Tab::GENERAL => [
         [
-            'config.renderType' => 6
-        ]
+            'config.renderType' => 6,
+            'config.default' => 6,
+        ],
+        [
+            'config.items' => 12
+        ],
     ],
     Tab::LOCALIZATION => [
         [
@@ -17,12 +21,6 @@ return [
         ]
     ],
     Tab::EXTENDED => [
-        [
-            'config.items' => 12
-        ],
-        [
-            'config.default' => 6
-        ],
         [
             'config.cols' => 6
         ]

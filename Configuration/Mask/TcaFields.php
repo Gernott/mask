@@ -611,23 +611,62 @@ return [
     'config.items' => [
         'collision' => true,
         FieldType::CHECK => [
-            'type' => 'textarea',
-            'rows' => 10,
+            'type' => 'itemList',
             'label' => 'tx_mask.content.check.items',
             'description' => 'tx_mask.content.check.items.description',
             'placeholder' => 'tx_mask.content.check.items.placeholder',
             'code' => 'items',
+            'maxItems' => 31,
+            'properties' => [
+                0 => [
+                    'label' => 'tx_mask.field.select.items.label',
+                    'type' => 'text',
+                ],
+                'invertStateDisplay' => [
+                    'label' => 'tx_mask.field.check.items.invertStateDisplay',
+                    'type' => 'checkbox',
+                ],
+                'iconIdentifierChecked' => [
+                    'label' => 'tx_mask.field.check.items.iconIdentifierChecked',
+                    'type' => 'text',
+                    'renderType' => '',
+                ],
+                'iconIdentifierUnchecked' => [
+                    'label' => 'tx_mask.field.check.items.iconIdentifierUnchecked',
+                    'type' => 'text',
+                    'renderType' => '',
+                ],
+                'labelChecked' => [
+                    'label' => 'tx_mask.field.check.items.labelChecked',
+                    'type' => 'text',
+                    'renderType' => 'checkboxLabeledToggle',
+                ],
+                'labelUnchecked' => [
+                    'label' => 'tx_mask.field.check.items.labelUnchecked',
+                    'type' => 'text',
+                    'renderType' => 'checkboxLabeledToggle',
+                ],
+            ],
             'documentation' => [
                 10 => 'ColumnsConfig/Type/checkDefault.html#items',
                 11 => 'ColumnsConfig/Type/Check/Properties/Items.html',
             ]
         ],
         FieldType::RADIO => [
-            'type' => 'textarea',
-            'rows' => 10,
+            'type' => 'itemList',
             'code' => 'items',
             'label' => 'tx_mask.content.check.items',
             'description' => 'tx_mask.field.radio.items',
+            'properties' => [
+                0 => [
+                    'label' => 'tx_mask.field.select.items.label',
+                    'type' => 'text',
+                ],
+                1 => [
+                    'label' => 'tx_mask.field.radio.items.value',
+                    'type' => 'text',
+                ],
+            ],
             'placeholder' => 'tx_mask.content.radio.items.placeholder',
             'documentation' => [
                 10 => 'ColumnsConfig/Type/Radio.html#items',
@@ -635,9 +674,31 @@ return [
             ]
         ],
         FieldType::SELECT => [
-            'type' => 'textarea',
-            'rows' => 10,
+            'type' => 'itemList',
             'code' => 'items',
+            'properties' => [
+                0 => [
+                    'label' => 'tx_mask.field.select.items.label',
+                    'type' => 'text',
+                ],
+                1 => [
+                    'label' => 'tx_mask.field.select.items.value',
+                    'type' => 'text',
+                ],
+                2 => [
+                    'label' => 'tx_mask.field.select.items.icon',
+                    'type' => 'text',
+                ],
+                3 => [
+                    'label' => 'tx_mask.field.select.items.group',
+                    'type' => 'text',
+                ],
+                4 => [
+                    'type' => 'text',
+                    'label' => 'tx_mask.field.select.items.description',
+                    'renderType' => 'selectCheckBox',
+                ],
+            ],
             'label' => 'tx_mask.content.check.items',
             'description' => 'tx_mask.field.select.items',
             'placeholder' => 'tx_mask.content.select.items.placeholder',
@@ -717,7 +778,7 @@ return [
             ]
         ],
         FieldType::CHECK => [
-            'type' => 'radio',
+            'type' => 'select',
             'label' => 'tx_mask.field.check.renderType',
             'description' => 'tx_mask.field.check.renderType.description',
             'code' => 'renderType',

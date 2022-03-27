@@ -47,7 +47,7 @@ class TcaConverterTest extends BaseTestCase
                     'config.nested.option' => '1'
                 ]
             ],
-            'Items converted to comma separated list with newline' => [
+            'Items are kept as array' => [
                 [
                     'items' => [
                         ['label', 'item'],
@@ -55,8 +55,25 @@ class TcaConverterTest extends BaseTestCase
                     ]
                 ],
                 [
-                    'config.items' => "label,item\nlabel2,item2"
-                ]
+                    'config.items' => [
+                        ['label', 'item'],
+                        ['label2', 'item2'],
+                    ],
+                ],
+            ],
+            'Items are kept as associative array' => [
+                [
+                    'items' => [
+                        [0 => 'label', 1 => 'item', 'key' => 'value'],
+                        [0 => 'label2', 1 => 'item2', 'key' => 'value'],
+                    ]
+                ],
+                [
+                    'config.items' => [
+                        [0 => 'label', 1 => 'item', 'key' => 'value'],
+                        [0 => 'label2', 1 => 'item2', 'key' => 'value'],
+                    ],
+                ],
             ],
             'Eval values converted as seperate entries' => [
                 [
@@ -189,9 +206,12 @@ class TcaConverterTest extends BaseTestCase
                     ]
                 ]
             ],
-            'Items converted to array and are trimmed' => [
+            'Items are trimmed' => [
                 [
-                    'config.items' => "label, item\nlabel2, item2"
+                    'config.items' => [
+                        [' label', ' item'],
+                        ['label2 ', 'item2 '],
+                    ]
                 ],
                 [
                     'config' => [

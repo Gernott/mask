@@ -756,11 +756,6 @@ parameters:
 			path: ../../Classes/Domain/Repository/StorageRepository.php
 
 		-
-			message: "#^Method MASK\\\\Mask\\\\Domain\\\\Repository\\\\StorageRepository\\:\\:sortJson\\(\\) has parameter \\$array with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../Classes/Domain/Repository/StorageRepository.php
-
-		-
 			message: "#^Method MASK\\\\Mask\\\\Domain\\\\Repository\\\\StorageRepository\\:\\:update\\(\\) has parameter \\$element with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Domain/Repository/StorageRepository.php

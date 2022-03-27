@@ -18,7 +18,6 @@ declare(strict_types=1);
 namespace MASK\Mask\Utility;
 
 use Symfony\Component\PropertyAccess\PropertyAccess;
-use TYPO3\CMS\Core\Utility\GeneralUtility as CoreGeneralUtility;
 
 /**
  * Back and forth converting for flat vs array TCA structure.
@@ -49,14 +48,7 @@ class TcaConverter
         foreach ($config as $key => $value) {
             $path[] = $key;
             $fullPath = implode('.', $path);
-            if ($fullPath === 'config.items') {
-                $items = $value;
-                $itemText = '';
-                foreach ($items as $item) {
-                    $itemText .= implode(',', $item) . "\n";
-                }
-                $tca[] = [$fullPath => trim($itemText)];
-            } elseif ($fullPath === 'config.generatorOptions.replacements') {
+            if ($fullPath === 'config.generatorOptions.replacements') {
                 $replacements = $value;
                 $replacementsAsText = '';
                 foreach ($replacements as $search => $replace) {
@@ -74,7 +66,7 @@ class TcaConverter
                 $tca[] = [$fullPath => implode(',', $fields)];
             } elseif ($fullPath === 'config.itemGroups' || $fullPath === 'config.sortItems') {
                 $tca[] = [$fullPath => self::convertAssociativeArrayToKeyValuePairs($value)];
-            } elseif (is_array($value)) {
+            } elseif (is_array($value) && $fullPath !== 'config.items') {
                 $tca[] = self::convertTcaArrayToFlat($value, $path);
             } elseif ($fullPath === 'config.eval' || $key === 'blindLinkOptions') {
                 if ($value !== '') {
@@ -121,11 +113,9 @@ class TcaConverter
         $accessor = PropertyAccess::createPropertyAccessor();
         foreach ($tca as $key => $value) {
             if ($key === 'config.items') {
-                $items = [];
-                foreach (explode("\n", $value) as $line) {
-                    $items[] = CoreGeneralUtility::trimExplode(',', $line);
+                foreach ($value as $index => $properties) {
+                    $value[$index] = array_map('trim', $properties);
                 }
-                $value = $items;
             }
 
             if ($key === 'config.generatorOptions.replacements') {

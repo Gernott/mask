@@ -741,6 +741,11 @@ class AjaxController
                 }
             }
         }
+        if (isset($field['properties'])) {
+            foreach ($field['properties'] as $propertyKey => $property) {
+                $tcaFields[$key]['properties'][$propertyKey]['label'] = $this->translateLabel($property['label']);
+            }
+        }
         if (isset($tcaFields[$key]['items'])) {
             foreach ($tcaFields[$key]['items'] as $itemKey => $item) {
                 $tcaFields[$key]['items'][$itemKey] = $this->translateLabel($item);
@@ -822,6 +827,9 @@ class AjaxController
         $language['missingCreated'] = $this->translateLabel('tx_mask.all.createdmissingfolders');
         $language['reset'] = $this->translateLabel('tx_mask.reset_settings_success');
         $language['create'] = $this->translateLabel('tx_mask.all.create');
+        $language['add'] = $this->translateLabel('tx_mask.all.add');
+        $language['delete'] = $this->translateLabel('tx_mask.all.delete');
+        $language['drag'] = $this->translateLabel('tx_mask.all.drag');
 
         $language['deleteModal'] = [
             'title' => $this->translateLabel('tx_mask.field.titleDelete'),
