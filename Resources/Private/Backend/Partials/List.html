@@ -26,6 +26,7 @@
                         <td class="mask-elements__count"><span :title="language.usage">{{ item.count }}</span></td>
                         <td class="mask-elements__buttons">
                             <button-bar
+                                    v-if="loaded"
                                     @toggle="loadElements"
                                     :element="item"
                                     :icons="icons"
@@ -66,6 +67,7 @@
                         </td>
                         <td>
                             <button-bar
+                                    v-if="loaded"
                                     :element="item"
                                     :icons="icons"
                                     :show-messages="showMessages"
