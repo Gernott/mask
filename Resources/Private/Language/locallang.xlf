@@ -1154,6 +1154,9 @@ title3, value3, icon3, description3
 			<trans-unit id="tx_mask.field.select.items.description">
 				<source>Description</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.noGroup">
+				<source>No group</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.imageoverlayPalette">
 				<source>Imageoverlay palette</source>
 			</trans-unit>

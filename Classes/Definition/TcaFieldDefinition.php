@@ -450,6 +450,20 @@ final class TcaFieldDefinition
             }
         }
 
+        // Fill item values with empty strings.
+        if (
+            $tcaFieldDefinition->type instanceof FieldType
+            && $tcaFieldDefinition->type->equals(FieldType::SELECT)
+        ) {
+            foreach ($definition['config']['items'] ?? [] as $index => $item) {
+                for ($i = 0; $i < 4; $i++) {
+                    if (!isset($item[$i])) {
+                        $definition['config']['items'][$index][$i] = '';
+                    }
+                }
+            }
+        }
+
         return $definition;
     }
 }

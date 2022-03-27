@@ -46,16 +46,19 @@ define([
               return false;
             }
             return this.value.length === this.tcaField.maxItems;
-          }
+          },
+          itemGroups() {
+            return this.global.activeField.tca['config.itemGroups'] ?? [];
+          },
         },
         methods: {
           add() {
             let newObj = {};
             for (const [key, value] of Object.entries(this.properties)) {
-              if (value['type'] === 'text') {
-                newObj[key] = '';
-              } else if (value['type'] === 'checkbox') {
+              if (value['type'] === 'checkbox') {
                 newObj[key] = 0;
+              } else {
+                newObj[key] = '';
               }
             }
             this.hideTooltip('add' + this.tcaKey);
@@ -108,13 +111,16 @@ define([
                           draggable=".js-drag-item"
                         >
                         <tr v-for="(item, index) in value" :class="{'js-drag-item': value.length > 1}">
-                            <!-- TODO implement group select -->
                             <td class="text-center" :class="{'js-draggable': value.length > 1}" :title="language.drag"><span v-if="value.length > 1" v-html="icons.move"></td>
                             <td v-for="(property, propertyKey) in properties">
                                 <input v-if="property.type == 'text'" class="form-control form-control-sm" v-model="item[propertyKey]"/>
                                 <div v-if="property.type == 'checkbox'" class="checkbox checkbox-type-toggle form-check form-switch">
                                     <input class="checkbox-input form-check-input" v-model="item[propertyKey]" type="checkbox" true-value="1" false-value="0">
                                 </div>
+                                <select v-if="property.type == 'group'" v-model="item[propertyKey]" class="form-control form-select-sm form-select">
+                                    <option value="">{{ language.noGroup }}</option>
+                                    <option v-for="itemGroup in itemGroups" :value="itemGroup.key">{{ itemGroup.key }}</option>
+                                </select>
                             </td>
                             <td class="text-center"><a @click.prevent="deleteItem(index)" href="#" class="btn btn-default btn-sm" data-bs-toggle="tooltip" :title="language.delete" :ref="'delete' + tcaKey + index"><span v-html="icons.delete"></span></a></td>
                         </tr>

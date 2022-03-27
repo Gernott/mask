@@ -270,6 +270,62 @@ class TcaFieldDefinitionTest extends UnitTestCase
                 'fullKey' => 'tx_mask_select',
             ]
         ];
+
+        yield 'unset select item array keys are filled with empty strings' => [
+            'json' => [
+                'config' => [
+                    'type' => 'select',
+                    'items' => [
+                        [
+                            'Label 1',
+                            'value1'
+                        ],
+                        [
+                            'Label 2',
+                            'value2',
+                            '',
+                        ],
+                        [
+                            'Label 3',
+                            'value3',
+                            '',
+                            '',
+                        ],
+                    ],
+                ],
+                'type' => 'select',
+                'key' => 'select',
+                'fullKey' => 'tx_mask_select',
+            ],
+            'expected' => [
+                'config' => [
+                    'type' => 'select',
+                    'items' => [
+                        [
+                            'Label 1',
+                            'value1',
+                            '',
+                            '',
+                        ],
+                        [
+                            'Label 2',
+                            'value2',
+                            '',
+                            '',
+                        ],
+                        [
+                            'Label 3',
+                            'value3',
+                            '',
+                            '',
+                        ],
+                    ],
+                ],
+                'type' => 'select',
+                'key' => 'select',
+                'fullKey' => 'tx_mask_select',
+            ],
+        ];
     }
 
     /**

@@ -830,6 +830,7 @@ class AjaxController
         $language['add'] = $this->translateLabel('tx_mask.all.add');
         $language['delete'] = $this->translateLabel('tx_mask.all.delete');
         $language['drag'] = $this->translateLabel('tx_mask.all.drag');
+        $language['noGroup'] = $this->translateLabel('tx_mask.noGroup');
 
         $language['deleteModal'] = [
             'title' => $this->translateLabel('tx_mask.field.titleDelete'),

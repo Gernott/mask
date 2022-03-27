@@ -691,7 +691,7 @@ return [
                 ],
                 3 => [
                     'label' => 'tx_mask.field.select.items.group',
-                    'type' => 'text',
+                    'type' => 'group',
                 ],
                 4 => [
                     'type' => 'text',
