@@ -163,3 +163,4 @@ GitHub sponsors
 *  `Guido Schmechel <https://github.com/ayacoo>`__
 *  `Wolfgang Wagner <https://github.com/wowaTYPO3>`__
 *  `Michael Paulisch <https://github.com/micha68g>`__
+*  `Eric Bode <https://github.com/EricBode>`__
