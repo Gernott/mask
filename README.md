@@ -1,9 +1,11 @@
 ![Page and Content masks for TYPO3](Resources/Public/Images/banner.jpg)
 
-[![release](https://img.shields.io/github/v/release/gernott/mask?sort=semver)](https://github.com/Gernott/mask)
-[![TYPO3](https://img.shields.io/badge/TYPO3-v11-ff8700)](https://typo3.org/)
-[![TYPO3](https://img.shields.io/badge/TYPO3-v10-ff8700)](https://typo3.org/)
-[![TYPO3](https://img.shields.io/badge/TYPO3-verified-ff8700)](https://typo3.com/typo3-cms/verified-extensions-integrations-for-typo3/extensions/mask-create-custom-content-elements-in-typo3)
+[![Release](https://img.shields.io/github/v/release/gernott/mask?sort=semver)](https://extensions.typo3.org/extension/mask/)
+[![TYPO3 11](https://img.shields.io/badge/TYPO3-v11-ff8700)](https://get.typo3.org/version/11)
+[![TYPO3 10](https://img.shields.io/badge/TYPO3-v10-ff8700)](https://get.typo3.org/version/10)
+[![TYPO3 Verified](https://img.shields.io/badge/TYPO3-verified-ff8700)](https://typo3.com/typo3-cms/verified-extensions-integrations-for-typo3/extensions/mask-create-custom-content-elements-in-typo3)
+[![Total Downloads](https://poser.pugx.org/mask/mask/d/total.svg)](https://packagist.org/packages/mask/mask)
+[![Monthly Downloads](https://poser.pugx.org/mask/mask/d/monthly)](https://packagist.org/packages/mask/mask)
 [![Tests](https://img.shields.io/github/workflow/status/Gernott/mask/Unit%20Tests?label=Tests)](https://github.com/Gernott/mask/actions/workflows/tests.yaml)
 [![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat)](https://github.com/phpstan/phpstan)
 
