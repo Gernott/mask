@@ -98,6 +98,9 @@ services:
   MASK\Mask\Loader\LoaderRegistry:
     public: true
 
+  MASK\Mask\Updates\FillTranslationSourceField:
+    public: true
+
   MASK\Mask\CodeGenerator\SqlCodeGenerator:
     tags:
       - name: event.listener

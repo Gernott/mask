@@ -731,6 +731,11 @@ parameters:
 			path: ../../Classes/Loader/LoaderRegistry.php
 
 		-
+			message: "#^Cannot call method fetchColumn\\(\\) on Doctrine\\\\DBAL\\\\Result\\|int\\.$#"
+			count: 1
+			path: ../../Classes/Updates/FillTranslationSourceField.php
+
+		-
 			message: "#^Method MASK\\\\Mask\\\\Utility\\\\ArrayToTypoScriptConverter\\:\\:convert\\(\\) has parameter \\$typoScriptArray with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Utility/ArrayToTypoScriptConverter.php
