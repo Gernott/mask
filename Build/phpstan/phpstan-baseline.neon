@@ -66,16 +66,6 @@ parameters:
 			path: ../../Classes/CodeGenerator/TyposcriptCodeGenerator.php
 
 		-
-			message: "#^Method MASK\\\\Mask\\\\Command\\\\ConvertFormatCommand\\:\\:configure\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../Classes/Command/ConvertFormatCommand.php
-
-		-
-			message: "#^Method MASK\\\\Mask\\\\Command\\\\ConvertFormatCommand\\:\\:injectLoaderRegistry\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../Classes/Command/ConvertFormatCommand.php
-
-		-
 			message: "#^Method MASK\\\\Mask\\\\ConfigurationLoader\\\\ConfigurationLoader\\:\\:loadDefaults\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/ConfigurationLoader/ConfigurationLoader.php
@@ -96,22 +86,22 @@ parameters:
 			path: ../../Classes/ConfigurationLoader/ConfigurationLoader.php
 
 		-
-			message: "#^Property MASK\\\\Mask\\\\ConfigurationLoader\\\\ConfigurationLoader\\:\\:\\$defaults has no type specified\\.$#"
+			message: "#^Property MASK\\\\Mask\\\\ConfigurationLoader\\\\ConfigurationLoader\\:\\:\\$defaults type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/ConfigurationLoader/ConfigurationLoader.php
 
 		-
-			message: "#^Property MASK\\\\Mask\\\\ConfigurationLoader\\\\ConfigurationLoader\\:\\:\\$fieldGroups has no type specified\\.$#"
+			message: "#^Property MASK\\\\Mask\\\\ConfigurationLoader\\\\ConfigurationLoader\\:\\:\\$fieldGroups type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/ConfigurationLoader/ConfigurationLoader.php
 
 		-
-			message: "#^Property MASK\\\\Mask\\\\ConfigurationLoader\\\\ConfigurationLoader\\:\\:\\$tabs has no type specified\\.$#"
+			message: "#^Property MASK\\\\Mask\\\\ConfigurationLoader\\\\ConfigurationLoader\\:\\:\\$tabs type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/ConfigurationLoader/ConfigurationLoader.php
 
 		-
-			message: "#^Property MASK\\\\Mask\\\\ConfigurationLoader\\\\ConfigurationLoader\\:\\:\\$tcaFields has no type specified\\.$#"
+			message: "#^Property MASK\\\\Mask\\\\ConfigurationLoader\\\\ConfigurationLoader\\:\\:\\$tcaFields type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/ConfigurationLoader/ConfigurationLoader.php
 
@@ -137,11 +127,6 @@ parameters:
 
 		-
 			message: "#^Method MASK\\\\Mask\\\\Controller\\\\AjaxController\\:\\:__construct\\(\\) has parameter \\$maskExtensionConfiguration with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../Classes/Controller/AjaxController.php
-
-		-
-			message: "#^Method MASK\\\\Mask\\\\Controller\\\\AjaxController\\:\\:getElementCount\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../Classes/Controller/AjaxController.php
 
@@ -252,16 +237,6 @@ parameters:
 
 		-
 			message: "#^Method MASK\\\\Mask\\\\Definition\\\\ElementDefinitionCollection\\:\\:createFromArray\\(\\) has parameter \\$array with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../Classes/Definition/ElementDefinitionCollection.php
-
-		-
-			message: "#^Method MASK\\\\Mask\\\\Definition\\\\ElementDefinitionCollection\\:\\:sort\\(\\) has parameter \\$definitions with no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Definition/ElementDefinitionCollection.php
-
-		-
-			message: "#^Method MASK\\\\Mask\\\\Definition\\\\ElementDefinitionCollection\\:\\:sort\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Definition/ElementDefinitionCollection.php
 
@@ -416,11 +391,6 @@ parameters:
 			path: ../../Classes/Definition/TcaFieldDefinition.php
 
 		-
-			message: "#^Method MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\:\\:hasInlineParent\\(\\) has parameter \\$elementKey with no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Definition/TcaFieldDefinition.php
-
-		-
 			message: "#^Method MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\:\\:removeBlankOptions\\(\\) has parameter \\$haystack with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Definition/TcaFieldDefinition.php
@@ -441,99 +411,34 @@ parameters:
 			path: ../../Classes/Definition/TcaFieldDefinition.php
 
 		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\:\\:\\$allowedFileExtensions has no type specified\\.$#"
+			message: "#^Property MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\:\\:\\$cTypes type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Definition/TcaFieldDefinition.php
 
 		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\:\\:\\$cTypes has no type specified\\.$#"
+			message: "#^Property MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\:\\:\\$descriptionByElement type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Definition/TcaFieldDefinition.php
 
 		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\:\\:\\$description has no type specified\\.$#"
+			message: "#^Property MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\:\\:\\$inlineParentByElement type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Definition/TcaFieldDefinition.php
 
 		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\:\\:\\$descriptionByElement has no type specified\\.$#"
+			message: "#^Property MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\:\\:\\$labelByElement type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Definition/TcaFieldDefinition.php
 
 		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\:\\:\\$fullKey has no type specified\\.$#"
+			message: "#^Property MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\:\\:\\$orderByElement type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Definition/TcaFieldDefinition.php
 
 		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\:\\:\\$imageoverlayPalette has no type specified\\.$#"
+			message: "#^Property MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\:\\:\\$realTca type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Definition/TcaFieldDefinition.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\:\\:\\$inPalette has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Definition/TcaFieldDefinition.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\:\\:\\$inlineIcon has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Definition/TcaFieldDefinition.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\:\\:\\$inlineLabel has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Definition/TcaFieldDefinition.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\:\\:\\$inlineParent has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Definition/TcaFieldDefinition.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\:\\:\\$inlineParentByElement has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Definition/TcaFieldDefinition.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\:\\:\\$isCoreField has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Definition/TcaFieldDefinition.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\:\\:\\$key has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Definition/TcaFieldDefinition.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\:\\:\\$label has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Definition/TcaFieldDefinition.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\:\\:\\$labelByElement has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Definition/TcaFieldDefinition.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\:\\:\\$order has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Definition/TcaFieldDefinition.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\:\\:\\$orderByElement has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Definition/TcaFieldDefinition.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\:\\:\\$realTca has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Definition/TcaFieldDefinition.php
-
-		-
-			message: "#^Method MASK\\\\Mask\\\\DependencyInjection\\\\LoaderPass\\:\\:process\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../Classes/DependencyInjection/LoaderPass.php
 
 		-
 			message: "#^Method MASK\\\\Mask\\\\Domain\\\\Repository\\\\BackendLayoutRepository\\:\\:findAll\\(\\) has parameter \\$pageTsPids with no value type specified in iterable type array\\.$#"
@@ -641,22 +546,17 @@ parameters:
 			path: ../../Classes/Domain/Repository/StorageRepository.php
 
 		-
-			message: "#^Method MASK\\\\Mask\\\\Domain\\\\Repository\\\\StorageRepository\\:\\:setSql\\(\\) has no return type specified\\.$#"
+			message: "#^Method MASK\\\\Mask\\\\Domain\\\\Repository\\\\StorageRepository\\:\\:setSql\\(\\) has parameter \\$fields with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Domain/Repository/StorageRepository.php
 
 		-
-			message: "#^Method MASK\\\\Mask\\\\Domain\\\\Repository\\\\StorageRepository\\:\\:setSql\\(\\) has parameter \\$fields with no type specified\\.$#"
+			message: "#^Method MASK\\\\Mask\\\\Domain\\\\Repository\\\\StorageRepository\\:\\:setSql\\(\\) has parameter \\$json with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Domain/Repository/StorageRepository.php
 
 		-
-			message: "#^Method MASK\\\\Mask\\\\Domain\\\\Repository\\\\StorageRepository\\:\\:setSql\\(\\) has parameter \\$json with no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Domain/Repository/StorageRepository.php
-
-		-
-			message: "#^Method MASK\\\\Mask\\\\Domain\\\\Repository\\\\StorageRepository\\:\\:setSql\\(\\) has parameter \\$table with no type specified\\.$#"
+			message: "#^Method MASK\\\\Mask\\\\Domain\\\\Repository\\\\StorageRepository\\:\\:setSql\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Domain/Repository/StorageRepository.php
 
@@ -826,12 +726,7 @@ parameters:
 			path: ../../Classes/Loader/LoaderRegistry.php
 
 		-
-			message: "#^Property MASK\\\\Mask\\\\Loader\\\\LoaderRegistry\\:\\:\\$loaders has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Loader/LoaderRegistry.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Loader\\\\LoaderRegistry\\:\\:\\$maskExtensionConfiguration has no type specified\\.$#"
+			message: "#^Property MASK\\\\Mask\\\\Loader\\\\LoaderRegistry\\:\\:\\$maskExtensionConfiguration type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Loader/LoaderRegistry.php
 
@@ -936,11 +831,6 @@ parameters:
 			path: ../../Tests/Unit/CodeGenerator/TcaCodeGeneratorTest.php
 
 		-
-			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\CodeGenerator\\\\TcaCodeGeneratorTest\\:\\:generateTableTca\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../Tests/Unit/CodeGenerator/TcaCodeGeneratorTest.php
-
-		-
 			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\CodeGenerator\\\\TcaCodeGeneratorTest\\:\\:generateTableTca\\(\\) has parameter \\$json with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Tests/Unit/CodeGenerator/TcaCodeGeneratorTest.php
@@ -956,7 +846,7 @@ parameters:
 			path: ../../Tests/Unit/CodeGenerator/TcaCodeGeneratorTest.php
 
 		-
-			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\CodeGenerator\\\\TcaCodeGeneratorTest\\:\\:getFirstNoneTabFieldDataProvider\\(\\) has no return type specified\\.$#"
+			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\CodeGenerator\\\\TcaCodeGeneratorTest\\:\\:getFirstNoneTabFieldDataProvider\\(\\) return type has no value type specified in iterable type iterable\\.$#"
 			count: 1
 			path: ../../Tests/Unit/CodeGenerator/TcaCodeGeneratorTest.php
 
@@ -1061,11 +951,6 @@ parameters:
 			path: ../../Tests/Unit/Controller/FieldsControllerTest.php
 
 		-
-			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\Controller\\\\FieldsControllerTest\\:\\:loadElement\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../Tests/Unit/Controller/FieldsControllerTest.php
-
-		-
 			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\Controller\\\\FieldsControllerTest\\:\\:loadElement\\(\\) has parameter \\$expected with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Tests/Unit/Controller/FieldsControllerTest.php
@@ -1077,11 +962,6 @@ parameters:
 
 		-
 			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\Controller\\\\FieldsControllerTest\\:\\:loadElementDataProvider\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../Tests/Unit/Controller/FieldsControllerTest.php
-
-		-
-			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\Controller\\\\FieldsControllerTest\\:\\:registerPackageManager\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../Tests/Unit/Controller/FieldsControllerTest.php
 
@@ -1371,27 +1251,7 @@ parameters:
 			path: ../../Tests/Unit/Helper/InlineHelperTest.php
 
 		-
-			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\Loader\\\\ConfigCleanerTraitTest\\:\\:registerPackageManager\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../Tests/Unit/Loader/ConfigCleanerTraitTest.php
-
-		-
-			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\Loader\\\\DefaultTcaCompatibilityTraitTest\\:\\:registerPackageManager\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../Tests/Unit/Loader/DefaultTcaCompatibilityTraitTest.php
-
-		-
-			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\Loader\\\\DescriptionsByElementCompatibilityTest\\:\\:registerPackageManager\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../Tests/Unit/Loader/DescriptionsByElementCompatibilityTest.php
-
-		-
 			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\Loader\\\\JsonLoaderTest\\:\\:getExpectedConfigurationArray\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../Tests/Unit/Loader/JsonLoaderTest.php
-
-		-
-			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\Loader\\\\JsonLoaderTest\\:\\:registerPackageManager\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../Tests/Unit/Loader/JsonLoaderTest.php
 
@@ -1399,36 +1259,6 @@ parameters:
 			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\Loader\\\\JsonSplitLoaderTest\\:\\:getExpectedConfigurationArray\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Tests/Unit/Loader/JsonSplitLoaderTest.php
-
-		-
-			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\Loader\\\\JsonSplitLoaderTest\\:\\:registerPackageManager\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../Tests/Unit/Loader/JsonSplitLoaderTest.php
-
-		-
-			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\AffixUtilityTest\\:\\:maskPrefixSuffixTest\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../Tests/Unit/Utility/AffixUtilityTest.php
-
-		-
-			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\DateUtilityTest\\:\\:convertOldToNewFormat\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../Tests/Unit/Utility/DateUtilityTest.php
-
-		-
-			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\DateUtilityTest\\:\\:convertStringToTimestampByDbType\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../Tests/Unit/Utility/DateUtilityTest.php
-
-		-
-			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\DateUtilityTest\\:\\:convertTimestampToDate\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../Tests/Unit/Utility/DateUtilityTest.php
-
-		-
-			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\DateUtilityTest\\:\\:isOldDateFormat\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../Tests/Unit/Utility/DateUtilityTest.php
 
 		-
 			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\TcaConverterTest\\:\\:convertFlatTcaToArrayTest\\(\\) has parameter \\$array with no value type specified in iterable type array\\.$#"
@@ -1456,7 +1286,7 @@ parameters:
 			path: ../../Tests/Unit/Utility/TcaConverterTest.php
 
 		-
-			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\TcaConverterTest\\:\\:convertTcaArrayToFlatTestDataProvider\\(\\) has no return type specified\\.$#"
+			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\TcaConverterTest\\:\\:convertTcaArrayToFlatTestDataProvider\\(\\) return type has no value type specified in iterable type iterable\\.$#"
 			count: 1
 			path: ../../Tests/Unit/Utility/TcaConverterTest.php
 
@@ -1466,7 +1296,7 @@ parameters:
 			path: ../../Tests/Unit/Utility/TemplatePathUtilityTest.php
 
 		-
-			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\TemplatePathUtilityTest\\:\\:getTemplatePathDataProvider\\(\\) has no return type specified\\.$#"
+			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\TemplatePathUtilityTest\\:\\:getTemplatePathDataProvider\\(\\) return type has no value type specified in iterable type iterable\\.$#"
 			count: 1
 			path: ../../Tests/Unit/Utility/TemplatePathUtilityTest.php
 
@@ -1579,9 +1409,4 @@ parameters:
 			message: "#^Method MASK\\\\Mask\\\\Tests\\\\UnitDeprecated\\\\Helper\\\\FieldHelperTest\\:\\:getLabelDataProvider\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Tests/UnitDeprecated/Helper/FieldHelperTest.php
-
-		-
-			message: "#^Method MASK\\\\Mask\\\\Tests\\\\UnitDeprecated\\\\Loader\\\\JsonLoaderTest\\:\\:registerPackageManager\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../Tests/UnitDeprecated/Loader/JsonLoaderTest.php
 

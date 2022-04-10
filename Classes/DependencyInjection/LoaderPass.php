@@ -42,7 +42,7 @@ final class LoaderPass implements CompilerPassInterface
     /**
      * @param ContainerBuilder $container
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $loaderFactoryDefinition = $container->findDefinition(LoaderRegistry::class);
         foreach ($container->findTaggedServiceIds($this->tagName) as $id => $tags) {

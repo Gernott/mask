@@ -87,7 +87,11 @@ final class ElementDefinitionCollection implements \IteratorAggregate
         return count($this->definitions);
     }
 
-    private function sort($definitions): array
+    /**
+     * @param array<ElementDefinition> $definitions
+     * @return array<ElementDefinition>
+     */
+    private function sort(array $definitions): array
     {
         if (PHP_VERSION_ID < 80000) {
             $this->stable_usort($definitions, static function ($a, $b) {

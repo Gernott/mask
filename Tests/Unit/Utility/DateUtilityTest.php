@@ -25,7 +25,7 @@ class DateUtilityTest extends BaseTestCase
     /**
      * @test
      */
-    public function isOldDateFormat()
+    public function isOldDateFormat(): void
     {
         self::assertTrue(DateUtility::isOldDateFormat('2020-05-01'));
         self::assertFalse(DateUtility::isOldDateFormat('10-12-2021'));
@@ -34,7 +34,7 @@ class DateUtilityTest extends BaseTestCase
     /**
      * @test
      */
-    public function convertOldToNewFormat()
+    public function convertOldToNewFormat(): void
     {
         self::assertSame('01-01-2010', DateUtility::convertOldToNewFormat('date', '2010-01-01'));
         self::assertSame('10:10 01-01-2010', DateUtility::convertOldToNewFormat('datetime', '10:10 2010-01-01'));
@@ -43,7 +43,7 @@ class DateUtilityTest extends BaseTestCase
     /**
      * @test
      */
-    public function convertStringToTimestampByDbType()
+    public function convertStringToTimestampByDbType(): void
     {
         self::assertSame((new \DateTime('2021-02-12'))->getTimestamp(), DateUtility::convertStringToTimestampByDbType('date', '12-02-2021'));
         self::assertSame((new \DateTime('2021-02-12'))->getTimestamp(), DateUtility::convertStringToTimestampByDbType('date', '2021-02-12'));
@@ -54,7 +54,7 @@ class DateUtilityTest extends BaseTestCase
     /**
      * @test
      */
-    public function convertTimestampToDate()
+    public function convertTimestampToDate(): void
     {
         self::assertSame('13-02-2021', DateUtility::convertTimestampToDate('date', (new \DateTime('2021-02-13'))->getTimestamp()));
         self::assertSame('10:10 13-02-2021', DateUtility::convertTimestampToDate('datetime', (new \DateTime('2021-02-13 10:10'))->getTimestamp()));

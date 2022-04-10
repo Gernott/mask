@@ -42,26 +42,101 @@ final class TcaFieldDefinition
         ]
     ];
 
+    /**
+     * @var string
+     */
     public $key = '';
+
+    /**
+     * @var string
+     */
     public $fullKey = '';
-    /** @var ?FieldType */
+
+    /**
+     * @var FieldType|null
+     */
     public $type;
+
+    /**
+     * @var bool
+     */
     public $isCoreField = false;
+
+    /**
+     * @var bool
+     */
     public $inPalette = false;
+
+    /**
+     * @var string
+     */
     public $inlineParent = '';
+
+    /**
+     * @var array
+     */
     public $inlineParentByElement = [];
+
+    /**
+     * @var string
+     */
     public $label = '';
+
+    /**
+     * @var array
+     */
     public $labelByElement = [];
+
+    /**
+     * @var string
+     */
     public $description = '';
+
+    /**
+     * @var array
+     */
     public $descriptionByElement = [];
+
+    /**
+     * @var int
+     */
     public $order = 0;
+
+    /**
+     * @var array
+     */
     public $orderByElement = [];
+
+    /**
+     * @var array
+     */
     public $cTypes = [];
+
+    /**
+     * @var bool
+     */
     public $imageoverlayPalette = false;
+
+    /**
+     * @var string
+     */
     public $allowedFileExtensions = '';
+
+    /**
+     * @var string
+     */
     public $inlineIcon = '';
+
+    /**
+     * @var string
+     */
     public $inlineLabel = '';
+
+    /**
+     * @var array
+     */
     public $realTca = [];
+
     /**
      * Array of direct child tca field definitions.
      * Not filled by default.
@@ -196,7 +271,7 @@ final class TcaFieldDefinition
         return self::removeBlankOptions($definition, $fieldDefinition);
     }
 
-    public function hasInlineParent($elementKey = ''): bool
+    public function hasInlineParent(string $elementKey = ''): bool
     {
         if ($this->inlineParent !== '') {
             return true;

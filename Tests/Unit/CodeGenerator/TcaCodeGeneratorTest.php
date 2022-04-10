@@ -1359,7 +1359,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
      * @test
      * @dataProvider generateTableTcaDataProvider
      */
-    public function generateTableTca(array $json, string $table, string $expectedLabel, string $expectedIcon)
+    public function generateTableTca(array $json, string $table, string $expectedLabel, string $expectedIcon): void
     {
         $loader = $this->createLoader($json);
         $tableDefinition = $loader->load()->getTable($table);
@@ -1473,7 +1473,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
         self::assertEquals($expected, array_keys($tcaGenerator->getPagePalettes($elementKey)));
     }
 
-    public function getFirstNoneTabFieldDataProvider()
+    public function getFirstNoneTabFieldDataProvider(): iterable
     {
         return [
             'Tab is first element' => [

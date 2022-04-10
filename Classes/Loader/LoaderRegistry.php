@@ -21,7 +21,14 @@ use MASK\Mask\Definition\TableDefinitionCollection;
 
 class LoaderRegistry
 {
+    /**
+     * @var array<string, LoaderInterface>
+     */
     protected $loaders = [];
+
+    /**
+     * @var array
+     */
     protected $maskExtensionConfiguration = [];
 
     public function __construct(array $maskExtensionConfiguration)

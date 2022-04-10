@@ -31,12 +31,12 @@ class ConvertFormatCommand extends Command
      */
     protected $loaderRegistry;
 
-    public function injectLoaderRegistry(LoaderRegistry $loaderRegistry)
+    public function injectLoaderRegistry(LoaderRegistry $loaderRegistry): void
     {
         $this->loaderRegistry = $loaderRegistry;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $loaderRegistry = GeneralUtility::makeInstance(LoaderRegistry::class);
         $availableLoaders = implode(', ', array_keys($loaderRegistry->getLoaders()));

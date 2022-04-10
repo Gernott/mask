@@ -191,7 +191,7 @@ class StorageRepository implements SingletonInterface
         return $max;
     }
 
-    protected function setSql($json, $fields, $table)
+    protected function setSql(array $json, array $fields, string $table): array
     {
         $defaults = $this->configurationLoader->loadDefaults();
         foreach ($fields as $field) {

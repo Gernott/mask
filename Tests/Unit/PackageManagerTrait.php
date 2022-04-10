@@ -25,7 +25,7 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 trait PackageManagerTrait
 {
-    public function registerPackageManager()
+    public function registerPackageManager(): void
     {
         $package = $this->prophesize(Package::class);
         $package->getPackagePath()->willReturn(realpath(__DIR__ . '/../../') . '/');

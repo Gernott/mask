@@ -993,7 +993,7 @@ class FieldsControllerTest extends BaseTestCase
      * @test
      * @dataProvider loadElementDataProvider
      */
-    public function loadElement(array $json, string $table, string $elementKey, array $expected)
+    public function loadElement(array $json, string $table, string $elementKey, array $expected): void
     {
         $GLOBALS['TCA']['tt_content']['columns']['header'] = [
             'config' => [

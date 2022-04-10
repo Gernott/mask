@@ -25,7 +25,7 @@ class AffixUtilityTest extends BaseTestCase
     /**
      * @test
      */
-    public function maskPrefixSuffixTest()
+    public function maskPrefixSuffixTest(): void
     {
         self::assertSame('abc', AffixUtility::removeMaskPrefix('tx_mask_abc'));
         self::assertSame('tx_mask_abc', AffixUtility::addMaskPrefix('abc'));

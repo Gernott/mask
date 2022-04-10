@@ -25,7 +25,7 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class TemplatePathUtilityTest extends UnitTestCase
 {
-    public function getTemplatePathDataProvider()
+    public function getTemplatePathDataProvider(): iterable
     {
         return [
             'UpperCamelCase exists' => [
