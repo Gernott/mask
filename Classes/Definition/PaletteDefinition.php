@@ -19,9 +19,24 @@ namespace MASK\Mask\Definition;
 
 final class PaletteDefinition
 {
+    /**
+     * @var string
+     */
     public $key = '';
+
+    /**
+     * @var string
+     */
     public $label = '';
+
+    /**
+     * @var string
+     */
     public $description = '';
+
+    /**
+     * @var array
+     */
     public $showitem = [];
 
     public function __construct(string $key, string $label, string $description, array $showitem)

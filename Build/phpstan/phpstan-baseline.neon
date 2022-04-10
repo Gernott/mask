@@ -276,11 +276,6 @@ parameters:
 			path: ../../Classes/Definition/ElementDefinitionCollection.php
 
 		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\ElementDefinitionCollection\\:\\:\\$table has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Definition/ElementDefinitionCollection.php
-
-		-
 			message: "#^Method MASK\\\\Mask\\\\Definition\\\\ElementTcaDefinition\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Definition/ElementTcaDefinition.php
@@ -301,11 +296,6 @@ parameters:
 			path: ../../Classes/Definition/NestedTcaFieldDefinitions.php
 
 		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\NestedTcaFieldDefinitions\\:\\:\\$elementKey has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Definition/NestedTcaFieldDefinitions.php
-
-		-
 			message: "#^Method MASK\\\\Mask\\\\Definition\\\\PaletteDefinition\\:\\:__construct\\(\\) has parameter \\$showitem with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Definition/PaletteDefinition.php
@@ -316,22 +306,7 @@ parameters:
 			path: ../../Classes/Definition/PaletteDefinition.php
 
 		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\PaletteDefinition\\:\\:\\$description has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Definition/PaletteDefinition.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\PaletteDefinition\\:\\:\\$key has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Definition/PaletteDefinition.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\PaletteDefinition\\:\\:\\$label has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Definition/PaletteDefinition.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\PaletteDefinition\\:\\:\\$showitem has no type specified\\.$#"
+			message: "#^Property MASK\\\\Mask\\\\Definition\\\\PaletteDefinition\\:\\:\\$showitem type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Definition/PaletteDefinition.php
 
@@ -351,22 +326,7 @@ parameters:
 			path: ../../Classes/Definition/PaletteDefinitionCollection.php
 
 		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\PaletteDefinitionCollection\\:\\:\\$table has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Definition/PaletteDefinitionCollection.php
-
-		-
 			message: "#^Method MASK\\\\Mask\\\\Definition\\\\SqlColumnDefinition\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../Classes/Definition/SqlColumnDefinition.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\SqlColumnDefinition\\:\\:\\$column has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Definition/SqlColumnDefinition.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\SqlColumnDefinition\\:\\:\\$sqlDefinition has no type specified\\.$#"
 			count: 1
 			path: ../../Classes/Definition/SqlColumnDefinition.php
 
@@ -386,22 +346,12 @@ parameters:
 			path: ../../Classes/Definition/SqlDefinition.php
 
 		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\SqlDefinition\\:\\:\\$table has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Definition/SqlDefinition.php
-
-		-
 			message: "#^Method MASK\\\\Mask\\\\Definition\\\\TableDefinition\\:\\:createFromTableArray\\(\\) has parameter \\$definition with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Definition/TableDefinition.php
 
 		-
 			message: "#^Method MASK\\\\Mask\\\\Definition\\\\TableDefinition\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../Classes/Definition/TableDefinition.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\TableDefinition\\:\\:\\$table has no type specified\\.$#"
 			count: 1
 			path: ../../Classes/Definition/TableDefinition.php
 
@@ -447,11 +397,6 @@ parameters:
 
 		-
 			message: "#^Method MASK\\\\Mask\\\\Definition\\\\TcaDefinition\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../Classes/Definition/TcaDefinition.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\TcaDefinition\\:\\:\\$table has no type specified\\.$#"
 			count: 1
 			path: ../../Classes/Definition/TcaDefinition.php
 

@@ -19,21 +19,28 @@ namespace MASK\Mask\Definition;
 
 final class TableDefinition
 {
-    public $table = '';
     /**
-     * @var ?ElementDefinitionCollection
+     * @var string
+     */
+    public $table = '';
+
+    /**
+     * @var ElementDefinitionCollection|null
      */
     public $elements;
+
     /**
-     * @var ?SqlDefinition
+     * @var SqlDefinition|null
      */
     public $sql;
+
     /**
-     * @var ?TcaDefinition
+     * @var TcaDefinition|null
      */
     public $tca;
+
     /**
-     * @var ?PaletteDefinitionCollection
+     * @var PaletteDefinitionCollection|null
      */
     public $palettes;
 

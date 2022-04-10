@@ -23,6 +23,10 @@ final class ElementDefinitionCollection implements \IteratorAggregate
      * @var array<ElementDefinition>
      */
     private $definitions = [];
+
+    /**
+     * @var string
+     */
     public $table = '';
 
     public function __construct(string $table = '')

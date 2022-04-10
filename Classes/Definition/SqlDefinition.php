@@ -19,6 +19,9 @@ namespace MASK\Mask\Definition;
 
 final class SqlDefinition implements \IteratorAggregate
 {
+    /**
+     * @var string
+     */
     public $table = '';
 
     /**

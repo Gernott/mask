@@ -23,6 +23,10 @@ final class PaletteDefinitionCollection implements \IteratorAggregate
      * @var array<PaletteDefinition>
      */
     private $definitions = [];
+
+    /**
+     * @var string
+     */
     public $table = '';
 
     public function addPalette(PaletteDefinition $definition): void

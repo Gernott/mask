@@ -23,6 +23,10 @@ final class TcaDefinition implements \IteratorAggregate
      * @var array<TcaFieldDefinition>
      */
     private $definitions = [];
+
+    /**
+     * @var string
+     */
     public $table = '';
 
     public function addField(TcaFieldDefinition $definition): void
