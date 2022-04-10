@@ -75,7 +75,7 @@ Read a detailed explanation for each advantage and why to use Mask over other al
 ## Need help? :left_speech_bubble:
 
 * Read how to install, configure and use mask in the [official documentation](https://docs.typo3.org/p/mask/mask/main/en-us/)
-* Join the "#ext-mask" channel on [TYPO3 Slack](https://typo3.org/community/meet/chat-slack) and ask the mask community.
+* Join the "#ext-mask" channel on [TYPO3 Slack](https://typo3.slack.com/archives/C0FD5F6P2) and ask the mask community.
 * [Visit our website](https://mask.webprofil.at) to find more information about mask
 
 ## Found a bug? :boom:
