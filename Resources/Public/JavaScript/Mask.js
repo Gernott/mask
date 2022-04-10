@@ -386,10 +386,9 @@ define([
       },
       getPostElement() {
         if (this.type === 'tt_content') {
-          return {
+          const postElement = {
             key: this.element.key,
             icon: this.$refs.iconPicker.iconPicker.currentIcon,
-            iconOverlay: this.$refs.iconOverlayPicker.iconPicker.currentIcon,
             label: this.element.label,
             shortLabel: this.element.shortLabel,
             description: this.element.description,
@@ -398,6 +397,11 @@ define([
             hidden: this.element.hidden,
             sorting: this.element.sorting,
           };
+
+          if (this.global.typo3Version > 10) {
+            postElement.iconOverlay = this.$refs.iconOverlayPicker.iconPicker.currentIcon;
+          }
+          return postElement;
         } else {
           return {
             key: this.element.key

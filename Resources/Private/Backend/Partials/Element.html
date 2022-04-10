@@ -64,7 +64,7 @@
     <font-icon-picker :element="element" :label="language.icon" :fa-icons="faIcons" property="icon" ref="iconPicker"></font-icon-picker>
     <element-color-picker :element="element" :label="language.color" property="color"></element-color-picker>
 </div>
-<div class="row">
+<div v-if="global.typo3Version > 10" class="row">
     <font-icon-picker :element="element" :label="language.iconOverlay" :fa-icons="faIcons" property="iconOverlay" ref="iconOverlayPicker"></font-icon-picker>
     <element-color-picker :element="element" :label="language.colorOverlay" property="colorOverlay"></element-color-picker>
 </div>
