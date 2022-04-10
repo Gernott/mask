@@ -138,12 +138,12 @@ class InlineHelper
                 }
             }
         } elseif ($tableExists) {
-            // otherwise check if its a table at all, if yes load all fields
+            // Otherwise, check if it's a table at all, if yes load all fields
             $elementFields = $this->tableDefinitionCollection->getTable($table)->tca->getKeys();
         }
 
         // Check type of all element columns
-        foreach ($elementFields ?? [] as $field) {
+        foreach ($elementFields as $field) {
             $elementKey = $element->elementDefinition->key ?? '';
             $fieldType = $this->tableDefinitionCollection->getFieldType($field, $table);
 

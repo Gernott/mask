@@ -736,11 +736,6 @@ parameters:
 			path: ../../Classes/Helper/InlineHelper.php
 
 		-
-			message: "#^Variable \\$elementFields on left side of \\?\\? always exists and is not nullable\\.$#"
-			count: 1
-			path: ../../Classes/Helper/InlineHelper.php
-
-		-
 			message: "#^Method MASK\\\\Mask\\\\Hooks\\\\PageLayoutViewDrawItem\\:\\:__construct\\(\\) has parameter \\$maskExtensionConfiguration with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Hooks/PageLayoutViewDrawItem.php
