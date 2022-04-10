@@ -121,3 +121,27 @@ New filename format for preview images
 --------------------------------------
 
 Remove the `ce_` prefix from all content element preview images. Example: from `ce_key.png` to `key.png`
+
+
+From TYPO3 v7 / Mask v2 or lower
+================================
+
+.. versionadded:: 7.1
+
+TYPO3 v8 introduced a new language field :sql:`l10n_source`. While it provided
+an upgrade wizard for the :sql:`tt_content` table, other tables weren't updated.
+Mask now provides an UpgradeWizard, which updates its custom tables. Custom
+tables are created, if you use the :ref:`inline <fields-inline>` field of Mask.
+
+Either go to the Upgrade module and check for updates, or use it from the
+command line.
+
+Command with TYPO3 CLI:
+
+.. code-block:: shell
+
+   // composer mode
+   vendor/bin/typo3 upgrade:run fillTranslationSourceField
+
+   // classic mode
+   typo3/sysext/core/bin/typo3 upgrade:run fillTranslationSourceField
