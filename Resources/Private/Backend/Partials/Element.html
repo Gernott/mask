@@ -60,7 +60,11 @@
     </div>
 </div>
 
+<div class="row mb-1">
+    <font-icon-picker :element="element" :label="language.icon" :fa-icons="faIcons" property="icon" ref="iconPicker"></font-icon-picker>
+    <element-color-picker :element="element" :label="language.color" property="color"></element-color-picker>
+</div>
 <div class="row">
-    <font-icon-picker :element="element" :language="language" :fa-icons="faIcons" ref="iconPicker"></font-icon-picker>
-    <element-color-picker :element="element" :language="language"></element-color-picker>
+    <font-icon-picker :element="element" :label="language.iconOverlay" :fa-icons="faIcons" property="iconOverlay" ref="iconOverlayPicker"></font-icon-picker>
+    <element-color-picker :element="element" :label="language.colorOverlay" property="colorOverlay"></element-color-picker>
 </div>

@@ -19,18 +19,75 @@ namespace MASK\Mask\Definition;
 
 final class ElementDefinition
 {
+    /**
+     * @var string
+     */
     public $key = '';
+
+    /**
+     * @var string
+     */
     public $label = '';
+
+    /**
+     * @var string
+     */
     public $description = '';
+
+    /**
+     * @var string
+     */
     public $shortLabel = '';
+
+    /**
+     * @var string
+     */
     public $color = '';
+
+    /**
+     * @var string
+     */
+    public $colorOverlay = '';
+
+    /**
+     * @var string
+     */
     public $icon = '';
+
+    /**
+     * @var string
+     */
+    public $iconOverlay = '';
+
+    /**
+     * @var array
+     */
     public $columns = [];
+
+    /**
+     * @var array
+     */
     public $labels = [];
+
+    /**
+     * @var array
+     */
     public $descriptions = [];
-    // Options were used prior to v6 to identify fields like "rte"
+
+    /**
+     * Options were used prior to v6 to identify fields like "rte"
+     * @var array
+     */
     public $options = [];
+
+    /**
+     * @var bool
+     */
     public $hidden = false;
+
+    /**
+     * @var int
+     */
     public $sorting = 0;
 
     public static function createFromArray(array $elementArray, string $table): ElementDefinition
@@ -50,7 +107,9 @@ final class ElementDefinition
         $elementDefinition->description = $elementArray['description'] ?? '';
         $elementDefinition->shortLabel = $elementArray['shortLabel'] ?? '';
         $elementDefinition->color = $elementArray['color'] ?? '';
+        $elementDefinition->colorOverlay = $elementArray['colorOverlay'] ?? '';
         $elementDefinition->icon = $elementArray['icon'] ?? '';
+        $elementDefinition->iconOverlay = $elementArray['iconOverlay'] ?? '';
         $elementDefinition->columns = $elementArray['columns'] ?? [];
         $elementDefinition->labels = $elementArray['labels'] ?? [];
         $elementDefinition->descriptions = $elementArray['descriptions'] ?? [];
@@ -69,7 +128,9 @@ final class ElementDefinition
             'description' => $this->description,
             'shortLabel' => $this->shortLabel,
             'color' => $this->color,
+            'colorOverlay' => $this->colorOverlay,
             'icon' => $this->icon,
+            'iconOverlay' => $this->iconOverlay,
             'columns' => $this->columns,
             'labels' => $this->labels,
             'descriptions' => $this->descriptions,

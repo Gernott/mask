@@ -1041,8 +1041,14 @@ title3, value3, icon3, description3
 			<trans-unit id="tx_mask.all.icon">
 				<source>Icon</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.all.iconOverlay">
+				<source>Overlay Icon</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.all.color">
-				<source>Colour</source>
+				<source>Color</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.colorOverlay">
+				<source>Overlay Color</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.configure">
 				<source>Configure</source>

@@ -158,6 +158,8 @@ class DescriptionsByElementCompatibilityTest extends UnitTestCase
                         'color' => '',
                         'icon' => '',
                         'sorting' => 0,
+                        'colorOverlay' => '',
+                        'iconOverlay' => '',
                     ],
                 ],
                 'tca' => [

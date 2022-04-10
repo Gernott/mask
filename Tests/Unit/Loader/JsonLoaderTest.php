@@ -143,7 +143,9 @@ class JsonLoaderTest extends UnitTestCase
                             '',
                             'description for field tx_mask_repeat1'
                         ],
-                        'sorting' => 0
+                        'sorting' => 0,
+                        'colorOverlay' => '',
+                        'iconOverlay' => '',
                     ],
                     'b' => [
                         'key' => 'b',
@@ -167,7 +169,9 @@ class JsonLoaderTest extends UnitTestCase
                             '',
                             ''
                         ],
-                        'sorting' => 1
+                        'sorting' => 1,
+                        'colorOverlay' => '',
+                        'iconOverlay' => '',
                     ],
                     'c' => [
                         'key' => 'c',
@@ -185,7 +189,9 @@ class JsonLoaderTest extends UnitTestCase
                         'descriptions' => [
                             'only images are allowed',
                         ],
-                        'sorting' => 2
+                        'sorting' => 2,
+                        'colorOverlay' => '',
+                        'iconOverlay' => '',
                     ],
                     'd' => [
                         'key' => 'd',
@@ -203,7 +209,9 @@ class JsonLoaderTest extends UnitTestCase
                         'descriptions' => [
                             'Description for palette 1',
                         ],
-                        'sorting' => 3
+                        'sorting' => 3,
+                        'colorOverlay' => '',
+                        'iconOverlay' => '',
                     ]
                 ],
                 'sql' => [

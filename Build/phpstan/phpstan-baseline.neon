@@ -226,62 +226,22 @@ parameters:
 			path: ../../Classes/Definition/ElementDefinition.php
 
 		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\ElementDefinition\\:\\:\\$color has no type specified\\.$#"
+			message: "#^Property MASK\\\\Mask\\\\Definition\\\\ElementDefinition\\:\\:\\$columns type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Definition/ElementDefinition.php
 
 		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\ElementDefinition\\:\\:\\$columns has no type specified\\.$#"
+			message: "#^Property MASK\\\\Mask\\\\Definition\\\\ElementDefinition\\:\\:\\$descriptions type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Definition/ElementDefinition.php
 
 		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\ElementDefinition\\:\\:\\$description has no type specified\\.$#"
+			message: "#^Property MASK\\\\Mask\\\\Definition\\\\ElementDefinition\\:\\:\\$labels type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Definition/ElementDefinition.php
 
 		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\ElementDefinition\\:\\:\\$descriptions has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Definition/ElementDefinition.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\ElementDefinition\\:\\:\\$hidden has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Definition/ElementDefinition.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\ElementDefinition\\:\\:\\$icon has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Definition/ElementDefinition.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\ElementDefinition\\:\\:\\$key has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Definition/ElementDefinition.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\ElementDefinition\\:\\:\\$label has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Definition/ElementDefinition.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\ElementDefinition\\:\\:\\$labels has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Definition/ElementDefinition.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\ElementDefinition\\:\\:\\$options has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Definition/ElementDefinition.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\ElementDefinition\\:\\:\\$shortLabel has no type specified\\.$#"
-			count: 1
-			path: ../../Classes/Definition/ElementDefinition.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\ElementDefinition\\:\\:\\$sorting has no type specified\\.$#"
+			message: "#^Property MASK\\\\Mask\\\\Definition\\\\ElementDefinition\\:\\:\\$options type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Definition/ElementDefinition.php
 
@@ -831,6 +791,11 @@ parameters:
 			path: ../../Classes/Helper/InlineHelper.php
 
 		-
+			message: "#^Variable \\$elementFields on left side of \\?\\? always exists and is not nullable\\.$#"
+			count: 1
+			path: ../../Classes/Helper/InlineHelper.php
+
+		-
 			message: "#^Method MASK\\\\Mask\\\\Hooks\\\\PageLayoutViewDrawItem\\:\\:__construct\\(\\) has parameter \\$maskExtensionConfiguration with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Hooks/PageLayoutViewDrawItem.php
@@ -851,11 +816,6 @@ parameters:
 			path: ../../Classes/Hooks/PageLayoutViewHook.php
 
 		-
-			message: "#^Method MASK\\\\Mask\\\\Imaging\\\\IconProvider\\\\ContentElementIconProvider\\:\\:__construct\\(\\) has parameter \\$maskExtensionConfiguration with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../Classes/Imaging/IconProvider/ContentElementIconProvider.php
-
-		-
 			message: "#^Method MASK\\\\Mask\\\\Imaging\\\\IconProvider\\\\ContentElementIconProvider\\:\\:generateMarkup\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Imaging/IconProvider/ContentElementIconProvider.php
@@ -866,9 +826,14 @@ parameters:
 			path: ../../Classes/Imaging/IconProvider/ContentElementIconProvider.php
 
 		-
-			message: "#^Property MASK\\\\Mask\\\\Imaging\\\\IconProvider\\\\ContentElementIconProvider\\:\\:\\$maskExtensionConfiguration type has no value type specified in iterable type array\\.$#"
+			message: "#^Method MASK\\\\Mask\\\\Imaging\\\\PreviewIconResolver\\:\\:__construct\\(\\) has parameter \\$maskExtensionConfiguration with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: ../../Classes/Imaging/IconProvider/ContentElementIconProvider.php
+			path: ../../Classes/Imaging/PreviewIconResolver.php
+
+		-
+			message: "#^Property MASK\\\\Mask\\\\Imaging\\\\PreviewIconResolver\\:\\:\\$maskExtensionConfiguration type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../Classes/Imaging/PreviewIconResolver.php
 
 		-
 			message: "#^Method MASK\\\\Mask\\\\ItemsProcFuncs\\\\CTypeList\\:\\:itemsProcFunc\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"

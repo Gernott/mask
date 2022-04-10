@@ -380,9 +380,11 @@ class AjaxController
             $translatedDescription = $GLOBALS['LANG']->sl($element->description);
             $elements[$element->key] = [
                 'color' => $element->color,
+                'colorOverlay' => $element->colorOverlay,
                 'description' => $element->description,
                 'translatedDescription' => $translatedDescription !== '' ? $translatedDescription : $element->description,
                 'icon' => $element->icon,
+                'iconOverlay' => $element->iconOverlay,
                 'key' => $element->key,
                 'label' => $element->label,
                 'translatedLabel' => $translatedLabel !== '' ? $translatedLabel : $element->label,
@@ -852,7 +854,9 @@ class AjaxController
 
         $language['deleted'] = $this->translateLabel('tx_mask.content.deletedcontentelement');
         $language['icon'] = $this->translateLabel('tx_mask.all.icon');
+        $language['iconOverlay'] = $this->translateLabel('tx_mask.all.iconOverlay');
         $language['color'] = $this->translateLabel('tx_mask.all.color');
+        $language['colorOverlay'] = $this->translateLabel('tx_mask.all.colorOverlay');
         $language['usage'] = $this->translateLabel('tx_mask.content.count');
         $language['elementKey'] = $this->translateLabel('tx_mask.all.fieldkey');
         $language['elementLabel'] = $this->translateLabel('tx_mask.all.fieldLabel');

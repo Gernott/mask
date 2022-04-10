@@ -447,7 +447,9 @@ class TableDefinitionCollectionTest extends BaseTestCase
                             'tx_mask_column_2',
                             'tx_mask_column_3'
                         ],
-                        'sorting' => 0
+                        'sorting' => 0,
+                        'colorOverlay' => '',
+                        'iconOverlay' => '',
                     ]
                 ]
             ],
@@ -533,7 +535,9 @@ class TableDefinitionCollectionTest extends BaseTestCase
                             'tx_mask_column_2',
                             'tx_mask_column_3'
                         ],
-                        'sorting' => 0
+                        'sorting' => 0,
+                        'colorOverlay' => '',
+                        'iconOverlay' => '',
                     ],
                     'element_2' => [
                         'key' => 'element_2',
@@ -549,7 +553,9 @@ class TableDefinitionCollectionTest extends BaseTestCase
                             'tx_mask_column_5',
                             'tx_mask_column_6'
                         ],
-                        'sorting' => 0
+                        'sorting' => 0,
+                        'colorOverlay' => '',
+                        'iconOverlay' => '',
                     ]
                 ]
             ],
@@ -635,7 +641,9 @@ class TableDefinitionCollectionTest extends BaseTestCase
                             'tx_mask_column_2',
                             'tx_mask_column_3'
                         ],
-                        'sorting' => 0
+                        'sorting' => 0,
+                        'colorOverlay' => '',
+                        'iconOverlay' => '',
                     ]
                 ]
             ],
@@ -694,7 +702,9 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'columns' => [
                             'tx_mask_column_1',
                         ],
-                        'sorting' => 0
+                        'sorting' => 0,
+                        'colorOverlay' => '',
+                        'iconOverlay' => '',
                     ],
                     'element_2' => [
                         'key' => 'element_2',
@@ -708,7 +718,9 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'columns' => [
                             'tx_mask_palette_1'
                         ],
-                        'sorting' => 0
+                        'sorting' => 0,
+                        'colorOverlay' => '',
+                        'iconOverlay' => '',
                     ]
                 ]
             ],
@@ -777,7 +789,9 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'columns' => [
                             'tx_mask_palette_1',
                         ],
-                        'sorting' => 0
+                        'sorting' => 0,
+                        'colorOverlay' => '',
+                        'iconOverlay' => '',
                     ],
                     'element_2' => [
                         'key' => 'element_2',
@@ -791,7 +805,9 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'columns' => [
                             'tx_mask_palette_2'
                         ],
-                        'sorting' => 0
+                        'sorting' => 0,
+                        'colorOverlay' => '',
+                        'iconOverlay' => '',
                     ]
                 ]
             ],
@@ -1602,7 +1618,9 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'description' => 'Field 3 Description'
                     ]
                 ],
-                'sorting' => 0
+                'sorting' => 0,
+                'colorOverlay' => '',
+                'iconOverlay' => '',
             ]
         ];
 
@@ -1643,7 +1661,9 @@ class TableDefinitionCollectionTest extends BaseTestCase
                 'labels' => [],
                 'descriptions' => [],
                 'tca' => [],
-                'sorting' => 0
+                'sorting' => 0,
+                'colorOverlay' => '',
+                'iconOverlay' => '',
             ]
         ];
 
@@ -1674,7 +1694,9 @@ class TableDefinitionCollectionTest extends BaseTestCase
             'table' => 'tt_content',
             'element' => 'element2',
             'expected' => [],
-            'sorting' => 0
+            'sorting' => 0,
+            'colorOverlay' => '',
+            'iconOverlay' => '',
         ];
 
         yield 'Tables other than tt_content or pages return empty array' => [

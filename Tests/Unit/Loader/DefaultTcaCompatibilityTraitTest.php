@@ -107,7 +107,9 @@ class DefaultTcaCompatibilityTraitTest extends UnitTestCase
                             'File Field',
                             'RTE Field',
                         ],
-                        'sorting' => 0
+                        'sorting' => 0,
+                        'colorOverlay' => '',
+                        'iconOverlay' => '',
                     ]
                 ],
                 'tca' => [

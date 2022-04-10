@@ -849,7 +849,9 @@ class StorageRepositoryTest extends BaseTestCase
                             'descriptions' => [
                                 '',
                             ],
-                            'sorting' => '0',
+                            'sorting' => 0,
+                            'colorOverlay' => '',
+                            'iconOverlay' => '',
                         ],
                         'element2' => [
                             'label' => 'Element 2',
@@ -1004,7 +1006,9 @@ class StorageRepositoryTest extends BaseTestCase
                             'columns' => [],
                             'labels' => [],
                             'descriptions' => [],
-                            'sorting' => '0'
+                            'sorting' => '0',
+                            'colorOverlay' => '',
+                            'iconOverlay' => '',
                         ],
                         'element2' => [
                             'label' => 'Element 2',
@@ -1016,7 +1020,9 @@ class StorageRepositoryTest extends BaseTestCase
                             'columns' => [],
                             'labels' => [],
                             'descriptions' => [],
-                            'sorting' => '2'
+                            'sorting' => '2',
+                            'colorOverlay' => '',
+                            'iconOverlay' => '',
                         ],
                         'element3' => [
                             'label' => 'Element 3',
@@ -1385,7 +1391,9 @@ class StorageRepositoryTest extends BaseTestCase
                                 'descriptions' => [
                                     ''
                                 ],
-                                'sorting' => 0
+                                'sorting' => 0,
+                                'colorOverlay' => '',
+                                'iconOverlay' => '',
                             ]
                         ],
                         'tca' => [

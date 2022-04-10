@@ -9,28 +9,29 @@ define([
           {
             props: {
               element: Object,
-              language: Object,
+              label: String,
+              property: String,
             },
             mounted: function () {
               ColorPicker.initialize();
-              $(this.$refs['colorpicker']).minicolors('settings', {
+              $(this.$refs['colorpicker-' + this.property]).minicolors('settings', {
                 changeDelay: 200,
                 change: function () {
-                  this.element.color = $(this.$refs['colorpicker']).data('minicolorsLastChange')['value'];
+                  this.element[this.property] = $(this.$refs['colorpicker-' + this.property]).data('minicolorsLastChange')['value'];
                 }.bind(this)
               });
             },
             template: `
     <div class="col-xs-6 col-6">
         <label class="t3js-formengine-label" for="meta_color">
-            {{ language.color }}
+            {{ label }}
         </label>
         <div class="t3js-formengine-field-item">
             <div class="form-control-wrap">
                 <input
                     class="form-control t3js-color-picker"
-                    :value="element.color"
-                    ref="colorpicker"
+                    :value="element[property]"
+                    :ref="'colorpicker-' + property"
                 />
             </div>
             <input type="hidden" ref="colorvalue"/>

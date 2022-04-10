@@ -389,10 +389,12 @@ define([
           return {
             key: this.element.key,
             icon: this.$refs.iconPicker.iconPicker.currentIcon,
+            iconOverlay: this.$refs.iconOverlayPicker.iconPicker.currentIcon,
             label: this.element.label,
             shortLabel: this.element.shortLabel,
             description: this.element.description,
             color: this.element.color,
+            colorOverlay: this.element.colorOverlay,
             hidden: this.element.hidden,
             sorting: this.element.sorting,
           };
@@ -1113,7 +1115,9 @@ define([
           shortLabel: '',
           description: '',
           icon: '',
-          color: '#000000'
+          color: '#000000',
+          iconOverlay: '',
+          colorOverlay: '#000000',
         };
       },
       isParentField: function (field) {

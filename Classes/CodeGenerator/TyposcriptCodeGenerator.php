@@ -76,7 +76,10 @@ class TyposcriptCodeGenerator
                 $iconIdentifier,
                 ContentElementIconProvider::class,
                 [
-                    'contentElementKey' => $element->key
+                    'key' => $element->key,
+                    'label' => $element->label,
+                    'icon' => $element->icon,
+                    'color' => $element->color,
                 ]
             );
 
@@ -98,6 +101,29 @@ class TyposcriptCodeGenerator
                     ]
                 ]
             ];
+
+            // Add overlay icon
+            // @todo it is not possible right now to detect a custom overlay icon
+            // @todo on localconf bootstrap (with FAL), as it loads the CacheManager
+            // @todo which is not available that early. A better way would be to
+            // @todo add a configuration for custom icons, instead of magically
+            // @todo detect them by name.
+            if ($element->iconOverlay !== '') {
+                $iconOverlayIdentifier = 'mask-ce-' . $element->key . '-overlay';
+                $this->iconRegistry->registerIcon(
+                    $iconOverlayIdentifier,
+                    ContentElementIconProvider::class,
+                    [
+                        // @todo '_overlay' added to not conflict with the main icon.
+                        // @todo will only work right now, if a FontAwesome icon is selected. See comment above.
+                        'key' => $element->key . '_overlay',
+                        'label' => $element->label,
+                        'icon' => $element->iconOverlay,
+                        'color' => $element->colorOverlay,
+                    ]
+                );
+                $wizard['elements.' . $cTypeKey]['iconOverlay'] = $iconOverlayIdentifier;
+            }
 
             $TSConfig[] = '';
             $TSConfig[] = 'mod.wizards.newContentElement.wizardItems.mask {';

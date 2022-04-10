@@ -88,7 +88,9 @@ class ConfigCleanerTraitTest extends UnitTestCase
                         'labels' => [
                             'RTE Field',
                         ],
-                        'sorting' => 0
+                        'sorting' => 0,
+                        'colorOverlay' => '',
+                        'iconOverlay' => '',
                     ]
                 ],
                 'tca' => [
