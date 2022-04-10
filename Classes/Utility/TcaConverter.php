@@ -27,6 +27,22 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 class TcaConverter
 {
     /**
+     * @var string[]
+     */
+    protected static $itemListFields = [
+        'config.items',
+        'config.valuePicker.items',
+    ];
+
+    /**
+     * @var string[]
+     */
+    protected static $keyValueFields = [
+        'config.itemGroups',
+        'config.sortItems',
+    ];
+
+    /**
      * Converts the content of TCA config to a flat array, where each nesting is seperated with a period.
      *
      * Inside config:
@@ -64,9 +80,9 @@ class TcaConverter
                     $fields[] = $field;
                 }
                 $tca[] = [$fullPath => implode(',', $fields)];
-            } elseif ($fullPath === 'config.itemGroups' || $fullPath === 'config.sortItems') {
+            } elseif (in_array($fullPath, self::$keyValueFields, true)) {
                 $tca[] = [$fullPath => self::convertAssociativeArrayToKeyValuePairs($value)];
-            } elseif (is_array($value) && $fullPath !== 'config.items') {
+            } elseif (is_array($value) && !in_array($fullPath, self::$itemListFields, true)) {
                 $tca[] = self::convertTcaArrayToFlat($value, $path);
             } elseif ($fullPath === 'config.eval' || $key === 'blindLinkOptions') {
                 if ($value !== '') {
@@ -112,7 +128,7 @@ class TcaConverter
         $tcaArray = [];
         $accessor = PropertyAccess::createPropertyAccessor();
         foreach ($tca as $key => $value) {
-            if ($key === 'config.items') {
+            if (in_array($key, self::$itemListFields, true)) {
                 foreach ($value as $index => $properties) {
                     $value[$index] = array_map('trim', $properties);
                 }
@@ -149,7 +165,7 @@ class TcaConverter
                 $value = 1;
             }
             // This is for key-value pair fields.
-            if ($key === 'config.itemGroups' || $key === 'config.sortItems') {
+            if (in_array($key, self::$keyValueFields, true)) {
                 $value = self::convertKeyValuePairsToAssociativeArray($value);
             }
             $explodedKey = explode('.', $key);

@@ -1127,6 +1127,9 @@ title3, value3, icon3, description3
 			<trans-unit id="tx_mask.tabs.itemGroupSorting">
 				<source>Groups / Sorting</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.tabs.valuePicker">
+				<source>Value Picker</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.content.select.sortItems.labels.value">
 				<source>Value</source>
 			</trans-unit>
@@ -1194,6 +1197,33 @@ title3, value3, icon3, description3
 			</trans-unit>
 			<trans-unit id="tx_mask.config.slider.width.description">
 				<source>Default is 400</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.config.valuePicker.mode.label">
+				<source>Mode</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.config.valuePicker.mode.description">
+				<source>How the value should be added</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.config.valuePicker.mode.blank">
+				<source>Substitute</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.config.valuePicker.mode.append">
+				<source>Append</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.config.valuePicker.mode.prepend">
+				<source>Prepend</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.config.valuePicker.items.label">
+				<source>Items</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.config.valuePicker.items.description">
+				<source>An array with selectable items</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.config.valuePicker.items.label.label">
+				<source>Label</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.config.valuePicker.items.value.label">
+				<source>Value</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.config.fixedFont">
 				<source>Fixed font</source>

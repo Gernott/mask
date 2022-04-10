@@ -431,6 +431,41 @@ return [
             11 => 'ColumnsConfig/Type/Input/Properties/Slider.html#columns-input-properties-slider',
         ],
     ],
+    'config.valuePicker.mode' => [
+        'type' => 'select',
+        'label' => 'tx_mask.config.valuePicker.mode.label',
+        'description' => 'tx_mask.config.valuePicker.mode.description',
+        'code' => 'valuePicker.mode',
+        'items' => [
+            '' => 'tx_mask.config.valuePicker.mode.blank',
+            'append' => 'tx_mask.config.valuePicker.mode.append',
+            'prepend' => 'tx_mask.config.valuePicker.mode.prepend',
+        ],
+        'documentation' => [
+            10 => 'ColumnsConfig/Type/inputDefault.html#valuepicker',
+            11 => 'ColumnsConfig/Type/Input/Properties/ValuePicker.html',
+        ],
+    ],
+    'config.valuePicker.items' => [
+        'type' => 'itemList',
+        'label' => 'tx_mask.config.valuePicker.items.label',
+        'description' => 'tx_mask.config.valuePicker.items.description',
+        'code' => 'valuePicker.items',
+        'properties' => [
+            0 => [
+                'label' => 'tx_mask.config.valuePicker.items.label.label',
+                'type' => 'text',
+            ],
+            1 => [
+                'label' => 'tx_mask.config.valuePicker.items.value.label',
+                'type' => 'text',
+            ],
+        ],
+        'documentation' => [
+            10 => 'ColumnsConfig/Type/inputDefault.html#valuepicker',
+            11 => 'ColumnsConfig/Type/Input/Properties/ValuePicker.html',
+        ],
+    ],
     'config.fieldControl.linkPopup.options.allowedExtensions' => [
         'type' => 'text',
         'label' => 'tx_mask.field.link.wizard.allowed_extensions',

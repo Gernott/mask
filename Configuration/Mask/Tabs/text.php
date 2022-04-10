@@ -22,6 +22,12 @@ return [
             'config.eval.trim' => 6,
         ]
     ],
+    Tab::VALUE_PICKER => [
+        [
+            'config.valuePicker.mode' => 6,
+            'config.valuePicker.items' => 12,
+        ]
+    ],
     Tab::LOCALIZATION => [
         [
             'l10n_mode' => 12

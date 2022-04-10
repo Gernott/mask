@@ -6,6 +6,8 @@ return [
     FieldType::STRING => [
         'tca_in' => [
             'l10n_mode' => '',
+            'config.valuePicker.mode' => '',
+            'config.valuePicker.items' => [],
             'config.eval.null' => 0
         ],
         'tca_out' => [
@@ -16,6 +18,8 @@ return [
     FieldType::FLOAT => [
         'tca_in' => [
             'l10n_mode' => '',
+            'config.valuePicker.mode' => '',
+            'config.valuePicker.items' => [],
             'config.eval.null' => 0,
         ],
         'tca_out' => [
@@ -27,6 +31,8 @@ return [
     FieldType::INTEGER => [
         'tca_in' => [
             'l10n_mode' => '',
+            'config.valuePicker.mode' => '',
+            'config.valuePicker.items' => [],
             'config.eval.null' => 0
         ],
         'tca_out' => [
@@ -49,6 +55,8 @@ return [
     FieldType::COLORPICKER => [
         'tca_in' => [
             'l10n_mode' => '',
+            'config.valuePicker.mode' => '',
+            'config.valuePicker.items' => [],
             'config.eval.null' => 0,
             'config.size' => 10
         ],
@@ -114,6 +122,8 @@ return [
             'l10n_mode' => '',
             'config.wrap' => 'virtual',
             'config.format' => '',
+            'config.valuePicker.mode' => '',
+            'config.valuePicker.items' => [],
             'config.eval.null' => 0
         ],
         'tca_out' => [
