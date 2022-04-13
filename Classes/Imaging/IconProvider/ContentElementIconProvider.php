@@ -133,7 +133,7 @@ class ContentElementIconProvider implements IconProviderInterface
             } catch (InvalidArgumentException|FolderDoesNotExistException $e) {
                 continue;
             }
-            if ($icon instanceof File) {
+            if ($icon instanceof File && $icon->exists()) {
                 return '/' . ltrim($icon->getPublicUrl(), '/');
             }
         }
