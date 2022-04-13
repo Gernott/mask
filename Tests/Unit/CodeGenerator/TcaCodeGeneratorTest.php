@@ -1902,4 +1902,109 @@ class TcaCodeGeneratorTest extends BaseTestCase
         $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json));
         self::assertEquals($expected, $tcaGenerator->addSearchFields($table));
     }
+
+    /**
+     * @return mixed[]
+     */
+    public function extendBodytextSearchAndWhereReturnsCorrectConstraintDataProvider(): iterable
+    {
+        yield 'A field with bodytext is added' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'label' => 'Element 1',
+                            'key' => 'element1',
+                            'columns' => [
+                                'bodytext'
+                            ]
+                        ],
+                        'element2' => [
+                            'label' => 'Element 2',
+                            'key' => 'element2',
+                            'columns' => []
+                        ]
+                    ],
+                    'tca' => [
+                        'bodytext' => [
+                            'key' => 'bodytext',
+                            'fullKey' => 'bodytext',
+                            'coreField' => true,
+                        ]
+                    ]
+                ],
+            ],
+            'expected' => ' OR {#CType}=\'mask_element1\'',
+        ];
+
+        yield 'Multiple fields with bodytext are added' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'label' => 'Element 1',
+                            'key' => 'element1',
+                            'columns' => [
+                                'bodytext'
+                            ]
+                        ],
+                        'element2' => [
+                            'label' => 'Element 2',
+                            'key' => 'element2',
+                            'columns' => [
+                                'bodytext'
+                            ]
+                        ]
+                    ],
+                    'tca' => [
+                        'bodytext' => [
+                            'key' => 'bodytext',
+                            'fullKey' => 'bodytext',
+                            'coreField' => true,
+                        ]
+                    ]
+                ],
+            ],
+            'expected' => ' OR {#CType}=\'mask_element1\' OR {#CType}=\'mask_element2\'',
+        ];
+
+        yield 'No field with bodytext returns empty string' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'label' => 'Element 1',
+                            'key' => 'element1',
+                            'columns' => [
+                                'tx_mask_bodytext'
+                            ]
+                        ],
+                        'element2' => [
+                            'label' => 'Element 2',
+                            'key' => 'element2',
+                            'columns' => []
+                        ]
+                    ],
+                    'tca' => [
+                        'tx_mask_bodytext' => [
+                            'key' => 'bodytext',
+                            'fullKey' => 'tx_mask_bodytext',
+                        ]
+                    ]
+                ],
+            ],
+            'expected' => '',
+        ];
+    }
+
+    /**
+     * @dataProvider extendBodytextSearchAndWhereReturnsCorrectConstraintDataProvider
+     * @test
+     * @param mixed[] $json
+     */
+    public function extendBodytextSearchAndWhereReturnsCorrectConstraint(array $json, string $expected): void
+    {
+        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json));
+        self::assertSame($expected, $tcaGenerator->extendBodytextSearchAndWhere());
+    }
 }

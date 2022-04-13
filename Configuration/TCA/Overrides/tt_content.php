@@ -21,3 +21,4 @@ $contentColumns = $tcaCodeGenerator->generateFieldsTca('tt_content');
 $tcaCodeGenerator->setInlineTca();
 $tcaCodeGenerator->setElementsTca();
 $GLOBALS['TCA']['tt_content']['ctrl']['searchFields'] = $tcaCodeGenerator->addSearchFields('tt_content');
+$GLOBALS['TCA']['tt_content']['columns']['bodytext']['config']['search']['andWhere'] .= $tcaCodeGenerator->extendBodytextSearchAndWhere();
