@@ -575,6 +575,24 @@ class TcaCodeGenerator
         return implode(',', $searchFields);
     }
 
+    public function extendBodytextSearchAndWhere(): string
+    {
+        if (!$this->tableDefinitionCollection->hasTable('tt_content')) {
+            return '';
+        }
+
+        $tt_content = $this->tableDefinitionCollection->getTable('tt_content');
+        $andWhere = '';
+        foreach ($tt_content->elements as $element) {
+            $elementTcaDefinition = $this->tableDefinitionCollection->loadElement('tt_content', $element->key);
+            if ($elementTcaDefinition->tcaDefinition->hasField('bodytext')) {
+                $andWhere .= ' OR {#CType}=\'' . AffixUtility::addMaskCTypePrefix($element->key) . '\'';
+            }
+        }
+
+        return $andWhere;
+    }
+
     /**
      * Searches an array of strings and returns the first string, that is not a tab
      * @todo Move test cases to processTableTca and set protected.
