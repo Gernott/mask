@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace MASK\Mask\Updates;
 
 use MASK\Mask\Definition\TableDefinitionCollection;
+use MASK\Mask\Definition\TcaFieldDefinition;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Loader\LoaderInterface;
 use MASK\Mask\Loader\LoaderRegistry;
@@ -59,13 +60,29 @@ class MoveRteOptions implements UpgradeWizardInterface
             foreach ($tableDefinition->elements as $element) {
                 foreach ($element->options as $index => $option) {
                     if ($option === 'rte') {
+                        // Always unset rte option.
+                        unset($tableDefinitionArray[$tableDefinition->table]['elements'][$element->key]['options'][$index]);
+
+                        // If the field does not exist (anymore) continue.
                         $field = $tableDefinitionArray[$tableDefinition->table]['elements'][$element->key]['columns'][$index] ?? '';
                         if ($field === '') {
                             continue;
                         }
-                        $tableDefinitionArray[$tableDefinition->table]['tca'][$field]['config']['enableRichtext'] = 1;
+
+                        // Load the field as TcaFieldDefinition and catch possible exception.
+                        try {
+                            $tcaDefinition = TcaFieldDefinition::createFromFieldArray($tableDefinitionArray[$tableDefinition->table]['tca'][$field] ?? []);
+                        } catch (\InvalidArgumentException $e) {
+                            continue;
+                        }
+
+                        // Add config.enableRichtext for non-core fields.
+                        if (!$tcaDefinition->isCoreField) {
+                            $tableDefinitionArray[$tableDefinition->table]['tca'][$field]['config']['enableRichtext'] = 1;
+                        }
+
+                        // Add the richtext type
                         $tableDefinitionArray[$tableDefinition->table]['tca'][$field]['type'] = FieldType::RICHTEXT;
-                        unset($tableDefinitionArray[$tableDefinition->table]['elements'][$element->key]['options'][$index]);
                     }
                 }
             }
