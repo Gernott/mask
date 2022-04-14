@@ -37,6 +37,22 @@ final class TableDefinition
      */
     public $palettes;
 
+    public function __clone()
+    {
+        if ($this->elements instanceof ElementDefinitionCollection) {
+            $this->elements = clone $this->elements;
+        }
+        if ($this->sql instanceof SqlDefinition) {
+            $this->sql = clone $this->sql;
+        }
+        if ($this->tca instanceof TcaDefinition) {
+            $this->tca = clone $this->tca;
+        }
+        if ($this->palettes instanceof PaletteDefinitionCollection) {
+            $this->palettes = clone $this->palettes;
+        }
+    }
+
     public static function createFromTableArray(string $table, array $definition): TableDefinition
     {
         if ($table === '') {

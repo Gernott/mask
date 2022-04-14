@@ -26,6 +26,13 @@ final class SqlDefinition implements \IteratorAggregate
      */
     private $definitions = [];
 
+    public function __clone()
+    {
+        $this->definitions = array_map(function (SqlColumnDefinition $sqlColumnDefinition) {
+            return clone $sqlColumnDefinition;
+        }, $this->definitions);
+    }
+
     public function addColumn(SqlColumnDefinition $columnDefinition): void
     {
         if (!$this->hasColumn($columnDefinition->column)) {

@@ -25,6 +25,13 @@ final class TcaDefinition implements \IteratorAggregate
     private $definitions = [];
     public $table = '';
 
+    public function __clone()
+    {
+        $this->definitions = array_map(function (TcaFieldDefinition $tcaFieldDefinition) {
+            return clone $tcaFieldDefinition;
+        }, $this->definitions);
+    }
+
     public function addField(TcaFieldDefinition $definition): void
     {
         if (!$this->hasField($definition->fullKey)) {
