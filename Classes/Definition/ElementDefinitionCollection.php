@@ -34,6 +34,13 @@ final class ElementDefinitionCollection implements \IteratorAggregate
         $this->table = $table;
     }
 
+    public function __clone()
+    {
+        $this->definitions = array_map(function (ElementDefinition $elementDefinition) {
+            return clone $elementDefinition;
+        }, $this->definitions);
+    }
+
     public function addElement(ElementDefinition $definition): void
     {
         if (!$this->hasElement($definition->key)) {

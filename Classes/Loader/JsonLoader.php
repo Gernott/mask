@@ -91,7 +91,7 @@ class JsonLoader implements LoaderInterface
         $this->addMissingDefaults($this->tableDefinitionCollection);
         $this->addMissingDescriptionsByElement($this->tableDefinitionCollection);
 
-        return $this->tableDefinitionCollection;
+        return clone $this->tableDefinitionCollection;
     }
 
     public function write(TableDefinitionCollection $tableDefinitionCollection): void

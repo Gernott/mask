@@ -29,6 +29,13 @@ final class PaletteDefinitionCollection implements \IteratorAggregate
      */
     public $table = '';
 
+    public function __clone()
+    {
+        $this->definitions = array_map(function (PaletteDefinition $paletteDefinition) {
+            return clone $paletteDefinition;
+        }, $this->definitions);
+    }
+
     public function addPalette(PaletteDefinition $definition): void
     {
         if (!$this->hasPalette($definition->key)) {

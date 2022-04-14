@@ -86,7 +86,7 @@ class JsonSplitLoader implements LoaderInterface
         $this->cleanUpConfig($this->tableDefinitionCollection);
         $this->addMissingDefaults($this->tableDefinitionCollection);
 
-        return $this->tableDefinitionCollection;
+        return clone $this->tableDefinitionCollection;
     }
 
     public function write(TableDefinitionCollection $tableDefinitionCollection): void
