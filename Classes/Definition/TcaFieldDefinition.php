@@ -243,6 +243,7 @@ final class TcaFieldDefinition
         // Unset some values that are not needed in TCA
         unset(
             $definition['options'],
+            $definition['coreField'],
             $definition['type'],
             $definition['name'],
             $definition['key'],
