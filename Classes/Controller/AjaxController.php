@@ -1001,14 +1001,11 @@ class AjaxController
      * @param string $messageTitle Optional message title
      * @param int $severity Optional severity, must be one of \TYPO3\CMS\Core\Messaging\FlashMessage constants
      * @param bool $storeInSession Optional, defines whether the message should be stored in the session (default) or not
-     * @throws \InvalidArgumentException if the message body is no string
+     * @throws \TYPO3\CMS\Core\Exception
      * @see \TYPO3\CMS\Core\Messaging\FlashMessage
      */
     public function addFlashMessage(string $messageBody, string $messageTitle = '', int $severity = AbstractMessage::OK, bool $storeInSession = true): void
     {
-        if (!is_string($messageBody)) {
-            throw new \InvalidArgumentException('The message body must be of type string, "' . gettype($messageBody) . '" given.', 1243258395);
-        }
         $flashMessage = GeneralUtility::makeInstance(
             FlashMessage::class,
             $messageBody,
