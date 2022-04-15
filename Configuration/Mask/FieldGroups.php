@@ -2,6 +2,9 @@
 
 use MASK\Mask\Enumeration\FieldType;
 
+// Attention: the sorting is not defined here, but in the order of the
+// FieldType enumeration.
+
 return [
     FieldType::STRING => 'input',
     FieldType::INTEGER => 'input',
@@ -25,6 +28,7 @@ return [
     FieldType::SLUG => 'special',
 
     FieldType::FILE => 'repeating',
+    FieldType::MEDIA => 'repeating',
     FieldType::INLINE => 'repeating',
     FieldType::CONTENT => 'repeating',
 

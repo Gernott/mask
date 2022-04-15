@@ -57,6 +57,9 @@ class InlineHelper
 
     /**
      * Adds FAL-Files to the data-array if available
+     * @todo Remove this and use core FilesProcessor instead.
+     * @todo This needs to be converted then into the TypoScriptCodeGenerator.
+     * @todo Check if this would be breaking, but hopefully not.
      */
     public function addFilesToData(array &$data, string $table = 'tt_content'): void
     {
@@ -92,7 +95,7 @@ class InlineHelper
 
         $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
         foreach ($contentFields as $fieldKey) {
-            if ($this->tableDefinitionCollection->getFieldType($fieldKey, $table)->equals(FieldType::FILE)) {
+            if ($this->tableDefinitionCollection->getFieldType($fieldKey, $table)->isFileReference()) {
                 $data[$fieldKey] = $fileRepository->findByRelation($table, $fieldKey, $uid);
             }
         }

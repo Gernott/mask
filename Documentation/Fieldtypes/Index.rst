@@ -14,27 +14,6 @@ as the appropriate field type.
 
 .. toctree::
    :maxdepth: 1
-   :titlesonly:
+   :glob:
 
-   Type/String
-   Type/Integer
-   Type/Float
-   Type/Link
-   Type/Date
-   Type/Datetime
-   Type/Timestamp
-   Type/Text
-   Type/Richtext
-   Type/Check
-   Type/Radio
-   Type/Select
-   Type/Category
-   Type/Group
-   Type/Colorpicker
-   Type/Slug
-   Type/Inline
-   Type/Content
-   Type/File
-   Type/Tab
-   Type/Palette
-   Type/Linebreak
+   Type/*

@@ -47,6 +47,7 @@ use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageQueue;
 use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Resource\OnlineMedia\Helpers\OnlineMediaHelperRegistry;
 use TYPO3\CMS\Core\Resource\ProcessedFile;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -100,6 +101,11 @@ class AjaxController
     protected $flashMessageQueue;
 
     /**
+     * @var OnlineMediaHelperRegistry
+     */
+    protected $onlineMediaHelperRegistry;
+
+    /**
      * @var array
      */
     protected $maskExtensionConfiguration;
@@ -130,6 +136,7 @@ class AjaxController
         BackendLayoutRepository $backendLayoutRepository,
         ResourceFactory $resourceFactory,
         ConfigurationLoader $configurationLoader,
+        OnlineMediaHelperRegistry $onlineMediaHelperRegistry,
         TableDefinitionCollection $tableDefinitionCollection,
         array $maskExtensionConfiguration
     ) {
@@ -140,6 +147,7 @@ class AjaxController
         $this->backendLayoutRepository = $backendLayoutRepository;
         $this->resourceFactory = $resourceFactory;
         $this->configurationLoader = $configurationLoader;
+        $this->onlineMediaHelperRegistry = $onlineMediaHelperRegistry;
         $this->flashMessageQueue = new FlashMessageQueue('mask');
         $this->maskExtensionConfiguration = $maskExtensionConfiguration;
         $this->tableDefinitionCollection = $tableDefinitionCollection;
@@ -906,6 +914,11 @@ class AjaxController
                 'mask' => ltrim(ExtensionManagementUtility::getExtensionVersion('mask'), 'v')
             ]
         );
+    }
+
+    public function availableOnlineMedia(ServerRequestInterface $request): Response
+    {
+        return new JsonResponse($this->onlineMediaHelperRegistry->getSupportedFileExtensions());
     }
 
     /**

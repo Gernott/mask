@@ -23,6 +23,8 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class TcaFieldDefinitionTest extends UnitTestCase
 {
+    protected $resetSingletonInstances = true;
+
     public function createFromArrayWorksOnLegacyFormatDataProvider(): iterable
     {
         yield 'Legacy file field format with "options: file" and no config type works.' => [

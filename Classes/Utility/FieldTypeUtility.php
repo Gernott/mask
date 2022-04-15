@@ -19,7 +19,9 @@ namespace MASK\Mask\Utility;
 
 use InvalidArgumentException;
 use MASK\Mask\Enumeration\FieldType;
+use TYPO3\CMS\Core\Resource\OnlineMedia\Helpers\OnlineMediaHelperRegistry;
 use TYPO3\CMS\Core\Type\Exception\InvalidEnumerationValueException;
+use TYPO3\CMS\Core\Utility\GeneralUtility as CoreGeneralUtility;
 
 class FieldTypeUtility
 {
@@ -72,6 +74,14 @@ class FieldTypeUtility
                 return FieldType::TEXT;
             case 'inline':
                 if (($tca['config']['foreign_table'] ?? '') === 'sys_file_reference') {
+                    // Check if the allowed list contains online media types.
+                    $allowedList = $tca['config']['overrideChildTca']['columns']['uid_local']['config']['appearance']['elementBrowserAllowed'] ?? '';
+                    $allowedList = CoreGeneralUtility::trimExplode(',', $allowedList, true);
+                    $onlineMediaHelperRegistry = CoreGeneralUtility::makeInstance(OnlineMediaHelperRegistry::class);
+                    $onlineMediaTypes = $onlineMediaHelperRegistry->getSupportedFileExtensions();
+                    if (!empty(array_intersect($allowedList, $onlineMediaTypes))) {
+                        return FieldType::MEDIA;
+                    }
                     return FieldType::FILE;
                 }
                 if (($tca['config']['foreign_table'] ?? '') === 'tt_content') {

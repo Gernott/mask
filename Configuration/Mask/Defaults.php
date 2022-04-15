@@ -213,6 +213,19 @@ return [
         ],
         'sql' => 'int(11) unsigned DEFAULT \'0\' NOT NULL'
     ],
+    FieldType::MEDIA => [
+        'tca_in' => [
+            'l10n_mode' => '',
+            'onlineMedia' => ['youtube', 'vimeo'],
+            'config.appearance.fileUploadAllowed' => 1,
+            'config.appearance.fileByUrlAllowed' => 1,
+        ],
+        'tca_out' => [
+            'config.type' => 'inline',
+            'config.foreign_table' => 'sys_file_reference',
+        ],
+        'sql' => 'int(11) unsigned DEFAULT \'0\' NOT NULL'
+    ],
     FieldType::INLINE => [
         'tca_in' => [
             'l10n_mode' => '',

@@ -102,6 +102,9 @@
 			<trans-unit id="tx_mask.field.file">
 				<source>File</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.media">
+				<source>Media</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.inline">
 				<source>Repeating</source>
 			</trans-unit>
@@ -413,6 +416,18 @@ title3, value3, icon3, description3
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.file_upload_allowed.label">
 				<source>File upload allowed</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.file_by_url_allowed.label">
+				<source>File by URL allowed</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.file_by_url_allowed.description">
+				<source>Whether the button "Add media by URL" should be rendered</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.online_media.label">
+				<source>Online media helpers</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.online_media.description">
+				<source>Decide which online media helpers to provide</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.allowed_file_extensions">
 				<source>Allowed File Extensions</source>

@@ -21,6 +21,8 @@ use MASK\Mask\CodeGenerator\TcaCodeGenerator;
 use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Tests\Unit\StorageRepositoryCreatorTrait;
 use TYPO3\CMS\Core\Package\PackageManager;
+use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Resource\OnlineMedia\Helpers\OnlineMediaHelperRegistry;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\TestingFramework\Core\BaseTestCase;
 
@@ -258,7 +260,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
      */
     public function getPageShowItem(array $json, string $key, string $expected): void
     {
-        $tcaCodeGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json));
+        $tcaCodeGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json), new OnlineMediaHelperRegistry());
 
         self::assertSame($expected, $tcaCodeGenerator->getPageShowItem($key));
     }
@@ -470,7 +472,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
     public function processTableTca(string $table, array $json, array $expected): void
     {
         $tableDefinitionCollection = TableDefinitionCollection::createFromArray($json);
-        $tcaGenerator = new TcaCodeGenerator($tableDefinitionCollection);
+        $tcaGenerator = new TcaCodeGenerator($tableDefinitionCollection, new OnlineMediaHelperRegistry());
 
         self::assertSame($expected, $tcaGenerator->processTableTca($tableDefinitionCollection->getTable($table)));
     }
@@ -788,68 +790,166 @@ class TcaCodeGeneratorTest extends BaseTestCase
      */
     public function generateFieldsTca(array $json, string $table, array $expected): void
     {
-        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json));
+        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json), new OnlineMediaHelperRegistry());
 
         self::assertSame($expected, $tcaGenerator->generateFieldsTca($table));
     }
 
-    public function generateFileTcaDataProvider(): array
+    public function generateFileTcaDataProvider(): iterable
     {
-        return [
-            'Files are processed correctly' => [
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field_1' => [
-                                'config' => [
-                                    'filter' => [
-                                        [
-                                            'parameters' => [
-                                                'allowedFileExtensions' => 'jpeg',
-                                            ]
-                                        ]
-                                    ],
-                                    'appearance' => [
-                                        'useSortable' => false,
-                                        'fileUploadAllowed' => true,
-                                        'expandSingle' => true
-                                    ],
-                                    'minitems' => '5',
-                                    'maxitems' => '10'
+        yield 'Files are processed correctly' => [
+            'json' => [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field_1' => [
+                            'config' => [
+                                'appearance' => [
+                                    'useSortable' => false,
+                                    'fileUploadAllowed' => true,
+                                    'expandSingle' => true
                                 ],
-                                'key' => 'field_1',
-                                'options' => 'file'
-                            ]
+                                'minitems' => '5',
+                                'maxitems' => '10'
+                            ],
+                            'key' => 'field_1',
+                            'type' => 'file',
+                            'allowedFileExtensions' => 'jpeg',
+                            'imageoverlayPalette' => 1,
                         ]
                     ]
-                ],
-                'tt_content',
-                'tx_mask_field_1',
-                [
-                    'type' => 'inline',
-                    'foreign_match_fields' => 'tx_mask_field_1',
-                    'elementBrowserAllowed' => 'jpeg',
-                    'minitems' => '5',
-                    'maxitems' => '10',
-                    'appearance' => [
-                        'useSortable' => false,
-                        'fileUploadAllowed' => true,
-                        'expandSingle' => true,
-                        'headerThumbnail' => [
-                            'field' => 'uid_local',
-                            'height' => '45m'
-                        ],
-                        'enabledControls' => [
-                            'info' => true,
-                            'new' => false,
-                            'dragdrop' => true,
-                            'sort' => false,
-                            'hide' => true,
-                            'delete' => true,
-                        ],
-                    ],
                 ]
             ],
+            'table' => 'tt_content',
+            'field' => 'tx_mask_field_1',
+            'expected' => [
+                'type' => 'inline',
+                'foreign_match_fields' => 'tx_mask_field_1',
+                'elementBrowserAllowed' => 'jpeg',
+                'imageoverlayPalette' => true,
+                'minitems' => '5',
+                'maxitems' => '10',
+                'appearance' => [
+                    'useSortable' => false,
+                    'fileUploadAllowed' => true,
+                    'expandSingle' => true,
+                ],
+            ]
+        ];
+
+        yield 'ImageOverlayPalette deactivated' => [
+            'json' => [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field_1' => [
+                            'config' => [
+                                'appearance' => [
+                                    'useSortable' => false,
+                                    'fileUploadAllowed' => true,
+                                    'expandSingle' => true
+                                ],
+                                'minitems' => '5',
+                                'maxitems' => '10'
+                            ],
+                            'key' => 'field_1',
+                            'type' => 'file',
+                            'allowedFileExtensions' => 'jpeg',
+                            'imageoverlayPalette' => 0,
+                        ]
+                    ]
+                ]
+            ],
+            'table' => 'tt_content',
+            'field' => 'tx_mask_field_1',
+            'expected' => [
+                'type' => 'inline',
+                'foreign_match_fields' => 'tx_mask_field_1',
+                'elementBrowserAllowed' => 'jpeg',
+                'imageoverlayPalette' => false,
+                'minitems' => '5',
+                'maxitems' => '10',
+                'appearance' => [
+                    'useSortable' => false,
+                    'fileUploadAllowed' => true,
+                    'expandSingle' => true,
+                ],
+            ]
+        ];
+
+        yield 'Media is processed correctly' => [
+            'json' => [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field_1' => [
+                            'config' => [
+                                'appearance' => [
+                                    'useSortable' => false,
+                                    'fileUploadAllowed' => true,
+                                    'expandSingle' => true
+                                ],
+                                'minitems' => '5',
+                                'maxitems' => '10'
+                            ],
+                            'key' => 'field_1',
+                            'type' => 'media',
+                            'allowedFileExtensions' => 'flac,mp4,vimeo,youtube',
+                            'onlineMedia' => 'youtube',
+                        ]
+                    ]
+                ]
+            ],
+            'table' => 'tt_content',
+            'field' => 'tx_mask_field_1',
+            'expected' => [
+                'type' => 'inline',
+                'foreign_match_fields' => 'tx_mask_field_1',
+                'elementBrowserAllowed' => 'flac,mp4,youtube',
+                'imageoverlayPalette' => true,
+                'minitems' => '5',
+                'maxitems' => '10',
+                'appearance' => [
+                    'useSortable' => false,
+                    'fileUploadAllowed' => true,
+                    'expandSingle' => true,
+                ],
+            ]
+        ];
+
+        yield 'Media with empty onlineMedia' => [
+            'json' => [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field_1' => [
+                            'config' => [
+                                'appearance' => [
+                                    'useSortable' => false,
+                                    'fileUploadAllowed' => true,
+                                    'expandSingle' => true
+                                ],
+                                'minitems' => '5',
+                                'maxitems' => '10'
+                            ],
+                            'key' => 'field_1',
+                            'type' => 'media',
+                            'allowedFileExtensions' => 'flac,mp4,vimeo,youtube',
+                        ]
+                    ]
+                ]
+            ],
+            'table' => 'tt_content',
+            'field' => 'tx_mask_field_1',
+            'expected' => [
+                'type' => 'inline',
+                'foreign_match_fields' => 'tx_mask_field_1',
+                'elementBrowserAllowed' => 'flac,mp4',
+                'imageoverlayPalette' => true,
+                'minitems' => '5',
+                'maxitems' => '10',
+                'appearance' => [
+                    'useSortable' => false,
+                    'fileUploadAllowed' => true,
+                    'expandSingle' => true,
+                ],
+            ]
         ];
     }
 
@@ -859,7 +959,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
      */
     public function generateFileTca(array $json, string $table, string $field, array $expected): void
     {
-        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json));
+        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json), new OnlineMediaHelperRegistry());
 
         $result = $tcaGenerator->generateFieldsTca($table);
         self::assertSame($expected['type'], $result[$field]['config']['type']);
@@ -868,7 +968,10 @@ class TcaCodeGeneratorTest extends BaseTestCase
         self::assertSame($expected['elementBrowserAllowed'], $result[$field]['config']['overrideChildTca']['columns']['uid_local']['config']['appearance']['elementBrowserAllowed']);
         self::assertEquals($expected['elementBrowserAllowed'], $result[$field]['config']['filter'][0]['parameters']['allowedFileExtensions']);
         self::assertSame($expected['foreign_match_fields'], $result[$field]['config']['foreign_match_fields']['fieldname']);
-        self::assertEquals($expected['appearance'], $result[$field]['config']['appearance']);
+        self::assertEquals($expected['appearance']['useSortable'], $result[$field]['config']['appearance']['useSortable']);
+        self::assertEquals($expected['appearance']['fileUploadAllowed'], $result[$field]['config']['appearance']['fileUploadAllowed']);
+        self::assertEquals($expected['appearance']['expandSingle'], $result[$field]['config']['appearance']['expandSingle']);
+        self::assertEquals($expected['imageoverlayPalette'], isset($result[$field]['config']['overrideChildTca']['types'][File::FILETYPE_IMAGE]));
     }
 
     public function setElementsTcaDataProvider(): array
@@ -1204,7 +1307,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
         $packageManager->isPackageActive('gridelements')->willReturn(false);
         ExtensionManagementUtility::setPackageManager($packageManager->reveal());
 
-        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json));
+        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json), new OnlineMediaHelperRegistry());
         $tcaGenerator->setElementsTca();
 
         self::assertSame($showItemExpected, $GLOBALS['TCA']['tt_content']['types'][$key]['showitem'] ?? '');
@@ -1363,7 +1466,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
     {
         $loader = $this->createLoader($json);
         $tableDefinition = $loader->load()->getTable($table);
-        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json));
+        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json), new OnlineMediaHelperRegistry());
 
         self::assertSame($expectedLabel, $tcaGenerator->generateTableTca($tableDefinition)['ctrl']['label']);
         self::assertSame($expectedIcon, $tcaGenerator->generateTableTca($tableDefinition)['ctrl']['iconfile']);
@@ -1469,7 +1572,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
      */
     public function getPagePalettesTest(array $json, string $elementKey, array $expected): void
     {
-        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json));
+        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json), new OnlineMediaHelperRegistry());
         self::assertEquals($expected, array_keys($tcaGenerator->getPagePalettes($elementKey)));
     }
 
@@ -1493,7 +1596,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
      */
     public function getFirstNoneTabField(array $data, string $expected): void
     {
-        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray([]));
+        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray([]), new OnlineMediaHelperRegistry());
         self::assertSame($expected, $tcaGenerator->getFirstNoneTabField($data));
     }
 
@@ -1736,7 +1839,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
      */
     public function generateTCAColumnsOverrides(array $json, array $expected): void
     {
-        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json));
+        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json), new OnlineMediaHelperRegistry());
         self::assertEquals($expected, $tcaGenerator->generateTCAColumnsOverrides('tt_content'));
     }
 
@@ -1901,7 +2004,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
     public function addSearchFieldsReturnsCorrectFieldString(array $json, string $table, string $currentTca, string $expected): void
     {
         $GLOBALS['TCA'][$table]['ctrl']['searchFields'] = $currentTca;
-        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json));
+        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json), new OnlineMediaHelperRegistry());
         self::assertEquals($expected, $tcaGenerator->addSearchFields($table));
     }
 
@@ -2006,7 +2109,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
      */
     public function extendBodytextSearchAndWhereReturnsCorrectConstraint(array $json, string $expected): void
     {
-        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json));
+        $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json), new OnlineMediaHelperRegistry());
         self::assertSame($expected, $tcaGenerator->extendBodytextSearchAndWhere());
     }
 }

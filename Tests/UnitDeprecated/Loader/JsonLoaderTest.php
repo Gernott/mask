@@ -25,6 +25,8 @@ class JsonLoaderTest extends UnitTestCase
 {
     use PackageManagerTrait;
 
+    protected $resetSingletonInstances = true;
+
     /**
      * @test
      */

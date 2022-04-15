@@ -99,7 +99,7 @@ class FieldsController
      * @param array $fields
      * @param string $table
      * @param string $elementKey
-     * @param ?array $parent
+     * @param array|null $parent
      * @return array
      */
     protected function addFields(array $fields, string $table, string $elementKey = '', ?array $parent = null): array
@@ -173,11 +173,18 @@ class FieldsController
 
             if ($fieldType->equals(FieldType::FILE)) {
                 $newField['tca']['imageoverlayPalette'] = $field['imageoverlayPalette'];
+            }
+
+            if ($fieldType->isFileReference()) {
                 $newField['tca']['allowedFileExtensions'] = $field['allowedFileExtensions'] ?? '';
             }
 
             if ($fieldType->equals(FieldType::CONTENT)) {
                 $newField['tca']['cTypes'] = $field['cTypes'] ?? [];
+            }
+
+            if ($fieldType->equals(FieldType::MEDIA)) {
+                $newField['tca']['onlineMedia'] = $field['onlineMedia'] ?? [];
             }
 
             // Set defaults for mask fields

@@ -36,6 +36,7 @@ final class FieldType extends Enumeration
     public const CATEGORY = 'category';
     public const GROUP = 'group';
     public const FILE = 'file';
+    public const MEDIA = 'media';
     public const INLINE = 'inline';
     public const CONTENT = 'content';
     public const TAB = 'tab';
@@ -72,5 +73,10 @@ final class FieldType extends Enumeration
     public function hasDescription(): bool
     {
         return $this->value === self::PALETTE || $this->canBeShared();
+    }
+
+    public function isFileReference(): bool
+    {
+        return in_array($this->value, [self::FILE, self::MEDIA], true);
     }
 }

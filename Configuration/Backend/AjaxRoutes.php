@@ -40,6 +40,10 @@ return [
         'path' => '/mask/richtextConfiguration',
         'target' => AjaxController::class . '::richtextConfiguration'
     ],
+    'mask_online_media' => [
+        'path' => '/mask/onlineMedia',
+        'target' => AjaxController::class . '::availableOnlineMedia'
+    ],
     'mask_ctypes' => [
         'path' => '/mask/ctypes',
         'target' => AjaxController::class . '::cTypes'

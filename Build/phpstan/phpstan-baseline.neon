@@ -816,7 +816,7 @@ parameters:
 			path: ../../Tests/Unit/CodeGenerator/TcaCodeGeneratorTest.php
 
 		-
-			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\CodeGenerator\\\\TcaCodeGeneratorTest\\:\\:generateFileTcaDataProvider\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\CodeGenerator\\\\TcaCodeGeneratorTest\\:\\:generateFileTcaDataProvider\\(\\) return type has no value type specified in iterable type iterable\\.$#"
 			count: 1
 			path: ../../Tests/Unit/CodeGenerator/TcaCodeGeneratorTest.php
 

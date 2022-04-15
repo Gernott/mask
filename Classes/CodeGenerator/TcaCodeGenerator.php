@@ -27,6 +27,7 @@ use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\DateUtility;
 use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Resource\OnlineMedia\Helpers\OnlineMediaHelperRegistry;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -43,9 +44,17 @@ class TcaCodeGenerator
      */
     protected $tableDefinitionCollection;
 
-    public function __construct(TableDefinitionCollection $tableDefinitionCollection)
-    {
+    /**
+     * @var OnlineMediaHelperRegistry
+     */
+    protected $onlineMediaHelperRegistry;
+
+    public function __construct(
+        TableDefinitionCollection $tableDefinitionCollection,
+        OnlineMediaHelperRegistry $onlineMediaHelperRegistry
+    ) {
         $this->tableDefinitionCollection = $tableDefinitionCollection;
+        $this->onlineMediaHelperRegistry = $onlineMediaHelperRegistry;
     }
 
     /**
@@ -322,8 +331,8 @@ class TcaCodeGenerator
             $additionalTca[$field->fullKey] = [];
 
             // File: Add file config.
-            if ($field->type->equals(FieldType::FILE)) {
-                if ($field->imageoverlayPalette) {
+            if ($field->type->equals(FieldType::FILE) || $field->type->equals(FieldType::MEDIA)) {
+                if ($field->imageoverlayPalette || $field->type->equals(FieldType::MEDIA)) {
                     $customSettingOverride = [
                         'overrideChildTca' => [
                             'types' => [
@@ -365,9 +374,23 @@ class TcaCodeGenerator
                 $customSettingOverride['appearance'] = $field->realTca['config']['appearance'] ?? [];
                 $customSettingOverride['appearance']['fileUploadAllowed'] = (bool)($customSettingOverride['appearance']['fileUploadAllowed'] ?? true);
                 $customSettingOverride['appearance']['useSortable'] = (bool)($customSettingOverride['appearance']['useSortable'] ?? false);
-                if ($field->allowedFileExtensions === '') {
+
+                if ($field->type->equals(FieldType::FILE) && $field->allowedFileExtensions === '') {
                     $field->allowedFileExtensions = $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'];
                 }
+
+                if ($field->type->equals(FieldType::MEDIA) && $field->allowedFileExtensions === '') {
+                    $field->allowedFileExtensions = $GLOBALS['TYPO3_CONF_VARS']['SYS']['mediafile_ext'];
+                }
+
+                // Only allow media types the user has selected, but always include the rest.
+                if ($field->type->equals(FieldType::MEDIA)) {
+                    $onlineMediaHelpers = $this->onlineMediaHelperRegistry->getSupportedFileExtensions();
+                    $allowedFileExtensionList = GeneralUtility::trimExplode(',', $field->allowedFileExtensions, true);
+                    $alwaysIncluded = array_diff($allowedFileExtensionList, $onlineMediaHelpers);
+                    $field->allowedFileExtensions = implode(',', array_merge($alwaysIncluded, $field->onlineMedia));
+                }
+
                 $additionalTca[$field->fullKey]['config'] = ExtensionManagementUtility::getFileFieldTCAConfig($field->fullKey, $customSettingOverride, $field->allowedFileExtensions);
                 unset($customSettingOverride);
             }

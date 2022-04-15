@@ -113,6 +113,11 @@ final class TcaFieldDefinition
     public $cTypes = [];
 
     /**
+     * @var string[]
+     */
+    public $onlineMedia = [];
+
+    /**
      * @var bool
      */
     public $imageoverlayPalette = false;
@@ -170,6 +175,7 @@ final class TcaFieldDefinition
 
         $tcaFieldDefinition->inPalette = (bool)($definition['inPalette'] ?? false);
         $tcaFieldDefinition->cTypes = (array)($definition['cTypes'] ?? []);
+        $tcaFieldDefinition->onlineMedia = (array)($definition['onlineMedia'] ?? []);
 
         // Type resolving.
         // "options" was used for identifying file fields prior to v6.
@@ -256,6 +262,7 @@ final class TcaFieldDefinition
             $definition['inlineLabel'],
             $definition['imageoverlayPalette'],
             $definition['cTypes'],
+            $definition['onlineMedia'],
             $definition['allowedFileExtensions'],
             $definition['ctrl']
         );
@@ -369,6 +376,7 @@ final class TcaFieldDefinition
             'coreField' => $this->isCoreField ? 1 : null,
             'inPalette' => $this->inPalette ? 1 : null,
             'cTypes' => !empty($this->cTypes) ? $this->cTypes : null,
+            'onlineMedia' => !empty($this->onlineMedia) ? $this->onlineMedia : null,
             'allowedFileExtensions' => $this->allowedFileExtensions !== '' ? $this->allowedFileExtensions : null,
         ];
 

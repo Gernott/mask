@@ -1130,6 +1130,22 @@ return [
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ]
     ],
+    'config.appearance.fileByUrlAllowed' => [
+        'type' => 'checkbox',
+        'label' => 'tx_mask.field.inline.file_by_url_allowed.label',
+        'description' => 'tx_mask.field.inline.file_by_url_allowed.description',
+        'code' => 'fileByUrlAllowed',
+        'documentation' => [
+            10 => 'ColumnsConfig/Type/Inline.html#appearance',
+            11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
+        ]
+    ],
+    'onlineMedia' => [
+        'type' => 'onlineMedia',
+        'label' => 'tx_mask.online_media.label',
+        'description' => 'tx_mask.online_media.description',
+        'code' => 'onlineMedia',
+    ],
     'config.appearance.showSynchronizationLink' => [
         'type' => 'checkbox',
         'label' => 'tx_mask.field.inline.show_synchronization_link',

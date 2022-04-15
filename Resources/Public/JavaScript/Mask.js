@@ -65,6 +65,7 @@ define([
         backendLayouts: [],
         fieldTypes: [],
         tcaFields: {},
+        onlineMedia: [],
         tabs: {},
         fields: [],
         language: [],
@@ -200,6 +201,14 @@ define([
                 .then(
                   async response => {
                     this.tcaFields = await response.resolve();
+                  }
+                ));
+
+              // Fetch online media
+              promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_online_media)).get()
+                .then(
+                  async response => {
+                    this.onlineMedia = await response.resolve();
                   }
                 ));
 

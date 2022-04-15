@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+    <g id="Gruppe_4" data-name="Gruppe 4" transform="translate(-1400 -240)">
+        <g id="Gruppe_2" data-name="Gruppe 2" transform="translate(1400 240)">
+            <rect id="Rechteck_1" data-name="Rechteck 1" width="64" height="64" fill="#639"/>
+        </g>
+        <g id="Gruppe_3" data-name="Gruppe 3" transform="translate(1408.543 250.751)">
+            <path id="Pfad_36" data-name="Pfad 36" d="M1,2H45.915V40.5H1Z" transform="translate(0 0)" fill="none"/>
+            <path id="Pfad_37" data-name="Pfad 37" d="M42.707,5.208V37.29H4.208V5.208h38.5M45.915,2H1V40.5H45.915Z" transform="translate(0 0)" fill="#fff"/>
+            <path id="Pfad_38" data-name="Pfad 38" d="M6,21.541V5.5l8.02,4.01,8.021,4.01-8.021,4.01Z" transform="translate(11.041 7.729)" fill="#fff"/>
+        </g>
+    </g>
+</svg>

@@ -16,6 +16,7 @@ define([
         props: {
           column: Number,
           tcaFields: Object,
+          onlineMedia: Array,
           tcaKey: String,
           global: Object,
           language: Object,
@@ -190,6 +191,18 @@ define([
               <select v-model="global.activeField.tca[tcaKey]" class="form-control" multiple="multiple" size="20">
                 <option v-for="(item, key) in global.ctypes" :value="key">{{ item }} <span v-if="key !== ''">[{{ key }}]</span></option>
               </select>
+            </div>
+            <div v-if="type == 'onlineMedia'" class="form-control-wrap">
+                <div class="form-wizards-wrap">
+                    <div class="form-wizards-element">
+                      <div v-for="media in onlineMedia" class="checkbox checkbox-type-toggle form-check form-switch">
+                        <input :id="id + media" class="checkbox-input form-check-input" v-model="global.activeField.tca[tcaKey]" type="checkbox" :value="media">
+                        <label class="checkbox-label form-check-label" :for="id + media">
+                            <span class="checkbox-label-text form-check-label-text">[{{ media }}]</span>
+                        </label>
+                      </div>
+                    </div>
+                </div>
             </div>
             <div v-if="type == 'foreign_table'" class="form-control-wrap">
               <select v-model="global.activeField.tca[tcaKey]" class="form-control form-select">

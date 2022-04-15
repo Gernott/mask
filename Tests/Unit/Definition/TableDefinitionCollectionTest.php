@@ -1090,6 +1090,36 @@ class TableDefinitionCollectionTest extends BaseTestCase
                 'tt_content',
                 FieldType::FILE
             ],
+            'Type Media is returned' => [
+                [],
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'tx_mask_field1' => [
+                                'config' => [
+                                    'type' => 'inline',
+                                    'foreign_table' => 'sys_file_reference',
+                                    'overrideChildTca' => [
+                                        'columns' => [
+                                            'uid_local' => [
+                                                'config' => [
+                                                    'appearance' => [
+                                                        'elementBrowserAllowed' => 'vimeo,youtube',
+                                                    ]
+                                                ]
+                                            ]
+                                        ]
+                                    ]
+                                ],
+                                'key' => 'field1'
+                            ]
+                        ]
+                    ]
+                ],
+                'tx_mask_field1',
+                'tt_content',
+                FieldType::MEDIA
+            ],
             'Type File by option is returned' => [
                 [],
                 [
