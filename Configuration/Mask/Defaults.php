@@ -235,6 +235,7 @@ return [
     FieldType::CONTENT => [
         'tca_in' => [
             'l10n_mode' => '',
+            'cTypes' => [],
             'config.appearance.levelLinksPosition' => 'top',
             'config.appearance.showPossibleLocalizationRecords' => 1,
             'config.appearance.showAllLocalizationLink' => 1,
