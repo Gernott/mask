@@ -521,7 +521,9 @@ class AjaxController
     public function loadAllMultiUse(ServerRequestInterface $request): Response
     {
         $params = $request->getQueryParams();
-        $element = $this->tableDefinitionCollection->loadElement($params['table'], $params['elementKey']);
+        $table = $params['table'];
+        $elementKey = $params['elementKey'];
+        $element = $this->tableDefinitionCollection->loadElement($table, $elementKey);
 
         if (!$element) {
             return new JsonResponse(['multiUseElements' => []]);
@@ -533,16 +535,16 @@ class AjaxController
                 continue;
             }
 
-            $fieldType = $this->tableDefinitionCollection->getFieldType($field->fullKey, $params['table']);
+            $fieldType = $this->tableDefinitionCollection->getFieldType($field->fullKey, $table);
 
             // Get fields in palette
             if ($fieldType->equals(FieldType::PALETTE)) {
-                foreach ($this->tableDefinitionCollection->loadInlineFields($field->fullKey, $params['elementKey']) as $paletteField) {
-                    $paletteFieldType = $this->tableDefinitionCollection->getFieldType($paletteField->fullKey, $params['table']);
+                foreach ($this->tableDefinitionCollection->loadInlineFields($field->fullKey, $elementKey) as $paletteField) {
+                    $paletteFieldType = $this->tableDefinitionCollection->getFieldType($paletteField->fullKey, $table);
                     if (!$paletteFieldType->canBeShared()) {
                         continue;
                     }
-                    $multiUseElements[$paletteField->fullKey] = $this->getMultiUseForField($paletteField->fullKey, $params['elementKey']);
+                    $multiUseElements[$paletteField->fullKey] = $this->getMultiUseForField($paletteField->fullKey, $elementKey);
                 }
                 continue;
             }
@@ -551,7 +553,7 @@ class AjaxController
                 continue;
             }
 
-            $multiUseElements[$field->fullKey] = $this->getMultiUseForField($field->fullKey, $params['elementKey']);
+            $multiUseElements[$field->fullKey] = $this->getMultiUseForField($field->fullKey, $elementKey);
         }
 
         return new JsonResponse(['multiUseElements' => $multiUseElements]);
