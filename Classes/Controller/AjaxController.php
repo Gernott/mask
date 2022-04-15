@@ -654,9 +654,10 @@ class AjaxController
         $table = $request->getQueryParams()['table'];
         $type = $request->getQueryParams()['type'];
         $fields = ['mask' => [], 'core' => []];
+        $searchFieldType = FieldType::cast($type);
 
         // Return empty result for non-shareable fields.
-        if (!FieldType::cast($type)->canBeShared()) {
+        if (!$searchFieldType->canBeShared()) {
             return new JsonResponse($fields);
         }
 
@@ -664,7 +665,7 @@ class AjaxController
             $isMaskField = AffixUtility::hasMaskPrefix($tcaField);
             // Skip the field, if it is not a mask field, AND it is not in the allow-list
             // AND it is also not an already defined field in the configuration.
-            // This may be an extension field or a core field, which was previously allowed.
+            // This may be an extension field or a core field (which was allowed in former Mask versions).
             if (
                 !$isMaskField
                 && !in_array($tcaField, $allowedFields[$table] ?? [], true)
@@ -677,7 +678,15 @@ class AjaxController
                 continue;
             }
 
-            if ($this->tableDefinitionCollection->getFieldType($tcaField, $table)->equals($type)) {
+            // Add the field, if the field type matches with the search type
+            // OR the field is the bodytext field, and we search for a text or textarea field.
+            $fieldType = $this->tableDefinitionCollection->getFieldType($tcaField, $table);
+            if (
+                $fieldType->equals($type)
+                || (
+                    $tcaField === 'bodytext' && $searchFieldType->isTextareaField()
+                )
+            ) {
                 $key = $isMaskField ? 'mask' : 'core';
                 if ($isMaskField) {
                     $label = $this->tableDefinitionCollection->findFirstNonEmptyLabel($table, $tcaField);

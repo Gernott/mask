@@ -1007,7 +1007,8 @@ class TcaCodeGeneratorTest extends BaseTestCase
                 ],
                 'mask_element1',
                 '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,header,bodytext,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.appearance,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.frames;frames,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.appearanceLinks;appearanceLinks,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,--palette--;;language,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,--palette--;;hidden,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:categories,--div--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_category.tabs.category,categories,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:notes,rowDescription,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended',
-                []
+                [],
+                true,
             ],
             'Hidden elements are ignored' => [
                 [
@@ -1040,7 +1041,8 @@ class TcaCodeGeneratorTest extends BaseTestCase
                 ],
                 'mask_element1',
                 '',
-                []
+                [],
+                false,
             ],
             'Empty inline fields are ignored' => [
                 [
@@ -1080,7 +1082,8 @@ class TcaCodeGeneratorTest extends BaseTestCase
                 ],
                 'mask_element1',
                 '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,header,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.appearance,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.frames;frames,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.appearanceLinks;appearanceLinks,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,--palette--;;language,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,--palette--;;hidden,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:categories,--div--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_category.tabs.category,categories,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:notes,rowDescription,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended',
-                []
+                [],
+                false,
             ],
             'General tab can be overriden' => [
                 [
@@ -1120,7 +1123,8 @@ class TcaCodeGeneratorTest extends BaseTestCase
                 ],
                 'mask_element1',
                 '--div--;My Tab,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,header,bodytext,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.appearance,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.frames;frames,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.appearanceLinks;appearanceLinks,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,--palette--;;language,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,--palette--;;hidden,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:categories,--div--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_category.tabs.category,categories,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:notes,rowDescription,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended',
-                []
+                [],
+                true,
             ],
             'Tabs can be added after elements' => [
                 [
@@ -1160,7 +1164,8 @@ class TcaCodeGeneratorTest extends BaseTestCase
                 ],
                 'mask_element1',
                 '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,header,--div--;My Tab,bodytext,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.appearance,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.frames;frames,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.appearanceLinks;appearanceLinks,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,--palette--;;language,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,--palette--;;hidden,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:categories,--div--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_category.tabs.category,categories,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:notes,rowDescription,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended',
-                []
+                [],
+                true,
             ],
             'Palettes can be added' => [
                 [
@@ -1202,7 +1207,10 @@ class TcaCodeGeneratorTest extends BaseTestCase
                                 'key' => 'header'
                             ],
                             'bodytext' => [
-                                'key' => 'bodytext'
+                                'key' => 'bodytext',
+                                'inlineParent' => [
+                                    'element1' => 'tx_mask_my_palette',
+                                ],
                             ]
                         ],
                         'palettes' => [
@@ -1231,7 +1239,8 @@ class TcaCodeGeneratorTest extends BaseTestCase
                         'description' => 'Palette Description old position works',
                         'showitem' => ''
                     ]
-                ]
+                ],
+                true,
             ],
             'Linebreaks converted to --linebreak--' => [
                 [
@@ -1269,7 +1278,11 @@ class TcaCodeGeneratorTest extends BaseTestCase
                                 'key' => 'header'
                             ],
                             'bodytext' => [
-                                'key' => 'bodytext'
+                                'key' => 'bodytext',
+                                'type' => 'richtext',
+                                'inlineParent' => [
+                                    'element1' => 'tx_mask_my_palette',
+                                ]
                             ]
                         ],
                         'palettes' => [
@@ -1289,8 +1302,81 @@ class TcaCodeGeneratorTest extends BaseTestCase
                         'description' => '',
                         'showitem' => 'header,--linebreak--,bodytext'
                     ]
-                ]
-            ]
+                ],
+                true,
+            ],
+            'richtext not added for bodytext, if it is of type text' => [
+                [
+                    'tt_content' => [
+                        'elements' => [
+                            'element1' => [
+                                'key' => 'element1',
+                                'label' => 'Element1',
+                                'shortLabel' => 'Ele 1',
+                                'columns' => [
+                                    'header',
+                                    'bodytext'
+                                ],
+                                'labels' => [
+                                    '',
+                                    ''
+                                ]
+                            ]
+                        ],
+                        'tca' => [
+                            'header' => [
+                                'key' => 'header'
+                            ],
+                            'bodytext' => [
+                                'key' => 'bodytext',
+                                'bodytextTypeByElement' => [
+                                    'element1' => 'text',
+                                ],
+                            ]
+                        ]
+                    ]
+                ],
+                'mask_element1',
+                '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,header,bodytext,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.appearance,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.frames;frames,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.appearanceLinks;appearanceLinks,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,--palette--;;language,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,--palette--;;hidden,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:categories,--div--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_category.tabs.category,categories,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:notes,rowDescription,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended',
+                [],
+                false,
+            ],
+            'richtext added for bodytext, if it is of type richtext' => [
+                [
+                    'tt_content' => [
+                        'elements' => [
+                            'element1' => [
+                                'key' => 'element1',
+                                'label' => 'Element1',
+                                'shortLabel' => 'Ele 1',
+                                'columns' => [
+                                    'header',
+                                    'bodytext'
+                                ],
+                                'labels' => [
+                                    '',
+                                    ''
+                                ]
+                            ]
+                        ],
+                        'tca' => [
+                            'header' => [
+                                'key' => 'header'
+                            ],
+                            'bodytext' => [
+                                'key' => 'bodytext',
+                                'bodytextTypeByElement' => [
+                                    'element1' => 'richtext',
+                                ],
+                            ]
+                        ]
+                    ]
+                ],
+                'mask_element1',
+                '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,header,bodytext,--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.appearance,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.frames;frames,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.appearanceLinks;appearanceLinks,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,--palette--;;language,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,--palette--;;hidden,--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:categories,--div--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_category.tabs.category,categories,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:notes,rowDescription,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended',
+                [],
+                true,
+            ],
         ];
     }
 
@@ -1298,7 +1384,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
      * @dataProvider setElementsTcaDataProvider
      * @test
      */
-    public function setElementsTca(array $json, string $key, string $showItemExpected, array $paletteExpected): void
+    public function setElementsTca(array $json, string $key, string $showItemExpected, array $paletteExpected, bool $bodytextIsRichtext): void
     {
         $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'] = [];
         $GLOBALS['TCA']['tt_content']['columns']['header']['config']['type'] = 'input';
@@ -1312,6 +1398,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
 
         self::assertSame($showItemExpected, $GLOBALS['TCA']['tt_content']['types'][$key]['showitem'] ?? '');
         self::assertSame($paletteExpected, $GLOBALS['TCA']['tt_content']['palettes'] ?? []);
+        self::assertSame($bodytextIsRichtext, ($GLOBALS['TCA']['tt_content']['types'][$key]['columnsOverrides']['bodytext']['config']['enableRichtext'] ?? 0) === 1);
     }
 
     public function generateTableTcaDataProvider(): array

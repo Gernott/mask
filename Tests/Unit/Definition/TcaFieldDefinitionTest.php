@@ -328,6 +328,38 @@ class TcaFieldDefinitionTest extends UnitTestCase
                 'fullKey' => 'tx_mask_select',
             ],
         ];
+
+        yield 'The core field bodytext without any type defined interpreted as richtext' => [
+            'json' => [
+                'key' => 'bodytext',
+            ],
+            'expected' => [
+                'key' => 'bodytext',
+                'fullKey' => 'bodytext',
+                'coreField' => 1,
+                'type' => 'richtext',
+            ]
+        ];
+
+        yield 'The core field bodytext type can be set by bodytextTypeByElement per element' => [
+            'json' => [
+                'key' => 'bodytext',
+                'type' => 'richtext',
+                'bodytextTypeByElement' => [
+                    'element1' => 'text',
+                    'element2' => 'richtext',
+                ],
+            ],
+            'expected' => [
+                'key' => 'bodytext',
+                'fullKey' => 'bodytext',
+                'coreField' => 1,
+                'bodytextTypeByElement' => [
+                    'element1' => 'text',
+                    'element2' => 'richtext',
+                ],
+            ]
+        ];
     }
 
     /**

@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace MASK\Mask\CodeGenerator;
 
 use InvalidArgumentException;
+use MASK\Mask\Definition\ElementTcaDefinition;
 use MASK\Mask\Definition\PaletteDefinition;
 use MASK\Mask\Definition\TableDefinition;
 use MASK\Mask\Definition\TableDefinitionCollection;
@@ -194,7 +195,21 @@ class TcaCodeGenerator
             [$prependTabs, $fields] = $this->generateShowItem($prependTabs, $element->key, 'tt_content');
 
             $GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes'][$cTypeKey] = 'mask-ce-' . $element->key;
-            $GLOBALS['TCA']['tt_content']['types'][$cTypeKey]['columnsOverrides']['bodytext']['config']['enableRichtext'] = 1;
+            $elementTca = $this->tableDefinitionCollection->loadElement('tt_content', $element->key);
+
+            // Check if the element uses the core bodytext field, and it is of type richtext.
+            // If so, enable the richtext editor for it.
+            if ($elementTca instanceof ElementTcaDefinition
+                && $elementTca->tcaDefinition->hasField('bodytext')
+            ) {
+                $bodytext = $elementTca->tcaDefinition->getField('bodytext');
+                if (
+                    !$bodytext->hasFieldType($element->key)
+                    || $bodytext->getFieldType($element->key)->equals(FieldType::RICHTEXT)
+                ) {
+                    $GLOBALS['TCA']['tt_content']['types'][$cTypeKey]['columnsOverrides']['bodytext']['config']['enableRichtext'] = 1;
+                }
+            }
             $GLOBALS['TCA']['tt_content']['types'][$cTypeKey]['showitem'] = $prependTabs . $defaultPalette . $fields . $defaultTabs . $gridelements;
         }
     }
@@ -314,12 +329,12 @@ class TcaCodeGenerator
                 continue;
             }
 
-            if (!$field->type) {
+            if (!$field->hasFieldType()) {
                 $field->type = $this->tableDefinitionCollection->getFieldType($field->fullKey, $table);
             }
 
             // Inline: Ignore empty inline fields
-            if ($field->type && $field->type->isParentField() && !$this->tableDefinitionCollection->hasTable($field->fullKey)) {
+            if ($field->type->isParentField() && !$this->tableDefinitionCollection->hasTable($field->fullKey)) {
                 continue;
             }
 
@@ -475,7 +490,7 @@ class TcaCodeGenerator
 
                 // Do not generate any overrides for empty inline fields.
                 if (
-                    $fieldDefinition->type instanceof FieldType
+                    $fieldDefinition->hasFieldType()
                     && $fieldDefinition->type->equals(FieldType::INLINE)
                     && $this->tableDefinitionCollection->loadInlineFields($fieldDefinition->fullKey, $element->key)->toArray() === []
                 ) {
@@ -483,7 +498,7 @@ class TcaCodeGenerator
                 }
 
                 // Do not generate any overrides for tabs.
-                if ($fieldDefinition->type instanceof FieldType && $fieldDefinition->type->equals(FieldType::TAB)) {
+                if ($fieldDefinition->hasFieldType() && $fieldDefinition->type->equals(FieldType::TAB)) {
                     continue;
                 }
 

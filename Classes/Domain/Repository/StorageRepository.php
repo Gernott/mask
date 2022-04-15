@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace MASK\Mask\Domain\Repository;
 
 use MASK\Mask\ConfigurationLoader\ConfigurationLoaderInterface;
+use MASK\Mask\Definition\ElementTcaDefinition;
 use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Definition\TcaFieldDefinition;
 use MASK\Mask\Enumeration\FieldType;
@@ -300,6 +301,11 @@ class StorageRepository implements SingletonInterface
                     $fieldAdd['description'] = $field['description'] ?? '';
                     $fieldAdd['order'] = $order;
                 }
+            }
+
+            if ($fieldAdd['key'] === 'bodytext') {
+                $fieldAdd['bodytextTypeByElement'][$elementKey] = $fieldAdd['type'];
+                unset($fieldAdd['type']);
             }
 
             // Add tca entry for field

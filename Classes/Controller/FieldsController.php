@@ -68,7 +68,7 @@ class FieldsController
         $element = $this->tableDefinitionCollection->loadElement($table, $elementKey);
         $json['fields'] = [];
         if ($element) {
-            $json['fields'] = $this->addFields($element->tcaDefinition->toArray(), $table, $elementKey);
+            $json['fields'] = $this->addFields($element->getRootTcaFields()->toArray(), $table, $elementKey);
         }
 
         return new JsonResponse($json);
@@ -123,7 +123,7 @@ class FieldsController
                 $newField['description'] = $this->tableDefinitionCollection->getDescription($elementKey, $newField['key'], $table);
             }
 
-            $fieldType = $this->tableDefinitionCollection->getFieldType($newField['key'], $table);
+            $fieldType = $this->tableDefinitionCollection->getFieldType($newField['key'], $table, $elementKey);
 
             // Convert old date format Y-m-d to d-m-Y
             $dbType = $field['config']['dbType'] ?? false;

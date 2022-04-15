@@ -79,4 +79,9 @@ final class FieldType extends Enumeration
     {
         return in_array($this->value, [self::FILE, self::MEDIA], true);
     }
+
+    public function isTextareaField(): bool
+    {
+        return in_array($this->value, [self::TEXT, self::RICHTEXT], true);
+    }
 }

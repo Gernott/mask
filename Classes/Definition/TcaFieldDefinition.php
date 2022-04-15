@@ -78,6 +78,11 @@ final class TcaFieldDefinition
     public $inlineParentByElement = [];
 
     /**
+     * @var array<string, FieldType>
+     */
+    public $bodytextTypeByElement = [];
+
+    /**
      * @var string
      */
     public $label = '';
@@ -195,6 +200,11 @@ final class TcaFieldDefinition
             $tcaFieldDefinition->type = FieldType::cast(FieldType::RICHTEXT);
         }
 
+        // The core field bodytext used to be hard coded as richtext in Mask versions < v7.2
+        if (!$tcaFieldDefinition->type instanceof FieldType && $definition['key'] === 'bodytext') {
+            $tcaFieldDefinition->type = FieldType::cast(FieldType::RICHTEXT);
+        }
+
         // If the field is not a core field and the field type couldn't be resolved by now, resolve type by tca config.
         if (!$tcaFieldDefinition->type instanceof FieldType && !$tcaFieldDefinition->isCoreField) {
             $tcaFieldDefinition->type = FieldType::cast(FieldTypeUtility::getFieldType($tcaFieldDefinition->toArray(), $tcaFieldDefinition->fullKey));
@@ -213,6 +223,14 @@ final class TcaFieldDefinition
             } else {
                 $tcaFieldDefinition->inlineParent = $definition['inlineParent'];
             }
+        }
+
+        if (!empty($definition['bodytextTypeByElement'])) {
+            foreach ($definition['bodytextTypeByElement'] as $elementKey => $bodytextType) {
+                $tcaFieldDefinition->bodytextTypeByElement[$elementKey] = FieldType::cast($bodytextType);
+            }
+            // Unset the normal type
+            $tcaFieldDefinition->type = null;
         }
 
         if (isset($definition['label'])) {
@@ -549,5 +567,23 @@ final class TcaFieldDefinition
         }
 
         return $definition;
+    }
+
+    public function hasFieldType(string $elementKey = ''): bool
+    {
+        return $this->type instanceof FieldType || ($elementKey !== '' && !empty($this->bodytextTypeByElement));
+    }
+
+    public function getFieldType(string $elementKey = ''): FieldType
+    {
+        if (!$this->hasFieldType($elementKey)) {
+            throw new \OutOfBoundsException('The field "' . $this->fullKey . '" does not have a defined field type.', 1650054092);
+        }
+
+        if ($this->type instanceof FieldType) {
+            return $this->type;
+        }
+
+        return $this->bodytextTypeByElement[$elementKey] ?? new FieldType(FieldType::RICHTEXT);
     }
 }

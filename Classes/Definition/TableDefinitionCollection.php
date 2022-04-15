@@ -154,16 +154,26 @@ final class TableDefinitionCollection implements \IteratorAggregate
         }
 
         $element = $elements->getElement($key);
-        return new ElementTcaDefinition($element, $tableDefinition->tca);
+        $tcaDefinition = new TcaDefinition();
+        foreach ($element->columns as $fieldKey) {
+            if ($tableDefinition->tca->hasField($fieldKey)) {
+                $availableTcaField = $tableDefinition->tca->getField($fieldKey);
+                $tcaDefinition->addField($availableTcaField);
+                if ($availableTcaField->hasFieldType() && $availableTcaField->type->equals(FieldType::PALETTE)) {
+                    $paletteFields = $this->loadInlineFields($availableTcaField->fullKey, $element->key);
+                    foreach ($paletteFields as $paletteField) {
+                        $tcaDefinition->addField($paletteField);
+                    }
+                }
+            }
+        }
+
+        return new ElementTcaDefinition($element, $tcaDefinition);
     }
 
     /**
      * Loads all the inline fields of an inline-field, recursively!
      * Not specifying an element key means, the parent key has to be an inline table.
-     *
-     * @param string $parentKey
-     * @param string $elementKey
-     * @return NestedTcaFieldDefinitions
      */
     public function loadInlineFields(string $parentKey, string $elementKey): NestedTcaFieldDefinitions
     {
@@ -193,8 +203,8 @@ final class TableDefinitionCollection implements \IteratorAggregate
                     continue;
                 }
 
-                // This can be called very early, so ignore core fields.
-                if (!$field->isCoreField) {
+                // Check if FieldType is available
+                if ($field->hasFieldType()) {
                     $fieldType = $this->getFieldType($field->fullKey, $tableDefinition->table);
                     if ($fieldType->isParentField()) {
                         foreach ($this->loadInlineFields($field->fullKey, $elementKey) as $inlineField) {
@@ -210,31 +220,31 @@ final class TableDefinitionCollection implements \IteratorAggregate
         return $nestedTcaFields;
     }
 
-    public function getFieldType(string $fieldKey, string $table = 'tt_content'): FieldType
+    public function getFieldType(string $fieldKey, string $table = 'tt_content', string $elmentKey = ''): FieldType
     {
-        return FieldType::cast($this->getFieldTypeString($fieldKey, $table));
+        return FieldType::cast($this->getFieldTypeString($fieldKey, $table, $elmentKey));
     }
 
     /**
      * Returns the formType of a field in an element
      * @internal
      */
-    public function getFieldTypeString(string $fieldKey, string $table = 'tt_content'): string
+    public function getFieldTypeString(string $fieldKey, string $table = 'tt_content', string $elementKey = ''): string
     {
-        // @todo Allow bodytext to be normal TEXT field.
-        if ($fieldKey === 'bodytext' && $table === 'tt_content') {
-            return FieldType::RICHTEXT;
-        }
-
         $fieldDefinition = $this->loadField($table, $fieldKey);
 
-        if ($fieldDefinition !== null && !$fieldDefinition->isCoreField) {
+        if ($fieldDefinition instanceof TcaFieldDefinition) {
             // If type is already known, return it.
-            if ($fieldDefinition->type) {
-                return (string)$fieldDefinition->type;
+            if ($fieldDefinition->hasFieldType($elementKey)) {
+                return (string)$fieldDefinition->getFieldType($elementKey);
             }
 
-            return FieldTypeUtility::getFieldType($fieldDefinition->toArray(), $fieldDefinition->fullKey);
+            try {
+                return FieldTypeUtility::getFieldType($fieldDefinition->toArray(), $fieldDefinition->fullKey);
+            } catch (InvalidArgumentException $e) {
+                // For core fields this exception might pop up, because in older
+                // Mask versions no type was defined directly in the definition.
+            }
         }
 
         // If field could not be found in field definition, check for global TCA.

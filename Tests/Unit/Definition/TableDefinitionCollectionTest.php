@@ -1323,13 +1323,6 @@ class TableDefinitionCollectionTest extends BaseTestCase
                 'tt_content',
                 FieldType::DATE
             ],
-            'Core field bodytext returned as richtext' => [
-                [],
-                [],
-                'bodytext',
-                'tt_content',
-                FieldType::RICHTEXT
-            ],
             'Colorpicker resolved' => [
                 [],
                 [

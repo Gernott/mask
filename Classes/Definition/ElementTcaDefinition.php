@@ -32,13 +32,18 @@ final class ElementTcaDefinition
     public function __construct(ElementDefinition $elementDefinition, TcaDefinition $tcaDefinition)
     {
         $this->elementDefinition = $elementDefinition;
-        $this->tcaDefinition = new TcaDefinition();
+        $this->tcaDefinition = $tcaDefinition;
+    }
 
-        foreach ($this->elementDefinition->columns as $field) {
-            if ($tcaDefinition->hasField($field)) {
-                $this->tcaDefinition->addField($tcaDefinition->getField($field));
+    public function getRootTcaFields(): TcaDefinition
+    {
+        $tcaDefinition = new TcaDefinition();
+        foreach ($this->elementDefinition->columns as $column) {
+            if ($this->tcaDefinition->hasField($column)) {
+                $tcaDefinition->addField($this->tcaDefinition->getField($column));
             }
         }
+        return $tcaDefinition;
     }
 
     public function toArray(): array
