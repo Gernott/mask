@@ -134,13 +134,10 @@ class StorageRepository implements SingletonInterface
     public function remove(string $table, string $elementKey): array
     {
         $this->currentKey = $elementKey;
-        // Load
         $json = $this->load();
-
-        // Remove
         $element = $this->tableDefinitionCollection->loadElement($table, $elementKey);
 
-        if (!$element) {
+        if (!$element instanceof ElementTcaDefinition) {
             return $json;
         }
 
