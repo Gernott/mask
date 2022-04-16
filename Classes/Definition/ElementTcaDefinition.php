@@ -50,7 +50,7 @@ final class ElementTcaDefinition
     {
         $array = $this->elementDefinition->toArray();
         $array['tca'] = [];
-        foreach ($this->tcaDefinition as $field) {
+        foreach ($this->getRootTcaFields() as $field) {
             $array['tca'][$field->fullKey] = $field->toArray();
         }
         return $array;
