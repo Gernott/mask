@@ -667,6 +667,13 @@ define([
           elementLabel.on('change', function () {
             MultiStepWizard.set('elementLabel', $(this).val());
           });
+
+          // Go to next slide by hitting enter key
+          elementLabel.on('keyup', (event) => {
+            if (event.originalEvent.code === 'Enter') {
+              MultiStepWizard.triggerStepButton('next');
+            }
+          });
         });
 
         /** Step 2: Choose element key. Generate suggestion from chosen label. */
@@ -686,6 +693,13 @@ define([
           MultiStepWizard.set('elementKey', elementKey.val());
           elementKey.on('change', function () {
             MultiStepWizard.set('elementKey', $(this).val());
+          });
+
+          // Go to next slide by hitting enter key
+          elementKey.on('keyup', (event) => {
+            if (event.originalEvent.code === 'Enter') {
+              MultiStepWizard.triggerStepButton('next');
+            }
           });
 
           let modal = MultiStepWizard.setup.$carousel.closest('.modal');
