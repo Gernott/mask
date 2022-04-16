@@ -136,7 +136,7 @@ class TcaConverterTest extends BaseTestCase
                     'config.eval.slug' => 'unique',
                 ],
             ],
-            'slug replacements converted from array back to csv' => [
+            'slug replacements transformed to key-value pairs and empty values are not removed' => [
                 [
                     'generatorOptions' => [
                         'replacements' => [
@@ -146,8 +146,17 @@ class TcaConverterTest extends BaseTestCase
                     ]
                 ],
                 [
-                    'config.generatorOptions.replacements' => "a,b\nc,"
-                ]
+                    'config.generatorOptions.replacements' => [
+                        [
+                            'key' => 'a',
+                            'value' => 'b',
+                        ],
+                        [
+                            'key' => 'c',
+                            'value' => '',
+                        ],
+                    ],
+                ],
             ],
             'associative array transformed to key value pairs' => [
                 [
@@ -288,9 +297,18 @@ class TcaConverterTest extends BaseTestCase
                     ]
                 ]
             ],
-            'slug replacements converted from csv to array representation' => [
+            'slug replacements key value pairs transformed to associative array' => [
                 [
-                    'config.generatorOptions.replacements' => "a,b\nc,"
+                    'config.generatorOptions.replacements' => [
+                        [
+                            'key' => 'a',
+                            'value' => 'b',
+                        ],
+                        [
+                            'key' => 'c',
+                            'value' => '',
+                        ],
+                    ],
                 ],
                 [
                     'config' => [

@@ -70,6 +70,7 @@ return [
         'tca_in' => [
             'config.size' => 10,
             'config.eval.slug' => 'uniqueInPid',
+            'config.generatorOptions.replacements' => [],
             'config.generatorOptions.fieldSeparator' => '/',
             'config.fallbackCharacter' => '-',
         ],

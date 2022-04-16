@@ -40,6 +40,7 @@ class TcaConverter
     protected static $keyValueFields = [
         'config.itemGroups',
         'config.sortItems',
+        'config.generatorOptions.replacements',
     ];
 
     /**
@@ -64,14 +65,7 @@ class TcaConverter
         foreach ($config as $key => $value) {
             $path[] = $key;
             $fullPath = implode('.', $path);
-            if ($fullPath === 'config.generatorOptions.replacements') {
-                $replacements = $value;
-                $replacementsAsText = '';
-                foreach ($replacements as $search => $replace) {
-                    $replacementsAsText .= $search . ',' . $replace . "\n";
-                }
-                $tca[] = [$fullPath => trim($replacementsAsText)];
-            } elseif ($fullPath === 'config.generatorOptions.fields') {
+            if ($fullPath === 'config.generatorOptions.fields') {
                 $fields = [];
                 foreach ($value as $field) {
                     if (is_array($field)) {
@@ -134,16 +128,6 @@ class TcaConverter
                 }
             }
 
-            if ($key === 'config.generatorOptions.replacements') {
-                $replacements = [];
-                foreach (explode("\n", $value) as $line) {
-                    $searchReplace = explode(',', $line);
-                    $search = $searchReplace[0];
-                    $replace = $searchReplace[1] ?? '';
-                    $replacements[trim($search)] = trim($replace);
-                }
-                $value = $replacements;
-            }
             if ($key === 'config.generatorOptions.fields') {
                 $fields = [];
                 foreach (explode(',', $value) as $field) {

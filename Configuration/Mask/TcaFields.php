@@ -169,11 +169,14 @@ return [
         ]
     ],
     'config.generatorOptions.replacements' => [
-        'type' => 'textarea',
-        'rows' => 5,
+        'type' => 'keyValue',
         'label' => 'tx_mask.field.slug.generatorOptions.replacements',
         'description' => 'tx_mask.field.slug.generatorOptions.replacements.description',
         'code' => 'generatorOptions.replacements',
+        'keyValueLabels' => [
+            'key' => 'tx_mask.field.slug.generatorOptions.key',
+            'value' => 'tx_mask.field.slug.generatorOptions.value',
+        ],
         'documentation' => [
             10 => 'ColumnsConfig/Type/Slug.html#generatoroptions',
             11 => 'ColumnsConfig/Type/Slug/Properties/GeneratorOptions.html#confval-generatorOptions:replacements',

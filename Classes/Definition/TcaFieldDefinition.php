@@ -25,9 +25,6 @@ use TYPO3\CMS\Core\Information\Typo3Version;
 final class TcaFieldDefinition
 {
     private const ALLOWED_EMPTY_VALUES_BY_TYPE = [
-        FieldType::SLUG => [
-            'config.generatorOptions.replacements'
-        ],
         FieldType::SELECT => [
             'config.items',
         ],
@@ -39,7 +36,10 @@ final class TcaFieldDefinition
     private const STOP_RECURSIVE_VALUES_BY_TYPE = [
         FieldType::SELECT => [
             'config.itemGroups',
-        ]
+        ],
+        FieldType::SLUG => [
+            'config.generatorOptions.replacements'
+        ],
     ];
 
     /**
