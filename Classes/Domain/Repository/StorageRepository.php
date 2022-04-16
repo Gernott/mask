@@ -460,7 +460,7 @@ class StorageRepository implements SingletonInterface
             E_USER_DEPRECATED
         );
 
-        return $this->loader->load()->getFieldTypeString($fieldKey, $table);
+        return $this->loader->load()->getFieldTypeString($fieldKey, $table, $elementKey);
     }
 
     /**

@@ -370,4 +370,234 @@ class TcaFieldDefinitionTest extends UnitTestCase
     {
         self::assertEquals($expected, TcaFieldDefinition::createFromFieldArray($json)->toArray());
     }
+
+    /**
+     * @return iterable<string, mixed>
+     */
+    public function hasTypeReturnsTrueIfTypeCanBeFoundDataProvider(): iterable
+    {
+        yield 'Mask field with type attribute' => [
+            'json' => [
+                'config' => [
+                    'type' => 'string',
+                ],
+                'key' => 'field1',
+                'type' => 'string',
+            ],
+            'expected' => true,
+            'elementKey' => '',
+        ];
+
+        yield 'Mask field without type attribute resolved by config' => [
+            'json' => [
+                'config' => [
+                    'type' => 'string',
+                ],
+                'key' => 'field1',
+            ],
+            'expected' => true,
+            'elementKey' => '',
+        ];
+
+        yield 'Core field without type attribute' => [
+            'json' => [
+                'key' => 'corefield',
+            ],
+            'expected' => false,
+            'elementKey' => '',
+        ];
+
+        yield 'Core field with type attribute' => [
+            'json' => [
+                'key' => 'corefield',
+                'type' => 'string',
+            ],
+            'expected' => true,
+            'elementKey' => '',
+        ];
+
+        yield 'core bodytext field without type resolved to richtext' => [
+            'json' => [
+                'key' => 'bodytext',
+            ],
+            'expected' => true,
+            'elementKey' => '',
+        ];
+
+        yield 'core bodytext field with type resolved to richtext' => [
+            'json' => [
+                'key' => 'bodytext',
+                'type' => 'richtext',
+            ],
+            'expected' => true,
+            'elementKey' => '',
+        ];
+
+        yield 'core bodytext field with bodytextTypeByElement set and no elementKey provided' => [
+            'json' => [
+                'key' => 'bodytext',
+                'bodytextTypeByElement' => [
+                    'a' => 'richtext',
+                ],
+            ],
+            'expected' => false,
+            'elementKey' => '',
+        ];
+
+        yield 'core bodytext field with bodytextTypeByElement set and valid elementKey provided' => [
+            'json' => [
+                'key' => 'bodytext',
+                'bodytextTypeByElement' => [
+                    'a' => 'richtext',
+                ],
+            ],
+            'expected' => true,
+            'elementKey' => 'a',
+        ];
+
+        yield 'core bodytext field with bodytextTypeByElement set and invalid elementKey provided' => [
+            'json' => [
+                'key' => 'bodytext',
+                'bodytextTypeByElement' => [
+                    'a' => 'richtext',
+                ],
+            ],
+            'expected' => true,
+            'elementKey' => 'b',
+        ];
+    }
+
+    /**
+     * @dataProvider hasTypeReturnsTrueIfTypeCanBeFoundDataProvider
+     * @test
+     * @param array<string, mixed> $json
+     */
+    public function hasTypeReturnsTrueIfTypeCanBeFound(array $json, bool $expected, string $elementKey): void
+    {
+        $tcaFieldDefinition = TcaFieldDefinition::createFromFieldArray($json);
+        self::assertSame($expected, $tcaFieldDefinition->hasFieldType($elementKey));
+    }
+
+    /**
+     * @return iterable<string, mixed>
+     */
+    public function getTypeReturnsTypeIfTypeCanBeFoundDataProvider(): iterable
+    {
+        yield 'Mask field with type attribute' => [
+            'json' => [
+                'config' => [
+                    'type' => 'string',
+                ],
+                'key' => 'field1',
+                'type' => 'string',
+            ],
+            'expected' => 'string',
+            'elementKey' => '',
+        ];
+
+        yield 'Mask field without type attribute resolved by config' => [
+            'json' => [
+                'config' => [
+                    'type' => 'string',
+                ],
+                'key' => 'field1',
+            ],
+            'expected' => 'string',
+            'elementKey' => '',
+        ];
+
+        yield 'Core field with type attribute' => [
+            'json' => [
+                'key' => 'corefield',
+                'type' => 'string',
+            ],
+            'expected' => 'string',
+            'elementKey' => '',
+        ];
+
+        yield 'core bodytext field without type resolved to richtext' => [
+            'json' => [
+                'key' => 'bodytext',
+            ],
+            'expected' => 'richtext',
+            'elementKey' => '',
+        ];
+
+        yield 'core bodytext field with type resolved to richtext' => [
+            'json' => [
+                'key' => 'bodytext',
+                'type' => 'richtext',
+            ],
+            'expected' => 'richtext',
+            'elementKey' => '',
+        ];
+
+        yield 'core bodytext field with bodytextTypeByElement set and valid elementKey provided' => [
+            'json' => [
+                'key' => 'bodytext',
+                'bodytextTypeByElement' => [
+                    'a' => 'richtext',
+                ],
+            ],
+            'expected' => 'richtext',
+            'elementKey' => 'a',
+        ];
+
+        yield 'core bodytext field with bodytextTypeByElement set and invalid elementKey provided' => [
+            'json' => [
+                'key' => 'bodytext',
+                'bodytextTypeByElement' => [
+                    'a' => 'richtext',
+                ],
+            ],
+            'expected' => 'richtext',
+            'elementKey' => 'b',
+        ];
+    }
+
+    /**
+     * @dataProvider getTypeReturnsTypeIfTypeCanBeFoundDataProvider
+     * @test
+     * @param array<string, mixed> $json
+     */
+    public function getTypeReturnsTypeIfTypeCanBeFound(array $json, string $expected, string $elementKey): void
+    {
+        $tcaFieldDefinition = TcaFieldDefinition::createFromFieldArray($json);
+        self::assertSame($expected, (string)$tcaFieldDefinition->getFieldType($elementKey));
+    }
+
+    /**
+     * @return iterable<string, mixed>
+     */
+    public function getTypeThrowsExceptionIfTypeCanNotBeFoundDataProvider(): iterable
+    {
+        yield 'Core field without type attribute' => [
+            'json' => [
+                'key' => 'corefield',
+            ],
+            'elementKey' => '',
+        ];
+
+        yield 'core bodytext field with bodytextTypeByElement set and no elementKey provided' => [
+            'json' => [
+                'key' => 'bodytext',
+                'bodytextTypeByElement' => [
+                    'a' => 'richtext',
+                ],
+            ],
+            'elementKey' => '',
+        ];
+    }
+
+    /**
+     * @dataProvider getTypeThrowsExceptionIfTypeCanNotBeFoundDataProvider
+     * @test
+     * @param array<string, mixed> $json
+     */
+    public function getTypeThrowsExceptionIfTypeCanNotBeFound(array $json, string $elementKey): void
+    {
+        $tcaFieldDefinition = TcaFieldDefinition::createFromFieldArray($json);
+        self::expectException(\OutOfBoundsException::class);
+        $tcaFieldDefinition->getFieldType($elementKey);
+    }
 }

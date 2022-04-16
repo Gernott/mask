@@ -204,12 +204,9 @@ final class TableDefinitionCollection implements \IteratorAggregate
                 }
 
                 // Check if FieldType is available
-                if ($field->hasFieldType()) {
-                    $fieldType = $this->getFieldType($field->fullKey, $tableDefinition->table);
-                    if ($fieldType->isParentField()) {
-                        foreach ($this->loadInlineFields($field->fullKey, $elementKey) as $inlineField) {
-                            $field->addInlineField($inlineField);
-                        }
+                if ($field->hasFieldType() && $field->type->isParentField()) {
+                    foreach ($this->loadInlineFields($field->fullKey, $elementKey) as $inlineField) {
+                        $field->addInlineField($inlineField);
                     }
                 }
 
