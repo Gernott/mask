@@ -174,7 +174,9 @@ define([
                         <input :id="id" v-model="global.activeField.tca[tcaKey]" :ref="tcaKey" :data-date-type="dateType" class="t3js-datetimepicker form-control t3js-clearable flatpickr-input">
                     </div>
                     <input type="hidden">
-                    <label class="btn btn-default" :for="id" v-html="icons.date"></label>
+                    <span class="input-group-btn">
+                        <label class="btn btn-default" :for="id" v-html="icons.date"></label>
+                    </span>
                 </div>
               </div>
               <div class="form-wizards-wrap" v-if="type == 'radio'">
