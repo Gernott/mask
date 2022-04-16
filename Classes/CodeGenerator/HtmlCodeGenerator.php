@@ -91,12 +91,19 @@ class HtmlCodeGenerator
                     $html[] = $this->drawWhitespace(0 + $depth) . '<f:for each="{' . $datafield . '.' . $field->fullKey . '_items}" as="' . $datafield . '_item' . '">';
                     $html[] = $this->drawWhitespace(1 + $depth) . '<div>{' . $datafield . '_item.uid}' . '</div>';
                     $html[] = $this->drawWhitespace(0 + $depth) . '</f:for>';
-                } elseif (($field->realTca['config']['renderType'] ?? '') === 'selectCheckBox') {
+                } elseif (in_array(($field->realTca['config']['renderType'] ?? ''), ['selectCheckBox', 'selectSingleBox', 'selectMultipleSideBySide'], true)) {
                     $html[] = $this->drawWhitespace(0 + $depth) . '<f:for each="{' . $datafield . '.' . $field->fullKey . '_items}" as="' . $datafield . '_item' . '">';
                     $html[] = $this->drawWhitespace(1 + $depth) . '<div>{' . $datafield . '_item}' . '</div>';
                     $html[] = $this->drawWhitespace(0 + $depth) . '</f:for>';
                 } else {
-                    $html[] = $this->drawWhitespace(0 + $depth) . $this->getVariable($datafield, $field->fullKey);
+                    $html[] = $this->drawWhitespace(0 + $depth) . $this->getVariableViewHelper($datafield, $field->fullKey);
+                    $html[] = $this->drawWhitespace(0 + $depth) . '<f:switch expression="{' . $this->getVariableName($field->fullKey) . '}">';
+                    foreach ($field->realTca['config']['items'] ?? [] as $item) {
+                        $html[] = $this->drawWhitespace(1 + $depth) . '<f:case value="' . $item[1] . '">';
+                        $html[] = $this->drawWhitespace(2 + $depth) . '{' . $this->getVariableName($field->fullKey) . '}';
+                        $html[] = $this->drawWhitespace(1 + $depth) . '</f:case>';
+                    }
+                    $html[] = $this->drawWhitespace(0 + $depth) . '</f:switch>';
                 }
                 break;
             case FieldType::CATEGORY:
@@ -106,7 +113,16 @@ class HtmlCodeGenerator
                 break;
             case FieldType::RADIO:
             case FieldType::CHECK:
-                $html[] = $this->drawWhitespace(0 + $depth) . $this->getVariable($datafield, $field->fullKey);
+                $html[] = $this->drawWhitespace(0 + $depth) . $this->getVariableViewHelper($datafield, $field->fullKey);
+                $html[] = $this->drawWhitespace(0 + $depth) . '<f:if condition="{' . $this->getVariableName($field->fullKey) . '}">';
+                $html[] = $this->drawWhitespace(1 + $depth) . '<f:then>';
+                $html[] = $this->drawWhitespace(2 + $depth) . '<f:comment><!-- Do this, if checked --></f:comment>';
+                $html[] = $this->drawWhitespace(1 + $depth) . '</f:then>';
+                $html[] = $this->drawWhitespace(1 + $depth) . '<f:else>';
+                $html[] = $this->drawWhitespace(2 + $depth) . '<f:comment><!-- Else do this --></f:comment>';
+                $html[] = $this->drawWhitespace(1 + $depth) . '</f:else>';
+                $html[] = $this->drawWhitespace(0 + $depth) . '</f:if>';
+
                 break;
             case FieldType::CONTENT:
                 $html[] = $this->drawWhitespace(0 + $depth) . '<f:if condition="{' . $datafield . '.' . $field->fullKey . '}">';
@@ -127,20 +143,24 @@ class HtmlCodeGenerator
                 $html[] = $this->drawWhitespace(0 + $depth) . '</f:if>';
                 break;
             case FieldType::FILE:
-                $html[] = $this->drawWhitespace(0 + $depth) . '<f:if condition="{' . $datafield . '.' . $field->fullKey . '}">';
-                $html[] = $this->drawWhitespace(1 + $depth) . '<f:for each="{' . $datafield . '.' . $field->fullKey . '}" as="file">';
-                $html[] = $this->drawWhitespace(2 + $depth) . '<f:image image="{file}" width="200" />';
-                $html[] = $this->drawWhitespace(2 + $depth) . '{file.description}';
-                $html[] = $this->drawWhitespace(1 + $depth) . '</f:for>';
-                $html[] = $this->drawWhitespace(0 + $depth) . '</f:if>';
+                if ($field->imageoverlayPalette) {
+                    $html[] = $this->drawWhitespace(0 + $depth) . '<f:for each="{' . $datafield . '.' . $field->fullKey . '}" as="file">';
+                    $html[] = $this->drawWhitespace(1 + $depth) . '<f:image image="{file}" width="200" />';
+                    $html[] = $this->drawWhitespace(1 + $depth) . '{file.description}';
+                    $html[] = $this->drawWhitespace(0 + $depth) . '</f:for>';
+                } else {
+                    $html[] = $this->drawWhitespace(0 + $depth) . '<f:for each="{' . $datafield . '.' . $field->fullKey . '}" as="file">';
+                    $html[] = $this->drawWhitespace(1 + $depth) . '<a href="{file.originalFile.publicUrl}" target="_blank">{f:if(condition: file.title, then: file.title, else: file.name)}</a>';
+                    $html[] = $this->drawWhitespace(1 + $depth) . '{file.description}';
+                    $html[] = $this->drawWhitespace(1 + $depth) . '<f:format.bytes>{file.size}</f:format.bytes>';
+                    $html[] = $this->drawWhitespace(0 + $depth) . '</f:for>';
+                }
                 break;
             case FieldType::MEDIA:
-                $html[] = $this->drawWhitespace(0 + $depth) . '<f:if condition="{' . $datafield . '.' . $field->fullKey . '}">';
-                $html[] = $this->drawWhitespace(1 + $depth) . '<f:for each="{' . $datafield . '.' . $field->fullKey . '}" as="file">';
-                $html[] = $this->drawWhitespace(2 + $depth) . '<f:media file="{file}" width="200" />';
-                $html[] = $this->drawWhitespace(2 + $depth) . '{file.description}';
-                $html[] = $this->drawWhitespace(1 + $depth) . '</f:for>';
-                $html[] = $this->drawWhitespace(0 + $depth) . '</f:if>';
+                $html[] = $this->drawWhitespace(0 + $depth) . '<f:for each="{' . $datafield . '.' . $field->fullKey . '}" as="file">';
+                $html[] = $this->drawWhitespace(1 + $depth) . '<f:media file="{file}" width="200" />';
+                $html[] = $this->drawWhitespace(1 + $depth) . '{file.description}';
+                $html[] = $this->drawWhitespace(0 + $depth) . '</f:for>';
                 break;
             case FieldType::FLOAT:
                 $html[] = $this->drawWhitespace(0 + $depth) . '<f:if condition="{' . $datafield . '.' . $field->fullKey . '}">';
@@ -205,10 +225,15 @@ class HtmlCodeGenerator
         return implode("\n", $html);
     }
 
-    protected function getVariable(string $datafield, string $fieldKey): string
+    protected function getVariableViewHelper(string $datafield, string $fieldKey): string
+    {
+        return '<f:variable name="' . $this->getVariableName($fieldKey) . '" value="{' . $datafield . '.' . $fieldKey . '}"/>';
+    }
+
+    protected function getVariableName(string $fieldKey): string
     {
         $key = AffixUtility::hasMaskPrefix($fieldKey) ? AffixUtility::removeMaskPrefix($fieldKey) : $fieldKey;
-        return '<f:variable name="' . GeneralUtility::underscoredToLowerCamelCase($key) . '" value="{' . $datafield . '.' . $fieldKey . '}"/>';
+        return GeneralUtility::underscoredToLowerCamelCase($key);
     }
 
     protected function drawWhitespace(int $times = 1): string
