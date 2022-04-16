@@ -871,6 +871,7 @@
 .mask-elements__header-icon-wrap {
   display: flex;
   align-items: center;
+  margin-right: 15px;
 }
 .mask-elements__header-icon-wrap .icon {
   flex-shrink: 0;
@@ -883,6 +884,9 @@
   .mask-elements__header-icon-label {
     font-size: 16px;
   }
+}
+.mask-elements__header-search {
+  margin-right: auto;
 }
 .mask-elements__table-wrap {
   overflow-y: scroll;

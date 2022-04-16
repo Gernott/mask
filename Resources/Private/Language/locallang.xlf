@@ -1409,6 +1409,12 @@ title3, value3, icon3, description3
 			<trans-unit id="tx_mask.submit">
 				<source>Submit</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.search">
+				<source>Search</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.search_content_elements">
+				<source>Search content elements</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

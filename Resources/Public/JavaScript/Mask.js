@@ -59,6 +59,7 @@ define([
         mode: 'list',
         type: '',
         sidebar: 'fields',
+        searchString: '',
         groups: [],
         elements: [],
         element: {},
@@ -730,6 +731,7 @@ define([
         this.mode = 'edit';
         this.type = type;
         this.element = element;
+        this.searchString = '';
         let requests = [];
 
         // load element fields
@@ -1321,6 +1323,19 @@ define([
           return false;
         }
         return this.availableCoreTcaForActiveField.length > 0 || this.availableMaskTcaForActiveField.length > 0;
+      },
+      filteredElements() {
+        if (this.lowerCaseSearchString === '') {
+          return Object.values(this.elements);
+        }
+        return Object.values(this.elements).filter((element) => {
+          return element.label.toLowerCase().includes(this.lowerCaseSearchString)
+            || element.shortLabel.toLowerCase().includes(this.lowerCaseSearchString)
+            || element.description.toLowerCase().includes(this.lowerCaseSearchString);
+        });
+      },
+      lowerCaseSearchString() {
+        return this.searchString.toLowerCase();
       },
       keyFieldVisible: function () {
         return !this.global.sctructuralFields.includes(this.global.activeField.name) && this.maskFieldGeneralTabOpen;

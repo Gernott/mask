@@ -46,6 +46,7 @@
     &__header-icon-wrap {
         display: flex;
         align-items: center;
+        margin-right: 15px;
 
         .icon {
             flex-shrink: 0;
@@ -59,6 +60,10 @@
         @media screen and (min-width: $bp-edit-flex) {
             font-size: 16px;
         }
+    }
+
+    &__header-search {
+        margin-right: auto;
     }
 
     &__table-wrap {
