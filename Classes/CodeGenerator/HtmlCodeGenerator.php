@@ -56,7 +56,7 @@ class HtmlCodeGenerator
         }
 
         $html = [];
-        foreach ($element->tcaDefinition as $field) {
+        foreach ($element->getRootTcaFields() as $field) {
             $part = $this->generateFieldHtml($field->fullKey, $elementKey, $table);
             if ($part !== '') {
                 $html[] = $part;

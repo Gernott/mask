@@ -143,7 +143,7 @@ class StorageRepository implements SingletonInterface
         }
 
         unset($json[$table]['elements'][$elementKey]);
-        foreach ($element->tcaDefinition as $field) {
+        foreach ($element->getRootTcaFields() as $field) {
             $json = $this->removeField($table, $field, $json);
         }
         $this->currentKey = '';

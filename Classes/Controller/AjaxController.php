@@ -21,6 +21,7 @@ use MASK\Mask\CodeGenerator\HtmlCodeGenerator;
 use MASK\Mask\CodeGenerator\SqlCodeGenerator;
 use MASK\Mask\CodeGenerator\TcaCodeGenerator;
 use MASK\Mask\ConfigurationLoader\ConfigurationLoader;
+use MASK\Mask\Definition\ElementTcaDefinition;
 use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Definition\TcaFieldDefinition;
 use MASK\Mask\Domain\Repository\BackendLayoutRepository;
@@ -530,7 +531,7 @@ class AjaxController
         }
 
         $multiUseElements = [];
-        foreach ($element->tcaDefinition as $field) {
+        foreach ($element->getRootTcaFields() as $field) {
             if (!AffixUtility::hasMaskPrefix($field->fullKey)) {
                 continue;
             }
@@ -981,7 +982,8 @@ class AjaxController
     public function checkElementKey(ServerRequest $request): Response
     {
         $elementKey = $request->getQueryParams()['key'];
-        $isAvailable = !$this->tableDefinitionCollection->loadElement('tt_content', $elementKey);
+        $elementTcaDefinition = $this->tableDefinitionCollection->loadElement('tt_content', $elementKey);
+        $isAvailable = !$elementTcaDefinition instanceof ElementTcaDefinition;
 
         return new JsonResponse(['isAvailable' => $isAvailable]);
     }
