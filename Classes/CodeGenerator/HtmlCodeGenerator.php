@@ -82,7 +82,7 @@ class HtmlCodeGenerator
     protected function generateFieldHtml(TcaFieldDefinition $field, ElementTcaDefinition $element, string $table, string $datafield = 'data', int $depth = 0): string
     {
         $html = [];
-        if (!$field->type->isRenderable()) {
+        if (!$field->hasFieldType() || !$field->type->isRenderable()) {
             return '';
         }
         switch ((string)$field->type) {
