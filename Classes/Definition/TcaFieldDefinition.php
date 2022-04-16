@@ -483,7 +483,7 @@ final class TcaFieldDefinition
             ) {
                 $haystack[$key] = self::removeBlankOptions($value, $fieldDefinition, $path);
             }
-            if ((is_array($haystack[$key]) && empty($haystack[$key])) || (is_string($haystack[$key]) && $haystack[$key] === '')) {
+            if ((is_array($haystack[$key]) && empty($haystack[$key])) || ($haystack[$key] === '')) {
                 unset($haystack[$key]);
             }
             array_pop($path);
