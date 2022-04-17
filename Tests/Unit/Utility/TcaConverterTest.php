@@ -98,7 +98,7 @@ class TcaConverterTest extends BaseTestCase
                     'config.eval' => 'date'
                 ]
             ],
-            'blindLinkOptions values converted as seperate entries' => [
+            'blindLinkOptions values converted to array' => [
                 [
                     'fieldControl' => [
                         'linkPopup' => [
@@ -109,8 +109,10 @@ class TcaConverterTest extends BaseTestCase
                     ]
                 ],
                 [
-                    'config.fieldControl.linkPopup.options.blindLinkOptions.file' => 1,
-                    'config.fieldControl.linkPopup.options.blindLinkOptions.folder' => 1,
+                    'config.fieldControl.linkPopup.options.blindLinkOptions' => [
+                        'file',
+                        'folder',
+                    ]
                 ]
             ],
             'slug fields converted to flat array structure' => [
@@ -255,8 +257,10 @@ class TcaConverterTest extends BaseTestCase
             ],
             'blindLinkOptions values converted to comma separated list' => [
                 [
-                    'config.fieldControl.linkPopup.options.blindLinkOptions.file' => 1,
-                    'config.fieldControl.linkPopup.options.blindLinkOptions.folder' => 1,
+                    'config.fieldControl.linkPopup.options.blindLinkOptions' => [
+                        'file',
+                        'folder',
+                    ]
                 ],
                 [
                     'config' => [

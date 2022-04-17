@@ -44,7 +44,8 @@ return [
     FieldType::LINK => [
         'tca_in' => [
             'l10n_mode' => '',
-            'config.eval.null' => 0
+            'config.eval.null' => 0,
+            'config.fieldControl.linkPopup.options.blindLinkOptions' => [],
         ],
         'tca_out' => [
             'config.type' => 'input',

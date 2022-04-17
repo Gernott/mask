@@ -912,9 +912,6 @@ title3, value3, icon3, description3
 			<trans-unit id="tx_mask.field.text.format.mixed">
 				<source>Mixed</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.blindLinkOptions">
-				<source>Link options that should be displayed</source>
-			</trans-unit>
 
 			<trans-unit id="tx_mask.content.title">
 				<source>Title</source>
@@ -1332,10 +1329,10 @@ title3, value3, icon3, description3
 				<source>Delete field</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.blindLinkOptions">
-				<source>Link Options</source>
+				<source>LinkHandler</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.blindLinkOptions.description">
-				<source>Link options that should be displayed</source>
+				<source>LinkHandler that should be available</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.showMultiuseElements">
 				<source>Show content elements</source>

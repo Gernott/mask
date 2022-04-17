@@ -32,6 +32,7 @@ use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use MASK\Mask\Utility\TemplatePathUtility;
 use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\View\BackendLayout\BackendLayout;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
@@ -905,6 +906,20 @@ class AjaxController
         $presets = array_combine($presets, $presets);
         $config = array_merge($config, $presets);
         return new JsonResponse($config);
+    }
+
+    public function linkHandler(ServerRequestInterface $request): Response
+    {
+        $linkHandlerList = (array)(BackendUtility::getPagesTSconfig(0)['TCEMAIN.']['linkHandler.'] ?? []);
+        $linkHandlerResponse = [];
+        foreach ($linkHandlerList as $identifier => $linkHandler) {
+            $linkHandlerResponse[] = [
+                'identifier' => rtrim($identifier, '.'),
+                'label' => $this->getLanguageService()->sL($linkHandler['label']),
+            ];
+        }
+
+        return new JsonResponse($linkHandlerResponse);
     }
 
     public function optionalExtensionStatus(ServerRequestInterface $request): Response

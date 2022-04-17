@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace MASK\Mask\Utility;
 
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use TYPO3\CMS\Core\Utility\GeneralUtility as CoreUtility;
 
 /**
  * Back and forth converting for flat vs array TCA structure.
@@ -26,6 +27,13 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
  */
 class TcaConverter
 {
+    /**
+     * @var string[]
+     */
+    protected static $commaSeparatedLists = [
+        'config.fieldControl.linkPopup.options.blindLinkOptions',
+    ];
+
     /**
      * @var string[]
      */
@@ -74,11 +82,13 @@ class TcaConverter
                     $fields[] = $field;
                 }
                 $tca[] = [$fullPath => implode(',', $fields)];
+            } elseif (in_array($fullPath, self::$commaSeparatedLists, true)) {
+                $tca[] = [$fullPath => CoreUtility::trimExplode(',', $value)];
             } elseif (in_array($fullPath, self::$keyValueFields, true)) {
                 $tca[] = [$fullPath => self::convertAssociativeArrayToKeyValuePairs($value)];
             } elseif (is_array($value) && !in_array($fullPath, self::$itemListFields, true)) {
                 $tca[] = self::convertTcaArrayToFlat($value, $path);
-            } elseif ($fullPath === 'config.eval' || $key === 'blindLinkOptions') {
+            } elseif ($fullPath === 'config.eval') {
                 if ($value !== '') {
                     // The eval value of type slug is set in "config.eval.slug".
                     if (($config['type'] ?? '') === 'slug') {
@@ -128,6 +138,10 @@ class TcaConverter
                 }
             }
 
+            if (in_array($key, self::$commaSeparatedLists, true)) {
+                $value = implode(',', $value);
+            }
+
             if ($key === 'config.generatorOptions.fields') {
                 $fields = [];
                 foreach (explode(',', $value) as $field) {
@@ -161,10 +175,6 @@ class TcaConverter
 
         if (isset($tcaArray['config']['eval'])) {
             $tcaArray['config']['eval'] = self::mergeCommaSeperatedOptions($tcaArray['config']['eval']);
-        }
-
-        if (isset($tcaArray['config']['fieldControl']['linkPopup']['options']['blindLinkOptions'])) {
-            $tcaArray['config']['fieldControl']['linkPopup']['options']['blindLinkOptions'] = self::mergeCommaSeperatedOptions($tcaArray['config']['fieldControl']['linkPopup']['options']['blindLinkOptions']);
         }
 
         return $tcaArray;

@@ -67,6 +67,7 @@ define([
         fieldTypes: [],
         tcaFields: {},
         onlineMedia: [],
+        linkHandlerList: [],
         tabs: {},
         fields: [],
         language: [],
@@ -210,6 +211,14 @@ define([
                 .then(
                   async response => {
                     this.onlineMedia = await response.resolve();
+                  }
+                ));
+
+              // Fetch link handler
+              promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_link_handler)).get()
+                .then(
+                  async response => {
+                    this.linkHandlerList = await response.resolve();
                   }
                 ));
 

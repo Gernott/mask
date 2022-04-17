@@ -17,6 +17,7 @@ define([
           column: Number,
           tcaFields: Object,
           onlineMedia: Array,
+          linkHandlerList: Array,
           tcaKey: String,
           global: Object,
           language: Object,
@@ -202,6 +203,21 @@ define([
                         <label class="checkbox-label form-check-label" :for="id + media">
                             <span class="checkbox-label-text form-check-label-text">[{{ media }}]</span>
                         </label>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div v-if="type == 'linkHandler'" class="form-control-wrap">
+                <div class="form-wizards-wrap">
+                    <div class="form-wizards-element">
+                      <div v-for="linkHandler in linkHandlerList" class="form-group">
+                        <label class="t3js-formengine-label" :for="id + linkHandler.identifier">{{ linkHandler.label }}</label>
+                        <div class="checkbox checkbox-type-toggle form-check form-switch checkbox-invert">
+                            <input :id="id + linkHandler.identifier" class="checkbox-input form-check-input" v-model="global.activeField.tca[tcaKey]" type="checkbox" :value="linkHandler.identifier">
+                            <label class="checkbox-label form-check-label" :for="id + linkHandler.identifier">
+                                <span class="checkbox-label-text form-check-label-text">[{{ linkHandler.identifier }}]</span>
+                            </label>
+                        </div>
                       </div>
                     </div>
                 </div>

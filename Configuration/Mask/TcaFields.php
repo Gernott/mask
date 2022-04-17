@@ -480,7 +480,7 @@ return [
         ],
     ],
     'config.fieldControl.linkPopup.options.blindLinkOptions' => [
-        'type' => 'plainText',
+        'type' => 'linkHandler',
         'label' => 'tx_mask.blindLinkOptions',
         'description' => 'tx_mask.blindLinkOptions.description',
         'code' => 'blindLinkOptions',
@@ -488,66 +488,6 @@ return [
             10 => 'ColumnsConfig/Type/inputLink.html?highlight=blindLinkOptions#linkpopup',
             11 => 'ColumnsConfig/Type/Input/Properties/LinkPopup.html#tca-property-fieldcontrol-linkpopup',
         ],
-    ],
-    'config.fieldControl.linkPopup.options.blindLinkOptions.file' => [
-        'type' => 'checkbox',
-        'label' => 'tx_mask.field.link.file',
-        'code' => 'file',
-        'documentation' => [
-            10 => 'ColumnsConfig/Type/inputLink.html?highlight=blindLinkOptions#linkpopup',
-            11 => 'ColumnsConfig/Type/Input/Properties/LinkPopup.html#tca-property-fieldcontrol-linkpopup',
-        ],
-        'invert' => true
-    ],
-    'config.fieldControl.linkPopup.options.blindLinkOptions.mail' => [
-        'type' => 'checkbox',
-        'label' => 'tx_mask.field.link.mail',
-        'code' => 'mail',
-        'documentation' => [
-            10 => 'ColumnsConfig/Type/inputLink.html?highlight=blindLinkOptions#linkpopup',
-            11 => 'ColumnsConfig/Type/Input/Properties/LinkPopup.html#tca-property-fieldcontrol-linkpopup',
-        ],
-        'invert' => true
-    ],
-    'config.fieldControl.linkPopup.options.blindLinkOptions.page' => [
-        'type' => 'checkbox',
-        'label' => 'tx_mask.field.link.page',
-        'code' => 'page',
-        'documentation' => [
-            10 => 'ColumnsConfig/Type/inputLink.html?highlight=blindLinkOptions#linkpopup',
-            11 => 'ColumnsConfig/Type/Input/Properties/LinkPopup.html#tca-property-fieldcontrol-linkpopup',
-        ],
-        'invert' => true
-    ],
-    'config.fieldControl.linkPopup.options.blindLinkOptions.folder' => [
-        'type' => 'checkbox',
-        'label' => 'tx_mask.field.link.folder',
-        'code' => 'folder',
-        'documentation' => [
-            10 => 'ColumnsConfig/Type/inputLink.html?highlight=blindLinkOptions#linkpopup',
-            11 => 'ColumnsConfig/Type/Input/Properties/LinkPopup.html#tca-property-fieldcontrol-linkpopup',
-        ],
-        'invert' => true
-    ],
-    'config.fieldControl.linkPopup.options.blindLinkOptions.url' => [
-        'type' => 'checkbox',
-        'label' => 'tx_mask.field.link.url',
-        'code' => 'url',
-        'documentation' => [
-            10 => 'ColumnsConfig/Type/inputLink.html?highlight=blindLinkOptions#linkpopup',
-            11 => 'ColumnsConfig/Type/Input/Properties/LinkPopup.html#tca-property-fieldcontrol-linkpopup',
-        ],
-        'invert' => true
-    ],
-    'config.fieldControl.linkPopup.options.blindLinkOptions.telephone' => [
-        'type' => 'checkbox',
-        'label' => 'tx_mask.field.link.telephone',
-        'code' => 'telephone',
-        'documentation' => [
-            10 => 'ColumnsConfig/Type/inputLink.html?highlight=blindLinkOptions#linkpopup',
-            11 => 'ColumnsConfig/Type/Input/Properties/LinkPopup.html#tca-property-fieldcontrol-linkpopup',
-        ],
-        'invert' => true
     ],
     'config.cols' => [
         'collision' => true,
