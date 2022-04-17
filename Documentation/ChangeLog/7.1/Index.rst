@@ -7,13 +7,13 @@ Mask version 7.1
 As promised, new good stuff will come in the v7 series. Now, let me introduce
 you Mask `v7.1`! The focus of this version was to implement a proper API for
 Mask. For this, lots of refactoring had to be done and many tests had to be
-written (20k deleted lines!):
+written (11k deleted lines!):
 
-`git diff main v7.0.19 --shortstat`
+`git diff v7.0.19 main --shortstat`
 
 .. code-block:: shell
 
-   196 files changed, 11386 insertions(+), 20536 deletions(-)
+   196 files changed, 20536 insertions(+), 11386 deletions(-)
 
 The key features are thereby the new :php:`LoaderInterface` and the
 :php:`TableDefinitionCollection`. Both will be explained more in detail later.
