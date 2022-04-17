@@ -49,4 +49,9 @@ final class SqlColumnDefinition
             $this->column => $this->sqlDefinition
         ];
     }
+
+    public function setNull(): void
+    {
+        $this->sqlDefinition = trim(str_replace('NOT NULL', '', $this->sqlDefinition));
+    }
 }

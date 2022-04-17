@@ -600,4 +600,43 @@ class TcaFieldDefinitionTest extends UnitTestCase
         self::expectException(\OutOfBoundsException::class);
         $tcaFieldDefinition->getFieldType($elementKey);
     }
+
+    /**
+     * @return iterable<string, mixed>
+     */
+    public function isNullableReturnsTrueIfTCADefinesNullableFieldDataProvider(): iterable
+    {
+        yield 'eval contains null' => [
+            'json' => [
+                'key' => 'field1',
+                'config' => [
+                    'type' => 'input',
+                    'eval' => 'null,trim',
+                ]
+            ],
+            'expected' => true,
+        ];
+
+        yield 'eval does not contain null' => [
+            'json' => [
+                'key' => 'field1',
+                'config' => [
+                    'type' => 'input',
+                    'eval' => 'trim,required',
+                ]
+            ],
+            'expected' => false,
+        ];
+    }
+
+    /**
+     * @dataProvider isNullableReturnsTrueIfTCADefinesNullableFieldDataProvider
+     * @test
+     * @param array<string, mixed> $json
+     */
+    public function isNullableReturnsTrueIfTCADefinesNullableField(array $json, bool $expected): void
+    {
+        $tcaFieldDefinition = TcaFieldDefinition::createFromFieldArray($json);
+        self::assertSame($expected, $tcaFieldDefinition->isNullable());
+    }
 }

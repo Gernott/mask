@@ -116,6 +116,16 @@ class SqlCodeGenerator
                 if ($fieldType->equals(FieldType::INLINE) && !$tableDefinitionCollection->hasTable($column->column)) {
                     continue;
                 }
+                if (!$tableDefinition->tca->hasField($column->column)) {
+                    continue;
+                }
+
+                // If the field should be nullable, as defined in TCA, remove the NOT NULL statement.
+                $tcaFieldDefinition = $tableDefinition->tca->getField($column->column);
+                if ($tcaFieldDefinition->isNullable()) {
+                    $column->setNull();
+                }
+
                 $sql[] = 'CREATE TABLE ' . $tableDefinition->table . " (\n\t" . $column->column . ' ' . $column->sqlDefinition . "\n);\n";
                 // if this field is a content field, also add parent columns
                 if ($fieldType->equals(FieldType::CONTENT)) {

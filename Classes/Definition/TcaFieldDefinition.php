@@ -21,6 +21,7 @@ use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\FieldTypeUtility;
 use TYPO3\CMS\Core\Information\Typo3Version;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final class TcaFieldDefinition
 {
@@ -585,5 +586,10 @@ final class TcaFieldDefinition
         }
 
         return $this->bodytextTypeByElement[$elementKey] ?? new FieldType(FieldType::RICHTEXT);
+    }
+
+    public function isNullable(): bool
+    {
+        return GeneralUtility::inList($this->realTca['config']['eval'] ?? '', 'null');
     }
 }
