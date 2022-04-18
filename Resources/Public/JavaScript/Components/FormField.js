@@ -209,8 +209,8 @@ define([
             </div>
             <div v-if="type == 'linkHandler'" class="form-control-wrap">
                 <div class="form-wizards-wrap">
-                    <div class="form-wizards-element">
-                      <div v-for="linkHandler in linkHandlerList" class="form-group">
+                    <div class="form-wizards-element row">
+                      <div v-for="linkHandler in linkHandlerList" class="form-group col-sm-4">
                         <label class="t3js-formengine-label" :for="id + linkHandler.identifier">{{ linkHandler.label }}</label>
                         <div class="checkbox checkbox-type-toggle form-check form-switch checkbox-invert">
                             <input :id="id + linkHandler.identifier" class="checkbox-input form-check-input" v-model="global.activeField.tca[tcaKey]" type="checkbox" :value="linkHandler.identifier">
