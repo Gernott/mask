@@ -1356,10 +1356,10 @@ title3, value3, icon3, description3
 				<source>Choose element key</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.multistep.text1">
-				<source>You can change the label later on in "Element Meta Data".</source>
+				<source>You can change the label later in "Settings".</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.multistep.text2">
-				<source>You can change the key later on in "Element Meta Data".</source>
+				<source>You can change the key later in "Settings".</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.multistep.placeholder1">
 				<source>My Element Label</source>
