@@ -682,7 +682,7 @@ title3, value3, icon3, description3
 				<source>Tree</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.select.items">
-				<source>One entry each line, comma separated. First value is the item label. Second value is the value of the item. Third value is an optional icon. Fourth value is an optional description text (title, value, icon, group, description). Icon path either with "EXT:" prefix or icon identifier.</source>
+				<source>First value is the item label. Second value is the value of the item. Third value is an optional icon. Fourth value is an item group. Fifth value is an optional description text (only selectCheckBox). Icon path either with "EXT:" prefix or icon identifier.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.select.foreign_table">
 				<source>Foreign table</source>
