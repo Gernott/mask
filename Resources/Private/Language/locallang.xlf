@@ -607,7 +607,7 @@ title3, value3, icon3, description3
 				<source>Telephone</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.radio.items">
-				<source>The first entry is the displayed title and the second entry is the value (title, value). Values must be integers.</source>
+				<source>The first entry is the displayed title and the second entry is the value. Values must be integers.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.radio.items.value">
 				<source>Integer value</source>
