@@ -1395,7 +1395,10 @@ title3, value3, icon3, description3
 				<source>Auto-Configuration</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.auto_configuration.text">
-				<source>You can auto-configure Mask by providing an extension key. Mask will create default paths with the provided extension.<![CDATA[<br><b>The extension must be loaded.</b>]]></source>
+				<source>You can auto-configure Mask by providing an extension key. Mask will create default paths inside the provided extension.<![CDATA[<br><b>The extension must be loaded.</b>]]></source>
+			</trans-unit>
+			<trans-unit id="tx_mask.loader.description">
+				<source>The JsonLoader merges all elements into one big json file. Whereas the JsonSplitLoader will split them into separate files.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.learn_about_loaders">
 				<source>Learn more about Loaders</source>

@@ -110,16 +110,17 @@
         <form class="form-horizontal mask-setup-incomplete__form">
             <h2><f:translate key="tx_mask.auto_configuration"/></h2>
             <p><f:format.raw><f:translate key="tx_mask.auto_configuration.text"/></f:format.raw></p>
-            <div class="row">
+            <div class="form-group row">
                 <label for="extension-key" class="col-sm-2 control-label">{f:translate(key: 'tx_mask.extension_key')}:</label>
                 <div class="col-sm-8">
                     <input v-model="setupConfiguration.extension" id="extension-key" class="form-control">
                 </div>
                 <div class="col-sm-2 d-flex align-items-center"><span class="text-danger" v-if="setupConfiguration.error">{{ setupConfiguration.error }}</span></div>
             </div>
-            <div class="row">
+            <div class="form-group row">
                 <div class="col-sm-2 control-label"><b>Loader <a href="https://docs.typo3.org/p/mask/mask/main/en-us/API/Loader.html#available-loaders" title="{f:translate(key: 'tx_mask.learn_about_loaders')}" target="_blank"><i class="fa fa-info-circle"></i></a> :</b></div>
                 <div class="col-sm-10">
+                    <div><f:translate key="tx_mask.loader.description"/></div>
                     <div>
                         <label for="json" class="control-label">JsonLoader</label>
                         <input v-model="setupConfiguration.loader" id="json" type="radio" name="loader" value="json"/>
