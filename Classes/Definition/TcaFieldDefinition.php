@@ -166,7 +166,9 @@ final class TcaFieldDefinition
         $tcaFieldDefinition = new self();
 
         // Prior to v6, core fields were determined by empty config array.
-        $tcaFieldDefinition->isCoreField = isset($definition['coreField']) || !isset($definition['config']);
+        // Note: In older Mask versions, file fields had no config section. Only options set to "file".
+        // These should not be added as core fields.
+        $tcaFieldDefinition->isCoreField = isset($definition['coreField']) || (!isset($definition['config']) && !isset($definition['options']));
 
         $tcaFieldDefinition->key = $key;
         // Set full key with mask prefix if not core field

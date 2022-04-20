@@ -360,6 +360,19 @@ class TcaFieldDefinitionTest extends UnitTestCase
                 ],
             ]
         ];
+
+        yield 'Old Mask file fields without config converted to file field' => [
+            'json' => [
+                'key' => 'image',
+                'options' => 'file',
+            ],
+            'expected' => [
+                'key' => 'image',
+                'fullKey' => 'tx_mask_image',
+                'type' => 'file',
+                'imageoverlayPalette' => 1,
+            ]
+        ];
     }
 
     /**
