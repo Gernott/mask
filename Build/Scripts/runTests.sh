@@ -203,6 +203,16 @@ case ${TEST_SUITE} in
         SUITE_EXIT_CODE=$?
         docker-compose down
         ;;
+    cgl)
+        # Active dry-run for cgl needs not "-n" but specific options
+        if [ -n "${CGLCHECK_DRY_RUN}" ]; then
+            CGLCHECK_DRY_RUN="--dry-run --diff"
+        fi
+        setUpDockerComposeDotEnv
+        docker-compose run cgl_all
+        SUITE_EXIT_CODE=$?
+        docker-compose down
+        ;;
     cglGit)
         setUpDockerComposeDotEnv
         docker-compose run cgl_git

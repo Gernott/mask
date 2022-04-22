@@ -18,11 +18,11 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 7.4
+          php-version: 8.1
 
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 2
+          fetch-depth: 1
 
       - name: Validate composer.json
         run: composer validate --strict
@@ -39,10 +39,10 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install dependencies
-        run: composer require typo3/cms-core:^10.4 --prefer-dist --no-progress
+        run: composer require typo3/cms-core:^11.5 --prefer-dist --no-progress
 
       - name: PHP CS Fixer
-        run: Build/Scripts/runTests.sh -s cglGit -n -p 7.4
+        run: Build/Scripts/runTests.sh -s cgl
 
   unit_tests:
     name: Unit Tests TYPO3 v${{ matrix.TYPO3 }} PHP ${{ matrix.php }}
