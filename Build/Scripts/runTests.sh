@@ -110,7 +110,7 @@ cd ../testing-docker || exit 1
 # Option defaults
 ROOT_DIR=`readlink -f ${PWD}/../../`
 TEST_SUITE="unit"
-PHP_VERSION="7.2"
+PHP_VERSION="8.1"
 PHP_XDEBUG_ON=0
 PHP_XDEBUG_PORT=9000
 EXTRA_TEST_OPTIONS=""
