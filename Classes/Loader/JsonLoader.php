@@ -39,6 +39,7 @@ class JsonLoader implements LoaderInterface
     use DefaultTcaCompatibilityTrait;
     use ConfigCleanerTrait;
     use DescriptionByElementCompatibilityTrait;
+    use OrphanRemoverTrait;
 
     public function __construct(array $maskExtensionConfiguration)
     {
@@ -90,6 +91,7 @@ class JsonLoader implements LoaderInterface
         $this->cleanUpConfig($this->tableDefinitionCollection);
         $this->addMissingDefaults($this->tableDefinitionCollection);
         $this->addMissingDescriptionsByElement($this->tableDefinitionCollection);
+        $this->tableDefinitionCollection = $this->removeOrphanTables($this->tableDefinitionCollection);
 
         return clone $this->tableDefinitionCollection;
     }

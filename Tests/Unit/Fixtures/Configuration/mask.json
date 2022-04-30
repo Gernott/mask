@@ -70,15 +70,18 @@
 				"icon": "",
 				"columns": [
 					"tx_mask_a",
-					"tx_mask_repeat1"
+					"tx_mask_repeat1",
+					"tx_mask_im_just_empty"
 				],
 				"labels": [
 					"A",
-					"Repeat1"
+					"Repeat1",
+					"Empty inline field"
 				],
 				"descriptions": [
 					"",
-					"description for field tx_mask_repeat1"
+					"description for field tx_mask_repeat1",
+					""
 				],
 				"sorting": 0
 			}
@@ -206,6 +209,27 @@
 				"type": "inline",
 				"key": "repeat1",
 				"fullKey": "tx_mask_repeat1"
+			},
+			"tx_mask_im_just_empty": {
+				"config": {
+					"appearance": {
+						"collapseAll": 1,
+						"enabledControls": {
+							"dragdrop": 1
+						},
+						"levelLinksPosition": "top",
+						"showAllLocalizationLink": 1,
+						"showPossibleLocalizationRecords": 1
+					},
+					"foreign_field": "parentid",
+					"foreign_sortby": "sorting",
+					"foreign_table": "--inlinetable--",
+					"foreign_table_field": "parenttable",
+					"type": "inline"
+				},
+				"type": "inline",
+				"key": "im_just_empty",
+				"fullKey": "tx_mask_im_just_empty"
 			}
 		},
 		"palettes": {
@@ -283,6 +307,18 @@
 				"order": 1
 			}
 		},
+		"palettes": []
+	},
+	"tx_mask_im_an_orphan": {
+		"elements": [],
+		"sql": [],
+		"tca": [],
+		"palettes": []
+	},
+	"tx_mask_im_just_empty": {
+		"elements": [],
+		"sql": [],
+		"tca": [],
 		"palettes": []
 	}
 }

@@ -133,15 +133,18 @@ class JsonLoaderTest extends UnitTestCase
                         'icon' => '',
                         'columns' => [
                             'tx_mask_a',
-                            'tx_mask_repeat1'
+                            'tx_mask_repeat1',
+                            'tx_mask_im_just_empty',
                         ],
                         'labels' => [
                             'A',
-                            'Repeat1'
+                            'Repeat1',
+                            'Empty inline field',
                         ],
                         'descriptions' => [
                             '',
-                            'description for field tx_mask_repeat1'
+                            'description for field tx_mask_repeat1',
+                            '',
                         ],
                         'sorting' => 0,
                         'colorOverlay' => '',
@@ -342,6 +345,27 @@ class JsonLoaderTest extends UnitTestCase
                         'type' => 'palette',
                         'key' => 'palette',
                         'fullKey' => 'tx_mask_palette'
+                    ],
+                    'tx_mask_im_just_empty' => [
+                        'config' => [
+                            'appearance' => [
+                                'collapseAll' => 1,
+                                'enabledControls' => [
+                                    'dragdrop' => 1
+                                ],
+                                'levelLinksPosition' => 'top',
+                                'showAllLocalizationLink' => 1,
+                                'showPossibleLocalizationRecords' => 1
+                            ],
+                            'foreign_field' => 'parentid',
+                            'foreign_sortby' => 'sorting',
+                            'foreign_table' => '--inlinetable--',
+                            'foreign_table_field' => 'parenttable',
+                            'type' => 'inline'
+                        ],
+                        'fullKey' => 'tx_mask_im_just_empty',
+                        'type' => 'inline',
+                        'key' => 'im_just_empty'
                     ]
                 ],
                 'palettes' => [
@@ -366,6 +390,7 @@ class JsonLoaderTest extends UnitTestCase
                     ]
                 ],
             ],
+            'tx_mask_im_just_empty' => [],
         ];
     }
 
