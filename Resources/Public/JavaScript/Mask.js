@@ -1057,7 +1057,8 @@ define([
 
         // The rule below only applies for existing fields.
         // As it is the last rule, return early true.
-        if (draggedField.newField) {
+        // Exception: Core fields are always treated as existing.
+        if (draggedField.newField && !this.isCoreField(draggedField)) {
           return true;
         }
 
