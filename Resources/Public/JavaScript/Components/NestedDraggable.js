@@ -14,6 +14,7 @@ define([
           depth: Number,
           index: Number,
           move: Function,
+          sort: Function,
           fieldHasError: Function,
           validateKey: Function,
           language: Object,
@@ -95,6 +96,7 @@ define([
     ghost-class="ghost"
     @add="onAdd"
     :move="move"
+    @sort="sort"
   >
   <li v-for="(field, index) in fields" :key="uuid(field)" class="mask-field" :class="[{active: global.activeField == field}, 'mask-field--' + field.name, {'has-error': fieldHasError(field)}]">
     <field-row
@@ -120,6 +122,7 @@ define([
             :icons="icons"
             :global="global"
             :move="move"
+            :sort="sort"
             :field-has-error="fieldHasError"
             :validate-key="validateKey"
             :language="language"

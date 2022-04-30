@@ -755,7 +755,7 @@ define([
                   async response => {
                     const result = await response.resolve();
                     this.fields = result.fields;
-                    this.addParentReferenceToFields({}, this.fields);
+                    this.updateParents();
                   }
               )
         }));
@@ -778,6 +778,9 @@ define([
         Promise.all(requests).then(() => {
           this.loaded = true;
         });
+      },
+      updateParents: function () {
+        this.addParentReferenceToFields({}, this.fields);
       },
       addParentReferenceToFields: function (parent, fields) {
         fields.forEach(field => {
@@ -1091,6 +1094,9 @@ define([
         }
 
         return this.validateMove(parentKey, parentName, draggedField);
+      },
+      onSort: function () {
+        this.updateParents();
       },
       validateMove: function (newParentKey, newParentName, draggedField) {
         // Rule #1: Palette and tab fields are not allowed in palette.
