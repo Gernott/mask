@@ -835,6 +835,7 @@ class AjaxController
             Tab::GENERATOR => 'tx_mask.tabs.generator',
             Tab::ITEM_GROUP_SORTING => 'tx_mask.tabs.itemGroupSorting',
             Tab::VALUE_PICKER => 'tx_mask.tabs.valuePicker',
+            Tab::ENABLED_CONTROLS => 'tx_mask.tabs.enabledControls',
         ];
 
         foreach ($tabs as $key => $tab) {

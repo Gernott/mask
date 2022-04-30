@@ -33,4 +33,5 @@ final class Tab extends Enumeration
     public const GENERATOR = 'generator';
     public const ITEM_GROUP_SORTING = 'itemGroupSorting';
     public const VALUE_PICKER = 'valuePicker';
+    public const ENABLED_CONTROLS = 'enabledControls';
 }

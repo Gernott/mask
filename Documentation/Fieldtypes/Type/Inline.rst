@@ -38,6 +38,7 @@ Available TCA options
 *  :ref:`config.appearance.collapseAll <t3tca:columns-inline-properties-appearance>`
 *  :ref:`config.appearance.expandSingle <t3tca:columns-inline-properties-appearance>`
 *  :ref:`config.appearance.useSortable <t3tca:columns-inline-properties-appearance>`
+*  :ref:`config.appearance.enabledControls <t3tca:columns-inline-properties-appearance>`
 *  :ref:`l10n_mode <t3tca:columns-properties-l10n-mode>`
 *  :ref:`config.behaviour.allowLanguageSynchronization <t3tca:tca_property_behaviour_allowLanguageSynchronization>`
 *  :ref:`config.appearance.showPossibleLocalizationRecords <t3tca:columns-inline-properties-appearance>`

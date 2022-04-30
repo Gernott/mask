@@ -255,6 +255,8 @@ Miscellaneous
 *  Added missing `default` option for type `Select`
 *  Added `createNewRelationLinkTitle` option for type `File`
 *  Added `elementBrowserEnabled` option for type `File`
+*  Added `enabledControls` options for type `Inline` and `File`
+*  Set `useSortable` as default to true for `Inline` and `File` fields, to enable drag and drop per default
 *  Improved HTML code generation
 
 Documentation improvements

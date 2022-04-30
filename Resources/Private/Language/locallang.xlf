@@ -471,6 +471,33 @@ title3, value3, icon3, description3
 			<trans-unit id="tx_mask.field.inline.createNewRelationLinkTitle.description">
 				<source>Overrides the link text and title of the “Create new relation” button with a localised string</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.enabledControls.label">
+				<source>Enabled controls</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.enabledControls.description">
+				<source>If the accordant values are set, the control is shown or hidden in the header of each record.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.enabledControls.info.label">
+				<source>Info</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.enabledControls.new.label">
+				<source>New</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.enabledControls.dragdrop.label">
+				<source>Drag &amp; Drop</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.enabledControls.sort.label">
+				<source>Sort</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.enabledControls.hide.label">
+				<source>Hide</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.enabledControls.delete.label">
+				<source>Delete</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.enabledControls.localize.label">
+				<source>Localize</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.use_sortable">
 				<source>Activate drag &amp; drop</source>
 			</trans-unit>
@@ -1165,6 +1192,9 @@ title3, value3, icon3, description3
 			</trans-unit>
 			<trans-unit id="tx_mask.tabs.valuePicker">
 				<source>Value Picker</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.tabs.enabledControls">
+				<source>Enabled Controls</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.select.sortItems.labels.value">
 				<source>Value</source>

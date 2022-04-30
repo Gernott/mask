@@ -1063,6 +1063,79 @@ return [
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ]
     ],
+    'config.appearance.enabledControls' => [
+        'type' => 'plainText',
+        'label' => 'tx_mask.field.inline.enabledControls.label',
+        'description' => 'tx_mask.field.inline.enabledControls.description',
+        'code' => 'enabledControls',
+        'documentation' => [
+            10 => 'ColumnsConfig/Type/Inline.html?highlight=enabledControls#appearance',
+            11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
+        ]
+    ],
+    'config.appearance.enabledControls.info' => [
+        'type' => 'checkbox',
+        'label' => 'tx_mask.field.inline.enabledControls.info.label',
+        'code' => 'info',
+        'documentation' => [
+            10 => 'ColumnsConfig/Type/Inline.html?highlight=enabledControls#appearance',
+            11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
+        ]
+    ],
+    'config.appearance.enabledControls.new' => [
+        'type' => 'checkbox',
+        'label' => 'tx_mask.field.inline.enabledControls.new.label',
+        'code' => 'new',
+        'documentation' => [
+            10 => 'ColumnsConfig/Type/Inline.html?highlight=enabledControls#appearance',
+            11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
+        ]
+    ],
+    'config.appearance.enabledControls.dragdrop' => [
+        'type' => 'checkbox',
+        'label' => 'tx_mask.field.inline.enabledControls.dragdrop.label',
+        'code' => 'dragdrop',
+        'documentation' => [
+            10 => 'ColumnsConfig/Type/Inline.html?highlight=enabledControls#appearance',
+            11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
+        ]
+    ],
+    'config.appearance.enabledControls.sort' => [
+        'type' => 'checkbox',
+        'label' => 'tx_mask.field.inline.enabledControls.sort.label',
+        'code' => 'sort',
+        'documentation' => [
+            10 => 'ColumnsConfig/Type/Inline.html?highlight=enabledControls#appearance',
+            11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
+        ]
+    ],
+    'config.appearance.enabledControls.hide' => [
+        'type' => 'checkbox',
+        'label' => 'tx_mask.field.inline.enabledControls.hide.label',
+        'code' => 'hide',
+        'documentation' => [
+            10 => 'ColumnsConfig/Type/Inline.html?highlight=enabledControls#appearance',
+            11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
+        ]
+    ],
+    'config.appearance.enabledControls.delete' => [
+        'type' => 'checkbox',
+        'label' => 'tx_mask.field.inline.enabledControls.delete.label',
+        'code' => 'delete',
+        'documentation' => [
+            10 => 'ColumnsConfig/Type/Inline.html?highlight=enabledControls#appearance',
+            11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
+        ]
+    ],
+    'config.appearance.enabledControls.localize' => [
+        'type' => 'checkbox',
+        'label' => 'tx_mask.field.inline.enabledControls.localize.label',
+        'code' => 'localize',
+        'documentation' => [
+            10 => 'ColumnsConfig/Type/Inline.html?highlight=enabledControls#appearance',
+            11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
+        ]
+    ],
     'config.appearance.elementBrowserEnabled' => [
         'type' => 'checkbox',
         'label' => 'tx_mask.field.inline.elementBrowserEnabled.label',

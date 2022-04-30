@@ -31,6 +31,17 @@ return [
             'config.appearance.fileUploadAllowed' => 6,
         ]
     ],
+    Tab::ENABLED_CONTROLS => [
+        [
+            'config.appearance.enabledControls' => 12,
+            'config.appearance.enabledControls.info' => 4,
+            'config.appearance.enabledControls.dragdrop' => 4,
+            'config.appearance.enabledControls.sort' => 4,
+            'config.appearance.enabledControls.hide' => 4,
+            'config.appearance.enabledControls.delete' => 4,
+            'config.appearance.enabledControls.localize' => 4,
+        ]
+    ],
     Tab::LOCALIZATION => [
         [
             'l10n_mode' => 12
