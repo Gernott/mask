@@ -1063,6 +1063,16 @@ return [
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ]
     ],
+    'config.appearance.elementBrowserEnabled' => [
+        'type' => 'checkbox',
+        'label' => 'tx_mask.field.inline.elementBrowserEnabled.label',
+        'description' => 'tx_mask.field.inline.elementBrowserEnabled.description',
+        'code' => 'elementBrowserEnabled',
+        'documentation' => [
+            10 => 'ColumnsConfig/Type/Inline.html?highlight=elementBrowserEnabled#appearance',
+            11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
+        ]
+    ],
     'config.appearance.fileUploadAllowed' => [
         'type' => 'checkbox',
         'label' => 'tx_mask.field.inline.file_upload_allowed.label',

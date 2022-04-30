@@ -459,6 +459,12 @@ title3, value3, icon3, description3
 			<trans-unit id="tx_mask.field.inline.new_record_link_title">
 				<source>Overwrites the title of the “New record” link with a localised string</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.elementBrowserEnabled.label">
+				<source>Element browser enabled</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.elementBrowserEnabled.description">
+				<source>Hides or displays the element browser button in inline records</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.createNewRelationLinkTitle.label">
 				<source>Create new relation link title</source>
 			</trans-unit>

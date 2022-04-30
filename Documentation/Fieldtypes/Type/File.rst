@@ -35,6 +35,7 @@ Available TCA options
 *  :ref:`config.appearance.collapseAll <t3tca:columns-inline-properties-appearance>`
 *  :ref:`config.appearance.expandSingle <t3tca:columns-inline-properties-appearance>`
 *  :ref:`config.appearance.useSortable <t3tca:columns-inline-properties-appearance>`
+*  :ref:`config.appearance.elementBrowserEnabled <t3tca:columns-inline-properties-appearance>`
 *  :ref:`config.appearance.fileUploadAllowed <t3tca:columns-inline-properties-appearance>`
 *  :ref:`config.appearance.createNewRelationLinkTitle <t3tca:columns-inline-properties-appearance>`
 *  :ref:`l10n_mode <t3tca:columns-properties-l10n-mode>`

@@ -254,6 +254,7 @@ Miscellaneous
 *  Parent record data (pages record) now available per default in the frontend
 *  Added missing `default` option for type `Select`
 *  Added `createNewRelationLinkTitle` option for type `File`
+*  Added `elementBrowserEnabled` option for type `File`
 *  Improved HTML code generation
 
 Documentation improvements

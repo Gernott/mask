@@ -207,7 +207,8 @@ return [
         'tca_in' => [
             'l10n_mode' => '',
             'imageoverlayPalette' => 1,
-            'config.appearance.fileUploadAllowed' => 1
+            'config.appearance.elementBrowserEnabled' => 1,
+            'config.appearance.fileUploadAllowed' => 1,
         ],
         'tca_out' => [
             'config.type' => 'inline',
@@ -219,6 +220,7 @@ return [
         'tca_in' => [
             'l10n_mode' => '',
             'onlineMedia' => ['youtube', 'vimeo'],
+            'config.appearance.elementBrowserEnabled' => 1,
             'config.appearance.fileUploadAllowed' => 1,
             'config.appearance.fileByUrlAllowed' => 1,
         ],
