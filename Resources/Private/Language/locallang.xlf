@@ -459,6 +459,12 @@ title3, value3, icon3, description3
 			<trans-unit id="tx_mask.field.inline.new_record_link_title">
 				<source>Overwrites the title of the “New record” link with a localised string</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.createNewRelationLinkTitle.label">
+				<source>Create new relation link title</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.createNewRelationLinkTitle.description">
+				<source>Overrides the link text and title of the “Create new relation” button with a localised string</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.use_sortable">
 				<source>Activate drag &amp; drop</source>
 			</trans-unit>

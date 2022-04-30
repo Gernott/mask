@@ -252,7 +252,8 @@ Miscellaneous
 
 *  All select renderTypes are now resolved in the frontend
 *  Parent record data (pages record) now available per default in the frontend
-*  Added missing default field for type select
+*  Added missing `default` option for type `Select`
+*  Added `createNewRelationLinkTitle` option for type `File`
 *  Improved HTML code generation
 
 Documentation improvements

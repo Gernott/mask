@@ -458,7 +458,7 @@ class TcaCodeGenerator
                 }
             }
 
-            // Exlcude all fields for editors by default
+            // Exclude all fields for editors by default
             $field->realTca['exclude'] = 1;
 
             // Merge user inputs with file array (for file type overrides)

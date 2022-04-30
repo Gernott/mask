@@ -1131,6 +1131,16 @@ return [
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ]
     ],
+    'config.appearance.createNewRelationLinkTitle' => [
+        'type' => 'text',
+        'label' => 'tx_mask.field.inline.createNewRelationLinkTitle.label',
+        'description' => 'tx_mask.field.inline.createNewRelationLinkTitle.description',
+        'code' => 'createNewRelationLinkTitle',
+        'documentation' => [
+            10 => 'ColumnsConfig/Type/Inline.html?highlight=createNewRelationLinkTitle#appearance',
+            11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html',
+        ]
+    ],
     'config.appearance.levelLinksPosition' => [
         'type' => 'select',
         'items' => [

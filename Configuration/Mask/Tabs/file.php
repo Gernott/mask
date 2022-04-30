@@ -19,6 +19,9 @@ return [
             'allowedFileExtensions' => 6
         ],
         [
+            'config.appearance.createNewRelationLinkTitle' => 8,
+        ],
+        [
             'config.appearance.collapseAll' => 6,
             'config.appearance.expandSingle' => 6,
             'config.appearance.useSortable' => 6,
