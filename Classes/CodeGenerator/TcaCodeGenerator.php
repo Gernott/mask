@@ -330,24 +330,26 @@ class TcaCodeGenerator
             }
 
             if (!$field->hasFieldType()) {
-                $field->type = $this->tableDefinitionCollection->getFieldType($field->fullKey, $table);
+                $field->setFieldType($this->tableDefinitionCollection->getFieldType($field->fullKey, $table));
             }
 
+            $fieldType = $field->getFieldType();
+
             // Inline: Ignore empty inline fields
-            if ($field->type->isParentField() && !$this->tableDefinitionCollection->hasTable($field->fullKey)) {
+            if ($fieldType->isParentField() && !$this->tableDefinitionCollection->hasTable($field->fullKey)) {
                 continue;
             }
 
             // Ignore grouping elements
-            if ($field->type->isGroupingField()) {
+            if ($fieldType->isGroupingField()) {
                 continue;
             }
 
             $additionalTca[$field->fullKey] = [];
 
             // File: Add file config.
-            if ($field->type->equals(FieldType::FILE) || $field->type->equals(FieldType::MEDIA)) {
-                if ($field->imageoverlayPalette || $field->type->equals(FieldType::MEDIA)) {
+            if ($fieldType->equals(FieldType::FILE) || $fieldType->equals(FieldType::MEDIA)) {
+                if ($field->imageoverlayPalette || $fieldType->equals(FieldType::MEDIA)) {
                     $customSettingOverride = [
                         'overrideChildTca' => [
                             'types' => [
@@ -390,16 +392,16 @@ class TcaCodeGenerator
                 $customSettingOverride['appearance']['fileUploadAllowed'] = (bool)($customSettingOverride['appearance']['fileUploadAllowed'] ?? true);
                 $customSettingOverride['appearance']['useSortable'] = (bool)($customSettingOverride['appearance']['useSortable'] ?? false);
 
-                if ($field->type->equals(FieldType::FILE) && $field->allowedFileExtensions === '') {
+                if ($fieldType->equals(FieldType::FILE) && $field->allowedFileExtensions === '') {
                     $field->allowedFileExtensions = $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'];
                 }
 
-                if ($field->type->equals(FieldType::MEDIA) && $field->allowedFileExtensions === '') {
+                if ($fieldType->equals(FieldType::MEDIA) && $field->allowedFileExtensions === '') {
                     $field->allowedFileExtensions = $GLOBALS['TYPO3_CONF_VARS']['SYS']['mediafile_ext'];
                 }
 
                 // Only allow media types the user has selected, but always include the rest.
-                if ($field->type->equals(FieldType::MEDIA)) {
+                if ($fieldType->equals(FieldType::MEDIA)) {
                     $onlineMediaHelpers = $this->onlineMediaHelperRegistry->getSupportedFileExtensions();
                     $allowedFileExtensionList = GeneralUtility::trimExplode(',', $field->allowedFileExtensions, true);
                     $alwaysIncluded = array_diff($allowedFileExtensionList, $onlineMediaHelpers);
@@ -438,12 +440,12 @@ class TcaCodeGenerator
             }
 
             // RTE: Add softref
-            if ($field->type->equals(FieldType::RICHTEXT)) {
+            if ($fieldType->equals(FieldType::RICHTEXT)) {
                 $field->realTca['config']['softref'] = 'typolink_tag,email[subst],url';
             }
 
             // Content: Set foreign_field and default CType in select if restricted.
-            if ($field->type->equals(FieldType::CONTENT)) {
+            if ($fieldType->equals(FieldType::CONTENT)) {
                 $parentField = AffixUtility::addMaskParentSuffix($field->fullKey);
                 $field->realTca['config']['foreign_field'] = $parentField;
                 if ($table === 'tt_content') {
@@ -491,19 +493,19 @@ class TcaCodeGenerator
                 // Do not generate any overrides for empty inline fields.
                 if (
                     $fieldDefinition->hasFieldType()
-                    && $fieldDefinition->type->equals(FieldType::INLINE)
+                    && $fieldDefinition->getFieldType()->equals(FieldType::INLINE)
                     && $this->tableDefinitionCollection->loadInlineFields($fieldDefinition->fullKey, $element->key)->toArray() === []
                 ) {
                     continue;
                 }
 
                 // Do not generate any overrides for tabs.
-                if ($fieldDefinition->hasFieldType() && $fieldDefinition->type->equals(FieldType::TAB)) {
+                if ($fieldDefinition->hasFieldType() && $fieldDefinition->getFieldType()->equals(FieldType::TAB)) {
                     continue;
                 }
 
-                // As this is called very early, TCA for core fields might not be loaded yet. So ignore them.
-                if (!$fieldDefinition->isCoreField && $fieldDefinition->type->equals(FieldType::PALETTE)) {
+                // Build TCA columns overrides.
+                if ($fieldDefinition->hasFieldType() && $fieldDefinition->getFieldType()->equals(FieldType::PALETTE)) {
                     foreach ($this->tableDefinitionCollection->loadInlineFields($fieldName, $element->key) as $paletteField) {
                         $label = $paletteField->getLabel($element->key);
                         if ($label !== '') {

@@ -1032,7 +1032,7 @@ class AjaxController
         // with the same field type exists, it may be shared.
         $field = $this->tableDefinitionCollection->loadField($table, $fieldKey);
 
-        return new JsonResponse(['isAvailable' => (!$field instanceof TcaFieldDefinition || $field->type->equals($type))]);
+        return new JsonResponse(['isAvailable' => (!$field instanceof TcaFieldDefinition || !$field->hasFieldType($elementKey) || $field->getFieldType($elementKey)->equals($type))]);
     }
 
     /**

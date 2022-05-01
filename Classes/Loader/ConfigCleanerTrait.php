@@ -32,11 +32,11 @@ trait ConfigCleanerTrait
     {
         foreach ($tableDefinitionCollection as $tableDefinition) {
             foreach ($tableDefinition->tca as $tcaFieldDefinition) {
-                if ($tcaFieldDefinition->isCoreField) {
+                if (!$tcaFieldDefinition->hasFieldType() || $tcaFieldDefinition->isCoreField) {
                     continue;
                 }
-                $tabConfig = $this->configurationLoader->loadTab((string)$tcaFieldDefinition->type);
-                $defaultsOut = array_keys($this->configurationLoader->loadDefaults()[(string)$tcaFieldDefinition->type]['tca_out'] ?? []);
+                $tabConfig = $this->configurationLoader->loadTab((string)$tcaFieldDefinition->getFieldType());
+                $defaultsOut = array_keys($this->configurationLoader->loadDefaults()[(string)$tcaFieldDefinition->getFieldType()]['tca_out'] ?? []);
                 $tcaOptions = [];
                 foreach ($tabConfig as $options) {
                     foreach ($options as $row) {

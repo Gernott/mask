@@ -159,7 +159,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
             if ($tableDefinition->tca->hasField($fieldKey)) {
                 $availableTcaField = $tableDefinition->tca->getField($fieldKey);
                 $tcaDefinition->addField($availableTcaField);
-                if ($availableTcaField->hasFieldType() && $availableTcaField->type->equals(FieldType::PALETTE)) {
+                if ($availableTcaField->hasFieldType() && $availableTcaField->getFieldType()->equals(FieldType::PALETTE)) {
                     $paletteFields = $this->loadInlineFields($availableTcaField->fullKey, $element->key);
                     foreach ($paletteFields as $paletteField) {
                         $tcaDefinition->addField($paletteField);
@@ -204,7 +204,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
                 }
 
                 // Check if FieldType is available
-                if ($field->hasFieldType() && $field->type->isParentField()) {
+                if ($field->hasFieldType() && $field->getFieldType()->isParentField()) {
                     foreach ($this->loadInlineFields($field->fullKey, $elementKey) as $inlineField) {
                         $field->addInlineField($inlineField);
                     }
@@ -217,9 +217,9 @@ final class TableDefinitionCollection implements \IteratorAggregate
         return $nestedTcaFields;
     }
 
-    public function getFieldType(string $fieldKey, string $table = 'tt_content', string $elmentKey = ''): FieldType
+    public function getFieldType(string $fieldKey, string $table = 'tt_content', string $elementKey = ''): FieldType
     {
-        return FieldType::cast($this->getFieldTypeString($fieldKey, $table, $elmentKey));
+        return FieldType::cast($this->getFieldTypeString($fieldKey, $table, $elementKey));
     }
 
     /**
@@ -293,7 +293,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
                     break;
                 }
                 $fieldDefinition = $this->loadField($table, $column);
-                if ($fieldDefinition instanceof TcaFieldDefinition && !$fieldDefinition->isCoreField && $fieldDefinition->type->equals(FieldType::PALETTE)) {
+                if ($fieldDefinition instanceof TcaFieldDefinition && $fieldDefinition->hasFieldType() && $fieldDefinition->getFieldType()->equals(FieldType::PALETTE)) {
                     foreach ($definition->palettes->getPalette($column)->showitem as $item) {
                         if ($item === $key) {
                             $elementsInUse->addElement($element);

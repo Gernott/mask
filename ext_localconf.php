@@ -55,7 +55,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['fillTranslat
             $rootlineFields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields']);
         }
         foreach ($tables->getTable('pages')->tca as $field) {
-            if ($field->hasFieldType() && !$field->type->isGroupingField()) {
+            if ($field->hasFieldType() && !$field->getFieldType()->isGroupingField()) {
                 // Add addRootLineFields for all page fields
                 $rootlineFields[] = $field->fullKey;
             }

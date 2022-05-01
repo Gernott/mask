@@ -81,7 +81,7 @@ class JsonLoader implements LoaderInterface
 
                         $field = $this->tableDefinitionCollection->loadField($tableDefinition->table, $fieldKey);
                         if ($field instanceof TcaFieldDefinition) {
-                            $field->type = new FieldType(FieldType::RICHTEXT);
+                            $field->setFieldType(new FieldType(FieldType::RICHTEXT));
                         }
                     }
                 }

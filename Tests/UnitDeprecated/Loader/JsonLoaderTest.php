@@ -43,6 +43,6 @@ class JsonLoaderTest extends UnitTestCase
         $jsonLoader->setConfigurationLoader(new FakeConfigurationLoader());
 
         $tableDefinitionCollection = $jsonLoader->load();
-        self::assertTrue($tableDefinitionCollection->loadField('tt_content', 'tx_mask_rte')->type->equals(FieldType::RICHTEXT), 'Field tx_mask_rte is not a richtext.');
+        self::assertTrue($tableDefinitionCollection->loadField('tt_content', 'tx_mask_rte')->getFieldType()->equals(FieldType::RICHTEXT), 'Field tx_mask_rte is not a richtext.');
     }
 }

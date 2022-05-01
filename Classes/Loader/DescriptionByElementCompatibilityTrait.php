@@ -33,7 +33,7 @@ trait DescriptionByElementCompatibilityTrait
             }
 
             foreach ($tableDefinition->tca as $tcaFieldDefinition) {
-                if ($tcaFieldDefinition->type instanceof FieldType && !$tcaFieldDefinition->type->isRenderable()) {
+                if ($tcaFieldDefinition->hasFieldType() && !$tcaFieldDefinition->getFieldType()->isRenderable()) {
                     continue;
                 }
 
@@ -44,13 +44,13 @@ trait DescriptionByElementCompatibilityTrait
                 }
 
                 // Go through all palette fields on the root level.
-                if ($tcaFieldDefinition->type instanceof FieldType && $tcaFieldDefinition->type->equals(FieldType::PALETTE)) {
+                if ($tcaFieldDefinition->hasFieldType() && $tcaFieldDefinition->getFieldType()->equals(FieldType::PALETTE)) {
                     $paletteField = $tableDefinition->palettes->getPalette($tcaFieldDefinition->fullKey);
                     foreach ($paletteField->showitem as $item) {
                         $itemField = $tableDefinitionCollection->loadField($tableDefinition->table, $item);
 
                         if ($itemField instanceof TcaFieldDefinition) {
-                            if ($itemField->type instanceof FieldType && !$itemField->type->hasDescription()) {
+                            if ($itemField->hasFieldType() && !$itemField->getFieldType()->hasDescription()) {
                                 continue;
                             }
 
@@ -88,7 +88,7 @@ trait DescriptionByElementCompatibilityTrait
         }
 
         // If palette, add it to the palette definition as well.
-        if ($tcaFieldDefinition->type instanceof FieldType && $tcaFieldDefinition->type->equals(FieldType::PALETTE)) {
+        if ($tcaFieldDefinition->hasFieldType() && $tcaFieldDefinition->getFieldType()->equals(FieldType::PALETTE)) {
             $paletteDefinition = $tableDefinitionCollection->getTable($table)->palettes->getPalette($tcaFieldDefinition->fullKey);
             if ($paletteDefinition->description === '') {
                 $paletteDefinition->description = $descriptionToUse;

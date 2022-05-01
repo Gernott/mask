@@ -30,10 +30,10 @@ trait DefaultTcaCompatibilityTrait
         // Add defaults, if missing. This can happen on updates or when the defaults change.
         foreach ($tableDefinitionCollection as $tableDefinition) {
             foreach ($tableDefinition->tca as $tcaFieldDefinition) {
-                if ($tcaFieldDefinition->isCoreField) {
+                if (!$tcaFieldDefinition->hasFieldType() || $tcaFieldDefinition->isCoreField) {
                     continue;
                 }
-                $tcaDefaults = $this->configurationLoader->loadDefaults()[(string)$tcaFieldDefinition->type];
+                $tcaDefaults = $this->configurationLoader->loadDefaults()[(string)$tcaFieldDefinition->getFieldType()];
                 $tcaDefaults = $tcaDefaults['tca_out'] ?? [];
                 $flatTcaFieldDefinition = TcaConverter::convertTcaArrayToFlat($tcaFieldDefinition->realTca);
 
