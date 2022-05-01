@@ -43,7 +43,11 @@
 	"config": {
 		"vendor-dir": ".Build/vendor",
 		"bin-dir": ".Build/bin",
-		"platform-check": false
+		"platform-check": false,
+		"allow-plugins": {
+			"typo3/class-alias-loader": true,
+			"typo3/cms-composer-installers": true
+		}
 	},
 	"require-dev": {
 		"typo3/testing-framework": "^6",
