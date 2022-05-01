@@ -203,7 +203,7 @@ class TcaConverter
         foreach ($associativeArray as $key => $value) {
             $keyValue[] = [
                 'key' => $key,
-                'value' => $value
+                'value' => $value,
             ];
         }
 

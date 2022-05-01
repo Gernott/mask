@@ -46,7 +46,7 @@ final class SqlColumnDefinition
     public function toArray(): array
     {
         return [
-            $this->column => $this->sqlDefinition
+            $this->column => $this->sqlDefinition,
         ];
     }
 

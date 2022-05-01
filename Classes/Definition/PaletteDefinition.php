@@ -56,7 +56,7 @@ final class PaletteDefinition
         return [
             'label' => $this->label,
             'description' => $this->description,
-            'showitem' => $this->showitem
+            'showitem' => $this->showitem,
         ];
     }
 }

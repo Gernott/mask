@@ -31,49 +31,49 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     'tca' => [
                         'tx_mask_a' => [
                             'config' => [
-                                'type' => 'input'
+                                'type' => 'input',
                             ],
                             'key' => 'a',
                             'inlineParent' => 'tx_mask_a1',
-                            'order' => 3
+                            'order' => 3,
                         ],
                         'tx_mask_b' => [
                             'config' => [
-                                'type' => 'input'
+                                'type' => 'input',
                             ],
                             'key' => 'b',
                             'inlineParent' => 'tx_mask_a1',
-                            'order' => 1
-                        ]
-                    ]
-                ]
+                            'order' => 1,
+                        ],
+                    ],
+                ],
             ],
             'parent' => 'tx_mask_a1',
             'element' => '',
             'expected' => [
                 [
                     'config' => [
-                        'type' => 'input'
+                        'type' => 'input',
                     ],
                     'key' => 'b',
                     'inlineParent' => 'tx_mask_a1',
                     'maskKey' => 'tx_mask_b',
                     'fullKey' => 'tx_mask_b',
                     'order' => 1,
-                    'type' => 'string'
+                    'type' => 'string',
                 ],
                 [
                     'config' => [
-                        'type' => 'input'
+                        'type' => 'input',
                     ],
                     'key' => 'a',
                     'inlineParent' => 'tx_mask_a1',
                     'maskKey' => 'tx_mask_a',
                     'fullKey' => 'tx_mask_a',
                     'order' => 3,
-                    'type' => 'string'
+                    'type' => 'string',
                 ],
-            ]
+            ],
         ];
 
         yield 'inline fields loaded recursively' => [
@@ -82,74 +82,74 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     'tca' => [
                         'tx_mask_a' => [
                             'config' => [
-                                'type' => 'input'
+                                'type' => 'input',
                             ],
                             'key' => 'a',
                             'inlineParent' => 'tx_mask_a1',
-                            'order' => 1
+                            'order' => 1,
                         ],
                         'tx_mask_b' => [
                             'config' => [
-                                'type' => 'inline'
+                                'type' => 'inline',
                             ],
                             'key' => 'b',
                             'inlineParent' => 'tx_mask_a1',
-                            'order' => 3
-                        ]
-                    ]
+                            'order' => 3,
+                        ],
+                    ],
                 ],
                 'tx_mask_b' => [
                     'tca' => [
                         'tx_mask_c' => [
                             'config' => [
-                                'type' => 'input'
+                                'type' => 'input',
                             ],
                             'key' => 'c',
                             'inlineParent' => 'tx_mask_b',
-                            'order' => 2
-                        ]
-                    ]
-                ]
+                            'order' => 2,
+                        ],
+                    ],
+                ],
             ],
             'parent' => 'tx_mask_a1',
             'element' => '',
             'expected' => [
                 [
                     'config' => [
-                        'type' => 'input'
+                        'type' => 'input',
                     ],
                     'key' => 'a',
                     'inlineParent' => 'tx_mask_a1',
                     'maskKey' => 'tx_mask_a',
                     'fullKey' => 'tx_mask_a',
                     'order' => 1,
-                    'type' => 'string'
+                    'type' => 'string',
                 ],
                 [
                     'config' => [
-                        'type' => 'inline'
+                        'type' => 'inline',
                     ],
                     'key' => 'b',
                     'inlineParent' => 'tx_mask_a1',
                     'inlineFields' => [
                         [
                             'config' => [
-                                'type' => 'input'
+                                'type' => 'input',
                             ],
                             'key' => 'c',
                             'inlineParent' => 'tx_mask_b',
                             'maskKey' => 'tx_mask_c',
                             'fullKey' => 'tx_mask_c',
                             'order' => 2,
-                            'type' => 'string'
-                        ]
+                            'type' => 'string',
+                        ],
                     ],
                     'maskKey' => 'tx_mask_b',
                     'fullKey' => 'tx_mask_b',
                     'order' => 3,
-                    'type' => 'inline'
-                ]
-            ]
+                    'type' => 'inline',
+                ],
+            ],
         ];
 
         yield 'inline fields of palette loaded in same table' => [
@@ -160,44 +160,44 @@ class TableDefinitionCollectionTest extends BaseTestCase
                             'key' => 'element1',
                             'label' => 'Element 1',
                             'columns' => [
-                                'tx_mask_a'
-                            ]
-                        ]
+                                'tx_mask_a',
+                            ],
+                        ],
                     ],
                     'tca' => [
                         'tx_mask_a' => [
                             'config' => [
-                                'type' => 'palette'
+                                'type' => 'palette',
                             ],
-                            'key' => 'a'
+                            'key' => 'a',
                         ],
                         'tx_mask_b' => [
                             'config' => [
-                                'type' => 'input'
+                                'type' => 'input',
                             ],
                             'key' => 'b',
                             'inPalette' => '1',
                             'inlineParent' => [
-                                'element1' => 'tx_mask_a'
+                                'element1' => 'tx_mask_a',
                             ],
                             'order' => [
-                                'element1' => 2
+                                'element1' => 2,
                             ],
                         ],
                         'tx_mask_c' => [
                             'config' => [
-                                'type' => 'input'
+                                'type' => 'input',
                             ],
                             'key' => 'c',
                             'inPalette' => '1',
                             'inlineParent' => [
-                                'element1' => 'tx_mask_a'
+                                'element1' => 'tx_mask_a',
                             ],
                             'order' => [
-                                'element1' => 1
+                                'element1' => 1,
                             ],
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
             ],
             'parent' => 'tx_mask_a',
@@ -205,37 +205,37 @@ class TableDefinitionCollectionTest extends BaseTestCase
             'expected' => [
                 [
                     'config' => [
-                        'type' => 'input'
+                        'type' => 'input',
                     ],
                     'key' => 'c',
                     'inPalette' => '1',
                     'inlineParent' => [
-                        'element1' => 'tx_mask_a'
+                        'element1' => 'tx_mask_a',
                     ],
                     'order' => [
-                        'element1' => 1
+                        'element1' => 1,
                     ],
                     'maskKey' => 'tx_mask_c',
                     'fullKey' => 'tx_mask_c',
-                    'type' => 'string'
+                    'type' => 'string',
                 ],
                 [
                     'config' => [
-                        'type' => 'input'
+                        'type' => 'input',
                     ],
                     'key' => 'b',
                     'inPalette' => '1',
                     'inlineParent' => [
-                        'element1' => 'tx_mask_a'
+                        'element1' => 'tx_mask_a',
                     ],
                     'order' => [
-                        'element1' => 2
+                        'element1' => 2,
                     ],
                     'maskKey' => 'tx_mask_b',
                     'fullKey' => 'tx_mask_b',
-                    'type' => 'string'
+                    'type' => 'string',
                 ],
-            ]
+            ],
         ];
 
         yield 'inline fields of palette loaded in inline field' => [
@@ -246,75 +246,75 @@ class TableDefinitionCollectionTest extends BaseTestCase
                             'key' => 'element1',
                             'label' => 'Element 1',
                             'columns' => [
-                                'tx_mask_repeat'
-                            ]
-                        ]
+                                'tx_mask_repeat',
+                            ],
+                        ],
                     ],
                     'tca' => [
                         'tx_mask_repeat' => [
                             'config' => [
-                                'type' => 'inline'
+                                'type' => 'inline',
                             ],
-                            'key' => 'repeat'
-                        ]
-                    ]
+                            'key' => 'repeat',
+                        ],
+                    ],
                 ],
                 'tx_mask_repeat' => [
                     'tca' => [
                         'tx_mask_a' => [
                             'config' => [
-                                'type' => 'input'
+                                'type' => 'input',
                             ],
                             'key' => 'a',
                             'inlineParent' => 'tx_mask_repeat',
-                            'order' => 1
+                            'order' => 1,
                         ],
                         'tx_mask_b' => [
                             'config' => [
-                                'type' => 'input'
+                                'type' => 'input',
                             ],
                             'key' => 'b',
                             'inPalette' => '1',
                             'inlineParent' => 'tx_mask_palette',
-                            'order' => 3
+                            'order' => 3,
                         ],
                         'tx_mask_c' => [
                             'config' => [
-                                'type' => 'input'
+                                'type' => 'input',
                             ],
                             'key' => 'c',
                             'inPalette' => '1',
                             'inlineParent' => 'tx_mask_palette',
-                            'order' => 4
+                            'order' => 4,
                         ],
                         'tx_mask_palette' => [
                             'config' => [
-                                'type' => 'palette'
+                                'type' => 'palette',
                             ],
                             'key' => 'palette',
                             'inlineParent' => 'tx_mask_repeat',
-                            'order' => 2
+                            'order' => 2,
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ],
             'parent' => 'tx_mask_repeat',
             'element' => 'element1',
             'expected' => [
                 [
                     'config' => [
-                        'type' => 'input'
+                        'type' => 'input',
                     ],
                     'key' => 'a',
                     'inlineParent' => 'tx_mask_repeat',
                     'maskKey' => 'tx_mask_a',
                     'fullKey' => 'tx_mask_a',
                     'order' => 1,
-                    'type' => 'string'
+                    'type' => 'string',
                 ],
                 [
                     'config' => [
-                        'type' => 'palette'
+                        'type' => 'palette',
                     ],
                     'key' => 'palette',
                     'inlineParent' => 'tx_mask_repeat',
@@ -325,7 +325,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     'inlineFields' => [
                         [
                             'config' => [
-                                'type' => 'input'
+                                'type' => 'input',
                             ],
                             'key' => 'b',
                             'inPalette' => 1,
@@ -333,11 +333,11 @@ class TableDefinitionCollectionTest extends BaseTestCase
                             'order' => 3,
                             'maskKey' => 'tx_mask_b',
                             'fullKey' => 'tx_mask_b',
-                            'type' => 'string'
+                            'type' => 'string',
                         ],
                         [
                             'config' => [
-                                'type' => 'input'
+                                'type' => 'input',
                             ],
                             'key' => 'c',
                             'inPalette' => 1,
@@ -345,11 +345,11 @@ class TableDefinitionCollectionTest extends BaseTestCase
                             'order' => 4,
                             'maskKey' => 'tx_mask_c',
                             'fullKey' => 'tx_mask_c',
-                            'type' => 'string'
+                            'type' => 'string',
                         ],
-                    ]
+                    ],
                 ],
-            ]
+            ],
         ];
     }
 
@@ -377,8 +377,8 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
+                                    'tx_mask_column_3',
+                                ],
                             ],
                             'element_2' => [
                                 'key' => 'element_2',
@@ -386,49 +386,49 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_4',
                                     'tx_mask_column_5',
-                                    'tx_mask_column_6'
-                                ]
-                            ]
+                                    'tx_mask_column_6',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
+                                'key' => 'column_3',
                             ],
                             'tx_mask_column_4' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_4'
+                                'key' => 'column_4',
                             ],
                             'tx_mask_column_5' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_5'
+                                'key' => 'column_5',
                             ],
                             'tx_mask_column_6' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_6'
+                                'key' => 'column_6',
                             ],
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
                 'tx_mask_column_2',
                 'tt_content',
@@ -445,13 +445,13 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'columns' => [
                             'tx_mask_column_1',
                             'tx_mask_column_2',
-                            'tx_mask_column_3'
+                            'tx_mask_column_3',
                         ],
                         'sorting' => 0,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                    ]
-                ]
+                    ],
+                ],
             ],
             'Multiple elements which uses field are returned' => [
                 [
@@ -463,9 +463,9 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
+                                    'tx_mask_column_3',
                                 ],
-                                'sorting' => 0
+                                'sorting' => 0,
                             ],
                             'element_2' => [
                                 'key' => 'element_2',
@@ -473,50 +473,50 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_5',
-                                    'tx_mask_column_6'
+                                    'tx_mask_column_6',
                                 ],
-                                'sorting' => 0
-                            ]
+                                'sorting' => 0,
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
+                                'key' => 'column_3',
                             ],
                             'tx_mask_column_4' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_4'
+                                'key' => 'column_4',
                             ],
                             'tx_mask_column_5' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_5'
+                                'key' => 'column_5',
                             ],
                             'tx_mask_column_6' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_6'
+                                'key' => 'column_6',
                             ],
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
                 'tx_mask_column_1',
                 'tt_content',
@@ -533,7 +533,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'columns' => [
                             'tx_mask_column_1',
                             'tx_mask_column_2',
-                            'tx_mask_column_3'
+                            'tx_mask_column_3',
                         ],
                         'sorting' => 0,
                         'colorOverlay' => '',
@@ -551,13 +551,13 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'columns' => [
                             'tx_mask_column_1',
                             'tx_mask_column_5',
-                            'tx_mask_column_6'
+                            'tx_mask_column_6',
                         ],
                         'sorting' => 0,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                    ]
-                ]
+                    ],
+                ],
             ],
             'Elements in other table are returned' => [
                 [
@@ -569,9 +569,9 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
+                                    'tx_mask_column_3',
                                 ],
-                                'sorting' => 0
+                                'sorting' => 0,
                             ],
                             'element_2' => [
                                 'key' => 'element_2',
@@ -579,50 +579,50 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_4',
                                     'tx_mask_column_5',
-                                    'tx_mask_column_6'
+                                    'tx_mask_column_6',
                                 ],
-                                'sorting' => 0
-                            ]
+                                'sorting' => 0,
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
+                                'key' => 'column_3',
                             ],
                             'tx_mask_column_4' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_4'
+                                'key' => 'column_4',
                             ],
                             'tx_mask_column_5' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_5'
+                                'key' => 'column_5',
                             ],
                             'tx_mask_column_6' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_6'
+                                'key' => 'column_6',
                             ],
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
                 'tx_mask_column_2',
                 'pages',
@@ -639,13 +639,13 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'columns' => [
                             'tx_mask_column_1',
                             'tx_mask_column_2',
-                            'tx_mask_column_3'
+                            'tx_mask_column_3',
                         ],
                         'sorting' => 0,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                    ]
-                ]
+                    ],
+                ],
             ],
             'Fields in palettes are considered' => [
                 [
@@ -656,36 +656,36 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'label' => 'Element 1',
                                 'columns' => [
                                     'tx_mask_column_1',
-                                ]
+                                ],
                             ],
                             'element_2' => [
                                 'key' => 'element_2',
                                 'label' => 'Element 2',
                                 'columns' => [
-                                    'tx_mask_palette_1'
-                                ]
-                            ]
+                                    'tx_mask_palette_1',
+                                ],
+                            ],
                         ],
                         'palettes' => [
                             'tx_mask_palette_1' => [
-                                'showitem' => ['tx_mask_column_1']
-                            ]
+                                'showitem' => ['tx_mask_column_1'],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column1'
+                                'key' => 'column1',
                             ],
                             'tx_mask_palette_1' => [
                                 'config' => [
-                                    'type' => 'palette'
+                                    'type' => 'palette',
                                 ],
-                                'key' => 'palette_1'
-                            ]
-                        ]
-                    ]
+                                'key' => 'palette_1',
+                            ],
+                        ],
+                    ],
                 ],
                 'tx_mask_column_1',
                 'tt_content',
@@ -716,13 +716,13 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'labels' => [],
                         'descriptions' => [],
                         'columns' => [
-                            'tx_mask_palette_1'
+                            'tx_mask_palette_1',
                         ],
                         'sorting' => 0,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                    ]
-                ]
+                    ],
+                ],
             ],
             'core fields in palettes without config are considered' => [
                 [
@@ -733,46 +733,46 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'label' => 'Element 1',
                                 'columns' => [
                                     'tx_mask_palette_1',
-                                ]
+                                ],
                             ],
                             'element_2' => [
                                 'key' => 'element_2',
                                 'label' => 'Element 2',
                                 'columns' => [
-                                    'tx_mask_palette_2'
-                                ]
-                            ]
+                                    'tx_mask_palette_2',
+                                ],
+                            ],
                         ],
                         'palettes' => [
                             'tx_mask_palette_1' => [
-                                'showitem' => ['header']
+                                'showitem' => ['header'],
                             ],
                             'tx_mask_palette_2' => [
-                                'showitem' => ['header']
-                            ]
+                                'showitem' => ['header'],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_palette_1' => [
                                 'config' => [
-                                    'type' => 'palette'
+                                    'type' => 'palette',
                                 ],
-                                'key' => 'palette_1'
+                                'key' => 'palette_1',
                             ],
                             'tx_mask_palette_2' => [
                                 'config' => [
-                                    'type' => 'palette'
+                                    'type' => 'palette',
                                 ],
-                                'key' => 'palette_2'
+                                'key' => 'palette_2',
                             ],
                             'header' => [
                                 'inlineParent' => [
                                     'element1' => 'tx_mask_palette_1',
-                                    'element2' => 'tx_mask_palette_2'
+                                    'element2' => 'tx_mask_palette_2',
                                 ],
-                                'key' => 'header'
-                            ]
-                        ]
-                    ]
+                                'key' => 'header',
+                            ],
+                        ],
+                    ],
                 ],
                 'header',
                 'tt_content',
@@ -803,13 +803,13 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'labels' => [],
                         'descriptions' => [],
                         'columns' => [
-                            'tx_mask_palette_2'
+                            'tx_mask_palette_2',
                         ],
                         'sorting' => 0,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                    ]
-                ]
+                    ],
+                ],
             ],
         ];
     }
@@ -835,16 +835,16 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'tca' => [
                             'tx_mask_field1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'field1'
-                            ]
-                        ]
-                    ]
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
                 ],
                 'tx_mask_field1',
                 'tt_content',
-                FieldType::STRING
+                FieldType::STRING,
             ],
             'Type Integer is returned' => [
                 [],
@@ -854,16 +854,16 @@ class TableDefinitionCollectionTest extends BaseTestCase
                             'tx_mask_field1' => [
                                 'config' => [
                                     'type' => 'input',
-                                    'eval' => 'int'
+                                    'eval' => 'int',
                                 ],
-                                'key' => 'field1'
-                            ]
-                        ]
-                    ]
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
                 ],
                 'tx_mask_field1',
                 'tt_content',
-                FieldType::INTEGER
+                FieldType::INTEGER,
             ],
             'Type Float is returned' => [
                 [],
@@ -873,16 +873,16 @@ class TableDefinitionCollectionTest extends BaseTestCase
                             'tx_mask_field1' => [
                                 'config' => [
                                     'type' => 'input',
-                                    'eval' => 'double2'
+                                    'eval' => 'double2',
                                 ],
-                                'key' => 'field1'
-                            ]
-                        ]
-                    ]
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
                 ],
                 'tx_mask_field1',
                 'tt_content',
-                FieldType::FLOAT
+                FieldType::FLOAT,
             ],
             'Type Date is returned' => [
                 [],
@@ -893,16 +893,16 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'config' => [
                                     'type' => 'input',
                                     'eval' => 'date',
-                                    'dbType' => 'date'
+                                    'dbType' => 'date',
                                 ],
-                                'key' => 'field1'
-                            ]
-                        ]
-                    ]
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
                 ],
                 'tx_mask_field1',
                 'tt_content',
-                FieldType::DATE
+                FieldType::DATE,
             ],
             'Type Datetime is returned' => [
                 [],
@@ -913,16 +913,16 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'config' => [
                                     'type' => 'input',
                                     'eval' => 'datetime',
-                                    'dbType' => 'datetime'
+                                    'dbType' => 'datetime',
                                 ],
-                                'key' => 'field1'
-                            ]
-                        ]
-                    ]
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
                 ],
                 'tx_mask_field1',
                 'tt_content',
-                FieldType::DATETIME
+                FieldType::DATETIME,
             ],
             'Type Link is returned' => [
                 [],
@@ -932,16 +932,16 @@ class TableDefinitionCollectionTest extends BaseTestCase
                             'tx_mask_field1' => [
                                 'config' => [
                                     'type' => 'input',
-                                    'renderType' => 'inputLink'
+                                    'renderType' => 'inputLink',
                                 ],
-                                'key' => 'field1'
-                            ]
-                        ]
-                    ]
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
                 ],
                 'tx_mask_field1',
                 'tt_content',
-                FieldType::LINK
+                FieldType::LINK,
             ],
             'Type Text is returned' => [
                 [],
@@ -952,14 +952,14 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'config' => [
                                     'type' => 'text',
                                 ],
-                                'key' => 'field1'
-                            ]
-                        ]
-                    ]
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
                 ],
                 'tx_mask_field1',
                 'tt_content',
-                FieldType::TEXT
+                FieldType::TEXT,
             ],
             'Type Richtext is returned if in inline' => [
                 [],
@@ -971,14 +971,14 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                     'type' => 'text',
                                 ],
                                 'rte' => '1',
-                                'key' => 'field1'
-                            ]
-                        ]
-                    ]
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
                 ],
                 'tx_mask_field1',
                 'tx_mask_inline',
-                FieldType::RICHTEXT
+                FieldType::RICHTEXT,
             ],
             'Type Richtext is returned, if enableRichtext is set' => [
                 [],
@@ -990,14 +990,14 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                     'type' => 'text',
                                     'enableRichtext' => '1',
                                 ],
-                                'key' => 'field1'
-                            ]
-                        ]
-                    ]
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
                 ],
                 'tx_mask_field1',
                 'tt_content',
-                FieldType::RICHTEXT
+                FieldType::RICHTEXT,
             ],
             'Type Check is returned' => [
                 [],
@@ -1008,14 +1008,14 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'config' => [
                                     'type' => 'check',
                                 ],
-                                'key' => 'field1'
-                            ]
-                        ]
-                    ]
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
                 ],
                 'tx_mask_field1',
                 'tt_content',
-                FieldType::CHECK
+                FieldType::CHECK,
             ],
             'Type Radio is returned' => [
                 [],
@@ -1026,14 +1026,14 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'config' => [
                                     'type' => 'radio',
                                 ],
-                                'key' => 'field1'
-                            ]
-                        ]
-                    ]
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
                 ],
                 'tx_mask_field1',
                 'tt_content',
-                FieldType::RADIO
+                FieldType::RADIO,
             ],
             'Type Select is returned' => [
                 [],
@@ -1044,14 +1044,14 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'config' => [
                                     'type' => 'select',
                                 ],
-                                'key' => 'field1'
-                            ]
-                        ]
-                    ]
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
                 ],
                 'tx_mask_field1',
                 'tt_content',
-                FieldType::SELECT
+                FieldType::SELECT,
             ],
             'Type Inline is returned' => [
                 [],
@@ -1062,14 +1062,14 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'config' => [
                                     'type' => 'inline',
                                 ],
-                                'key' => 'field1'
-                            ]
-                        ]
-                    ]
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
                 ],
                 'tx_mask_field1',
                 'tt_content',
-                FieldType::INLINE
+                FieldType::INLINE,
             ],
             'Type File is returned' => [
                 [],
@@ -1079,16 +1079,16 @@ class TableDefinitionCollectionTest extends BaseTestCase
                             'tx_mask_field1' => [
                                 'config' => [
                                     'type' => 'inline',
-                                    'foreign_table' => 'sys_file_reference'
+                                    'foreign_table' => 'sys_file_reference',
                                 ],
-                                'key' => 'field1'
-                            ]
-                        ]
-                    ]
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
                 ],
                 'tx_mask_field1',
                 'tt_content',
-                FieldType::FILE
+                FieldType::FILE,
             ],
             'Type Media is returned' => [
                 [],
@@ -1105,20 +1105,20 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                                 'config' => [
                                                     'appearance' => [
                                                         'elementBrowserAllowed' => 'vimeo,youtube',
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
-                                    ]
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
                                 ],
-                                'key' => 'field1'
-                            ]
-                        ]
-                    ]
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
                 ],
                 'tx_mask_field1',
                 'tt_content',
-                FieldType::MEDIA
+                FieldType::MEDIA,
             ],
             'Type File by option is returned' => [
                 [],
@@ -1130,14 +1130,14 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                     'type' => 'inline',
                                 ],
                                 'options' => 'file',
-                                'key' => 'field1'
+                                'key' => 'field1',
                             ],
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
                 'tx_mask_field1',
                 'tt_content',
-                FieldType::FILE
+                FieldType::FILE,
             ],
             'Type Content is returned' => [
                 [],
@@ -1147,16 +1147,16 @@ class TableDefinitionCollectionTest extends BaseTestCase
                             'tx_mask_field1' => [
                                 'config' => [
                                     'type' => 'inline',
-                                    'foreign_table' => 'tt_content'
+                                    'foreign_table' => 'tt_content',
                                 ],
-                                'key' => 'field1'
-                            ]
-                        ]
-                    ]
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
                 ],
                 'tx_mask_field1',
                 'tt_content',
-                FieldType::CONTENT
+                FieldType::CONTENT,
             ],
             'Type Tab is returned' => [
                 [],
@@ -1167,14 +1167,14 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'config' => [
                                     'type' => 'tab',
                                 ],
-                                'key' => 'field1'
-                            ]
-                        ]
-                    ]
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
                 ],
                 'tx_mask_field1',
                 'tt_content',
-                FieldType::TAB
+                FieldType::TAB,
             ],
             'Type Palette is returned' => [
                 [],
@@ -1185,14 +1185,14 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'config' => [
                                     'type' => 'palette',
                                 ],
-                                'key' => 'field1'
-                            ]
-                        ]
-                    ]
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
                 ],
                 'tx_mask_field1',
                 'tt_content',
-                FieldType::PALETTE
+                FieldType::PALETTE,
             ],
             'Field is found when in palette' => [
                 [],
@@ -1203,57 +1203,57 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'key' => 'element1',
                                 'label' => 'Element 1',
                                 'columns' => [
-                                    'tx_mask_palette'
-                                ]
+                                    'tx_mask_palette',
+                                ],
                             ],
                             'element2' => [
                                 'key' => 'element2',
                                 'label' => 'Element 1',
                                 'columns' => [
-                                    'tx_mask_palette2'
-                                ]
-                            ]
+                                    'tx_mask_palette2',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_palette' => [
                                 'config' => [
                                     'type' => 'palette',
                                 ],
-                                'key' => 'palette'
+                                'key' => 'palette',
                             ],
                             'tx_mask_palette2' => [
                                 'config' => [
                                     'type' => 'palette',
                                 ],
-                                'key' => 'palette2'
+                                'key' => 'palette2',
                             ],
                             'tx_mask_field1' => [
                                 'config' => [
                                     'type' => 'input',
-                                    'eval' => 'int'
+                                    'eval' => 'int',
                                 ],
-                                'key' => 'field1'
-                            ]
+                                'key' => 'field1',
+                            ],
                         ],
                         'palettes' => [
                             'tx_mask_palette' => [
                                 'label' => 'Palette 1',
                                 'showitem' => [
-                                    'tx_mask_field1'
-                                ]
+                                    'tx_mask_field1',
+                                ],
                             ],
                             'tx_mask_palette2' => [
                                 'label' => 'Palette 2',
                                 'showitem' => [
-                                    'tx_mask_field1'
-                                ]
-                            ]
-                        ]
-                    ]
+                                    'tx_mask_field1',
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 'tx_mask_field1',
                 'tt_content',
-                FieldType::INTEGER
+                FieldType::INTEGER,
             ],
             'Type Group is returned' => [
                 [],
@@ -1264,14 +1264,14 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'config' => [
                                     'type' => 'group',
                                 ],
-                                'key' => 'field1'
-                            ]
-                        ]
-                    ]
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
                 ],
                 'tx_mask_field1',
                 'tt_content',
-                FieldType::GROUP
+                FieldType::GROUP,
             ],
             'Type Timestamp is returned' => [
                 [],
@@ -1282,16 +1282,16 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'config' => [
                                     'type' => 'input',
                                     'evaĺ' => 'date,int',
-                                    'renderType' => 'inputDateTime'
+                                    'renderType' => 'inputDateTime',
                                 ],
-                                'key' => 'field1'
-                            ]
-                        ]
-                    ]
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
                 ],
                 'tx_mask_field1',
                 'tt_content',
-                FieldType::TIMESTAMP
+                FieldType::TIMESTAMP,
             ],
             'Type from global tca is returned' => [
                 [
@@ -1301,11 +1301,11 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'config' => [
                                     'type' => 'input',
                                     'eval' =>  'date',
-                                    'dbType' => 'date'
+                                    'dbType' => 'date',
                                 ],
-                            ]
-                        ]
-                    ]
+                            ],
+                        ],
+                    ],
                 ],
                 [
                     'tt_content' => [
@@ -1314,14 +1314,14 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'config' => [
                                     'type' => 'group',
                                 ],
-                                'key' => 'field1'
-                            ]
-                        ]
-                    ]
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
                 ],
                 'date',
                 'tt_content',
-                FieldType::DATE
+                FieldType::DATE,
             ],
             'Colorpicker resolved' => [
                 [],
@@ -1333,14 +1333,14 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                     'type' => 'input',
                                     'renderType' => 'colorpicker',
                                 ],
-                                'key' => 'field1'
-                            ]
-                        ]
-                    ]
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
                 ],
                 'tx_mask_field1',
                 'tt_content',
-                FieldType::COLORPICKER
+                FieldType::COLORPICKER,
             ],
             'Slug resolved' => [
                 [],
@@ -1351,15 +1351,15 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'config' => [
                                     'type' => 'slug',
                                 ],
-                                'key' => 'field1'
-                            ]
-                        ]
-                    ]
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
                 ],
                 'tx_mask_field1',
                 'tt_content',
-                FieldType::SLUG
-            ]
+                FieldType::SLUG,
+            ],
         ];
     }
 
@@ -1388,15 +1388,15 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'label' => 'Element 1',
                                 'columns' => [
                                     'field1',
-                                    'field2'
+                                    'field2',
                                 ],
                                 'labels' => [
                                     'Field 1',
-                                    'Field 2'
+                                    'Field 2',
                                 ],
                                 'descriptions' => [
                                     'Field 1 description',
-                                    'Field 2 descriptions'
+                                    'Field 2 descriptions',
                                 ],
                             ],
                             'element2' => [
@@ -1404,23 +1404,23 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'label' => 'Element 2',
                                 'columns' => [
                                     'field1',
-                                    'field3'
+                                    'field3',
                                 ],
                                 'labels' => [
                                     'Field 1-1',
-                                    'Field 3'
+                                    'Field 3',
                                 ],
                                 'descriptions' => [
                                     'Field 1-1 descriptions',
-                                    'Field 3 descriptions'
-                                ]
-                            ]
-                        ]
-                    ]
+                                    'Field 3 descriptions',
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 'tt_content',
                 'field1',
-                'Field 1'
+                'Field 1',
             ],
             'First found field label in palette returned' => [
                 [
@@ -1431,47 +1431,47 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'label' => 'Element 1',
                                 'columns' => [
                                     'pallette1',
-                                    'field2'
+                                    'field2',
                                 ],
                                 'labels' => [
                                     'Palette 1',
-                                    'Field 2'
+                                    'Field 2',
                                 ],
                                 'descriptions' => [
                                     'Palette 1 descriptions',
-                                    'Field 2 descriptions'
-                                ]
+                                    'Field 2 descriptions',
+                                ],
                             ],
                             'element2' => [
                                 'key' => 'element2',
                                 'label' => 'Element 2',
                                 'columns' => [
                                     'field1',
-                                    'field3'
+                                    'field3',
                                 ],
                                 'labels' => [
                                     'Field 1-1',
-                                    'Field 3'
+                                    'Field 3',
                                 ],
                                 'description' => [
                                     'Field 1-1 description',
-                                    'Field 3 description'
-                                ]
-                            ]
+                                    'Field 3 description',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'field1' => [
                                 'label' => [
-                                    'element1' => 'Field 1'
+                                    'element1' => 'Field 1',
                                 ],
-                                'key' => 'field1'
-                            ]
-                        ]
-                    ]
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
                 ],
                 'tt_content',
                 'field1',
-                'Field 1'
+                'Field 1',
             ],
             'Empty columns ignored' => [
                 [
@@ -1479,39 +1479,39 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'elements' => [
                             'element1' => [
                                 'key' => 'element1',
-                                'label' => 'Element 1'
+                                'label' => 'Element 1',
                             ],
                             'element2' => [
                                 'key' => 'element2',
                                 'label' => 'Element 2',
                                 'columns' => [
                                     'field1',
-                                    'field3'
+                                    'field3',
                                 ],
                                 'labels' => [
                                     'Field 1-1',
-                                    'Field 3'
+                                    'Field 3',
                                 ],
                                 'descriptions' => [
                                     'Field 1-1 description',
-                                    'Field 3 description'
-                                ]
-                            ]
+                                    'Field 3 description',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'field1' => [
                                 'label' => [
-                                    'element2' => 'Field 1'
+                                    'element2' => 'Field 1',
                                 ],
-                                'key' => 'field1'
-                            ]
-                        ]
-                    ]
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
                 ],
                 'tt_content',
                 'field1',
-                'Field 1-1'
-            ]
+                'Field 1-1',
+            ],
         ];
     }
 
@@ -1553,38 +1553,38 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 '',
                                 '',
                                 '',
-                            ]
-                        ]
+                            ],
+                        ],
                     ],
                     'tca' => [
                         'tx_mask_field1' => [
                             'config' => [
-                                'type' => 'input'
+                                'type' => 'input',
                             ],
                             'key' => 'field1',
                             'name' => 'string',
-                            'description' => 'Field 1 Description'
+                            'description' => 'Field 1 Description',
                         ],
                         'tx_mask_field2' => [
                             'config' => [
                                 'eval' => 'int',
-                                'type' => 'input'
+                                'type' => 'input',
                             ],
                             'key' => 'field2',
                             'name' => 'integer',
-                            'description' => 'Field 2 Description'
+                            'description' => 'Field 2 Description',
                         ],
                         'tx_mask_field3' => [
                             'config' => [
-                                'type' => 'input'
+                                'type' => 'input',
                             ],
                             'renderType' => 'inputLink',
                             'key' => 'field3',
                             'name' => 'link',
-                            'description' => 'Field 3 Description'
-                        ]
-                    ]
-                ]
+                            'description' => 'Field 3 Description',
+                        ],
+                    ],
+                ],
             ],
             'table' => 'tt_content',
             'element' => 'element1',
@@ -1613,38 +1613,38 @@ class TableDefinitionCollectionTest extends BaseTestCase
                 'tca' => [
                     'tx_mask_field1' => [
                         'config' => [
-                            'type' => 'input'
+                            'type' => 'input',
                         ],
                         'key' => 'field1',
                         'fullKey' => 'tx_mask_field1',
                         'type' => 'string',
-                        'description' => 'Field 1 Description'
+                        'description' => 'Field 1 Description',
                     ],
                     'tx_mask_field2' => [
                         'config' => [
                             'eval' => 'int',
-                            'type' => 'input'
+                            'type' => 'input',
                         ],
                         'key' => 'field2',
                         'fullKey' => 'tx_mask_field2',
                         'type' => 'integer',
-                        'description' => 'Field 2 Description'
+                        'description' => 'Field 2 Description',
                     ],
                     'tx_mask_field3' => [
                         'config' => [
-                            'type' => 'input'
+                            'type' => 'input',
                         ],
                         'renderType' => 'inputLink',
                         'key' => 'field3',
                         'fullKey' => 'tx_mask_field3',
                         'type' => 'link',
-                        'description' => 'Field 3 Description'
-                    ]
+                        'description' => 'Field 3 Description',
+                    ],
                 ],
                 'sorting' => 0,
                 'colorOverlay' => '',
                 'iconOverlay' => '',
-            ]
+            ],
         ];
 
         yield 'Element with no field returns only element' => [
@@ -1657,19 +1657,19 @@ class TableDefinitionCollectionTest extends BaseTestCase
                             'key' => 'element1',
                             'label' => 'Element 1',
                             'description' => 'Element 1 Description',
-                        ]
+                        ],
                     ],
                     'tca' => [
                         'tx_mask_field1' => [
                             'config' => [
-                                'type' => 'input'
+                                'type' => 'input',
                             ],
                             'key' => 'field1',
                             'name' => 'string',
-                            'description' => 'Field 1 Description'
+                            'description' => 'Field 1 Description',
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ],
             'table' => 'tt_content',
             'element' => 'element1',
@@ -1687,7 +1687,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                 'sorting' => 0,
                 'colorOverlay' => '',
                 'iconOverlay' => '',
-            ]
+            ],
         ];
 
         yield 'Non existing element returns empty array' => [
@@ -1700,19 +1700,19 @@ class TableDefinitionCollectionTest extends BaseTestCase
                             'key' => 'element1',
                             'label' => 'Element 1',
                             'description' => 'Element 1 Description',
-                        ]
+                        ],
                     ],
                     'tca' => [
                         'tx_mask_field1' => [
                             'config' => [
-                                'type' => 'input'
+                                'type' => 'input',
                             ],
                             'key' => 'field1',
                             'name' => 'string',
-                            'description' => 'Field 1 Description'
+                            'description' => 'Field 1 Description',
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ],
             'table' => 'tt_content',
             'element' => 'element2',
@@ -1732,35 +1732,35 @@ class TableDefinitionCollectionTest extends BaseTestCase
                             'key' => 'element1',
                             'label' => 'Element 1',
                             'description' => 'Element 1 Description',
-                        ]
+                        ],
                     ],
                     'tca' => [
                         'tx_mask_repeating' => [
                             'config' => [
-                                'type' => 'inline'
+                                'type' => 'inline',
                             ],
                             'key' => 'repeating',
                             'name' => 'inline',
-                            'description' => 'Field Inline Description'
+                            'description' => 'Field Inline Description',
                         ],
-                    ]
+                    ],
                 ],
                 'tx_mask_repeating' => [
                     'tca' => [
                         'tx_mask_field1' => [
                             'config' => [
-                                'type' => 'input'
+                                'type' => 'input',
                             ],
                             'key' => 'field1',
                             'name' => 'string',
-                            'description' => 'Field 1 Description'
+                            'description' => 'Field 1 Description',
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ],
             'table' => 'tx_mask_repeating',
             'element' => 'element2',
-            'expected' => []
+            'expected' => [],
         ];
     }
 
@@ -1789,41 +1789,41 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'labels' => [
                                     'Label 1',
                                     'Label 2',
-                                    'Label 3'
+                                    'Label 3',
                                 ],
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
-                            ]
+                                    'tx_mask_column_3',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
-                            ]
-                        ]
-                    ]
+                                'key' => 'column_3',
+                            ],
+                        ],
+                    ],
                 ],
                 'element_1',
                 'tx_mask_column_2',
                 'tt_content',
-                'Label 2'
+                'Label 2',
             ],
             'Empty string if element does not exist' => [
                 [
@@ -1835,41 +1835,41 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'labels' => [
                                     'Label 1',
                                     'Label 2',
-                                    'Label 3'
+                                    'Label 3',
                                 ],
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
-                            ]
+                                    'tx_mask_column_3',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
-                            ]
-                        ]
-                    ]
+                                'key' => 'column_3',
+                            ],
+                        ],
+                    ],
                 ],
                 'element_4',
                 'tx_mask_column_2',
                 'tt_content',
-                ''
+                '',
             ],
             'Empty string if field does not exist' => [
                 [
@@ -1881,41 +1881,41 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'labels' => [
                                     'Label 1',
                                     'Label 2',
-                                    'Label 3'
+                                    'Label 3',
                                 ],
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
-                            ]
+                                    'tx_mask_column_3',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
-                            ]
-                        ]
-                    ]
+                                'key' => 'column_3',
+                            ],
+                        ],
+                    ],
                 ],
                 'element_1',
                 'tx_mask_column_4',
                 'tt_content',
-                ''
+                '',
             ],
             'Core field returns correct label' => [
                 [
@@ -1927,38 +1927,38 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'labels' => [
                                     'Header 1',
                                     'Label 2',
-                                    'Label 3'
+                                    'Label 3',
                                 ],
                                 'columns' => [
                                     'header',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
-                            ]
+                                    'tx_mask_column_3',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'header' => [
-                                'key' => 'header'
+                                'key' => 'header',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
-                            ]
-                        ]
-                    ]
+                                'key' => 'column_3',
+                            ],
+                        ],
+                    ],
                 ],
                 'element_1',
                 'header',
                 'tt_content',
-                'Header 1'
+                'Header 1',
             ],
             'Core field in palette returns correct label' => [
                 [
@@ -1972,39 +1972,39 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 ],
                                 'columns' => [
                                     'tx_mask_palette_1',
-                                ]
-                            ]
+                                ],
+                            ],
                         ],
                         'palettes' => [
                             'palette_1' => [
                                 'label' => 'Palette 1',
-                                'showitem' => ['header']
-                            ]
+                                'showitem' => ['header'],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_palette_1' => [
                                 'config' => [
-                                    'type' => 'palette'
+                                    'type' => 'palette',
                                 ],
-                                'key' => 'palette_1'
+                                'key' => 'palette_1',
                             ],
                             'header' => [
                                 'inlineParent' => [
-                                    'element_1' => 'tx_mask_palette_1'
+                                    'element_1' => 'tx_mask_palette_1',
                                 ],
                                 'inPalette' => '1',
                                 'label' => [
-                                    'element_1' => 'Header 1'
+                                    'element_1' => 'Header 1',
                                 ],
-                                'key' => 'header'
-                            ]
-                        ]
+                                'key' => 'header',
+                            ],
+                        ],
                     ],
                 ],
                 'element_1',
                 'header',
                 'tt_content',
-                'Header 1'
+                'Header 1',
             ],
             'Field in inline returns correct label' => [
                 [
@@ -2018,35 +2018,35 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 ],
                                 'columns' => [
                                     'tx_mask_inline',
-                                ]
-                            ]
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_inline' => [
                                 'config' => [
-                                    'type' => 'inline'
+                                    'type' => 'inline',
                                 ],
-                                'key' => 'inline'
+                                'key' => 'inline',
                             ],
-                        ]
+                        ],
                     ],
                     'tx_mask_inline' => [
                         'tca' => [
                             'tx_mask_field1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
                                 'inlineParent' => 'tx_mask_inline',
                                 'label' => 'Header 1',
-                                'key' => 'field1'
-                            ]
-                        ]
-                    ]
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
                 ],
                 'element_1',
                 'tx_mask_field1',
                 'tx_mask_inline',
-                'Header 1'
+                'Header 1',
             ],
             'Field which is shared and is in palette in the other element' => [
                 [
@@ -2060,52 +2060,52 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 ],
                                 'columns' => [
                                     'tx_mask_palette_1',
-                                ]
+                                ],
                             ],
                             'element_2' => [
                                 'key' => 'element_2',
                                 'label' => 'Element 2',
                                 'labels' => [
-                                    'Header 1-1'
+                                    'Header 1-1',
                                 ],
                                 'columns' => [
-                                    'tx_mask_header'
-                                ]
-                            ]
+                                    'tx_mask_header',
+                                ],
+                            ],
                         ],
                         'palettes' => [
                             'palette_1' => [
                                 'label' => 'Palette 1',
-                                'showitem' => ['tx_mask_header']
-                            ]
+                                'showitem' => ['tx_mask_header'],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_palette_1' => [
                                 'config' => [
-                                    'type' => 'palette'
+                                    'type' => 'palette',
                                 ],
-                                'key' => 'palette_1'
+                                'key' => 'palette_1',
                             ],
                             'tx_mask_header' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
                                 'inlineParent' => [
-                                    'element_1' => 'tx_mask_palette_1'
+                                    'element_1' => 'tx_mask_palette_1',
                                 ],
                                 'inPalette' => '1',
                                 'label' => [
-                                    'element_1' => 'Header 1'
+                                    'element_1' => 'Header 1',
                                 ],
-                                'key' => 'header'
-                            ]
-                        ]
+                                'key' => 'header',
+                            ],
+                        ],
                     ],
                 ],
                 'element_2',
                 'tx_mask_header',
                 'tt_content',
-                'Header 1-1'
+                'Header 1-1',
             ],
             'Field in palette which is shared and is not in palette in the other element' => [
                 [
@@ -2119,52 +2119,52 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 ],
                                 'columns' => [
                                     'tx_mask_palette_1',
-                                ]
+                                ],
                             ],
                             'element_2' => [
                                 'key' => 'element_2',
                                 'label' => 'Element 2',
                                 'labels' => [
-                                    'Header 1-1'
+                                    'Header 1-1',
                                 ],
                                 'columns' => [
-                                    'tx_mask_header'
-                                ]
-                            ]
+                                    'tx_mask_header',
+                                ],
+                            ],
                         ],
                         'palettes' => [
                             'palette_1' => [
                                 'label' => 'Palette 1',
-                                'showitem' => ['tx_mask_header']
-                            ]
+                                'showitem' => ['tx_mask_header'],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_palette_1' => [
                                 'config' => [
-                                    'type' => 'palette'
+                                    'type' => 'palette',
                                 ],
-                                'key' => 'palette_1'
+                                'key' => 'palette_1',
                             ],
                             'tx_mask_header' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
                                 'inlineParent' => [
-                                    'element_1' => 'tx_mask_palette_1'
+                                    'element_1' => 'tx_mask_palette_1',
                                 ],
                                 'inPalette' => '1',
                                 'label' => [
-                                    'element_1' => 'Header 1'
+                                    'element_1' => 'Header 1',
                                 ],
-                                'key' => 'header'
-                            ]
-                        ]
+                                'key' => 'header',
+                            ],
+                        ],
                     ],
                 ],
                 'element_1',
                 'tx_mask_header',
                 'tt_content',
-                'Header 1'
+                'Header 1',
             ],
             'Field in palette and palette is in inline' => [
                 [
@@ -2178,50 +2178,50 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 ],
                                 'columns' => [
                                     'tx_mask_inline1',
-                                ]
-                            ]
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_inline1' => [
                                 'config' => [
-                                    'type' => 'inline'
+                                    'type' => 'inline',
                                 ],
-                                'key' => 'inline1'
-                            ]
-                        ]
+                                'key' => 'inline1',
+                            ],
+                        ],
                     ],
                     'tx_mask_inline1' => [
                         'palettes' => [
                             'palette_1' => [
                                 'label' => 'Palette 1',
-                                'showitem' => ['tx_mask_header']
-                            ]
+                                'showitem' => ['tx_mask_header'],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_palette_1' => [
                                 'config' => [
-                                    'type' => 'palette'
+                                    'type' => 'palette',
                                 ],
-                                'key' => 'palette_1'
+                                'key' => 'palette_1',
                             ],
                             'tx_mask_header' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
                                 'inlineParent' => 'tx_mask_palette_1',
                                 'inPalette' => '1',
                                 'label' => [
-                                    'element_1' => 'Header 1'
+                                    'element_1' => 'Header 1',
                                 ],
-                                'key' => 'header'
-                            ]
-                        ]
-                    ]
+                                'key' => 'header',
+                            ],
+                        ],
+                    ],
                 ],
                 'element_1',
                 'tx_mask_header',
                 'tx_mask_inline1',
-                'Header 1'
+                'Header 1',
             ],
         ];
     }
@@ -2249,45 +2249,45 @@ class TableDefinitionCollectionTest extends BaseTestCase
                             'labels' => [
                                 'Label 1',
                                 'Label 2',
-                                'Label 3'
+                                'Label 3',
                             ],
                             'columns' => [
                                 'tx_mask_column_1',
                                 'tx_mask_column_2',
-                                'tx_mask_column_3'
-                            ]
+                                'tx_mask_column_3',
+                            ],
                             // descriptions not defined on purpose.
-                        ]
+                        ],
                     ],
                     'tca' => [
                         'tx_mask_column_1' => [
                             'config' => [
-                                'type' => 'input'
+                                'type' => 'input',
                             ],
                             'key' => 'column_1',
-                            'description' => 'Description column 1'
+                            'description' => 'Description column 1',
                         ],
                         'tx_mask_column_2' => [
                             'config' => [
-                                'type' => 'input'
+                                'type' => 'input',
                             ],
                             'key' => 'column_2',
-                            'description' => 'Description column 2'
+                            'description' => 'Description column 2',
                         ],
                         'tx_mask_column_3' => [
                             'config' => [
-                                'type' => 'input'
+                                'type' => 'input',
                             ],
                             'key' => 'column_3',
-                            'description' => 'Description column 3'
-                        ]
-                    ]
-                ]
+                            'description' => 'Description column 3',
+                        ],
+                    ],
+                ],
             ],
             'elementKey' => 'element_1',
             'fieldKey' => 'tx_mask_column_1',
             'table' => 'tt_content',
-            'Description column 1'
+            'Description column 1',
         ];
 
         yield 'Description found in elements description array' => [
@@ -2300,46 +2300,46 @@ class TableDefinitionCollectionTest extends BaseTestCase
                             'labels' => [
                                 'Label 1',
                                 'Label 2',
-                                'Label 3'
+                                'Label 3',
                             ],
                             'columns' => [
                                 'tx_mask_column_1',
                                 'tx_mask_column_2',
-                                'tx_mask_column_3'
+                                'tx_mask_column_3',
                             ],
                             'descriptions' => [
                                 'Description column 1',
                                 'Description column 2',
                                 'Description column 3',
-                            ]
-                        ]
+                            ],
+                        ],
                     ],
                     'tca' => [
                         'tx_mask_column_1' => [
                             'config' => [
-                                'type' => 'input'
+                                'type' => 'input',
                             ],
                             'key' => 'column_1',
                         ],
                         'tx_mask_column_2' => [
                             'config' => [
-                                'type' => 'input'
+                                'type' => 'input',
                             ],
                             'key' => 'column_2',
                         ],
                         'tx_mask_column_3' => [
                             'config' => [
-                                'type' => 'input'
+                                'type' => 'input',
                             ],
                             'key' => 'column_3',
-                        ]
-                    ]
-                ]
+                        ],
+                    ],
+                ],
             ],
             'elementKey' => 'element_1',
             'fieldKey' => 'tx_mask_column_2',
             'table' => 'tt_content',
-            'Description column 2'
+            'Description column 2',
         ];
     }
 
@@ -2370,8 +2370,8 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
+                                    'tx_mask_column_3',
+                                ],
                             ],
                             'element_2' => [
                                 'key' => 'element_2',
@@ -2379,54 +2379,54 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_4',
                                     'tx_mask_column_5',
-                                    'tx_mask_column_6'
-                                ]
-                            ]
+                                    'tx_mask_column_6',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
+                                'key' => 'column_3',
                             ],
                             'tx_mask_column_4' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_4'
+                                'key' => 'column_4',
                             ],
                             'tx_mask_column_5' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_5'
+                                'key' => 'column_5',
                             ],
                             'tx_mask_column_6' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_6'
+                                'key' => 'column_6',
                             ],
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
                 'tx_mask_column_1',
                 'element_1',
                 false,
-                'tt_content'
+                'tt_content',
             ],
             'Correct table is returned for field 2' => [
                 [
@@ -2438,8 +2438,8 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
+                                    'tx_mask_column_3',
+                                ],
                             ],
                             'element_2' => [
                                 'key' => 'element_2',
@@ -2447,54 +2447,54 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_4',
                                     'tx_mask_column_5',
-                                    'tx_mask_column_6'
-                                ]
-                            ]
+                                    'tx_mask_column_6',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
+                                'key' => 'column_3',
                             ],
                             'tx_mask_column_4' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_4'
+                                'key' => 'column_4',
                             ],
                             'tx_mask_column_5' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_5'
+                                'key' => 'column_5',
                             ],
                             'tx_mask_column_6' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_6'
+                                'key' => 'column_6',
                             ],
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
                 'tx_mask_column_4',
                 'element_2',
                 false,
-                'pages'
+                'pages',
             ],
             'First table is returned for ambiguous field' => [
                 [
@@ -2506,30 +2506,30 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
-                            ]
+                                    'tx_mask_column_3',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
+                                'key' => 'column_3',
                             ],
-                        ]
+                        ],
                     ],
                     'pages' => [
                         'elements' => [
@@ -2539,36 +2539,36 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
+                                    'tx_mask_column_3',
+                                ],
                             ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
+                                'key' => 'column_3',
                             ],
-                        ]
+                        ],
                     ],
                 ],
                 'tx_mask_column_1',
                 '',
                 false,
-                'tt_content'
+                'tt_content',
             ],
             'First table is not returned if elementKey is not empty' => [
                 [
@@ -2580,30 +2580,30 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
+                                    'tx_mask_column_3',
+                                ],
                             ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
+                                'key' => 'column_3',
                             ],
-                        ]
+                        ],
                     ],
                     'tt_content' => [
                         'elements' => [
@@ -2613,36 +2613,36 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
-                            ]
+                                    'tx_mask_column_3',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
+                                'key' => 'column_3',
                             ],
-                        ]
+                        ],
                     ],
                 ],
                 'tx_mask_column_1',
                 'element_2',
                 false,
-                'tt_content'
+                'tt_content',
             ],
             'Correct table is returned for field and element' => [
                 [
@@ -2654,30 +2654,30 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
-                            ]
+                                    'tx_mask_column_3',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
+                                'key' => 'column_3',
                             ],
-                        ]
+                        ],
                     ],
                     'pages' => [
                         'elements' => [
@@ -2687,36 +2687,36 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
+                                    'tx_mask_column_3',
+                                ],
                             ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
+                                'key' => 'column_3',
                             ],
-                        ]
+                        ],
                     ],
                 ],
                 'tx_mask_column_1',
                 'element_1',
                 false,
-                'pages'
+                'pages',
             ],
             'Inline is not excluded by default' => [
                 [
@@ -2724,23 +2724,23 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
+                                'key' => 'column_3',
                             ],
-                        ]
+                        ],
                     ],
                     'tt_content' => [
                         'elements' => [
@@ -2750,30 +2750,30 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
-                            ]
+                                    'tx_mask_column_3',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
+                                'key' => 'column_3',
                             ],
-                        ]
+                        ],
                     ],
                     'pages' => [
                         'elements' => [
@@ -2783,36 +2783,36 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
+                                    'tx_mask_column_3',
+                                ],
                             ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
+                                'key' => 'column_3',
                             ],
-                        ]
+                        ],
                     ],
                 ],
                 'tx_mask_column_1',
                 'element_1',
                 false,
-                'tx_mask_custom_table'
+                'tx_mask_custom_table',
             ],
             'Inline is excluded when set to true' => [
                 [
@@ -2820,23 +2820,23 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
+                                'key' => 'column_3',
                             ],
-                        ]
+                        ],
                     ],
                     'tt_content' => [
                         'elements' => [
@@ -2846,30 +2846,30 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
-                            ]
+                                    'tx_mask_column_3',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
+                                'key' => 'column_3',
                             ],
-                        ]
+                        ],
                     ],
                     'pages' => [
                         'elements' => [
@@ -2879,36 +2879,36 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
+                                    'tx_mask_column_3',
+                                ],
                             ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
+                                'key' => 'column_3',
                             ],
-                        ]
+                        ],
                     ],
                 ],
                 'tx_mask_column_1',
                 'element_2',
                 true,
-                'tt_content'
+                'tt_content',
             ],
         ];
     }

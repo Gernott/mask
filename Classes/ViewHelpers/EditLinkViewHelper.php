@@ -61,10 +61,10 @@ class EditLinkViewHelper extends AbstractTagBasedViewHelper
             $urlParameters = [
                 'edit' => [
                     'tt_content' => [
-                        $element['uid'] => 'edit'
-                    ]
+                        $element['uid'] => 'edit',
+                    ],
                 ],
-                'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI')
+                'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI'),
             ];
             $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
             $uri = $uriBuilder->buildUriFromRoute('record_edit', $urlParameters);

@@ -61,11 +61,11 @@ class ConfigCleanerTraitTest extends UnitTestCase
                             'type' => 'text',
                             'foo' => 'bar',
                             'enableRichtext' => 1,
-                            'eval' => 'unique'
+                            'eval' => 'unique',
                         ],
                         'type' => 'richtext',
                         'exclude' => '1',
-                        'defaultExtras' => 'richtext[]:rte_transform[mode=ts_css]'
+                        'defaultExtras' => 'richtext[]:rte_transform[mode=ts_css]',
                     ],
                 ],
             ],
@@ -91,19 +91,19 @@ class ConfigCleanerTraitTest extends UnitTestCase
                         'sorting' => 0,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                    ]
+                    ],
                 ],
                 'tca' => [
                     'tx_mask_rte' => [
                         'config' => [
                             'type' => 'text',
                             'enableRichtext' => 1,
-                            'eval' => 'unique'
+                            'eval' => 'unique',
                         ],
                         'key' => 'rte',
                         'fullKey' => 'tx_mask_rte',
                         'type' => 'richtext',
-                    ]
+                    ],
                 ],
             ],
         ];

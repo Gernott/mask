@@ -110,7 +110,7 @@ class DefaultTcaCompatibilityTraitTest extends UnitTestCase
                         'sorting' => 0,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                    ]
+                    ],
                 ],
                 'tca' => [
                     'tx_mask_integer' => [
@@ -119,8 +119,8 @@ class DefaultTcaCompatibilityTraitTest extends UnitTestCase
                         'type' => 'integer',
                         'config' => [
                             'type' => 'input',
-                            'eval' => 'int,required'
-                        ]
+                            'eval' => 'int,required',
+                        ],
                     ],
                     'tx_mask_file' => [
                         'key' => 'file',
@@ -138,10 +138,10 @@ class DefaultTcaCompatibilityTraitTest extends UnitTestCase
                         'type' => 'richtext',
                         'config' => [
                             'type' => 'text',
-                            'enableRichtext' => 1
+                            'enableRichtext' => 1,
                         ],
-                        'exclude' => 1
-                    ]
+                        'exclude' => 1,
+                    ],
                 ],
             ],
         ];

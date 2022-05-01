@@ -35,11 +35,11 @@ class TcaFieldDefinitionTest extends UnitTestCase
                     'filter' => [
                         [
                             'parameters' => [
-                                'allowedFileExtensions' => 'jpg'
-                            ]
-                        ]
-                    ]
-                ]
+                                'allowedFileExtensions' => 'jpg',
+                            ],
+                        ],
+                    ],
+                ],
             ],
             'expected' => [
                 'key' => 'image',
@@ -47,7 +47,7 @@ class TcaFieldDefinitionTest extends UnitTestCase
                 'type' => 'file',
                 'allowedFileExtensions' => 'jpg',
                 'imageoverlayPalette' => 1,
-            ]
+            ],
         ];
 
         yield 'Legacy Link format (wizards) transformed to fieldControl' => [
@@ -64,17 +64,17 @@ class TcaFieldDefinitionTest extends UnitTestCase
                             'module' => [
                                 'name' => 'wizard_link',
                                 'urlParameters' => [
-                                    'mode' => 'wizard'
-                                ]
+                                    'mode' => 'wizard',
+                                ],
                             ],
                             'JSopenParams' => 'height=300,width=500,status=0,menubar=0,scrollbars=1',
                             'params' => [
                                 'blindLinkOptions' => 'page,files',
-                                'allowedExtensions' => 'jpg'
-                            ]
-                        ]
-                    ]
-                ]
+                                'allowedExtensions' => 'jpg',
+                            ],
+                        ],
+                    ],
+                ],
             ],
             'expected' => [
                 'key' => 'link',
@@ -86,18 +86,18 @@ class TcaFieldDefinitionTest extends UnitTestCase
                         'linkPopup' => [
                             'options' => [
                                 'blindLinkOptions' => 'page,files',
-                                'allowedExtensions' => 'jpg'
-                            ]
-                        ]
-                    ]
-                ]
-            ]
+                                'allowedExtensions' => 'jpg',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
         ];
 
         yield 'Blank options are removed' => [
             'json' => [
                 'config' => [
-                    'type' => 'input'
+                    'type' => 'input',
                 ],
                 'type' => 'string',
                 'key' => 'field1',
@@ -106,13 +106,13 @@ class TcaFieldDefinitionTest extends UnitTestCase
             ],
             'expected' => [
                 'config' => [
-                    'type' => 'input'
+                    'type' => 'input',
                 ],
                 'type' => 'string',
                 'key' => 'field1',
                 'fullKey' => 'tx_mask_field1',
                 'bar' => 'baz',
-            ]
+            ],
         ];
 
         yield 'Allowed blank options by type not removed' => [
@@ -121,9 +121,9 @@ class TcaFieldDefinitionTest extends UnitTestCase
                     'type' => 'slug',
                     'generatorOptions' => [
                         'replacements' => [
-                            'foo' => ''
-                        ]
-                    ]
+                            'foo' => '',
+                        ],
+                    ],
                 ],
                 'type' => 'slug',
                 'key' => 'field1',
@@ -133,14 +133,14 @@ class TcaFieldDefinitionTest extends UnitTestCase
                     'type' => 'slug',
                     'generatorOptions' => [
                         'replacements' => [
-                            'foo' => ''
-                        ]
-                    ]
+                            'foo' => '',
+                        ],
+                    ],
                 ],
                 'type' => 'slug',
                 'key' => 'field1',
                 'fullKey' => 'tx_mask_field1',
-            ]
+            ],
         ];
 
         $expected = [
@@ -148,7 +148,7 @@ class TcaFieldDefinitionTest extends UnitTestCase
                 'type' => 'inline',
                 'appearance' => [
                     'levelLinksPosition' => 'none',
-                ]
+                ],
             ],
             'type' => 'inline',
             'key' => 'inline1',
@@ -162,7 +162,7 @@ class TcaFieldDefinitionTest extends UnitTestCase
                     'appearance' => [
                         'levelLinksPosition' => 'top',
                         'showNewRecordLink' => 0,
-                    ]
+                    ],
                 ],
                 'type' => 'inline',
                 'key' => 'inline1',
@@ -176,7 +176,7 @@ class TcaFieldDefinitionTest extends UnitTestCase
                     'type' => 'inline',
                     'appearance' => [
                         'levelLinksPosition' => 'none',
-                    ]
+                    ],
                 ],
                 'type' => 'inline',
                 'key' => 'inline1',
@@ -205,7 +205,7 @@ class TcaFieldDefinitionTest extends UnitTestCase
                         'folder' => 'EXT:some_extension/some/folder/',
                         'allowedExtensions' => 'jpg,png',
                         'depth' => 10,
-                    ]
+                    ],
                 ],
                 'type' => 'select',
                 'key' => 'select',
@@ -250,7 +250,7 @@ class TcaFieldDefinitionTest extends UnitTestCase
                 'type' => 'select',
                 'key' => 'select',
                 'fullKey' => 'tx_mask_select',
-            ]
+            ],
         ];
 
         yield 'arrays set to stop recursion can themselves be removed though' => [
@@ -270,7 +270,7 @@ class TcaFieldDefinitionTest extends UnitTestCase
                 'type' => 'select',
                 'key' => 'select',
                 'fullKey' => 'tx_mask_select',
-            ]
+            ],
         ];
 
         yield 'unset select item array keys are filled with empty strings' => [
@@ -280,7 +280,7 @@ class TcaFieldDefinitionTest extends UnitTestCase
                     'items' => [
                         [
                             'Label 1',
-                            'value1'
+                            'value1',
                         ],
                         [
                             'Label 2',
@@ -338,7 +338,7 @@ class TcaFieldDefinitionTest extends UnitTestCase
                 'fullKey' => 'bodytext',
                 'coreField' => 1,
                 'type' => 'richtext',
-            ]
+            ],
         ];
 
         yield 'The core field bodytext type can be set by bodytextTypeByElement per element' => [
@@ -358,7 +358,7 @@ class TcaFieldDefinitionTest extends UnitTestCase
                     'element1' => 'text',
                     'element2' => 'richtext',
                 ],
-            ]
+            ],
         ];
 
         yield 'Old Mask file fields without config converted to file field' => [
@@ -371,7 +371,7 @@ class TcaFieldDefinitionTest extends UnitTestCase
                 'fullKey' => 'tx_mask_image',
                 'type' => 'file',
                 'imageoverlayPalette' => 1,
-            ]
+            ],
         ];
     }
 
@@ -625,7 +625,7 @@ class TcaFieldDefinitionTest extends UnitTestCase
                 'config' => [
                     'type' => 'input',
                     'eval' => 'null,trim',
-                ]
+                ],
             ],
             'expected' => true,
         ];
@@ -636,7 +636,7 @@ class TcaFieldDefinitionTest extends UnitTestCase
                 'config' => [
                     'type' => 'input',
                     'eval' => 'trim,required',
-                ]
+                ],
             ],
             'expected' => false,
         ];

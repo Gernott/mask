@@ -79,7 +79,7 @@ class SqlCodeGenerator
                     }
                 } catch (Exception|DBALException $exception) {
                     return [
-                        'error' => $exception->getPrevious()->getMessage()
+                        'error' => $exception->getPrevious()->getMessage(),
                     ];
                 }
             }

@@ -142,10 +142,10 @@ class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
         $editElementUrlParameters = [
             'edit' => [
                 'tt_content' => [
-                    $row['uid'] => 'edit'
-                ]
+                    $row['uid'] => 'edit',
+                ],
             ],
-            'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI')
+            'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI'),
         ];
 
         $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);

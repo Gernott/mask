@@ -34,7 +34,7 @@ class TemplatePathUtilityTest extends UnitTestCase
                 false,
                 null,
                 false,
-                Environment::getPublicPath() . '/typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/UpperExists.html'
+                Environment::getPublicPath() . '/typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/UpperExists.html',
             ],
             'File does not exist' => [
                 ['content' => 'EXT:mask/Tests/Unit/Fixtures/Templates/'],
@@ -42,7 +42,7 @@ class TemplatePathUtilityTest extends UnitTestCase
                 false,
                 null,
                 false,
-                Environment::getPublicPath() . '/typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/Noelement.html'
+                Environment::getPublicPath() . '/typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/Noelement.html',
             ],
             'under_scored exists' => [
                 ['content' => 'EXT:mask/Tests/Unit/Fixtures/Templates/'],
@@ -50,7 +50,7 @@ class TemplatePathUtilityTest extends UnitTestCase
                 false,
                 null,
                 false,
-                Environment::getPublicPath() . '/typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/under_scored.html'
+                Environment::getPublicPath() . '/typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/under_scored.html',
             ],
             'Uc_first exists' => [
                 ['content' => 'EXT:mask/Tests/Unit/Fixtures/Templates/'],
@@ -58,7 +58,7 @@ class TemplatePathUtilityTest extends UnitTestCase
                 false,
                 null,
                 false,
-                Environment::getPublicPath() . '/typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/Uc_first.html'
+                Environment::getPublicPath() . '/typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/Uc_first.html',
             ],
             'Manually configured path works' => [
                 ['content' => ''],
@@ -66,7 +66,7 @@ class TemplatePathUtilityTest extends UnitTestCase
                 false,
                 'typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/',
                 false,
-                'typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/UpperExists.html'
+                'typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/UpperExists.html',
             ],
             'Manually configured absolute path works' => [
                 ['content' => ''],
@@ -74,7 +74,7 @@ class TemplatePathUtilityTest extends UnitTestCase
                 false,
                 Environment::getPublicPath() . '/typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/',
                 false,
-                Environment::getPublicPath() . '/typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/UpperExists.html'
+                Environment::getPublicPath() . '/typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/UpperExists.html',
             ],
             'Only template is returned' => [
                 ['content' => 'EXT:mask/Tests/Unit/Fixtures/Templates/'],
@@ -82,7 +82,7 @@ class TemplatePathUtilityTest extends UnitTestCase
                 true,
                 null,
                 false,
-                'UpperExists.html'
+                'UpperExists.html',
             ],
             'Only template without extension returned' => [
                 ['content' => 'EXT:mask/Tests/Unit/Fixtures/Templates/'],
@@ -90,7 +90,7 @@ class TemplatePathUtilityTest extends UnitTestCase
                 true,
                 null,
                 true,
-                'UpperExists'
+                'UpperExists',
             ],
             'Manually configured path and only template' => [
                 ['content' => ''],
@@ -98,7 +98,7 @@ class TemplatePathUtilityTest extends UnitTestCase
                 true,
                 'typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/',
                 false,
-                'UpperExists.html'
+                'UpperExists.html',
             ],
             'Null path returns empty string, if content is also empty' => [
                 ['content' => ''],
@@ -106,7 +106,7 @@ class TemplatePathUtilityTest extends UnitTestCase
                 false,
                 null,
                 false,
-                ''
+                '',
             ],
             'Empty path always returns an empty string' => [
                 ['content' => 'EXT:mask/Tests/Unit/Fixtures/Templates/'],
@@ -114,7 +114,7 @@ class TemplatePathUtilityTest extends UnitTestCase
                 false,
                 '',
                 false,
-                ''
+                '',
             ],
             'Wrong path returns empty string' => [
                 ['content' => '/does/not/exist'],
@@ -122,7 +122,7 @@ class TemplatePathUtilityTest extends UnitTestCase
                 false,
                 null,
                 false,
-                ''
+                '',
             ],
             'Empty element key returns empty string' => [
                 ['content' => 'EXT:mask/Tests/Unit/Fixtures/Templates/'],
@@ -130,7 +130,7 @@ class TemplatePathUtilityTest extends UnitTestCase
                 false,
                 null,
                 false,
-                ''
+                '',
             ],
         ];
     }

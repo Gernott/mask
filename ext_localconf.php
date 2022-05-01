@@ -7,7 +7,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['mask'][] = 'MASK\\Mas
 
 // Enhance Fluid Output with overridden FluidTemplateContentObject
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][\TYPO3\CMS\Frontend\ContentObject\FluidTemplateContentObject::class] = [
-    'className' => \MASK\Mask\Fluid\FluidTemplateContentObject::class
+    'className' => \MASK\Mask\Fluid\FluidTemplateContentObject::class,
 ];
 
 // Hook to override tt_content backend_preview
@@ -18,11 +18,11 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php'][
 // Extend Page Tca Fields specific for backend layout
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRecord'][\MASK\Mask\Form\FormDataProvider\TcaTypesShowitemMaskBeLayoutFields::class] = [
     'depends' => [
-        \TYPO3\CMS\Backend\Form\FormDataProvider\DatabaseRecordTypeValue::class
+        \TYPO3\CMS\Backend\Form\FormDataProvider\DatabaseRecordTypeValue::class,
     ],
     'before' => [
-        \TYPO3\CMS\Backend\Form\FormDataProvider\TcaColumnsProcessCommon::class
-    ]
+        \TYPO3\CMS\Backend\Form\FormDataProvider\TcaColumnsProcessCommon::class,
+    ],
 ];
 
 // Update wizards

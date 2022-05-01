@@ -38,41 +38,41 @@ class FieldHelperTest extends BaseTestCase
                                 'labels' => [
                                     'Label 1',
                                     'Label 2',
-                                    'Label 3'
+                                    'Label 3',
                                 ],
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
-                            ]
+                                    'tx_mask_column_3',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
-                            ]
-                        ]
-                    ]
+                                'key' => 'column_3',
+                            ],
+                        ],
+                    ],
                 ],
                 'element_1',
                 'tx_mask_column_2',
                 'tt_content',
-                'Label 2'
+                'Label 2',
             ],
             'Empty string if element does not exist' => [
                 [
@@ -84,41 +84,41 @@ class FieldHelperTest extends BaseTestCase
                                 'labels' => [
                                     'Label 1',
                                     'Label 2',
-                                    'Label 3'
+                                    'Label 3',
                                 ],
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
-                            ]
+                                    'tx_mask_column_3',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
-                            ]
-                        ]
-                    ]
+                                'key' => 'column_3',
+                            ],
+                        ],
+                    ],
                 ],
                 'element_4',
                 'tx_mask_column_2',
                 'tt_content',
-                ''
+                '',
             ],
             'Empty string if field does not exist' => [
                 [
@@ -130,41 +130,41 @@ class FieldHelperTest extends BaseTestCase
                                 'labels' => [
                                     'Label 1',
                                     'Label 2',
-                                    'Label 3'
+                                    'Label 3',
                                 ],
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
-                            ]
+                                    'tx_mask_column_3',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
-                            ]
-                        ]
-                    ]
+                                'key' => 'column_3',
+                            ],
+                        ],
+                    ],
                 ],
                 'element_1',
                 'tx_mask_column_4',
                 'tt_content',
-                ''
+                '',
             ],
             'Core field returns correct label' => [
                 [
@@ -176,38 +176,38 @@ class FieldHelperTest extends BaseTestCase
                                 'labels' => [
                                     'Header 1',
                                     'Label 2',
-                                    'Label 3'
+                                    'Label 3',
                                 ],
                                 'columns' => [
                                     'header',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
-                            ]
+                                    'tx_mask_column_3',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'header' => [
-                                'key' => 'header'
+                                'key' => 'header',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
-                            ]
-                        ]
-                    ]
+                                'key' => 'column_3',
+                            ],
+                        ],
+                    ],
                 ],
                 'element_1',
                 'header',
                 'tt_content',
-                'Header 1'
+                'Header 1',
             ],
             'Core field in palette returns correct label' => [
                 [
@@ -221,39 +221,39 @@ class FieldHelperTest extends BaseTestCase
                                 ],
                                 'columns' => [
                                     'tx_mask_palette_1',
-                                ]
-                            ]
+                                ],
+                            ],
                         ],
                         'palettes' => [
                             'palette_1' => [
                                 'label' => 'Palette 1',
-                                'showitem' => ['header']
-                            ]
+                                'showitem' => ['header'],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_palette_1' => [
                                 'config' => [
-                                    'type' => 'palette'
+                                    'type' => 'palette',
                                 ],
-                                'key' => 'palette_1'
+                                'key' => 'palette_1',
                             ],
                             'header' => [
                                 'inlineParent' => [
-                                    'element_1' => 'tx_mask_palette_1'
+                                    'element_1' => 'tx_mask_palette_1',
                                 ],
                                 'inPalette' => '1',
                                 'label' => [
-                                    'element_1' => 'Header 1'
+                                    'element_1' => 'Header 1',
                                 ],
-                                'key' => 'header'
-                            ]
-                        ]
+                                'key' => 'header',
+                            ],
+                        ],
                     ],
                 ],
                 'element_1',
                 'header',
                 'tt_content',
-                'Header 1'
+                'Header 1',
             ],
             'Field in inline returns correct label' => [
                 [
@@ -267,35 +267,35 @@ class FieldHelperTest extends BaseTestCase
                                 ],
                                 'columns' => [
                                     'tx_mask_inline',
-                                ]
-                            ]
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_inline' => [
                                 'config' => [
-                                    'type' => 'inline'
+                                    'type' => 'inline',
                                 ],
-                                'key' => 'inline'
+                                'key' => 'inline',
                             ],
-                        ]
+                        ],
                     ],
                     'tx_mask_inline' => [
                         'tca' => [
                             'tx_mask_field1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
                                 'inlineParent' => 'tx_mask_inline',
                                 'label' => 'Header 1',
-                                'key' => 'field1'
-                            ]
-                        ]
-                    ]
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
                 ],
                 'element_1',
                 'tx_mask_field1',
                 'tx_mask_inline',
-                'Header 1'
+                'Header 1',
             ],
             'Field which is shared and is in palette in the other element' => [
                 [
@@ -309,52 +309,52 @@ class FieldHelperTest extends BaseTestCase
                                 ],
                                 'columns' => [
                                     'tx_mask_palette_1',
-                                ]
+                                ],
                             ],
                             'element_2' => [
                                 'key' => 'element_2',
                                 'label' => 'Element 2',
                                 'labels' => [
-                                    'Header 1-1'
+                                    'Header 1-1',
                                 ],
                                 'columns' => [
-                                    'tx_mask_header'
-                                ]
-                            ]
+                                    'tx_mask_header',
+                                ],
+                            ],
                         ],
                         'palettes' => [
                             'palette_1' => [
                                 'label' => 'Palette 1',
-                                'showitem' => ['tx_mask_header']
-                            ]
+                                'showitem' => ['tx_mask_header'],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_palette_1' => [
                                 'config' => [
-                                    'type' => 'palette'
+                                    'type' => 'palette',
                                 ],
-                                'key' => 'palette_1'
+                                'key' => 'palette_1',
                             ],
                             'tx_mask_header' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
                                 'inlineParent' => [
-                                    'element_1' => 'tx_mask_palette_1'
+                                    'element_1' => 'tx_mask_palette_1',
                                 ],
                                 'inPalette' => '1',
                                 'label' => [
-                                    'element_1' => 'Header 1'
+                                    'element_1' => 'Header 1',
                                 ],
-                                'key' => 'header'
-                            ]
-                        ]
+                                'key' => 'header',
+                            ],
+                        ],
                     ],
                 ],
                 'element_2',
                 'tx_mask_header',
                 'tt_content',
-                'Header 1-1'
+                'Header 1-1',
             ],
             'Field in palette which is shared and is not in palette in the other element' => [
                 [
@@ -368,52 +368,52 @@ class FieldHelperTest extends BaseTestCase
                                 ],
                                 'columns' => [
                                     'tx_mask_palette_1',
-                                ]
+                                ],
                             ],
                             'element_2' => [
                                 'key' => 'element_2',
                                 'label' => 'Element 2',
                                 'labels' => [
-                                    'Header 1-1'
+                                    'Header 1-1',
                                 ],
                                 'columns' => [
-                                    'tx_mask_header'
-                                ]
-                            ]
+                                    'tx_mask_header',
+                                ],
+                            ],
                         ],
                         'palettes' => [
                             'palette_1' => [
                                 'label' => 'Palette 1',
-                                'showitem' => ['tx_mask_header']
-                            ]
+                                'showitem' => ['tx_mask_header'],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_palette_1' => [
                                 'config' => [
-                                    'type' => 'palette'
+                                    'type' => 'palette',
                                 ],
-                                'key' => 'palette_1'
+                                'key' => 'palette_1',
                             ],
                             'tx_mask_header' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
                                 'inlineParent' => [
-                                    'element_1' => 'tx_mask_palette_1'
+                                    'element_1' => 'tx_mask_palette_1',
                                 ],
                                 'inPalette' => '1',
                                 'label' => [
-                                    'element_1' => 'Header 1'
+                                    'element_1' => 'Header 1',
                                 ],
-                                'key' => 'header'
-                            ]
-                        ]
+                                'key' => 'header',
+                            ],
+                        ],
                     ],
                 ],
                 'element_1',
                 'tx_mask_header',
                 'tt_content',
-                'Header 1'
+                'Header 1',
             ],
             'Field in palette and palette is in inline' => [
                 [
@@ -427,50 +427,50 @@ class FieldHelperTest extends BaseTestCase
                                 ],
                                 'columns' => [
                                     'tx_mask_inline1',
-                                ]
-                            ]
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_inline1' => [
                                 'config' => [
-                                    'type' => 'inline'
+                                    'type' => 'inline',
                                 ],
-                                'key' => 'inline1'
-                            ]
-                        ]
+                                'key' => 'inline1',
+                            ],
+                        ],
                     ],
                     'tx_mask_inline1' => [
                         'palettes' => [
                             'palette_1' => [
                                 'label' => 'Palette 1',
-                                'showitem' => ['tx_mask_header']
-                            ]
+                                'showitem' => ['tx_mask_header'],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_palette_1' => [
                                 'config' => [
-                                    'type' => 'palette'
+                                    'type' => 'palette',
                                 ],
-                                'key' => 'palette_1'
+                                'key' => 'palette_1',
                             ],
                             'tx_mask_header' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
                                 'inlineParent' => 'tx_mask_palette_1',
                                 'inPalette' => '1',
                                 'label' => [
-                                    'element_1' => 'Header 1'
+                                    'element_1' => 'Header 1',
                                 ],
-                                'key' => 'header'
-                            ]
-                        ]
-                    ]
+                                'key' => 'header',
+                            ],
+                        ],
+                    ],
                 ],
                 'element_1',
                 'tx_mask_header',
                 'tx_mask_inline1',
-                'Header 1'
+                'Header 1',
             ],
         ];
     }
@@ -500,8 +500,8 @@ class FieldHelperTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
+                                    'tx_mask_column_3',
+                                ],
                             ],
                             'element_2' => [
                                 'key' => 'element_2',
@@ -509,54 +509,54 @@ class FieldHelperTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_4',
                                     'tx_mask_column_5',
-                                    'tx_mask_column_6'
-                                ]
-                            ]
+                                    'tx_mask_column_6',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
+                                'key' => 'column_3',
                             ],
                             'tx_mask_column_4' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_4'
+                                'key' => 'column_4',
                             ],
                             'tx_mask_column_5' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_5'
+                                'key' => 'column_5',
                             ],
                             'tx_mask_column_6' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_6'
+                                'key' => 'column_6',
                             ],
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
                 'tx_mask_column_1',
                 'element_1',
                 false,
-                'tt_content'
+                'tt_content',
             ],
             'Correct table is returned for field 2' => [
                 [
@@ -568,8 +568,8 @@ class FieldHelperTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
+                                    'tx_mask_column_3',
+                                ],
                             ],
                             'element_2' => [
                                 'key' => 'element_2',
@@ -577,54 +577,54 @@ class FieldHelperTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_4',
                                     'tx_mask_column_5',
-                                    'tx_mask_column_6'
-                                ]
-                            ]
+                                    'tx_mask_column_6',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
+                                'key' => 'column_3',
                             ],
                             'tx_mask_column_4' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_4'
+                                'key' => 'column_4',
                             ],
                             'tx_mask_column_5' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_5'
+                                'key' => 'column_5',
                             ],
                             'tx_mask_column_6' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_6'
+                                'key' => 'column_6',
                             ],
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
                 'tx_mask_column_4',
                 'element_2',
                 false,
-                'pages'
+                'pages',
             ],
             'First table is returned for ambiguous field' => [
                 [
@@ -636,30 +636,30 @@ class FieldHelperTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
-                            ]
+                                    'tx_mask_column_3',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
+                                'key' => 'column_3',
                             ],
-                        ]
+                        ],
                     ],
                     'pages' => [
                         'elements' => [
@@ -669,36 +669,36 @@ class FieldHelperTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
+                                    'tx_mask_column_3',
+                                ],
                             ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
+                                'key' => 'column_3',
                             ],
-                        ]
+                        ],
                     ],
                 ],
                 'tx_mask_column_1',
                 '',
                 false,
-                'tt_content'
+                'tt_content',
             ],
             'First table is not returned if elementKey is not empty' => [
                 [
@@ -710,30 +710,30 @@ class FieldHelperTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
+                                    'tx_mask_column_3',
+                                ],
                             ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
+                                'key' => 'column_3',
                             ],
-                        ]
+                        ],
                     ],
                     'tt_content' => [
                         'elements' => [
@@ -743,36 +743,36 @@ class FieldHelperTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
-                            ]
+                                    'tx_mask_column_3',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
+                                'key' => 'column_3',
                             ],
-                        ]
+                        ],
                     ],
                 ],
                 'tx_mask_column_1',
                 'element_2',
                 false,
-                'tt_content'
+                'tt_content',
             ],
             'Correct table is returned for field and element' => [
                 [
@@ -784,30 +784,30 @@ class FieldHelperTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
-                            ]
+                                    'tx_mask_column_3',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
+                                'key' => 'column_3',
                             ],
-                        ]
+                        ],
                     ],
                     'pages' => [
                         'elements' => [
@@ -817,36 +817,36 @@ class FieldHelperTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
+                                    'tx_mask_column_3',
+                                ],
                             ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
+                                'key' => 'column_3',
                             ],
-                        ]
+                        ],
                     ],
                 ],
                 'tx_mask_column_1',
                 'element_1',
                 false,
-                'pages'
+                'pages',
             ],
             'Inline is not excluded by default' => [
                 [
@@ -854,23 +854,23 @@ class FieldHelperTest extends BaseTestCase
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
+                                'key' => 'column_3',
                             ],
-                        ]
+                        ],
                     ],
                     'tt_content' => [
                         'elements' => [
@@ -880,30 +880,30 @@ class FieldHelperTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
-                            ]
+                                    'tx_mask_column_3',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
+                                'key' => 'column_3',
                             ],
-                        ]
+                        ],
                     ],
                     'pages' => [
                         'elements' => [
@@ -913,36 +913,36 @@ class FieldHelperTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
+                                    'tx_mask_column_3',
+                                ],
                             ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
+                                'key' => 'column_3',
                             ],
-                        ]
+                        ],
                     ],
                 ],
                 'tx_mask_column_1',
                 'element_1',
                 false,
-                'tx_mask_custom_table'
+                'tx_mask_custom_table',
             ],
             'Inline is excluded when set to true' => [
                 [
@@ -950,23 +950,23 @@ class FieldHelperTest extends BaseTestCase
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
+                                'key' => 'column_3',
                             ],
-                        ]
+                        ],
                     ],
                     'tt_content' => [
                         'elements' => [
@@ -976,30 +976,30 @@ class FieldHelperTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
-                            ]
+                                    'tx_mask_column_3',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
+                                'key' => 'column_3',
                             ],
-                        ]
+                        ],
                     ],
                     'pages' => [
                         'elements' => [
@@ -1009,36 +1009,36 @@ class FieldHelperTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_column_1',
                                     'tx_mask_column_2',
-                                    'tx_mask_column_3'
-                                ]
+                                    'tx_mask_column_3',
+                                ],
                             ],
                         ],
                         'tca' => [
                             'tx_mask_column_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_1'
+                                'key' => 'column_1',
                             ],
                             'tx_mask_column_2' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_2'
+                                'key' => 'column_2',
                             ],
                             'tx_mask_column_3' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
-                                'key' => 'column_3'
+                                'key' => 'column_3',
                             ],
-                        ]
+                        ],
                     ],
                 ],
                 'tx_mask_column_1',
                 'element_2',
                 true,
-                'tt_content'
+                'tt_content',
             ],
         ];
     }

@@ -107,8 +107,8 @@ class BackendLayoutRepository
                 $layout['title'],
                 [
                     'backend_layout.' => [
-                        'rows.' => []
-                    ]
+                        'rows.' => [],
+                    ],
                 ]
             );
             $backendLayout->setDescription($layout['description']);

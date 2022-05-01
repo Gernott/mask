@@ -5,7 +5,7 @@ use MASK\Mask\Enumeration\Tab;
 return [
     Tab::GENERAL => [
         [
-            'config.eval.slug' => 12
+            'config.eval.slug' => 12,
         ],
     ],
     Tab::GENERATOR => [
@@ -19,6 +19,6 @@ return [
         ],
         [
             'config.prependSlash' => 6,
-        ]
-    ]
+        ],
+    ],
 ];

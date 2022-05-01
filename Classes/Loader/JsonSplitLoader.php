@@ -45,7 +45,7 @@ class JsonSplitLoader implements LoaderInterface
 
     private const FOLDER_KEYS = [
         'tt_content' => 'content_elements_folder',
-        'pages' => 'backend_layouts_folder'
+        'pages' => 'backend_layouts_folder',
     ];
 
     use ConfigCleanerTrait;

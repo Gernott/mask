@@ -26,8 +26,8 @@ return [
             'documentation' => [
                 10 => 'ColumnsConfig/Type/checkDefault.html#default',
                 11 => 'ColumnsConfig/Type/Check/Properties/Default.html#columns-check-properties-default',
-            ]
-        ]
+            ],
+        ],
     ],
     'config.placeholder' => [
         'type' => 'variable',
@@ -57,7 +57,7 @@ return [
             ],
             'min' => 10,
             'max' => 50,
-            'step' => 5
+            'step' => 5,
         ],
         FieldType::CATEGORY => [
             'type' => 'number',
@@ -67,7 +67,7 @@ return [
             'code' => 'size',
             'documentation' => [
                 11 => 'ColumnsConfig/CommonProperties/Size.html#tca-property-size',
-            ]
+            ],
         ],
         FieldType::SELECT => [
             'type' => 'number',
@@ -78,7 +78,7 @@ return [
             'documentation' => [
                 10 => 'ColumnsConfig/Type/selectSingle.html#size',
                 11 => 'ColumnsConfig/CommonProperties/Size.html#tca-property-size',
-            ]
+            ],
         ],
         FieldType::GROUP => [
             'type' => 'number',
@@ -89,8 +89,8 @@ return [
             'documentation' => [
                 10 => 'ColumnsConfig/Type/selectSingle.html#size',
                 11 => 'ColumnsConfig/CommonProperties/Size.html#tca-property-size',
-            ]
-        ]
+            ],
+        ],
     ],
     'config.max' => [
         'type' => 'number',
@@ -103,7 +103,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/inputDefault.html#max',
             11 => 'ColumnsConfig/Type/Input/Properties/Max.html#columns-input-properties-max',
-        ]
+        ],
     ],
     'config.is_in' => [
         'type' => 'text',
@@ -113,7 +113,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/inputDefault.html#is-in',
             11 => 'ColumnsConfig/Type/Input/Properties/IsIn.html#columns-input-properties-is-in',
-        ]
+        ],
     ],
     // This is for timestamp only to define the date format
     'config.eval' => [
@@ -125,12 +125,12 @@ return [
             'date' => 'tx_mask.field.date_selection',
             'datetime' => 'tx_mask.field.datetime_selection',
             'time' => 'tx_mask.field.time_selection',
-            'timesec' => 'tx_mask.field.timesec_selection'
+            'timesec' => 'tx_mask.field.timesec_selection',
         ],
         'documentation' => [
             10 => 'ColumnsConfig/Type/inputDateTime.html#eval',
             11 => 'ColumnsConfig/Type/Input/DateTime/Properties/Eval.html',
-        ]
+        ],
     ],
     // This is for slug only to define slug config
     'config.eval.slug' => [
@@ -146,7 +146,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Slug.html#eval',
             11 => 'ColumnsConfig/Type/Slug/Properties/Eval.html#columns-slug-properties-eval',
-        ]
+        ],
     ],
     'config.generatorOptions.fields' => [
         'type' => 'text',
@@ -156,7 +156,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Slug.html#generatoroptions',
             11 => 'ColumnsConfig/Type/Slug/Properties/GeneratorOptions.html#confval-generatorOptions:fields',
-        ]
+        ],
     ],
     'config.generatorOptions.fieldSeparator' => [
         'type' => 'text',
@@ -166,7 +166,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Slug.html#generatoroptions',
             11 => 'ColumnsConfig/Type/Slug/Properties/GeneratorOptions.html#confval-generatorOptions:fieldSeparator',
-        ]
+        ],
     ],
     'config.generatorOptions.replacements' => [
         'type' => 'keyValue',
@@ -180,7 +180,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Slug.html#generatoroptions',
             11 => 'ColumnsConfig/Type/Slug/Properties/GeneratorOptions.html#confval-generatorOptions:replacements',
-        ]
+        ],
     ],
     'config.prependSlash' => [
         'type' => 'checkbox',
@@ -190,7 +190,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Slug.html#prependslash',
             11 => 'ColumnsConfig/Type/Slug/Properties/PrependSlash.html#columns-slug-properties-prependslash',
-        ]
+        ],
     ],
     'config.fallbackCharacter' => [
         'type' => 'text',
@@ -200,7 +200,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Slug.html#fallbackcharacter',
             11 => 'ColumnsConfig/Type/Slug/Properties/FallbackCharacter.html#columns-slug-properties-fallbackcharacter',
-        ]
+        ],
     ],
     'config.eval.required' => [
         'type' => 'checkbox',
@@ -210,7 +210,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/inputDefault.html?highlight=required#eval',
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
-        ]
+        ],
     ],
     'config.eval.trim' => [
         'type' => 'checkbox',
@@ -220,7 +220,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/inputDefault.html?highlight=trim#eval',
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
-        ]
+        ],
     ],
     'config.eval.alpha' => [
         'type' => 'checkbox',
@@ -230,7 +230,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/inputDefault.html?highlight=alpha#eval',
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
-        ]
+        ],
     ],
     'config.eval.num' => [
         'type' => 'checkbox',
@@ -240,7 +240,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/inputDefault.html#eval',
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
-        ]
+        ],
     ],
     'config.eval.alphanum' => [
         'type' => 'checkbox',
@@ -250,7 +250,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/inputDefault.html?highlight=alphanum#eval',
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
-        ]
+        ],
     ],
     'config.eval.alphanum_x' => [
         'type' => 'checkbox',
@@ -260,7 +260,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/inputDefault.html?highlight=alphanum_x#eval',
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
-        ]
+        ],
     ],
     'config.eval.domainname' => [
         'type' => 'checkbox',
@@ -270,7 +270,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/inputDefault.html?highlight=domainname#eval',
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
-        ]
+        ],
     ],
     'config.eval.email' => [
         'type' => 'checkbox',
@@ -280,7 +280,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/inputDefault.html?highlight=email#eval',
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
-        ]
+        ],
     ],
     'config.eval.lower' => [
         'type' => 'checkbox',
@@ -290,7 +290,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/inputDefault.html?highlight=lower#eval',
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
-        ]
+        ],
     ],
     'config.eval.upper' => [
         'type' => 'checkbox',
@@ -300,7 +300,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/inputDefault.html?highlight=upper#eval',
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
-        ]
+        ],
     ],
     'config.eval.unique' => [
         'type' => 'checkbox',
@@ -310,7 +310,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/inputDefault.html?highlight=unique#eval',
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
-        ]
+        ],
     ],
     'config.eval.uniqueInPid' => [
         'type' => 'checkbox',
@@ -320,7 +320,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/inputDefault.html?highlight=uniqueInPid#eval',
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
-        ]
+        ],
     ],
     'config.eval.nospace' => [
         'type' => 'checkbox',
@@ -330,7 +330,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/inputDefault.html?highlight=nospace#eval',
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
-        ]
+        ],
     ],
     'config.eval.md5' => [
         'type' => 'checkbox',
@@ -340,7 +340,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/inputDefault.html?highlight=md5#eval',
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
-        ]
+        ],
     ],
     'config.eval.null' => [
         'type' => 'checkbox',
@@ -350,7 +350,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/inputDefault.html?highlight=null#eval',
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
-        ]
+        ],
     ],
     'config.eval.password' => [
         'type' => 'checkbox',
@@ -360,7 +360,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/inputDefault.html?highlight=password#eval',
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
-        ]
+        ],
     ],
     'config.mode' => [
         'type' => 'checkbox',
@@ -372,7 +372,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/inputDefault.html#mode',
             11 => 'ColumnsConfig/CommonProperties/Mode.html#tca-property-mode',
-        ]
+        ],
     ],
     'config.autocomplete' => [
         'type' => 'checkbox',
@@ -382,7 +382,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/inputDefault.html#autocomplete',
             11 => 'ColumnsConfig/Type/Input/Properties/Autocomplete.html#columns-input-properties-autocomplete',
-        ]
+        ],
     ],
     'config.behaviour.allowLanguageSynchronization' => [
         'type' => 'checkbox',
@@ -392,7 +392,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/inputDefault.html#allowlanguagesynchronization',
             11 => 'ColumnsConfig/CommonProperties/BehaviourAllowLanguageSynchronization.html#tca-property-behaviour-allowlanguagesynchronization',
-        ]
+        ],
     ],
     'config.range.lower' => [
         'type' => 'variable',
@@ -401,7 +401,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/inputDefault.html#range',
             11 => 'ColumnsConfig/Type/Input/Properties/Range.html#columns-input-properties-range',
-        ]
+        ],
     ],
     'config.range.upper' => [
         'type' => 'variable',
@@ -410,7 +410,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/inputDefault.html#range',
             11 => 'ColumnsConfig/Type/Input/Properties/Range.html#columns-input-properties-range',
-        ]
+        ],
     ],
     'config.slider.step' => [
         'type' => 'number',
@@ -499,7 +499,7 @@ return [
             'documentation' => [
                 10 => 'ColumnsConfig/Type/checkDefault.html#cols',
                 11 => 'ColumnsConfig/Type/Check/Properties/Cols.html',
-            ]
+            ],
         ],
         'other' => [
             'type' => 'number',
@@ -512,8 +512,8 @@ return [
             'documentation' => [
                 10 => 'ColumnsConfig/Type/textDefault.html#cols',
                 11 => 'ColumnsConfig/Type/Text/Properties/Cols.html#columns-text-properties-cols',
-            ]
-        ]
+            ],
+        ],
     ],
     'config.rows' => [
         'type' => 'number',
@@ -526,7 +526,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/textDefault.html#rows',
             11 => 'ColumnsConfig/Type/Text/Properties/Rows.html',
-        ]
+        ],
     ],
     'config.format' => [
         'type' => 'radio',
@@ -539,12 +539,12 @@ return [
             'javascript' => 'tx_mask.field.text.format.javascript',
             'css' => 'tx_mask.field.text.format.css',
             'xml' => 'tx_mask.field.text.format.xml',
-            'php' => 'tx_mask.field.text.format.php'
+            'php' => 'tx_mask.field.text.format.php',
         ],
         'documentation' => [
             10 => 'ColumnsConfig/Type/textT3editor.html#format',
             11 => 'ColumnsConfig/Type/Text/Properties/Format.html',
-        ]
+        ],
     ],
     'config.wrap' => [
         'type' => 'checkbox',
@@ -555,7 +555,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/textDefault.html#wrap',
             11 => 'ColumnsConfig/Type/Text/Properties/Wrap.html',
-        ]
+        ],
     ],
     'config.fixedFont' => [
         'type' => 'checkbox',
@@ -565,7 +565,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/textDefault.html#fixedfont',
             11 => 'ColumnsConfig/Type/Text/Properties/FixedFont.html',
-        ]
+        ],
     ],
     'config.enableTabulator' => [
         'type' => 'checkbox',
@@ -575,7 +575,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/textDefault.html#enabletabulator',
             11 => 'ColumnsConfig/Type/Text/Properties/EnableTabulator.html',
-        ]
+        ],
     ],
     'config.richtextConfiguration' => [
         'type' => 'radio',
@@ -584,7 +584,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/textDefault.html#richtextconfiguration',
             11 => 'ColumnsConfig/Type/Text/Properties/RichtextConfiguration.html',
-        ]
+        ],
     ],
     'config.items' => [
         'collision' => true,
@@ -628,7 +628,7 @@ return [
             'documentation' => [
                 10 => 'ColumnsConfig/Type/checkDefault.html#items',
                 11 => 'ColumnsConfig/Type/Check/Properties/Items.html',
-            ]
+            ],
         ],
         FieldType::RADIO => [
             'type' => 'itemList',
@@ -649,7 +649,7 @@ return [
             'documentation' => [
                 10 => 'ColumnsConfig/Type/Radio.html#items',
                 11 => 'ColumnsConfig/Type/Radio/Properties/Items.html',
-            ]
+            ],
         ],
         FieldType::SELECT => [
             'type' => 'itemList',
@@ -683,8 +683,8 @@ return [
             'documentation' => [
                 10 => 'ColumnsConfig/Type/selectSingle.html#items',
                 11 => 'ColumnsConfig/Type/Select/Properties/Items.html',
-            ]
-        ]
+            ],
+        ],
     ],
     'config.itemGroups' => [
         'type' => 'keyValue',
@@ -698,7 +698,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/selectCheckBox.html#itemgroups',
             11 => 'ColumnsConfig/Type/Select/Properties/ItemGroups.html',
-        ]
+        ],
     ],
     'config.sortItems' => [
         'type' => 'keyValue',
@@ -728,14 +728,14 @@ return [
                 [
                     'value' => 'desc',
                     'label' => 'tx_mask.content.select.sortItems.labels.desc',
-                ]
-            ]
+                ],
+            ],
         ],
         'maxItems' => 1,
         'documentation' => [
             10 => 'ColumnsConfig/Type/selectCheckBox.html#sortitems',
             11 => 'ColumnsConfig/Type/Select/Properties/SortItems.html',
-        ]
+        ],
     ],
     'config.renderType' => [
         'collision' => true,
@@ -753,7 +753,7 @@ return [
             'documentation' => [
                 10 => 'ColumnsConfig/Type/Select.html',
                 11 => 'ColumnsConfig/Type/Select/Index.html',
-            ]
+            ],
         ],
         FieldType::CHECK => [
             'type' => 'select',
@@ -763,13 +763,13 @@ return [
             'items' => [
                 '' => 'tx_mask.field.check',
                 'checkboxToggle' => 'tx_mask.field.check.renderType.checkboxToggle',
-                'checkboxLabeledToggle' => 'tx_mask.field.check.renderType.checkboxLabeledToggle'
+                'checkboxLabeledToggle' => 'tx_mask.field.check.renderType.checkboxLabeledToggle',
             ],
             'documentation' => [
                 10 => 'ColumnsConfig/Type/Check.html',
                 11 => 'ColumnsConfig/Type/Check/Index.html',
-            ]
-        ]
+            ],
+        ],
     ],
     'config.foreign_table' => [
         'type' => 'foreign_table',
@@ -779,7 +779,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/selectSingle.html#foreign-table',
             11 => 'ColumnsConfig/Type/Select/Properties/ForeignTable.html',
-        ]
+        ],
     ],
     'config.foreign_table_where' => [
         'type' => 'text',
@@ -789,7 +789,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/selectSingle.html#foreign-table-where',
             11 => 'ColumnsConfig/Type/Select/Properties/ForeignTableWhere.html',
-        ]
+        ],
     ],
     'config.fileFolder' => [
         'type' => 'text',
@@ -800,7 +800,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/selectSingle.html#filefolder',
             11 => 'ColumnsConfig/Type/Select/Properties/FileFolderConfig.html#columns-select-properties-filefolder',
-        ]
+        ],
     ],
     'config.fileFolder_extList' => [
         'type' => 'text',
@@ -811,7 +811,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/selectSingle.html#filefolder-extlist',
             11 => 'ColumnsConfig/Type/Select/Properties/FileFolderConfig.html#columns-select-properties-filefolder-extlist',
-        ]
+        ],
     ],
     'config.fileFolder_recursions' => [
         'type' => 'number',
@@ -824,7 +824,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/selectSingle.html#filefolder-recursions',
             11 => 'ColumnsConfig/Type/Select/Properties/FileFolderConfig.html#columns-select-properties-filefolder-recursions',
-        ]
+        ],
     ],
     'config.fileFolderConfig.folder' => [
         'type' => 'text',
@@ -844,7 +844,7 @@ return [
         'version' => '>= 11',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Select/Properties/FileFolderConfig.html#columns-select-properties-filefolder-extlist',
-        ]
+        ],
     ],
     'config.fileFolderConfig.depth' => [
         'type' => 'number',
@@ -856,7 +856,7 @@ return [
         'version' => '>= 11',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Select/Properties/FileFolderConfig.html#columns-select-properties-filefolder-recursions',
-        ]
+        ],
     ],
     'config.autoSizeMax' => [
         'type' => 'number',
@@ -867,7 +867,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/selectSingleBox.html?#autosizemax',
             11 => 'ColumnsConfig/CommonProperties/AutoSizeMax.html#tca-property-autosizemax',
-        ]
+        ],
     ],
     'config.minitems' => [
         'type' => 'number',
@@ -878,7 +878,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/selectSingleBox.html#minitems',
             11 => 'ColumnsConfig/CommonProperties/Minitems.html#tca-property-minitems',
-        ]
+        ],
     ],
     'config.maxitems' => [
         'type' => 'number',
@@ -889,7 +889,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/selectSingleBox.html#maxitems',
             11 => 'ColumnsConfig/CommonProperties/Maxitems.html#tca-property-maxitems',
-        ]
+        ],
     ],
     'config.internal_type' => [
         'type' => 'radio',
@@ -898,12 +898,12 @@ return [
         'code' => 'internal_type',
         'items' => [
             'db' => 'tx_mask.field.group.internalType.db',
-            'folder' => 'tx_mask.field.group.internalType.folder'
+            'folder' => 'tx_mask.field.group.internalType.folder',
         ],
         'documentation' => [
             10 => 'ColumnsConfig/Type/Group.html#internal-type',
             11 => 'ColumnsConfig/Type/Group/Properties/InternalType.html#columns-group-properties-internal-type',
-        ]
+        ],
     ],
     'config.allowed' => [
         'type' => 'text',
@@ -913,7 +913,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Group.html#allowed',
             11 => 'ColumnsConfig/Type/Group/Properties/InternalType.html#columns-group-properties-internal-type',
-        ]
+        ],
     ],
     'config.fieldControl.editPopup.disabled' => [
         'type' => 'checkbox',
@@ -924,7 +924,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Group.html#fieldcontrol-editpopup',
             11 => 'ColumnsConfig/CommonProperties/FieldControl/EditPopup.html#tca-property-fieldcontrol-editpopup',
-        ]
+        ],
     ],
     'config.fieldControl.addRecord.disabled' => [
         'type' => 'checkbox',
@@ -935,7 +935,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Group.html#fieldcontrol-addrecord',
             11 => 'ColumnsConfig/CommonProperties/FieldControl/AddRecord.html#tca-property-fieldcontrol-addrecord',
-        ]
+        ],
     ],
     'config.fieldControl.listModule.disabled' => [
         'type' => 'checkbox',
@@ -946,7 +946,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Group.html#fieldcontrol-listmodule',
             11 => 'ColumnsConfig/CommonProperties/FieldControl/ListModule.html#tca-property-fieldcontrol-listmodule',
-        ]
+        ],
     ],
     'config.fieldControl.elementBrowser.disabled' => [
         'type' => 'checkbox',
@@ -968,7 +968,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Group.html#fieldcontrol-insertclipboard',
             11 => 'ColumnsConfig/Type/Group/Properties/FieldControl.html#tca-property-fieldcontrol-insertclipboard',
-        ]
+        ],
     ],
     'config.fieldControl' => [
         'type' => 'plainText',
@@ -989,7 +989,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Group.html#fieldwizard-recordsoverview',
             11 => 'ColumnsConfig/CommonProperties/FieldWizard/RecordsOverview.html#tca-property-fieldwizard-recordsoverview',
-        ]
+        ],
     ],
     'config.fieldWizard.tableList.disabled' => [
         'type' => 'checkbox',
@@ -1000,7 +1000,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Group.html#fieldwizard-tablelist',
             11 => 'ColumnsConfig/CommonProperties/FieldWizard/TableList.html#tca-property-fieldwizard-tablelist',
-        ]
+        ],
     ],
     'config.fieldWizard.selectIcons.disabled' => [
         'type' => 'checkbox',
@@ -1011,7 +1011,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/selectSingle.html#selecticons',
             11 => 'ColumnsConfig/CommonProperties/FieldWizard/SelectIcons.html#tca-property-fieldwizard-selecticons',
-        ]
+        ],
     ],
     'config.fieldWizard' => [
         'type' => 'plainText',
@@ -1031,7 +1031,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Group.html#multiple',
             11 => 'ColumnsConfig/CommonProperties/Multiple.html#tca-property-multiple',
-        ]
+        ],
     ],
     'config.appearance.collapseAll' => [
         'type' => 'checkbox',
@@ -1041,7 +1041,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Inline.html?highlight=collapseall#appearance',
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
-        ]
+        ],
     ],
     'config.appearance.expandSingle' => [
         'type' => 'checkbox',
@@ -1051,7 +1051,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Inline.html?highlight=expandsingle#appearance',
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
-        ]
+        ],
     ],
     'config.appearance.useSortable' => [
         'type' => 'checkbox',
@@ -1061,7 +1061,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Inline.html?highlight=usesortable#appearance',
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
-        ]
+        ],
     ],
     'config.appearance.enabledControls' => [
         'type' => 'plainText',
@@ -1071,7 +1071,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Inline.html?highlight=enabledControls#appearance',
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
-        ]
+        ],
     ],
     'config.appearance.enabledControls.info' => [
         'type' => 'checkbox',
@@ -1080,7 +1080,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Inline.html?highlight=enabledControls#appearance',
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
-        ]
+        ],
     ],
     'config.appearance.enabledControls.new' => [
         'type' => 'checkbox',
@@ -1089,7 +1089,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Inline.html?highlight=enabledControls#appearance',
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
-        ]
+        ],
     ],
     'config.appearance.enabledControls.dragdrop' => [
         'type' => 'checkbox',
@@ -1098,7 +1098,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Inline.html?highlight=enabledControls#appearance',
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
-        ]
+        ],
     ],
     'config.appearance.enabledControls.sort' => [
         'type' => 'checkbox',
@@ -1107,7 +1107,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Inline.html?highlight=enabledControls#appearance',
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
-        ]
+        ],
     ],
     'config.appearance.enabledControls.hide' => [
         'type' => 'checkbox',
@@ -1116,7 +1116,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Inline.html?highlight=enabledControls#appearance',
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
-        ]
+        ],
     ],
     'config.appearance.enabledControls.delete' => [
         'type' => 'checkbox',
@@ -1125,7 +1125,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Inline.html?highlight=enabledControls#appearance',
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
-        ]
+        ],
     ],
     'config.appearance.enabledControls.localize' => [
         'type' => 'checkbox',
@@ -1134,7 +1134,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Inline.html?highlight=enabledControls#appearance',
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
-        ]
+        ],
     ],
     'config.appearance.elementBrowserEnabled' => [
         'type' => 'checkbox',
@@ -1144,7 +1144,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Inline.html?highlight=elementBrowserEnabled#appearance',
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
-        ]
+        ],
     ],
     'config.appearance.fileUploadAllowed' => [
         'type' => 'checkbox',
@@ -1154,7 +1154,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Inline.html?highlight=fileuploadallowed#appearance',
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
-        ]
+        ],
     ],
     'config.appearance.fileByUrlAllowed' => [
         'type' => 'checkbox',
@@ -1164,7 +1164,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Inline.html#appearance',
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
-        ]
+        ],
     ],
     'onlineMedia' => [
         'type' => 'onlineMedia',
@@ -1181,7 +1181,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Inline.html?highlight=showsynchronizationlink#appearance',
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
-        ]
+        ],
     ],
     'config.appearance.showPossibleLocalizationRecords' => [
         'type' => 'checkbox',
@@ -1191,7 +1191,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Inline.html?highlight=showpossiblelocalizationrecords#appearance',
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
-        ]
+        ],
     ],
     'config.appearance.showAllLocalizationLink' => [
         'type' => 'checkbox',
@@ -1202,7 +1202,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Inline.html?highlight=showalllocalizationlink#appearance',
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
-        ]
+        ],
     ],
     'config.appearance.newRecordLinkTitle' => [
         'type' => 'text',
@@ -1212,7 +1212,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Inline.html?highlight=newrecordlinktitle#appearance',
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
-        ]
+        ],
     ],
     'config.appearance.createNewRelationLinkTitle' => [
         'type' => 'text',
@@ -1222,7 +1222,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Inline.html?highlight=createNewRelationLinkTitle#appearance',
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html',
-        ]
+        ],
     ],
     'config.appearance.levelLinksPosition' => [
         'type' => 'select',
@@ -1238,7 +1238,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Inline.html?highlight=levellinksposition#appearance',
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
-        ]
+        ],
     ],
     'config.appearance.showNewRecordLink' => [
         'type' => 'checkbox',
@@ -1248,7 +1248,7 @@ return [
         'version' => '>= 11',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Inline/Properties/ShowNewRecordLink.html',
-        ]
+        ],
     ],
     'config.relationship' => [
         'type' => 'radio',
@@ -1262,7 +1262,7 @@ return [
         'code' => 'relationship',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Category/Properties/Relationship.html',
-        ]
+        ],
     ],
     'config.exclusiveKeys' => [
         'type' => 'text',
@@ -1271,7 +1271,7 @@ return [
         'code' => 'exclusiveKeys',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Category/Properties/ExclusiveKeys.html',
-        ]
+        ],
     ],
     'config.treeConfig.startingPoints' => [
         'type' => 'text',
@@ -1280,7 +1280,7 @@ return [
         'code' => 'startingPoints',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Category/Properties/TreeConfig.html',
-        ]
+        ],
     ],
     'config.treeConfig.appearance.showHeader' => [
         'type' => 'checkbox',
@@ -1289,7 +1289,7 @@ return [
         'code' => 'showHeader',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Category/Properties/TreeConfig.html',
-        ]
+        ],
     ],
     'config.treeConfig.appearance.expandAll' => [
         'type' => 'checkbox',
@@ -1298,7 +1298,7 @@ return [
         'code' => 'expandAll',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Category/Properties/TreeConfig.html',
-        ]
+        ],
     ],
     'config.treeConfig.appearance.nonSelectableLevels' => [
         'type' => 'text',
@@ -1307,7 +1307,7 @@ return [
         'code' => 'nonSelectableLevels',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Category/Properties/TreeConfig.html',
-        ]
+        ],
     ],
     'config.appearance.expandAll' => [
         'type' => 'checkbox',
@@ -1317,7 +1317,7 @@ return [
         'version' => '>= 11',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Select/Properties/CheckBoxAppearance.html',
-        ]
+        ],
     ],
     'ctrl.label' => [
         'type' => 'text',
@@ -1327,7 +1327,7 @@ return [
         'documentation' => [
             10 => 'Ctrl/Index.html#label',
             11 => 'Ctrl/Properties/Label.html#ctrl-reference-label',
-        ]
+        ],
     ],
     'ctrl.iconfile' => [
         'type' => 'text',
@@ -1337,13 +1337,13 @@ return [
         'documentation' => [
             10 => 'Ctrl/Index.html#iconfile',
             11 => 'Ctrl/Properties/Iconfile.html#ctrl-reference-iconfile',
-        ]
+        ],
     ],
     'cTypes' => [
         'type' => 'cTypes',
         'label' => 'tx_mask.allowed_content',
         'description' => 'tx_mask.allowed_content.description',
-        'code' => 'cTypes'
+        'code' => 'cTypes',
     ],
     'allowedFileExtensions' => [
         'type' => 'text',
@@ -1353,7 +1353,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Inline.html?highlight=elementbrowserallowed#appearance',
             11 => 'ColumnsConfig/Type/Group/Properties/Appearance.html#columns-group-properties-appearance',
-        ]
+        ],
     ],
     'imageoverlayPalette' => [
         'type' => 'checkbox',
@@ -1363,7 +1363,7 @@ return [
         'documentation' => [
             10 => 'ColumnsConfig/Type/Inline.html#file-abstraction-layer',
             11 => 'ColumnsConfig/Type/Inline/Examples.html#columns-inline-examples-fal',
-        ]
+        ],
     ],
     'l10n_mode' => [
         'type' => 'radio',
@@ -1376,7 +1376,7 @@ return [
         'items' => [
             '' => 'tx_mask.field.inline.l10n_mode.default',
             'exclude' => 'tx_mask.field.inline.l10n_mode.exclude',
-            'prefixLangTitle' => 'tx_mask.field.inline.l10n_mode.prefixLangTitle'
+            'prefixLangTitle' => 'tx_mask.field.inline.l10n_mode.prefixLangTitle',
         ],
     ],
 ];

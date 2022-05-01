@@ -58,59 +58,59 @@ class FieldsControllerTest extends BaseTestCase
                                 'columns' => [
                                     'tx_mask_field1',
                                     'tx_mask_field2',
-                                    'header'
+                                    'header',
                                 ],
                                 'labels' => [
                                     'Field 1',
                                     'Field 2',
-                                    'Core Header'
+                                    'Core Header',
                                 ],
                                 'descriptions' => [
                                     'Field 1 Description',
                                     'Field 2 Description',
-                                    ''
-                                ]
-                            ]
+                                    '',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_field1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
                                 'key' => 'field1',
                                 'name' => 'string',
                                 'description' => 'Field 1 Description',
-                                'l10n_mode' => ''
+                                'l10n_mode' => '',
                             ],
                             'tx_mask_field2' => [
                                 'config' => [
                                     'eval' => 'int',
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
                                 'key' => 'field2',
                                 'name' => 'integer',
                                 'description' => 'Field 2 Description',
-                                'l10n_mode' => 'exclude'
+                                'l10n_mode' => 'exclude',
                             ],
                             'header' => [
                                 'coreField' => 1,
                                 'key' => 'header',
-                                'name' => 'string'
-                            ]
+                                'name' => 'string',
+                            ],
                         ],
                         'sql' => [
                             'tx_mask_field1' => [
                                 'tt_content' => [
-                                    'tx_mask_field1' => 'tinytext'
-                                ]
+                                    'tx_mask_field1' => 'tinytext',
+                                ],
                             ],
                             'tx_mask_field2' => [
                                 'tt_content' => [
-                                    'tx_mask_field2' => 'tinytext'
-                                ]
-                            ]
-                        ]
-                    ]
+                                    'tx_mask_field2' => 'tinytext',
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 'tt_content',
                 'element1',
@@ -129,8 +129,8 @@ class FieldsControllerTest extends BaseTestCase
                             'description' => 'Field 1 Description',
                             'tca' => [
                                 'l10n_mode' => '',
-                                'config.eval.null' => 0
-                            ]
+                                'config.eval.null' => 0,
+                            ],
                         ],
                         [
                             'fields' => [],
@@ -145,8 +145,8 @@ class FieldsControllerTest extends BaseTestCase
                             'description' => 'Field 2 Description',
                             'tca' => [
                                 'l10n_mode' => 'exclude',
-                                'config.eval.null' => 0
-                            ]
+                                'config.eval.null' => 0,
+                            ],
                         ],
                         [
                             'fields' => [],
@@ -158,10 +158,10 @@ class FieldsControllerTest extends BaseTestCase
                             'name' => 'string',
                             'icon' => '',
                             'description' => '',
-                            'tca' => []
-                        ]
-                    ]
-                ]
+                            'tca' => [],
+                        ],
+                    ],
+                ],
             ],
             'Palette fields work' => [
                 [
@@ -184,43 +184,43 @@ class FieldsControllerTest extends BaseTestCase
                                 'descriptions' => [
                                     'Field 1 Description',
                                     '',
-                                ]
-                            ]
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_field1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
                                 'key' => 'field1',
                                 'name' => 'string',
-                                'description' => 'Field 1 Description'
+                                'description' => 'Field 1 Description',
                             ],
                             'tx_mask_palette1' => [
                                 'config' => [
-                                    'type' => 'palette'
+                                    'type' => 'palette',
                                 ],
                                 'name' => 'palette',
-                                'key' => 'palette1'
+                                'key' => 'palette1',
                             ],
                             'tx_mask_field2' => [
                                 'config' => [
                                     'eval' => 'int',
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
                                 'key' => 'field2',
                                 'name' => 'integer',
                                 'description' => 'Field 2 Description',
                                 'label' => [
-                                    'element1' => 'Field 2'
+                                    'element1' => 'Field 2',
                                 ],
                                 'inPalette' => 1,
                                 'inlineParent' => [
-                                    'element1' => 'tx_mask_palette1'
+                                    'element1' => 'tx_mask_palette1',
                                 ],
                                 'order' => [
-                                    'element1' => 1
-                                ]
+                                    'element1' => 1,
+                                ],
                             ],
                             'header' => [
                                 'coreField' => 1,
@@ -228,38 +228,38 @@ class FieldsControllerTest extends BaseTestCase
                                 'name' => 'string',
                                 'inPalette' => 1,
                                 'inlineParent' => [
-                                    'element1' => 'tx_mask_palette1'
+                                    'element1' => 'tx_mask_palette1',
                                 ],
                                 'order' => [
-                                    'element1' => 2
+                                    'element1' => 2,
                                 ],
                                 'label' => [
-                                    'element1' => 'Core Header'
+                                    'element1' => 'Core Header',
                                 ],
-                            ]
+                            ],
                         ],
                         'sql' => [
                             'tx_mask_field1' => [
                                 'tt_content' => [
-                                    'tx_mask_field1' => 'tinytext'
-                                ]
+                                    'tx_mask_field1' => 'tinytext',
+                                ],
                             ],
                             'tx_mask_field2' => [
                                 'tt_content' => [
-                                    'tx_mask_field2' => 'tinytext'
-                                ]
-                            ]
+                                    'tx_mask_field2' => 'tinytext',
+                                ],
+                            ],
                         ],
                         'palettes' => [
                             'tx_mask_palette1' => [
                                 'label' => 'Palette 1',
                                 'showitem' => [
                                     'tx_mask_field2',
-                                    'header'
-                                ]
-                            ]
-                        ]
-                    ]
+                                    'header',
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 'tt_content',
                 'element1',
@@ -278,8 +278,8 @@ class FieldsControllerTest extends BaseTestCase
                             'description' => 'Field 1 Description',
                             'tca' => [
                                 'l10n_mode' => '',
-                                'config.eval.null' => 0
-                            ]
+                                'config.eval.null' => 0,
+                            ],
                         ],
                         [
                             'parent' => [],
@@ -304,7 +304,7 @@ class FieldsControllerTest extends BaseTestCase
                                         'icon' => '',
                                         'description' => '',
                                         'fields' => [],
-                                        'tca' => []
+                                        'tca' => [],
                                     ],
                                     'newField' => false,
                                     'key' => 'tx_mask_field2',
@@ -316,8 +316,8 @@ class FieldsControllerTest extends BaseTestCase
                                     'description' => 'Field 2 Description',
                                     'tca' => [
                                         'l10n_mode' => '',
-                                        'config.eval.null' => 0
-                                    ]
+                                        'config.eval.null' => 0,
+                                    ],
                                 ],
                                 [
                                     'fields' => [],
@@ -331,7 +331,7 @@ class FieldsControllerTest extends BaseTestCase
                                         'icon' => '',
                                         'description' => '',
                                         'fields' => [],
-                                        'tca' => []
+                                        'tca' => [],
                                     ],
                                     'newField' => false,
                                     'key' => 'header',
@@ -340,12 +340,12 @@ class FieldsControllerTest extends BaseTestCase
                                     'name' => 'string',
                                     'icon' => '',
                                     'description' => '',
-                                    'tca' => []
-                                ]
-                            ]
+                                    'tca' => [],
+                                ],
+                            ],
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ],
             'Inline fields work' => [
                 [
@@ -365,23 +365,23 @@ class FieldsControllerTest extends BaseTestCase
                                 ],
                                 'descriptions' => [
                                     '',
-                                ]
-                            ]
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_inline1' => [
                                 'config' => [
-                                    'type' => 'inline'
+                                    'type' => 'inline',
                                 ],
                                 'name' => 'inline',
-                                'key' => 'inline1'
+                                'key' => 'inline1',
                             ],
                         ],
                         'sql' => [
                             'tx_mask_inline1' => [
                                 'tt_content' => [
-                                    'tx_mask_inline1' => 'tinytext'
-                                ]
+                                    'tx_mask_inline1' => 'tinytext',
+                                ],
                             ],
                         ],
                     ],
@@ -389,41 +389,41 @@ class FieldsControllerTest extends BaseTestCase
                         'tca' => [
                             'tx_mask_field1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
                                 'key' => 'field1',
                                 'name' => 'string',
                                 'description' => 'Field 1 Description',
                                 'label' => 'Field 1',
                                 'inlineParent' => 'tx_mask_inline1',
-                                'order' => 1
+                                'order' => 1,
                             ],
                             'tx_mask_field2' => [
                                 'config' => [
                                     'eval' => 'int',
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
                                 'key' => 'field2',
                                 'name' => 'integer',
                                 'description' => 'Field 2 Description',
                                 'label' => 'Field 2',
                                 'inlineParent' => 'tx_mask_inline1',
-                                'order' => 1
+                                'order' => 1,
                             ],
                         ],
                         'sql' => [
                             'tx_mask_field1' => [
                                 'tx_mask_inline1' => [
-                                    'tx_mask_field1' => 'tinytext'
-                                ]
+                                    'tx_mask_field1' => 'tinytext',
+                                ],
                             ],
                             'tx_mask_field2' => [
                                 'tx_mask_inline1' => [
-                                    'tx_mask_field2' => 'tinytext'
-                                ]
+                                    'tx_mask_field2' => 'tinytext',
+                                ],
                             ],
                         ],
-                    ]
+                    ],
                 ],
                 'tt_content',
                 'element1',
@@ -484,8 +484,8 @@ class FieldsControllerTest extends BaseTestCase
                                     'description' => 'Field 1 Description',
                                     'tca' => [
                                         'l10n_mode' => '',
-                                        'config.eval.null' => 0
-                                    ]
+                                        'config.eval.null' => 0,
+                                    ],
                                 ],
                                 [
                                     'fields' => [],
@@ -521,13 +521,13 @@ class FieldsControllerTest extends BaseTestCase
                                     'description' => 'Field 2 Description',
                                     'tca' => [
                                         'l10n_mode' => '',
-                                        'config.eval.null' => 0
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                        'config.eval.null' => 0,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ],
             'Old allowedFileExtensions path works and imageoverlaypalette default 1' => [
                 [
@@ -547,8 +547,8 @@ class FieldsControllerTest extends BaseTestCase
                                 ],
                                 'descriptions' => [
                                     'Field 1 Description',
-                                ]
-                            ]
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_field1' => [
@@ -557,25 +557,25 @@ class FieldsControllerTest extends BaseTestCase
                                     'filter' => [
                                         [
                                             'parameters' => [
-                                                'allowedFileExtensions' => 'jpg'
-                                            ]
-                                        ]
-                                    ]
+                                                'allowedFileExtensions' => 'jpg',
+                                            ],
+                                        ],
+                                    ],
                                 ],
                                 'options' => 'file',
                                 'key' => 'field1',
                                 'name' => 'file',
-                                'description' => 'Field 1 Description'
+                                'description' => 'Field 1 Description',
                             ],
                         ],
                         'sql' => [
                             'tx_mask_field1' => [
                                 'tt_content' => [
-                                    'tx_mask_field1' => 'tinytext'
-                                ]
+                                    'tx_mask_field1' => 'tinytext',
+                                ],
                             ],
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
                 'tt_content',
                 'element1',
@@ -596,11 +596,11 @@ class FieldsControllerTest extends BaseTestCase
                                 'l10n_mode' => '',
                                 'allowedFileExtensions' => 'jpg',
                                 'config.appearance.fileUploadAllowed' => 1,
-                                'imageoverlayPalette' => 1
-                            ]
+                                'imageoverlayPalette' => 1,
+                            ],
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ],
             'CTypes loaded' => [
                 [
@@ -620,29 +620,29 @@ class FieldsControllerTest extends BaseTestCase
                                 ],
                                 'descriptions' => [
                                     'Field 1 Description',
-                                ]
-                            ]
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_field1' => [
                                 'cTypes' => ['a', 'b'],
                                 'config' => [
                                     'type' => 'inline',
-                                    'foreign_table' => 'tt_content'
+                                    'foreign_table' => 'tt_content',
                                 ],
                                 'key' => 'field1',
                                 'name' => 'content',
-                                'description' => 'Field 1 Description'
+                                'description' => 'Field 1 Description',
                             ],
                         ],
                         'sql' => [
                             'tx_mask_field1' => [
                                 'tt_content' => [
-                                    'tx_mask_field1' => 'tinytext'
-                                ]
+                                    'tx_mask_field1' => 'tinytext',
+                                ],
                             ],
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
                 'tt_content',
                 'element1',
@@ -663,13 +663,13 @@ class FieldsControllerTest extends BaseTestCase
                                 'l10n_mode' => '',
                                 'cTypes' => [
                                     'a',
-                                    'b'
+                                    'b',
                                 ],
-                                'config.appearance.levelLinksPosition' => 'top'
-                            ]
+                                'config.appearance.levelLinksPosition' => 'top',
+                            ],
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ],
             'CTypes defaults to empty array' => [
                 [
@@ -689,28 +689,28 @@ class FieldsControllerTest extends BaseTestCase
                                 ],
                                 'descriptions' => [
                                     'Field 1 Description',
-                                ]
-                            ]
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_field1' => [
                                 'config' => [
                                     'type' => 'inline',
-                                    'foreign_table' => 'tt_content'
+                                    'foreign_table' => 'tt_content',
                                 ],
                                 'key' => 'field1',
                                 'name' => 'content',
-                                'description' => 'Field 1 Description'
+                                'description' => 'Field 1 Description',
                             ],
                         ],
                         'sql' => [
                             'tx_mask_field1' => [
                                 'tt_content' => [
-                                    'tx_mask_field1' => 'tinytext'
-                                ]
+                                    'tx_mask_field1' => 'tinytext',
+                                ],
                             ],
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
                 'tt_content',
                 'element1',
@@ -730,11 +730,11 @@ class FieldsControllerTest extends BaseTestCase
                             'tca' => [
                                 'l10n_mode' => '',
                                 'cTypes' => [],
-                                'config.appearance.levelLinksPosition' => 'top'
-                            ]
+                                'config.appearance.levelLinksPosition' => 'top',
+                            ],
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ],
             'Old date formats converted to new' => [
                 [
@@ -752,13 +752,13 @@ class FieldsControllerTest extends BaseTestCase
                                 ],
                                 'labels' => [
                                     'Field 1',
-                                    'Field 2'
+                                    'Field 2',
                                 ],
                                 'descriptions' => [
                                     'Field 1 Description',
-                                    'Field 2 Description'
-                                ]
-                            ]
+                                    'Field 2 Description',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_field1' => [
@@ -768,12 +768,12 @@ class FieldsControllerTest extends BaseTestCase
                                     'eval' => 'date',
                                     'renderType' => 'inputDateTime',
                                     'range' => [
-                                        'lower' => '2021-01-01'
-                                    ]
+                                        'lower' => '2021-01-01',
+                                    ],
                                 ],
                                 'key' => 'field1',
                                 'name' => 'date',
-                                'description' => 'Field 1 Description'
+                                'description' => 'Field 1 Description',
                             ],
                             'tx_mask_field2' => [
                                 'config' => [
@@ -782,27 +782,27 @@ class FieldsControllerTest extends BaseTestCase
                                     'eval' => 'date',
                                     'renderType' => 'inputDateTime',
                                     'range' => [
-                                        'lower' => '2021-01-01 10:10'
-                                    ]
+                                        'lower' => '2021-01-01 10:10',
+                                    ],
                                 ],
                                 'key' => 'field2',
                                 'name' => 'datetime',
-                                'description' => 'Field 2 Description'
+                                'description' => 'Field 2 Description',
                             ],
                         ],
                         'sql' => [
                             'tx_mask_field1' => [
                                 'tt_content' => [
-                                    'tx_mask_field1' => 'tinytext'
-                                ]
+                                    'tx_mask_field1' => 'tinytext',
+                                ],
                             ],
                             'tx_mask_field2' => [
                                 'tt_content' => [
-                                    'tx_mask_field2' => 'tinytext'
-                                ]
+                                    'tx_mask_field2' => 'tinytext',
+                                ],
                             ],
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
                 'tt_content',
                 'element1',
@@ -822,8 +822,8 @@ class FieldsControllerTest extends BaseTestCase
                             'tca' => [
                                 'l10n_mode' => '',
                                 'config.eval.null' => 0,
-                                'config.range.lower' => '01-01-2021'
-                            ]
+                                'config.range.lower' => '01-01-2021',
+                            ],
                         ],
                         [
                             'fields' => [],
@@ -839,11 +839,11 @@ class FieldsControllerTest extends BaseTestCase
                             'tca' => [
                                 'l10n_mode' => '',
                                 'config.eval.null' => 0,
-                                'config.range.lower' => '10:10 01-01-2021'
-                            ]
+                                'config.range.lower' => '10:10 01-01-2021',
+                            ],
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ],
             'Timestamp fields converted to date format' => [
                 [
@@ -863,8 +863,8 @@ class FieldsControllerTest extends BaseTestCase
                                 ],
                                 'descriptions' => [
                                     'Field 1 Description',
-                                ]
-                            ]
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_field1' => [
@@ -875,22 +875,22 @@ class FieldsControllerTest extends BaseTestCase
                                     'default' => 1623081120,
                                     'range' => [
                                         'lower' => 1623081120,
-                                        'upper' => 1623081120
-                                    ]
+                                        'upper' => 1623081120,
+                                    ],
                                 ],
                                 'key' => 'field1',
                                 'name' => 'timestamp',
-                                'description' => 'Field 1 Description'
+                                'description' => 'Field 1 Description',
                             ],
                         ],
                         'sql' => [
                             'tx_mask_field1' => [
                                 'tt_content' => [
-                                    'tx_mask_field1' => 'tinytext'
-                                ]
+                                    'tx_mask_field1' => 'tinytext',
+                                ],
                             ],
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
                 'tt_content',
                 'element1',
@@ -913,11 +913,11 @@ class FieldsControllerTest extends BaseTestCase
                                 'config.default' => date('d-m-Y', 1623081120),
                                 'config.range.lower' => date('d-m-Y', 1623081120),
                                 'config.range.upper' => date('d-m-Y', 1623081120),
-                                'config.eval' => 'date'
-                            ]
-                        ]
-                    ]
-                ]
+                                'config.eval' => 'date',
+                            ],
+                        ],
+                    ],
+                ],
             ],
             'Unknown config options removed' => [
                 [
@@ -937,8 +937,8 @@ class FieldsControllerTest extends BaseTestCase
                                 ],
                                 'descriptions' => [
                                     'Field 1 Description',
-                                ]
-                            ]
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_field1' => [
@@ -946,22 +946,22 @@ class FieldsControllerTest extends BaseTestCase
                                     'type' => 'input',
                                     'foo' => 'bar',
                                     'baz' => [
-                                        'fizz' => 'boo'
-                                    ]
+                                        'fizz' => 'boo',
+                                    ],
                                 ],
                                 'key' => 'field1',
                                 'name' => 'string',
-                                'description' => 'Field 1 Description'
+                                'description' => 'Field 1 Description',
                             ],
                         ],
                         'sql' => [
                             'tx_mask_field1' => [
                                 'tt_content' => [
-                                    'tx_mask_field1' => 'tinytext'
-                                ]
+                                    'tx_mask_field1' => 'tinytext',
+                                ],
                             ],
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
                 'tt_content',
                 'element1',
@@ -981,10 +981,10 @@ class FieldsControllerTest extends BaseTestCase
                             'tca' => [
                                 'l10n_mode' => '',
                                 'config.eval.null' => 0,
-                            ]
+                            ],
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ],
         ];
     }
@@ -997,8 +997,8 @@ class FieldsControllerTest extends BaseTestCase
     {
         $GLOBALS['TCA']['tt_content']['columns']['header'] = [
             'config' => [
-                'type' => 'input'
-            ]
+                'type' => 'input',
+            ],
         ];
 
         $this->registerPackageManager();

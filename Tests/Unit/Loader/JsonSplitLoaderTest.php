@@ -46,7 +46,7 @@ class JsonSplitLoaderTest extends UnitTestCase
         $jsonSplitLoader = new JsonSplitLoader(
             [
                 'content_elements_folder' => 'EXT:mask/Tests/Unit/Fixtures/Configuration/ContentElements',
-                'backend_layouts_folder' => 'EXT:mask/Tests/Unit/Fixtures/Configuration/BackendLayouts'
+                'backend_layouts_folder' => 'EXT:mask/Tests/Unit/Fixtures/Configuration/BackendLayouts',
             ]
         );
 
@@ -66,7 +66,7 @@ class JsonSplitLoaderTest extends UnitTestCase
         $jsonSplitLoader = new JsonSplitLoader(
             [
                 'content_elements_folder' => 'EXT:mask/var/ContentElements',
-                'backend_layouts_folder' => 'EXT:mask/var/BackendLayouts'
+                'backend_layouts_folder' => 'EXT:mask/var/BackendLayouts',
             ]
         );
 
@@ -86,22 +86,22 @@ class JsonSplitLoaderTest extends UnitTestCase
                 'sql' => [
                     'tx_mask_a' => [
                         'tx_mask_repeat1' => [
-                            'tx_mask_a' => 'varchar(255) DEFAULT \'\' NOT NULL'
-                        ]
-                    ]
+                            'tx_mask_a' => 'varchar(255) DEFAULT \'\' NOT NULL',
+                        ],
+                    ],
                 ],
                 'tca' => [
                     'tx_mask_a' => [
                         'config' => [
-                            'type' => 'input'
+                            'type' => 'input',
                         ],
                         'label' => 'A',
                         'type' => 'string',
                         'key' => 'a',
                         'fullKey' => 'tx_mask_a',
                         'inlineParent' => 'tx_mask_repeat1',
-                        'order' => 1
-                    ]
+                        'order' => 1,
+                    ],
                 ],
             ],
             'tt_content' => [
@@ -115,37 +115,37 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'icon' => '',
                         'columns' => [
                             'tx_mask_a',
-                            'tx_mask_repeat1'
+                            'tx_mask_repeat1',
                         ],
                         'labels' => [
                             'A',
-                            'Repeat1'
+                            'Repeat1',
                         ],
                         'descriptions' => [
                             '',
-                            'description for field tx_mask_repeat1'
+                            'description for field tx_mask_repeat1',
                         ],
                         'sorting' => 0,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                    ]
+                    ],
                 ],
                 'sql' => [
                     'tx_mask_a' => [
                         'tt_content' => [
-                            'tx_mask_a' => 'varchar(255) DEFAULT \'\' NOT NULL'
-                        ]
+                            'tx_mask_a' => 'varchar(255) DEFAULT \'\' NOT NULL',
+                        ],
                     ],
                     'tx_mask_repeat1' => [
                         'tt_content' => [
-                            'tx_mask_repeat1' => 'int(11) unsigned DEFAULT \'0\' NOT NULL'
-                        ]
-                    ]
+                            'tx_mask_repeat1' => 'int(11) unsigned DEFAULT \'0\' NOT NULL',
+                        ],
+                    ],
                 ],
                 'tca' => [
                     'tx_mask_a' => [
                         'config' => [
-                            'type' => 'input'
+                            'type' => 'input',
                         ],
                         'type' => 'string',
                         'key' => 'a',
@@ -156,22 +156,22 @@ class JsonSplitLoaderTest extends UnitTestCase
                             'appearance' => [
                                 'collapseAll' => 1,
                                 'enabledControls' => [
-                                    'dragdrop' => 1
+                                    'dragdrop' => 1,
                                 ],
                                 'levelLinksPosition' => 'top',
                                 'showAllLocalizationLink' => 1,
-                                'showPossibleLocalizationRecords' => 1
+                                'showPossibleLocalizationRecords' => 1,
                             ],
                             'foreign_field' => 'parentid',
                             'foreign_sortby' => 'sorting',
                             'foreign_table' => '--inlinetable--',
                             'foreign_table_field' => 'parenttable',
-                            'type' => 'inline'
+                            'type' => 'inline',
                         ],
                         'type' => 'inline',
                         'key' => 'repeat1',
                         'fullKey' => 'tx_mask_repeat1',
-                    ]
+                    ],
                 ],
             ],
         ];
@@ -191,39 +191,39 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'columns' => [
                             'tx_mask_a',
                             'tx_mask_b',
-                            'tx_mask_4e12de3d14bd5'
+                            'tx_mask_4e12de3d14bd5',
                         ],
                         'labels' => [
                             'A 2',
                             'B',
-                            'Palette 1'
+                            'Palette 1',
                         ],
                         'descriptions' => [
                             '',
                             '',
-                            ''
+                            '',
                         ],
                         'sorting' => 1,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                    ]
+                    ],
                 ],
                 'sql' => [
                     'tx_mask_a' => [
                         'tt_content' => [
-                            'tx_mask_a' => 'varchar(255) DEFAULT \'\' NOT NULL'
-                        ]
+                            'tx_mask_a' => 'varchar(255) DEFAULT \'\' NOT NULL',
+                        ],
                     ],
                     'tx_mask_b' => [
                         'tt_content' => [
-                            'tx_mask_b' => 'varchar(255) DEFAULT \'\' NOT NULL'
-                        ]
-                    ]
+                            'tx_mask_b' => 'varchar(255) DEFAULT \'\' NOT NULL',
+                        ],
+                    ],
                 ],
                 'tca' => [
                     'tx_mask_a' => [
                         'config' => [
-                            'type' => 'input'
+                            'type' => 'input',
                         ],
                         'type' => 'string',
                         'key' => 'a',
@@ -231,7 +231,7 @@ class JsonSplitLoaderTest extends UnitTestCase
                     ],
                     'tx_mask_b' => [
                         'config' => [
-                            'type' => 'input'
+                            'type' => 'input',
                         ],
                         'type' => 'string',
                         'key' => 'b',
@@ -239,11 +239,11 @@ class JsonSplitLoaderTest extends UnitTestCase
                     ],
                     'tx_mask_4e12de3d14bd5' => [
                         'config' => [
-                            'type' => 'palette'
+                            'type' => 'palette',
                         ],
                         'type' => 'palette',
                         'key' => '4e12de3d14bd5',
-                        'fullKey' => 'tx_mask_4e12de3d14bd5'
+                        'fullKey' => 'tx_mask_4e12de3d14bd5',
                     ],
                     'header' => [
                         'coreField' => 1,
@@ -252,24 +252,24 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'fullKey' => 'header',
                         'inPalette' => 1,
                         'inlineParent' => [
-                            'b' => 'tx_mask_4e12de3d14bd5'
+                            'b' => 'tx_mask_4e12de3d14bd5',
                         ],
                         'label' => [
-                            'b' => 'Header'
+                            'b' => 'Header',
                         ],
                         'order' => [
-                            'b' => 1
-                        ]
+                            'b' => 1,
+                        ],
                     ],
                 ],
                 'palettes' => [
                     'tx_mask_4e12de3d14bd5' => [
                         'label' => 'Palette 1',
                         'description' => '',
-                        'showitem' => ['header']
-                    ]
-                ]
-            ]
+                        'showitem' => ['header'],
+                    ],
+                ],
+            ],
         ];
 
         self::assertEquals($configurationB, json_decode(file_get_contents($contentElementsPath . '/b.json'), true));
@@ -279,10 +279,10 @@ class JsonSplitLoaderTest extends UnitTestCase
                 'sql' => [
                     'tx_mask_file' => [
                         'sys_file_reference' => [
-                            'tx_mask_file' => 'int(11) unsigned DEFAULT \'0\' NOT NULL'
-                        ]
-                    ]
-                ]
+                            'tx_mask_file' => 'int(11) unsigned DEFAULT \'0\' NOT NULL',
+                        ],
+                    ],
+                ],
             ],
             'tt_content' => [
                 'elements' => [
@@ -294,25 +294,25 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'color' => '#000000',
                         'icon' => '',
                         'columns' => [
-                            'tx_mask_file'
+                            'tx_mask_file',
                         ],
                         'labels' => [
-                            'File'
+                            'File',
                         ],
                         'descriptions' => [
-                            'only images are allowed'
+                            'only images are allowed',
                         ],
                         'sorting' => 2,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                    ]
+                    ],
                 ],
                 'sql' => [
                     'tx_mask_file' => [
                         'tt_content' => [
-                            'tx_mask_file' => 'int(11) unsigned DEFAULT \'0\' NOT NULL'
-                        ]
-                    ]
+                            'tx_mask_file' => 'int(11) unsigned DEFAULT \'0\' NOT NULL',
+                        ],
+                    ],
                 ],
                 'tca' => [
                     'tx_mask_file' => [
@@ -321,13 +321,13 @@ class JsonSplitLoaderTest extends UnitTestCase
                                 'fileUploadAllowed' => 1,
                             ],
                             'type' => 'inline',
-                            'foreign_table' => 'sys_file_reference'
+                            'foreign_table' => 'sys_file_reference',
                         ],
                         'type' => 'file',
                         'key' => 'file',
                         'fullKey' => 'tx_mask_file',
-                        'imageoverlayPalette' => 1
-                    ]
+                        'imageoverlayPalette' => 1,
+                    ],
                 ],
             ],
         ];
@@ -339,22 +339,22 @@ class JsonSplitLoaderTest extends UnitTestCase
                 'sql' => [
                     'tx_mask_field' => [
                         'tx_mask_inline' => [
-                            'tx_mask_field' => 'varchar(255) DEFAULT \'\' NOT NULL'
-                        ]
-                    ]
+                            'tx_mask_field' => 'varchar(255) DEFAULT \'\' NOT NULL',
+                        ],
+                    ],
                 ],
                 'tca' => [
                     'tx_mask_field' => [
                         'config' => [
-                            'type' => 'input'
+                            'type' => 'input',
                         ],
                         'fullKey' => 'tx_mask_field',
                         'label' => 'Field',
                         'type' => 'string',
                         'key' => 'field',
                         'inlineParent' => 'tx_mask_inline',
-                        'order' => 1
-                    ]
+                        'order' => 1,
+                    ],
                 ],
             ],
             'tt_content' => [
@@ -367,44 +367,44 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'color' => '#000000',
                         'icon' => '',
                         'columns' => [
-                            'tx_mask_palette'
+                            'tx_mask_palette',
                         ],
                         'labels' => [
-                            'Palette 1'
+                            'Palette 1',
                         ],
                         'descriptions' => [
-                            'Description for palette 1'
+                            'Description for palette 1',
                         ],
                         'sorting' => 3,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                    ]
+                    ],
                 ],
                 'tca' => [
                     'tx_mask_palette' => [
                         'config' => [
-                            'type' => 'palette'
+                            'type' => 'palette',
                         ],
                         'type' => 'palette',
                         'key' => 'palette',
-                        'fullKey' => 'tx_mask_palette'
+                        'fullKey' => 'tx_mask_palette',
                     ],
                     'tx_mask_inline' => [
                         'config' => [
                             'appearance' => [
                                 'collapseAll' => 1,
                                 'enabledControls' => [
-                                    'dragdrop' => 1
+                                    'dragdrop' => 1,
                                 ],
                                 'levelLinksPosition' => 'top',
                                 'showAllLocalizationLink' => 1,
-                                'showPossibleLocalizationRecords' => 1
+                                'showPossibleLocalizationRecords' => 1,
                             ],
                             'foreign_field' => 'parentid',
                             'foreign_sortby' => 'sorting',
                             'foreign_table' => '--inlinetable--',
                             'foreign_table_field' => 'parenttable',
-                            'type' => 'inline'
+                            'type' => 'inline',
                         ],
                         'type' => 'inline',
                         'key' => 'inline',
@@ -415,10 +415,10 @@ class JsonSplitLoaderTest extends UnitTestCase
                     'tx_mask_palette' => [
                         'label' => 'Palette 1',
                         'description' => 'Description for palette 1',
-                        'showitem' => ['tx_mask_inline']
-                    ]
+                        'showitem' => ['tx_mask_inline'],
+                    ],
                 ],
-            ]
+            ],
         ];
 
         self::assertEquals($configurationD, json_decode(file_get_contents($contentElementsPath . '/d.json'), true));
@@ -493,7 +493,7 @@ class JsonSplitLoaderTest extends UnitTestCase
                             'foreign_sortby' => 'sorting',
                             'appearance' => [
                                 'enabledControls' => [
-                                    'dragdrop' => 1
+                                    'dragdrop' => 1,
                                 ],
                             ],
                         ],
@@ -621,44 +621,44 @@ class JsonSplitLoaderTest extends UnitTestCase
                 'sql' => [
                     'tx_mask_a' => [
                         'tx_mask_repeat1' => [
-                            'tx_mask_a' => 'varchar(255) DEFAULT \'\' NOT NULL'
-                        ]
-                    ]
+                            'tx_mask_a' => 'varchar(255) DEFAULT \'\' NOT NULL',
+                        ],
+                    ],
                 ],
                 'tca' => [
                     'tx_mask_a' => [
                         'config' => [
-                            'type' => 'input'
+                            'type' => 'input',
                         ],
                         'fullKey' => 'tx_mask_a',
                         'label' => 'A',
                         'type' => 'string',
                         'key' => 'a',
                         'inlineParent' => 'tx_mask_repeat1',
-                        'order' => 1
-                    ]
+                        'order' => 1,
+                    ],
                 ],
             ],
             'tx_mask_inline' => [
                 'sql' => [
                     'tx_mask_field' => [
                         'tx_mask_inline' => [
-                            'tx_mask_field' => 'varchar(255) DEFAULT \'\' NOT NULL'
-                        ]
-                    ]
+                            'tx_mask_field' => 'varchar(255) DEFAULT \'\' NOT NULL',
+                        ],
+                    ],
                 ],
                 'tca' => [
                     'tx_mask_field' => [
                         'config' => [
-                            'type' => 'input'
+                            'type' => 'input',
                         ],
                         'fullKey' => 'tx_mask_field',
                         'label' => 'Field',
                         'type' => 'string',
                         'key' => 'field',
                         'inlineParent' => 'tx_mask_inline',
-                        'order' => 1
-                    ]
+                        'order' => 1,
+                    ],
                 ],
             ],
             'tx_mask_inline_e' => [
@@ -683,9 +683,9 @@ class JsonSplitLoaderTest extends UnitTestCase
                             'foreign_sortby' => 'sorting',
                             'appearance' => [
                                 'enabledControls' => [
-                                    'dragdrop' => 1
-                                ]
-                            ]
+                                    'dragdrop' => 1,
+                                ],
+                            ],
                         ],
                         'label' => 'Inline Inner',
                         'type' => 'inline',
@@ -810,15 +810,15 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'icon' => '',
                         'columns' => [
                             'tx_mask_a',
-                            'tx_mask_repeat1'
+                            'tx_mask_repeat1',
                         ],
                         'labels' => [
                             'A',
-                            'Repeat1'
+                            'Repeat1',
                         ],
                         'descriptions' => [
                             '',
-                            'description for field tx_mask_repeat1'
+                            'description for field tx_mask_repeat1',
                         ],
                         'sorting' => 0,
                         'colorOverlay' => '',
@@ -834,17 +834,17 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'columns' => [
                             'tx_mask_a',
                             'tx_mask_b',
-                            'tx_mask_4e12de3d14bd5'
+                            'tx_mask_4e12de3d14bd5',
                         ],
                         'labels' => [
                             'A 2',
                             'B',
-                            'Palette 1'
+                            'Palette 1',
                         ],
                         'descriptions' => [
                             '',
                             '',
-                            ''
+                            '',
                         ],
                         'sorting' => 1,
                         'colorOverlay' => '',
@@ -914,83 +914,83 @@ class JsonSplitLoaderTest extends UnitTestCase
                 'sql' => [
                     'tx_mask_a' => [
                         'tt_content' => [
-                            'tx_mask_a' => 'varchar(255) DEFAULT \'\' NOT NULL'
-                        ]
+                            'tx_mask_a' => 'varchar(255) DEFAULT \'\' NOT NULL',
+                        ],
                     ],
                     'tx_mask_b' => [
                         'tt_content' => [
-                            'tx_mask_b' => 'varchar(255) DEFAULT \'\' NOT NULL'
-                        ]
+                            'tx_mask_b' => 'varchar(255) DEFAULT \'\' NOT NULL',
+                        ],
                     ],
                     'tx_mask_repeat1' => [
                         'tt_content' => [
-                            'tx_mask_repeat1' => 'int(11) unsigned DEFAULT \'0\' NOT NULL'
-                        ]
+                            'tx_mask_repeat1' => 'int(11) unsigned DEFAULT \'0\' NOT NULL',
+                        ],
                     ],
                     'tx_mask_file' => [
                         'tt_content' => [
-                            'tx_mask_file' => 'int(11) unsigned DEFAULT \'0\' NOT NULL'
-                        ]
-                    ]
+                            'tx_mask_file' => 'int(11) unsigned DEFAULT \'0\' NOT NULL',
+                        ],
+                    ],
                 ],
                 'tca' => [
                     'tx_mask_a' => [
                         'config' => [
-                            'type' => 'input'
+                            'type' => 'input',
                         ],
                         'fullKey' => 'tx_mask_a',
                         'type' => 'string',
-                        'key' => 'a'
+                        'key' => 'a',
                     ],
                     'tx_mask_b' => [
                         'config' => [
-                            'type' => 'input'
+                            'type' => 'input',
                         ],
                         'fullKey' => 'tx_mask_b',
                         'type' => 'string',
-                        'key' => 'b'
+                        'key' => 'b',
                     ],
                     'tx_mask_repeat1' => [
                         'config' => [
                             'appearance' => [
                                 'collapseAll' => 1,
                                 'enabledControls' => [
-                                    'dragdrop' => 1
+                                    'dragdrop' => 1,
                                 ],
                                 'levelLinksPosition' => 'top',
                                 'showAllLocalizationLink' => 1,
-                                'showPossibleLocalizationRecords' => 1
+                                'showPossibleLocalizationRecords' => 1,
                             ],
                             'foreign_field' => 'parentid',
                             'foreign_sortby' => 'sorting',
                             'foreign_table' => '--inlinetable--',
                             'foreign_table_field' => 'parenttable',
-                            'type' => 'inline'
+                            'type' => 'inline',
                         ],
                         'fullKey' => 'tx_mask_repeat1',
                         'type' => 'inline',
-                        'key' => 'repeat1'
+                        'key' => 'repeat1',
                     ],
                     'tx_mask_inline' => [
                         'config' => [
                             'appearance' => [
                                 'collapseAll' => 1,
                                 'enabledControls' => [
-                                    'dragdrop' => 1
+                                    'dragdrop' => 1,
                                 ],
                                 'levelLinksPosition' => 'top',
                                 'showAllLocalizationLink' => 1,
-                                'showPossibleLocalizationRecords' => 1
+                                'showPossibleLocalizationRecords' => 1,
                             ],
                             'foreign_field' => 'parentid',
                             'foreign_sortby' => 'sorting',
                             'foreign_table' => '--inlinetable--',
                             'foreign_table_field' => 'parenttable',
-                            'type' => 'inline'
+                            'type' => 'inline',
                         ],
                         'fullKey' => 'tx_mask_inline',
                         'type' => 'inline',
-                        'key' => 'inline'
+                        'key' => 'inline',
                     ],
                     'tx_mask_inline_e' => [
                         'config' => [
@@ -1015,11 +1015,11 @@ class JsonSplitLoaderTest extends UnitTestCase
                     ],
                     'tx_mask_4e12de3d14bd5' => [
                         'config' => [
-                            'type' => 'palette'
+                            'type' => 'palette',
                         ],
                         'type' => 'palette',
                         'key' => '4e12de3d14bd5',
-                        'fullKey' => 'tx_mask_4e12de3d14bd5'
+                        'fullKey' => 'tx_mask_4e12de3d14bd5',
                     ],
                     'header' => [
                         'coreField' => 1,
@@ -1028,22 +1028,22 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'fullKey' => 'header',
                         'inPalette' => 1,
                         'inlineParent' => [
-                            'b' => 'tx_mask_4e12de3d14bd5'
+                            'b' => 'tx_mask_4e12de3d14bd5',
                         ],
                         'label' => [
-                            'b' => 'Header'
+                            'b' => 'Header',
                         ],
                         'order' => [
-                            'b' => 1
-                        ]
+                            'b' => 1,
+                        ],
                     ],
                     'tx_mask_file' => [
                         'config' => [
                             'appearance' => [
-                                'fileUploadAllowed' => 1
+                                'fileUploadAllowed' => 1,
                             ],
                             'type' => 'inline',
-                            'foreign_table' => 'sys_file_reference'
+                            'foreign_table' => 'sys_file_reference',
                         ],
                         'type' => 'file',
                         'key' => 'file',
@@ -1052,33 +1052,33 @@ class JsonSplitLoaderTest extends UnitTestCase
                     ],
                     'tx_mask_palette' => [
                         'config' => [
-                            'type' => 'palette'
+                            'type' => 'palette',
                         ],
                         'type' => 'palette',
                         'key' => 'palette',
-                        'fullKey' => 'tx_mask_palette'
-                    ]
+                        'fullKey' => 'tx_mask_palette',
+                    ],
                 ],
                 'palettes' => [
                     'tx_mask_4e12de3d14bd5' => [
                         'label' => 'Palette 1',
                         'description' => '',
-                        'showitem' => ['header']
+                        'showitem' => ['header'],
                     ],
                     'tx_mask_palette' => [
                         'label' => 'Palette 1',
                         'description' => 'Description for palette 1',
-                        'showitem' => ['tx_mask_inline']
-                    ]
-                ]
+                        'showitem' => ['tx_mask_inline'],
+                    ],
+                ],
             ],
             'sys_file_reference' => [
                 'sql' => [
                     'tx_mask_file' => [
                         'sys_file_reference' => [
-                            'tx_mask_file' => 'int(11) unsigned DEFAULT \'0\' NOT NULL'
-                        ]
-                    ]
+                            'tx_mask_file' => 'int(11) unsigned DEFAULT \'0\' NOT NULL',
+                        ],
+                    ],
                 ],
             ],
         ];

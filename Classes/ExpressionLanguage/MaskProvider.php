@@ -24,7 +24,7 @@ class MaskProvider extends AbstractProvider
     {
         $this->expressionLanguageProviders = [
             Typo3ConditionFunctionsProvider::class,
-            MaskFunctionsProvider::class
+            MaskFunctionsProvider::class,
         ];
     }
 }

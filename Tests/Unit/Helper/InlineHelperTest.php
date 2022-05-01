@@ -42,30 +42,30 @@ class InlineHelperTest extends BaseTestCase
                                 'key' => 'element_1',
                                 'label' => 'Element 1',
                                 'columns' => [
-                                    'tx_mask_file'
+                                    'tx_mask_file',
                                 ],
                                 'labels' => [
-                                    ''
-                                ]
-                            ]
+                                    '',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_file' => [
                                 'config' => [
-                                    'type' => 'inline'
+                                    'type' => 'inline',
                                 ],
                                 'key' => 'file',
-                                'options' => 'file'
-                            ]
-                        ]
-                    ]
+                                'options' => 'file',
+                            ],
+                        ],
+                    ],
                 ],
                 'tx_mask_file',
                 [
                     'uid' => 1,
-                    'tx_mask_file' => 1
+                    'tx_mask_file' => 1,
                 ],
-                'tt_content'
+                'tt_content',
             ],
             'standard file field ist filled' => [
                 [
@@ -75,23 +75,23 @@ class InlineHelperTest extends BaseTestCase
                                 'key' => 'element_1',
                                 'label' => 'Element 1',
                                 'columns' => [
-                                    'assets'
+                                    'assets',
                                 ],
                                 'labels' => [
-                                    ''
-                                ]
-                            ]
+                                    '',
+                                ],
+                            ],
                         ],
-                        'tca' => []
-                    ]
+                        'tca' => [],
+                    ],
                 ],
                 'assets',
                 [
                     'uid' => 1,
-                    'assets' => 1
+                    'assets' => 1,
                 ],
-                'tt_content'
-            ]
+                'tt_content',
+            ],
         ];
     }
 
@@ -105,21 +105,21 @@ class InlineHelperTest extends BaseTestCase
             'media' => [
                 'config' => [
                     'type' => 'inline',
-                    'foreign_table' => 'sys_file_reference'
-                ]
+                    'foreign_table' => 'sys_file_reference',
+                ],
             ],
             'assets' => [
                 'config' => [
                     'type' => 'inline',
-                    'foreign_table' => 'sys_file_reference'
-                ]
+                    'foreign_table' => 'sys_file_reference',
+                ],
             ],
             'image' => [
                 'config' => [
                     'type' => 'inline',
-                    'foreign_table' => 'sys_file_reference'
-                ]
-            ]
+                    'foreign_table' => 'sys_file_reference',
+                ],
+            ],
         ];
 
         $backendLayoutRepository = $this->prophesize(BackendLayoutRepository::class);
@@ -146,39 +146,39 @@ class InlineHelperTest extends BaseTestCase
                                 'key' => 'element_1',
                                 'label' => 'Element 1',
                                 'columns' => [
-                                    'tx_mask_repeat'
+                                    'tx_mask_repeat',
                                 ],
                                 'labels' => [
-                                    ''
-                                ]
-                            ]
+                                    '',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_repeat' => [
                                 'config' => [
-                                    'type' => 'inline'
+                                    'type' => 'inline',
                                 ],
-                                'key' => 'repeat'
-                            ]
-                        ]
+                                'key' => 'repeat',
+                            ],
+                        ],
                     ],
                     'tx_mask_repeat' => [
                         'tca' => [
                             'children_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
                                 'key' => 'children_1',
-                                'label' => 'Children 1'
-                            ]
-                        ]
-                    ]
+                                'label' => 'Children 1',
+                            ],
+                        ],
+                    ],
                 ],
                 'tx_mask_repeat',
                 [
                     'uid' => 1,
                     'CType' => 'mask_element_1',
-                    'tx_mask_repeat' => 2
+                    'tx_mask_repeat' => 2,
                 ],
                 'tt_content',
                 [
@@ -187,8 +187,8 @@ class InlineHelperTest extends BaseTestCase
                     ],
                     [
                         'uid' => 123,
-                    ]
-                ]
+                    ],
+                ],
             ],
             'Inline field is added if in palette' => [
                 [
@@ -198,55 +198,55 @@ class InlineHelperTest extends BaseTestCase
                                 'key' => 'element_1',
                                 'label' => 'Element 1',
                                 'columns' => [
-                                    'tx_mask_palette'
+                                    'tx_mask_palette',
                                 ],
                                 'labels' => [
-                                    ''
-                                ]
-                            ]
+                                    '',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_palette' => [
                                 'config' => [
-                                    'type' => 'palette'
+                                    'type' => 'palette',
                                 ],
-                                'key' => 'palette'
+                                'key' => 'palette',
                             ],
                             'tx_mask_repeat' => [
                                 'config' => [
                                     'type' => 'inline',
                                 ],
                                 'inlineParent' => [
-                                    'element_1' => 'tx_mask_palette'
+                                    'element_1' => 'tx_mask_palette',
                                 ],
-                                'key' => 'repeat'
-                            ]
+                                'key' => 'repeat',
+                            ],
                         ],
                         'palettes' => [
                             'tx_mask_palette' => [
                                 'showitem' => [
-                                    'tx_mask_repeat'
-                                ]
-                            ]
-                        ]
+                                    'tx_mask_repeat',
+                                ],
+                            ],
+                        ],
                     ],
                     'tx_mask_repeat' => [
                         'tca' => [
                             'children_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
                                 'key' => 'children_1',
-                                'label' => 'Children 1'
-                            ]
-                        ]
-                    ]
+                                'label' => 'Children 1',
+                            ],
+                        ],
+                    ],
                 ],
                 'tx_mask_repeat',
                 [
                     'uid' => 1,
                     'CType' => 'mask_element_1',
-                    'tx_mask_repeat' => 2
+                    'tx_mask_repeat' => 2,
                 ],
                 'tt_content',
                 [
@@ -255,9 +255,9 @@ class InlineHelperTest extends BaseTestCase
                     ],
                     [
                         'uid' => 123,
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ];
     }
 
@@ -292,39 +292,39 @@ class InlineHelperTest extends BaseTestCase
                                 'key' => 'element_1',
                                 'label' => 'Element 1',
                                 'columns' => [
-                                    'tx_mask_repeat'
+                                    'tx_mask_repeat',
                                 ],
                                 'labels' => [
-                                    ''
-                                ]
-                            ]
+                                    '',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_repeat' => [
                                 'config' => [
-                                    'type' => 'inline'
+                                    'type' => 'inline',
                                 ],
-                                'key' => 'repeat'
-                            ]
-                        ]
+                                'key' => 'repeat',
+                            ],
+                        ],
                     ],
                     'tx_mask_repeat' => [
                         'tca' => [
                             'children_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
                                 'key' => 'children_1',
-                                'label' => 'Children 1'
-                            ]
-                        ]
-                    ]
+                                'label' => 'Children 1',
+                            ],
+                        ],
+                    ],
                 ],
                 'tx_mask_repeat',
                 [
                     'uid' => 1,
                     'CType' => 'tx_mask_element_1',
-                    'tx_mask_repeat' => 2
+                    'tx_mask_repeat' => 2,
                 ],
                 'pages',
                 [
@@ -333,9 +333,9 @@ class InlineHelperTest extends BaseTestCase
                     ],
                     [
                         'uid' => 123,
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ];
     }
 
@@ -373,39 +373,39 @@ class InlineHelperTest extends BaseTestCase
                                 'key' => 'element_1',
                                 'label' => 'Element 1',
                                 'columns' => [
-                                    'tx_mask_repeat'
+                                    'tx_mask_repeat',
                                 ],
                                 'labels' => [
-                                    ''
-                                ]
-                            ]
+                                    '',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_repeat' => [
                                 'config' => [
-                                    'type' => 'inline'
+                                    'type' => 'inline',
                                 ],
-                                'key' => 'repeat'
-                            ]
-                        ]
+                                'key' => 'repeat',
+                            ],
+                        ],
                     ],
                     'tx_mask_repeat' => [
                         'tca' => [
                             'children_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
                                 'key' => 'children_1',
-                                'label' => 'Children 1'
-                            ]
-                        ]
-                    ]
+                                'label' => 'Children 1',
+                            ],
+                        ],
+                    ],
                 ],
                 'tx_mask_repeat',
                 [
                     'uid' => 1,
                     'CType' => 'tx_mask_element_1',
-                    'tx_mask_repeat' => 2
+                    'tx_mask_repeat' => 2,
                 ],
                 'pages',
                 [
@@ -414,9 +414,9 @@ class InlineHelperTest extends BaseTestCase
                     ],
                     [
                         'uid' => 123,
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ];
     }
 
@@ -452,39 +452,39 @@ class InlineHelperTest extends BaseTestCase
                                 'key' => 'element_1',
                                 'label' => 'Element 1',
                                 'columns' => [
-                                    'tx_mask_repeat'
+                                    'tx_mask_repeat',
                                 ],
                                 'labels' => [
-                                    ''
-                                ]
-                            ]
+                                    '',
+                                ],
+                            ],
                         ],
                         'tca' => [
                             'tx_mask_repeat' => [
                                 'config' => [
-                                    'type' => 'inline'
+                                    'type' => 'inline',
                                 ],
-                                'key' => 'repeat'
-                            ]
-                        ]
+                                'key' => 'repeat',
+                            ],
+                        ],
                     ],
                     'tx_mask_repeat' => [
                         'tca' => [
                             'children_1' => [
                                 'config' => [
-                                    'type' => 'input'
+                                    'type' => 'input',
                                 ],
                                 'key' => 'children_1',
-                                'label' => 'Children 1'
-                            ]
-                        ]
-                    ]
+                                'label' => 'Children 1',
+                            ],
+                        ],
+                    ],
                 ],
                 'tx_mask_repeat',
                 [
                     'uid' => 1,
                     'CType' => 'tx_mask_element_1',
-                    'tx_mask_repeat' => 2
+                    'tx_mask_repeat' => 2,
                 ],
                 'tx_mask_repeat_parent',
                 [
@@ -493,9 +493,9 @@ class InlineHelperTest extends BaseTestCase
                     ],
                     [
                         'uid' => 123,
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ];
     }
 

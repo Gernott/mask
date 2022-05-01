@@ -9,20 +9,20 @@ return [
             'config.default' => 6,
         ],
         [
-            'config.items' => 12
+            'config.items' => 12,
         ],
     ],
     Tab::LOCALIZATION => [
         [
-            'l10n_mode' => 12
+            'l10n_mode' => 12,
         ],
         [
-            'config.behaviour.allowLanguageSynchronization' => 6
-        ]
+            'config.behaviour.allowLanguageSynchronization' => 6,
+        ],
     ],
     Tab::EXTENDED => [
         [
-            'config.cols' => 6
-        ]
-    ]
+            'config.cols' => 6,
+        ],
+    ],
 ];

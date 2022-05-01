@@ -9,8 +9,8 @@ return [
             'config.default' => 6,
         ],
         [
-            'config.items' => 12
-        ]
+            'config.items' => 12,
+        ],
     ],
     Tab::ITEM_GROUP_SORTING => [
         [
@@ -21,16 +21,16 @@ return [
     Tab::VALIDATION => [
         [
             'config.minitems' => 6,
-            'config.maxitems' => 6
-        ]
+            'config.maxitems' => 6,
+        ],
     ],
     Tab::DATABASE => [
         [
             'config.foreign_table' => 12,
         ],
         [
-            'config.foreign_table_where' => 12
-        ]
+            'config.foreign_table_where' => 12,
+        ],
     ],
     Tab::FILES => [
         [
@@ -40,16 +40,16 @@ return [
             'config.fileFolderConfig.folder' => 6,
             'config.fileFolderConfig.allowedExtensions' => 6,
             'config.fileFolderConfig.depth' => 6,
-            'config.fieldWizard.selectIcons.disabled' => 6
-        ]
+            'config.fieldWizard.selectIcons.disabled' => 6,
+        ],
     ],
     Tab::LOCALIZATION => [
         [
-            'l10n_mode' => 12
+            'l10n_mode' => 12,
         ],
         [
-            'config.behaviour.allowLanguageSynchronization' => 6
-        ]
+            'config.behaviour.allowLanguageSynchronization' => 6,
+        ],
     ],
     Tab::EXTENDED => [
         [
@@ -58,6 +58,6 @@ return [
         ],
         [
             'config.appearance.expandAll' => 6,
-        ]
-    ]
+        ],
+    ],
 ];

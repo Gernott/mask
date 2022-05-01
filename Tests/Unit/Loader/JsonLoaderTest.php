@@ -82,44 +82,44 @@ class JsonLoaderTest extends UnitTestCase
                 'sql' => [
                     'tx_mask_a' => [
                         'tx_mask_repeat1' => [
-                            'tx_mask_a' => 'varchar(255) DEFAULT \'\' NOT NULL'
-                        ]
-                    ]
+                            'tx_mask_a' => 'varchar(255) DEFAULT \'\' NOT NULL',
+                        ],
+                    ],
                 ],
                 'tca' => [
                     'tx_mask_a' => [
                         'config' => [
-                            'type' => 'input'
+                            'type' => 'input',
                         ],
                         'fullKey' => 'tx_mask_a',
                         'label' => 'A',
                         'type' => 'string',
                         'key' => 'a',
                         'inlineParent' => 'tx_mask_repeat1',
-                        'order' => 1
-                    ]
+                        'order' => 1,
+                    ],
                 ],
             ],
             'tx_mask_inline' => [
                 'sql' => [
                     'tx_mask_field' => [
                         'tx_mask_inline' => [
-                            'tx_mask_field' => 'varchar(255) DEFAULT \'\' NOT NULL'
-                        ]
-                    ]
+                            'tx_mask_field' => 'varchar(255) DEFAULT \'\' NOT NULL',
+                        ],
+                    ],
                 ],
                 'tca' => [
                     'tx_mask_field' => [
                         'config' => [
-                            'type' => 'input'
+                            'type' => 'input',
                         ],
                         'fullKey' => 'tx_mask_field',
                         'label' => 'Field',
                         'type' => 'string',
                         'key' => 'field',
                         'inlineParent' => 'tx_mask_inline',
-                        'order' => 1
-                    ]
+                        'order' => 1,
+                    ],
                 ],
             ],
             'tt_content' => [
@@ -160,17 +160,17 @@ class JsonLoaderTest extends UnitTestCase
                         'columns' => [
                             'tx_mask_a',
                             'tx_mask_b',
-                            'tx_mask_4e12de3d14bd5'
+                            'tx_mask_4e12de3d14bd5',
                         ],
                         'labels' => [
                             'A 2',
                             'B',
-                            'Palette 1'
+                            'Palette 1',
                         ],
                         'descriptions' => [
                             '',
                             '',
-                            ''
+                            '',
                         ],
                         'sorting' => 1,
                         'colorOverlay' => '',
@@ -215,34 +215,34 @@ class JsonLoaderTest extends UnitTestCase
                         'sorting' => 3,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                    ]
+                    ],
                 ],
                 'sql' => [
                     'tx_mask_a' => [
                         'tt_content' => [
-                            'tx_mask_a' => 'varchar(255) DEFAULT \'\' NOT NULL'
-                        ]
+                            'tx_mask_a' => 'varchar(255) DEFAULT \'\' NOT NULL',
+                        ],
                     ],
                     'tx_mask_b' => [
                         'tt_content' => [
-                            'tx_mask_b' => 'varchar(255) DEFAULT \'\' NOT NULL'
-                        ]
+                            'tx_mask_b' => 'varchar(255) DEFAULT \'\' NOT NULL',
+                        ],
                     ],
                     'tx_mask_repeat1' => [
                         'tt_content' => [
-                            'tx_mask_repeat1' => 'int(11) unsigned DEFAULT \'0\' NOT NULL'
-                        ]
+                            'tx_mask_repeat1' => 'int(11) unsigned DEFAULT \'0\' NOT NULL',
+                        ],
                     ],
                     'tx_mask_file' => [
                         'tt_content' => [
-                            'tx_mask_file' => 'int(11) unsigned DEFAULT \'0\' NOT NULL'
-                        ]
-                    ]
+                            'tx_mask_file' => 'int(11) unsigned DEFAULT \'0\' NOT NULL',
+                        ],
+                    ],
                 ],
                 'tca' => [
                     'tx_mask_a' => [
                         'config' => [
-                            'type' => 'input'
+                            'type' => 'input',
                         ],
                         'fullKey' => 'tx_mask_a',
                         'type' => 'string',
@@ -250,7 +250,7 @@ class JsonLoaderTest extends UnitTestCase
                     ],
                     'tx_mask_b' => [
                         'config' => [
-                            'type' => 'input'
+                            'type' => 'input',
                         ],
                         'fullKey' => 'tx_mask_b',
                         'type' => 'string',
@@ -261,50 +261,50 @@ class JsonLoaderTest extends UnitTestCase
                             'appearance' => [
                                 'collapseAll' => 1,
                                 'enabledControls' => [
-                                    'dragdrop' => 1
+                                    'dragdrop' => 1,
                                 ],
                                 'levelLinksPosition' => 'top',
                                 'showAllLocalizationLink' => 1,
-                                'showPossibleLocalizationRecords' => 1
+                                'showPossibleLocalizationRecords' => 1,
                             ],
                             'foreign_field' => 'parentid',
                             'foreign_sortby' => 'sorting',
                             'foreign_table' => '--inlinetable--',
                             'foreign_table_field' => 'parenttable',
-                            'type' => 'inline'
+                            'type' => 'inline',
                         ],
                         'fullKey' => 'tx_mask_repeat1',
                         'type' => 'inline',
-                        'key' => 'repeat1'
+                        'key' => 'repeat1',
                     ],
                     'tx_mask_inline' => [
                         'config' => [
                             'appearance' => [
                                 'collapseAll' => 1,
                                 'enabledControls' => [
-                                    'dragdrop' => 1
+                                    'dragdrop' => 1,
                                 ],
                                 'levelLinksPosition' => 'top',
                                 'showAllLocalizationLink' => 1,
-                                'showPossibleLocalizationRecords' => 1
+                                'showPossibleLocalizationRecords' => 1,
                             ],
                             'foreign_field' => 'parentid',
                             'foreign_sortby' => 'sorting',
                             'foreign_table' => '--inlinetable--',
                             'foreign_table_field' => 'parenttable',
-                            'type' => 'inline'
+                            'type' => 'inline',
                         ],
                         'fullKey' => 'tx_mask_inline',
                         'type' => 'inline',
-                        'key' => 'inline'
+                        'key' => 'inline',
                     ],
                     'tx_mask_4e12de3d14bd5' => [
                         'config' => [
-                            'type' => 'palette'
+                            'type' => 'palette',
                         ],
                         'type' => 'palette',
                         'key' => '4e12de3d14bd5',
-                        'fullKey' => 'tx_mask_4e12de3d14bd5'
+                        'fullKey' => 'tx_mask_4e12de3d14bd5',
                     ],
                     'header' => [
                         'coreField' => 1,
@@ -313,22 +313,22 @@ class JsonLoaderTest extends UnitTestCase
                         'fullKey' => 'header',
                         'inPalette' => 1,
                         'inlineParent' => [
-                            'b' => 'tx_mask_4e12de3d14bd5'
+                            'b' => 'tx_mask_4e12de3d14bd5',
                         ],
                         'label' => [
-                            'b' => 'Header'
+                            'b' => 'Header',
                         ],
                         'order' => [
-                            'b' => 1
+                            'b' => 1,
                         ],
                         'description' => [
-                            'b' => ''
-                        ]
+                            'b' => '',
+                        ],
                     ],
                     'tx_mask_file' => [
                         'config' => [
                             'appearance' => [
-                                'fileUploadAllowed' => 1
+                                'fileUploadAllowed' => 1,
                             ],
                             'type' => 'inline',
                             'foreign_table' => 'sys_file_reference',
@@ -340,54 +340,54 @@ class JsonLoaderTest extends UnitTestCase
                     ],
                     'tx_mask_palette' => [
                         'config' => [
-                            'type' => 'palette'
+                            'type' => 'palette',
                         ],
                         'type' => 'palette',
                         'key' => 'palette',
-                        'fullKey' => 'tx_mask_palette'
+                        'fullKey' => 'tx_mask_palette',
                     ],
                     'tx_mask_im_just_empty' => [
                         'config' => [
                             'appearance' => [
                                 'collapseAll' => 1,
                                 'enabledControls' => [
-                                    'dragdrop' => 1
+                                    'dragdrop' => 1,
                                 ],
                                 'levelLinksPosition' => 'top',
                                 'showAllLocalizationLink' => 1,
-                                'showPossibleLocalizationRecords' => 1
+                                'showPossibleLocalizationRecords' => 1,
                             ],
                             'foreign_field' => 'parentid',
                             'foreign_sortby' => 'sorting',
                             'foreign_table' => '--inlinetable--',
                             'foreign_table_field' => 'parenttable',
-                            'type' => 'inline'
+                            'type' => 'inline',
                         ],
                         'fullKey' => 'tx_mask_im_just_empty',
                         'type' => 'inline',
-                        'key' => 'im_just_empty'
-                    ]
+                        'key' => 'im_just_empty',
+                    ],
                 ],
                 'palettes' => [
                     'tx_mask_4e12de3d14bd5' => [
                         'label' => 'Palette 1',
                         'description' => '',
-                        'showitem' => ['header']
+                        'showitem' => ['header'],
                     ],
                     'tx_mask_palette' => [
                         'label' => 'Palette 1',
                         'description' => 'Description for palette 1',
-                        'showitem' => ['tx_mask_inline']
-                    ]
-                ]
+                        'showitem' => ['tx_mask_inline'],
+                    ],
+                ],
             ],
             'sys_file_reference' => [
                 'sql' => [
                     'tx_mask_file' => [
                         'sys_file_reference' => [
-                            'tx_mask_file' => 'int(11) unsigned DEFAULT \'0\' NOT NULL'
-                        ]
-                    ]
+                            'tx_mask_file' => 'int(11) unsigned DEFAULT \'0\' NOT NULL',
+                        ],
+                    ],
                 ],
             ],
             'tx_mask_im_just_empty' => [],

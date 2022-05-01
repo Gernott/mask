@@ -28,15 +28,15 @@ class ElementDefinitionCollectionTest extends UnitTestCase
             'json' => [
                 'element1' => [
                     'key' => 'element1',
-                    'label' => 'Element1'
+                    'label' => 'Element1',
                 ],
                 'element2' => [
                     'key' => 'element2',
-                    'label' => 'Element2'
+                    'label' => 'Element2',
                 ],
                 'element3' => [
                     'key' => 'element3',
-                    'label' => 'Element3'
+                    'label' => 'Element3',
                 ],
             ],
             'expected' => [
@@ -82,7 +82,7 @@ class ElementDefinitionCollectionTest extends UnitTestCase
                     'colorOverlay' => '',
                     'iconOverlay' => '',
                 ],
-            ]
+            ],
         ];
 
         yield 'Sorting of elements is preserved with sorting set' => [
@@ -146,7 +146,7 @@ class ElementDefinitionCollectionTest extends UnitTestCase
                     'colorOverlay' => '',
                     'iconOverlay' => '',
                 ],
-            ]
+            ],
         ];
 
         yield 'Sorting of elements is preserved with real sorting set' => [
@@ -210,7 +210,7 @@ class ElementDefinitionCollectionTest extends UnitTestCase
                     'colorOverlay' => '',
                     'iconOverlay' => '',
                 ],
-            ]
+            ],
         ];
     }
 

@@ -360,7 +360,7 @@ class AjaxController
                 $image = $this->resourceFactory->retrieveFileOrFolderObject($iconPath);
                 $processingInstructions = [
                     'width' => '32',
-                    'height' => '32c'
+                    'height' => '32c',
                 ];
                 if ($image instanceof File) {
                     $processedImage = $image->process(ProcessedFile::CONTEXT_IMAGECROPSCALEMASK, $processingInstructions);
@@ -371,7 +371,7 @@ class AjaxController
                 'key' => $key,
                 'title' => $backendLayout->getTitle(),
                 'description' => $backendLayout->getDescription(),
-                'icon' => $backendLayout->getIconPath()
+                'icon' => $backendLayout->getIconPath(),
             ];
         }
         return new JsonResponse($json);
@@ -450,8 +450,8 @@ class AjaxController
                 'group' => $grouping[$type],
                 'newField' => true,
                 'tca' => [
-                    'l10n_mode' => ''
-                ]
+                    'l10n_mode' => '',
+                ],
             ];
 
             if (isset($defaults[$type]['tca_in'])) {
@@ -471,33 +471,33 @@ class AjaxController
                 'groups' => [
                     [
                         'name' => 'input',
-                        'label' => $this->translateLabel('tx_mask.input')
+                        'label' => $this->translateLabel('tx_mask.input'),
                     ],
                     [
                         'name' => 'text',
-                        'label' => $this->translateLabel('tx_mask.text')
+                        'label' => $this->translateLabel('tx_mask.text'),
                     ],
                     [
                         'name' => 'date',
-                        'label' => $this->translateLabel('tx_mask.date')
+                        'label' => $this->translateLabel('tx_mask.date'),
                     ],
                     [
                         'name' => 'choice',
-                        'label' => $this->translateLabel('tx_mask.choice')
+                        'label' => $this->translateLabel('tx_mask.choice'),
                     ],
                     [
                         'name' => 'special',
-                        'label' => $this->translateLabel('tx_mask.special')
+                        'label' => $this->translateLabel('tx_mask.special'),
                     ],
                     [
                         'name' => 'repeating',
-                        'label' => $this->translateLabel('tx_mask.repeating')
+                        'label' => $this->translateLabel('tx_mask.repeating'),
                     ],
                     [
                         'name' => 'structure',
-                        'label' => $this->translateLabel('tx_mask.structure')
-                    ]
-                ]
+                        'label' => $this->translateLabel('tx_mask.structure'),
+                    ],
+                ],
             ]
         );
     }
@@ -606,7 +606,7 @@ class AjaxController
             'Directional' => ['angle-double-down', 'angle-double-left', 'angle-double-right', 'angle-double-up', 'angle-down', 'angle-left', 'angle-right', 'angle-up', 'arrow-circle-down', 'arrow-circle-left', 'arrow-circle-o-down', 'arrow-circle-o-left', 'arrow-circle-o-right', 'arrow-circle-o-up', 'arrow-circle-right', 'arrow-circle-up', 'arrow-down', 'arrow-left', 'arrow-right', 'arrow-up', 'arrows', 'arrows-h', 'arrows-v', 'caret-down', 'caret-left', 'caret-right', 'caret-square-o-down', 'caret-square-o-left', 'caret-square-o-right', 'caret-square-o-up', 'caret-up', 'chevron-circle-down', 'chevron-circle-left', 'chevron-circle-right', 'chevron-circle-up', 'chevron-down', 'chevron-left', 'chevron-right', 'chevron-up', 'exchange', 'long-arrow-down', 'long-arrow-left', 'long-arrow-right', 'long-arrow-up', 'toggle-down', 'toggle-left', 'toggle-right', 'toggle-up'],
             'Video Player' => ['arrows-alt', 'backward', 'compress', 'eject', 'expand', 'fast-backward', 'fast-forward', 'forward', 'pause', 'pause-circle', 'pause-circle-o', 'play', 'play-circle', 'play-circle-o', 'random', 'step-backward', 'step-forward', 'stop', 'stop-circle', 'stop-circle-o'],
             'Brand' => ['500px', 'adn', 'amazon', 'android', 'angellist', 'apple', 'bandcamp', 'behance', 'behance-square', 'bitbucket', 'bitbucket-square', 'bitcoin', 'black-tie', 'bluetooth', 'bluetooth-b', 'buysellads', 'paypal', 'chrome', 'codepen', 'codiepie', 'connectdevelop', 'contao', 'css3', 'dashcube', 'delicious', 'deviantart', 'digg', 'dribbble', 'dropbox', 'drupal', 'edge', 'eercast', 'empire', 'envira', 'etsy', 'expeditedssl', 'fa', 'facebook', 'facebook-f', 'facebook-official', 'facebook-square', 'firefox', 'first-order', 'flickr', 'font-awesome', 'fonticons', 'fort-awesome', 'forumbee', 'foursquare', 'free-code-camp', 'ge', 'get-pocket', 'gg', 'git', 'git-square', 'github', 'github-alt', 'github-square', 'gitlab', 'gittip', 'glide', 'glide-g', 'google', 'google-plus', 'google-plus-circle', 'google-plus-official', 'google-plus-square', 'gratipay', 'grav', 'hacker-news', 'houzz', 'html5', 'imdb', 'instagram', 'internet-explorer', 'ioxhost', 'joomla', 'jsfiddle', 'lastfm', 'lastfm-square', 'leanpub', 'linkedin', 'linkedin-square', 'linode', 'linux', 'maxcdn', 'meanpath', 'medium', 'meetup', 'mixcloud', 'modx', 'odnoklassniki', 'odnoklassniki-square', 'opencart', 'openid', 'opera', 'optin-monster', 'pagelines', 'pied-piper', 'pied-piper-alt', 'pied-piper-pp', 'pinterest', 'pinterest-p', 'pinterest-square', 'product-hunt', 'qq', 'quora', 'ra', 'ravelry', 'rebel', 'reddit', 'reddit-alien', 'reddit-square', 'renren', 'resistance', 'safari', 'scribd', 'sellsy', 'share-alt', 'share-alt-square', 'shirtsinbulk', 'simplybuilt', 'skyatlas', 'skype', 'slack', 'slideshare', 'snapchat', 'snapchat-ghost', 'snapchat-square', 'soundcloud', 'spotify', 'stack-exchange', 'stack-overflow', 'steam', 'steam-square', 'stumbleupon', 'stumbleupon-circle', 'superpowers', 'telegram', 'tencent-weibo', 'themeisle', 'trello', 'tripadvisor', 'tumblr', 'tumblr-square', 'twitch', 'twitter', 'twitter-square', 'usb', 'viadeo', 'viadeo-square', 'vimeo', 'vimeo-square', 'vine', 'vk', 'wechat', 'weibo', 'weixin', 'whatsapp', 'wikipedia-w', 'windows', 'wordpress', 'wpbeginner', 'wpexplorer', 'wpforms', 'xing', 'xing-square', 'y-combinator', 'y-combinator-square', 'yahoo', 'yc', 'yc-square', 'yelp', 'yoast', 'youtube', 'youtube-play', 'youtube-square'],
-            'Medical' => ['ambulance', 'h-square', 'heart', 'heart-o', 'heartbeat', 'hospital-o', 'medkit', 'stethoscope', 'user-md']
+            'Medical' => ['ambulance', 'h-square', 'heart', 'heart-o', 'heartbeat', 'hospital-o', 'medkit', 'stethoscope', 'user-md'],
         ];
         foreach ($icons as $category => $values) {
             $icons[$category] = array_map(function ($item) {
@@ -650,7 +650,7 @@ class AjaxController
                 'pages',
                 'selected_categories',
                 'category_field',
-            ]
+            ],
         ];
 
         $table = $request->getQueryParams()['table'];
@@ -939,7 +939,7 @@ class AjaxController
         return new JsonResponse(
             [
                 'typo3' => $typo3Version->getMajorVersion(),
-                'mask' => ltrim(ExtensionManagementUtility::getExtensionVersion('mask'), 'v')
+                'mask' => ltrim(ExtensionManagementUtility::getExtensionVersion('mask'), 'v'),
             ]
         );
     }

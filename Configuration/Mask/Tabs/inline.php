@@ -6,14 +6,14 @@ return [
     Tab::GENERAL => [
         [
             'ctrl.label' => 6,
-            'ctrl.iconfile' => 6
-        ]
+            'ctrl.iconfile' => 6,
+        ],
     ],
     Tab::VALIDATION => [
         [
             'config.minitems' => 6,
-            'config.maxitems' => 6
-        ]
+            'config.maxitems' => 6,
+        ],
     ],
     TAB::APPEARANCE => [
         [
@@ -37,19 +37,19 @@ return [
             'config.appearance.enabledControls.hide' => 4,
             'config.appearance.enabledControls.delete' => 4,
             'config.appearance.enabledControls.localize' => 4,
-        ]
+        ],
     ],
     Tab::LOCALIZATION => [
         [
-            'l10n_mode' => 12
+            'l10n_mode' => 12,
         ],
         [
-            'config.behaviour.allowLanguageSynchronization' => 6
+            'config.behaviour.allowLanguageSynchronization' => 6,
         ],
         [
             'config.appearance.showPossibleLocalizationRecords' => 6,
             'config.appearance.showAllLocalizationLink' => 6,
             'config.appearance.showSynchronizationLink' => 6,
-        ]
+        ],
     ],
 ];

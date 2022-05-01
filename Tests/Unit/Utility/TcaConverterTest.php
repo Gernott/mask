@@ -28,31 +28,31 @@ class TcaConverterTest extends BaseTestCase
             'Simple array converted to flat' => [
                 [
                     'type' => 'input',
-                    'max' => '1'
+                    'max' => '1',
                 ],
                 [
                     'config.type' => 'input',
-                    'config.max' => '1'
-                ]
+                    'config.max' => '1',
+                ],
             ],
             'Nested array converted to flat' => [
                 [
                     'type' => 'input',
                     'nested' => [
-                        'option' => '1'
-                    ]
+                        'option' => '1',
+                    ],
                 ],
                 [
                     'config.type' => 'input',
-                    'config.nested.option' => '1'
-                ]
+                    'config.nested.option' => '1',
+                ],
             ],
             'Items are kept as array' => [
                 [
                     'items' => [
                         ['label', 'item'],
                         ['label2', 'item2'],
-                    ]
+                    ],
                 ],
                 [
                     'config.items' => [
@@ -66,7 +66,7 @@ class TcaConverterTest extends BaseTestCase
                     'items' => [
                         [0 => 'label', 1 => 'item', 'key' => 'value'],
                         [0 => 'label2', 1 => 'item2', 'key' => 'value'],
-                    ]
+                    ],
                 ],
                 [
                     'config.items' => [
@@ -77,61 +77,61 @@ class TcaConverterTest extends BaseTestCase
             ],
             'Eval values converted as seperate entries' => [
                 [
-                    'eval' => 'required,int'
+                    'eval' => 'required,int',
                 ],
                 [
                     'config.eval.required' => 1,
                     'config.eval.int' => 1,
-                ]
+                ],
             ],
             'Empty eval values are ignored' => [
                 [
-                    'eval' => ''
+                    'eval' => '',
                 ],
-                []
+                [],
             ],
             'Date types in eval moved to config.eval instead' => [
                 [
-                    'eval' => 'date'
+                    'eval' => 'date',
                 ],
                 [
-                    'config.eval' => 'date'
-                ]
+                    'config.eval' => 'date',
+                ],
             ],
             'blindLinkOptions values converted to array' => [
                 [
                     'fieldControl' => [
                         'linkPopup' => [
                             'options' => [
-                                'blindLinkOptions' => 'file,folder'
-                            ]
-                        ]
-                    ]
+                                'blindLinkOptions' => 'file,folder',
+                            ],
+                        ],
+                    ],
                 ],
                 [
                     'config.fieldControl.linkPopup.options.blindLinkOptions' => [
                         'file',
                         'folder',
-                    ]
-                ]
+                    ],
+                ],
             ],
             'slug fields converted to flat array structure' => [
                 [
                     'generatorOptions' => [
                         'fields' => [
                             ['a', 'b'],
-                            'c'
-                        ]
-                    ]
+                            'c',
+                        ],
+                    ],
                 ],
                 [
-                    'config.generatorOptions.fields' => 'a|b,c'
+                    'config.generatorOptions.fields' => 'a|b,c',
                 ],
             ],
             'slug eval converted to special slug eval' => [
                 [
                     'type' => 'slug',
-                    'eval' => 'unique'
+                    'eval' => 'unique',
                 ],
                 [
                     'config.type' => 'slug',
@@ -144,8 +144,8 @@ class TcaConverterTest extends BaseTestCase
                         'replacements' => [
                             'a' => 'b',
                             'c' => '',
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
                 [
                     'config.generatorOptions.replacements' => [
@@ -165,7 +165,7 @@ class TcaConverterTest extends BaseTestCase
                     'itemGroups' => [
                         'group1' => 'Label Group 1',
                         'group2' => 'Label Group 2',
-                    ]
+                    ],
                 ],
                 [
                     'config.itemGroups' => [
@@ -176,7 +176,7 @@ class TcaConverterTest extends BaseTestCase
                         [
                             'key' => 'group2',
                             'value' => 'Label Group 2',
-                        ]
+                        ],
                     ],
                 ],
             ],
@@ -197,41 +197,41 @@ class TcaConverterTest extends BaseTestCase
         return [
             'Simple flat array is converted to original TCA array' => [
                 [
-                    'config.type' => 'input'
+                    'config.type' => 'input',
                 ],
                 [
                     'config' => [
-                        'type' => 'input'
-                    ]
-                ]
+                        'type' => 'input',
+                    ],
+                ],
             ],
             'Nested flat array is converted to original TCA array' => [
                 [
-                    'config.nested.option' => 'value'
+                    'config.nested.option' => 'value',
                 ],
                 [
                     'config' => [
                         'nested' => [
-                            'option' => 'value'
-                        ]
-                    ]
-                ]
+                            'option' => 'value',
+                        ],
+                    ],
+                ],
             ],
             'Items are trimmed' => [
                 [
                     'config.items' => [
                         [' label', ' item'],
                         ['label2 ', 'item2 '],
-                    ]
+                    ],
                 ],
                 [
                     'config' => [
                         'items' => [
                             ['label', 'item'],
                             ['label2', 'item2'],
-                        ]
-                    ]
-                ]
+                        ],
+                    ],
+                ],
             ],
             'Eval values converted to comma separated list' => [
                 [
@@ -240,9 +240,9 @@ class TcaConverterTest extends BaseTestCase
                 ],
                 [
                     'config' => [
-                        'eval' => 'required,int'
-                    ]
-                ]
+                        'eval' => 'required,int',
+                    ],
+                ],
             ],
             'Date eval value moves back to eval list' => [
                 [
@@ -251,43 +251,43 @@ class TcaConverterTest extends BaseTestCase
                 ],
                 [
                     'config' => [
-                        'eval' => 'required,date'
-                    ]
-                ]
+                        'eval' => 'required,date',
+                    ],
+                ],
             ],
             'blindLinkOptions values converted to comma separated list' => [
                 [
                     'config.fieldControl.linkPopup.options.blindLinkOptions' => [
                         'file',
                         'folder',
-                    ]
+                    ],
                 ],
                 [
                     'config' => [
                         'fieldControl' => [
                             'linkPopup' => [
                                 'options' => [
-                                    'blindLinkOptions' => 'file,folder'
-                                ]
-                            ]
-                        ]
-                    ]
+                                    'blindLinkOptions' => 'file,folder',
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
             ],
             'slug fields converted to nested array structure' => [
                 [
-                    'config.generatorOptions.fields' => 'a|b,c'
+                    'config.generatorOptions.fields' => 'a|b,c',
                 ],
                 [
                     'config' => [
                         'generatorOptions' => [
                             'fields' => [
                                 ['a', 'b'],
-                                'c'
-                            ]
-                        ]
-                    ]
-                ]
+                                'c',
+                            ],
+                        ],
+                    ],
+                ],
             ],
             'slug eval converted to normal eval' => [
                 [
@@ -298,8 +298,8 @@ class TcaConverterTest extends BaseTestCase
                     'config' => [
                         'type' => 'slug',
                         'eval' => 'unique',
-                    ]
-                ]
+                    ],
+                ],
             ],
             'slug replacements key value pairs transformed to associative array' => [
                 [
@@ -320,9 +320,9 @@ class TcaConverterTest extends BaseTestCase
                             'replacements' => [
                                 'a' => 'b',
                                 'c' => '',
-                            ]
-                        ]
-                    ]
+                            ],
+                        ],
+                    ],
                 ],
             ],
             'key value pairs transformed to associative array' => [
@@ -335,7 +335,7 @@ class TcaConverterTest extends BaseTestCase
                         [
                             'key' => 'group2',
                             'value' => 'Label Group 2',
-                        ]
+                        ],
                     ],
                 ],
                 [
@@ -343,9 +343,9 @@ class TcaConverterTest extends BaseTestCase
                         'itemGroups' => [
                             'group1' => 'Label Group 1',
                             'group2' => 'Label Group 2',
-                        ]
-                    ]
-                ]
+                        ],
+                    ],
+                ],
             ],
         ];
     }

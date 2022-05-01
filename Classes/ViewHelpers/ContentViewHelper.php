@@ -53,7 +53,7 @@ class ContentViewHelper extends AbstractViewHelper
         $conf = [
             'tables' => 'tt_content',
             'source' => $this->arguments['uid'],
-            'dontCheckPid' => 1
+            'dontCheckPid' => 1,
         ];
         return $this->cObj->cObjGetSingle('RECORDS', $conf);
     }

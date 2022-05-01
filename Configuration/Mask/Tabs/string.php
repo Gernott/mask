@@ -9,8 +9,8 @@ return [
             'config.placeholder' => 6,
         ],
         [
-            'config.size' => 6
-        ]
+            'config.size' => 6,
+        ],
     ],
     Tab::VALIDATION => [
         [
@@ -31,21 +31,21 @@ return [
             'config.eval.unique' => 6,
             'config.eval.uniqueInPid' => 6,
             'config.eval.nospace' => 6,
-        ]
+        ],
     ],
     Tab::VALUE_PICKER => [
         [
             'config.valuePicker.mode' => 6,
             'config.valuePicker.items' => 12,
-        ]
+        ],
     ],
     Tab::LOCALIZATION => [
         [
-            'l10n_mode' => 12
+            'l10n_mode' => 12,
         ],
         [
-            'config.behaviour.allowLanguageSynchronization' => 6
-        ]
+            'config.behaviour.allowLanguageSynchronization' => 6,
+        ],
     ],
     Tab::EXTENDED => [
         [
@@ -53,7 +53,7 @@ return [
             'config.mode' => 6,
             'config.eval.md5' => 6,
             'config.eval.password' => 6,
-            'config.autocomplete' => 6
-        ]
-    ]
+            'config.autocomplete' => 6,
+        ],
+    ],
 ];

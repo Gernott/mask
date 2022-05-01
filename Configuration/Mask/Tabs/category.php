@@ -12,14 +12,14 @@ return [
         ],
         [
             'config.treeConfig.startingPoints' => 12,
-        ]
+        ],
     ],
     Tab::VALIDATION => [
         [
             'config.minitems' => 6,
             'config.maxitems' => 6,
             'config.exclusiveKeys' => 6,
-        ]
+        ],
     ],
     Tab::APPEARANCE => [
         [
@@ -28,16 +28,16 @@ return [
         ],
         [
             'config.treeConfig.appearance.nonSelectableLevels' => 6,
-        ]
+        ],
     ],
     Tab::LOCALIZATION => [
         [
-            'config.behaviour.allowLanguageSynchronization' => 6
-        ]
+            'config.behaviour.allowLanguageSynchronization' => 6,
+        ],
     ],
     Tab::EXTENDED => [
         [
             'config.size' => 6,
-        ]
-    ]
+        ],
+    ],
 ];

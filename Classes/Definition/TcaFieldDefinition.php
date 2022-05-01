@@ -39,7 +39,7 @@ final class TcaFieldDefinition
             'config.itemGroups',
         ],
         FieldType::SLUG => [
-            'config.generatorOptions.replacements'
+            'config.generatorOptions.replacements',
         ],
     ];
 

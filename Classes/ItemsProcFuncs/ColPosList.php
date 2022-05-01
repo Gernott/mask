@@ -40,8 +40,8 @@ class ColPosList
                     $this->getLanguageService()->sL('LLL:EXT:mask/Resources/Private/Language/locallang.xlf:mask_content_colpos'),
                     999,
                     null,
-                    null
-                ]
+                    null,
+                ],
             ];
         // if it is not inline tt_content element
         // and if other itemsProcFunc from other extension was available (e.g. gridelements),

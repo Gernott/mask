@@ -187,7 +187,7 @@ class TcaCodeGenerator
                     $label,
                     $cTypeKey,
                     'mask-ce-' . $element->key,
-                    'mask'
+                    'mask',
                 ]
             );
 
@@ -308,7 +308,7 @@ class TcaCodeGenerator
         return [
             'label' => $palette->label,
             'description' => $description,
-            'showitem' => implode(',', $showitem)
+            'showitem' => implode(',', $showitem),
         ];
     }
 
@@ -356,33 +356,33 @@ class TcaCodeGenerator
                                 '0' => [
                                     'showitem' => '
                                 --palette--;;imageoverlayPalette,
-                                --palette--;;filePalette'
+                                --palette--;;filePalette',
                                 ],
                                 File::FILETYPE_TEXT => [
                                     'showitem' => '
                                 --palette--;;imageoverlayPalette,
-                                --palette--;;filePalette'
+                                --palette--;;filePalette',
                                 ],
                                 File::FILETYPE_IMAGE => [
                                     'showitem' => '
                                 --palette--;;imageoverlayPalette,
-                                --palette--;;filePalette'
+                                --palette--;;filePalette',
                                 ],
                                 File::FILETYPE_AUDIO => [
                                     'showitem' => '
                                 --palette--;;audioOverlayPalette,
-                                --palette--;;filePalette'
+                                --palette--;;filePalette',
                                 ],
                                 File::FILETYPE_VIDEO => [
                                     'showitem' => '
                                 --palette--;;videoOverlayPalette,
-                                --palette--;;filePalette'
+                                --palette--;;filePalette',
                                 ],
                                 File::FILETYPE_APPLICATION => [
                                     'showitem' => '
                                 --palette--;;imageoverlayPalette,
-                                --palette--;;filePalette'
-                                ]
+                                --palette--;;filePalette',
+                                ],
                             ],
                         ],
                     ];
@@ -451,8 +451,8 @@ class TcaCodeGenerator
                 if ($table === 'tt_content') {
                     $additionalTca[$parentField] = [
                         'config' => [
-                            'type' => 'passthrough'
-                        ]
+                            'type' => 'passthrough',
+                        ],
                     ];
                 }
                 if (!empty($field->cTypes)) {
@@ -653,7 +653,7 @@ class TcaCodeGenerator
     {
         if ((new Typo3Version())->getMajorVersion() === 11) {
             $sys_language_uid = [
-                'type' => 'language'
+                'type' => 'language',
             ];
         } else {
             $sys_language_uid = [
@@ -664,7 +664,7 @@ class TcaCodeGenerator
                     [
                         'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.allLanguages',
                         -1,
-                        'flags-multiple'
+                        'flags-multiple',
                     ],
                 ],
                 'default' => 0,
@@ -689,7 +689,7 @@ class TcaCodeGenerator
                     'disabled' => 'hidden',
                     'starttime' => 'starttime',
                     'endtime' => 'endtime',
-                    'fe_group' => 'fe_group'
+                    'fe_group' => 'fe_group',
                 ],
             ],
             'palettes' => [
@@ -725,14 +725,14 @@ class TcaCodeGenerator
                             [
                                 0 => '',
                                 1 => '',
-                            ]
+                            ],
                         ],
-                    ]
+                    ],
                 ],
                 'sys_language_uid' => [
                     'exclude' => true,
                     'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
-                    'config' => $sys_language_uid
+                    'config' => $sys_language_uid,
                 ],
                 'l10n_parent' => [
                     'displayCond' => 'FIELD:sys_language_uid:>:0',
@@ -743,15 +743,15 @@ class TcaCodeGenerator
                         'items' => [
                             [
                                 '',
-                                0
-                            ]
+                                0,
+                            ],
                         ],
-                        'default' => 0
-                    ]
+                        'default' => 0,
+                    ],
                 ],
                 'l10n_diffsource' => [
                     'config' => [
-                        'type' => 'passthrough'
+                        'type' => 'passthrough',
                     ],
                 ],
                 'hidden' => [
@@ -764,10 +764,10 @@ class TcaCodeGenerator
                             [
                                 0 => '',
                                 1 => '',
-                                'invertStateDisplay' => true
-                            ]
+                                'invertStateDisplay' => true,
+                            ],
                         ],
-                    ]
+                    ],
                 ],
                 'starttime' => [
                     'exclude' => true,
@@ -776,10 +776,10 @@ class TcaCodeGenerator
                         'type' => 'input',
                         'renderType' => 'inputDateTime',
                         'eval' => 'datetime,int',
-                        'default' => 0
+                        'default' => 0,
                     ],
                     'l10n_mode' => 'exclude',
-                    'l10n_display' => 'defaultAsReadonly'
+                    'l10n_display' => 'defaultAsReadonly',
                 ],
                 'endtime' => [
                     'exclude' => true,
@@ -790,11 +790,11 @@ class TcaCodeGenerator
                         'eval' => 'datetime,int',
                         'default' => 0,
                         'range' => [
-                            'upper' => mktime(0, 0, 0, 1, 1, 2038)
-                        ]
+                            'upper' => mktime(0, 0, 0, 1, 1, 2038),
+                        ],
                     ],
                     'l10n_mode' => 'exclude',
-                    'l10n_display' => 'defaultAsReadonly'
+                    'l10n_display' => 'defaultAsReadonly',
                 ],
                 'fe_group' => [
                     'exclude' => true,
@@ -807,20 +807,20 @@ class TcaCodeGenerator
                         'items' => [
                             [
                                 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.hide_at_login',
-                                -1
+                                -1,
                             ],
                             [
                                 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.any_login',
-                                -2
+                                -2,
                             ],
                             [
                                 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.usergroups',
-                                '--div--'
-                            ]
+                                '--div--',
+                            ],
                         ],
                         'exclusiveKeys' => '-1,-2',
                         'foreign_table' => 'fe_groups',
-                    ]
+                    ],
                 ],
                 'parentid' => [
                     'config' => [
@@ -829,7 +829,7 @@ class TcaCodeGenerator
                         'items' => [
                             ['', 0],
                         ],
-                        'default' => 0
+                        'default' => 0,
                     ],
                 ],
                 'parenttable' => [

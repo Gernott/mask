@@ -6,12 +6,12 @@ return [
     Tab::GENERAL => [
         [
             'config.default' => 6,
-            'config.placeholder' => 6
+            'config.placeholder' => 6,
         ],
         [
             'config.cols' => 6,
             'config.rows' => 6,
-        ]
+        ],
     ],
     Tab::VALIDATION => [
         [
@@ -20,20 +20,20 @@ return [
         [
             'config.eval.required' => 6,
             'config.eval.trim' => 6,
-        ]
+        ],
     ],
     Tab::LOCALIZATION => [
         [
-            'l10n_mode' => 12
+            'l10n_mode' => 12,
         ],
         [
-            'config.behaviour.allowLanguageSynchronization' => 6
-        ]
+            'config.behaviour.allowLanguageSynchronization' => 6,
+        ],
     ],
     Tab::WIZARDS => [
         [
-            'config.format' => 6
-        ]
+            'config.format' => 6,
+        ],
     ],
     Tab::EXTENDED => [
         [
@@ -41,7 +41,7 @@ return [
             'config.mode' => 6,
             'config.fixedFont' => 6,
             'config.enableTabulator' => 6,
-            'config.wrap' => 6
-        ]
-    ]
+            'config.wrap' => 6,
+        ],
+    ],
 ];

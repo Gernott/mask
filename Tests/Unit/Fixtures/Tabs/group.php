@@ -6,14 +6,14 @@ return [
     Tab::GENERAL => [
         [
             'config.internal_type' => 6,
-            'config.allowed' => 6
-        ]
+            'config.allowed' => 6,
+        ],
     ],
     Tab::VALIDATION => [
         [
             'config.minitems' => 6,
-            'config.maxitems' => 6
-        ]
+            'config.maxitems' => 6,
+        ],
     ],
     Tab::FIELD_CONTROL => [
         [
@@ -27,24 +27,24 @@ return [
         [
             'config.fieldWizard' => 12,
             'config.fieldWizard.recordsOverview.disabled' => 4,
-            'config.fieldWizard.tableList.disabled' => 4
-        ]
+            'config.fieldWizard.tableList.disabled' => 4,
+        ],
     ],
     Tab::LOCALIZATION => [
         [
-            'l10n_mode' => 12
+            'l10n_mode' => 12,
         ],
         [
-            'config.behaviour.allowLanguageSynchronization' => 6
-        ]
+            'config.behaviour.allowLanguageSynchronization' => 6,
+        ],
     ],
     Tab::EXTENDED => [
         [
             'config.size' => 6,
-            'config.autoSizeMax' => 6
+            'config.autoSizeMax' => 6,
         ],
         [
-            'config.multiple' => 6
-        ]
-    ]
+            'config.multiple' => 6,
+        ],
+    ],
 ];

@@ -97,9 +97,9 @@ class TyposcriptCodeGenerator
                     'title' => $element->label,
                     'description' => $element->description,
                     'tt_content_defValues' => [
-                        'CType' => $cTypeKey
-                    ]
-                ]
+                        'CType' => $cTypeKey,
+                    ],
+                ],
             ];
 
             // Add overlay icon
@@ -218,19 +218,19 @@ class TyposcriptCodeGenerator
         $paths = [];
         if ($this->maskExtensionConfiguration['content'] ?? false) {
             $paths['templateRootPaths'] = [
-                10 => $this->maskExtensionConfiguration['content']
+                10 => $this->maskExtensionConfiguration['content'],
             ];
         }
 
         if ($this->maskExtensionConfiguration['partials'] ?? false) {
             $paths['partialRootPaths'] = [
-                10 => $this->maskExtensionConfiguration['partials']
+                10 => $this->maskExtensionConfiguration['partials'],
             ];
         }
 
         if ($this->maskExtensionConfiguration['layouts'] ?? false) {
             $paths['layoutRootPaths'] = [
-                10 => $this->maskExtensionConfiguration['layouts']
+                10 => $this->maskExtensionConfiguration['layouts'],
             ];
         }
 

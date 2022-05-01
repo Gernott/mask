@@ -6,17 +6,17 @@ return [
     Tab::GENERAL => [
         [
             'onlineMedia' => 6,
-        ]
+        ],
     ],
     Tab::VALIDATION => [
         [
             'config.minitems' => 6,
-            'config.maxitems' => 6
-        ]
+            'config.maxitems' => 6,
+        ],
     ],
     TAB::APPEARANCE => [
         [
-            'allowedFileExtensions' => 6
+            'allowedFileExtensions' => 6,
         ],
         [
             'config.appearance.createNewRelationLinkTitle' => 8,
@@ -30,7 +30,7 @@ return [
             'config.appearance.elementBrowserEnabled' => 6,
             'config.appearance.fileUploadAllowed' => 6,
             'config.appearance.fileByUrlAllowed' => 6,
-        ]
+        ],
     ],
     Tab::ENABLED_CONTROLS => [
         [
@@ -41,19 +41,19 @@ return [
             'config.appearance.enabledControls.hide' => 4,
             'config.appearance.enabledControls.delete' => 4,
             'config.appearance.enabledControls.localize' => 4,
-        ]
+        ],
     ],
     Tab::LOCALIZATION => [
         [
-            'l10n_mode' => 12
+            'l10n_mode' => 12,
         ],
         [
-            'config.behaviour.allowLanguageSynchronization' => 6
+            'config.behaviour.allowLanguageSynchronization' => 6,
         ],
         [
             'config.appearance.showPossibleLocalizationRecords' => 6,
             'config.appearance.showAllLocalizationLink' => 6,
             'config.appearance.showSynchronizationLink' => 6,
-        ]
+        ],
     ],
 ];

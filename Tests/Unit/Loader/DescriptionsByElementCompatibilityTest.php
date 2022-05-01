@@ -46,14 +46,14 @@ class DescriptionsByElementCompatibilityTest extends UnitTestCase
                             'Field direct description',
                             'Palette 1',
                             'Inline Field',
-                            ''
+                            '',
                         ],
                         'columns' => [
                             'tx_mask_field',
                             'tx_mask_direct',
                             'tx_mask_palette',
                             'tx_mask_inline',
-                            'header'
+                            'header',
                         ],
                     ],
                 ],
@@ -76,7 +76,7 @@ class DescriptionsByElementCompatibilityTest extends UnitTestCase
                             'type' => 'palette',
                         ],
                         'key' => 'palette',
-                        'description' => 'Palette description'
+                        'description' => 'Palette description',
                     ],
                     'tx_mask_field2' => [
                         'config' => [
@@ -87,8 +87,8 @@ class DescriptionsByElementCompatibilityTest extends UnitTestCase
                         'inPalette' => 1,
                         'description' => 'Description in Palette',
                         'inlineParent' => [
-                            'element1' => 'tx_mask_palette'
-                        ]
+                            'element1' => 'tx_mask_palette',
+                        ],
                     ],
                     'tx_mask_field3' => [
                         'config' => [
@@ -98,8 +98,8 @@ class DescriptionsByElementCompatibilityTest extends UnitTestCase
                         'type' => 'string',
                         'inPalette' => 1,
                         'inlineParent' => [
-                            'element1' => 'tx_mask_palette'
-                        ]
+                            'element1' => 'tx_mask_palette',
+                        ],
                     ],
                     'tx_mask_inline' => [
                         'config' => [
@@ -107,11 +107,11 @@ class DescriptionsByElementCompatibilityTest extends UnitTestCase
                         ],
                         'key' => 'inline',
                         'type' => 'inline',
-                        'description' => 'Inline Field Description'
+                        'description' => 'Inline Field Description',
                     ],
                     'header' => [
-                        'key' => 'header'
-                    ]
+                        'key' => 'header',
+                    ],
                 ],
                 'palettes' => [
                     'tx_mask_palette' => [
@@ -120,9 +120,9 @@ class DescriptionsByElementCompatibilityTest extends UnitTestCase
                         'showitem' => [
                             'tx_mask_field2',
                             'tx_mask_field3',
-                        ]
-                    ]
-                ]
+                        ],
+                    ],
+                ],
             ],
         ];
 
@@ -196,11 +196,11 @@ class DescriptionsByElementCompatibilityTest extends UnitTestCase
                         'type' => 'string',
                         'inPalette' => 1,
                         'inlineParent' => [
-                            'element1' => 'tx_mask_palette'
+                            'element1' => 'tx_mask_palette',
                         ],
                         'description' => [
-                            'element1' => 'Description in Palette'
-                        ]
+                            'element1' => 'Description in Palette',
+                        ],
                     ],
                     'tx_mask_field3' => [
                         'config' => [
@@ -211,11 +211,11 @@ class DescriptionsByElementCompatibilityTest extends UnitTestCase
                         'type' => 'string',
                         'inPalette' => 1,
                         'inlineParent' => [
-                            'element1' => 'tx_mask_palette'
+                            'element1' => 'tx_mask_palette',
                         ],
                         'description' => [
-                            'element1' => ''
-                        ]
+                            'element1' => '',
+                        ],
                     ],
                     'tx_mask_inline' => [
                         'config' => [
@@ -228,8 +228,8 @@ class DescriptionsByElementCompatibilityTest extends UnitTestCase
                     'header' => [
                         'key' => 'header',
                         'fullKey' => 'header',
-                        'coreField' => 1
-                    ]
+                        'coreField' => 1,
+                    ],
                 ],
                 'palettes' => [
                     'tx_mask_palette' => [
@@ -238,8 +238,8 @@ class DescriptionsByElementCompatibilityTest extends UnitTestCase
                         'showitem' => [
                             'tx_mask_field2',
                             'tx_mask_field3',
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
             ],
         ];

@@ -51,9 +51,9 @@ class TypoScriptCodeGeneratorTest extends UnitTestCase
                             'label' => 'Element 2',
                             'key' => 'element2',
                             'hidden' => true,
-                        ]
-                    ]
-                ]
+                        ],
+                    ],
+                ],
             ],
             'configuration' => [
                 'content' => 'EXT:sitepackage/Resources/Private/Mask/Templates',
@@ -84,8 +84,8 @@ tt_content.mask_element1 {
         yield 'only template, no element' => [
             'json' => [
                 'tt_content' => [
-                    'elements' => []
-                ]
+                    'elements' => [],
+                ],
             ],
             'configuration' => [
                 'content' => 'EXT:sitepackage/Resources/Private/Mask/Templates',
@@ -106,9 +106,9 @@ tt_content.mask_element1 {
                     'elements' => [
                         '1' => [
                             'key' => '1',
-                        ]
-                    ]
-                ]
+                        ],
+                    ],
+                ],
             ],
             'configuration' => [
                 'content' => 'EXT:sitepackage/Resources/Private/Mask/Templates',

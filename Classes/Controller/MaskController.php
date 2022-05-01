@@ -75,8 +75,8 @@ class MaskController
                 'paths' => [
                     'sortablejs' => PathUtility::getAbsoluteWebPath(
                         ExtensionManagementUtility::extPath('mask', 'Resources/Public/JavaScript/Contrib/sortable')
-                    )
-                ]
+                    ),
+                ],
             ]
         );
         $this->pageRenderer->loadRequireJsModule('TYPO3/CMS/Mask/Mask');

@@ -134,7 +134,7 @@ final class ElementDefinition
             'columns' => $this->columns,
             'labels' => $this->labels,
             'descriptions' => $this->descriptions,
-            'sorting' => $this->sorting
+            'sorting' => $this->sorting,
         ];
 
         if ($this->hidden) {
