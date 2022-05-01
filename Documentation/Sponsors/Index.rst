@@ -164,3 +164,4 @@ GitHub sponsors
 *  `Wolfgang Wagner <https://github.com/wowaTYPO3>`__
 *  `Michael Paulisch <https://github.com/micha68g>`__
 *  `Eric Bode <https://github.com/EricBode>`__
+*  `Sascha Bucher <https://github.com/sabuch>`__
