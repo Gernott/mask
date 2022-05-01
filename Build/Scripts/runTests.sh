@@ -209,13 +209,7 @@ case ${TEST_SUITE} in
             CGLCHECK_DRY_RUN="--dry-run --diff"
         fi
         setUpDockerComposeDotEnv
-        docker-compose run cgl_all
-        SUITE_EXIT_CODE=$?
-        docker-compose down
-        ;;
-    cglGit)
-        setUpDockerComposeDotEnv
-        docker-compose run cgl_git
+        docker-compose run cgl
         SUITE_EXIT_CODE=$?
         docker-compose down
         ;;
