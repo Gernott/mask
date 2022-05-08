@@ -27,7 +27,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class JsonLoader implements LoaderInterface
 {
     /**
-     * @var TableDefinitionCollection
+     * @var TableDefinitionCollection|null
      */
     protected $tableDefinitionCollection;
 
@@ -53,15 +53,20 @@ class JsonLoader implements LoaderInterface
 
     public function load(): TableDefinitionCollection
     {
-        $maskJsonFilePath = $this->validateGetJsonFilePath();
-        if ($this->tableDefinitionCollection === null) {
-            $this->tableDefinitionCollection = new TableDefinitionCollection();
-            // The file might not exist yet. Will be created as soon as write() is called.
-            if (file_exists($maskJsonFilePath)) {
-                $json = json_decode(file_get_contents($maskJsonFilePath), true, 512, 4194304); // @todo replace with JSON_THROW_ON_ERROR in Mask v8.0
-                $this->tableDefinitionCollection = TableDefinitionCollection::createFromArray($json);
-            }
+        if ($this->tableDefinitionCollection instanceof TableDefinitionCollection) {
+            return clone $this->tableDefinitionCollection;
         }
+
+        $this->tableDefinitionCollection = new TableDefinitionCollection();
+
+        // Return an empty definition, if file doesn't exist yet.
+        $maskJsonFilePath = $this->validateGetJsonFilePath();
+        if (!file_exists($maskJsonFilePath)) {
+            return clone $this->tableDefinitionCollection;
+        }
+
+        $json = json_decode(file_get_contents($maskJsonFilePath), true, 512, 4194304); // @todo replace with JSON_THROW_ON_ERROR in Mask v8.0
+        $this->tableDefinitionCollection = TableDefinitionCollection::createFromArray($json);
 
         // Compatibility layer for old rte resolving
         foreach ($this->tableDefinitionCollection as $tableDefinition) {
