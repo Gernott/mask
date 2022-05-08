@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.1.30] - 2022-05-08
+
+### Fixed
+- Error in JsonSplitLoader when path to backend layouts folder is not defined
+
+### Added
+- Index for tt_content CType
+
 ## [7.1.29] - 2022-04-30
 
 ### Fixed
