@@ -34,7 +34,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class JsonSplitLoader implements LoaderInterface
 {
     /**
-     * @var TableDefinitionCollection
+     * @var TableDefinitionCollection|null
      */
     protected $tableDefinitionCollection;
 
@@ -63,25 +63,31 @@ class JsonSplitLoader implements LoaderInterface
 
     public function load(): TableDefinitionCollection
     {
+        if ($this->tableDefinitionCollection instanceof TableDefinitionCollection) {
+            return clone $this->tableDefinitionCollection;
+        }
+
+        $this->tableDefinitionCollection = new TableDefinitionCollection();
+
+        // Early return, if the content elements folder does not exist.
         $contentElementsFolder = $this->validateFolderPath('tt_content');
-        if ($this->tableDefinitionCollection === null) {
-            $this->tableDefinitionCollection = new TableDefinitionCollection();
-            if (file_exists($contentElementsFolder)) {
-                $definitionArray = [];
-                $definitionArray = $this->mergeElementDefinitions($definitionArray, $contentElementsFolder);
+        if (!file_exists($contentElementsFolder)) {
+            return clone $this->tableDefinitionCollection;
+        }
 
-                // If optional backendLayoutsFolder is not empty, validate the path.
-                $backendLayoutsFolder = $this->getAbsolutePath('pages');
-                if ($backendLayoutsFolder !== '') {
-                    $backendLayoutsFolder = $this->validateFolderPath('pages');
-                    if (file_exists($backendLayoutsFolder)) {
-                        $definitionArray = $this->mergeElementDefinitions($definitionArray, $backendLayoutsFolder);
-                    }
-                }
+        $definitionArray = [];
+        $definitionArray = $this->mergeElementDefinitions($definitionArray, $contentElementsFolder);
 
-                $this->tableDefinitionCollection = TableDefinitionCollection::createFromArray($definitionArray);
+        // If optional backendLayoutsFolder is not empty, validate the path.
+        $backendLayoutsFolder = $this->getAbsolutePath('pages');
+        if ($backendLayoutsFolder !== '') {
+            $backendLayoutsFolder = $this->validateFolderPath('pages');
+            if (file_exists($backendLayoutsFolder)) {
+                $definitionArray = $this->mergeElementDefinitions($definitionArray, $backendLayoutsFolder);
             }
         }
+
+        $this->tableDefinitionCollection = TableDefinitionCollection::createFromArray($definitionArray);
 
         $this->cleanUpConfig($this->tableDefinitionCollection);
         $this->addMissingDefaults($this->tableDefinitionCollection);
