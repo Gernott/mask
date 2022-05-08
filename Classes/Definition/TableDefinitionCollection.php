@@ -34,6 +34,11 @@ final class TableDefinitionCollection implements \IteratorAggregate
      */
     private $arrayDefinitionSorter;
 
+    /**
+     * @var string
+     */
+    private $version = '7.2.0';
+
     public function __construct()
     {
         $this->arrayDefinitionSorter = new ArrayDefinitionSorter();
@@ -49,6 +54,16 @@ final class TableDefinitionCollection implements \IteratorAggregate
         $this->definitions = array_map(function (TableDefinition $tableDefinition) {
             return clone $tableDefinition;
         }, $this->definitions);
+    }
+
+    public function getVersion(): string
+    {
+        return $this->version;
+    }
+
+    public function setToCurrentVersion(): void
+    {
+        $this->version = (new self())->getVersion();
     }
 
     public function addTable(TableDefinition $tableDefinition): void
@@ -71,10 +86,23 @@ final class TableDefinitionCollection implements \IteratorAggregate
         return isset($this->definitions[$table]);
     }
 
-    public function toArray(): array
+    /**
+     * @param bool $withVersion Compatibility flag. Can be set to false, in order to only get the tables array.
+     * @return array
+     */
+    public function toArray(bool $withVersion = true): array
     {
-        $array = array_merge([], ...$this->getTablesAsArray());
-        return $this->arrayDefinitionSorter->sort($array);
+        $tablesArray = array_merge([], ...$this->getTablesAsArray());
+        $tablesArray = $this->arrayDefinitionSorter->sort($tablesArray);
+
+        if (!$withVersion) {
+            return $tablesArray;
+        }
+
+        return [
+            'version' => $this->version,
+            'tables' => $tablesArray,
+        ];
     }
 
     public function getTablesAsArray(): iterable
@@ -99,7 +127,15 @@ final class TableDefinitionCollection implements \IteratorAggregate
     public static function createFromArray(array $tableDefinitionArray): TableDefinitionCollection
     {
         $tableDefinitionCollection = new self();
-        foreach ($tableDefinitionArray as $table => $definition) {
+        if (array_key_exists('version', $tableDefinitionArray)) {
+            $tableDefinitionCollection->version = $tableDefinitionArray['version'];
+            $tables = $tableDefinitionArray['tables'] ?? [];
+        } else {
+            // Fallback for definitions before the introduction of version.
+            $tableDefinitionCollection->version = '0.1.0';
+            $tables = $tableDefinitionArray;
+        }
+        foreach ($tables as $table => $definition) {
             $tableDefinition = TableDefinition::createFromTableArray($table, $definition);
             $tableDefinitionCollection->addTable($tableDefinition);
         }

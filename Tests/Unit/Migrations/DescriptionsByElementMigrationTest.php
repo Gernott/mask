@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -13,14 +15,14 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-namespace MASK\Mask\Tests\Unit\Loader;
+namespace MASK\Mask\Tests\Unit\Migrations;
 
 use MASK\Mask\Definition\TableDefinitionCollection;
-use MASK\Mask\Loader\DescriptionByElementCompatibilityTrait;
+use MASK\Mask\Migrations\DescriptionByElementMigration;
 use MASK\Mask\Tests\Unit\PackageManagerTrait;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-class DescriptionsByElementCompatibilityTest extends UnitTestCase
+class DescriptionsByElementMigrationTest extends UnitTestCase
 {
     protected $resetSingletonInstances = true;
 
@@ -31,10 +33,6 @@ class DescriptionsByElementCompatibilityTest extends UnitTestCase
      */
     public function descriptionsByElementsAddedIfMissing(): void
     {
-        $loader = new class() {
-            use DescriptionByElementCompatibilityTrait;
-        };
-
         $input = [
             'tt_content' => [
                 'elements' => [
@@ -245,7 +243,7 @@ class DescriptionsByElementCompatibilityTest extends UnitTestCase
         ];
 
         $tableDefinitionCollection = TableDefinitionCollection::createFromArray($input);
-        $loader->addMissingDescriptionsByElement($tableDefinitionCollection);
-        self::assertEquals($expected, $tableDefinitionCollection->toArray());
+        $descriptionByElementMigration = new DescriptionByElementMigration();
+        self::assertEquals($expected, $descriptionByElementMigration->migrate($tableDefinitionCollection)->toArray(false));
     }
 }

@@ -240,10 +240,19 @@ the core:
 *  The new option :ref:`fileFolderConfig <columns-select-properties-fileFolderConfig>`
    is now used instead of the old separate versions.
 
+MigrationManager and versions for Mask definitions
+==================================================
+
+A new API for migrations has been introduced for internal-only usage. This comes
+with a performance boost for up-to-date Mask definitions, as the current version
+is now stored inside Mask definitions, which can be checked against needed
+migrations. If a migration is not necessary, it is skipped and won't have a
+negative effect performance-wise.
+
 Bugfixes
 ========
 
-*  If `null` is selected in the extended view, SQL fields now also allow `NULL` values
+*  If `null` is selected in the extended view, SQL fields now also allow :sql:`NULL` values
 *  Paths both with and without trailing slash now allowed in all mask settings
 *  Many, many more bugfixes already included in v7.1
 

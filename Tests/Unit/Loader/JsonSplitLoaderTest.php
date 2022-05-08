@@ -19,7 +19,7 @@ namespace MASK\Mask\Tests\Unit\Loader;
 
 use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Loader\JsonSplitLoader;
-use MASK\Mask\Tests\Unit\ConfigurationLoader\FakeConfigurationLoader;
+use MASK\Mask\Migrations\MigrationManager;
 use MASK\Mask\Tests\Unit\PackageManagerTrait;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -47,12 +47,11 @@ class JsonSplitLoaderTest extends UnitTestCase
             [
                 'content_elements_folder' => 'EXT:mask/Tests/Unit/Fixtures/Configuration/ContentElements',
                 'backend_layouts_folder' => 'EXT:mask/Tests/Unit/Fixtures/Configuration/BackendLayouts',
-            ]
+            ],
+            new MigrationManager([])
         );
 
-        $jsonSplitLoader->setConfigurationLoader(new FakeConfigurationLoader());
-
-        self::assertEquals($this->getExpectedConfigurationArray(), $jsonSplitLoader->load()->toArray());
+        self::assertEquals($this->getExpectedConfigurationArray(), $jsonSplitLoader->load()->toArray(false));
     }
 
     /**
@@ -67,10 +66,9 @@ class JsonSplitLoaderTest extends UnitTestCase
             [
                 'content_elements_folder' => 'EXT:mask/var/ContentElements',
                 'backend_layouts_folder' => 'EXT:mask/var/BackendLayouts',
-            ]
+            ],
+            new MigrationManager([])
         );
-
-        $jsonSplitLoader->setConfigurationLoader(new FakeConfigurationLoader());
 
         $jsonSplitLoader->write(TableDefinitionCollection::createFromArray($this->getExpectedConfigurationArray()));
 
@@ -176,7 +174,7 @@ class JsonSplitLoaderTest extends UnitTestCase
             ],
         ];
 
-        self::assertEquals($configurationA, json_decode(file_get_contents($contentElementsPath . '/a.json'), true));
+        self::assertEquals($configurationA, json_decode(file_get_contents($contentElementsPath . '/a.json'), true)['tables']);
 
         $configurationB = [
             'tt_content' => [
@@ -272,7 +270,7 @@ class JsonSplitLoaderTest extends UnitTestCase
             ],
         ];
 
-        self::assertEquals($configurationB, json_decode(file_get_contents($contentElementsPath . '/b.json'), true));
+        self::assertEquals($configurationB, json_decode(file_get_contents($contentElementsPath . '/b.json'), true)['tables']);
 
         $configurationC = [
             'sys_file_reference' => [
@@ -320,8 +318,6 @@ class JsonSplitLoaderTest extends UnitTestCase
                             'appearance' => [
                                 'fileUploadAllowed' => 1,
                             ],
-                            'type' => 'inline',
-                            'foreign_table' => 'sys_file_reference',
                         ],
                         'type' => 'file',
                         'key' => 'file',
@@ -332,7 +328,7 @@ class JsonSplitLoaderTest extends UnitTestCase
             ],
         ];
 
-        self::assertEquals($configurationC, json_decode(file_get_contents($contentElementsPath . '/c.json'), true));
+        self::assertEquals($configurationC, json_decode(file_get_contents($contentElementsPath . '/c.json'), true)['tables']);
 
         $configurationD = [
             'tx_mask_inline' => [
@@ -421,7 +417,7 @@ class JsonSplitLoaderTest extends UnitTestCase
             ],
         ];
 
-        self::assertEquals($configurationD, json_decode(file_get_contents($contentElementsPath . '/d.json'), true));
+        self::assertEquals($configurationD, json_decode(file_get_contents($contentElementsPath . '/d.json'), true)['tables']);
 
         $configurationE = [
             'tt_content' => [
@@ -487,15 +483,6 @@ class JsonSplitLoaderTest extends UnitTestCase
                     'tx_mask_inline_inner' => [
                         'config' => [
                             'type' => 'inline',
-                            'foreign_table' => '--inlinetable--',
-                            'foreign_field' => 'parentid',
-                            'foreign_table_field' => 'parenttable',
-                            'foreign_sortby' => 'sorting',
-                            'appearance' => [
-                                'enabledControls' => [
-                                    'dragdrop' => 1,
-                                ],
-                            ],
                         ],
                         'label' => 'Inline Inner',
                         'type' => 'inline',
@@ -611,7 +598,7 @@ class JsonSplitLoaderTest extends UnitTestCase
             ],
         ];
 
-        self::assertEquals($configurationE, json_decode(file_get_contents($contentElementsPath . '/e.json'), true));
+        self::assertEquals($configurationE, json_decode(file_get_contents($contentElementsPath . '/e.json'), true)['tables']);
     }
 
     protected function getExpectedConfigurationArray(): array
@@ -677,15 +664,6 @@ class JsonSplitLoaderTest extends UnitTestCase
                     'tx_mask_inline_inner' => [
                         'config' => [
                             'type' => 'inline',
-                            'foreign_table' => '--inlinetable--',
-                            'foreign_field' => 'parentid',
-                            'foreign_table_field' => 'parenttable',
-                            'foreign_sortby' => 'sorting',
-                            'appearance' => [
-                                'enabledControls' => [
-                                    'dragdrop' => 1,
-                                ],
-                            ],
                         ],
                         'label' => 'Inline Inner',
                         'type' => 'inline',
@@ -1042,8 +1020,6 @@ class JsonSplitLoaderTest extends UnitTestCase
                             'appearance' => [
                                 'fileUploadAllowed' => 1,
                             ],
-                            'type' => 'inline',
-                            'foreign_table' => 'sys_file_reference',
                         ],
                         'type' => 'file',
                         'key' => 'file',
@@ -1093,8 +1069,7 @@ class JsonSplitLoaderTest extends UnitTestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectDeprecationMessage('Expected content_elements_folder to be a correct file system path. The value "" was given.');
         $this->expectExceptionCode(1639218892);
-        $jsonSplitLoader = new JsonSplitLoader(['content_elements_folder' => '../folder']);
-        $jsonSplitLoader->setConfigurationLoader(new FakeConfigurationLoader());
+        $jsonSplitLoader = new JsonSplitLoader(['content_elements_folder' => '../folder'], new MigrationManager([]));
         $jsonSplitLoader->load();
     }
 }

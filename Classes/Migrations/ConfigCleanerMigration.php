@@ -15,20 +15,29 @@ declare(strict_types=1);
  * The TYPO3 project - inspiring people to share!
  */
 
-namespace MASK\Mask\Loader;
+namespace MASK\Mask\Migrations;
 
+use MASK\Mask\ConfigurationLoader\ConfigurationLoaderInterface;
 use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Utility\CompatibilityUtility;
 use MASK\Mask\Utility\TcaConverter;
 
-trait ConfigCleanerTrait
+class ConfigCleanerMigration implements RepeatableMigrationInterface
 {
-    use WithConfigurationLoaderTrait;
+    /**
+     * @var ConfigurationLoaderInterface
+     */
+    protected $configurationLoader;
+
+    public function __construct(ConfigurationLoaderInterface $configurationLoader)
+    {
+        $this->configurationLoader = $configurationLoader;
+    }
 
     /**
      * This method removes all tca options defined which aren't available in Mask.
      */
-    public function cleanUpConfig(TableDefinitionCollection $tableDefinitionCollection): void
+    public function migrate(TableDefinitionCollection $tableDefinitionCollection): TableDefinitionCollection
     {
         foreach ($tableDefinitionCollection as $tableDefinition) {
             foreach ($tableDefinition->tca as $tcaFieldDefinition) {
@@ -54,5 +63,12 @@ trait ConfigCleanerTrait
                 $tcaFieldDefinition->realTca = TcaConverter::convertFlatTcaToArray($cleanedConfig);
             }
         }
+
+        return $tableDefinitionCollection;
+    }
+
+    public function forVersionBelow(): string
+    {
+        return '';
     }
 }

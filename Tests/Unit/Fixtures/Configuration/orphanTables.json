@@ -1,0 +1,77 @@
+{
+	"tt_content": {
+		"elements": {
+			"a": {
+				"key": "a",
+				"label": "A",
+				"description": "",
+				"shortLabel": "",
+				"color": "#000000",
+				"icon": "",
+				"columns": [
+					"tx_mask_a",
+					"tx_mask_im_just_empty"
+				],
+				"labels": [
+					"A",
+					"Empty inline field"
+				],
+				"descriptions": [
+					"",
+					""
+				],
+				"sorting": 0
+			}
+		},
+		"sql": {
+			"tx_mask_a": {
+				"tt_content": {
+					"tx_mask_a": "varchar(255) DEFAULT '' NOT NULL"
+				}
+			}
+		},
+		"tca": {
+			"tx_mask_a": {
+				"config": {
+					"type": "input"
+				},
+				"type": "string",
+				"key": "a",
+				"fullKey": "tx_mask_a"
+			},
+			"tx_mask_im_just_empty": {
+				"config": {
+					"appearance": {
+						"collapseAll": 1,
+						"enabledControls": {
+							"dragdrop": 1
+						},
+						"levelLinksPosition": "top",
+						"showAllLocalizationLink": 1,
+						"showPossibleLocalizationRecords": 1
+					},
+					"foreign_field": "parentid",
+					"foreign_sortby": "sorting",
+					"foreign_table": "--inlinetable--",
+					"foreign_table_field": "parenttable",
+					"type": "inline"
+				},
+				"type": "inline",
+				"key": "im_just_empty",
+				"fullKey": "tx_mask_im_just_empty"
+			}
+		}
+	},
+	"tx_mask_im_an_orphan": {
+		"elements": [],
+		"sql": [],
+		"tca": [],
+		"palettes": []
+	},
+	"tx_mask_im_just_empty": {
+		"elements": [],
+		"sql": [],
+		"tca": [],
+		"palettes": []
+	}
+}

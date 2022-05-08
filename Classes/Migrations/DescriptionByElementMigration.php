@@ -15,16 +15,16 @@ declare(strict_types=1);
  * The TYPO3 project - inspiring people to share!
  */
 
-namespace MASK\Mask\Loader;
+namespace MASK\Mask\Migrations;
 
 use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Definition\TcaFieldDefinition;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\AffixUtility;
 
-trait DescriptionByElementCompatibilityTrait
+class DescriptionByElementMigration implements MigrationInterface
 {
-    public function addMissingDescriptionsByElement(TableDefinitionCollection $tableDefinitionCollection): void
+    public function migrate(TableDefinitionCollection $tableDefinitionCollection): TableDefinitionCollection
     {
         foreach ($tableDefinitionCollection as $tableDefinition) {
             // Fields on custom tables can't have descriptions by element.
@@ -62,6 +62,8 @@ trait DescriptionByElementCompatibilityTrait
                 }
             }
         }
+
+        return $tableDefinitionCollection;
     }
 
     private function fillDescriptions(TableDefinitionCollection $tableDefinitionCollection, TcaFieldDefinition $tcaFieldDefinition, string $table): void
@@ -94,5 +96,10 @@ trait DescriptionByElementCompatibilityTrait
                 $paletteDefinition->description = $descriptionToUse;
             }
         }
+    }
+
+    public function forVersionBelow(): string
+    {
+        return '7.2.0';
     }
 }

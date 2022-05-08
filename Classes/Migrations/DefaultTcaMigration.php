@@ -15,17 +15,26 @@ declare(strict_types=1);
  * The TYPO3 project - inspiring people to share!
  */
 
-namespace MASK\Mask\Loader;
+namespace MASK\Mask\Migrations;
 
+use MASK\Mask\ConfigurationLoader\ConfigurationLoaderInterface;
 use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Utility\TcaConverter;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 
-trait DefaultTcaCompatibilityTrait
+class DefaultTcaMigration implements RepeatableMigrationInterface
 {
-    use WithConfigurationLoaderTrait;
+    /**
+     * @var ConfigurationLoaderInterface
+     */
+    protected $configurationLoader;
 
-    public function addMissingDefaults(TableDefinitionCollection $tableDefinitionCollection): void
+    public function __construct(ConfigurationLoaderInterface $configurationLoader)
+    {
+        $this->configurationLoader = $configurationLoader;
+    }
+
+    public function migrate(TableDefinitionCollection $tableDefinitionCollection): TableDefinitionCollection
     {
         // Add defaults, if missing. This can happen on updates or when the defaults change.
         foreach ($tableDefinitionCollection as $tableDefinition) {
@@ -46,5 +55,12 @@ trait DefaultTcaCompatibilityTrait
                 $tcaFieldDefinition->realTca = TcaConverter::convertFlatTcaToArray($flatTcaFieldDefinition);
             }
         }
+
+        return $tableDefinitionCollection;
+    }
+
+    public function forVersionBelow(): string
+    {
+        return '';
     }
 }

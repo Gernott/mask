@@ -15,7 +15,7 @@ declare(strict_types=1);
  * The TYPO3 project - inspiring people to share!
  */
 
-namespace MASK\Mask\Loader;
+namespace MASK\Mask\Migrations;
 
 use MASK\Mask\Definition\TableDefinitionCollection;
 
@@ -26,9 +26,9 @@ use MASK\Mask\Definition\TableDefinitionCollection;
  *
  * See this issue for more details: https://github.com/Gernott/mask/issues/265
  */
-trait OrphanRemoverTrait
+class OrphanRemoverMigration implements MigrationInterface
 {
-    public function removeOrphanTables(TableDefinitionCollection $tableDefinitionCollection): TableDefinitionCollection
+    public function migrate(TableDefinitionCollection $tableDefinitionCollection): TableDefinitionCollection
     {
         $candidatesForRemoval = [];
         // Find all tables with no tca nor sql definition
@@ -69,5 +69,10 @@ trait OrphanRemoverTrait
         }
 
         return $newTableDefinitionCollection;
+    }
+
+    public function forVersionBelow(): string
+    {
+        return '7.2.0';
     }
 }

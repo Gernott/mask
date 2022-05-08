@@ -55,7 +55,7 @@ class MoveRteOptions implements UpgradeWizardInterface
     public function executeUpdate(): bool
     {
         $tableDefinitionCollection = $this->loader->load();
-        $tableDefinitionArray = $tableDefinitionCollection->toArray();
+        $tableDefinitionArray = $tableDefinitionCollection->toArray(false);
         foreach ($tableDefinitionCollection as $tableDefinition) {
             foreach ($tableDefinition->elements as $element) {
                 foreach ($element->options as $index => $option) {

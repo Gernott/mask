@@ -15,19 +15,8 @@ declare(strict_types=1);
  * The TYPO3 project - inspiring people to share!
  */
 
-namespace MASK\Mask\Loader;
+namespace MASK\Mask\Migrations;
 
-use MASK\Mask\ConfigurationLoader\ConfigurationLoaderInterface;
-
-trait WithConfigurationLoaderTrait
+interface RepeatableMigrationInterface extends MigrationInterface
 {
-    /**
-     * @var ConfigurationLoaderInterface
-     */
-    protected $configurationLoader;
-
-    public function setConfigurationLoader(ConfigurationLoaderInterface $configurationLoader): void
-    {
-        $this->configurationLoader = $configurationLoader;
-    }
 }

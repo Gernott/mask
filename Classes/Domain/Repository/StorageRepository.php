@@ -75,7 +75,7 @@ class StorageRepository implements SingletonInterface
      */
     public function load(): array
     {
-        return $this->loader->load()->toArray();
+        return $this->loader->load()->toArray(false);
     }
 
     /**

@@ -17,10 +17,8 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Loader;
 
-use MASK\Mask\ConfigurationLoader\ConfigurationLoaderInterface;
 use MASK\Mask\Definition\TableDefinitionCollection;
-use MASK\Mask\Definition\TcaFieldDefinition;
-use MASK\Mask\Enumeration\FieldType;
+use MASK\Mask\Migrations\MigrationManager;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -36,19 +34,17 @@ class JsonLoader implements LoaderInterface
      */
     protected $maskExtensionConfiguration;
 
-    use DefaultTcaCompatibilityTrait;
-    use ConfigCleanerTrait;
-    use DescriptionByElementCompatibilityTrait;
-    use OrphanRemoverTrait;
+    /**
+     * @var MigrationManager
+     */
+    protected $migrationManager;
 
-    public function __construct(array $maskExtensionConfiguration)
-    {
+    public function __construct(
+        array $maskExtensionConfiguration,
+        MigrationManager $migrationManager
+    ) {
         $this->maskExtensionConfiguration = $maskExtensionConfiguration;
-    }
-
-    public function setConfigurationLoader(ConfigurationLoaderInterface $configurationLoader): void
-    {
-        $this->configurationLoader = $configurationLoader;
+        $this->migrationManager = $migrationManager;
     }
 
     public function load(): TableDefinitionCollection
@@ -68,35 +64,7 @@ class JsonLoader implements LoaderInterface
         $json = json_decode(file_get_contents($maskJsonFilePath), true, 512, 4194304); // @todo replace with JSON_THROW_ON_ERROR in Mask v8.0
         $this->tableDefinitionCollection = TableDefinitionCollection::createFromArray($json);
 
-        // Compatibility layer for old rte resolving
-        foreach ($this->tableDefinitionCollection as $tableDefinition) {
-            foreach ($tableDefinition->elements as $element) {
-                if ($element->options === []) {
-                    continue;
-                }
-                foreach ($element->options as $index => $option) {
-                    if ($option === 'rte') {
-                        trigger_error('Migration for options rte done in element "' . $element->key . '". Please update your json definition.', E_USER_DEPRECATED);
-                        $fieldKey = $element->columns[$index] ?? '';
-
-                        // Sometimes these options are orphans and weren't removed..
-                        if ($fieldKey === '') {
-                            continue;
-                        }
-
-                        $field = $this->tableDefinitionCollection->loadField($tableDefinition->table, $fieldKey);
-                        if ($field instanceof TcaFieldDefinition) {
-                            $field->setFieldType(new FieldType(FieldType::RICHTEXT));
-                        }
-                    }
-                }
-            }
-        }
-
-        $this->cleanUpConfig($this->tableDefinitionCollection);
-        $this->addMissingDefaults($this->tableDefinitionCollection);
-        $this->addMissingDescriptionsByElement($this->tableDefinitionCollection);
-        $this->tableDefinitionCollection = $this->removeOrphanTables($this->tableDefinitionCollection);
+        $this->tableDefinitionCollection = $this->migrationManager->migrate($this->tableDefinitionCollection);
 
         return clone $this->tableDefinitionCollection;
     }

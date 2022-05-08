@@ -147,6 +147,9 @@
 				},
 				"order": {
 					"b": 1
+				},
+				"description": {
+					"b": ""
 				}
 			},
 			"tx_mask_file": {
@@ -307,18 +310,6 @@
 				"order": 1
 			}
 		},
-		"palettes": []
-	},
-	"tx_mask_im_an_orphan": {
-		"elements": [],
-		"sql": [],
-		"tca": [],
-		"palettes": []
-	},
-	"tx_mask_im_just_empty": {
-		"elements": [],
-		"sql": [],
-		"tca": [],
 		"palettes": []
 	}
 }

@@ -13,15 +13,11 @@ services:
     tags:
       - name: mask.loader
         identifier: json
-    calls:
-      - setConfigurationLoader: ['@MASK\Mask\ConfigurationLoader\ConfigurationLoaderInterface']
 
   MASK\Mask\Loader\JsonSplitLoader:
     tags:
       - name: mask.loader
         identifier: json-split
-    calls:
-      - setConfigurationLoader: ['@MASK\Mask\ConfigurationLoader\ConfigurationLoaderInterface']
 
   MASK\Mask\Loader\LoaderInterface:
     factory:
@@ -33,6 +29,11 @@ services:
     factory:
       - '@MASK\Mask\Loader\LoaderRegistry'
       - 'loadActiveDefinition'
+
+  MASK\Mask\Migrations\MigrationManager:
+    public: true
+    arguments:
+      - !tagged_iterator mask.migration
 
   extensionconfiguration.mask:
     class: 'array'

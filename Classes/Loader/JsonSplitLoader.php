@@ -17,7 +17,6 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Loader;
 
-use MASK\Mask\ConfigurationLoader\ConfigurationLoaderInterface;
 use MASK\Mask\Definition\ElementDefinitionCollection;
 use MASK\Mask\Definition\PaletteDefinitionCollection;
 use MASK\Mask\Definition\SqlDefinition;
@@ -26,6 +25,7 @@ use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Definition\TcaDefinition;
 use MASK\Mask\Definition\TcaFieldDefinition;
 use MASK\Mask\Enumeration\FieldType;
+use MASK\Mask\Migrations\MigrationManager;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use Symfony\Component\Finder\Finder;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
@@ -43,22 +43,22 @@ class JsonSplitLoader implements LoaderInterface
      */
     protected $maskExtensionConfiguration;
 
+    /**
+     * @var MigrationManager
+     */
+    protected $migrationManager;
+
     private const FOLDER_KEYS = [
         'tt_content' => 'content_elements_folder',
         'pages' => 'backend_layouts_folder',
     ];
 
-    use ConfigCleanerTrait;
-    use DefaultTcaCompatibilityTrait;
-
-    public function setConfigurationLoader(ConfigurationLoaderInterface $configurationLoader): void
-    {
-        $this->configurationLoader = $configurationLoader;
-    }
-
-    public function __construct(array $maskExtensionConfiguration)
-    {
+    public function __construct(
+        array $maskExtensionConfiguration,
+        MigrationManager $migrationManager
+    ) {
         $this->maskExtensionConfiguration = $maskExtensionConfiguration;
+        $this->migrationManager = $migrationManager;
     }
 
     public function load(): TableDefinitionCollection
@@ -88,9 +88,7 @@ class JsonSplitLoader implements LoaderInterface
         }
 
         $this->tableDefinitionCollection = TableDefinitionCollection::createFromArray($definitionArray);
-
-        $this->cleanUpConfig($this->tableDefinitionCollection);
-        $this->addMissingDefaults($this->tableDefinitionCollection);
+        $this->tableDefinitionCollection = $this->migrationManager->migrate($this->tableDefinitionCollection);
 
         return clone $this->tableDefinitionCollection;
     }
