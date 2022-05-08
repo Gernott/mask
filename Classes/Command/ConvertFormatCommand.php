@@ -45,13 +45,13 @@ class ConvertFormatCommand extends Command
             'The paths configured in the extension configuration are used and will override existing files!' . LF .
             'First argument is the source format and second argument is the target format.' . LF . LF .
             'Usage: mask:convert [source] [target]' . LF . LF .
-            'Not providing the second argument leads to persisting the first format. This can be used for updating old configuration.' . LF . LF .
+            'Not providing any argument leads to persisting the current format. This can be used for updating old configuration.' . LF . LF .
             'Available formats are: ' . $availableLoaders
         );
 
         $this->addArgument(
             'source',
-            InputArgument::REQUIRED,
+            InputArgument::OPTIONAL,
             'The source format'
         );
 
@@ -64,9 +64,13 @@ class ConvertFormatCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $sourceLoader = $this->loaderRegistry->getLoader($input->getArgument('source'));
+        if ($input->hasArgument('source') && $input->getArgument('source') !== null) {
+            $sourceLoader = $this->loaderRegistry->getLoader($input->getArgument('source'));
+        } else {
+            $sourceLoader = $this->loaderRegistry->getActivateLoader();
+        }
 
-        if ($input->getArgument('target')) {
+        if ($input->hasArgument('target') && $input->getArgument('target') !== null) {
             $targetLoader = $this->loaderRegistry->getLoader($input->getArgument('target'));
         } else {
             $targetLoader = $sourceLoader;
@@ -74,7 +78,7 @@ class ConvertFormatCommand extends Command
 
         $targetLoader->write($sourceLoader->load());
 
-        // @todo Return error code, if write was not successfull.
+        // @todo Return error code, if write was not successfully executed.
         return 0;
     }
 }
