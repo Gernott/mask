@@ -97,9 +97,11 @@ class JsonSplitLoader implements LoaderInterface
 
     public function write(TableDefinitionCollection $tableDefinitionCollection): void
     {
-        // Write content elements and backend layouts
+        // Write content elements and backend layouts (if a folder is defined).
         $this->writeElementsForTable($tableDefinitionCollection, 'tt_content');
-        $this->writeElementsForTable($tableDefinitionCollection, 'pages');
+        if ($this->getAbsolutePath('pages') !== '') {
+            $this->writeElementsForTable($tableDefinitionCollection, 'pages');
+        }
 
         // Save new definition in memory.
         $this->tableDefinitionCollection = $tableDefinitionCollection;
