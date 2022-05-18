@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace MASK\Mask\Updates;
 
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
+use Symfony\Component\Finder\Exception\DirectoryNotFoundException;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
@@ -78,9 +79,15 @@ class ConvertTemplatesToUppercase implements UpgradeWizardInterface
         } else {
             $absolutePath = Environment::getPublicPath() . '/' . $settings['content'];
         }
-        return (new Finder())->files()->in($absolutePath)->filter(function (SplFileInfo $info) {
-            $filename = $info->getFilename();
-            return ctype_lower(substr($filename, 0, 1)) || strpos($filename, '_') !== false;
-        });
+        try {
+            return (new Finder())->files()->in($absolutePath)->filter(function (SplFileInfo $info) {
+                $filename = $info->getFilename();
+                return ctype_lower(substr($filename, 0, 1)) || strpos($filename, '_') !== false;
+            });
+        } catch (DirectoryNotFoundException $e) {
+            // do nothing
+        }
+
+        return null;
     }
 }
