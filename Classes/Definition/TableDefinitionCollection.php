@@ -39,6 +39,11 @@ final class TableDefinitionCollection implements \IteratorAggregate
      */
     private $version = '7.2.0';
 
+    /**
+     * @var bool
+     */
+    private $migrationDone = false;
+
     public function __construct()
     {
         $this->arrayDefinitionSorter = new ArrayDefinitionSorter();
@@ -64,6 +69,16 @@ final class TableDefinitionCollection implements \IteratorAggregate
     public function setToCurrentVersion(): void
     {
         $this->version = (new self())->getVersion();
+    }
+
+    public function getMigrationDone(): bool
+    {
+        return $this->migrationDone;
+    }
+
+    public function migrationDone(): void
+    {
+        $this->migrationDone = true;
     }
 
     public function addTable(TableDefinition $tableDefinition): void

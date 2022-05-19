@@ -124,4 +124,12 @@ return [
         'path' => '/mask/tables',
         'target' => AjaxController::class . '::tables',
     ],
+    'mask_migrations_done' => [
+        'path' => '/mask/migrationsDone',
+        'target' => AjaxController::class . '::migrationsDone',
+    ],
+    'mask_persist_definition' => [
+        'path' => '/mask/persistDefinition',
+        'target' => AjaxController::class . '::persistMaskDefinition',
+    ],
 ];

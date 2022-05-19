@@ -1457,6 +1457,27 @@ title3, value3, icon3, description3
 			<trans-unit id="tx_mask.search_content_elements">
 				<source>Search content elements</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.migrations_performed.title">
+				<source>Migrations performed</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.migrations_performed.message">
+				<source>Migrations of your Mask definition were performed on the fly. Please update your Mask definition for better performance.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.update_mask_definition">
+				<source>Update Mask definition</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.update_complete.title">
+				<source>Update complete</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.update_complete.message">
+				<source>Mask definition successfully updated.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.update_failed.title">
+				<source>Update failed</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.update_failed.message">
+				<source>Something went wrong while trying to persist your Mask definition.</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

@@ -16,6 +16,7 @@ define([
   'TYPO3/CMS/Backend/Severity',
   'TYPO3/CMS/Backend/Notification',
   'TYPO3/CMS/Backend/MultiStepWizard',
+  'TYPO3/CMS/Backend/ActionButton/DeferredAction',
 ], function (
   Vue,
   draggable,
@@ -34,6 +35,7 @@ define([
   Severity,
   Notification,
   MultiStepWizard,
+  DeferredAction,
 ) {
   if (!document.getElementById('mask')) {
     return;
@@ -76,6 +78,7 @@ define([
         availableTca: {},
         multiUseElements: {},
         optionalExtensionStatus: {},
+        migrationsDone: false,
         fieldErrors: {
           elementKeyAvailable: true,
           elementKey: false,
@@ -295,6 +298,15 @@ define([
                   }
                 ));
 
+              // fetch migration status
+              promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_migrations_done)).get()
+                .then(
+                  async response => {
+                    const migrationsDone = await response.resolve();
+                    this.migrationsDone = migrationsDone.migrationsDone;
+                  }
+                ));
+
               promises.push(Icons.getIcon('actions-edit-delete', Icons.sizes.small).then(icon => {
                 this.icons.delete = icon;
               }));
@@ -322,6 +334,32 @@ define([
 
               Promise.all(promises).then(() => {
                 this.loaded = true;
+
+                if (this.migrationsDone) {
+                  Notification.info(
+                    this.language.migrationsPerformedTitle,
+                    this.language.migrationsPerformedMessage,
+                    0,
+                    [
+                      {
+                        label: this.language.updateMaskDefinition,
+                        action: new DeferredAction(() => {
+                          return new AjaxRequest(TYPO3.settings.ajaxUrls.mask_persist_definition)
+                            .get()
+                            .then(async response => {
+                              const res = await response.resolve();
+                              if (res.status === 'ok') {
+                                Notification.success(res.title, res.message);
+                              }
+                              if (res.status === 'error') {
+                                Notification.error(res.title, res.message);
+                              }
+                            });
+                        })
+                      }
+                    ]
+                  );
+                }
               });
 
               // Trigger input change on TYPO3 datepicker change event.

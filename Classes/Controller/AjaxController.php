@@ -28,6 +28,7 @@ use MASK\Mask\Domain\Repository\BackendLayoutRepository;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Enumeration\Tab;
+use MASK\Mask\Loader\LoaderInterface;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use MASK\Mask\Utility\TemplatePathUtility;
@@ -118,6 +119,11 @@ class AjaxController
     protected $tableDefinitionCollection;
 
     /**
+     * @var LoaderInterface
+     */
+    protected $loader;
+
+    /**
      * @var string[]
      */
     protected static $folderPathKeys = [
@@ -140,6 +146,7 @@ class AjaxController
         ConfigurationLoader $configurationLoader,
         OnlineMediaHelperRegistry $onlineMediaHelperRegistry,
         TableDefinitionCollection $tableDefinitionCollection,
+        LoaderInterface $loader,
         array $maskExtensionConfiguration
     ) {
         $this->storageRepository = $storageRepository;
@@ -150,9 +157,10 @@ class AjaxController
         $this->resourceFactory = $resourceFactory;
         $this->configurationLoader = $configurationLoader;
         $this->onlineMediaHelperRegistry = $onlineMediaHelperRegistry;
-        $this->flashMessageQueue = new FlashMessageQueue('mask');
-        $this->maskExtensionConfiguration = $maskExtensionConfiguration;
         $this->tableDefinitionCollection = $tableDefinitionCollection;
+        $this->maskExtensionConfiguration = $maskExtensionConfiguration;
+        $this->loader = $loader;
+        $this->flashMessageQueue = new FlashMessageQueue('mask');
     }
 
     public function setupComplete(ServerRequestInterface $request): Response
@@ -588,6 +596,21 @@ class AjaxController
         return array_values($multiUseElements);
     }
 
+    public function migrationsDone(ServerRequestInterface $request): Response
+    {
+        return new JsonResponse(['migrationsDone' => (int)$this->tableDefinitionCollection->getMigrationDone()]);
+    }
+
+    public function persistMaskDefinition(ServerRequestInterface $request): Response
+    {
+        try {
+            $this->loader->write($this->tableDefinitionCollection);
+            return new JsonResponse(['status' => 'ok', 'title' => $this->translateLabel('tx_mask.update_complete.title'), 'message' => $this->translateLabel('tx_mask.update_complete.message')]);
+        } catch (\Throwable $e) {
+            return new JsonResponse(['status' => 'error', 'title' => $this->translateLabel('tx_mask.update_failed.title'), 'message' => $this->translateLabel('tx_mask.update_failed.message')]);
+        }
+    }
+
     public function icons(ServerRequestInterface $request): Response
     {
         $icons = [
@@ -893,6 +916,9 @@ class AjaxController
         $language['createMissingFilesOrFolders'] = $this->translateLabel('tx_mask.all.createmissingfolders');
         $language['missingFolders'] = $this->translateLabel('tx_mask.all.missingFolders');
         $language['missingTemplates'] = $this->translateLabel('tx_mask.all.missingTemplates');
+        $language['migrationsPerformedTitle'] = $this->translateLabel('tx_mask.migrations_performed.title');
+        $language['migrationsPerformedMessage'] = $this->translateLabel('tx_mask.migrations_performed.message');
+        $language['updateMaskDefinition'] = $this->translateLabel('tx_mask.update_mask_definition');
 
         return new JsonResponse($language);
     }

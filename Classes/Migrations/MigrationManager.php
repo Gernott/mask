@@ -43,6 +43,7 @@ class MigrationManager
                 continue;
             }
             $tableDefinitionCollection = $migration->migrate($tableDefinitionCollection);
+            $tableDefinitionCollection->migrationDone();
         }
 
         $tableDefinitionCollection->setToCurrentVersion();

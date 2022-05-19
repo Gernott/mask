@@ -62,6 +62,35 @@ the core. In addition, you can decide which online media helpers should be
 available (youtube, vimeo). You can also disable the upload by media URL
 completely with the new option `fileByUrlAllowed`.
 
+Migration Manager
+=================
+
+The Mask json definition has a long history and while many things changed in
+newer versions of Mask (and TYPO3), a whole heap of migrations were added to
+stay compatible with older definitions. First of all, a meaningful API has been
+added for migrations, called the MigrationManager. The MigrationManager will
+convert your old definitions to an up to date version, if it is necessary. This
+conversion can become resource-heavy as your elements increase in count. To
+circumvent the performance loss, a new version number is now added to your
+definitions. This version number is used to decide, whether a migration should
+be triggered. If you visit the Mask backend, a notification will appear, in case
+a migration has been done. An action button allows to update your definition
+with just one click. Don't forget to add these changes to your VCS.
+
+.. tip::
+
+   You can also update your Mask definition via CLI:
+
+   .. code-block:: shell
+
+      vendor/bin/typo3 mask:convert
+
+.. figure:: ../../Images/Mask7.2/Migrations.png
+   :alt: Migration notification
+   :class: with-border
+
+   An info notification appears, if migrations were performed
+
 Module for managing item fields
 ===============================
 
@@ -240,15 +269,6 @@ the core:
 *  The new option :ref:`fileFolderConfig <columns-select-properties-fileFolderConfig>`
    is now used instead of the old separate versions.
 
-MigrationManager and versions for Mask definitions
-==================================================
-
-A new API for migrations has been introduced for internal-only usage. This comes
-with a performance boost for up-to-date Mask definitions, as the current version
-is now stored inside Mask definitions, which can be checked against needed
-migrations. If a migration is not necessary, it is skipped and won't have a
-negative effect performance-wise.
-
 Bugfixes
 ========
 
@@ -267,6 +287,7 @@ Miscellaneous
 *  Added `enabledControls` options for type `Inline` and `File`
 *  Set `useSortable` as default to true for `Inline` and `File` fields, to enable drag and drop per default
 *  Improved HTML code generation
+*  The command :shell:`mask:convert` can now be called without arguments to persist your current definition
 
 Documentation improvements
 ==========================
@@ -310,6 +331,7 @@ Thanks for new and old contributors for this version:
 *  Nitori (Sani)
 *  Susanne Moog
 *  Guido Schmechel (ayacoo)
+*  Georg Ringer
 
 Sponsoring
 ==========
