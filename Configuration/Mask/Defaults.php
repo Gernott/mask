@@ -162,6 +162,7 @@ return [
             'config.itemGroups' => [],
             'config.sortItems' => [],
             'config.items' => [],
+            'config.fieldWizard.selectIcons.disabled' => 1,
         ],
         'tca_out' => [
             'config.type' => 'select',
