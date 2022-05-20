@@ -134,7 +134,8 @@ return [
     FieldType::SELECT => [
         'tca_in' => [
             'l10n_mode' => '',
-            'config.renderType' => 'selectSingle'
+            'config.renderType' => 'selectSingle',
+            'config.fieldWizard.selectIcons.disabled' => 1,
         ],
         'tca_out' => [
             'config.type' => 'select'
