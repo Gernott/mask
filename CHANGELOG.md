@@ -4,6 +4,161 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.1.31] - 2022-05-20
+
+### Fixed
+- Exception in Upgrade Wizard if path to templates is empty (Thanks to Georg Ringer)
+- Default value for type select "selectIcons"
+
+## [7.1.30] - 2022-05-08
+
+### Fixed
+- Error in JsonSplitLoader when path to backend layouts folder is not defined
+
+### Added
+- Index for tt_content CType
+
+## [7.1.29] - 2022-04-30
+
+### Fixed
+- Remove orphan inline fields
+- Remove field key selector if dragged into inline field
+- Prevent (new) core fields to be dragged into inline field
+
+## [7.1.28] - 2022-04-20
+
+### Fixed
+- Compatibility fix for very old Mask file fields
+
+## [7.1.27] - 2022-04-15
+
+### Fixed
+- Set TableDefinitionCollection to shared: false in DI
+
+## [7.1.26] - 2022-04-14
+
+### Fixed
+- Fix side effects of modifying the TableDefinitionCollection
+- Fix MoveRteOptions Update Wizard adding TCA for core fields
+
+## [7.1.25] - 2022-04-13
+
+### Fixed
+- The bodytext field of Mask elements can now be searched [#484](https://github.com/Gernott/mask/issues/484)
+
+## [7.1.24] - 2022-04-10
+
+### Fixed
+- Some warnings in the console
+
+### Added
+- UpgradeWizard for filling l10_source. Relevant, if you upgraded from TYPO3 v7 or lower.
+
+## [7.1.23] - 2022-03-22
+
+### Fixed
+- Empty "backend" setting no longer causing frontend templates to load
+- Select item values now trimmed [#482](https://github.com/Gernott/mask/issues/482)
+
+### Added
+-  \#StandWithUkraine
+
+## [7.1.22] - 2022-03-17
+
+### Fixed
+- Fix FolderDoesNotExistException (thanks Martin Lipp)
+
+## [7.1.21] - 2022-03-17
+
+### Fixed
+- Compatibility with typo3/cms-composer-installers v4 [#477](https://github.com/Gernott/mask/issues/477), [#478](https://github.com/Gernott/mask/issues/478)
+
+## [7.1.20] - 2022-03-10
+
+### Fixed
+- Catch exception for orphan table definitions
+
+## [7.1.19] - 2022-02-18
+
+### Fixed
+- Richtext fields are now searchable in LiveSearch (Thanks Nitori) [#471](https://github.com/Gernott/mask/pull/471)
+- Fixed search fields generation in general
+- Error prevented, when creating empty inline field
+- Error prevented, when creating empty palette
+
+## [7.1.18] - 2022-02-11
+
+### Fixed
+- The auto-configuration module now generates the backend layout folder [#469](https://github.com/Gernott/mask/issues/469)
+- Fixed warning in PHP 8 due to generation of invalid TCA [#470](https://github.com/Gernott/mask/issues/470)
+
+## [7.1.17] - 2022-01-27
+
+### Fixed
+- Inline items disabled in LIVE workspace are now visible in custom workspace. [#468](https://github.com/Gernott/mask/issues/468)
+- Disabled records are no longer loaded in backend preview.
+- Page inline fields are now translated correctly.
+- Avoid deprecated method call to fetchAll.
+- Auto-Configuration won't remove config for other loader anymore.
+
+## [7.1.16] - 2022-01-20
+
+### Fixed
+- Prevent ConvertTemplates wizard from renaming every file [#467](https://github.com/Gernott/mask/issues/467)
+
+## [7.1.15] - 2022-01-17
+
+### Fixed
+- Fix preview mode
+- Prevent empty TCA error for extension fields
+- Fix backend layout resolving [#466](https://github.com/Gernott/mask/issues/466)
+
+## [7.1.14] - 2022-01-04
+
+### Fixed
+- JsonSplitLoader resolves now nested inline fields correctly (Thanks to Can Karadağ)
+- Fetch workspace ID from context API (thanks to Susanne Moog)
+- php-cs-fixer tests in CI
+
+## [7.1.13] - 2021-12-25
+
+### Fixed
+- Config cleaner fixes
+
+### Changed
+- Improved documentation introduction
+
+## [7.1.12] - 2021-12-22
+
+### Fixed
+- HTML example generation works again on first save
+
+## [7.1.11] - 2021-12-22
+
+### Fixed
+- Labels and descriptions are visible again in inline fields
+
+## [7.1.10] - 2021-12-22
+
+### Fixed
+- Followup fix: Call to a member function isRenderable() on null
+
+## [7.1.9] - 2021-12-22
+
+### Fixed
+- Preserve order of elements
+
+## [7.1.8] - 2021-12-22
+
+### Fixed
+- Order of inline fields
+- Compatibility layer for missing descriptions
+
+## [7.1.7] - 2021-12-20
+
+### Fixed
+- TypeError when facing orphan rte options [#458](https://github.com/Gernott/mask/issues/458)
+
 ## [7.1.6] - 2021-12-19
 
 ### Fixed
