@@ -21,7 +21,21 @@ return [
             'config.appearance.showNewRecordLink' => 6,
         ],
         [
+            'config.appearance.collapseAll' => 6,
             'config.appearance.expandSingle' => 6,
+            'config.appearance.useSortable' => 6,
+        ],
+    ],
+    Tab::ENABLED_CONTROLS => [
+        [
+            'config.appearance.enabledControls' => 12,
+            'config.appearance.enabledControls.info' => 4,
+            'config.appearance.enabledControls.new' => 4,
+            'config.appearance.enabledControls.dragdrop' => 4,
+            'config.appearance.enabledControls.sort' => 4,
+            'config.appearance.enabledControls.hide' => 4,
+            'config.appearance.enabledControls.delete' => 4,
+            'config.appearance.enabledControls.localize' => 4,
         ],
     ],
     Tab::LOCALIZATION => [
