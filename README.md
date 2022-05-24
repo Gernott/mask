@@ -59,18 +59,18 @@ Read a detailed explanation for each advantage and why to use Mask over other al
 
 ## Mask versions :calendar:
 
-| Mask Version | TYPO3 Version | Release Date | Status              | More Info |
-|--------------|---------------|--------------|---------------------|-----------|
-| v8.0         | v11, v12      | March 2023   | -                   | Compatibility TYPO3 v12 |
-| v7.2         | v10, v11      | Summer 2022  | development         | Slug field, new TYPO3 v11 features |
-| v7.1         | v10, v11      | 2021-12-14   | regular maintenance | [JsonSplitLoader, new API](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/7.1/Index.html) |
-| v7.0         | v10, v11      | 2021-05-12   | discontinued        | [VueJS based Mask Backend](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/7.0/Index.html)|
-| v6           | v10, v11.1    | 2020-10-08   | critical bugfixes   | [Palettes, Groups and more](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/6.0/Index.html)|
-| v5           | v10           | 2020-04-18   | discontinued        | Please update to v7                                                                            |
-| v4           | v9            | 2018-10-04   | discontinued        |                                                                                                |
-| v3           | v8            | 2017-05-23   | discontinued        |                                                                                                |
-| v2           | v7            | 2016-05-10   | discontinued        |                                                                                                |
-| v1           | v6, v7        | 2015-08-12   | discontinued        |                                                                                                |
+| Mask Version | TYPO3 Version | Release Date | Status              | More Info                                                                                              |
+|--------------|---------------|--------------|---------------------|--------------------------------------------------------------------------------------------------------|
+| v8.0         | v11, v12      | March 2023   | development         | Compatibility TYPO3 v12                                                                                |
+| v7.2         | v10, v11      | 2022-05-25   | regular maintenance | [New field types, improved UX](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/7.2/Index.html) |
+| v7.1         | v10, v11      | 2021-12-14   | discontinued        | [JsonSplitLoader, new API](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/7.1/Index.html)     |
+| v7.0         | v10, v11      | 2021-05-12   | discontinued        | [VueJS based Mask Backend](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/7.0/Index.html)     |
+| v6           | v10, v11.1    | 2020-10-08   | critical bugfixes   | [Palettes, Groups and more](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/6.0/Index.html)    |
+| v5           | v10           | 2020-04-18   | discontinued        | Please update to v7                                                                                    |
+| v4           | v9            | 2018-10-04   | discontinued        |                                                                                                        |
+| v3           | v8            | 2017-05-23   | discontinued        |                                                                                                        |
+| v2           | v7            | 2016-05-10   | discontinued        |                                                                                                        |
+| v1           | v6, v7        | 2015-08-12   | discontinued        |                                                                                                        |
 
 ## Need help? :left_speech_bubble:
 
