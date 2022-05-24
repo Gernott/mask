@@ -334,7 +334,7 @@ Statistics
 
 .. code-block:: shell
 
-   191 files changed, 10134 insertions(+), 1641 deletions(-)
+   249 files changed, 14697 insertions(+), 5244 deletions(-)
 
 
 Credits
