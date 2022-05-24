@@ -556,7 +556,7 @@ title3, value3, icon3, description3
 				<source>Allowed content elements</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.allowed_content.description">
-				<source>Choose one or more content elements, which should be selectable by the user. Hold CTRL for multi-select.</source>
+				<source>Choose one or more content elements, which should be selectable by the user.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.localization_mode">
 				<source>Localization Mode</source>

@@ -1,0 +1,9 @@
+.mask-multiple-side-by-side-list {
+    max-height: 450px;
+    overflow-y: scroll;
+
+    .list-group-item {
+        cursor: pointer;
+        user-select: none;
+    }
+}

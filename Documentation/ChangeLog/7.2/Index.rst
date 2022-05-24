@@ -106,6 +106,21 @@ now.
 
    The items module helps you add, move and remove items
 
+CType selection as multiple side by side
+========================================
+
+Wasn't it annoying not being able to change the first cType item for a type
+Content field? For me it was. So I created a similar module like the good old
+SelectMultipleSideBySide from TYPO3. It is possible to drag the items between
+the two lists or by clicking on them. Inside the selected list sorting of items
+is enabled.
+
+.. figure:: ../../Images/Mask7.2/CTypeSelect.png
+   :alt: Mask CType select
+   :class: with-border
+
+   Choose CType items by drag and drop or by clicking on them
+
 `foreign_table` now selectable from defined TCA tables
 ======================================================
 

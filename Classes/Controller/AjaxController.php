@@ -919,6 +919,8 @@ class AjaxController
         $language['migrationsPerformedTitle'] = $this->translateLabel('tx_mask.migrations_performed.title');
         $language['migrationsPerformedMessage'] = $this->translateLabel('tx_mask.migrations_performed.message');
         $language['updateMaskDefinition'] = $this->translateLabel('tx_mask.update_mask_definition');
+        $language['selectedItems'] = $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.selected');
+        $language['availableItems'] = $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.items');
 
         return new JsonResponse($language);
     }

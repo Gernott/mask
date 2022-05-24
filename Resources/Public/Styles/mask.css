@@ -1226,4 +1226,13 @@
   background-color: rgba(0, 0, 0, 0.1);
 }
 
+.mask-multiple-side-by-side-list {
+  max-height: 450px;
+  overflow-y: scroll;
+}
+.mask-multiple-side-by-side-list .list-group-item {
+  cursor: pointer;
+  user-select: none;
+}
+
 /*# sourceMappingURL=mask.css.map */

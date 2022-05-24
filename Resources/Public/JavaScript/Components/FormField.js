@@ -3,8 +3,9 @@ define([
     'TYPO3/CMS/Mask/Components/Colorpicker',
     'TYPO3/CMS/Mask/Components/KeyValueList',
     'TYPO3/CMS/Mask/Components/ItemList',
+    'TYPO3/CMS/Mask/Components/SelectMultipleSideBySide',
   ],
-  function (Vue, Colorpicker, KeyValueList, ItemList) {
+  function (Vue, Colorpicker, KeyValueList, ItemList, SelectMultipleSideBySide) {
     return Vue.component(
       'form-field',
       {
@@ -12,6 +13,7 @@ define([
           Colorpicker,
           KeyValueList,
           ItemList,
+          SelectMultipleSideBySide,
         },
         props: {
           column: Number,
@@ -191,9 +193,7 @@ define([
               </div>
             </div>
             <div v-if="type == 'cTypes'" class="form-control-wrap">
-              <select v-model="global.activeField.tca[tcaKey]" class="form-control" multiple="multiple" size="20">
-                <option v-for="(item, key) in global.ctypes" :value="key">{{ item }} <span v-if="key !== ''">[{{ key }}]</span></option>
-              </select>
+              <select-multiple-side-by-side v-model="global.activeField.tca[tcaKey]" :items="global.ctypes" :language="language" :version="global.typo3Version"/>
             </div>
             <div v-if="type == 'onlineMedia'" class="form-control-wrap">
                 <div class="form-wizards-wrap">
