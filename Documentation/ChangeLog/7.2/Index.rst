@@ -62,35 +62,6 @@ the core. In addition, you can decide which online media helpers should be
 available (youtube, vimeo). You can also disable the upload by media URL
 completely with the new option `fileByUrlAllowed`.
 
-Migration Manager
-=================
-
-The Mask json definition has a long history and while many things changed in
-newer versions of Mask (and TYPO3), a whole heap of migrations were added to
-stay compatible with older definitions. First of all, a meaningful API has been
-added for migrations, called the MigrationManager. The MigrationManager will
-convert your old definitions to an up to date version, if it is necessary. This
-conversion can become resource-heavy as your elements increase in count. To
-circumvent the performance loss, a new version number is now added to your
-definitions. This version number is used to decide, whether a migration should
-be triggered. If you visit the Mask backend, a notification will appear, in case
-a migration has been done. An action button allows to update your definition
-with just one click. Don't forget to add these changes to your VCS.
-
-.. tip::
-
-   You can also update your Mask definition via CLI:
-
-   .. code-block:: shell
-
-      vendor/bin/typo3 mask:convert
-
-.. figure:: ../../Images/Mask7.2/Migrations.png
-   :alt: Migration notification
-   :class: with-border
-
-   An info notification appears, if migrations were performed
-
 Module for managing item fields
 ===============================
 
@@ -269,6 +240,35 @@ select it as type text and type richtext. Backwards compatibility is given.
    :class: with-border
 
    The bodytext field can now be selected as plain text
+
+Migration Manager
+=================
+
+The Mask json definition has a long history and while many things changed in
+newer versions of Mask (and TYPO3), a whole heap of migrations were added to
+stay compatible with older definitions. First of all, a meaningful API has been
+added for migrations, called the MigrationManager. The MigrationManager will
+convert your old definitions to an up to date version, if it is necessary. This
+conversion can become resource-heavy as your elements increase in count. To
+circumvent the performance loss, a new version number is now added to your
+definitions. This version number is used to decide, whether a migration should
+be triggered. If you visit the Mask backend, a notification will appear, in case
+a migration has been done. An action button allows to update your definition
+with just one click. Don't forget to add these changes to your VCS.
+
+.. tip::
+
+   You can also update your Mask definition via CLI:
+
+   .. code-block:: shell
+
+      vendor/bin/typo3 mask:convert
+
+.. figure:: ../../Images/Mask7.2/Migrations.png
+   :alt: Migration notification
+   :class: with-border
+
+   An info notification appears, if migrations were performed
 
 TYPO3 v11 deprecation free
 ==========================
