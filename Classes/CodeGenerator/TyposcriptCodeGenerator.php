@@ -99,6 +99,7 @@ class TyposcriptCodeGenerator
                     'tt_content_defValues' => [
                         'CType' => $cTypeKey,
                     ],
+                    'saveAndClose' => $element->saveAndClose ? '1' : '0',
                 ],
             ];
 

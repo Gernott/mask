@@ -90,6 +90,11 @@ final class ElementDefinition
      */
     public $sorting = 0;
 
+    /**
+     * @var bool
+     */
+    public $saveAndClose = false;
+
     public static function createFromArray(array $elementArray, string $table): ElementDefinition
     {
         $elementDefinition = new self();
@@ -116,6 +121,7 @@ final class ElementDefinition
         $elementDefinition->options = $elementArray['options'] ?? [];
         $elementDefinition->hidden = !empty($elementArray['hidden']);
         $elementDefinition->sorting = (int)($elementArray['sorting'] ?? 0);
+        $elementDefinition->saveAndClose = !empty($elementArray['saveAndClose']);
 
         return $elementDefinition;
     }
@@ -139,6 +145,10 @@ final class ElementDefinition
 
         if ($this->hidden) {
             $element['hidden'] = 1;
+        }
+
+        if ($this->saveAndClose) {
+            $element['saveAndClose'] = 1;
         }
 
         if (!empty($this->options)) {

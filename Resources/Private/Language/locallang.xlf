@@ -1478,6 +1478,9 @@ title3, value3, icon3, description3
 			<trans-unit id="tx_mask.update_failed.message">
 				<source>Something went wrong while trying to persist your Mask definition.</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.saveAndClose">
+				<source>Save And Close</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

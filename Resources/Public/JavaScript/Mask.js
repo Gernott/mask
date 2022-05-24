@@ -453,6 +453,7 @@ define([
             colorOverlay: this.element.colorOverlay,
             hidden: this.element.hidden,
             sorting: this.element.sorting,
+            saveAndClose: this.element.saveAndClose,
           };
 
           if (this.global.typo3Version > 10) {
@@ -1201,6 +1202,7 @@ define([
           color: '#000000',
           iconOverlay: '',
           colorOverlay: '#000000',
+          saveAndClose: 0,
         };
       },
       isParentField: function (field) {
