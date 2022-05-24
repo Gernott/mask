@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.2.0] - 2021-05-25
+
+The new v7.2 version comes with a lot of new features!
+
+Read the [release article](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/7.2/Index.html) to learn more about
+the new version.
+
+### Added
+- Category field
+- Slug field
+- Media field
+- Better UX
+- Migration Manager
+- New TYPO3 v11 features
+- much, much more ...
+
 ## [7.1.31] - 2022-05-20
 
 ### Fixed
