@@ -303,6 +303,7 @@ Miscellaneous
 *  Set `useSortable` as default to true for `Inline` and `File` fields, to enable drag and drop per default
 *  Improved HTML code generation
 *  The command :shell:`mask:convert` can now be called without arguments to persist your current definition
+*  `saveAndClose` for content elements is now available in the settings
 
 Documentation improvements
 ==========================
