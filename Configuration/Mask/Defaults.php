@@ -268,7 +268,6 @@ return [
             'config.foreign_field' => 'parentid',
             'config.foreign_table_field' => 'parenttable',
             'config.foreign_sortby' => 'sorting',
-            'config.appearance.enabledControls.dragdrop' => 1,
         ],
         'sql' => 'int(11) unsigned DEFAULT \'0\' NOT NULL',
     ],
