@@ -65,7 +65,7 @@ Read a detailed explanation for each advantage and why to use Mask over other al
 | v7.2         | v10, v11      | 2022-05-25   | regular maintenance | [New field types, improved UX](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/7.2/Index.html) |
 | v7.1         | v10, v11      | 2021-12-14   | discontinued        | [JsonSplitLoader, new API](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/7.1/Index.html)     |
 | v7.0         | v10, v11      | 2021-05-12   | discontinued        | [VueJS based Mask Backend](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/7.0/Index.html)     |
-| v6           | v10, v11.1    | 2020-10-08   | critical bugfixes   | [Palettes, Groups and more](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/6.0/Index.html)    |
+| v6           | v10, v11.1    | 2020-10-08   | discontinued        | [Palettes, Groups and more](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/6.0/Index.html)    |
 | v5           | v10           | 2020-04-18   | discontinued        | Please update to v7                                                                                    |
 | v4           | v9            | 2018-10-04   | discontinued        |                                                                                                        |
 | v3           | v8            | 2017-05-23   | discontinued        |                                                                                                        |
