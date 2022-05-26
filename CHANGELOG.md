@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.2.1] - 2021-05-26
+
+### Fixed
+- Relation records like category, group and select are now correctly translated [#489](https://github.com/Gernott/mask/issues/489)
+- Content Element search now works on the element key, too.
+
 ## [7.2.0] - 2021-05-25
 
 The new v7.2 version comes with a lot of new features!
