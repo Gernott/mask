@@ -31,6 +31,7 @@ use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Methods for working with inline fields (IRRE)
@@ -202,6 +203,7 @@ class InlineHelper
      */
     protected function getRelations(string $uidList, string $allowed, string $mmTable, int $uid, string $table, array $tcaFieldConf = []): array
     {
+        $pageRepository = $this->getPageRepository();
         $relationHandler = GeneralUtility::makeInstance(RelationHandler::class);
         $relationHandler->start($uidList, $allowed, $mmTable, $uid, $table, $tcaFieldConf);
         $relationHandler->getFromDB();
@@ -209,8 +211,10 @@ class InlineHelper
         $records = [];
         foreach ($relations as $relation) {
             $tableName = $relation['table'];
-            $uid = $relation['uid'];
-            $records[] = BackendUtility::getRecordWSOL($tableName, $uid);
+            $translatedRecord = $pageRepository->getLanguageOverlay($tableName, $relation['record']);
+            if ($translatedRecord !== null) {
+                $records[] = $translatedRecord;
+            }
         }
         return $records;
     }
@@ -286,8 +290,7 @@ class InlineHelper
         // and recursively add them to an array
         $elements = [];
         if ($isFrontendRequest) {
-            /** @var PageRepository $pageRepository */
-            $pageRepository = $GLOBALS['TSFE']->sys_page;
+            $pageRepository = $this->getPageRepository();
             foreach ($rows as $element) {
                 if ($inWorkspacePreviewMode) {
                     $pageRepository->versionOL($childTable, $element);
@@ -327,5 +330,14 @@ class InlineHelper
         }
 
         return $elements;
+    }
+
+    protected function getPageRepository(): PageRepository
+    {
+        $tsfe = $GLOBALS['TSFE'] ?? null;
+        if ($tsfe instanceof TypoScriptFrontendController && $tsfe->sys_page !== '') {
+            return $tsfe->sys_page;
+        }
+        return GeneralUtility::makeInstance(PageRepository::class);
     }
 }
