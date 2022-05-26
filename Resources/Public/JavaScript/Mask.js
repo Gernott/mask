@@ -1387,7 +1387,8 @@ define([
         return Object.values(this.elements).filter((element) => {
           return element.label.toLowerCase().includes(this.lowerCaseSearchString)
             || element.shortLabel.toLowerCase().includes(this.lowerCaseSearchString)
-            || element.description.toLowerCase().includes(this.lowerCaseSearchString);
+            || element.description.toLowerCase().includes(this.lowerCaseSearchString)
+            || element.key.includes(this.lowerCaseSearchString);
         });
       },
       lowerCaseSearchString() {
