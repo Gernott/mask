@@ -235,7 +235,7 @@ class InlineHelper
         string $parenttable = 'tt_content',
         ?string $childTable = null
     ): array {
-        // if the name of the child table is not explicitely given, take field key
+        // if the name of the child table is not explicitly given, take field key
         if (!$childTable) {
             $childTable = $name;
         }
