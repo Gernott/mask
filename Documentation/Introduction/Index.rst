@@ -6,6 +6,11 @@
 Introduction
 ============
 
+Intro video
+===========
+
+.. youtube:: g1EGnF5idCA
+
 .. _what-it-does:
 
 What is Mask
