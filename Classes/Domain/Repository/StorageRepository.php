@@ -200,11 +200,6 @@ class StorageRepository implements SingletonInterface
             if (isset($defaults[$field['name']]['sql']) && AffixUtility::hasMaskPrefix($field['key'])) {
                 // Keep existing value. For new fields use defaults.
                 $json[$table]['sql'][$fieldname][$table][$fieldname] = $field['sql'] ?? $defaults[$field['name']]['sql'];
-
-                // Set sys_file_reference entry for mask file fields.
-                if ($fieldType->equals(FieldType::FILE)) {
-                    $json['sys_file_reference']['sql'][$fieldname]['sys_file_reference'][$fieldname] = "int(11) unsigned DEFAULT '0' NOT NULL";
-                }
             }
             if (isset($field['fields'])) {
                 $inlineTable = $fieldType->equals(FieldType::INLINE) ? $field['key'] : $table;
