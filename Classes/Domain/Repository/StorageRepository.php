@@ -195,11 +195,11 @@ class StorageRepository implements SingletonInterface
         $defaults = $this->configurationLoader->loadDefaults();
         foreach ($fields as $field) {
             $fieldType = FieldType::cast($field['name']);
-            $fieldname = $field['key'];
+            $fieldName = $field['key'];
             // If mask field which needs table column
             if (isset($defaults[$field['name']]['sql']) && AffixUtility::hasMaskPrefix($field['key'])) {
                 // Keep existing value. For new fields use defaults.
-                $json[$table]['sql'][$fieldname][$table][$fieldname] = $field['sql'] ?? $defaults[$field['name']]['sql'];
+                $json[$table]['sql'][$fieldName][$table][$fieldName] = $field['sql'] ?? $defaults[$field['name']]['sql'];
             }
             if (isset($field['fields'])) {
                 $inlineTable = $fieldType->equals(FieldType::INLINE) ? $field['key'] : $table;
