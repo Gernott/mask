@@ -55,6 +55,7 @@ use TYPO3\CMS\Core\Resource\ProcessedFile;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
@@ -372,7 +373,16 @@ class AjaxController
                 ];
                 if ($image instanceof File) {
                     $processedImage = $image->process(ProcessedFile::CONTEXT_IMAGECROPSCALEMASK, $processingInstructions);
-                    $backendLayout->setIconPath($processedImage->getPublicUrl());
+                    $publicUrl = $processedImage->getPublicUrl();
+                    // TYPO3 v10 compatibility
+                    // This is essentially what is done in PublicUrlPrefixer since TYPO3 v11.
+                    if (
+                        (new Typo3Version())->getMajorVersion() === 10
+                        && !(str_starts_with($publicUrl, '//') || strpos($publicUrl, '://') > 0)
+                    ) {
+                        $publicUrl = GeneralUtility::getIndpEnv('TYPO3_SITE_PATH') . $publicUrl;
+                    }
+                    $backendLayout->setIconPath($publicUrl);
                 }
             }
             $json['backendLayouts'][] = [
