@@ -367,11 +367,11 @@ class AjaxController
             $iconPath = $backendLayout->getIconPath();
             if ($iconPath) {
                 $image = $this->resourceFactory->retrieveFileOrFolderObject($iconPath);
-                $processingInstructions = [
-                    'width' => '32',
-                    'height' => '32c',
-                ];
                 if ($image instanceof File) {
+                    $processingInstructions = [
+                        'width' => '32',
+                        'height' => '32c',
+                    ];
                     $processedImage = $image->process(ProcessedFile::CONTEXT_IMAGECROPSCALEMASK, $processingInstructions);
                     $publicUrl = $processedImage->getPublicUrl();
                     // TYPO3 v10 compatibility
