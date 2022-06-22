@@ -361,12 +361,6 @@ class StorageRepository implements SingletonInterface
             if ($fieldType->equals(FieldType::PALETTE)) {
                 unset($json[$table]['palettes'][$field->fullKey]);
             }
-
-            // If field is of type file, also delete entry in sys_file_reference
-            if ($fieldType->equals(FieldType::FILE)) {
-                unset($json['sys_file_reference']['sql'][$field->fullKey]);
-                $json = $this->cleanTable('sys_file_reference', $json);
-            }
         }
         return $this->cleanTable($table, $json);
     }

@@ -273,15 +273,6 @@ class JsonSplitLoaderTest extends UnitTestCase
         self::assertEquals($configurationB, json_decode(file_get_contents($contentElementsPath . '/b.json'), true)['tables']);
 
         $configurationC = [
-            'sys_file_reference' => [
-                'sql' => [
-                    'tx_mask_file' => [
-                        'sys_file_reference' => [
-                            'tx_mask_file' => 'int(11) unsigned DEFAULT \'0\' NOT NULL',
-                        ],
-                    ],
-                ],
-            ],
             'tt_content' => [
                 'elements' => [
                     'c' => [
@@ -1045,15 +1036,6 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'label' => 'Palette 1',
                         'description' => 'Description for palette 1',
                         'showitem' => ['tx_mask_inline'],
-                    ],
-                ],
-            ],
-            'sys_file_reference' => [
-                'sql' => [
-                    'tx_mask_file' => [
-                        'sys_file_reference' => [
-                            'tx_mask_file' => 'int(11) unsigned DEFAULT \'0\' NOT NULL',
-                        ],
                     ],
                 ],
             ],

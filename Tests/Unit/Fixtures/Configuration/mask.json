@@ -252,18 +252,6 @@
 			}
 		}
 	},
-	"sys_file_reference": {
-		"elements": [],
-		"sql": {
-			"tx_mask_file": {
-				"sys_file_reference": {
-					"tx_mask_file": "int(11) unsigned DEFAULT '0' NOT NULL"
-				}
-			}
-		},
-		"tca": [],
-		"palettes": []
-	},
 	"tx_mask_inline": {
 		"elements": [],
 		"sql": {

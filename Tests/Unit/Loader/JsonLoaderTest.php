@@ -378,15 +378,6 @@ class JsonLoaderTest extends UnitTestCase
                     ],
                 ],
             ],
-            'sys_file_reference' => [
-                'sql' => [
-                    'tx_mask_file' => [
-                        'sys_file_reference' => [
-                            'tx_mask_file' => 'int(11) unsigned DEFAULT \'0\' NOT NULL',
-                        ],
-                    ],
-                ],
-            ],
         ];
     }
 
