@@ -1038,6 +1038,173 @@ class StorageRepositoryTest extends BaseTestCase
             ],
             'isNew' => true,
         ];
+
+        yield 'Array like TCA fields are replaced completely when used in other elements' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'label' => 'Element 1',
+                            'key' => 'element1',
+                            'shortLabel' => '',
+                            'description' => '',
+                            'icon' => '',
+                            'color' => '#000000',
+                            'sorting' => '1',
+                            'columns' => [
+                                'tx_mask_select',
+                            ],
+                            'labels' => [
+                                'Select 1',
+                            ],
+                            'descriptions' => [
+                                '',
+                            ],
+                        ],
+                        'element2' => [
+                            'label' => 'Element 2',
+                            'key' => 'element2',
+                            'shortLabel' => '',
+                            'description' => '',
+                            'icon' => '',
+                            'color' => '#000000',
+                            'sorting' => '2',
+                            'columns' => [
+                                'tx_mask_select',
+                            ],
+                            'labels' => [
+                                'Select 1',
+                            ],
+                            'descriptions' => [
+                                '',
+                            ],
+                        ],
+                    ],
+                    'tca' => [
+                        'tx_mask_select' => [
+                            'key' => 'select',
+                            'fullKey' => 'tx_mask_select',
+                            'type' => 'select',
+                            'config' => [
+                                'type' => 'select',
+                                'items' => [
+                                    [
+                                        'Item 1',
+                                        '1',
+                                        '',
+                                        '',
+                                    ],
+                                    [
+                                        'Item 2',
+                                        '2',
+                                        '',
+                                        '',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'element' => [
+                'label' => 'Element 2',
+                'key' => 'element2',
+                'shortLabel' => '',
+                'description' => '',
+                'icon' => '',
+                'color' => '#000000',
+            ],
+            'fields' => [
+                'tx_mask_select' => [
+                    'key' => 'tx_mask_select',
+                    'label' => 'Select 1',
+                    'description' => '',
+                    'name' => 'select',
+                    'tca' => [
+                        'config.items' => [
+                            [
+                                'Item 1',
+                                '1',
+                                '',
+                                '',
+                            ],
+                        ],
+                        'config.renderType' => 'selectSingle',
+                    ],
+                ],
+            ],
+            'table' => 'tt_content',
+            'expected' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'label' => 'Element 1',
+                            'key' => 'element1',
+                            'shortLabel' => '',
+                            'description' => '',
+                            'icon' => '',
+                            'color' => '#000000',
+                            'sorting' => '1',
+                            'columns' => [
+                                'tx_mask_select',
+                            ],
+                            'labels' => [
+                                'Select 1',
+                            ],
+                            'descriptions' => [
+                                '',
+                            ],
+                            'colorOverlay' => '',
+                            'iconOverlay' => '',
+                        ],
+                        'element2' => [
+                            'label' => 'Element 2',
+                            'key' => 'element2',
+                            'shortLabel' => '',
+                            'description' => '',
+                            'icon' => '',
+                            'color' => '#000000',
+                            'columns' => [
+                                'tx_mask_select',
+                            ],
+                            'labels' => [
+                                'Select 1',
+                            ],
+                            'descriptions' => [
+                                '',
+                            ],
+                        ],
+                    ],
+                    'tca' => [
+                        'tx_mask_select' => [
+                            'key' => 'select',
+                            'fullKey' => 'tx_mask_select',
+                            'type' => 'select',
+                            'config' => [
+                                'type' => 'select',
+                                'items' => [
+                                    [
+                                        'Item 1',
+                                        '1',
+                                        '',
+                                        '',
+                                    ],
+                                ],
+                                'renderType' => 'selectSingle',
+                            ],
+                        ],
+                    ],
+                    'sql' => [
+                        'tx_mask_select' => [
+                            'tt_content' => [
+                                'tx_mask_select' => 'varchar(255) DEFAULT \'\' NOT NULL',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'isNew' => false,
+        ];
     }
 
     /**

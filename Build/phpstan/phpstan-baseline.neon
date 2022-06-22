@@ -496,12 +496,12 @@ parameters:
 			path: ../../Classes/Domain/Repository/StorageRepository.php
 
 		-
-			message: "#^Method MASK\\\\Mask\\\\Domain\\\\Repository\\\\StorageRepository\\:\\:getElementsWhichUseField\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: "#^Method MASK\\\\Mask\\\\Domain\\\\Repository\\\\StorageRepository\\:\\:fieldExistsInNestedFields\\(\\) has parameter \\$fields with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Domain/Repository/StorageRepository.php
 
 		-
-			message: "#^Method MASK\\\\Mask\\\\Domain\\\\Repository\\\\StorageRepository\\:\\:getHighestSorting\\(\\) has parameter \\$elements with no value type specified in iterable type array\\.$#"
+			message: "#^Method MASK\\\\Mask\\\\Domain\\\\Repository\\\\StorageRepository\\:\\:getElementsWhichUseField\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Domain/Repository/StorageRepository.php
 
@@ -531,7 +531,17 @@ parameters:
 			path: ../../Classes/Domain/Repository/StorageRepository.php
 
 		-
+			message: "#^Method MASK\\\\Mask\\\\Domain\\\\Repository\\\\StorageRepository\\:\\:remove\\(\\) has parameter \\$addedFields with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../Classes/Domain/Repository/StorageRepository.php
+
+		-
 			message: "#^Method MASK\\\\Mask\\\\Domain\\\\Repository\\\\StorageRepository\\:\\:remove\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../Classes/Domain/Repository/StorageRepository.php
+
+		-
+			message: "#^Method MASK\\\\Mask\\\\Domain\\\\Repository\\\\StorageRepository\\:\\:removeField\\(\\) has parameter \\$addedFields with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Domain/Repository/StorageRepository.php
 

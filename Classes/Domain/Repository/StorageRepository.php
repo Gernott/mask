@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace MASK\Mask\Domain\Repository;
 
 use MASK\Mask\ConfigurationLoader\ConfigurationLoaderInterface;
+use MASK\Mask\Definition\ElementDefinitionCollection;
 use MASK\Mask\Definition\ElementTcaDefinition;
 use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Definition\TcaFieldDefinition;
@@ -31,7 +32,7 @@ use TYPO3\CMS\Core\Utility\ArrayUtility;
 /**
  * This class is responsible for the persistence of content elements.
  * It manages adding, removing and updating operations.
- * For read only use cases, TableDefinitonCollection should be used directly.
+ * For read only use cases, TableDefinitionCollection should be used directly.
  */
 class StorageRepository implements SingletonInterface
 {
@@ -90,41 +91,35 @@ class StorageRepository implements SingletonInterface
     }
 
     /**
-     * Sort and persist content elements.
+     * Persist content elements.
      */
     public function persist(array $json): TableDefinitionCollection
     {
-        // sort content elements by key before saving
         return $this->write($json);
     }
 
     /**
      * Adds a new content element.
+     *
+     * @internal For internal usage only.
      */
     public function add(array $element, array $fields, string $table, bool $isNew): array
     {
-        if ($isNew) {
-            // Add sorting for new element
-            $json = $this->load();
-            $sorting = $this->getHighestSorting($json[$table]['elements'] ?? []) + 1;
-            $element['sorting'] = (string)$sorting;
-        } else {
-            $json = $this->remove($table, $element['key']);
-            $this->persist($json);
-        }
-
-        // Load
-        $json = $this->load();
-        $jsonAdd = [];
         $elementKey = $element['key'];
 
-        // Set element
+        $jsonAdd = [];
         $jsonAdd[$table]['elements'][$elementKey] = $element;
-
         $jsonAdd = $this->setSql($jsonAdd, $fields, $table);
-
-        // Create JSON tca Array:
         $jsonAdd = $this->addFieldsToJson($jsonAdd, $fields, $elementKey, $table, $table);
+
+        // Add sorting for new element
+        if ($isNew) {
+            $sorting = $this->getHighestSorting($this->loader->load()->getTable($table)->elements);
+            $sorting += 1;
+            $jsonAdd[$table]['elements'][$elementKey]['sorting'] = (string)$sorting;
+        }
+
+        $json = $this->remove($table, $element['key'], $fields);
         ArrayUtility::mergeRecursiveWithOverrule($json, $jsonAdd);
 
         return $json;
@@ -132,8 +127,10 @@ class StorageRepository implements SingletonInterface
 
     /**
      * Removes a content element for the given table.
+     *
+     * @internal For internal usage only.
      */
-    public function remove(string $table, string $elementKey): array
+    public function remove(string $table, string $elementKey, array $addedFields = []): array
     {
         $this->currentKey = $elementKey;
         $json = $this->load();
@@ -145,7 +142,7 @@ class StorageRepository implements SingletonInterface
 
         unset($json[$table]['elements'][$elementKey]);
         foreach ($element->getRootTcaFields() as $field) {
-            $json = $this->removeField($table, $field, $json);
+            $json = $this->removeField($table, $field, $json, $addedFields);
         }
         $this->currentKey = '';
         return $json;
@@ -153,6 +150,8 @@ class StorageRepository implements SingletonInterface
 
     /**
      * Updates Content-Element in Storage-Repository
+     *
+     * @internal For internal usage only.
      */
     public function update(array $element, array $fields, string $table, bool $isNew): TableDefinitionCollection
     {
@@ -179,12 +178,12 @@ class StorageRepository implements SingletonInterface
         return $this->write($json);
     }
 
-    protected function getHighestSorting(array $elements): int
+    protected function getHighestSorting(ElementDefinitionCollection $elements): int
     {
         $max = 0;
         foreach ($elements as $element) {
-            if (($element['sorting'] ?? 0) > $max) {
-                $max = (int)$element['sorting'];
+            if ($element->sorting > $max) {
+                $max = $element->sorting;
             }
         }
         return $max;
@@ -319,7 +318,7 @@ class StorageRepository implements SingletonInterface
     /**
      * Removes a field from the json, also recursively all inline-fields
      */
-    protected function removeField(string $table, TcaFieldDefinition $field, array $json): array
+    protected function removeField(string $table, TcaFieldDefinition $field, array $json, array $addedFields): array
     {
         // check if this field is used in any other elements
         $usedInAnotherElement = $this->tableDefinitionCollection->getElementsWhichUseField($field->fullKey, $table)->count() > 1;
@@ -334,6 +333,12 @@ class StorageRepository implements SingletonInterface
             );
         }
 
+        // Remove TCA config, if the field is used in another element and will be added back again later.
+        // This prevents incorrect merging of array-like configurations (e.g. items).
+        if ($usedInAnotherElement && $this->fieldExistsInNestedFields($addedFields, $field->fullKey)) {
+            unset($json[$table]['tca'][$field->fullKey]['config']);
+        }
+
         // then delete the field, if it is not in use in another element
         if (!$usedInAnotherElement) {
             // if the field is a repeating field, make some exceptions
@@ -342,7 +347,7 @@ class StorageRepository implements SingletonInterface
                 // Recursively delete all inline field if possible
                 foreach ($this->tableDefinitionCollection->loadInlineFields($field->fullKey, $this->currentKey) as $inlineField) {
                     $parentTable = $inlineField->inPalette ? $table : $inlineField->inlineParent;
-                    $json = $this->removeField($parentTable, $inlineField, $json);
+                    $json = $this->removeField($parentTable, $inlineField, $json, $addedFields);
                 }
             }
 
@@ -363,6 +368,25 @@ class StorageRepository implements SingletonInterface
             }
         }
         return $this->cleanTable($table, $json);
+    }
+
+    protected function fieldExistsInNestedFields(array $fields, string $searchKey): bool
+    {
+        foreach ($fields as $field) {
+            if ($field['key'] === $searchKey) {
+                return true;
+            }
+
+            if (FieldType::cast($field['name'])->equals(FieldType::PALETTE)) {
+                foreach ($field['fields'] ?? [] as $paletteField) {
+                    if ($paletteField['key'] === $searchKey) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
