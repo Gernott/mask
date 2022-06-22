@@ -42,7 +42,7 @@ jobs:
         run: composer require typo3/cms-core:^11.5 --prefer-dist --no-progress
 
       - name: PHP CS Fixer
-        run: Build/Scripts/runTests.sh -s cgl
+        run: Build/Scripts/runTests.sh -s cgl -n
 
   unit_tests:
     name: Unit Tests TYPO3 v${{ matrix.TYPO3 }} PHP ${{ matrix.php }}
