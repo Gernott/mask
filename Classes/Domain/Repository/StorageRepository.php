@@ -113,8 +113,9 @@ class StorageRepository implements SingletonInterface
         $jsonAdd = $this->addFieldsToJson($jsonAdd, $fields, $elementKey, $table, $table);
 
         // Add sorting for new element
-        if ($isNew) {
-            $sorting = $this->getHighestSorting($this->loader->load()->getTable($table)->elements);
+        $tableDefinitionCollection = $this->loader->load();
+        if ($isNew && $tableDefinitionCollection->hasTable($table)) {
+            $sorting = $this->getHighestSorting($tableDefinitionCollection->getTable($table)->elements);
             $sorting += 1;
             $jsonAdd[$table]['elements'][$elementKey]['sorting'] = (string)$sorting;
         }
