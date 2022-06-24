@@ -165,3 +165,4 @@ GitHub sponsors
 *  `Michael Paulisch <https://github.com/micha68g>`__
 *  `Eric Bode <https://github.com/EricBode>`__
 *  `Sascha Bucher <https://github.com/sabuch>`__
+*  `Axel Hempelt <https://github.com/hempelta>`__
