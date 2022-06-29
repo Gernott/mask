@@ -550,17 +550,14 @@ class AjaxController
 
         $multiUseElements = [];
         foreach ($element->getRootTcaFields() as $field) {
-            if (!AffixUtility::hasMaskPrefix($field->fullKey)) {
+            if ($field->isCoreField) {
                 continue;
             }
 
-            $fieldType = $this->tableDefinitionCollection->getFieldType($field->fullKey, $table);
-
             // Get fields in palette
-            if ($fieldType->equals(FieldType::PALETTE)) {
+            if ($field->getFieldType()->equals(FieldType::PALETTE)) {
                 foreach ($this->tableDefinitionCollection->loadInlineFields($field->fullKey, $elementKey) as $paletteField) {
-                    $paletteFieldType = $this->tableDefinitionCollection->getFieldType($paletteField->fullKey, $table);
-                    if (!$paletteFieldType->canBeShared()) {
+                    if ($paletteField->isCoreField || !$paletteField->getFieldType()->canBeShared()) {
                         continue;
                     }
                     $multiUseElements[$paletteField->fullKey] = $this->getMultiUseForField($paletteField->fullKey, $elementKey);
@@ -568,7 +565,7 @@ class AjaxController
                 continue;
             }
 
-            if (!$fieldType->canBeShared()) {
+            if (!$field->getFieldType()->canBeShared()) {
                 continue;
             }
 
