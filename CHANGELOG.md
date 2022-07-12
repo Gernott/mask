@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.2.7] - 2021-07-12
+
+### Fixed
+- Do not show core fields as shared in palettes
+- Handle ResourceDoesNotExistException in PreviewIconResolver (Thanks to Markus Klein) [#501](https://github.com/Gernott/mask/issues/501)
+- Do not show migration notice for empty Mask definitions [#502](https://github.com/Gernott/mask/issues/502)
+
+### Fixed
+- Followup bugfix. Resolves error when creating the first element.
+
 ## [7.2.6] - 2021-06-23
 
 ### Fixed
