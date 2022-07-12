@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace MASK\Mask\Imaging;
 
 use TYPO3\CMS\Core\Resource\Exception\FolderDoesNotExistException;
+use TYPO3\CMS\Core\Resource\Exception\ResourceDoesNotExistException;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 
@@ -62,7 +63,7 @@ class PreviewIconResolver
         foreach ($fileExtensions as $fileExtension) {
             try {
                 $icon = $this->resourceFactory->retrieveFileOrFolderObject($previewPath . '/' . $key . '.' . $fileExtension);
-            } catch (\InvalidArgumentException|FolderDoesNotExistException $e) {
+            } catch (\InvalidArgumentException|FolderDoesNotExistException|ResourceDoesNotExistException $e) {
                 continue;
             }
             if ($icon instanceof File && $icon->exists()) {
