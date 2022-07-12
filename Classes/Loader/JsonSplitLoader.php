@@ -87,7 +87,11 @@ class JsonSplitLoader implements LoaderInterface
             }
         }
 
-        $this->tableDefinitionCollection = TableDefinitionCollection::createFromArray($definitionArray);
+        // If the definition array is empty, skip the factory method of TableDefinitionCollection.
+        if ($definitionArray !== []) {
+            $this->tableDefinitionCollection = TableDefinitionCollection::createFromArray($definitionArray);
+        }
+
         $this->tableDefinitionCollection = $this->migrationManager->migrate($this->tableDefinitionCollection);
 
         return clone $this->tableDefinitionCollection;
