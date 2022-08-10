@@ -145,7 +145,7 @@ class TcaConverter
             if ($key === 'config.generatorOptions.fields') {
                 $fields = [];
                 foreach (explode(',', $value) as $field) {
-                    if (strpos($field, '|') !== false) {
+                    if (str_contains($field, '|')) {
                         $field = explode('|', $field);
                     }
                     $fields[] = $field;

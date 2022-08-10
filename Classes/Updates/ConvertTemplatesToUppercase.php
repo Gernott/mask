@@ -74,7 +74,7 @@ class ConvertTemplatesToUppercase implements UpgradeWizardInterface
             return null;
         }
 
-        if (strpos($settings['content'], 'EXT:') === 0) {
+        if (str_starts_with($settings['content'], 'EXT:')) {
             $absolutePath = MaskUtility::getFileAbsFileName($settings['content']);
         } else {
             $absolutePath = Environment::getPublicPath() . '/' . $settings['content'];
@@ -82,7 +82,7 @@ class ConvertTemplatesToUppercase implements UpgradeWizardInterface
         try {
             return (new Finder())->files()->in($absolutePath)->filter(function (SplFileInfo $info) {
                 $filename = $info->getFilename();
-                return ctype_lower(substr($filename, 0, 1)) || strpos($filename, '_') !== false;
+                return ctype_lower(substr($filename, 0, 1)) || str_contains($filename, '_');
             });
         } catch (DirectoryNotFoundException $e) {
             // do nothing

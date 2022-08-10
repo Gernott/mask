@@ -569,7 +569,7 @@ class TcaCodeGenerator
         if (!empty($fields)) {
             $labelField = $this->getFirstNoneTabField($fields);
             // If first field is palette, get label of first field in this palette.
-            if (strpos($labelField, '--palette--;;') === 0) {
+            if (str_starts_with($labelField, '--palette--;;')) {
                 $palette = str_replace('--palette--;;', '', $labelField);
                 $labelField = $tableDefinition->palettes->getPalette($palette)->showitem[0];
             }
@@ -641,7 +641,7 @@ class TcaCodeGenerator
     {
         if (!empty($fields)) {
             $potentialFirst = array_shift($fields);
-            if (!is_string($potentialFirst) || strpos($potentialFirst, '--div--') !== false) {
+            if (!is_string($potentialFirst) || str_contains($potentialFirst, '--div--')) {
                 return $this->getFirstNoneTabField($fields);
             }
             return $potentialFirst;

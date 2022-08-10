@@ -40,7 +40,7 @@ class ArrayToTypoScriptConverter
         $tab++;
         foreach ($typoScriptArray as $key => $value) {
             if (!is_array($value)) {
-                if (strpos($value, "\n") === false) {
+                if (!str_contains($value, "\n")) {
                     $typoScript .= str_repeat("\t", ($tab === 0) ? $tab : $tab - 1) . "$key = $value\n";
                 } else {
                     $typoScript .=
