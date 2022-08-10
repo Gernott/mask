@@ -49,7 +49,7 @@ class GeneralUtility
             return '';
         }
         // Extension
-        if (strpos($filename, 'EXT:') === 0) {
+        if (str_starts_with($filename, 'EXT:')) {
             [$extKey, $local] = explode('/', substr($filename, 4), 2);
             if ($extKey === '' || $local === '') {
                 return '';

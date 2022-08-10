@@ -31,7 +31,7 @@ class AffixUtility
      */
     public static function hasMaskPrefix(string $table): bool
     {
-        return strpos($table, self::MASK_PREFIX) === 0;
+        return str_starts_with($table, self::MASK_PREFIX);
     }
 
     /**
@@ -64,7 +64,7 @@ class AffixUtility
      */
     public static function hasMaskCTypePrefix(string $cType): bool
     {
-        return strpos($cType, self::MASK_CTYPE_PREFIX) === 0;
+        return str_starts_with($cType, self::MASK_CTYPE_PREFIX);
     }
 
     /**
