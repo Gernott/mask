@@ -69,6 +69,10 @@
 		"typo3/cms-fluid": "^10.4.16 || ^11.5.0",
 		"typo3/cms-fluid-styled-content": "^10.4.16 || ^11.5.0"
 	},
+	"suggest": {
+		"b13/container": "Allows creating container elements to place your Mask elements into.",
+		"gridelementsteam/gridelements": "Allows creating container elements to place your Mask elements into."
+	},
 	"replace": {
 		"typo3-ter/mask": "self.version"
 	},
