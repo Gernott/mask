@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace MASK\Mask\ItemsProcFuncs;
 
 use MASK\Mask\Definition\TableDefinitionCollection;
+use MASK\Mask\Definition\TcaFieldDefinition;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\AffixUtility as MaskUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -73,7 +74,7 @@ class CTypeList
             $fieldDefinition = $this->tableDefinitionCollection->loadField($table, $fieldKey);
 
             // if there is a restriction of cTypes specified
-            if ($fieldDefinition->cTypes !== []) {
+            if ($fieldDefinition instanceof TcaFieldDefinition && $fieldDefinition->cTypes !== []) {
 
                 // prepare array of allowed cTypes, with cTypes as keys
                 $cTypes = array_flip($fieldDefinition->cTypes);
