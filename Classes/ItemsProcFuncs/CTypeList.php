@@ -73,7 +73,7 @@ class CTypeList
             $fieldDefinition = $this->tableDefinitionCollection->loadField($table, $fieldKey);
 
             // if there is a restriction of cTypes specified
-            if ($fieldDefinition) {
+            if ($fieldDefinition->cTypes !== []) {
 
                 // prepare array of allowed cTypes, with cTypes as keys
                 $cTypes = array_flip($fieldDefinition->cTypes);
