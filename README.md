@@ -1,9 +1,8 @@
 ![Page and Content masks for TYPO3](Resources/Public/Images/banner.jpg)
 
+[![TYPO3 compatibility](https://img.shields.io/badge/TYPO3-10.4%20%7C%2011.5-ff8700?maxAge=3600&logo=typo3)](https://get.typo3.org/)
+[![TYPO3 Verified](https://img.shields.io/badge/TYPO3-verified-ff8700?logo=typo3)](https://typo3.com/typo3-cms/verified-extensions-integrations-for-typo3/extensions/mask-create-custom-content-elements-in-typo3)
 [![Release](https://img.shields.io/github/v/release/gernott/mask?sort=semver)](https://extensions.typo3.org/extension/mask/)
-[![TYPO3 11](https://img.shields.io/badge/TYPO3-v11-ff8700)](https://get.typo3.org/version/11)
-[![TYPO3 10](https://img.shields.io/badge/TYPO3-v10-ff8700)](https://get.typo3.org/version/10)
-[![TYPO3 Verified](https://img.shields.io/badge/TYPO3-verified-ff8700)](https://typo3.com/typo3-cms/verified-extensions-integrations-for-typo3/extensions/mask-create-custom-content-elements-in-typo3)
 [![Total Downloads](https://poser.pugx.org/mask/mask/d/total.svg)](https://packagist.org/packages/mask/mask)
 [![Monthly Downloads](https://poser.pugx.org/mask/mask/d/monthly)](https://packagist.org/packages/mask/mask)
 [![Tests](https://img.shields.io/github/workflow/status/Gernott/mask/Unit%20Tests?label=Tests)](https://github.com/Gernott/mask/actions/workflows/tests.yaml)
