@@ -44,6 +44,9 @@ jobs:
       - name: PHP CS Fixer
         run: Build/Scripts/runTests.sh -s cgl -n
 
+      - name: PHP CS Fixer Header
+        run: Build/Scripts/runTests.sh -s cglHeader -n
+
   unit_tests:
     name: Unit Tests TYPO3 v${{ matrix.TYPO3 }} PHP ${{ matrix.php }}
     runs-on: ubuntu-latest

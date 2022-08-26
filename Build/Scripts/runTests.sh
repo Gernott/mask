@@ -213,6 +213,16 @@ case ${TEST_SUITE} in
         SUITE_EXIT_CODE=$?
         docker-compose down
         ;;
+    cglHeader)
+        # Active dry-run for cgl needs not "-n" but specific options
+        if [ -n "${CGLCHECK_DRY_RUN}" ]; then
+            CGLCHECK_DRY_RUN="--dry-run --diff"
+        fi
+        setUpDockerComposeDotEnv
+        docker-compose run cgl_header
+        SUITE_EXIT_CODE=$?
+        docker-compose down
+        ;;
     unit)
         setUpDockerComposeDotEnv
         docker-compose run unit

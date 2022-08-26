@@ -58,6 +58,21 @@ services:
           --config=Build/php-cs-fixer.php --using-cache=no
       "
 
+  cgl_header:
+    image: typo3/core-testing-${DOCKER_PHP_IMAGE}:latest
+    user: "${HOST_UID}"
+    volumes:
+      - ${ROOT_DIR}:${ROOT_DIR}
+    working_dir: ${ROOT_DIR}
+    command: >
+      /bin/sh -c "
+        if [ ${SCRIPT_VERBOSE} -eq 1 ]; then
+          set -x
+        fi
+        php -dxdebug.mode=off .Build/vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix -v ${CGLCHECK_DRY_RUN} \
+          --config=Build/php-cs-fixer/header-comment.php --using-cache=no
+      "
+
   unit:
     image: typo3/core-testing-${DOCKER_PHP_IMAGE}:latest
     user: ${HOST_UID}
