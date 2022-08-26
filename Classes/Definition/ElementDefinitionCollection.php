@@ -17,7 +17,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Definition;
 
-final class ElementDefinitionCollection implements \IteratorAggregate
+final class ElementDefinitionCollection implements \IteratorAggregate, \Countable
 {
     /**
      * @var array<ElementDefinition>

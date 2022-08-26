@@ -17,7 +17,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Definition;
 
-final class TcaDefinition implements \IteratorAggregate
+final class TcaDefinition implements \IteratorAggregate, \Countable
 {
     /**
      * @var array<TcaFieldDefinition>

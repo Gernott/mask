@@ -17,7 +17,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Definition;
 
-final class PaletteDefinitionCollection implements \IteratorAggregate
+final class PaletteDefinitionCollection implements \IteratorAggregate, \Countable
 {
     /**
      * @var array<PaletteDefinition>

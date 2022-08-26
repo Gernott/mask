@@ -17,7 +17,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Definition;
 
-final class SqlDefinition implements \IteratorAggregate
+final class SqlDefinition implements \IteratorAggregate, \Countable
 {
     /**
      * @var string
