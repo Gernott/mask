@@ -248,7 +248,7 @@ return [
     FieldType::INLINE => [
         'tca_in' => [
             'l10n_mode' => '',
-            'config.appearance.collapseAll' => 1,
+            'config.appearance.collapseAll' => '',
             'config.appearance.levelLinksPosition' => 'top',
             'config.appearance.showPossibleLocalizationRecords' => 1,
             'config.appearance.showAllLocalizationLink' => 1,
