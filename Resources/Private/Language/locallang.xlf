@@ -444,6 +444,15 @@ title3, value3, icon3, description3
 			<trans-unit id="tx_mask.field.inline.collapse_all">
 				<source>Show all child-records collapsed (if false, all are expanded)</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.collapse_all.undefined">
+				<source>default</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.collapse_all.on">
+				<source>collapse all</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.collapse_all.off">
+				<source>expand all</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.collapse_all.label">
 				<source>Collapse all</source>
 			</trans-unit>

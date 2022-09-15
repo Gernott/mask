@@ -1034,10 +1034,15 @@ return [
         ],
     ],
     'config.appearance.collapseAll' => [
-        'type' => 'checkbox',
+        'type' => 'radio',
         'label' => 'tx_mask.field.inline.collapse_all.label',
         'description' => 'tx_mask.field.inline.collapse_all',
         'code' => 'collapseAll',
+        'items' => [
+            '' => 'tx_mask.field.inline.collapse_all.undefined',
+            '1' => 'tx_mask.field.inline.collapse_all.on',
+            '0' => 'tx_mask.field.inline.collapse_all.off',
+        ],
         'documentation' => [
             10 => 'ColumnsConfig/Type/Inline.html?highlight=collapseall#appearance',
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
