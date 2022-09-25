@@ -236,6 +236,9 @@ class JsonSplitLoader implements LoaderInterface
 
     protected function addInlineRecursive(TcaFieldDefinition $field, TableDefinitionCollection $elementTableDefinitionCollection, TableDefinitionCollection $tableDefinitionCollection): void
     {
+        if (!$tableDefinitionCollection->hasTable($field->fullKey)) {
+            return;
+        }
         $elementTableDefinitionCollection->addTable($tableDefinitionCollection->getTable($field->fullKey));
         foreach ($tableDefinitionCollection->getTable($field->fullKey)->tca as $inlineChild) {
             $fieldType = $tableDefinitionCollection->getFieldType($inlineChild->fullKey, $field->fullKey);
