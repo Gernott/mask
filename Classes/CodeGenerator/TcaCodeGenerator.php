@@ -699,9 +699,8 @@ class TcaCodeGenerator
                     ',
                 ],
                 'hidden' => [
-                    'showitem' => '
-                        hidden;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:field.default.hidden
-                    ',
+                    'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.palettes.visibility',
+                    'showitem' => 'hidden',
                 ],
                 'access' => [
                     'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access',
@@ -756,7 +755,7 @@ class TcaCodeGenerator
                 ],
                 'hidden' => [
                     'exclude' => true,
-                    'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.visible',
+                    'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.disable',
                     'config' => [
                         'type' => 'check',
                         'renderType' => 'checkboxToggle',
@@ -764,7 +763,6 @@ class TcaCodeGenerator
                             [
                                 0 => '',
                                 1 => '',
-                                'invertStateDisplay' => true,
                             ],
                         ],
                     ],
