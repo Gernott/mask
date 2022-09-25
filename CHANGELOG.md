@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.2.11] - 2021-09-25
+
+### Fixed
+- Allow setting an undefined state for "collapseAll" [#515](https://github.com/Gernott/mask/issues/515)
+- Avoid error on saving empty inline fields [#517](https://github.com/Gernott/mask/issues/517)
+- Fix disabling inline elements through inline control button [#518](https://github.com/Gernott/mask/issues/518)
+
 ## [7.2.10] - 2021-08-12
 
 ### Fixed
