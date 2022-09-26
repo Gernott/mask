@@ -279,7 +279,7 @@ return [
             'config.appearance.showPossibleLocalizationRecords' => 1,
             'config.appearance.showAllLocalizationLink' => 1,
             'config.appearance.showNewRecordLink' => 1,
-            'config.appearance.collapseAll' => 1,
+            'config.appearance.collapseAll' => '',
             'config.appearance.useSortable' => 1,
             'config.appearance.enabledControls.info' => 1,
             'config.appearance.enabledControls.new' => 1,
