@@ -34,7 +34,7 @@
 				<source>Folder for Backend Preview Templates</source>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-preview">
-				<source>Folder for 32x32 pixel png preview-images (e.g. mykey.png) for contentelements</source>
+				<source>Folder for 32x32px png/svg content element preview icons (e.g. mykey.(png|svg))</source>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-layouts">
 				<source>Folder for Content Fluid Layouts</source>
