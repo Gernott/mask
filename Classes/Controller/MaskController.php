@@ -58,7 +58,11 @@ class MaskController
         $this->view->getRenderingContext()->setControllerAction('Wizard/Main');
         $this->view->getRenderingContext()->getTemplatePaths()->fillDefaultsByPackageName('mask');
         $moduleTemplate->getDocHeaderComponent()->disable();
-        $this->pageRenderer->loadRequireJsModule('TYPO3/CMS/Mask/Mask');
+        if ((new Typo3Version())->getMajorVersion() >= 12) {
+            $this->pageRenderer->loadJavaScriptModule('@mask/mask');
+        } else {
+            $this->pageRenderer->loadRequireJsModule('TYPO3/CMS/Mask/AmdBundle');
+        }
         $this->pageRenderer->addCssFile('EXT:mask/Resources/Public/Styles/mask.css');
         $moduleTemplate->setContent($this->view->render());
         return new HtmlResponse($moduleTemplate->renderContent());

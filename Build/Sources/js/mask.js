@@ -1,44 +1,24 @@
-define([
-  'jquery',
-  'TYPO3/CMS/Mask/Contrib/vue',
-  'TYPO3/CMS/Mask/Contrib/vuedraggable',
-  'TYPO3/CMS/Mask/Components/NestedDraggable',
-  'TYPO3/CMS/Mask/Components/FormField',
-  'TYPO3/CMS/Mask/Components/FieldKey',
-  'TYPO3/CMS/Mask/Components/ElementKey',
-  'TYPO3/CMS/Mask/Components/SplashScreen',
-  'TYPO3/CMS/Mask/Components/ButtonBar',
-  'TYPO3/CMS/Mask/Components/FontIconPicker',
-  'TYPO3/CMS/Mask/Components/FieldGroup',
-  'TYPO3/CMS/Mask/Components/ElementColorPicker',
-  'TYPO3/CMS/Core/Ajax/AjaxRequest',
-  'TYPO3/CMS/Backend/Icons',
-  'TYPO3/CMS/Backend/Modal',
-  'TYPO3/CMS/Backend/Severity',
-  'TYPO3/CMS/Backend/Notification',
-  'TYPO3/CMS/Backend/MultiStepWizard',
-  'TYPO3/CMS/Backend/ActionButton/DeferredAction',
-], function (
-  $,
-  Vue,
-  draggable,
-  nestedDraggable,
-  formField,
-  fieldKey,
-  elementKey,
-  splashscreen,
-  buttonBar,
-  fontIconPicker,
-  fieldGroup,
-  elementColorPicker,
-  AjaxRequest,
-  Icons,
-  Modal,
-  Severity,
-  Notification,
-  MultiStepWizard,
-  DeferredAction,
-) {
+import $ from 'jquery';
+import Vue from 'vue';
+import draggable from 'vuedraggable';
+import nestedDraggable from './components/nested-draggable.js';
+import formField from './components/form-field.js';
+import fieldKey from './components/field-key.js';
+import elementKey from './components/element-key.js';
+import splashscreen from './components/splash-screen.js';
+import buttonBar from './components/button-bar.js';
+import fontIconPicker from './components/font-icon-picker.js';
+import fieldGroup from './components/field-group.js';
+import elementColorPicker from './components/element-color-picker.js';
+import AjaxRequest from '@typo3/core/ajax/ajax-request.js';
+import Icons from '@typo3/backend/icons.js';
+import Modal from '@typo3/backend/modal.js';
+import Severity from '@typo3/backend/severity.js';
+import Notification from '@typo3/backend/notification.js';
+import MultiStepWizard from '@typo3/backend/multi-step-wizard.js';
+import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
+
+(function() {
   if (!document.getElementById('mask')) {
     return;
   }
@@ -609,17 +589,17 @@ define([
         }
 
         // Check if key already exists in table
-        let arguments = {
+        let args = {
           table: this.type,
           key: field.key,
           type: field.name,
           elementKey: ''
         };
         if (this.mode === 'edit') {
-          arguments.elementKey = this.element.key;
+          args.elementKey = this.element.key;
         }
         return (new AjaxRequest(TYPO3.settings.ajaxUrls.mask_check_field_key)
-          .withQueryArguments(arguments)
+          .withQueryArguments(args)
           .get()
           .then(
             async response => {
@@ -1434,7 +1414,7 @@ define([
       },
       fieldsVisible: function () {
         return this.sidebar === 'fields';
-      },
+      }
     }
   });
-});
+})();

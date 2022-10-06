@@ -1,10 +1,8 @@
-define([
-    'TYPO3/CMS/Mask/Contrib/vue',
-    'TYPO3/CMS/Backend/Tooltip',
-    'jquery'
-  ],
-  function (Vue, Tooltip, $) {
-    return Vue.component(
+import Vue from 'vue';
+import $ from 'jquery';
+import Tooltip from '@typo3/backend/tooltip.js';
+
+export default Vue.component(
       'field',
       {
         props: {
@@ -36,6 +34,4 @@ define([
           </li>
         `
       }
-    )
-  }
-);
+    );
