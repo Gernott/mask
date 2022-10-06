@@ -1,8 +1,6 @@
-define([
-    'TYPO3/CMS/Mask/Contrib/vue',
-  ],
-  function (Vue) {
-    return Vue.component(
+import Vue from 'vue';
+
+export default Vue.component(
       'element-key',
       {
         props: {
@@ -25,6 +23,4 @@ define([
             />
         `
       }
-    )
-  }
-);
+    );

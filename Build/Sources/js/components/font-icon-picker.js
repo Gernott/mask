@@ -1,10 +1,8 @@
-define([
-      'TYPO3/CMS/Mask/Contrib/vue',
-      'jquery',
-      'TYPO3/CMS/Mask/Contrib/FontIconPicker'
-    ],
-    function (Vue, $) {
-      return Vue.component(
+import Vue from 'vue';
+import $ from 'jquery';
+import '@fonticonpicker/fonticonpicker';
+
+export default Vue.component(
           'font-icon-picker',
           {
             props: {
@@ -39,6 +37,4 @@ define([
     </div>
         `
           }
-      )
-    }
-);
+      );

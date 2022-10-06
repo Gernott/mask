@@ -1,15 +1,31 @@
 {
-	"name": "mask",
+	"name": "@mask/mask",
+	"type": "module",
 	"version": "1.0.0",
 	"description": "",
 	"main": "index.js",
+	"exports": {
+		"./": "./Sources/js/"
+	},
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
+		"js": "rollup -c",
+		"watchjs": "rollup -c -w",
 		"sass": "sass Sources/scss/mask.scss ../Resources/Public/Styles/mask.css -w"
 	},
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"sass": "^1.43.5"
+		"@fonticonpicker/fonticonpicker": "^3.1.1",
+		"sass": "^1.43.5",
+		"vue": "^2.7.14",
+		"vuedraggable": "^2.24.3"
+	},
+	"devDependencies": {
+		"@rollup/plugin-commonjs": "^23.0.3",
+		"@rollup/plugin-node-resolve": "^15.0.1",
+		"@rollup/plugin-replace": "^5.0.1",
+		"rollup": "^3.6.0",
+		"rollup-plugin-minification": "^0.2.0"
 	}
 }

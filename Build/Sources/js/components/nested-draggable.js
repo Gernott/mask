@@ -1,10 +1,8 @@
-define([
-    'TYPO3/CMS/Mask/Contrib/vue',
-    'TYPO3/CMS/Mask/Contrib/vuedraggable',
-    'TYPO3/CMS/Mask/Components/FieldRow',
-  ],
-  function (Vue, draggable, fieldRow) {
-    return Vue.component(
+import Vue from 'vue';
+import draggable from 'vuedraggable';
+import fieldRow from './field-row.js';
+
+export default Vue.component(
       'nested-draggable',
       {
         props: {
@@ -137,6 +135,4 @@ define([
 </draggable>
         `
       }
-    )
-  }
-);
+    );

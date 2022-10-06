@@ -1,10 +1,8 @@
-define([
-      'TYPO3/CMS/Mask/Contrib/vue',
-      'TYPO3/CMS/Mask/Contrib/vuedraggable',
-      'TYPO3/CMS/Mask/Components/Field',
-    ],
-    function (Vue, draggable, field) {
-      return Vue.component(
+import Vue from 'vue';
+import draggable from 'vuedraggable';
+import field from './field.js';
+
+export default Vue.component(
           'field-group',
           {
             components: {
@@ -46,6 +44,4 @@ define([
                 </div>
         `
           }
-      )
-    }
 );

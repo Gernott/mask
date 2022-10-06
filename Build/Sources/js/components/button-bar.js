@@ -1,12 +1,10 @@
-define([
-      'TYPO3/CMS/Mask/Contrib/vue',
-      'TYPO3/CMS/Backend/Icons',
-      'TYPO3/CMS/Core/Ajax/AjaxRequest',
-      'TYPO3/CMS/Backend/Tooltip',
-      'TYPO3/CMS/Backend/Modal',
-    ],
-    function (Vue, Icons, AjaxRequest, Tooltip, Modal) {
-      return Vue.component(
+import Vue from 'vue';
+import Icons from '@typo3/backend/icons.js';
+import AjaxRequest from '@typo3/core/ajax/ajax-request.js';
+import Tooltip from '@typo3/backend/tooltip.js';
+import Modal from '@typo3/backend/modal.js';
+
+export default Vue.component(
           'button-bar',
           {
             props: {
@@ -110,6 +108,4 @@ define([
             </div>
         `
           }
-      )
-    }
-);
+      );

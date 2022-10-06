@@ -1,10 +1,8 @@
-define([
-      'TYPO3/CMS/Mask/Contrib/vue',
-      'TYPO3/CMS/Backend/ColorPicker',
-      'jquery'
-    ],
-    function (Vue, ColorPicker, $) {
-      return Vue.component(
+import Vue from 'vue';
+import ColorPicker from '@typo3/backend/color-picker.js';
+import $ from 'jquery';
+
+export default Vue.component(
           'element-color-picker',
           {
             props: {
@@ -39,6 +37,4 @@ define([
     </div>
         `
           }
-      )
-    }
-);
+      );

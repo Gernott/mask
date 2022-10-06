@@ -1,9 +1,7 @@
-define([
-    'TYPO3/CMS/Mask/Contrib/vue',
-    'TYPO3/CMS/Mask/Contrib/vuedraggable',
-  ],
-  function (Vue, draggable) {
-    return Vue.component(
+import Vue from 'vue';
+import draggable from 'vuedraggable';
+
+export default Vue.component(
       'selectMultipleSideBySide',
       {
         data() {
@@ -98,6 +96,4 @@ define([
 </div>
         `
       }
-    )
-  }
-);
+    );

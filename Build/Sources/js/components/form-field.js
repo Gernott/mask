@@ -1,12 +1,10 @@
-define([
-    'TYPO3/CMS/Mask/Contrib/vue',
-    'TYPO3/CMS/Mask/Components/Colorpicker',
-    'TYPO3/CMS/Mask/Components/KeyValueList',
-    'TYPO3/CMS/Mask/Components/ItemList',
-    'TYPO3/CMS/Mask/Components/SelectMultipleSideBySide',
-  ],
-  function (Vue, Colorpicker, KeyValueList, ItemList, SelectMultipleSideBySide) {
-    return Vue.component(
+import Vue from 'vue';
+import Colorpicker from './colorpicker.js';
+import KeyValueList from './key-value-list.js';
+import ItemList from './item-list.js';
+import SelectMultipleSideBySide from './select-multiple-side-by-side.js';
+
+export default Vue.component(
       'form-field',
       {
         components: {
@@ -232,6 +230,4 @@ define([
           </div>
         `
       }
-    )
-  }
-);
+    );
