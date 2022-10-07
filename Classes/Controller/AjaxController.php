@@ -211,11 +211,7 @@ class AjaxController
         $configuration['partials_backend'] = $extensionPath . '/Resources/Private/Mask/Backend/Partials';
         $configuration['preview'] = $extensionPath . '/Resources/Public/Mask/';
 
-        if ((new Typo3Version())->getMajorVersion() > 10) {
-            $extensionConfiguration->set('mask', $configuration);
-        } else {
-            $extensionConfiguration->set('mask', '', $configuration);
-        }
+        $extensionConfiguration->set('mask', $configuration);
 
         return new JsonResponse(['result' => ['error' => '']]);
     }
@@ -373,14 +369,6 @@ class AjaxController
                     ];
                     $processedImage = $image->process(ProcessedFile::CONTEXT_IMAGECROPSCALEMASK, $processingInstructions);
                     $publicUrl = $processedImage->getPublicUrl();
-                    // TYPO3 v10 compatibility
-                    // This is essentially what is done in PublicUrlPrefixer since TYPO3 v11.
-                    if (
-                        (new Typo3Version())->getMajorVersion() === 10
-                        && !(str_starts_with($publicUrl, '//') || strpos($publicUrl, '://') > 0)
-                    ) {
-                        $publicUrl = GeneralUtility::getIndpEnv('TYPO3_SITE_PATH') . $publicUrl;
-                    }
                     $backendLayout->setIconPath($publicUrl);
                 }
             }

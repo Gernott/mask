@@ -95,11 +95,7 @@ class FillTranslationSourceField implements UpgradeWizardInterface
                 );
 
             $result = $query->execute();
-            if (method_exists($result, 'fetchOne')) {
-                $count = (int)$result->fetchOne();
-            } else {
-                $count = (int)$result->fetchColumn();
-            }
+            $count = (int)$result->fetchOne();
             if ($count > 0) {
                 return true;
             }

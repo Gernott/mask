@@ -289,17 +289,12 @@ class InlineHelper
         }
 
         $statement = $queryBuilder->execute();
-        if (method_exists($statement, 'fetchAllAssociative')) {
-            $rows = $statement->fetchAllAssociative();
-        } else {
-            $rows = $statement->fetchAll();
-        }
 
         // and recursively add them to an array
         $elements = [];
         if ($isFrontendRequest) {
             $pageRepository = $this->getPageRepository();
-            foreach ($rows as $element) {
+            foreach ($statement->fetchAllAssociative() as $element) {
                 if ($inWorkspacePreviewMode) {
                     $pageRepository->versionOL($childTable, $element);
                 }
@@ -308,7 +303,7 @@ class InlineHelper
                 }
             }
         } else {
-            foreach ($rows as $element) {
+            foreach ($statement->fetchAllAssociative() as $element) {
                 if ($inWorkspacePreviewMode) {
                     $element = BackendUtility::getRecordWSOL($childTable, $element['uid']);
                     // Ignore disabled elements in backend preview.

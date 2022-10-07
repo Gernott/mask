@@ -33,11 +33,9 @@ trait PackageManagerTrait
         $packageManager->isPackageActive('mask')->willReturn(true);
         $packageManager->getPackage('mask')->willReturn($package->reveal());
         // @todo Replace workaround for resolvePackagePath.
-        if (method_exists(PackageManager::class, 'resolvePackagePath')) {
-            $packageManager->resolvePackagePath(Argument::any())->will(function ($path) {
-                return Environment::getProjectPath() . str_replace('EXT:mask', '', $path[0]);
-            });
-        }
+        $packageManager->resolvePackagePath(Argument::any())->will(function ($path) {
+            return Environment::getProjectPath() . str_replace('EXT:mask', '', $path[0]);
+        });
 
         ExtensionManagementUtility::setPackageManager($packageManager->reveal());
     }

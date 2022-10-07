@@ -361,15 +361,6 @@ define([
                   );
                 }
               });
-
-              // Trigger input change on TYPO3 datepicker change event.
-              if (this.global.typo3Version === 10) {
-                $(document).on('formengine.dp.change', () => {
-                  document.querySelectorAll('.t3js-datetimepicker').forEach(input => {
-                    input.dispatchEvent((new Event('input')));
-                  });
-                });
-              }
             }
           );
       },
@@ -456,9 +447,7 @@ define([
             saveAndClose: this.element.saveAndClose,
           };
 
-          if (this.global.typo3Version > 10) {
-            postElement.iconOverlay = this.$refs.iconOverlayPicker.iconPicker.currentIcon;
-          }
+          postElement.iconOverlay = this.$refs.iconOverlayPicker.iconPicker.currentIcon;
           return postElement;
         } else {
           return {
@@ -693,11 +682,10 @@ define([
         this.type = 'tt_content';
         this.element = this.getNewElement();
 
-        const stepLabels = [null, null];
-        if (this.isTYPO3v11) {
-          stepLabels[0] = this.language.multistep.chooseLabel;
-          stepLabels[1] = this.language.multistep.chooseKey;
-        }
+        const stepLabels = [
+          this.language.multistep.chooseLabel,
+          this.language.multistep.chooseKey
+        ];
 
         /** Step 1: Choose element label */
         MultiStepWizard.addSlide('new-mask-element-step-1', this.language.multistep.chooseLabel, '', Severity.info, stepLabels[0], (slide) => {
@@ -727,10 +715,7 @@ define([
 
         /** Step 2: Choose element key. Generate suggestion from chosen label. */
         MultiStepWizard.addSlide('new-mask-element-step-2', this.language.multistep.chooseKey, '', Severity.info, stepLabels[1], (slide) => {
-          // In v10 the buttons disappear, that's why we don't unlock here.
-          if (this.isTYPO3v11) {
-            MultiStepWizard.unlockPrevStep();
-          }
+          MultiStepWizard.unlockPrevStep();
           let html = '';
           html += '<p>' + this.language.multistep.text2 + '</p>';
           html += '<label class="control-label" for="mask-step-key">' + this.language.elementKey + '</label>';
@@ -769,9 +754,7 @@ define([
           });
         }).then(() => {
           MultiStepWizard.show();
-          if (this.isTYPO3v11) {
-            MultiStepWizard.setup.forceSelection = false;
-          }
+          MultiStepWizard.setup.forceSelection = false;
         });
       },
       openEdit: function (type, element) {
@@ -1450,9 +1433,6 @@ define([
       fieldsVisible: function () {
         return this.sidebar === 'fields';
       },
-      isTYPO3v11: function () {
-        return this.global.typo3Version === 11;
-      }
     }
   });
 });

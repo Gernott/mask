@@ -95,13 +95,7 @@ class BackendLayoutRepository
             ->select('uid', 'title', 'description')
             ->execute();
 
-        if (method_exists($statement, 'fetchAllAssociative')) {
-            $layouts = $statement->fetchAllAssociative();
-        } else {
-            $layouts = $statement->fetchAll();
-        }
-
-        foreach ($layouts as $layout) {
+        foreach ($statement->fetchAllAssociative() as $layout) {
             $backendLayout = new BackendLayout(
                 $layout['uid'],
                 $layout['title'],
@@ -128,12 +122,7 @@ class BackendLayoutRepository
             ->where($this->pagesQueryBuilder->expr()->eq('uid', $this->pagesQueryBuilder->createNamedParameter($pid, \PDO::PARAM_INT)))
             ->execute();
 
-        if (method_exists($statement, 'fetchAssociative')) {
-            $requestPage = $statement->fetchAssociative();
-        } else {
-            $requestPage = $statement->fetch();
-        }
-
+        $requestPage = $statement->fetchAssociative();
         $backend_layout = $requestPage['backend_layout'];
         $backend_layout_next_level = $requestPage['backend_layout_next_level'];
         // If backend_layout is set on current page

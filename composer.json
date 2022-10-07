@@ -63,12 +63,12 @@
 		"phpspec/prophecy": "^1.15"
 	},
 	"require": {
-		"php": "^7.2 || ^8.0",
+		"php": "^7.4 || ^8.0",
 		"ext-json": "*",
-		"typo3/cms-core": "^10.4.16 || ^11.5.0",
-		"typo3/cms-backend": "^10.4.16 || ^11.5.0",
-		"typo3/cms-fluid": "^10.4.16 || ^11.5.0",
-		"typo3/cms-fluid-styled-content": "^10.4.16 || ^11.5.0"
+		"typo3/cms-core": "^11.5.0",
+		"typo3/cms-backend": "^11.5.0",
+		"typo3/cms-fluid": "^11.5.0",
+		"typo3/cms-fluid-styled-content": "^11.5.0"
 	},
 	"suggest": {
 		"b13/container": "Allows creating container elements to place your Mask elements into.",

@@ -18,7 +18,6 @@ declare(strict_types=1);
 namespace MASK\Mask\Tests\Unit\Definition;
 
 use MASK\Mask\Definition\TcaFieldDefinition;
-use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class TcaFieldDefinitionTest extends UnitTestCase
@@ -143,33 +142,6 @@ class TcaFieldDefinitionTest extends UnitTestCase
             ],
         ];
 
-        $expected = [
-            'config' => [
-                'type' => 'inline',
-                'appearance' => [
-                    'levelLinksPosition' => 'none',
-                ],
-            ],
-            'type' => 'inline',
-            'key' => 'inline1',
-            'fullKey' => 'tx_mask_inline1',
-        ];
-
-        if ((new Typo3Version())->getMajorVersion() > 10) {
-            $expected = [
-                'config' => [
-                    'type' => 'inline',
-                    'appearance' => [
-                        'levelLinksPosition' => 'top',
-                        'showNewRecordLink' => 0,
-                    ],
-                ],
-                'type' => 'inline',
-                'key' => 'inline1',
-                'fullKey' => 'tx_mask_inline1',
-            ];
-        }
-
         yield '#94765: levelLinksPosition "none" migrated in TYPO3 v11 to showNewRecordLink' => [
             'json' => [
                 'config' => [
@@ -182,36 +154,19 @@ class TcaFieldDefinitionTest extends UnitTestCase
                 'key' => 'inline1',
                 'fullKey' => 'tx_mask_inline1',
             ],
-            'expected' => $expected,
-        ];
-
-        $expected = [
-            'config' => [
-                'type' => 'select',
-                'fileFolder' => 'EXT:some_extension/some/folder/',
-                'fileFolder_extList' => 'jpg,png',
-                'fileFolder_recursions' => 10,
-            ],
-            'type' => 'select',
-            'key' => 'select',
-            'fullKey' => 'tx_mask_select',
-        ];
-
-        if ((new Typo3Version())->getMajorVersion() > 10) {
-            $expected = [
+            'expected' => [
                 'config' => [
-                    'type' => 'select',
-                    'fileFolderConfig' => [
-                        'folder' => 'EXT:some_extension/some/folder/',
-                        'allowedExtensions' => 'jpg,png',
-                        'depth' => 10,
+                    'type' => 'inline',
+                    'appearance' => [
+                        'levelLinksPosition' => 'top',
+                        'showNewRecordLink' => 0,
                     ],
                 ],
-                'type' => 'select',
-                'key' => 'select',
-                'fullKey' => 'tx_mask_select',
-            ];
-        }
+                'type' => 'inline',
+                'key' => 'inline1',
+                'fullKey' => 'tx_mask_inline1',
+            ],
+        ];
 
         yield '#94406: fileFolderConfig migration (only TYPO3 v11).' => [
             'json' => [
@@ -225,7 +180,19 @@ class TcaFieldDefinitionTest extends UnitTestCase
                 'key' => 'select',
                 'fullKey' => 'tx_mask_select',
             ],
-            'expected' => $expected,
+            'expected' => [
+                'config' => [
+                    'type' => 'select',
+                    'fileFolderConfig' => [
+                        'folder' => 'EXT:some_extension/some/folder/',
+                        'allowedExtensions' => 'jpg,png',
+                        'depth' => 10,
+                    ],
+                ],
+                'type' => 'select',
+                'key' => 'select',
+                'fullKey' => 'tx_mask_select',
+            ],
         ];
 
         yield 'arrays set to stop recursion are not checked for empty values inside' => [

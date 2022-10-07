@@ -26,7 +26,6 @@ use MASK\Mask\Definition\TcaFieldDefinition;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\DateUtility;
-use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\OnlineMedia\Helpers\OnlineMediaHelperRegistry;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
@@ -651,26 +650,6 @@ class TcaCodeGenerator
 
     protected static function getTcaTemplate(): array
     {
-        if ((new Typo3Version())->getMajorVersion() === 11) {
-            $sys_language_uid = [
-                'type' => 'language',
-            ];
-        } else {
-            $sys_language_uid = [
-                'type' => 'select',
-                'renderType' => 'selectSingle',
-                'special' => 'languages',
-                'items' => [
-                    [
-                        'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.allLanguages',
-                        -1,
-                        'flags-multiple',
-                    ],
-                ],
-                'default' => 0,
-            ];
-        }
-
         return [
             'ctrl' => [
                 'sortby' => 'sorting',
@@ -731,7 +710,9 @@ class TcaCodeGenerator
                 'sys_language_uid' => [
                     'exclude' => true,
                     'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
-                    'config' => $sys_language_uid,
+                    'config' => [
+                        'type' => 'language',
+                    ],
                 ],
                 'l10n_parent' => [
                     'displayCond' => 'FIELD:sys_language_uid:>:0',

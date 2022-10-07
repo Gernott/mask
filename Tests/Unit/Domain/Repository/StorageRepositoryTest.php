@@ -1216,11 +1216,9 @@ class StorageRepositoryTest extends BaseTestCase
         $storageRepository = $this->createStorageRepository($json);
 
         // @todo Replace workaround for resolvePackagePath.
-        if (method_exists(PackageManager::class, 'resolvePackagePath')) {
-            $packageManager = $this->prophesize(PackageManager::class);
-            $packageManager->resolvePackagePath('EXT:mask/Tests/Unit/Fixtures/Defaults.php')->willReturn(Environment::getProjectPath() . '/Tests/Unit/Fixtures/Defaults.php');
-            ExtensionManagementUtility::setPackageManager($packageManager->reveal());
-        }
+        $packageManager = $this->prophesize(PackageManager::class);
+        $packageManager->resolvePackagePath('EXT:mask/Tests/Unit/Fixtures/Defaults.php')->willReturn(Environment::getProjectPath() . '/Tests/Unit/Fixtures/Defaults.php');
+        ExtensionManagementUtility::setPackageManager($packageManager->reveal());
 
         self::assertEquals($expected, $storageRepository->add($element, $fields, $table, $isNew));
     }

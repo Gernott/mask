@@ -57,11 +57,7 @@ define([
             } else {
               ref = this.$refs[id];
             }
-            if (this.global.typo3Version > 10) {
-              Tooltip.hide(ref);
-            } else {
-              Tooltip.hide($(ref));
-            }
+            Tooltip.hide(ref);
           },
           initializeTooltip() {
             Tooltip.initialize(`.item-table [data-bs-toggle="tooltip"]`, {
