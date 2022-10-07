@@ -17,7 +17,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Utility;
 
-use TYPO3\CMS\Core\Utility\GeneralUtility as CoreUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Finds the correct template name for the given element key.
@@ -46,14 +46,14 @@ class TemplatePathUtility
         $fileExtension = '.html';
 
         // check if a html file with underscores exist
-        if (file_exists($path . CoreUtility::underscoredToUpperCamelCase($elementKey) . $fileExtension)) {
-            $fileName = CoreUtility::underscoredToUpperCamelCase($elementKey);
+        if (file_exists($path . GeneralUtility::underscoredToUpperCamelCase($elementKey) . $fileExtension)) {
+            $fileName = GeneralUtility::underscoredToUpperCamelCase($elementKey);
         } elseif (file_exists($path . ucfirst($elementKey) . $fileExtension)) {
             $fileName = ucfirst($elementKey);
         } elseif (file_exists($path . $elementKey . $fileExtension)) {
             $fileName = $elementKey;
         } else {
-            $fileName = CoreUtility::underscoredToUpperCamelCase($elementKey);
+            $fileName = GeneralUtility::underscoredToUpperCamelCase($elementKey);
         }
 
         if ($removeExtension) {

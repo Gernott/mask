@@ -21,7 +21,6 @@ use MASK\Mask\Definition\ElementTcaDefinition;
 use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Helper\InlineHelper;
 use MASK\Mask\Utility\AffixUtility;
-use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use MASK\Mask\Utility\TemplatePathUtility;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
@@ -99,7 +98,7 @@ class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
             $this->maskExtensionConfiguration,
             $elementKey,
             false,
-            MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration['backend'] ?? '')
+            GeneralUtility::getFileAbsFileName($this->maskExtensionConfiguration['backend'] ?? '')
         );
 
         // User defined backend preview exists. Turn off TYPO3 auto preview.
@@ -118,11 +117,11 @@ class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
 
         // if there are paths for layouts and partials set, add them to the view
         if (!empty($this->maskExtensionConfiguration['layouts_backend'])) {
-            $layoutRootPath = MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration['layouts_backend']);
+            $layoutRootPath = GeneralUtility::getFileAbsFileName($this->maskExtensionConfiguration['layouts_backend']);
             $view->setLayoutRootPaths([$layoutRootPath]);
         }
         if (!empty($this->maskExtensionConfiguration['partials_backend'])) {
-            $partialRootPath = MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration['partials_backend']);
+            $partialRootPath = GeneralUtility::getFileAbsFileName($this->maskExtensionConfiguration['partials_backend']);
             $view->setPartialRootPaths([$partialRootPath]);
         }
 

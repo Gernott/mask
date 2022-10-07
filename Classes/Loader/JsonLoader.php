@@ -19,7 +19,6 @@ namespace MASK\Mask\Loader;
 
 use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Migrations\MigrationManager;
-use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class JsonLoader implements LoaderInterface
@@ -106,6 +105,6 @@ class JsonLoader implements LoaderInterface
             return '';
         }
 
-        return MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration['json']);
+        return GeneralUtility::getFileAbsFileName($this->maskExtensionConfiguration['json']);
     }
 }

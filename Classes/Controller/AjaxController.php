@@ -30,7 +30,6 @@ use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Enumeration\Tab;
 use MASK\Mask\Loader\LoaderInterface;
 use MASK\Mask\Utility\AffixUtility;
-use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use MASK\Mask\Utility\TemplatePathUtility;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
@@ -1094,7 +1093,7 @@ class AjaxController
     protected function createFolder(string $path): bool
     {
         $success = true;
-        $path = MaskUtility::getFileAbsFileName($path);
+        $path = GeneralUtility::getFileAbsFileName($path);
         if (!file_exists($path)) {
             $success = mkdir(
                 $path,
@@ -1134,7 +1133,7 @@ class AjaxController
             if (!isset($this->maskExtensionConfiguration[$key])) {
                 continue;
             }
-            $path = MaskUtility::getFileAbsFileName($this->maskExtensionConfiguration[$key]);
+            $path = GeneralUtility::getFileAbsFileName($this->maskExtensionConfiguration[$key]);
             if ($path === '') {
                 continue;
             }

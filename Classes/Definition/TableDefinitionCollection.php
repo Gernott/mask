@@ -241,16 +241,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
         // Traverse tables and find palette
         foreach ($searchTables as $tableDefinition) {
             foreach ($tableDefinition->tca as $field) {
-                /** @todo Remove compatibility layer in Mask v8.0 */
-                try {
-                    if (!$field->hasInlineParent($elementKey) || $field->getInlineParent($elementKey) !== $parentKey) {
-                        continue;
-                    }
-                } catch (InvalidArgumentException $e) {
-                    trigger_error(
-                        'Not specifying the element key in method TableDefinitionCollection->loadInlineFields, will not work in Mask v8.0 anymore.',
-                        E_USER_DEPRECATED
-                    );
+                if (!$field->hasInlineParent($elementKey) || $field->getInlineParent($elementKey) !== $parentKey) {
                     continue;
                 }
 

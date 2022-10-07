@@ -19,12 +19,12 @@ namespace MASK\Mask\Tests\Unit;
 
 use MASK\Mask\Utility\TemplatePathUtility;
 use TYPO3\CMS\Core\Core\Environment;
-use TYPO3\CMS\Core\Package\PackageManager;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class TemplatePathUtilityTest extends UnitTestCase
 {
+    use PackageManagerTrait;
+
     public function getTemplatePathDataProvider(): iterable
     {
         return [
@@ -34,7 +34,7 @@ class TemplatePathUtilityTest extends UnitTestCase
                 false,
                 null,
                 false,
-                Environment::getPublicPath() . '/typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/UpperExists.html',
+                Environment::getProjectPath() . '/Tests/Unit/Fixtures/Templates/UpperExists.html',
             ],
             'File does not exist' => [
                 ['content' => 'EXT:mask/Tests/Unit/Fixtures/Templates/'],
@@ -42,7 +42,7 @@ class TemplatePathUtilityTest extends UnitTestCase
                 false,
                 null,
                 false,
-                Environment::getPublicPath() . '/typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/Noelement.html',
+                Environment::getProjectPath() . '/Tests/Unit/Fixtures/Templates/Noelement.html',
             ],
             'under_scored exists' => [
                 ['content' => 'EXT:mask/Tests/Unit/Fixtures/Templates/'],
@@ -50,7 +50,7 @@ class TemplatePathUtilityTest extends UnitTestCase
                 false,
                 null,
                 false,
-                Environment::getPublicPath() . '/typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/under_scored.html',
+                Environment::getProjectPath() . '/Tests/Unit/Fixtures/Templates/under_scored.html',
             ],
             'Uc_first exists' => [
                 ['content' => 'EXT:mask/Tests/Unit/Fixtures/Templates/'],
@@ -58,7 +58,7 @@ class TemplatePathUtilityTest extends UnitTestCase
                 false,
                 null,
                 false,
-                Environment::getPublicPath() . '/typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/Uc_first.html',
+                Environment::getProjectPath() . '/Tests/Unit/Fixtures/Templates/Uc_first.html',
             ],
             'Manually configured path works' => [
                 ['content' => ''],
@@ -72,9 +72,9 @@ class TemplatePathUtilityTest extends UnitTestCase
                 ['content' => ''],
                 'upper_exists',
                 false,
-                Environment::getPublicPath() . '/typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/',
+                Environment::getProjectPath() . '/Tests/Unit/Fixtures/Templates/',
                 false,
-                Environment::getPublicPath() . '/typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/UpperExists.html',
+                Environment::getProjectPath() . '/Tests/Unit/Fixtures/Templates/UpperExists.html',
             ],
             'Only template is returned' => [
                 ['content' => 'EXT:mask/Tests/Unit/Fixtures/Templates/'],
@@ -141,10 +141,7 @@ class TemplatePathUtilityTest extends UnitTestCase
      */
     public function getTemplatePath(array $settings, string $elementKey, bool $onlyTemplateName, ?string $path, bool $removeExtension, string $expectedPath): void
     {
-        $packageManager = $this->prophesize(PackageManager::class);
-        $packageManager->isPackageActive('mask')->willReturn(true);
-        ExtensionManagementUtility::setPackageManager($packageManager->reveal());
-
+        $this->registerPackageManager();
         $this->resetSingletonInstances = true;
         $path = TemplatePathUtility::getTemplatePath($settings, $elementKey, $onlyTemplateName, $path, $removeExtension);
         self::assertSame($expectedPath, $path);

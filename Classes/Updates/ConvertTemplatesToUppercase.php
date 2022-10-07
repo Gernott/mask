@@ -17,7 +17,6 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Updates;
 
-use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use Symfony\Component\Finder\Exception\DirectoryNotFoundException;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
@@ -75,7 +74,7 @@ class ConvertTemplatesToUppercase implements UpgradeWizardInterface
         }
 
         if (str_starts_with($settings['content'], 'EXT:')) {
-            $absolutePath = MaskUtility::getFileAbsFileName($settings['content']);
+            $absolutePath = GeneralUtility::getFileAbsFileName($settings['content']);
         } else {
             $absolutePath = Environment::getPublicPath() . '/' . $settings['content'];
         }

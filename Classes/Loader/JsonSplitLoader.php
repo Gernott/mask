@@ -26,7 +26,6 @@ use MASK\Mask\Definition\TcaDefinition;
 use MASK\Mask\Definition\TcaFieldDefinition;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Migrations\MigrationManager;
-use MASK\Mask\Utility\GeneralUtility as MaskUtility;
 use Symfony\Component\Finder\Finder;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -126,7 +125,7 @@ class JsonSplitLoader implements LoaderInterface
 
     protected function getAbsolutePath(string $table): string
     {
-        return MaskUtility::getFileAbsFileName($this->getPath($table));
+        return GeneralUtility::getFileAbsFileName($this->getPath($table));
     }
 
     protected function mergeElementDefinitions(array &$definitionArray, string $folder): array
