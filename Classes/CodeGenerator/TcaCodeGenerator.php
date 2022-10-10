@@ -132,6 +132,9 @@ class TcaCodeGenerator
         if ($field->inlineIcon !== '') {
             $tableTca['ctrl']['iconfile'] = $field->inlineIcon;
         }
+
+        $tableTca['ctrl']['searchFields'] = $this->addSearchFields($table);
+
         return $tableTca;
     }
 
