@@ -6,7 +6,7 @@
                 <div class="mask-elements__header-icon-wrap">
                     <core:icon identifier="mimetypes-x-content-text" size="default"/>
                     <div class="mask-elements__header-icon-label">
-                        <f:translate key="tx_mask.all.contentelements"/>
+                        <f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.all.contentelements"/>
                     </div>
                 </div>
                 <div class="form-control-wrap mask-elements__header-search">
@@ -15,15 +15,15 @@
                             <core:icon identifier="apps-toolbar-menu-search" size="small"/>
                         </div>
                         <div class="form-control-clearable">
-                            <input class="form-control" v-model="searchString" placeholder="{f:translate(key: 'tx_mask.search')}" aria-label="{f:translate(key: 'tx_mask.search_content_elements')}" autocomplete="off" spellcheck="off" autocapitalize="none"/>
+                            <input class="form-control" v-model="searchString" placeholder="{f:translate(key: 'LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.search')}" aria-label="{f:translate(key: 'LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.search_content_elements')}" autocomplete="off" spellcheck="off" autocapitalize="none"/>
                             <button v-show="searchString !== ''" @click="searchString = ''" class="close" type="button" tabindex="-1">
                                 <core:icon identifier="actions-close"/>
                             </button>
                         </div>
                     </div>
                 </div>
-                <div v-if="missingFilesOrFolders.missing" @click="showMissingFilesOrFolder" class="mask-elements__missing btn btn-warning"><i class="fa fa-warning"></i> <f:translate key="tx_mask.all.missingFilesOrFolders"/></div>
-                <div @click="openNew" class="btn btn-success"><i class="fa fa-plus"></i> <f:translate key="tx_mask.all.create_content_element"/></div>
+                <div v-if="missingFilesOrFolders.missing" @click="showMissingFilesOrFolder" class="mask-elements__missing btn btn-warning"><i class="fa fa-warning"></i> <f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.all.missingFilesOrFolders"/></div>
+                <div @click="openNew" class="btn btn-success"><i class="fa fa-plus"></i> <f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.all.create_content_element"/></div>
             </div>
             <div class="mask-elements__table-wrap">
                 <table class="table table-hover mask-elements__table">
@@ -59,7 +59,7 @@
                 <div class="mask-elements__header-icon-wrap">
                     <core:icon identifier="mimetypes-x-backend_layout" size="default"/>
                     <div class="mask-elements__header-icon-label">
-                        <f:translate key="tx_mask.all.pagetemplates"/>
+                        <f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.all.pagetemplates"/>
                     </div>
                 </div>
             </div>
@@ -103,24 +103,24 @@
     <div class="mask-setup-incomplete">
         <div class="mask-setup-incomplete__content">
             <div class="mask-setup-incomplete__text">
-                <h1><f:translate key="tx_mask.setup_incomplete"/></h1>
-                <p><f:format.raw><f:translate key="tx_mask.setup_incomplete.text"/></f:format.raw></p>
+                <h1><f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.setup_incomplete"/></h1>
+                <p><f:format.raw><f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.setup_incomplete.text"/></f:format.raw></p>
             </div>
         </div>
         <form class="form-horizontal mask-setup-incomplete__form">
-            <h2><f:translate key="tx_mask.auto_configuration"/></h2>
-            <p><f:format.raw><f:translate key="tx_mask.auto_configuration.text"/></f:format.raw></p>
+            <h2><f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.auto_configuration"/></h2>
+            <p><f:format.raw><f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.auto_configuration.text"/></f:format.raw></p>
             <div class="form-group row">
-                <label for="extension-key" class="col-sm-2 control-label">{f:translate(key: 'tx_mask.extension_key')}:</label>
+                <label for="extension-key" class="col-sm-2 control-label">{f:translate(key: 'LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.extension_key')}:</label>
                 <div class="col-sm-8">
                     <input v-model="setupConfiguration.extension" id="extension-key" class="form-control">
                 </div>
                 <div class="col-sm-2 d-flex align-items-center"><span class="text-danger" v-if="setupConfiguration.error">{{ setupConfiguration.error }}</span></div>
             </div>
             <div class="form-group row">
-                <div class="col-sm-2 control-label"><b>Loader <a href="https://docs.typo3.org/p/mask/mask/main/en-us/API/Loader.html#available-loaders" title="{f:translate(key: 'tx_mask.learn_about_loaders')}" target="_blank"><i class="fa fa-info-circle"></i></a> :</b></div>
+                <div class="col-sm-2 control-label"><b>Loader <a href="https://docs.typo3.org/p/mask/mask/main/en-us/API/Loader.html#available-loaders" title="{f:translate(key: 'LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.learn_about_loaders')}" target="_blank"><i class="fa fa-info-circle"></i></a> :</b></div>
                 <div class="col-sm-10">
-                    <div><f:translate key="tx_mask.loader.description"/></div>
+                    <div><f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.loader.description"/></div>
                     <div>
                         <label for="json" class="control-label">JsonLoader</label>
                         <input v-model="setupConfiguration.loader" id="json" type="radio" name="loader" value="json"/>
@@ -133,7 +133,7 @@
                     </div>
                 </div>
             </div>
-            <input @click.prevent="submitAutoConfiguration" type="submit" class="btn btn-primary" value="{f:translate(key: 'tx_mask.submit')}">
+            <input @click.prevent="submitAutoConfiguration" type="submit" class="btn btn-primary" value="{f:translate(key: 'LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.submit')}">
         </form>
     </div>
     <f:render partial="List/Footer"/>

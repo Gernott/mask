@@ -4,8 +4,8 @@
             <div class="media">
                 <div class="media-left"><span class="fa-stack fa-lg callout-icon"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-info fa-stack-1x"></i></span></div>
                 <div class="media-body">
-                    <p><b><f:translate key="tx_mask.content.multiuse"/></b><br><f:translate key="tx_mask.content.multiuse.description"/></p>
-                    <p class="mb-0"><a href="#" @click.prevent="openMultiUsageModal" class="btn btn-sm btn-primary"><f:translate key="tx_mask.showMultiuseElements"/></a></p>
+                    <p><b><f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.content.multiuse"/></b><br><f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.content.multiuse.description"/></p>
+                    <p class="mb-0"><a href="#" @click.prevent="openMultiUsageModal" class="btn btn-sm btn-primary"><f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.showMultiuseElements"/></a></p>
                 </div>
             </div>
         </div>
@@ -15,7 +15,7 @@
             <div class="media">
                 <div class="media-left"><span class="fa-stack fa-lg callout-icon"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-info fa-stack-1x"></i></span></div>
                 <div class="media-body">
-                    <f:translate key="tx_mask.missing_extension.ckeditor"/>
+                    <f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.missing_extension.ckeditor"/>
                 </div>
             </div>
         </div>
@@ -65,13 +65,13 @@
                         </div>
                         <div v-if="!['palette', 'tab'].includes(global.activeField.name)" class="form-group col-sm-12 col-xl-6">
                             <label class="t3js-formengine-label">
-                                {f:translate(key: 'tx_mask.reset_settings')}
+                                {f:translate(key: 'LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.reset_settings')}
                             </label>
                             <div class="t3js-formengine-field-item">
-                                <span class="formengine-field-item-description text-muted">{f:translate(key: 'tx_mask.reset_settings_description')}</span>
+                                <span class="formengine-field-item-description text-muted">{f:translate(key: 'LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.reset_settings_description')}</span>
                             </div>
                             <div class="reset-button">
-                                <a @click="resetActiveField" class="btn btn-default">{f:translate(key: 'tx_mask.reset_button')}</a>
+                                <a @click="resetActiveField" class="btn btn-default">{f:translate(key: 'LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.reset_button')}</a>
                             </div>
                         </div>
                     </div>

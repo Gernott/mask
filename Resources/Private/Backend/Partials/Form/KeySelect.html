@@ -1,5 +1,5 @@
 <label class="t3js-formengine-label" for="form_choosefield">
-    <f:translate key="tx_mask.field.choosefield"/>
+    <f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.field.choosefield"/>
 </label>
 <div class="t3js-formengine-field-item">
     <div class="form-control-wrap">
@@ -12,7 +12,7 @@
         >
             <optgroup class="c-divider" label="New">
                 <option :value="global.maskPrefix">
-                    <f:translate key="tx_mask.field.newfield"/>
+                    <f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.field.newfield"/>
                 </option>
             </optgroup>
             <optgroup label="Current new key" v-if="global.activeField.key !== global.maskPrefix && !(getAvailableTcaKeys()[global.activeField.name].includes(global.activeField.key))">

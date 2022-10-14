@@ -55,7 +55,6 @@ class MaskController
         $this->view = GeneralUtility::makeInstance(StandaloneView::class);
         $this->view->assign('settingsUrl', $settingsUrl);
         $this->view->getRenderingContext()->setControllerAction('Wizard/Main');
-        $this->view->getRequest()->setControllerExtensionName('mask');
         $this->view->getRenderingContext()->getTemplatePaths()->fillDefaultsByPackageName('mask');
         $moduleTemplate->getDocHeaderComponent()->disable();
         $this->pageRenderer->addRequireJsConfiguration(

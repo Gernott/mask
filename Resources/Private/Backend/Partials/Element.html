@@ -1,9 +1,9 @@
 <div :class="['form-group', {'has-error': fieldErrors.elementKey || !fieldErrors.elementKeyAvailable}]">
     <label class="t3js-formengine-label" for="meta_key">
-        <f:translate key="tx_mask.all.fieldkey"/>*
+        <f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.all.fieldkey"/>*
     </label>
     <div class="t3js-formengine-field-item">
-        <span class="formengine-field-item-description text-muted">{f:translate(key: 'tx_mask.all.fieldkey.description')}</span>
+        <span class="formengine-field-item-description text-muted">{f:translate(key: 'LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.all.fieldkey.description')}</span>
         <div class="form-control-wrap">
             <element-key :element="element" :mode="mode"></element-key>
         </div>
@@ -12,7 +12,7 @@
 
 <div :class="['form-group', {'has-error': fieldErrors.elementLabel}]">
     <label class="t3js-formengine-label" for="meta_label">
-        <f:translate key="tx_mask.content.title"/>*
+        <f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.content.title"/>*
     </label>
     <div class="t3js-formengine-field-item">
         <div class="form-control-wrap">
@@ -28,7 +28,7 @@
 
 <div class="form-group">
     <label class="t3js-formengine-label" for="meta_shortlabel">
-        <f:translate key="tx_mask.all.shorttitle"/>
+        <f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.all.shorttitle"/>
     </label>
     <div class="t3js-formengine-field-item">
         <div class="form-control-wrap">
@@ -44,7 +44,7 @@
 
 <div class="form-group">
     <label class="t3js-formengine-label" for="meta_description">
-        <f:translate key="tx_mask.all.description"/>
+        <f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.all.description"/>
     </label>
     <div class="t3js-formengine-field-item">
         <div class="form-control-wrap">
@@ -71,6 +71,6 @@
 <div class="checkbox checkbox-type-toggle form-check form-switch">
     <input id="elementSaveAndClose" class="checkbox-input form-check-input" v-model="element.saveAndClose" type="checkbox" :true-value="1" :false-value="0">
     <label class="checkbox-label form-check-label" for="elementSaveAndClose">
-        <span class="checkbox-label-text form-check-label-text"><f:translate key="tx_mask.saveAndClose"/></span>
+        <span class="checkbox-label-text form-check-label-text"><f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.saveAndClose"/></span>
     </label>
 </div>
