@@ -106,8 +106,6 @@ class TcaCodeGenerator
         $tableTca['ctrl']['label'] = $processedTca['label'];
         $tableTca['ctrl']['iconfile'] = 'EXT:mask/Resources/Public/Icons/Extension.svg';
 
-        // Hide table in list view
-        $tableTca['ctrl']['hideTable'] = true;
         $tableTca['types']['1']['showitem'] = $processedTca['showitem'] . $appendLanguageTab . $appendAccessTab;
 
         $tableTca['columns']['l10n_parent']['config']['foreign_table'] = $table;
@@ -673,6 +671,7 @@ class TcaCodeGenerator
                     'endtime' => 'endtime',
                     'fe_group' => 'fe_group',
                 ],
+                'hideTable' => true,
                 'security' => [
                     'ignorePageTypeRestriction' => true,
                 ],
