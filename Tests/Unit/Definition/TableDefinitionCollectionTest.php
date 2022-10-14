@@ -865,6 +865,24 @@ class TableDefinitionCollectionTest extends BaseTestCase
                 'tt_content',
                 FieldType::INTEGER,
             ],
+            'Type Integer is returned (v12)' => [
+                [],
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'tx_mask_field1' => [
+                                'config' => [
+                                    'type' => 'number',
+                                ],
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
+                ],
+                'tx_mask_field1',
+                'tt_content',
+                FieldType::INTEGER,
+            ],
             'Type Float is returned' => [
                 [],
                 [
@@ -874,6 +892,25 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'config' => [
                                     'type' => 'input',
                                     'eval' => 'double2',
+                                ],
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
+                ],
+                'tx_mask_field1',
+                'tt_content',
+                FieldType::FLOAT,
+            ],
+            'Type Float is returned (v12)' => [
+                [],
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'tx_mask_field1' => [
+                                'config' => [
+                                    'type' => 'number',
+                                    'format' => 'decimal',
                                 ],
                                 'key' => 'field1',
                             ],

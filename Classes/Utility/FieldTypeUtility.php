@@ -92,6 +92,11 @@ class FieldTypeUtility
                 return FieldType::CATEGORY;
             case 'slug':
                 return FieldType::SLUG;
+            case 'number':
+                if (($tca['config']['format'] ?? '') === 'decimal') {
+                    return FieldType::FLOAT;
+                }
+                return FieldType::INTEGER;
             default:
                 // Check if fake tca type is valid.
                 try {
