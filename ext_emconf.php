@@ -12,9 +12,10 @@ $EM_CONF[$_EXTKEY] = [
     'version' => '7.2.5',
     'constraints' => [
         'depends' => [
-            'typo3' => '11.5.0',
-            'fluid' => '11.5.0',
-            'fluid_styled_content' => '11.5.0',
+            'typo3' => '11.5.0-12.0.99',
+            'fluid' => '11.5.0-12.0.99',
+            'fluid_styled_content' => '11.5.0-12.0.99',
+            'fontawesome_provider' => '1.0.0',
         ],
         'conflicts' => [],
         'suggests' => [
