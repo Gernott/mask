@@ -422,7 +422,7 @@ class AjaxController
             ->select('uid')
             ->from('tt_content')
             ->where($queryBuilder->expr()->eq('CType', $queryBuilder->createNamedParameter(AffixUtility::addMaskCTypePrefix($elementKey))))
-            ->execute()
+            ->executeQuery()
             ->rowCount();
     }
 

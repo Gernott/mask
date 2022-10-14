@@ -288,7 +288,7 @@ class InlineHelper
             $queryBuilder->andWhere($queryBuilder->expr()->eq('parenttable', $queryBuilder->createNamedParameter($parenttable)));
         }
 
-        $statement = $queryBuilder->execute();
+        $statement = $queryBuilder->executeQuery();
 
         // and recursively add them to an array
         $elements = [];

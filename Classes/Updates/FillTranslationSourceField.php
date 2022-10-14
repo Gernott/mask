@@ -67,12 +67,12 @@ class FillTranslationSourceField implements UpgradeWizardInterface
             $queryBuilder->update($maskTable->table, 't')
                 ->set('t.l10n_source', 't.l10n_parent', false)
                 ->where(
-                    $queryBuilder->expr()->andX(
+                    $queryBuilder->expr()->and(
                         $queryBuilder->expr()->gt('t.l10n_parent', $queryBuilder->createNamedParameter(0)),
                         $queryBuilder->expr()->eq('t.l10n_source', $queryBuilder->createNamedParameter(0))
                     )
                 );
-            $queryBuilder->execute();
+            $queryBuilder->executeStatement();
         }
 
         return true;
@@ -88,13 +88,13 @@ class FillTranslationSourceField implements UpgradeWizardInterface
             $query = $queryBuilder->count('uid')
                 ->from($maskTable->table)
                 ->where(
-                    $queryBuilder->expr()->andX(
+                    $queryBuilder->expr()->and(
                         $queryBuilder->expr()->gt('l10n_parent', $queryBuilder->createNamedParameter(0)),
                         $queryBuilder->expr()->eq('l10n_source', $queryBuilder->createNamedParameter(0))
                     )
                 );
 
-            $result = $query->execute();
+            $result = $query->executeQuery();
             $count = (int)$result->fetchOne();
             if ($count > 0) {
                 return true;

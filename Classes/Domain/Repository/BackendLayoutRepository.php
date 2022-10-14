@@ -89,11 +89,11 @@ class BackendLayoutRepository
             }
         }
 
-        // also search in the database for backendlayouts
+        // also search in the database for backend layouts
         $statement = $this->backendLayoutQueryBuilder
-            ->from('backend_layout')
             ->select('uid', 'title', 'description')
-            ->execute();
+            ->from('backend_layout')
+            ->executeQuery();
 
         foreach ($statement->fetchAllAssociative() as $layout) {
             $backendLayout = new BackendLayout(
@@ -117,10 +117,10 @@ class BackendLayoutRepository
     public function findIdentifierByPid(int $pid): ?string
     {
         $statement = $this->pagesQueryBuilder
-            ->from('pages')
             ->select('backend_layout', 'backend_layout_next_level', 'uid')
+            ->from('pages')
             ->where($this->pagesQueryBuilder->expr()->eq('uid', $this->pagesQueryBuilder->createNamedParameter($pid, \PDO::PARAM_INT)))
-            ->execute();
+            ->executeQuery();
 
         $requestPage = $statement->fetchAssociative();
         $backend_layout = $requestPage['backend_layout'];
