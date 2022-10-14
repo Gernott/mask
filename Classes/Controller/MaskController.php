@@ -20,7 +20,7 @@ namespace MASK\Mask\Controller;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
-use TYPO3\CMS\Backend\Template\ModuleTemplate;
+use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -29,47 +29,35 @@ use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
- * Class MaskController
  * @internal
  */
 class MaskController
 {
-    /**
-     * @var ModuleTemplate
-     */
-    private $moduleTemplate;
-
-    /**
-     * @var StandaloneView
-     */
-    protected $view;
-
-    /**
-     * @var PageRenderer
-     */
-    protected $pageRenderer;
-
-    /**
-     * @var UriBuilder
-     */
-    protected $uriBuilder;
+    protected ModuleTemplateFactory $moduleTemplateFactory;
+    protected StandaloneView $view;
+    protected PageRenderer $pageRenderer;
+    protected UriBuilder $uriBuilder;
 
     public function __construct(
-        ModuleTemplate $moduleTemplate,
+        ModuleTemplateFactory $moduleTemplateFactory,
         UriBuilder $uriBuilder,
         PageRenderer $pageRenderer
     ) {
-        $this->moduleTemplate = $moduleTemplate;
+        $this->moduleTemplateFactory = $moduleTemplateFactory;
         $this->uriBuilder = $uriBuilder;
         $this->pageRenderer = $pageRenderer;
     }
 
-    /**
-     * The main action.
-     */
     public function mainAction(ServerRequestInterface $request): ResponseInterface
     {
-        $this->initializeView('Wizard/Main');
+        $moduleTemplate = $this->moduleTemplateFactory->create($request);
+        $settingsUrl = $this->uriBuilder->buildUriFromRoute('tools_toolssettings');
+        $this->view = GeneralUtility::makeInstance(StandaloneView::class);
+        $this->view->assign('settingsUrl', $settingsUrl);
+        $this->view->getRenderingContext()->setControllerAction('Wizard/Main');
+        $this->view->getRequest()->setControllerExtensionName('mask');
+        $this->view->getRenderingContext()->getTemplatePaths()->fillDefaultsByPackageName('mask');
+        $moduleTemplate->getDocHeaderComponent()->disable();
         $this->pageRenderer->addRequireJsConfiguration(
             [
                 'paths' => [
@@ -81,21 +69,7 @@ class MaskController
         );
         $this->pageRenderer->loadRequireJsModule('TYPO3/CMS/Mask/Mask');
         $this->pageRenderer->addCssFile('EXT:mask/Resources/Public/Styles/mask.css');
-        $this->moduleTemplate->setContent($this->view->render());
-        return new HtmlResponse($this->moduleTemplate->renderContent());
-    }
-
-    /**
-     * Sets up the Fluid View.
-     */
-    protected function initializeView(string $templateName): void
-    {
-        $settingsUrl = $this->uriBuilder->buildUriFromRoute('tools_toolssettings');
-        $this->view = GeneralUtility::makeInstance(StandaloneView::class);
-        $this->view->assign('settingsUrl', $settingsUrl);
-        $this->view->getRequest()->setControllerExtensionName('mask');
-        $this->view->getRenderingContext()->setControllerAction($templateName);
-        $this->view->getRenderingContext()->getTemplatePaths()->fillDefaultsByPackageName('mask');
-        $this->moduleTemplate->getDocHeaderComponent()->disable();
+        $moduleTemplate->setContent($this->view->render());
+        return new HtmlResponse($moduleTemplate->renderContent());
     }
 }
