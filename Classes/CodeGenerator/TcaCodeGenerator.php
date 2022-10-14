@@ -673,6 +673,9 @@ class TcaCodeGenerator
                     'endtime' => 'endtime',
                     'fe_group' => 'fe_group',
                 ],
+                'security' => [
+                    'ignorePageTypeRestriction' => true,
+                ],
             ],
             'palettes' => [
                 'language' => [
