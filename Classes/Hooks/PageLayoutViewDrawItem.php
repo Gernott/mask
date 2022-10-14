@@ -18,14 +18,15 @@ declare(strict_types=1);
 namespace MASK\Mask\Hooks;
 
 use MASK\Mask\Definition\ElementTcaDefinition;
-use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Helper\InlineHelper;
+use MASK\Mask\Loader\LoaderRegistry;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\TemplatePathUtility;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\View\PageLayoutView;
 use TYPO3\CMS\Backend\View\PageLayoutViewDrawItemHookInterface;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
@@ -36,31 +37,6 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
  */
 class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
 {
-    /**
-     * @var InlineHelper
-     */
-    protected $inlineHelper;
-
-    /**
-     * @var TableDefinitionCollection
-     */
-    protected $tableDefinitionCollection;
-
-    /**
-     * @var array
-     */
-    protected $maskExtensionConfiguration;
-
-    public function __construct(
-        array $maskExtensionConfiguration,
-        InlineHelper $inlineHelper,
-        TableDefinitionCollection $tableDefinitionCollection
-    ) {
-        $this->maskExtensionConfiguration = $maskExtensionConfiguration;
-        $this->inlineHelper = $inlineHelper;
-        $this->tableDefinitionCollection = $tableDefinitionCollection;
-    }
-
     /**
      * Preprocesses the preview rendering of a content element.
      *
@@ -77,13 +53,17 @@ class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
         &$itemContent,
         array &$row
     ): void {
+        $maskExtensionConfiguration = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('mask');
+        $inlineHelper = GeneralUtility::makeInstance(InlineHelper::class);
+        $tableDefinitionCollection = GeneralUtility::makeInstance(LoaderRegistry::class)->getActivateLoader()->load();
+
         // only render special backend preview if it is a mask element
         if (!AffixUtility::hasMaskCTypePrefix($row['CType'])) {
             return;
         }
 
         $elementKey = AffixUtility::removeCTypePrefix($row['CType']);
-        $elementTcaDefinition = $this->tableDefinitionCollection->loadElement('tt_content', $elementKey);
+        $elementTcaDefinition = $tableDefinitionCollection->loadElement('tt_content', $elementKey);
         // If the Mask element couldn't be found, provide a proper error message.
         if (!$elementTcaDefinition instanceof ElementTcaDefinition) {
             $drawItem = false;
@@ -95,7 +75,7 @@ class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
 
         // fallback to prevent breaking change
         $templatePathAndFilename = TemplatePathUtility::getTemplatePath(
-            $this->maskExtensionConfiguration,
+            $maskExtensionConfiguration,
             $elementKey,
             false,
             GeneralUtility::getFileAbsFileName($this->maskExtensionConfiguration['backend'] ?? '')
@@ -127,8 +107,8 @@ class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
 
         // Fetch and assign some useful variables
         $data = BackendUtility::getRecordWSOL('tt_content', (int)$row['uid']);
-        $this->inlineHelper->addFilesToData($data);
-        $this->inlineHelper->addIrreToData($data);
+        $inlineHelper->addFilesToData($data);
+        $inlineHelper->addIrreToData($data);
 
         $view->assign('row', $row);
         $view->assign('data', $data);

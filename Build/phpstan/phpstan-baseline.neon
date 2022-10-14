@@ -626,17 +626,7 @@ parameters:
 			path: ../../Classes/Helper/InlineHelper.php
 
 		-
-			message: "#^Method MASK\\\\Mask\\\\Hooks\\\\PageLayoutViewDrawItem\\:\\:__construct\\(\\) has parameter \\$maskExtensionConfiguration with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../Classes/Hooks/PageLayoutViewDrawItem.php
-
-		-
 			message: "#^Method MASK\\\\Mask\\\\Hooks\\\\PageLayoutViewDrawItem\\:\\:preProcess\\(\\) has parameter \\$row with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../Classes/Hooks/PageLayoutViewDrawItem.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Hooks\\\\PageLayoutViewDrawItem\\:\\:\\$maskExtensionConfiguration type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Hooks/PageLayoutViewDrawItem.php
 

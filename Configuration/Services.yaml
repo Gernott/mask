@@ -85,9 +85,6 @@ services:
   MASK\Mask\Imaging\IconProvider\ContentElementIconProvider:
     public: true
 
-  MASK\Mask\Hooks\PageLayoutViewDrawItem:
-    public: true
-
   MASK\Mask\Form\FormDataProvider\TcaTypesShowitemMaskBeLayoutFields:
     public: true
 
