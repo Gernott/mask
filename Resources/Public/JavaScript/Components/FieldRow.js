@@ -3,7 +3,7 @@ define([
     'TYPO3/CMS/Backend/Tooltip',
     'jquery'
   ],
-  function (Vue, Tooltip, $) {
+  function (Vue, Tooltip) {
     return Vue.component(
       'fieldRow',
       {
@@ -32,7 +32,7 @@ define([
         },
         methods: {
           hideTooltip() {
-            Tooltip.hide($(this.$refs['row' + this.index]));
+            Tooltip.hide(this.$refs['row' + this.index]);
           },
           setActiveField() {
             this.global.activeField = this.field;

@@ -4,9 +4,8 @@ define([
       'TYPO3/CMS/Core/Ajax/AjaxRequest',
       'TYPO3/CMS/Backend/Tooltip',
       'TYPO3/CMS/Backend/Modal',
-      'jquery'
     ],
-    function (Vue, Icons, AjaxRequest, Tooltip, Modal, $) {
+    function (Vue, Icons, AjaxRequest, Tooltip, Modal) {
       return Vue.component(
           'button-bar',
           {
@@ -44,7 +43,7 @@ define([
                     )
               },
               hideTooltip(key) {
-                Tooltip.hide($(this.$refs[this.element.key + key]));
+                Tooltip.hide(this.$refs[this.element.key + key]);
               },
               openFluidCodeModal(element) {
                 const url = new URL(TYPO3.settings.ajaxUrls.mask_html, window.location.origin);
