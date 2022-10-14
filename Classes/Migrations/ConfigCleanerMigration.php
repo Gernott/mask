@@ -19,7 +19,6 @@ namespace MASK\Mask\Migrations;
 
 use MASK\Mask\ConfigurationLoader\ConfigurationLoaderInterface;
 use MASK\Mask\Definition\TableDefinitionCollection;
-use MASK\Mask\Utility\CompatibilityUtility;
 use MASK\Mask\Utility\TcaConverter;
 
 class ConfigCleanerMigration implements RepeatableMigrationInterface
@@ -57,7 +56,7 @@ class ConfigCleanerMigration implements RepeatableMigrationInterface
                 $tcaOptions = array_merge([], $fieldsToNotThrowAway, $defaultsOut, ...$tcaOptions);
 
                 $cleanedConfig = array_filter(TcaConverter::convertTcaArrayToFlat($tcaFieldDefinition->realTca), static function ($key) use ($tcaOptions) {
-                    return in_array($key, $tcaOptions, true) || CompatibilityUtility::isFirstPartOfStr($key, 'config.eval');
+                    return in_array($key, $tcaOptions, true) || str_starts_with($key, 'config.eval');
                 }, ARRAY_FILTER_USE_KEY);
 
                 $tcaFieldDefinition->realTca = TcaConverter::convertFlatTcaToArray($cleanedConfig);
