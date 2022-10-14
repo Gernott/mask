@@ -4,7 +4,7 @@
         <div class="mask-elements__column mask-elements__column--elements">
             <div class="mask-elements__header">
                 <div class="mask-elements__header-icon-wrap">
-                    <core:icon identifier="mimetypes-x-content-text" size="default"/>
+                    <core:icon identifier="mimetypes-x-content-text" size="{iconSize}"/>
                     <div class="mask-elements__header-icon-label">
                         <f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.all.contentelements"/>
                     </div>
@@ -57,7 +57,7 @@
         <div class="mask-elements__column mask-elements__column--templates">
             <div class="mask-elements__header">
                 <div class="mask-elements__header-icon-wrap">
-                    <core:icon identifier="mimetypes-x-backend_layout" size="default"/>
+                    <core:icon identifier="mimetypes-x-backend_layout" size="{iconSize}"/>
                     <div class="mask-elements__header-icon-label">
                         <f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.all.pagetemplates"/>
                     </div>
@@ -70,7 +70,7 @@
                             <div class="mask-elements__element-name" @click="openEdit('pages', item)" :title="item.title">
                                 <img v-if="item.icon" :src="item.icon" class="mask-elements__element-name-icon" width="32"/>
                                 <div v-else class="mask-elements__element-name-icon">
-                                    <core:icon identifier="module-templates" size="default"/>
+                                    <core:icon identifier="module-templates" size="{iconSize}"/>
                                 </div>
                                 </img><span class="mask-elements__element-name-label">{{ item.title }}<br><code>[{{ item.key }}]</code></span>
                             </div>

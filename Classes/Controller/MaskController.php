@@ -22,6 +22,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Http\HtmlResponse;
+use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -54,6 +55,8 @@ class MaskController
         $settingsUrl = $this->uriBuilder->buildUriFromRoute('tools_toolssettings');
         $this->view = GeneralUtility::makeInstance(StandaloneView::class);
         $this->view->assign('settingsUrl', $settingsUrl);
+        $iconSize = (new Typo3Version())->getMajorVersion() > 11 ? 'medium' : 'default';
+        $this->view->assign('iconSize', $iconSize);
         $this->view->getRenderingContext()->setControllerAction('Wizard/Main');
         $this->view->getRenderingContext()->getTemplatePaths()->fillDefaultsByPackageName('mask');
         $moduleTemplate->getDocHeaderComponent()->disable();

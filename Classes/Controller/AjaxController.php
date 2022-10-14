@@ -41,7 +41,6 @@ use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Http\ServerRequest;
-use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Localization\LanguageService;
@@ -403,7 +402,7 @@ class AjaxController
                 'label' => $element->label,
                 'translatedLabel' => $translatedLabel !== '' ? $translatedLabel : $element->label,
                 'shortLabel' => $element->shortLabel,
-                'iconMarkup' => $this->iconFactory->getIcon('mask-ce-' . $element->key, Icon::SIZE_DEFAULT, $overlay)->render(),
+                'iconMarkup' => $this->iconFactory->getIcon('mask-ce-' . $element->key, (new Typo3Version())->getMajorVersion() > 11 ? 'medium' : 'default', $overlay)->render(),
                 'templateExists' => $this->contentElementTemplateExists($element->key) ? 1 : 0,
                 'hidden' => $element->hidden ? 1 : 0,
                 'count' => $this->getElementCount($element->key),
