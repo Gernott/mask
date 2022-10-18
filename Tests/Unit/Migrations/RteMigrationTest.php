@@ -28,7 +28,7 @@ class RteMigrationTest extends UnitTestCase
 {
     use PackageManagerTrait;
 
-    protected $resetSingletonInstances = true;
+    protected bool $resetSingletonInstances = true;
 
     /**
      * @test

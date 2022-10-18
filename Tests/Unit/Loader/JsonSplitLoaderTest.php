@@ -27,7 +27,7 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class JsonSplitLoaderTest extends UnitTestCase
 {
-    protected $resetSingletonInstances = true;
+    protected bool $resetSingletonInstances = true;
 
     use PackageManagerTrait;
 

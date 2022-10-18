@@ -23,11 +23,11 @@ use MASK\Mask\Migrations\OrphanRemoverMigration;
 use MASK\Mask\Tests\Unit\PackageManagerTrait;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-class MigrationTest extends UnitTestCase
+class OrphanTableMigrationTest extends UnitTestCase
 {
     use PackageManagerTrait;
 
-    protected $resetSingletonInstances = true;
+    protected bool $resetSingletonInstances = true;
 
     /**
      * @test
