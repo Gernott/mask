@@ -83,9 +83,6 @@ jobs:
       - name: Unit
         run: Build/Scripts/runTests.sh -s unit -p ${{ matrix.php }}
 
-      - name: Unit Deprecated
-        run: Build/Scripts/runTests.sh -s unitDeprecated -p ${{ matrix.php }}
-
   PHPStan:
     name: PHPStan TYPO3 v11.5 PHP 8.1
     runs-on: ubuntu-latest
