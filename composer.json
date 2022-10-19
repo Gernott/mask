@@ -88,11 +88,6 @@
 			"MASK\\Mask\\Tests\\": "Tests"
 		}
 	},
-	"scripts": {
-		"post-autoload-dump": [
-			"TYPO3\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare"
-		]
-	},
 	"extra": {
 		"typo3/cms": {
 			"extension-key": "mask",
