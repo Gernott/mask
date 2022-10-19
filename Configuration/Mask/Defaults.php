@@ -219,10 +219,6 @@ return [
             'config.appearance.enabledControls.delete' => 1,
             'config.appearance.enabledControls.localize' => 1,
         ],
-        'tca_out' => [
-            'config.type' => 'inline',
-            'config.foreign_table' => 'sys_file_reference',
-        ],
         'sql' => 'int(11) unsigned DEFAULT \'0\' NOT NULL',
     ],
     FieldType::MEDIA => [
@@ -240,10 +236,6 @@ return [
             'config.appearance.enabledControls.hide' => 1,
             'config.appearance.enabledControls.delete' => 1,
             'config.appearance.enabledControls.localize' => 1,
-        ],
-        'tca_out' => [
-            'config.type' => 'inline',
-            'config.foreign_table' => 'sys_file_reference',
         ],
         'sql' => 'int(11) unsigned DEFAULT \'0\' NOT NULL',
     ],

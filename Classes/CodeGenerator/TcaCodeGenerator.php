@@ -26,6 +26,7 @@ use MASK\Mask\Definition\TcaFieldDefinition;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\DateUtility;
+use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\OnlineMedia\Helpers\OnlineMediaHelperRegistry;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
@@ -392,12 +393,21 @@ class TcaCodeGenerator
                 $customSettingOverride['appearance']['fileUploadAllowed'] = (bool)($customSettingOverride['appearance']['fileUploadAllowed'] ?? true);
                 $customSettingOverride['appearance']['useSortable'] = (bool)($customSettingOverride['appearance']['useSortable'] ?? false);
 
+                $typo3Version = new Typo3Version();
                 if ($fieldType->equals(FieldType::FILE) && $field->allowedFileExtensions === '') {
-                    $field->allowedFileExtensions = $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'];
+                    if ($typo3Version->getMajorVersion() < 12) {
+                        $field->allowedFileExtensions = $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'];
+                    } else {
+                        $field->allowedFileExtensions = 'common-image-types';
+                    }
                 }
 
                 if ($fieldType->equals(FieldType::MEDIA) && $field->allowedFileExtensions === '') {
-                    $field->allowedFileExtensions = $GLOBALS['TYPO3_CONF_VARS']['SYS']['mediafile_ext'];
+                    if ($typo3Version->getMajorVersion() < 12) {
+                        $field->allowedFileExtensions = $GLOBALS['TYPO3_CONF_VARS']['SYS']['mediafile_ext'];
+                    } else {
+                        $field->allowedFileExtensions = 'common-media-types';
+                    }
                 }
 
                 // Only allow media types the user has selected, but always include the rest.
@@ -408,7 +418,16 @@ class TcaCodeGenerator
                     $field->allowedFileExtensions = implode(',', array_merge($alwaysIncluded, $field->onlineMedia));
                 }
 
-                $additionalTca[$field->fullKey]['config'] = ExtensionManagementUtility::getFileFieldTCAConfig($field->fullKey, $customSettingOverride, $field->allowedFileExtensions);
+                if ($typo3Version->getMajorVersion() < 12) {
+                    $additionalTca[$field->fullKey]['config'] = ExtensionManagementUtility::getFileFieldTCAConfig($field->fullKey, $customSettingOverride, $field->allowedFileExtensions);
+                } else {
+                    $fileFieldTCAConfig = [
+                        'type' => 'file',
+                        'allowed' => explode(',', $field->allowedFileExtensions),
+                    ];
+                    ArrayUtility::mergeRecursiveWithOverrule($fileFieldTCAConfig, $customSettingOverride);
+                    $additionalTca[$field->fullKey]['config'] = $fileFieldTCAConfig;
+                }
                 unset($customSettingOverride);
             }
 

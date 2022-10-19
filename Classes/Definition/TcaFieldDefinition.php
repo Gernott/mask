@@ -569,6 +569,12 @@ final class TcaFieldDefinition
             }
         }
 
+        // TCA type="inline" and foreign_table="sys_file_reference" are not necessary for type file.
+        if ($tcaFieldDefinition->hasFieldType() && $tcaFieldDefinition->type->isFileReference()) {
+            unset($definition['config']['type']);
+            unset($definition['config']['foreign_table']);
+        }
+
         return $definition;
     }
 
