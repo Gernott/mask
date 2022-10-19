@@ -24,7 +24,6 @@ use TYPO3\CMS\Backend\View\BackendLayout\DataProviderContext;
  */
 class BackendLayoutView extends \TYPO3\CMS\Backend\View\BackendLayoutView
 {
-
     /**
      * @return DataProviderContext
      */

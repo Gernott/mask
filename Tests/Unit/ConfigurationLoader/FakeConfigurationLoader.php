@@ -22,7 +22,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class FakeConfigurationLoader implements ConfigurationLoaderInterface
 {
-
     /**
      * @param string $tab
      * @return array

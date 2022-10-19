@@ -25,7 +25,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class ColPosList
 {
-
     /**
      * Render the allowed colPos for nested content elements
      * @param array $params

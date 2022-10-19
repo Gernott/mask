@@ -28,7 +28,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class CTypeList
 {
-
     /**
      * @var TableDefinitionCollection
      */
@@ -57,7 +56,6 @@ class CTypeList
                 foreach ($fields as $key => $field) {
                     // search for the parent field, to get the key of mask field this content element belongs to
                     if ($field > 0 && AffixUtility::hasMaskPrefix($key) && MaskUtility::hasMaskParentSuffix($key)) {
-
                         // if a parent field was found, that is filled with a uid, extract the mask field name from it
                         $fieldKey = AffixUtility::removeMaskParentSuffix($key);
 
@@ -75,7 +73,6 @@ class CTypeList
 
             // if there is a restriction of cTypes specified
             if ($fieldDefinition instanceof TcaFieldDefinition && $fieldDefinition->cTypes !== []) {
-
                 // prepare array of allowed cTypes, with cTypes as keys
                 $cTypes = array_flip($fieldDefinition->cTypes);
 
