@@ -22,6 +22,7 @@ use MASK\Mask\Domain\Repository\BackendLayoutRepository;
 use MASK\Mask\Helper\InlineHelper;
 use MASK\Mask\Tests\Unit\StorageRepositoryCreatorTrait;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -30,6 +31,7 @@ use TYPO3\TestingFramework\Core\BaseTestCase;
 class InlineHelperTest extends BaseTestCase
 {
     use StorageRepositoryCreatorTrait;
+    use ProphecyTrait;
 
     public function addFilesToDataDataProvider(): array
     {
@@ -122,10 +124,10 @@ class InlineHelperTest extends BaseTestCase
             ],
         ];
 
-        $backendLayoutRepository = $this->prophesize(BackendLayoutRepository::class);
+        $backendLayoutRepository = self::prophesize(BackendLayoutRepository::class);
 
-        $fileRepository = $this->prophesize(FileRepository::class);
-        $fileReference = $this->prophesize(FileReference::class);
+        $fileRepository = self::prophesize(FileRepository::class);
+        $fileReference = self::prophesize(FileReference::class);
         $fileRepository->findByRelation(Argument::cetera())->willReturn([$fileReference]);
         GeneralUtility::setSingletonInstance(FileRepository::class, $fileRepository->reveal());
 
@@ -268,7 +270,7 @@ class InlineHelperTest extends BaseTestCase
      */
     public function addIrreToData_tt_content(array $json, string $key, array $data, string $table, array $inlineElements): void
     {
-        $backendLayoutRepository = $this->prophesize(BackendLayoutRepository::class);
+        $backendLayoutRepository = self::prophesize(BackendLayoutRepository::class);
 
         $inlineHelper = $this->getAccessibleMock(
             InlineHelper::class,
@@ -426,7 +428,7 @@ class InlineHelperTest extends BaseTestCase
      */
     public function addIrreToDataNoBeLayout(array $json, string $key, array $data, string $table, array $inlineElements): void
     {
-        $backendLayoutRepository = $this->prophesize(BackendLayoutRepository::class);
+        $backendLayoutRepository = self::prophesize(BackendLayoutRepository::class);
 
         // No backend layout found
         $backendLayoutRepository->findIdentifierByPid(Argument::any())->willReturn('');
@@ -505,7 +507,7 @@ class InlineHelperTest extends BaseTestCase
      */
     public function addIrreToDataToInlineField(array $json, string $key, array $data, string $table, array $inlineElements): void
     {
-        $backendLayoutRepository = $this->prophesize(BackendLayoutRepository::class);
+        $backendLayoutRepository = self::prophesize(BackendLayoutRepository::class);
 
         $inlineHelper = $this->getAccessibleMock(
             InlineHelper::class,

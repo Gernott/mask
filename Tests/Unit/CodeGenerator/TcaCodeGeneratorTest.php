@@ -20,6 +20,7 @@ namespace MASK\Mask\Tests\Unit\CodeGenerator;
 use MASK\Mask\CodeGenerator\TcaCodeGenerator;
 use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Tests\Unit\StorageRepositoryCreatorTrait;
+use Prophecy\PhpUnit\ProphecyTrait;
 use TYPO3\CMS\Core\Package\PackageManager;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\OnlineMedia\Helpers\OnlineMediaHelperRegistry;
@@ -29,6 +30,7 @@ use TYPO3\TestingFramework\Core\BaseTestCase;
 class TcaCodeGeneratorTest extends BaseTestCase
 {
     use StorageRepositoryCreatorTrait;
+    use ProphecyTrait;
 
     public function getPageShowItemProvider(): array
     {
@@ -1389,7 +1391,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
         $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'] = [];
         $GLOBALS['TCA']['tt_content']['columns']['header']['config']['type'] = 'input';
 
-        $packageManager = $this->prophesize(PackageManager::class);
+        $packageManager = self::prophesize(PackageManager::class);
         $packageManager->isPackageActive('gridelements')->willReturn(false);
         ExtensionManagementUtility::setPackageManager($packageManager->reveal());
 

@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace MASK\Mask\Tests\Unit\Domain\Repository;
 
 use MASK\Mask\Tests\Unit\StorageRepositoryCreatorTrait;
+use Prophecy\PhpUnit\ProphecyTrait;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Package\PackageManager;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -26,6 +27,7 @@ use TYPO3\TestingFramework\Core\BaseTestCase;
 class StorageRepositoryTest extends BaseTestCase
 {
     use StorageRepositoryCreatorTrait;
+    use ProphecyTrait;
 
     public function addDataProvider(): iterable
     {
@@ -1216,7 +1218,7 @@ class StorageRepositoryTest extends BaseTestCase
         $storageRepository = $this->createStorageRepository($json);
 
         // @todo Replace workaround for resolvePackagePath.
-        $packageManager = $this->prophesize(PackageManager::class);
+        $packageManager = self::prophesize(PackageManager::class);
         $packageManager->resolvePackagePath('EXT:mask/Tests/Unit/Fixtures/Defaults.php')->willReturn(Environment::getProjectPath() . '/Tests/Unit/Fixtures/Defaults.php');
         ExtensionManagementUtility::setPackageManager($packageManager->reveal());
 

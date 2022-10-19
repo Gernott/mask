@@ -59,7 +59,8 @@
 		"jangregor/phpstan-prophecy": "^1.0",
 		"phpstan/phpstan-phpunit": "^1.0",
 		"typo3/coding-standards": "^0.5",
-		"phpspec/prophecy": "^1.15"
+		"phpspec/prophecy": "^1.15",
+		"phpspec/prophecy-phpunit": "^2.0"
 	},
 	"require": {
 		"php": "^7.4 || ^8.0",

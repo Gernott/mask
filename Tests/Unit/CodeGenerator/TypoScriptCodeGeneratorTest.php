@@ -19,6 +19,7 @@ namespace MASK\Mask\Tests\Unit\CodeGenerator;
 
 use MASK\Mask\CodeGenerator\TyposcriptCodeGenerator;
 use MASK\Mask\Definition\TableDefinitionCollection;
+use Prophecy\PhpUnit\ProphecyTrait;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Imaging\IconRegistry;
 use TYPO3\CMS\Core\Package\PackageManager;
@@ -27,9 +28,11 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class TypoScriptCodeGeneratorTest extends UnitTestCase
 {
+    use ProphecyTrait;
+
     public function setUp(): void
     {
-        $packageManager = $this->prophesize(PackageManager::class);
+        $packageManager = self::prophesize(PackageManager::class);
         $packageManager->isPackageActive('sitepackage')->willReturn(true);
         $packageManager->resolvePackagePath('EXT:sitepackage/Resources/Private/Mask/Templates/')->willReturn(Environment::getPublicPath() . '/typo3conf/ext/sitepackage/Resources/Private/Mask/Templates');
         ExtensionManagementUtility::setPackageManager($packageManager->reveal());
@@ -121,7 +124,7 @@ tt_content.mask_element1 {
      */
     public function generateSetupTyposcript(array $json, array $configuration, string $expected): void
     {
-        $iconRegistryProphecy = $this->prophesize(IconRegistry::class);
+        $iconRegistryProphecy = self::prophesize(IconRegistry::class);
         $tableDefinitionCollection = TableDefinitionCollection::createFromArray($json);
         $typoScriptCodeGenerator = new TyposcriptCodeGenerator($tableDefinitionCollection, $configuration, $iconRegistryProphecy->reveal());
         self::assertSame($expected, $typoScriptCodeGenerator->generateSetupTyposcript());
