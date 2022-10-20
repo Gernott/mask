@@ -60,7 +60,7 @@ class JsonLoader implements LoaderInterface
             return clone $this->tableDefinitionCollection;
         }
 
-        $json = json_decode(file_get_contents($maskJsonFilePath), true, 512, 4194304); // @todo replace with JSON_THROW_ON_ERROR in Mask v8.0
+        $json = json_decode(file_get_contents($maskJsonFilePath), true, 512, JSON_THROW_ON_ERROR);
         $this->tableDefinitionCollection = TableDefinitionCollection::createFromArray($json);
 
         $this->tableDefinitionCollection = $this->migrationManager->migrate($this->tableDefinitionCollection);
@@ -83,7 +83,7 @@ class JsonLoader implements LoaderInterface
             }
         }
 
-        $result = GeneralUtility::writeFile($maskJsonFilePath, json_encode($tableDefinitionCollection->toArray(), 4194304 | JSON_PRETTY_PRINT)); // @todo replace with JSON_THROW_ON_ERROR in Mask v8.0
+        $result = GeneralUtility::writeFile($maskJsonFilePath, json_encode($tableDefinitionCollection->toArray(), JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
         if (!$result) {
             throw new \InvalidArgumentException('The Mask JSON file "' . $this->maskExtensionConfiguration['json'] . '" could not be written. Check your file permissions.', 1639169283);
         }

@@ -48,8 +48,8 @@ class CTypeList
             $fieldKey = '';
 
             if (isset($GLOBALS['TYPO3_REQUEST']->getParsedBody()['ajax']['context'])) {
-                $ajaxContext = json_decode($GLOBALS['TYPO3_REQUEST']->getParsedBody()['ajax']['context'], true, 512, 4194304); // @todo replace with JSON_THROW_ON_ERROR in Mask v8.0
-                $config = json_decode($ajaxContext['config'], true, 512, 4194304); // @todo replace with JSON_THROW_ON_ERROR in Mask v8.0
+                $ajaxContext = json_decode($GLOBALS['TYPO3_REQUEST']->getParsedBody()['ajax']['context'], true, 512, JSON_THROW_ON_ERROR);
+                $config = json_decode($ajaxContext['config'], true, 512, JSON_THROW_ON_ERROR);
                 $fieldKey = AffixUtility::removeMaskParentSuffix($config['foreign_field']);
             } else {
                 $fields = $params['row'];

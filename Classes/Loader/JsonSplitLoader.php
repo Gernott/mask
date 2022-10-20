@@ -134,8 +134,7 @@ class JsonSplitLoader implements LoaderInterface
             if ($file->getFileInfo()->getExtension() !== 'json') {
                 continue;
             }
-            // @todo replace with JSON_THROW_ON_ERROR in Mask v8.0
-            $json = json_decode($file->getContents(), true, 512, 4194304);
+            $json = json_decode($file->getContents(), true, 512, JSON_THROW_ON_ERROR);
             ArrayUtility::mergeRecursiveWithOverrule($definitionArray, $json);
         }
         return $definitionArray;
@@ -223,9 +222,8 @@ class JsonSplitLoader implements LoaderInterface
             $newTableDefinition->elements = $newElementsDefinitionCollection;
             $elementTableDefinitionCollection->addTable($newTableDefinition);
 
-            // @todo replace with JSON_THROW_ON_ERROR in Mask v8.0
             $filePath = $absolutePath . '/' . $element->key . '.json';
-            $result = GeneralUtility::writeFile($filePath, json_encode($elementTableDefinitionCollection->toArray(), 4194304 | JSON_PRETTY_PRINT) . "\n");
+            $result = GeneralUtility::writeFile($filePath, json_encode($elementTableDefinitionCollection->toArray(), JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT) . "\n");
 
             if (!$result) {
                 throw new \InvalidArgumentException('The file "' . $filePath . '" could not be written. Check your file permissions.', 1639169283);
