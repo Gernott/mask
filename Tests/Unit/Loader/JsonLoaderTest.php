@@ -21,7 +21,6 @@ use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Loader\JsonLoader;
 use MASK\Mask\Migrations\MigrationManager;
 use MASK\Mask\Tests\Unit\PackageManagerTrait;
-use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
@@ -34,7 +33,7 @@ class JsonLoaderTest extends UnitTestCase
     public function tearDown(): void
     {
         parent::tearDown();
-        GeneralUtility::rmdir(Environment::getPublicPath() . '/typo3conf/ext/mask/var/mask.json');
+        GeneralUtility::rmdir(GeneralUtility::getFileAbsFileName('EXT:mask/var/mask.json'));
     }
 
     /**
@@ -69,7 +68,7 @@ class JsonLoaderTest extends UnitTestCase
             new MigrationManager([])
         );
         $jsonLoader->write(TableDefinitionCollection::createFromArray($this->getExpectedConfigurationArray()));
-        $jsonPath = Environment::getPublicPath() . '/typo3conf/ext/mask/var/mask.json';
+        $jsonPath = GeneralUtility::getFileAbsFileName('EXT:mask/var/mask.json');
         self::assertFileExists($jsonPath);
         self::assertEquals($this->getExpectedConfigurationArray(), $jsonLoader->load()->toArray(false));
     }

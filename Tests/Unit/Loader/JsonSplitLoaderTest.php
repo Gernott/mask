@@ -21,7 +21,6 @@ use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Loader\JsonSplitLoader;
 use MASK\Mask\Migrations\MigrationManager;
 use MASK\Mask\Tests\Unit\PackageManagerTrait;
-use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
@@ -34,7 +33,7 @@ class JsonSplitLoaderTest extends UnitTestCase
     public function tearDown(): void
     {
         parent::tearDown();
-        GeneralUtility::rmdir(Environment::getPublicPath() . '/typo3conf/ext/mask/var/ContentElements', true);
+        GeneralUtility::rmdir(GeneralUtility::getFileAbsFileName('EXT:mask/var/ContentElements'), true);
     }
 
     /**
@@ -72,7 +71,7 @@ class JsonSplitLoaderTest extends UnitTestCase
 
         $jsonSplitLoader->write(TableDefinitionCollection::createFromArray($this->getExpectedConfigurationArray()));
 
-        $contentElementsPath = Environment::getPublicPath() . '/typo3conf/ext/mask/var/ContentElements';
+        $contentElementsPath = GeneralUtility::getFileAbsFileName('EXT:mask/var/ContentElements');
         self::assertFileExists($contentElementsPath . '/a.json');
         self::assertFileExists($contentElementsPath . '/b.json');
         self::assertFileExists($contentElementsPath . '/c.json');
