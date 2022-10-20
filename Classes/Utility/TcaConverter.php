@@ -30,14 +30,14 @@ class TcaConverter
     /**
      * @var string[]
      */
-    protected static $commaSeparatedLists = [
+    protected static array $commaSeparatedLists = [
         'config.fieldControl.linkPopup.options.blindLinkOptions',
     ];
 
     /**
      * @var string[]
      */
-    protected static $itemListFields = [
+    protected static array $itemListFields = [
         'config.items',
         'config.valuePicker.items',
     ];
@@ -45,7 +45,7 @@ class TcaConverter
     /**
      * @var string[]
      */
-    protected static $keyValueFields = [
+    protected static array $keyValueFields = [
         'config.itemGroups',
         'config.sortItems',
         'config.generatorOptions.replacements',

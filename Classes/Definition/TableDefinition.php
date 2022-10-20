@@ -19,30 +19,11 @@ namespace MASK\Mask\Definition;
 
 final class TableDefinition
 {
-    /**
-     * @var string
-     */
-    public $table = '';
-
-    /**
-     * @var ElementDefinitionCollection|null
-     */
-    public $elements;
-
-    /**
-     * @var SqlDefinition|null
-     */
-    public $sql;
-
-    /**
-     * @var TcaDefinition|null
-     */
-    public $tca;
-
-    /**
-     * @var PaletteDefinitionCollection|null
-     */
-    public $palettes;
+    public string $table = '';
+    public ?ElementDefinitionCollection $elements = null;
+    public ?SqlDefinition $sql = null;
+    public ?TcaDefinition $tca = null;
+    public ?PaletteDefinitionCollection $palettes = null;
 
     public function __clone()
     {

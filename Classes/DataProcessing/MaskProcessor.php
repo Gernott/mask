@@ -23,12 +23,7 @@ use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
 
 class MaskProcessor implements DataProcessorInterface
 {
-    /**
-     * InlineHelper
-     *
-     * @var InlineHelper
-     */
-    protected $inlineHelper;
+    protected InlineHelper $inlineHelper;
 
     public function __construct(InlineHelper $inlineHelper)
     {

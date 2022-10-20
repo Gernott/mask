@@ -19,81 +19,24 @@ namespace MASK\Mask\Definition;
 
 final class ElementDefinition
 {
-    /**
-     * @var string
-     */
-    public $key = '';
-
-    /**
-     * @var string
-     */
-    public $label = '';
-
-    /**
-     * @var string
-     */
-    public $description = '';
-
-    /**
-     * @var string
-     */
-    public $shortLabel = '';
-
-    /**
-     * @var string
-     */
-    public $color = '';
-
-    /**
-     * @var string
-     */
-    public $colorOverlay = '';
-
-    /**
-     * @var string
-     */
-    public $icon = '';
-
-    /**
-     * @var string
-     */
-    public $iconOverlay = '';
-
-    /**
-     * @var array
-     */
-    public $columns = [];
-
-    /**
-     * @var array
-     */
-    public $labels = [];
-
-    /**
-     * @var array
-     */
-    public $descriptions = [];
-
+    public string $key = '';
+    public string $label = '';
+    public string $description = '';
+    public string $shortLabel = '';
+    public string $color = '';
+    public string $colorOverlay = '';
+    public string $icon = '';
+    public string $iconOverlay = '';
+    public array $columns = [];
+    public array $labels = [];
+    public array $descriptions = [];
     /**
      * Options were used prior to v6 to identify fields like "rte"
-     * @var array
      */
-    public $options = [];
-
-    /**
-     * @var bool
-     */
-    public $hidden = false;
-
-    /**
-     * @var int
-     */
-    public $sorting = 0;
-
-    /**
-     * @var bool
-     */
-    public $saveAndClose = false;
+    public array $options = [];
+    public bool $hidden = false;
+    public int $sorting = 0;
+    public bool $saveAndClose = false;
 
     public static function createFromArray(array $elementArray, string $table): ElementDefinition
     {

@@ -19,15 +19,8 @@ namespace MASK\Mask\Definition;
 
 final class SqlColumnDefinition
 {
-    /**
-     * @var string
-     */
-    public $column = '';
-
-    /**
-     * @var string
-     */
-    public $sqlDefinition = '';
+    public string $column = '';
+    public string $sqlDefinition = '';
 
     public function __construct(string $column, string $sqlDefinition)
     {

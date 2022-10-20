@@ -35,20 +35,9 @@ use TYPO3\CMS\Core\Localization\LanguageService;
  */
 class FieldsController
 {
-    /**
-     * @var TableDefinitionCollection
-     */
-    protected $tableDefinitionCollection;
-
-    /**
-     * @var IconFactory
-     */
-    protected $iconFactory;
-
-    /**
-     * @var ConfigurationLoaderInterface
-     */
-    protected $configurationLoader;
+    protected TableDefinitionCollection $tableDefinitionCollection;
+    protected IconFactory $iconFactory;
+    protected ConfigurationLoaderInterface $configurationLoader;
 
     public function __construct(
         TableDefinitionCollection $tableDefinitionCollection,

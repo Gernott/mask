@@ -29,15 +29,8 @@ use TYPO3\CMS\Core\Utility\RootlineUtility;
 
 class BackendLayoutRepository
 {
-    /**
-     * @var QueryBuilder
-     */
-    protected $backendLayoutQueryBuilder;
-
-    /**
-     * @var QueryBuilder
-     */
-    protected $pagesQueryBuilder;
+    protected QueryBuilder $backendLayoutQueryBuilder;
+    protected QueryBuilder $pagesQueryBuilder;
 
     public function __construct(QueryBuilder $backendLayoutQueryBuilder, QueryBuilder $pagesQueryBuilder)
     {

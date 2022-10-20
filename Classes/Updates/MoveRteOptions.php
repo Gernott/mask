@@ -27,10 +27,7 @@ use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
 class MoveRteOptions implements UpgradeWizardInterface
 {
-    /**
-     * @var LoaderInterface
-     */
-    protected $loader;
+    protected LoaderInterface $loader;
 
     public function __construct()
     {

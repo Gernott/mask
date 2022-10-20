@@ -22,12 +22,8 @@ final class PaletteDefinitionCollection implements \IteratorAggregate, \Countabl
     /**
      * @var array<PaletteDefinition>
      */
-    private $definitions = [];
-
-    /**
-     * @var string
-     */
-    public $table = '';
+    private array $definitions = [];
+    public string $table = '';
 
     public function __clone()
     {

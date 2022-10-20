@@ -38,17 +38,8 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  */
 class InlineHelper
 {
-    /**
-     * @var TableDefinitionCollection
-     */
-    protected $tableDefinitionCollection;
-
-    /**
-     * BackendLayoutRepository
-     *
-     * @var BackendLayoutRepository
-     */
-    protected $backendLayoutRepository;
+    protected TableDefinitionCollection $tableDefinitionCollection;
+    protected BackendLayoutRepository $backendLayoutRepository;
 
     public function __construct(TableDefinitionCollection $tableDefinitionCollection, BackendLayoutRepository $backendLayoutRepository)
     {

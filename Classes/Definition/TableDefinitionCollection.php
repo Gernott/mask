@@ -25,24 +25,12 @@ use MASK\Mask\Utility\FieldTypeUtility;
 final class TableDefinitionCollection implements \IteratorAggregate
 {
     /**
-     * @var array<TableDefinition>
+     * @var TableDefinition[]
      */
-    private $definitions = [];
-
-    /**
-     * @var ArrayDefinitionSorter
-     */
-    private $arrayDefinitionSorter;
-
-    /**
-     * @var string
-     */
-    private $version = '7.2.0';
-
-    /**
-     * @var bool
-     */
-    private $migrationDone = false;
+    private array $definitions = [];
+    private ArrayDefinitionSorter $arrayDefinitionSorter;
+    private string $version = '7.2.0';
+    private bool $migrationDone = false;
 
     public function __construct()
     {

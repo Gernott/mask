@@ -26,10 +26,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class ConvertFormatCommand extends Command
 {
-    /**
-     * @var LoaderRegistry
-     */
-    protected $loaderRegistry;
+    protected LoaderRegistry $loaderRegistry;
 
     public function injectLoaderRegistry(LoaderRegistry $loaderRegistry): void
     {

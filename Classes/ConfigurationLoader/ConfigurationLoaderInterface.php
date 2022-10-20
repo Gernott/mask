@@ -20,10 +20,7 @@ namespace MASK\Mask\ConfigurationLoader;
 interface ConfigurationLoaderInterface
 {
     public function loadTab(string $tab): array;
-
     public function loadFieldGroups(): array;
-
     public function loadTcaFields(): array;
-
     public function loadDefaults(): array;
 }

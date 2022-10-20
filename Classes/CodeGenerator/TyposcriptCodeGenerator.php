@@ -33,19 +33,11 @@ use TYPO3\CMS\Core\Imaging\IconRegistry;
 class TyposcriptCodeGenerator
 {
     /**
-     * @var array
+     * @var array<string, string>
      */
-    protected $maskExtensionConfiguration;
-
-    /**
-     * @var TableDefinitionCollection
-     */
-    protected $tableDefinitionCollection;
-
-    /**
-     * @var IconRegistry
-     */
-    protected $iconRegistry;
+    protected array $maskExtensionConfiguration;
+    protected TableDefinitionCollection $tableDefinitionCollection;
+    protected IconRegistry $iconRegistry;
 
     public function __construct(
         TableDefinitionCollection $tableDefinitionCollection,

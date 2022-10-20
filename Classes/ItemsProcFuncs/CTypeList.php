@@ -28,10 +28,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class CTypeList
 {
-    /**
-     * @var TableDefinitionCollection
-     */
-    protected $tableDefinitionCollection;
+    protected TableDefinitionCollection $tableDefinitionCollection;
 
     public function __construct(TableDefinitionCollection $tableDefinitionCollection)
     {

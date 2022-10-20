@@ -40,15 +40,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class TcaCodeGenerator
 {
-    /**
-     * @var TableDefinitionCollection
-     */
-    protected $tableDefinitionCollection;
-
-    /**
-     * @var OnlineMediaHelperRegistry
-     */
-    protected $onlineMediaHelperRegistry;
+    protected TableDefinitionCollection $tableDefinitionCollection;
+    protected OnlineMediaHelperRegistry $onlineMediaHelperRegistry;
 
     public function __construct(
         TableDefinitionCollection $tableDefinitionCollection,

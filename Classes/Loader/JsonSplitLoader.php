@@ -32,20 +32,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class JsonSplitLoader implements LoaderInterface
 {
-    /**
-     * @var TableDefinitionCollection|null
-     */
-    protected $tableDefinitionCollection;
-
-    /**
-     * @var array
-     */
-    protected $maskExtensionConfiguration;
-
-    /**
-     * @var MigrationManager
-     */
-    protected $migrationManager;
+    protected ?TableDefinitionCollection $tableDefinitionCollection = null;
+    protected array $maskExtensionConfiguration;
+    protected MigrationManager $migrationManager;
 
     private const FOLDER_KEYS = [
         'tt_content' => 'content_elements_folder',

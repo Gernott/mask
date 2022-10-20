@@ -24,10 +24,7 @@ use TYPO3\CMS\Core\Utility\ArrayUtility;
 
 class DefaultTcaMigration implements RepeatableMigrationInterface
 {
-    /**
-     * @var ConfigurationLoaderInterface
-     */
-    protected $configurationLoader;
+    protected ConfigurationLoaderInterface $configurationLoader;
 
     public function __construct(ConfigurationLoaderInterface $configurationLoader)
     {

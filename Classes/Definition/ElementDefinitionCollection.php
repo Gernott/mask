@@ -22,12 +22,8 @@ final class ElementDefinitionCollection implements \IteratorAggregate, \Countabl
     /**
      * @var array<ElementDefinition>
      */
-    private $definitions = [];
-
-    /**
-     * @var string
-     */
-    public $table = '';
+    private array $definitions = [];
+    public string $table = '';
 
     public function __construct(string $table = '')
     {

@@ -19,15 +19,12 @@ namespace MASK\Mask\Definition;
 
 final class SqlDefinition implements \IteratorAggregate, \Countable
 {
-    /**
-     * @var string
-     */
-    public $table = '';
+    public string $table = '';
 
     /**
      * @var array<SqlColumnDefinition>
      */
-    private $definitions = [];
+    private array $definitions = [];
 
     public function __clone()
     {

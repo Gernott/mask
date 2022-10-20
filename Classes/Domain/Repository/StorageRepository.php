@@ -36,30 +36,15 @@ use TYPO3\CMS\Core\Utility\ArrayUtility;
  */
 class StorageRepository implements SingletonInterface
 {
-    /**
-     * @var string
-     */
-    protected $currentKey = '';
+    protected string $currentKey = '';
+    protected LoaderInterface $loader;
+    protected TableDefinitionCollection $tableDefinitionCollection;
+    protected ConfigurationLoaderInterface $configurationLoader;
 
     /**
-     * @var array
+     * @var array<string, mixed>
      */
-    protected $defaults = [];
-
-    /**
-     * @var LoaderInterface
-     */
-    protected $loader;
-
-    /**
-     * @var TableDefinitionCollection
-     */
-    protected $tableDefinitionCollection;
-
-    /**
-     * @var ConfigurationLoaderInterface
-     */
-    protected $configurationLoader;
+    protected array $defaults = [];
 
     public function __construct(
         LoaderInterface $loader,

@@ -23,10 +23,7 @@ use MASK\Mask\Utility\TcaConverter;
 
 class ConfigCleanerMigration implements RepeatableMigrationInterface
 {
-    /**
-     * @var ConfigurationLoaderInterface
-     */
-    protected $configurationLoader;
+    protected ConfigurationLoaderInterface $configurationLoader;
 
     public function __construct(ConfigurationLoaderInterface $configurationLoader)
     {

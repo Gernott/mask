@@ -23,24 +23,24 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class ConfigurationLoader implements ConfigurationLoaderInterface
 {
     /**
-     * @var array
+     * @var array<string, array>
      */
-    protected $tabs = [];
+    protected array $tabs = [];
 
     /**
-     * @var array
+     * @var array<string, string>
      */
-    protected $fieldGroups = [];
+    protected array $fieldGroups = [];
 
     /**
-     * @var array
+     * @var array<string, array>
      */
-    protected $tcaFields = [];
+    protected array $tcaFields = [];
 
     /**
-     * @var array
+     * @var array<string, array>
      */
-    protected $defaults = [];
+    protected array $defaults = [];
 
     /**
      * @param string $tab

@@ -28,15 +28,11 @@ interface LoaderInterface
 {
     /**
      * Loads the Mask configuration from any resource.
-     *
-     * @return TableDefinitionCollection
      */
     public function load(): TableDefinitionCollection;
 
     /**
      * Takes the table definition collection as input and writes it to the given resource.
-     *
-     * @param TableDefinitionCollection $tableDefinitionCollection
      */
     public function write(TableDefinitionCollection $tableDefinitionCollection): void;
 }

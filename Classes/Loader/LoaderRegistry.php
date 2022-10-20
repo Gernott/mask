@@ -24,12 +24,12 @@ class LoaderRegistry
     /**
      * @var array<string, LoaderInterface>
      */
-    protected $loaders = [];
+    protected array $loaders = [];
 
     /**
-     * @var array
+     * @var array<string, string>
      */
-    protected $maskExtensionConfiguration = [];
+    protected array $maskExtensionConfiguration = [];
 
     public function __construct(array $maskExtensionConfiguration)
     {

@@ -24,7 +24,7 @@ class MigrationManager
     /**
      * @var array<class-string, MigrationInterface>
      */
-    protected $migrations = [];
+    protected array $migrations = [];
 
     /**
      * @param iterable<MigrationInterface> $migrations

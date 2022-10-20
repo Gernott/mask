@@ -25,15 +25,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class TcaTypesShowitemMaskBeLayoutFields implements FormDataProviderInterface
 {
-    /**
-     * @var TcaCodeGenerator
-     */
-    protected $tcaCodeGenerator;
-
-    /**
-     * @var TableDefinitionCollection
-     */
-    protected $tableDefinitionCollection;
+    protected TcaCodeGenerator $tcaCodeGenerator;
+    protected TableDefinitionCollection $tableDefinitionCollection;
 
     public function __construct(TableDefinitionCollection $tableDefinitionCollection, TcaCodeGenerator $tcaCodeGenerator)
     {

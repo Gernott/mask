@@ -31,20 +31,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class HtmlCodeGenerator
 {
-    /**
-     * @var LoaderInterface
-     */
-    protected $loader;
-
-    /**
-     * @var int
-     */
-    protected $indent = 4;
-
-    /**
-     * @var TableDefinitionCollection|null
-     */
-    protected $tableDefinitionCollection;
+    protected LoaderInterface $loader;
+    protected int $indent = 4;
+    protected ?TableDefinitionCollection $tableDefinitionCollection = null;
 
     public function __construct(LoaderInterface $loader)
     {

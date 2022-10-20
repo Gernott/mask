@@ -1490,7 +1490,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                     'Field 1-1',
                                     'Field 3',
                                 ],
-                                'description' => [
+                                'descriptions' => [
                                     'Field 1-1 description',
                                     'Field 3 description',
                                 ],

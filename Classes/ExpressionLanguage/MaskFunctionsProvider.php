@@ -22,9 +22,6 @@ use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 
 class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
 {
-    /**
-     * @return array
-     */
     public function getFunctions(): array
     {
         return [
@@ -32,9 +29,6 @@ class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
         ];
     }
 
-    /**
-     * @return ExpressionFunction
-     */
     protected function maskBeLayout(): ExpressionFunction
     {
         return new ExpressionFunction(

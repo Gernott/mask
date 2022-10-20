@@ -25,16 +25,10 @@ use TYPO3\CMS\Core\Resource\ResourceFactory;
 class PreviewIconResolver
 {
     /**
-     * Mask extension settings
-     *
-     * @var array
+     * @var array<string, string>
      */
-    protected $maskExtensionConfiguration;
-
-    /**
-     * @var ResourceFactory
-     */
-    protected $resourceFactory;
+    protected array $maskExtensionConfiguration;
+    protected ResourceFactory $resourceFactory;
 
     public function __construct(
         array $maskExtensionConfiguration,

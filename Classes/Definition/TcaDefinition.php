@@ -20,14 +20,10 @@ namespace MASK\Mask\Definition;
 final class TcaDefinition implements \IteratorAggregate, \Countable
 {
     /**
-     * @var array<TcaFieldDefinition>
+     * @var TcaFieldDefinition[]
      */
-    private $definitions = [];
-
-    /**
-     * @var string
-     */
-    public $table = '';
+    private array $definitions = [];
+    public string $table = '';
 
     public function __clone()
     {

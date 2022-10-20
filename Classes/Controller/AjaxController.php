@@ -61,70 +61,27 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
  */
 class AjaxController
 {
-    /**
-     * @var StorageRepository
-     */
-    protected $storageRepository;
+    protected StorageRepository $storageRepository;
+    protected IconFactory $iconFactory;
+    protected SqlCodeGenerator $sqlCodeGenerator;
+    protected HtmlCodeGenerator $htmlCodeGenerator;
+    protected BackendLayoutRepository $backendLayoutRepository;
+    protected ResourceFactory $resourceFactory;
+    protected ConfigurationLoader $configurationLoader;
+    protected FlashMessageQueue $flashMessageQueue;
+    protected OnlineMediaHelperRegistry $onlineMediaHelperRegistry;
+    protected TableDefinitionCollection $tableDefinitionCollection;
+    protected LoaderInterface $loader;
 
     /**
-     * @var IconFactory
+     * @var array<string, string>
      */
-    protected $iconFactory;
-
-    /**
-     * @var SqlCodeGenerator
-     */
-    protected $sqlCodeGenerator;
-
-    /**
-     * @var HtmlCodeGenerator
-     */
-    protected $htmlCodeGenerator;
-
-    /**
-     * @var BackendLayoutRepository
-     */
-    protected $backendLayoutRepository;
-
-    /**
-     * @var ResourceFactory
-     */
-    protected $resourceFactory;
-
-    /**
-     * @var ConfigurationLoader
-     */
-    protected $configurationLoader;
-
-    /**
-     * @var FlashMessageQueue
-     */
-    protected $flashMessageQueue;
-
-    /**
-     * @var OnlineMediaHelperRegistry
-     */
-    protected $onlineMediaHelperRegistry;
-
-    /**
-     * @var array
-     */
-    protected $maskExtensionConfiguration;
-
-    /**
-     * @var TableDefinitionCollection
-     */
-    protected $tableDefinitionCollection;
-
-    /**
-     * @var LoaderInterface
-     */
-    protected $loader;
+    protected array $maskExtensionConfiguration;
 
     /**
      * @var string[]
      */
-    protected static $folderPathKeys = [
+    protected static array $folderPathKeys = [
         'content',
         'layouts',
         'partials',

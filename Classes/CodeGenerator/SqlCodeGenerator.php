@@ -33,15 +33,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class SqlCodeGenerator
 {
-    /**
-     * @var SchemaMigrator
-     */
-    protected $schemaMigrator;
-
-    /**
-     * @var LoaderInterface
-     */
-    protected $loader;
+    protected SchemaMigrator $schemaMigrator;
+    protected LoaderInterface $loader;
 
     public function __construct(LoaderInterface $loader, SchemaMigrator $schemaMigrator)
     {

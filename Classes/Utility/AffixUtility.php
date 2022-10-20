@@ -20,36 +20,20 @@ namespace MASK\Mask\Utility;
 class AffixUtility
 {
     public const MASK_PREFIX = 'tx_mask_';
-
     public const MASK_CTYPE_PREFIX = 'mask_';
-
     public const MASK_PARENT_SUFFIX = '_parent';
 
-    /**
-     * @param string $table
-     * @return bool
-     */
     public static function hasMaskPrefix(string $table): bool
     {
         return str_starts_with($table, self::MASK_PREFIX);
     }
 
-    /**
-     * @param string $key
-     * @return string
-     */
     public static function addMaskPrefix(string $key): string
     {
         $key = self::removeMaskPrefix($key);
         return self::MASK_PREFIX . $key;
     }
 
-    /**
-     * Removes the tx_mask_ prefix
-     *
-     * @param string $maskKey
-     * @return string
-     */
     public static function removeMaskPrefix(string $maskKey): string
     {
         if (self::hasMaskPrefix($maskKey)) {
@@ -58,31 +42,17 @@ class AffixUtility
         return $maskKey;
     }
 
-    /**
-     * @param string $cType
-     * @return bool
-     */
     public static function hasMaskCTypePrefix(string $cType): bool
     {
         return str_starts_with($cType, self::MASK_CTYPE_PREFIX);
     }
 
-    /**
-     * @param string $key
-     * @return string
-     */
     public static function addMaskCTypePrefix(string $key): string
     {
         $key = self::removeCTypePrefix($key);
         return self::MASK_CTYPE_PREFIX . $key;
     }
 
-    /**
-     * Removes the mask_ prefix used for cType
-     *
-     * @param string $maskKey
-     * @return string
-     */
     public static function removeCTypePrefix(string $maskKey): string
     {
         if (self::hasMaskCTypePrefix($maskKey)) {
@@ -91,28 +61,16 @@ class AffixUtility
         return $maskKey;
     }
 
-    /**
-     * @param string $key
-     * @return bool
-     */
     public static function hasMaskParentSuffix(string $key): bool
     {
         return substr($key, -(strlen(self::MASK_PARENT_SUFFIX))) === self::MASK_PARENT_SUFFIX;
     }
 
-    /**
-     * @param string $key
-     * @return string
-     */
     public static function addMaskParentSuffix(string $key): string
     {
         return $key . self::MASK_PARENT_SUFFIX;
     }
 
-    /**
-     * @param string $key
-     * @return string
-     */
     public static function removeMaskParentSuffix(string $key): string
     {
         if (self::hasMaskParentSuffix($key)) {

@@ -25,7 +25,7 @@ final class ArrayDefinitionSorter
     /**
      * @var string[]
      */
-    private $excludedKeys = [];
+    private array $excludedKeys = [];
 
     /**
      * @param string[] $keys

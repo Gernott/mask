@@ -43,118 +43,67 @@ final class TcaFieldDefinition
         ],
     ];
 
-    /**
-     * @var string
-     */
-    public $key = '';
+    private ?FieldType $type = null;
+    public string $key = '';
+    public string $fullKey = '';
+    public string $label = '';
+    public string $description = '';
+    public bool $isCoreField = false;
+    public bool $inPalette = false;
+    public string $inlineParent = '';
+    public bool $imageoverlayPalette = false;
+    public string $allowedFileExtensions = '';
+    public string $inlineIcon = '';
+    public string $inlineLabel = '';
+    public int $order = 0;
 
     /**
-     * @var string
+     * @var array<string, string>
      */
-    public $fullKey = '';
-
-    /**
-     * @var bool
-     */
-    public $isCoreField = false;
-
-    /**
-     * @var bool
-     */
-    public $inPalette = false;
-
-    /**
-     * @var string
-     */
-    public $inlineParent = '';
-
-    /**
-     * @var array
-     */
-    public $inlineParentByElement = [];
+    public array $inlineParentByElement = [];
 
     /**
      * @var array<string, FieldType>
      */
-    public $bodytextTypeByElement = [];
+    public array $bodytextTypeByElement = [];
 
     /**
-     * @var string
+     * @var array<string, string>
      */
-    public $label = '';
+    public array $labelByElement = [];
 
     /**
-     * @var array
+     * @var array<string, string>
      */
-    public $labelByElement = [];
+    public array $descriptionByElement = [];
 
     /**
-     * @var string
+     * @var array<string, int>
      */
-    public $description = '';
-
-    /**
-     * @var array
-     */
-    public $descriptionByElement = [];
-
-    /**
-     * @var int
-     */
-    public $order = 0;
-
-    /**
-     * @var array
-     */
-    public $orderByElement = [];
-
-    /**
-     * @var array
-     */
-    public $cTypes = [];
+    public array $orderByElement = [];
 
     /**
      * @var string[]
      */
-    public $onlineMedia = [];
+    public array $cTypes = [];
 
     /**
-     * @var bool
+     * @var string[]
      */
-    public $imageoverlayPalette = false;
+    public array $onlineMedia = [];
 
     /**
-     * @var string
+     * @var array<string, mixed>
      */
-    public $allowedFileExtensions = '';
-
-    /**
-     * @var string
-     */
-    public $inlineIcon = '';
-
-    /**
-     * @var string
-     */
-    public $inlineLabel = '';
-
-    /**
-     * @var array
-     */
-    public $realTca = [];
+    public array $realTca = [];
 
     /**
      * Array of direct child tca field definitions.
      * Not filled by default.
      *
-     * @var array<TcaFieldDefinition>
+     * @var TcaFieldDefinition[]
      */
-    public $inlineFields = [];
-
-    /**
-     * @var FieldType|null
-     */
-    private $type;
+    public array $inlineFields = [];
 
     public static function createFromFieldArray(array $definition): TcaFieldDefinition
     {

@@ -19,15 +19,8 @@ namespace MASK\Mask\Utility;
 
 class DateUtility
 {
-    /**
-     * @var string
-     */
-    protected static $oldDatePattern = '/^\d{4}/';
+    protected static string $oldDatePattern = '/^\d{4}/';
 
-    /**
-     * @param string $date
-     * @return bool
-     */
     public static function isOldDateFormat(string $date): bool
     {
         return (bool)preg_match(self::$oldDatePattern, $date);

@@ -23,20 +23,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class JsonLoader implements LoaderInterface
 {
-    /**
-     * @var TableDefinitionCollection|null
-     */
-    protected $tableDefinitionCollection;
-
-    /**
-     * @var array
-     */
-    protected $maskExtensionConfiguration;
-
-    /**
-     * @var MigrationManager
-     */
-    protected $migrationManager;
+    protected ?TableDefinitionCollection $tableDefinitionCollection = null;
+    protected array $maskExtensionConfiguration;
+    protected MigrationManager $migrationManager;
 
     public function __construct(
         array $maskExtensionConfiguration,

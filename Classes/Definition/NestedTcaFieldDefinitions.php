@@ -22,12 +22,8 @@ final class NestedTcaFieldDefinitions implements \IteratorAggregate
     /**
      * @var array<TcaFieldDefinition>
      */
-    private $nestedFields = [];
-
-    /**
-     * @var string
-     */
-    private $elementKey;
+    private array $nestedFields = [];
+    private string $elementKey;
 
     public function __construct(string $elementKey = '')
     {

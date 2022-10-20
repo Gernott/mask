@@ -19,15 +19,8 @@ namespace MASK\Mask\Definition;
 
 final class ElementTcaDefinition
 {
-    /**
-     * @var ElementDefinition
-     */
-    public $elementDefinition;
-
-    /**
-     * @var TcaDefinition
-     */
-    public $tcaDefinition;
+    public ElementDefinition $elementDefinition;
+    public TcaDefinition $tcaDefinition;
 
     public function __construct(ElementDefinition $elementDefinition, TcaDefinition $tcaDefinition)
     {

@@ -27,10 +27,7 @@ use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
  */
 class FillTranslationSourceField implements UpgradeWizardInterface
 {
-    /**
-     * @var TableDefinitionCollection
-     */
-    protected $tableDefinitionCollection;
+    protected TableDefinitionCollection $tableDefinitionCollection;
 
     public function __construct(TableDefinitionCollection $tableDefinitionCollection)
     {

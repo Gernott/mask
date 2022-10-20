@@ -24,10 +24,7 @@ use TYPO3\CMS\Core\Imaging\IconProviderInterface;
 
 class ContentElementIconProvider implements IconProviderInterface
 {
-    /**
-     * @var PreviewIconResolver
-     */
-    protected $previewIconResolver;
+    protected PreviewIconResolver $previewIconResolver;
 
     public function __construct(PreviewIconResolver $previewIconResolver)
     {
