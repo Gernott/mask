@@ -2,9 +2,6 @@
 
 defined('TYPO3') or die();
 
-// Add mask as global fluid namespace
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['mask'][] = 'MASK\\Mask\\ViewHelpers';
-
 // Enhance Fluid Output with overridden FluidTemplateContentObject
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][\TYPO3\CMS\Frontend\ContentObject\FluidTemplateContentObject::class] = [
     'className' => \MASK\Mask\Fluid\FluidTemplateContentObject::class,
