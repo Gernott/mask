@@ -17,8 +17,6 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Tests\Unit;
 
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Package\Package;
 use TYPO3\CMS\Core\Package\PackageManager;
@@ -26,20 +24,18 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 trait PackageManagerTrait
 {
-    use ProphecyTrait;
-
     public function registerPackageManager(): void
     {
-        $package = self::prophesize(Package::class);
-        $package->getPackagePath()->willReturn(realpath(__DIR__ . '/../../') . '/');
-        $packageManager = self::prophesize(PackageManager::class);
-        $packageManager->isPackageActive('mask')->willReturn(true);
-        $packageManager->getPackage('mask')->willReturn($package->reveal());
+        $packageMock = $this->createMock(Package::class);
+        $packageMock->method('getPackagePath')->willReturn(realpath(__DIR__ . '/../../') . '/');
+        $packageManagerMock = $this->createMock(PackageManager::class);
+        $packageManagerMock->method('isPackageActive')->willReturn(true)->with('mask');
+        $packageManagerMock->method('getPackage')->willReturn($packageMock)->with('mask');
         // @todo Replace workaround for resolvePackagePath.
-        $packageManager->resolvePackagePath(Argument::any())->will(function ($path) {
-            return Environment::getProjectPath() . str_replace('EXT:mask', '', $path[0]);
+        $packageManagerMock->method('resolvePackagePath')->willReturnCallback(function ($path) {
+            return Environment::getProjectPath() . str_replace('EXT:mask', '', $path);
         });
 
-        ExtensionManagementUtility::setPackageManager($packageManager->reveal());
+        ExtensionManagementUtility::setPackageManager($packageManagerMock);
     }
 }

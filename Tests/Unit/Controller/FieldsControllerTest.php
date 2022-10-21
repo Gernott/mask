@@ -22,8 +22,7 @@ use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Tests\Unit\ConfigurationLoader\FakeConfigurationLoader;
 use MASK\Mask\Tests\Unit\PackageManagerTrait;
 use MASK\Mask\Tests\Unit\StorageRepositoryCreatorTrait;
-use Prophecy\Argument;
-use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Core\Http\ServerRequest;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Localization\LanguageService;
@@ -37,9 +36,9 @@ class FieldsControllerTest extends BaseTestCase
     public function setUp(): void
     {
         // Default LANG prophecy just returns incoming value as label if calling ->sL()
-        $languageServiceProphecy = $this->prophesize(LanguageService::class);
-        $languageServiceProphecy->sL(Argument::cetera())->willReturnArgument(0);
-        $GLOBALS['LANG'] = $languageServiceProphecy->reveal();
+        $languageServiceMock = $this->createMock(LanguageService::class);
+        $languageServiceMock->method('sL')->willReturnArgument(0);
+        $GLOBALS['LANG'] = $languageServiceMock;
     }
 
     public function loadElementDataProvider(): array
@@ -1003,18 +1002,16 @@ class FieldsControllerTest extends BaseTestCase
 
         $this->registerPackageManager();
 
-        $iconFactory = $this->prophesize(IconFactory::class);
+        $iconFactoryMock = $this->createMock(IconFactory::class);
         $icon = new Icon();
         $icon->setMarkup('');
-        $iconFactory->getIcon(Argument::cetera())->willReturn($icon);
+        $iconFactoryMock->method('getIcon')->willReturn($icon);
 
-        $configurationLoader = new FakeConfigurationLoader();
+        $fieldsController = new FieldsController(TableDefinitionCollection::createFromArray($json), $iconFactoryMock, new FakeConfigurationLoader());
 
-        $fieldsController = new FieldsController(TableDefinitionCollection::createFromArray($json), $iconFactory->reveal(), $configurationLoader);
+        $request = new ServerRequest();
+        $request = $request->withQueryParams(['type' => $table, 'key' => $elementKey]);
 
-        $request = $this->prophesize(ServerRequestInterface::class);
-        $request->getQueryParams()->willReturn(['type' => $table, 'key' => $elementKey]);
-
-        self::assertEquals($expected, json_decode($fieldsController->loadElement($request->reveal())->getBody()->getContents(), true));
+        self::assertEquals($expected, json_decode($fieldsController->loadElement($request)->getBody()->getContents(), true));
     }
 }

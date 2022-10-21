@@ -19,13 +19,9 @@ use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Loader\LoaderInterface;
 use MASK\Mask\Tests\Unit\ConfigurationLoader\FakeConfigurationLoader;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
 
 trait StorageRepositoryCreatorTrait
 {
-    use ProphecyTrait;
-
     protected function createStorageRepository(array $json): StorageRepository
     {
         $loader = $this->createLoader($json);
@@ -36,11 +32,19 @@ trait StorageRepositoryCreatorTrait
 
     protected function createLoader(array $json): LoaderInterface
     {
+        $loader = new class() implements LoaderInterface {
+            private TableDefinitionCollection $tableDefinitionCollection;
+            public function load(): TableDefinitionCollection
+            {
+                return $this->tableDefinitionCollection;
+            }
+            public function write(TableDefinitionCollection $tableDefinitionCollection): void
+            {
+                $this->tableDefinitionCollection = $tableDefinitionCollection;
+            }
+        };
         $tableDefinitionCollection = TableDefinitionCollection::createFromArray($json);
-        $loader = self::prophesize(LoaderInterface::class);
-        $loader->load()->willReturn($tableDefinitionCollection);
-        $loader->write(Argument::any());
-
-        return $loader->reveal();
+        $loader->write($tableDefinitionCollection);
+        return $loader;
     }
 }

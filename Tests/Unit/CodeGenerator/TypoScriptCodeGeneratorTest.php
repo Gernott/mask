@@ -19,23 +19,17 @@ namespace MASK\Mask\Tests\Unit\CodeGenerator;
 
 use MASK\Mask\CodeGenerator\TyposcriptCodeGenerator;
 use MASK\Mask\Definition\TableDefinitionCollection;
-use Prophecy\PhpUnit\ProphecyTrait;
-use TYPO3\CMS\Core\Core\Environment;
+use MASK\Mask\Tests\Unit\PackageManagerTrait;
 use TYPO3\CMS\Core\Imaging\IconRegistry;
-use TYPO3\CMS\Core\Package\PackageManager;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class TypoScriptCodeGeneratorTest extends UnitTestCase
 {
-    use ProphecyTrait;
+    use PackageManagerTrait;
 
     public function setUp(): void
     {
-        $packageManager = self::prophesize(PackageManager::class);
-        $packageManager->isPackageActive('sitepackage')->willReturn(true);
-        $packageManager->resolvePackagePath('EXT:sitepackage/Resources/Private/Mask/Templates/')->willReturn(Environment::getPublicPath() . '/typo3conf/ext/sitepackage/Resources/Private/Mask/Templates');
-        ExtensionManagementUtility::setPackageManager($packageManager->reveal());
+        $this->registerPackageManager();
     }
 
     public function generateSetupTyposcriptDataProvider(): iterable
@@ -124,9 +118,9 @@ tt_content.mask_element1 {
      */
     public function generateSetupTyposcript(array $json, array $configuration, string $expected): void
     {
-        $iconRegistryProphecy = self::prophesize(IconRegistry::class);
+        $iconRegistryMock = $this->createMock(IconRegistry::class);
         $tableDefinitionCollection = TableDefinitionCollection::createFromArray($json);
-        $typoScriptCodeGenerator = new TyposcriptCodeGenerator($tableDefinitionCollection, $configuration, $iconRegistryProphecy->reveal());
+        $typoScriptCodeGenerator = new TyposcriptCodeGenerator($tableDefinitionCollection, $configuration, $iconRegistryMock);
         self::assertSame($expected, $typoScriptCodeGenerator->generateSetupTyposcript());
     }
 }
