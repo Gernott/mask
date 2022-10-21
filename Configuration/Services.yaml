@@ -107,6 +107,12 @@ services:
         event: TYPO3\CMS\Core\Database\Event\AlterTableDefinitionStatementsEvent
         method: addDatabaseTablesDefinition
 
+  MASK\Mask\EventListeners\NestedContentElementsUsedEventListener:
+    tags:
+      - name: event.listener
+        identifier: 'mask-nested-content-used'
+        event: TYPO3\CMS\Backend\View\Event\IsContentUsedOnPageLayoutEvent
+
   MASK\Mask\Command\ConvertFormatCommand:
     tags:
       - name: 'console.command'
