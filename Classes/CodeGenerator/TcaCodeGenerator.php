@@ -663,6 +663,60 @@ class TcaCodeGenerator
 
     protected static function getTcaTemplate(): array
     {
+        $typo3Version = new Typo3Version();
+        if ($typo3Version->getMajorVersion() > 11) {
+            $starttime = [
+                'exclude' => true,
+                'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.starttime',
+                'config' => [
+                    'type' => 'datetime',
+                    'default' => 0,
+                ],
+                'l10n_mode' => 'exclude',
+                'l10n_display' => 'defaultAsReadonly',
+            ];
+            $endtime = [
+                'exclude' => true,
+                'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.endtime',
+                'config' => [
+                    'type' => 'datetime',
+                    'default' => 0,
+                    'range' => [
+                        'upper' => mktime(0, 0, 0, 1, 1, 2038),
+                    ],
+                ],
+                'l10n_mode' => 'exclude',
+                'l10n_display' => 'defaultAsReadonly',
+            ];
+        } else {
+            $starttime = [
+                'exclude' => true,
+                'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.starttime',
+                'config' => [
+                    'type' => 'input',
+                    'renderType' => 'inputDateTime',
+                    'eval' => 'datetime,int',
+                    'default' => 0,
+                ],
+                'l10n_mode' => 'exclude',
+                'l10n_display' => 'defaultAsReadonly',
+            ];
+            $endtime = [
+                'exclude' => true,
+                'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.endtime',
+                'config' => [
+                    'type' => 'input',
+                    'renderType' => 'inputDateTime',
+                    'eval' => 'datetime,int',
+                    'default' => 0,
+                    'range' => [
+                        'upper' => mktime(0, 0, 0, 1, 1, 2038),
+                    ],
+                ],
+                'l10n_mode' => 'exclude',
+                'l10n_display' => 'defaultAsReadonly',
+            ];
+        }
         $tcaTemplate = [
             'ctrl' => [
                 'sortby' => 'sorting',
@@ -765,33 +819,8 @@ class TcaCodeGenerator
                         ],
                     ],
                 ],
-                'starttime' => [
-                    'exclude' => true,
-                    'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.starttime',
-                    'config' => [
-                        'type' => 'input',
-                        'renderType' => 'inputDateTime',
-                        'eval' => 'datetime,int',
-                        'default' => 0,
-                    ],
-                    'l10n_mode' => 'exclude',
-                    'l10n_display' => 'defaultAsReadonly',
-                ],
-                'endtime' => [
-                    'exclude' => true,
-                    'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.endtime',
-                    'config' => [
-                        'type' => 'input',
-                        'renderType' => 'inputDateTime',
-                        'eval' => 'datetime,int',
-                        'default' => 0,
-                        'range' => [
-                            'upper' => mktime(0, 0, 0, 1, 1, 2038),
-                        ],
-                    ],
-                    'l10n_mode' => 'exclude',
-                    'l10n_display' => 'defaultAsReadonly',
-                ],
+                'starttime' => $starttime,
+                'endtime' => $endtime,
                 'fe_group' => [
                     'exclude' => true,
                     'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.fe_group',
@@ -840,7 +869,7 @@ class TcaCodeGenerator
                 ],
             ],
         ];
-        if ((new Typo3Version())->getMajorVersion() > 11) {
+        if ($typo3Version->getMajorVersion() > 11) {
             unset($tcaTemplate['ctrl']['cruser_id']);
         }
         return $tcaTemplate;
