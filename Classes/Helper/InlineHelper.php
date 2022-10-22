@@ -155,12 +155,14 @@ class InlineHelper
 
     protected function fillInlineField(array &$data, FieldType $fieldType, string $field, string $cType, string $table): void
     {
+        if (!$fieldType->isRelationField()) {
+            return;
+        }
         $tcaFieldConfig = $GLOBALS['TCA'][$table]['columns'][$field] ?? [];
         // if it is of type inline and has to be filled (IRRE, FAL)
         if ($fieldType->equals(FieldType::INLINE) && $this->tableDefinitionCollection->hasTable($field)) {
             $elements = $this->getInlineElements($data, $field, $cType, 'parentid', $table);
             $data[$field] = $elements;
-
         // or if it is of type Content (Nested Content) and has to be filled
         } elseif ($fieldType->equals(FieldType::CONTENT)) {
             $elements = $this->getInlineElements(
@@ -180,7 +182,7 @@ class InlineHelper
             }
         } elseif (($tcaFieldConfig['config']['foreign_table'] ?? '') !== '' && $fieldType->equals(FieldType::SELECT)) {
             $data[$field . '_items'] = $this->getRelations((string)($data[$field] ?? ''), $tcaFieldConfig['config']['foreign_table'], $tcaFieldConfig['config']['MM'] ?? '', (int)$data['uid'], $table, $tcaFieldConfig['config'] ?? []);
-        } elseif ((($tcaFieldConfig['config']['internal_type'] ?? '') !== 'folder') && $fieldType->equals(FieldType::GROUP)) {
+        } elseif (($tcaFieldConfig['config']['internal_type'] ?? '') !== 'folder' && ($tcaFieldConfig['config']['type'] ?? '') !== 'folder' && $fieldType->equals(FieldType::GROUP)) {
             $data[$field . '_items'] = $this->getRelations((string)($data[$field] ?? ''), $tcaFieldConfig['config']['allowed'], $tcaFieldConfig['config']['MM'] ?? '', (int)$data['uid'], $table, $tcaFieldConfig['config'] ?? []);
         } elseif (in_array(($tcaFieldConfig['config']['renderType'] ?? ''), ['selectCheckBox', 'selectSingleBox', 'selectMultipleSideBySide'], true) && $fieldType->equals(FieldType::SELECT)) {
             $data[$field . '_items'] = ($data[$field] ?? '') !== '' ? explode(',', $data[$field]) : [];

@@ -84,4 +84,9 @@ final class FieldType extends Enumeration
     {
         return in_array($this->value, [self::TEXT, self::RICHTEXT], true);
     }
+
+    public function isRelationField(): bool
+    {
+        return in_array($this->value, [self::INLINE, self::SELECT, self::GROUP, self::CATEGORY, self::CONTENT], true);
+    }
 }
