@@ -67,7 +67,7 @@ class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
         // If the Mask element couldn't be found, provide a proper error message.
         if (!$elementTcaDefinition instanceof ElementTcaDefinition) {
             $drawItem = false;
-            $itemContent = '<span class="label label-warning">'
+            $itemContent = '<span class="badge badge-warning">'
                 . sprintf($this->getLanguageService()->sL('LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.error.mask_definition_missing'), $elementKey)
                 . '</span>';
             return;
