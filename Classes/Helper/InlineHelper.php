@@ -204,14 +204,6 @@ class InlineHelper
         $records = [];
         foreach ($relations as $relation) {
             $tableName = $relation['table'];
-            // Compatibility TYPO3 v10. The record is not filled there by the RelationHandler.
-            if (!array_key_exists('record', $relation)) {
-                $rawRecord = $pageRepository->getRawRecord($tableName, $relation['uid']);
-                if ($rawRecord === 0) {
-                    continue;
-                }
-                $relation['record'] = $rawRecord;
-            }
             $translatedRecord = $pageRepository->getLanguageOverlay($tableName, $relation['record']);
             if ($translatedRecord !== null) {
                 $records[] = $translatedRecord;
