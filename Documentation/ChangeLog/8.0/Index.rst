@@ -45,6 +45,15 @@ be injected via dependency injection.
 Instead of using the Mask ViewHelpers you can use :html:`be:link.editRecord` and
 :html:`f:cObject` with the :typoscript:`lib.tx_mask.content` TypoScript snippet.
 
+Important
+=========
+
+TYPO3 has removed FontAwesome from the core, which Mask relies heavily on.
+There is a compatibility extension though `friendsoftypo3/fontawesome-provider`,
+which will be automatically installed via composer. The TER version (as of time
+of writing) hasn't been published yet. Keep watch on the key `fontawesome_provider`
+in the TER.
+
 Issue reporting
 ===============
 
