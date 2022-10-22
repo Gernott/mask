@@ -20,6 +20,7 @@ namespace MASK\Mask\Controller;
 use MASK\Mask\ConfigurationLoader\ConfigurationLoaderInterface;
 use MASK\Mask\Definition\ElementTcaDefinition;
 use MASK\Mask\Definition\TableDefinitionCollection;
+use MASK\Mask\Definition\TcaFieldDefinition;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\DateUtility;
 use MASK\Mask\Utility\TcaConverter;
@@ -71,7 +72,7 @@ class FieldsController
         $key = $params['key'];
         $fieldDefinition = $this->tableDefinitionCollection->loadField($table, $key);
         $field = [];
-        if ($fieldDefinition) {
+        if ($fieldDefinition instanceof TcaFieldDefinition) {
             $field = $fieldDefinition->toArray();
         }
         $json['field'] = $this->addFields([$key => $field], $table)[0];

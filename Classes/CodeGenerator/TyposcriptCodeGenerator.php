@@ -19,6 +19,7 @@ namespace MASK\Mask\CodeGenerator;
 
 use MASK\Mask\Definition\ElementDefinition;
 use MASK\Mask\Definition\TableDefinitionCollection;
+use MASK\Mask\Definition\TcaFieldDefinition;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Imaging\IconProvider\ContentElementIconProvider;
 use MASK\Mask\Utility\AffixUtility;
@@ -161,7 +162,7 @@ class TyposcriptCodeGenerator
     protected function generateTCEFORM(string $fieldKey, int $index, ElementDefinition $element, string $table, array $TSConfig): array
     {
         $fieldDefinition = $this->tableDefinitionCollection->loadField($table, $fieldKey);
-        if (!$fieldDefinition) {
+        if (!$fieldDefinition instanceof TcaFieldDefinition) {
             return $TSConfig;
         }
         // As this is called very early, TCA for core fields might not be loaded yet. So ignore them.
