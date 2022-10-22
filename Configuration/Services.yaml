@@ -113,6 +113,12 @@ services:
         identifier: 'mask-nested-content-used'
         event: TYPO3\CMS\Backend\View\Event\IsContentUsedOnPageLayoutEvent
 
+  MASK\Mask\EventListeners\MaskBackendPreviewEventListener:
+    tags:
+      - name: event.listener
+        identifier: 'mask-backend-preview'
+        event: TYPO3\CMS\Backend\View\Event\PageContentPreviewRenderingEvent
+
   MASK\Mask\Command\ConvertFormatCommand:
     tags:
       - name: 'console.command'
