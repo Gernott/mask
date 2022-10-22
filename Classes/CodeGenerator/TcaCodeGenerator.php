@@ -663,7 +663,7 @@ class TcaCodeGenerator
 
     protected static function getTcaTemplate(): array
     {
-        return [
+        $tcaTemplate = [
             'ctrl' => [
                 'sortby' => 'sorting',
                 'tstamp' => 'tstamp',
@@ -840,5 +840,9 @@ class TcaCodeGenerator
                 ],
             ],
         ];
+        if ((new Typo3Version())->getMajorVersion() > 11) {
+            unset($tcaTemplate['ctrl']['cruser_id']);
+        }
+        return $tcaTemplate;
     }
 }
