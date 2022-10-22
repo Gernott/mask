@@ -13,6 +13,7 @@ return [
             'code' => 'default',
             'documentation' => [
                 11 => 'ColumnsConfig/CommonProperties/Default.html#tca-property-default',
+                12 => 'ColumnsConfig/CommonProperties/Default.html#tca-property-default',
             ],
         ],
         FieldType::CHECK => [
@@ -24,6 +25,7 @@ return [
             'description' => 'tx_mask.field.check.default.description',
             'documentation' => [
                 11 => 'ColumnsConfig/Type/Check/Properties/Default.html#columns-check-properties-default',
+                12 => 'ColumnsConfig/Type/Check/Properties/Default.html#columns-check-properties-default',
             ],
         ],
     ],
@@ -39,6 +41,7 @@ return [
         'code' => 'placeholder',
         'documentation' => [
             11 => 'ColumnsConfig/CommonProperties/Placeholder.html#tca-property-placeholder',
+            12 => 'ColumnsConfig/CommonProperties/Placeholder.html#tca-property-placeholder',
         ],
     ],
     'config.size' => [
@@ -50,6 +53,7 @@ return [
             'code' => 'size',
             'documentation' => [
                 11 => 'ColumnsConfig/Type/Input/Properties/Size.html#columns-input-properties-size',
+                12 => 'ColumnsConfig/Type/Input/Properties/Size.html#columns-input-properties-size',
             ],
             'min' => 10,
             'max' => 50,
@@ -63,6 +67,7 @@ return [
             'code' => 'size',
             'documentation' => [
                 11 => 'ColumnsConfig/CommonProperties/Size.html#tca-property-size',
+                12 => 'ColumnsConfig/CommonProperties/Size.html#tca-property-size',
             ],
         ],
         FieldType::SELECT => [
@@ -73,6 +78,7 @@ return [
             'code' => 'size',
             'documentation' => [
                 11 => 'ColumnsConfig/CommonProperties/Size.html#tca-property-size',
+                12 => 'ColumnsConfig/CommonProperties/Size.html#tca-property-size',
             ],
         ],
         FieldType::GROUP => [
@@ -83,6 +89,7 @@ return [
             'code' => 'size',
             'documentation' => [
                 11 => 'ColumnsConfig/CommonProperties/Size.html#tca-property-size',
+                12 => 'ColumnsConfig/CommonProperties/Size.html#tca-property-size',
             ],
         ],
     ],
@@ -96,6 +103,7 @@ return [
         'step' => 10,
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/Max.html#columns-input-properties-max',
+            12 => 'ColumnsConfig/Type/Input/Properties/Max.html#columns-input-properties-max',
         ],
     ],
     'config.is_in' => [
@@ -105,6 +113,7 @@ return [
         'code' => 'is_in',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/IsIn.html#columns-input-properties-is-in',
+            12 => 'ColumnsConfig/Type/Input/Properties/IsIn.html#columns-input-properties-is-in',
         ],
     ],
     // This is for timestamp only to define the date format
@@ -121,6 +130,7 @@ return [
         ],
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/DateTime/Properties/Eval.html',
+            12 => 'ColumnsConfig/Type/Input/DateTime/Properties/Eval.html',
         ],
     ],
     // This is for slug only to define slug config
@@ -136,6 +146,7 @@ return [
         ],
         'documentation' => [
             11 => 'ColumnsConfig/Type/Slug/Properties/Eval.html#columns-slug-properties-eval',
+            12 => 'ColumnsConfig/Type/Slug/Properties/Eval.html#columns-slug-properties-eval',
         ],
     ],
     'config.generatorOptions.fields' => [
@@ -145,6 +156,7 @@ return [
         'code' => 'generatorOptions.fields',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Slug/Properties/GeneratorOptions.html#confval-generatorOptions:fields',
+            12 => 'ColumnsConfig/Type/Slug/Properties/GeneratorOptions.html#confval-generatorOptions:fields',
         ],
     ],
     'config.generatorOptions.fieldSeparator' => [
@@ -154,6 +166,7 @@ return [
         'code' => 'generatorOptions.fieldSeparator',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Slug/Properties/GeneratorOptions.html#confval-generatorOptions:fieldSeparator',
+            12 => 'ColumnsConfig/Type/Slug/Properties/GeneratorOptions.html#confval-generatorOptions:fieldSeparator',
         ],
     ],
     'config.generatorOptions.replacements' => [
@@ -167,6 +180,7 @@ return [
         ],
         'documentation' => [
             11 => 'ColumnsConfig/Type/Slug/Properties/GeneratorOptions.html#confval-generatorOptions:replacements',
+            12 => 'ColumnsConfig/Type/Slug/Properties/GeneratorOptions.html#confval-generatorOptions:replacements',
         ],
     ],
     'config.prependSlash' => [
@@ -176,6 +190,7 @@ return [
         'code' => 'prependSlash',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Slug/Properties/PrependSlash.html#columns-slug-properties-prependslash',
+            12 => 'ColumnsConfig/Type/Slug/Properties/PrependSlash.html#columns-slug-properties-prependslash',
         ],
     ],
     'config.fallbackCharacter' => [
@@ -185,6 +200,7 @@ return [
         'code' => 'fallbackCharacter',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Slug/Properties/FallbackCharacter.html#columns-slug-properties-fallbackcharacter',
+            12 => 'ColumnsConfig/Type/Slug/Properties/FallbackCharacter.html#columns-slug-properties-fallbackcharacter',
         ],
     ],
     'config.eval.required' => [
@@ -194,6 +210,7 @@ return [
         'code' => 'required',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
+            12 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
         ],
     ],
     'config.eval.trim' => [
@@ -203,6 +220,7 @@ return [
         'code' => 'trim',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
+            12 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
         ],
     ],
     'config.eval.alpha' => [
@@ -212,6 +230,7 @@ return [
         'code' => 'alpha',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
+            12 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
         ],
     ],
     'config.eval.num' => [
@@ -221,6 +240,7 @@ return [
         'code' => 'num',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
+            12 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
         ],
     ],
     'config.eval.alphanum' => [
@@ -230,6 +250,7 @@ return [
         'code' => 'alphanum',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
+            12 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
         ],
     ],
     'config.eval.alphanum_x' => [
@@ -239,6 +260,7 @@ return [
         'code' => 'alphanum_x',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
+            12 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
         ],
     ],
     'config.eval.domainname' => [
@@ -248,6 +270,7 @@ return [
         'code' => 'domainname',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
+            12 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
         ],
     ],
     'config.eval.email' => [
@@ -257,6 +280,7 @@ return [
         'code' => 'email',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
+            12 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
         ],
     ],
     'config.eval.lower' => [
@@ -266,6 +290,7 @@ return [
         'code' => 'lower',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
+            12 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
         ],
     ],
     'config.eval.upper' => [
@@ -275,6 +300,7 @@ return [
         'code' => 'upper',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
+            12 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
         ],
     ],
     'config.eval.unique' => [
@@ -284,6 +310,7 @@ return [
         'code' => 'unique',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
+            12 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
         ],
     ],
     'config.eval.uniqueInPid' => [
@@ -293,6 +320,7 @@ return [
         'code' => 'uniqueInPid',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
+            12 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
         ],
     ],
     'config.eval.nospace' => [
@@ -302,6 +330,7 @@ return [
         'code' => 'nospace',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
+            12 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
         ],
     ],
     'config.eval.md5' => [
@@ -311,6 +340,7 @@ return [
         'code' => 'md5',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
+            12 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
         ],
     ],
     'config.eval.null' => [
@@ -320,6 +350,7 @@ return [
         'code' => 'null',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
+            12 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
         ],
     ],
     'config.eval.password' => [
@@ -329,6 +360,7 @@ return [
         'code' => 'password',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
+            12 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
         ],
     ],
     'config.mode' => [
@@ -340,6 +372,7 @@ return [
         'valueOn' => 'useOrOverridePlaceholder',
         'documentation' => [
             11 => 'ColumnsConfig/CommonProperties/Mode.html#tca-property-mode',
+            12 => 'ColumnsConfig/CommonProperties/Mode.html#tca-property-mode',
         ],
     ],
     'config.autocomplete' => [
@@ -349,6 +382,7 @@ return [
         'code' => 'autocomplete',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/Autocomplete.html#columns-input-properties-autocomplete',
+            12 => 'ColumnsConfig/Type/Input/Properties/Autocomplete.html#columns-input-properties-autocomplete',
         ],
     ],
     'config.behaviour.allowLanguageSynchronization' => [
@@ -358,6 +392,7 @@ return [
         'code' => 'allowLanguageSynchronization',
         'documentation' => [
             11 => 'ColumnsConfig/CommonProperties/BehaviourAllowLanguageSynchronization.html#tca-property-behaviour-allowlanguagesynchronization',
+            12 => 'ColumnsConfig/CommonProperties/BehaviourAllowLanguageSynchronization.html#tca-property-behaviour-allowlanguagesynchronization',
         ],
     ],
     'config.range.lower' => [
@@ -366,6 +401,7 @@ return [
         'code' => 'range.lower',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/Range.html#columns-input-properties-range',
+            12 => 'ColumnsConfig/Type/Input/Properties/Range.html#columns-input-properties-range',
         ],
     ],
     'config.range.upper' => [
@@ -374,6 +410,7 @@ return [
         'code' => 'range.upper',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/Range.html#columns-input-properties-range',
+            12 => 'ColumnsConfig/Type/Input/Properties/Range.html#columns-input-properties-range',
         ],
     ],
     'config.slider.step' => [
@@ -383,6 +420,7 @@ return [
         'code' => 'slider.step',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/Slider.html#columns-input-properties-slider',
+            12 => 'ColumnsConfig/Type/Input/Properties/Slider.html#columns-input-properties-slider',
         ],
     ],
     'config.slider.width' => [
@@ -394,6 +432,7 @@ return [
         'code' => 'slider.width',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/Slider.html#columns-input-properties-slider',
+            12 => 'ColumnsConfig/Type/Input/Properties/Slider.html#columns-input-properties-slider',
         ],
     ],
     'config.valuePicker.mode' => [
@@ -408,6 +447,7 @@ return [
         ],
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/ValuePicker.html',
+            12 => 'ColumnsConfig/Type/Input/Properties/ValuePicker.html',
         ],
     ],
     'config.valuePicker.items' => [
@@ -427,6 +467,7 @@ return [
         ],
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/ValuePicker.html',
+            12 => 'ColumnsConfig/Type/Input/Properties/ValuePicker.html',
         ],
     ],
     'config.fieldControl.linkPopup.options.allowedExtensions' => [
@@ -436,6 +477,7 @@ return [
         'code' => 'allowedExtensions',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/LinkPopup.html#tca-property-fieldcontrol-linkpopup',
+            12 => 'ColumnsConfig/Type/Input/Properties/LinkPopup.html#tca-property-fieldcontrol-linkpopup',
         ],
     ],
     'config.fieldControl.linkPopup.options.blindLinkOptions' => [
@@ -445,6 +487,7 @@ return [
         'code' => 'blindLinkOptions',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/LinkPopup.html#tca-property-fieldcontrol-linkpopup',
+            12 => 'ColumnsConfig/Type/Input/Properties/LinkPopup.html#tca-property-fieldcontrol-linkpopup',
         ],
     ],
     'config.cols' => [
@@ -456,6 +499,7 @@ return [
             'code' => 'cols',
             'documentation' => [
                 11 => 'ColumnsConfig/Type/Check/Properties/Cols.html',
+                12 => 'ColumnsConfig/Type/Check/Properties/Cols.html',
             ],
         ],
         'other' => [
@@ -468,6 +512,7 @@ return [
             'step' => 5,
             'documentation' => [
                 11 => 'ColumnsConfig/Type/Text/Properties/Cols.html#columns-text-properties-cols',
+                12 => 'ColumnsConfig/Type/Text/Properties/Cols.html#columns-text-properties-cols',
             ],
         ],
     ],
@@ -481,6 +526,7 @@ return [
         'step' => 2,
         'documentation' => [
             11 => 'ColumnsConfig/Type/Text/Properties/Rows.html',
+            12 => 'ColumnsConfig/Type/Text/Properties/Rows.html',
         ],
     ],
     'config.format' => [
@@ -498,6 +544,7 @@ return [
         ],
         'documentation' => [
             11 => 'ColumnsConfig/Type/Text/Properties/Format.html',
+            12 => 'ColumnsConfig/Type/Text/Properties/Format.html',
         ],
     ],
     'config.wrap' => [
@@ -508,6 +555,7 @@ return [
         'valueOn' => 'virtual',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Text/Properties/Wrap.html',
+            12 => 'ColumnsConfig/Type/Text/Properties/Wrap.html',
         ],
     ],
     'config.fixedFont' => [
@@ -517,6 +565,7 @@ return [
         'code' => 'fixedFont',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Text/Properties/FixedFont.html',
+            12 => 'ColumnsConfig/Type/Text/Properties/FixedFont.html',
         ],
     ],
     'config.enableTabulator' => [
@@ -526,6 +575,7 @@ return [
         'code' => 'enableTabulator',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Text/Properties/EnableTabulator.html',
+            12 => 'ColumnsConfig/Type/Text/Properties/EnableTabulator.html',
         ],
     ],
     'config.richtextConfiguration' => [
@@ -534,6 +584,7 @@ return [
         'code' => 'richtextConfiguration',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Text/Properties/RichtextConfiguration.html',
+            12 => 'ColumnsConfig/Type/Text/Properties/RichtextConfiguration.html',
         ],
     ],
     'config.items' => [
@@ -577,6 +628,7 @@ return [
             ],
             'documentation' => [
                 11 => 'ColumnsConfig/Type/Check/Properties/Items.html',
+                12 => 'ColumnsConfig/Type/Check/Properties/Items.html',
             ],
         ],
         FieldType::RADIO => [
@@ -597,6 +649,7 @@ return [
             'placeholder' => 'tx_mask.content.radio.items.placeholder',
             'documentation' => [
                 11 => 'ColumnsConfig/Type/Radio/Properties/Items.html',
+                12 => 'ColumnsConfig/Type/Radio/Properties/Items.html',
             ],
         ],
         FieldType::SELECT => [
@@ -630,6 +683,7 @@ return [
             'placeholder' => 'tx_mask.content.select.items.placeholder',
             'documentation' => [
                 11 => 'ColumnsConfig/Type/Select/Properties/Items.html',
+                12 => 'ColumnsConfig/Type/Select/Properties/Items.html',
             ],
         ],
     ],
@@ -644,6 +698,7 @@ return [
         ],
         'documentation' => [
             11 => 'ColumnsConfig/Type/Select/Properties/ItemGroups.html',
+            12 => 'ColumnsConfig/Type/Select/Properties/ItemGroups.html',
         ],
     ],
     'config.sortItems' => [
@@ -680,6 +735,7 @@ return [
         'maxItems' => 1,
         'documentation' => [
             11 => 'ColumnsConfig/Type/Select/Properties/SortItems.html',
+            12 => 'ColumnsConfig/Type/Select/Properties/SortItems.html',
         ],
     ],
     'config.renderType' => [
@@ -697,6 +753,7 @@ return [
             ],
             'documentation' => [
                 11 => 'ColumnsConfig/Type/Select/Index.html',
+                12 => 'ColumnsConfig/Type/Select/Index.html',
             ],
         ],
         FieldType::CHECK => [
@@ -711,6 +768,7 @@ return [
             ],
             'documentation' => [
                 11 => 'ColumnsConfig/Type/Check/Index.html',
+                12 => 'ColumnsConfig/Type/Check/Index.html',
             ],
         ],
     ],
@@ -721,6 +779,7 @@ return [
         'code' => 'foreign_table',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Select/Properties/ForeignTable.html',
+            12 => 'ColumnsConfig/Type/Select/Properties/ForeignTable.html',
         ],
     ],
     'config.foreign_table_where' => [
@@ -730,6 +789,7 @@ return [
         'code' => 'foreign_table_where',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Select/Properties/ForeignTableWhere.html',
+            12 => 'ColumnsConfig/Type/Select/Properties/ForeignTableWhere.html',
         ],
     ],
     'config.fileFolderConfig.folder' => [
@@ -739,6 +799,7 @@ return [
         'code' => 'folder',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Select/Properties/FileFolderConfig.html#columns-select-properties-filefolder',
+            12 => 'ColumnsConfig/Type/Select/Properties/FileFolderConfig.html#columns-select-properties-filefolder',
         ],
     ],
     'config.fileFolderConfig.allowedExtensions' => [
@@ -748,6 +809,7 @@ return [
         'code' => 'allowedExtensions',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Select/Properties/FileFolderConfig.html#columns-select-properties-filefolder-extlist',
+            12 => 'ColumnsConfig/Type/Select/Properties/FileFolderConfig.html#columns-select-properties-filefolder-extlist',
         ],
     ],
     'config.fileFolderConfig.depth' => [
@@ -759,6 +821,7 @@ return [
         'code' => 'depth',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Select/Properties/FileFolderConfig.html#columns-select-properties-filefolder-recursions',
+            12 => 'ColumnsConfig/Type/Select/Properties/FileFolderConfig.html#columns-select-properties-filefolder-recursions',
         ],
     ],
     'config.autoSizeMax' => [
@@ -769,6 +832,7 @@ return [
         'code' => 'autoSizeMax',
         'documentation' => [
             11 => 'ColumnsConfig/CommonProperties/AutoSizeMax.html#tca-property-autosizemax',
+            12 => 'ColumnsConfig/CommonProperties/AutoSizeMax.html#tca-property-autosizemax',
         ],
     ],
     'config.minitems' => [
@@ -779,6 +843,7 @@ return [
         'code' => 'minitems',
         'documentation' => [
             11 => 'ColumnsConfig/CommonProperties/Minitems.html#tca-property-minitems',
+            12 => 'ColumnsConfig/CommonProperties/Minitems.html#tca-property-minitems',
         ],
     ],
     'config.maxitems' => [
@@ -789,6 +854,7 @@ return [
         'code' => 'maxitems',
         'documentation' => [
             11 => 'ColumnsConfig/CommonProperties/Maxitems.html#tca-property-maxitems',
+            12 => 'ColumnsConfig/CommonProperties/Maxitems.html#tca-property-maxitems',
         ],
     ],
     'config.internal_type' => [
@@ -802,6 +868,7 @@ return [
         ],
         'documentation' => [
             11 => 'ColumnsConfig/Type/Group/Properties/InternalType.html#columns-group-properties-internal-type',
+            12 => 'ColumnsConfig/Type/Group/Properties/InternalType.html#columns-group-properties-internal-type',
         ],
     ],
     'config.allowed' => [
@@ -811,6 +878,7 @@ return [
         'code' => 'allowed',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Group/Properties/InternalType.html#columns-group-properties-internal-type',
+            12 => 'ColumnsConfig/Type/Group/Properties/InternalType.html#columns-group-properties-internal-type',
         ],
     ],
     'config.fieldControl.editPopup.disabled' => [
@@ -821,6 +889,7 @@ return [
         'code' => 'editPopup',
         'documentation' => [
             11 => 'ColumnsConfig/CommonProperties/FieldControl/EditPopup.html#tca-property-fieldcontrol-editpopup',
+            12 => 'ColumnsConfig/CommonProperties/FieldControl/EditPopup.html#tca-property-fieldcontrol-editpopup',
         ],
     ],
     'config.fieldControl.addRecord.disabled' => [
@@ -831,6 +900,7 @@ return [
         'code' => 'addRecord',
         'documentation' => [
             11 => 'ColumnsConfig/CommonProperties/FieldControl/AddRecord.html#tca-property-fieldcontrol-addrecord',
+            12 => 'ColumnsConfig/CommonProperties/FieldControl/AddRecord.html#tca-property-fieldcontrol-addrecord',
         ],
     ],
     'config.fieldControl.listModule.disabled' => [
@@ -841,6 +911,7 @@ return [
         'code' => 'listModule',
         'documentation' => [
             11 => 'ColumnsConfig/CommonProperties/FieldControl/ListModule.html#tca-property-fieldcontrol-listmodule',
+            12 => 'ColumnsConfig/CommonProperties/FieldControl/ListModule.html#tca-property-fieldcontrol-listmodule',
         ],
     ],
     'config.fieldControl.elementBrowser.disabled' => [
@@ -851,6 +922,7 @@ return [
         'code' => 'elementBrowser',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Group/Properties/FieldControl.html#columns-group-properties-elementbrowser',
+            12 => 'ColumnsConfig/Type/Group/Properties/FieldControl.html#columns-group-properties-elementbrowser',
         ],
     ],
     'config.fieldControl.insertClipboard.disabled' => [
@@ -861,6 +933,7 @@ return [
         'code' => 'insertClipboard',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Group/Properties/FieldControl.html#tca-property-fieldcontrol-insertclipboard',
+            12 => 'ColumnsConfig/Type/Group/Properties/FieldControl.html#tca-property-fieldcontrol-insertclipboard',
         ],
     ],
     'config.fieldControl' => [
@@ -870,6 +943,7 @@ return [
         'code' => 'fieldControl',
         'documentation' => [
             11 => 'ColumnsConfig/CommonProperties/FieldControl.html',
+            12 => 'ColumnsConfig/CommonProperties/FieldControl.html',
         ],
     ],
     'config.fieldWizard.recordsOverview.disabled' => [
@@ -880,6 +954,7 @@ return [
         'code' => 'recordsOverview',
         'documentation' => [
             11 => 'ColumnsConfig/CommonProperties/FieldWizard/RecordsOverview.html#tca-property-fieldwizard-recordsoverview',
+            12 => 'ColumnsConfig/CommonProperties/FieldWizard/RecordsOverview.html#tca-property-fieldwizard-recordsoverview',
         ],
     ],
     'config.fieldWizard.tableList.disabled' => [
@@ -890,6 +965,7 @@ return [
         'code' => 'tableList',
         'documentation' => [
             11 => 'ColumnsConfig/CommonProperties/FieldWizard/TableList.html#tca-property-fieldwizard-tablelist',
+            12 => 'ColumnsConfig/CommonProperties/FieldWizard/TableList.html#tca-property-fieldwizard-tablelist',
         ],
     ],
     'config.fieldWizard.selectIcons.disabled' => [
@@ -900,6 +976,7 @@ return [
         'code' => 'selectIcons',
         'documentation' => [
             11 => 'ColumnsConfig/CommonProperties/FieldWizard/SelectIcons.html#tca-property-fieldwizard-selecticons',
+            12 => 'ColumnsConfig/CommonProperties/FieldWizard/SelectIcons.html#tca-property-fieldwizard-selecticons',
         ],
     ],
     'config.fieldWizard' => [
@@ -909,6 +986,7 @@ return [
         'code' => 'fieldWizard',
         'documentation' => [
             11 => 'ColumnsConfig/CommonProperties/FieldWizard.html',
+            12 => 'ColumnsConfig/CommonProperties/FieldWizard.html',
         ],
     ],
     'config.multiple' => [
@@ -918,6 +996,7 @@ return [
         'code' => 'multiple',
         'documentation' => [
             11 => 'ColumnsConfig/CommonProperties/Multiple.html#tca-property-multiple',
+            12 => 'ColumnsConfig/CommonProperties/Multiple.html#tca-property-multiple',
         ],
     ],
     'config.appearance.collapseAll' => [
@@ -932,6 +1011,7 @@ return [
         ],
         'documentation' => [
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
+            12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
     'config.appearance.expandSingle' => [
@@ -941,6 +1021,7 @@ return [
         'code' => 'expandSingle',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
+            12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
     'config.appearance.useSortable' => [
@@ -950,6 +1031,7 @@ return [
         'code' => 'useSortable',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
+            12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
     'config.appearance.enabledControls' => [
@@ -959,6 +1041,7 @@ return [
         'code' => 'enabledControls',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
+            12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
     'config.appearance.enabledControls.info' => [
@@ -967,6 +1050,7 @@ return [
         'code' => 'info',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
+            12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
     'config.appearance.enabledControls.new' => [
@@ -975,6 +1059,7 @@ return [
         'code' => 'new',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
+            12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
     'config.appearance.enabledControls.dragdrop' => [
@@ -983,6 +1068,7 @@ return [
         'code' => 'dragdrop',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
+            12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
     'config.appearance.enabledControls.sort' => [
@@ -991,6 +1077,7 @@ return [
         'code' => 'sort',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
+            12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
     'config.appearance.enabledControls.hide' => [
@@ -999,6 +1086,7 @@ return [
         'code' => 'hide',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
+            12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
     'config.appearance.enabledControls.delete' => [
@@ -1007,6 +1095,7 @@ return [
         'code' => 'delete',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
+            12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
     'config.appearance.enabledControls.localize' => [
@@ -1015,6 +1104,7 @@ return [
         'code' => 'localize',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
+            12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
     'config.appearance.elementBrowserEnabled' => [
@@ -1024,6 +1114,7 @@ return [
         'code' => 'elementBrowserEnabled',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
+            12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
     'config.appearance.fileUploadAllowed' => [
@@ -1033,6 +1124,7 @@ return [
         'code' => 'fileUploadAllowed',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
+            12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
     'config.appearance.fileByUrlAllowed' => [
@@ -1042,6 +1134,7 @@ return [
         'code' => 'fileByUrlAllowed',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
+            12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
     'onlineMedia' => [
@@ -1058,6 +1151,7 @@ return [
         'code' => 'showSynchronizationLink',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
+            12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
     'config.appearance.showPossibleLocalizationRecords' => [
@@ -1067,6 +1161,7 @@ return [
         'code' => 'showPossibleLocalizationRecords',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
+            12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
     'config.appearance.showAllLocalizationLink' => [
@@ -1077,6 +1172,7 @@ return [
         'code' => 'showAllLocalizationLink',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
+            12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
     'config.appearance.newRecordLinkTitle' => [
@@ -1086,6 +1182,7 @@ return [
         'code' => 'newRecordLinkTitle',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
+            12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
     'config.appearance.createNewRelationLinkTitle' => [
@@ -1095,6 +1192,7 @@ return [
         'code' => 'createNewRelationLinkTitle',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html',
+            12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html',
         ],
     ],
     'config.appearance.levelLinksPosition' => [
@@ -1109,6 +1207,7 @@ return [
         'code' => 'levelLinksPosition',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
+            12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
     'config.appearance.showNewRecordLink' => [
@@ -1118,6 +1217,7 @@ return [
         'code' => 'showNewRecordLink',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Inline/Properties/ShowNewRecordLink.html',
+            12 => 'ColumnsConfig/Type/Inline/Properties/ShowNewRecordLink.html',
         ],
     ],
     'config.relationship' => [
@@ -1132,6 +1232,7 @@ return [
         'code' => 'relationship',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Category/Properties/Relationship.html',
+            12 => 'ColumnsConfig/Type/Category/Properties/Relationship.html',
         ],
     ],
     'config.exclusiveKeys' => [
@@ -1141,6 +1242,7 @@ return [
         'code' => 'exclusiveKeys',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Category/Properties/ExclusiveKeys.html',
+            12 => 'ColumnsConfig/Type/Category/Properties/ExclusiveKeys.html',
         ],
     ],
     'config.treeConfig.startingPoints' => [
@@ -1150,6 +1252,7 @@ return [
         'code' => 'startingPoints',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Category/Properties/TreeConfig.html',
+            12 => 'ColumnsConfig/Type/Category/Properties/TreeConfig.html',
         ],
     ],
     'config.treeConfig.appearance.showHeader' => [
@@ -1159,6 +1262,7 @@ return [
         'code' => 'showHeader',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Category/Properties/TreeConfig.html',
+            12 => 'ColumnsConfig/Type/Category/Properties/TreeConfig.html',
         ],
     ],
     'config.treeConfig.appearance.expandAll' => [
@@ -1168,6 +1272,7 @@ return [
         'code' => 'expandAll',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Category/Properties/TreeConfig.html',
+            12 => 'ColumnsConfig/Type/Category/Properties/TreeConfig.html',
         ],
     ],
     'config.treeConfig.appearance.nonSelectableLevels' => [
@@ -1177,6 +1282,7 @@ return [
         'code' => 'nonSelectableLevels',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Category/Properties/TreeConfig.html',
+            12 => 'ColumnsConfig/Type/Category/Properties/TreeConfig.html',
         ],
     ],
     'config.appearance.expandAll' => [
@@ -1186,6 +1292,7 @@ return [
         'code' => 'expandAll',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Select/Properties/CheckBoxAppearance.html',
+            12 => 'ColumnsConfig/Type/Select/Properties/CheckBoxAppearance.html',
         ],
     ],
     'ctrl.label' => [
@@ -1195,6 +1302,7 @@ return [
         'code' => 'label',
         'documentation' => [
             11 => 'Ctrl/Properties/Label.html#ctrl-reference-label',
+            12 => 'Ctrl/Properties/Label.html#ctrl-reference-label',
         ],
     ],
     'ctrl.iconfile' => [
@@ -1204,6 +1312,7 @@ return [
         'code' => 'iconfile',
         'documentation' => [
             11 => 'Ctrl/Properties/Iconfile.html#ctrl-reference-iconfile',
+            12 => 'Ctrl/Properties/Iconfile.html#ctrl-reference-iconfile',
         ],
     ],
     'cTypes' => [
@@ -1219,6 +1328,7 @@ return [
         'code' => 'allowedFileExtensions',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Group/Properties/Appearance.html#columns-group-properties-appearance',
+            12 => 'ColumnsConfig/Type/Group/Properties/Appearance.html#columns-group-properties-appearance',
         ],
     ],
     'imageoverlayPalette' => [
@@ -1228,6 +1338,7 @@ return [
         'code' => 'imageoverlayPalette',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Inline/Examples.html#columns-inline-examples-fal',
+            12 => 'ColumnsConfig/Type/Inline/Examples.html#columns-inline-examples-fal',
         ],
     ],
     'l10n_mode' => [
@@ -1236,6 +1347,7 @@ return [
         'code' => 'l10n_mode',
         'documentation' => [
             11 => 'Columns/Properties/L10nMode.html#columns-properties-l10n-mode',
+            12 => 'Columns/Properties/L10nMode.html#columns-properties-l10n-mode',
         ],
         'items' => [
             '' => 'tx_mask.field.inline.l10n_mode.default',
