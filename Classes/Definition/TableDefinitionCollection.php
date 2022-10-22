@@ -97,11 +97,9 @@ final class TableDefinitionCollection implements \IteratorAggregate
     {
         $tablesArray = array_merge([], ...$this->getTablesAsArray());
         $tablesArray = $this->arrayDefinitionSorter->sort($tablesArray);
-
         if (!$withVersion) {
             return $tablesArray;
         }
-
         return [
             'version' => $this->version,
             'tables' => $tablesArray,
@@ -142,7 +140,6 @@ final class TableDefinitionCollection implements \IteratorAggregate
             $tableDefinition = TableDefinition::createFromTableArray($table, $definition);
             $tableDefinitionCollection->addTable($tableDefinition);
         }
-
         return $tableDefinitionCollection;
     }
 
@@ -162,13 +159,10 @@ final class TableDefinitionCollection implements \IteratorAggregate
         if (!$this->hasTable($table)) {
             return null;
         }
-
         $tableDefinition = $this->getTable($table);
-
         if (!$tableDefinition->tca->hasField($fieldName)) {
             return null;
         }
-
         return $tableDefinition->tca->getField($fieldName);
     }
 
@@ -181,17 +175,14 @@ final class TableDefinitionCollection implements \IteratorAggregate
         if (!in_array($table, ['tt_content', 'pages'])) {
             return null;
         }
-
         if (!$this->hasTable($table)) {
             return null;
         }
-
         $tableDefinition = $this->getTable($table);
         $elements = $tableDefinition->elements;
         if (!$elements->hasElement($key)) {
             return null;
         }
-
         $element = $elements->getElement($key);
         $tcaDefinition = new TcaDefinition();
         foreach ($element->columns as $fieldKey) {
@@ -206,7 +197,6 @@ final class TableDefinitionCollection implements \IteratorAggregate
                 }
             }
         }
-
         return new ElementTcaDefinition($element, $tcaDefinition);
     }
 
@@ -216,34 +206,29 @@ final class TableDefinitionCollection implements \IteratorAggregate
      */
     public function loadInlineFields(string $parentKey, string $elementKey): NestedTcaFieldDefinitions
     {
-        $nestedTcaFields = new NestedTcaFieldDefinitions($elementKey);
-
-        // Load inline fields of own table
+        // Load inline fields of own table.
         if ($this->hasTable($parentKey)) {
             $searchTable = $this->getTable($parentKey);
             $searchTables = [$searchTable];
         } else {
             $searchTables = $this->definitions;
         }
-
-        // Traverse tables and find palette
+        // Traverse tables and find palette.
+        $nestedTcaFields = new NestedTcaFieldDefinitions($elementKey);
         foreach ($searchTables as $tableDefinition) {
             foreach ($tableDefinition->tca as $field) {
                 if (!$field->hasInlineParent($elementKey) || $field->getInlineParent($elementKey) !== $parentKey) {
                     continue;
                 }
-
                 // Check if FieldType is available
                 if ($field->hasFieldType() && $field->getFieldType()->isParentField()) {
                     foreach ($this->loadInlineFields($field->fullKey, $elementKey) as $inlineField) {
                         $field->addInlineField($inlineField);
                     }
                 }
-
                 $nestedTcaFields->addField($field);
             }
         }
-
         return $nestedTcaFields;
     }
 
@@ -259,13 +244,11 @@ final class TableDefinitionCollection implements \IteratorAggregate
     public function getFieldTypeString(string $fieldKey, string $table = 'tt_content', string $elementKey = ''): string
     {
         $fieldDefinition = $this->loadField($table, $fieldKey);
-
         if ($fieldDefinition instanceof TcaFieldDefinition) {
             // If type is already known, return it.
             if ($fieldDefinition->hasFieldType($elementKey)) {
                 return (string)$fieldDefinition->getFieldType($elementKey);
             }
-
             try {
                 return FieldTypeUtility::getFieldType($fieldDefinition->toArray(), $fieldDefinition->fullKey);
             } catch (InvalidArgumentException $e) {
@@ -273,7 +256,6 @@ final class TableDefinitionCollection implements \IteratorAggregate
                 // Mask versions no type was defined directly in the definition.
             }
         }
-
         // If field could not be found in field definition, check for global TCA.
         $tca = $GLOBALS['TCA'][$table]['columns'][$fieldKey] ?? [];
         return FieldTypeUtility::getFieldType($tca, $fieldKey);
@@ -301,7 +283,6 @@ final class TableDefinitionCollection implements \IteratorAggregate
                 }
             }
         }
-
         return '';
     }
 
@@ -314,7 +295,6 @@ final class TableDefinitionCollection implements \IteratorAggregate
         if (!$this->hasTable($table)) {
             return $elementsInUse;
         }
-
         $definition = $this->getTable($table);
         foreach ($definition->elements as $element) {
             foreach ($element->columns as $column) {
@@ -359,20 +339,16 @@ final class TableDefinitionCollection implements \IteratorAggregate
     private function getFieldPropertyByElement(string $elementKey, string $fieldKey, string $property, string $table = 'tt_content'): string
     {
         $validProperties = ['label', 'description'];
-
         if (!in_array($property, $validProperties)) {
             throw new InvalidArgumentException('The property ' . $property . ' is not a valid. Valid properties are: ' . implode(' ', $validProperties) . '.', 1636825949);
         }
-
         if (!$this->hasTable($table)) {
             return '';
         }
         $tableDefinition = $this->getTable($table);
-
         if (!$tableDefinition->tca->hasField($fieldKey)) {
             return '';
         }
-
         // If this field is in a repeating field or palette, the description is in the field configuration.
         $field = $tableDefinition->tca->getField($fieldKey);
         if ($field->hasInlineParent()) {
@@ -383,12 +359,10 @@ final class TableDefinitionCollection implements \IteratorAggregate
                 return $field->{$property . 'ByElement'}[$elementKey];
             }
         }
-
         // BC: If root field still has property defined directly, take it.
         if ($field->{$property} !== '') {
             return $field->{$property};
         }
-
         // Root level fields have their properties defined in according element array.
         $elements = $tableDefinition->elements;
         if (!$elements->hasElement($elementKey)) {
@@ -401,7 +375,6 @@ final class TableDefinitionCollection implements \IteratorAggregate
                 return $element->{$property . 's'}[$fieldIndex] ?? '';
             }
         }
-
         return '';
     }
 
@@ -427,7 +400,6 @@ final class TableDefinitionCollection implements \IteratorAggregate
             return '';
         }
         $definition = $this->getTable($table);
-
         $property = '';
         foreach ($definition->elements as $element) {
             if (in_array($key, $element->columns, true)) {
