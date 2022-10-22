@@ -20,7 +20,6 @@ namespace MASK\Mask\Definition;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\FieldTypeUtility;
-use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final class TcaFieldDefinition
@@ -449,8 +448,6 @@ final class TcaFieldDefinition
      */
     protected static function migrateTCA(array $definition, TcaFieldDefinition $tcaFieldDefinition): array
     {
-        $typo3Version = new Typo3Version();
-
         // "inlineIcon" and "inlineLabel" renamed to ctrl.iconfile and ctrl.label in Mask v7.0.
         $tcaFieldDefinition->inlineIcon = $definition['ctrl']['iconfile'] ?? $definition['inlineIcon'] ?? '';
         $tcaFieldDefinition->inlineLabel = $definition['ctrl']['label'] ?? $definition['inlineLabel'] ?? '';
@@ -475,8 +472,7 @@ final class TcaFieldDefinition
 
         // #94765: Migrate levelLinksPosition "none" to showNewRecordLink=false (TYPO3 v11).
         if (
-            $typo3Version->getMajorVersion() > 10
-            && $tcaFieldDefinition->hasFieldType()
+            $tcaFieldDefinition->hasFieldType()
             && ($tcaFieldDefinition->type->equals(FieldType::INLINE) || $tcaFieldDefinition->type->equals(FieldType::CONTENT))
             && ($definition['config']['appearance']['levelLinksPosition'] ?? '') === 'none'
         ) {
@@ -486,8 +482,7 @@ final class TcaFieldDefinition
 
         // #94406: Migrate folder config to fileFolderConfig (TYPO3 v11).
         if (
-            $typo3Version->getMajorVersion() > 10
-            && $tcaFieldDefinition->hasFieldType()
+            $tcaFieldDefinition->hasFieldType()
             && $tcaFieldDefinition->type->equals(FieldType::SELECT)
         ) {
             if (isset($definition['config']['fileFolder'])) {
