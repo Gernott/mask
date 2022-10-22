@@ -4,17 +4,65 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [7.2.5] - 2021-06-22
+## [7.2.13] - 2022-10-10
+
+### Fixed
+- Search for inline fields in backend enabled
+- Set correct default value for collapseAll in type image / media
+
+## [7.2.12] - 2022-09-26
+
+### Fixed
+- Set correct default value for collapseAll in type content
+
+## [7.2.11] - 2022-09-25
+
+### Fixed
+- Allow setting an undefined state for "collapseAll" [#515](https://github.com/Gernott/mask/issues/515)
+- Avoid error on saving empty inline fields [#517](https://github.com/Gernott/mask/issues/517)
+- Fix disabling inline elements through inline control button [#518](https://github.com/Gernott/mask/issues/518)
+
+## [7.2.10] - 2022-08-12
+
+### Fixed
+- Followup bugfix for last release [#507](https://github.com/Gernott/mask/issues/507)
+
+## [7.2.9] - 2022-08-12
+
+### Fixed
+- Allow all CTypes if no restrictions are defined [#506](https://github.com/Gernott/mask/issues/506)
+
+## [7.2.8] - 2022-08-11
+
+### Fixed
+- Ensure b13/container and gridelements are loaded before Mask [#505](https://github.com/Gernott/mask/issues/505)
+
+## [7.2.7] - 2022-07-12
+
+### Fixed
+- Do not show core fields as shared in palettes
+- Handle ResourceDoesNotExistException in PreviewIconResolver (Thanks to Markus Klein) [#501](https://github.com/Gernott/mask/issues/501)
+- Do not show migration notice for empty Mask definitions [#502](https://github.com/Gernott/mask/issues/502)
+
+### Fixed
+- Followup bugfix. Resolves error when creating the first element.
+
+## [7.2.6] - 2022-06-23
+
+### Fixed
+- Followup bugfix. Resolves error when creating the first element.
+
+## [7.2.5] - 2022-06-22
 
 ### Fixed
 - Persisting of shared array-like fields (e.g. items) [#495](https://github.com/Gernott/mask/issues/495)
 
-## [7.2.4] - 2021-06-17
+## [7.2.4] - 2022-06-17
 
 ### Fixed
 - Backend layout preview icon path in TYPO3 v10
 
-## [7.2.3] - 2021-06-13
+## [7.2.3] - 2022-06-13
 
 ### Fixed
 - Removed unused added sys_file_reference database columns of Mask
@@ -22,18 +70,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Updated troubleshooting guide
 
-## [7.2.2] - 2021-05-30
+## [7.2.2] - 2022-05-30
 
 ### Fixed
 - Compatibility TYPO3 v10 relation fetching [#490](https://github.com/Gernott/mask/issues/490)
 
-## [7.2.1] - 2021-05-26
+## [7.2.1] - 2022-05-26
 
 ### Fixed
 - Relation records like category, group and select are now correctly translated [#489](https://github.com/Gernott/mask/issues/489)
 - Content Element search now works on the element key, too.
 
-## [7.2.0] - 2021-05-25
+## [7.2.0] - 2022-05-25
 
 The new v7.2 version comes with a lot of new features!
 
