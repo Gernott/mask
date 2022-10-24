@@ -1,4 +1,5 @@
 define([
+  'jquery',
   'TYPO3/CMS/Mask/Contrib/vue',
   'TYPO3/CMS/Mask/Contrib/vuedraggable',
   'TYPO3/CMS/Mask/Components/NestedDraggable',
@@ -18,6 +19,7 @@ define([
   'TYPO3/CMS/Backend/MultiStepWizard',
   'TYPO3/CMS/Backend/ActionButton/DeferredAction',
 ], function (
+  $,
   Vue,
   draggable,
   nestedDraggable,
