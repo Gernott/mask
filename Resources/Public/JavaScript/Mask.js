@@ -92,7 +92,7 @@ define([
           existingFieldKeyFields: []
         },
         global: {
-          typo3Version: 10,
+          typo3Version: 11,
           activeField: {},
           clonedField: {},
           richtextConfiguration: {},

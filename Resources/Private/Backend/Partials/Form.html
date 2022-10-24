@@ -2,7 +2,8 @@
     <div v-if="!activeFieldHasKeyError && activeMultiUseElements.length">
         <div class="callout callout-info">
             <div class="media">
-                <div class="media-left"><span class="fa-stack fa-lg callout-icon"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-info fa-stack-1x"></i></span></div>
+                <div v-if="global.typo3Version == 11" class="media-left"><span class="fa-stack fa-lg callout-icon"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-info fa-stack-1x"></i></span></div>
+                <div v-else class="media-left"><span class="icon-emphasized"><core:icon identifier="actions-info"></core:icon></span></div>
                 <div class="media-body">
                     <p><b><f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.content.multiuse"/></b><br><f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.content.multiuse.description"/></p>
                     <p class="mb-0"><a href="#" @click.prevent="openMultiUsageModal" class="btn btn-sm btn-primary"><f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.showMultiuseElements"/></a></p>
@@ -13,7 +14,8 @@
     <div v-if="global.activeField.name == 'richtext' && !optionalExtensionStatus.rte_ckeditor">
         <div class="callout callout-warning">
             <div class="media">
-                <div class="media-left"><span class="fa-stack fa-lg callout-icon"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-info fa-stack-1x"></i></span></div>
+                <div v-if="global.typo3Version == 11" class="media-left"><span class="fa-stack fa-lg callout-icon"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-info fa-stack-1x"></i></span></div>
+                <div v-else class="media-left"><span class="icon-emphasized"><core:icon identifier="actions-info"></core:icon></span></div>
                 <div class="media-body">
                     <f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.missing_extension.ckeditor"/>
                 </div>
