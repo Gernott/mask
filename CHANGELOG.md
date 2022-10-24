@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [8.0.0] - 2022-10-24
+
+### Added
+- TYPO3 v12 support
+
+### Removed
+- TYPO3 v10 support
+
 ## [7.2.13] - 2022-10-10
 
 ### Fixed

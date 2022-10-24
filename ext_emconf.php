@@ -9,12 +9,12 @@ $EM_CONF[$_EXTKEY] = [
     'author_company' => 'WEBprofil - Gernot Ploiner e.U.',
     'state' => 'stable',
     'clearCacheOnLoad' => 1,
-    'version' => '7.2.5',
+    'version' => '8.0.0',
     'constraints' => [
         'depends' => [
-            'typo3' => '11.5.0-12.0.99',
-            'fluid' => '11.5.0-12.0.99',
-            'fluid_styled_content' => '11.5.0-12.0.99',
+            'typo3' => '11.5.0-12.4.99',
+            'fluid' => '11.5.0-12.4.99',
+            'fluid_styled_content' => '11.5.0-12.4.99',
             'fontawesome_provider' => '1.0.0',
         ],
         'conflicts' => [],
