@@ -110,4 +110,4 @@ jobs:
         run: composer require typo3/cms-core:^12.0 --prefer-dist --no-progress
 
       - name: PHPStan
-        run: .Build/bin/phpstan analyse -c Build/phpstan/phpstan.neon --no-progress --no-interaction --memory-limit 4G
+        run: XDEBUG_MODE="off" .Build/bin/phpstan analyse -c Build/phpstan/phpstan.neon --no-progress --no-interaction --memory-limit 4G

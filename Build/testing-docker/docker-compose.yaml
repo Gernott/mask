@@ -131,6 +131,7 @@ services:
           set -x
         fi
         mkdir -p .cache
+        XDEBUG_MODE=\"off\" \
         .Build/bin/phpstan analyse -c Build/phpstan/phpstan.neon --no-progress --no-interaction --memory-limit 4G ${TEST_FILE}
       "
 
@@ -146,5 +147,6 @@ services:
           set -x
         fi
         mkdir -p .cache
+        XDEBUG_MODE=\"off\" \
         .Build/bin/phpstan analyse -c Build/phpstan/phpstan.neon --no-progress --no-interaction --memory-limit 4G --generate-baseline=Build/phpstan/phpstan-baseline.neon
       "
