@@ -2,7 +2,6 @@ includes:
   - phpstan-baseline.neon
   - ../../.Build/vendor/bnf/phpstan-psr-container/extension.neon
   - ../../.Build/vendor/friendsoftypo3/phpstan-typo3/extension.neon
-  - ../../.Build/vendor/jangregor/phpstan-prophecy/extension.neon
   - ../../.Build/vendor/phpstan/phpstan-phpunit/extension.neon
 
 parameters:
