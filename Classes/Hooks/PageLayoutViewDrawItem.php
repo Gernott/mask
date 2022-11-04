@@ -78,7 +78,7 @@ class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
             $maskExtensionConfiguration,
             $elementKey,
             false,
-            GeneralUtility::getFileAbsFileName($this->maskExtensionConfiguration['backend'] ?? '')
+            GeneralUtility::getFileAbsFileName($maskExtensionConfiguration['backend'] ?? '')
         );
 
         // User defined backend preview exists. Turn off TYPO3 auto preview.
@@ -96,12 +96,12 @@ class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
         $view->setTemplatePathAndFilename($templatePathAndFilename);
 
         // if there are paths for layouts and partials set, add them to the view
-        if (!empty($this->maskExtensionConfiguration['layouts_backend'])) {
-            $layoutRootPath = GeneralUtility::getFileAbsFileName($this->maskExtensionConfiguration['layouts_backend']);
+        if (!empty($maskExtensionConfiguration['layouts_backend'])) {
+            $layoutRootPath = GeneralUtility::getFileAbsFileName($maskExtensionConfiguration['layouts_backend']);
             $view->setLayoutRootPaths([$layoutRootPath]);
         }
-        if (!empty($this->maskExtensionConfiguration['partials_backend'])) {
-            $partialRootPath = GeneralUtility::getFileAbsFileName($this->maskExtensionConfiguration['partials_backend']);
+        if (!empty($maskExtensionConfiguration['partials_backend'])) {
+            $partialRootPath = GeneralUtility::getFileAbsFileName($maskExtensionConfiguration['partials_backend']);
             $view->setPartialRootPaths([$partialRootPath]);
         }
 
