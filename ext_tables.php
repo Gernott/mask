@@ -9,7 +9,7 @@ defined('TYPO3') or die();
     null,
     [
         'routeTarget' => \MASK\Mask\Controller\MaskController::class . '::mainAction',
-        'access' => 'admin',
+        'access' => 'group,user',
         'name' => 'tools_mask',
         'icon' => 'EXT:mask/Resources/Public/Icons/module-mask_wizard.svg',
         'labels' => 'LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf',

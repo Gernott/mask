@@ -4,7 +4,7 @@ return [
     'mask_module' => [
         'parent' => 'tools',
         'position' => ['after' => 'extensionmanager'],
-        'access' => 'admin',
+        'access' => 'user',
         'workspaces' => 'online',
         'path' => '/module/mask/',
         'icon' => 'EXT:mask/Resources/Public/Icons/module-mask_wizard.svg', // @todo iconIdentifier
