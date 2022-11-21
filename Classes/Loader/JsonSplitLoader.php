@@ -199,11 +199,10 @@ class JsonSplitLoader implements LoaderInterface
                 if ($tableDefinition->sql->hasColumn($field->fullKey)) {
                     $newSqlDefinition->addColumn($tableDefinition->sql->getColumn($field->fullKey));
                 }
-                $fieldType = $tableDefinitionCollection->getFieldType($field->fullKey, $table);
-                if ($fieldType->equals(FieldType::INLINE)) {
+                if ($field->getFieldType()->equals(FieldType::INLINE)) {
                     $this->addInlineRecursive($field, $elementTableDefinitionCollection, $tableDefinitionCollection);
                 }
-                if ($fieldType->equals(FieldType::PALETTE)) {
+                if ($field->getFieldType()->equals(FieldType::PALETTE)) {
                     $paletteDefinition = $tableDefinition->palettes->getPalette($field->fullKey);
                     $newPaletteDefinitionCollection->addPalette($paletteDefinition);
                     foreach ($paletteDefinition->showitem as $item) {
@@ -212,7 +211,7 @@ class JsonSplitLoader implements LoaderInterface
                         if ($tableDefinition->sql->hasColumn($paletteField->fullKey)) {
                             $newSqlDefinition->addColumn($tableDefinition->sql->getColumn($paletteField->fullKey));
                         }
-                        if ($tableDefinitionCollection->getFieldType($paletteField->fullKey)->equals(FieldType::INLINE)) {
+                        if ($paletteField->getFieldType()->equals(FieldType::INLINE)) {
                             $elementTableDefinitionCollection->addTable($tableDefinitionCollection->getTable($paletteField->fullKey));
                         }
                     }
