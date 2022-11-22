@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [8.0.3] - 2022-10-22
+
+### Fixed
+- Fix error in frontend when using palettes in inline fields [#529](https://github.com/Gernott/mask/issues/529)
+- Followup bugfix for last release
+
 ## [8.0.2] - 2022-10-21
 
 ### Fixed
