@@ -217,11 +217,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
         $nestedTcaFields = new NestedTcaFieldDefinitions($elementKey);
         foreach ($searchTables as $tableDefinition) {
             foreach ($tableDefinition->tca as $field) {
-                try {
-                    if (!$field->hasInlineParent($elementKey) || $field->getInlineParent($elementKey) !== $parentKey) {
-                        continue;
-                    }
-                } catch (InvalidArgumentException $e) {
+                if (!$field->hasInlineParent($elementKey) || $field->getInlineParent($elementKey) !== $parentKey) {
                     continue;
                 }
                 // Check if FieldType is available

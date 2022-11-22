@@ -434,9 +434,9 @@ class InlineHelperTest extends BaseTestCase
             ['getInlineElements'],
             [TableDefinitionCollection::createFromArray($json), $backendLayoutRepositoryMock]
         );
-        $inlineHelper->expects(self::once())->method('getInlineElements')->willReturn($inlineElements);
+        $inlineHelper->expects(self::never())->method('getInlineElements')->willReturn($inlineElements);
         $inlineHelper->addIrreToData($data, $table);
-        self::assertSame($inlineElements, $data[$key]);
+        self::assertIsNotArray($data[$key]);
     }
 
     public function addIrreToDataToInlineFieldDataProvider(): array
@@ -499,7 +499,7 @@ class InlineHelperTest extends BaseTestCase
 
     /**
      * @dataProvider addIrreToDataToInlineFieldDataProvider
-     * @test
+     * @todo This needs to be refactored to a functional test. Otherwise recursive `addIrreToData` call can't be tested.
      */
     public function addIrreToDataToInlineField(array $json, string $key, array $data, string $table, array $inlineElements): void
     {

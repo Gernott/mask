@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Helper;
 
+use MASK\Mask\Definition\ElementTcaDefinition;
 use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Domain\Repository\BackendLayoutRepository;
 use MASK\Mask\Enumeration\FieldType;
@@ -94,66 +95,66 @@ class InlineHelper
     }
 
     /**
-     * Adds FAL-Files to the data-array if available
-     *
-     * @param array $data
-     * @param string $table
-     * @param string $cType
-     * @throws \Exception
+     * Adds inline fields to the data array if available.
+     * This method will be called recursively for every nested inline field by
+     * $this->fillInlineField() and $this->getInlineElements().
      */
-    public function addIrreToData(array &$data, string $table = 'tt_content', string $cType = ''): void
+    public function addIrreToData(array &$data, string $table = 'tt_content', string $cType = '', string $originalTable = 'tt_content'): void
     {
         if ($cType === '') {
-            $cType = $data['CType'] ?? '';
+            $cType = (string)($data['CType'] ?? '');
+        }
+        if ($cType === '') {
+            return;
+        }
+        if (!$this->tableDefinitionCollection->hasTable($table)) {
+            return;
         }
 
-        $elementFields = [];
-
-        // if the table is tt_content, load the element and all its columns
-        $tableExists = $this->tableDefinitionCollection->hasTable($table);
         if ($table === 'tt_content') {
             $element = $this->tableDefinitionCollection->loadElement($table, AffixUtility::removeCTypePrefix($cType));
             $elementFields = $element->elementDefinition->columns ?? [];
         } elseif ($table === 'pages') {
-            // if the table is pages, then load the pid
-            if (isset($data['uid'])) {
-                // find the backendlayout by the pid
-                $backendLayoutIdentifier = $this->backendLayoutRepository->findIdentifierByPid((int)$data['uid']);
-
-                // if a backendlayout was found, then load its elements
-                if ($backendLayoutIdentifier) {
-                    $element = $this->tableDefinitionCollection->loadElement(
-                        $table,
-                        str_replace('pagets__', '', $backendLayoutIdentifier)
-                    );
-                    $elementFields = $element->elementDefinition->columns ?? [];
-                // if no backendlayout was found, just load all fields, if there are fields
-                } elseif ($tableExists) {
-                    $elementFields = $this->tableDefinitionCollection->getTable($table)->tca->getKeys();
-                }
+            if (empty($data['uid'])) {
+                return;
             }
-        } elseif ($tableExists) {
-            // Otherwise, check if it's a table at all, if yes load all fields
+            $backendLayoutIdentifier = $this->backendLayoutRepository->findIdentifierByPid((int)$data['uid']);
+            if ($backendLayoutIdentifier === null || $backendLayoutIdentifier === '') {
+                return;
+            }
+            $maskPageTemplateKey = str_replace('pagets__', '', $backendLayoutIdentifier);
+            $element = $this->tableDefinitionCollection->loadElement($table, $maskPageTemplateKey);
+            $elementFields = $element->elementDefinition->columns ?? [];
+        } else {
+            if ($originalTable === '') {
+                return;
+            }
+            // If it's neither a tt_content record nor a page record, it has to be a mask inline record.
+            $element = $this->tableDefinitionCollection->loadElement($originalTable, AffixUtility::removeCTypePrefix($cType));
             $elementFields = $this->tableDefinitionCollection->getTable($table)->tca->getKeys();
         }
 
-        // Check type of all element columns
+        if (!$element instanceof ElementTcaDefinition) {
+            return;
+        }
+
+        // Fill data for all fields recursively.
         foreach ($elementFields as $field) {
-            $elementKey = $element->elementDefinition->key ?? '';
+            $elementKey = $element->elementDefinition->key;
             $fieldType = $this->tableDefinitionCollection->getFieldType($field, $table);
 
             if ($fieldType->equals(FieldType::PALETTE)) {
                 foreach ($this->tableDefinitionCollection->loadInlineFields($field, $elementKey) as $paletteField) {
                     $fieldType = $this->tableDefinitionCollection->getFieldType($paletteField->fullKey, $table);
-                    $this->fillInlineField($data, $fieldType, $paletteField->fullKey, $cType, $table);
+                    $this->fillInlineField($data, $fieldType, $paletteField->fullKey, $cType, $table, $originalTable);
                 }
             } else {
-                $this->fillInlineField($data, $fieldType, $field, $cType, $table);
+                $this->fillInlineField($data, $fieldType, $field, $cType, $table, $originalTable);
             }
         }
     }
 
-    protected function fillInlineField(array &$data, FieldType $fieldType, string $field, string $cType, string $table): void
+    protected function fillInlineField(array &$data, FieldType $fieldType, string $field, string $cType, string $table, string $originalTable): void
     {
         if (!$fieldType->isRelationField()) {
             return;
@@ -161,7 +162,7 @@ class InlineHelper
         $tcaFieldConfig = $GLOBALS['TCA'][$table]['columns'][$field] ?? [];
         // if it is of type inline and has to be filled (IRRE, FAL)
         if ($fieldType->equals(FieldType::INLINE) && $this->tableDefinitionCollection->hasTable($field)) {
-            $elements = $this->getInlineElements($data, $field, $cType, 'parentid', $table);
+            $elements = $this->getInlineElements($data, $field, $cType, 'parentid', $table, null, $originalTable);
             $data[$field] = $elements;
         // or if it is of type Content (Nested Content) and has to be filled
         } elseif ($fieldType->equals(FieldType::CONTENT)) {
@@ -171,7 +172,8 @@ class InlineHelper
                 $cType,
                 AffixUtility::addMaskParentSuffix($field),
                 'tt_content',
-                'tt_content'
+                'tt_content',
+                $originalTable
             );
             $data[$field] = $elements;
         } elseif ($fieldType->equals(FieldType::CATEGORY)) {
@@ -230,7 +232,8 @@ class InlineHelper
         string $cType,
         string $parentFieldName = 'parentid',
         string $parenttable = 'tt_content',
-        ?string $childTable = null
+        ?string $childTable = null,
+        string $originalTable = 'tt_content'
     ): array {
         // if the name of the child table is not explicitly given, take field key
         if (!$childTable) {
@@ -311,7 +314,7 @@ class InlineHelper
                 if ($childTable === 'tt_content') {
                     $childCType = $element['CType'];
                 }
-                $this->addIrreToData($element, $childTable, $childCType);
+                $this->addIrreToData($element, $childTable, $childCType, $originalTable);
                 $this->addFilesToData($element, $childTable);
                 $elements[$key] = $element;
             }
