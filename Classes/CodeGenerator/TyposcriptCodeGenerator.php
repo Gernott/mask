@@ -80,8 +80,6 @@ class TyposcriptCodeGenerator
                 continue;
             }
 
-            // Remove any whitespace characters for the description.
-            $element->description = trim(preg_replace('/\s+/', ' ', $element->description));
             $cTypeKey = AffixUtility::addMaskCTypePrefix($element->key);
             $wizard = [
                 'header' => 'LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:new_content_element_tab',
