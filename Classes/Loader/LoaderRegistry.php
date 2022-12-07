@@ -62,7 +62,7 @@ class LoaderRegistry
         return $this->loaders;
     }
 
-    public function getActivateLoader(): LoaderInterface
+    public function getActiveLoader(): LoaderInterface
     {
         $identifier = $this->maskExtensionConfiguration['loader_identifier'] ?? '';
 
@@ -83,6 +83,6 @@ class LoaderRegistry
 
     public function loadActiveDefinition(): TableDefinitionCollection
     {
-        return $this->getActivateLoader()->load();
+        return $this->getActiveLoader()->load();
     }
 }

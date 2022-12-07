@@ -55,7 +55,7 @@ class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
     ): void {
         $maskExtensionConfiguration = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('mask');
         $inlineHelper = GeneralUtility::makeInstance(InlineHelper::class);
-        $tableDefinitionCollection = GeneralUtility::makeInstance(LoaderRegistry::class)->getActivateLoader()->load();
+        $tableDefinitionCollection = GeneralUtility::makeInstance(LoaderRegistry::class)->getActiveLoader()->load();
 
         // only render special backend preview if it is a mask element
         if (!AffixUtility::hasMaskCTypePrefix($row['CType'])) {

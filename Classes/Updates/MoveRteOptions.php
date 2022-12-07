@@ -31,7 +31,7 @@ class MoveRteOptions implements UpgradeWizardInterface
 
     public function __construct()
     {
-        $this->loader = GeneralUtility::makeInstance(LoaderRegistry::class)->getActivateLoader();
+        $this->loader = GeneralUtility::makeInstance(LoaderRegistry::class)->getActiveLoader();
     }
 
     public function getIdentifier(): string

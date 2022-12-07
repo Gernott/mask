@@ -22,7 +22,7 @@ services:
   MASK\Mask\Loader\LoaderInterface:
     factory:
       - '@MASK\Mask\Loader\LoaderRegistry'
-      - 'getActivateLoader'
+      - 'getActiveLoader'
 
   MASK\Mask\Definition\TableDefinitionCollection:
     shared: false

@@ -64,7 +64,7 @@ class ConvertFormatCommand extends Command
         if ($input->hasArgument('source') && $input->getArgument('source') !== null) {
             $sourceLoader = $this->loaderRegistry->getLoader($input->getArgument('source'));
         } else {
-            $sourceLoader = $this->loaderRegistry->getActivateLoader();
+            $sourceLoader = $this->loaderRegistry->getActiveLoader();
         }
 
         if ($input->hasArgument('target') && $input->getArgument('target') !== null) {
