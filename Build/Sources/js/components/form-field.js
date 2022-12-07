@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import DateTimePicker from '@typo3/backend/date-time-picker.js';
 import Colorpicker from './colorpicker.js';
 import KeyValueList from './key-value-list.js';
 import ItemList from './item-list.js';
@@ -52,13 +53,7 @@ export default Vue.component(
         },
         methods: {
           bootDateTimePicker: function () {
-            // This is for dev mode, when opening iframe directly
-            if (!TYPO3.settings.DateTimePicker) {
-              TYPO3.settings.DateTimePicker = JSON.parse('{"DateFormat":["DD-MM-YYYY","HH:mm DD-MM-YYYY"]}');
-            }
-            require(['TYPO3/CMS/Backend/DateTimePicker'], function (DateTimePicker) {
-              DateTimePicker.initialize(this.$refs[this.tcaKey]);
-            }.bind(this));
+            DateTimePicker.initialize(this.$refs[this.tcaKey]);
           },
           switchDependsOn: function (tcaKey, dependsOn) {
             if (!!dependsOn && this.global.activeField.tca[tcaKey] === this.valueOn) {
