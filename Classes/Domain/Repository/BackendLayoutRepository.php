@@ -17,10 +17,13 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Domain\Repository;
 
-use MASK\Mask\Backend\BackendLayoutView;
 use RuntimeException;
+use TYPO3\CMS\Backend\Provider\PageTsBackendLayoutDataProvider;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\View\BackendLayout\BackendLayout;
+use TYPO3\CMS\Backend\View\BackendLayout\DataProviderCollection;
+use TYPO3\CMS\Backend\View\BackendLayout\DataProviderContext;
+use TYPO3\CMS\Backend\View\BackendLayout\DefaultDataProvider;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Imaging\IconRegistry;
 use TYPO3\CMS\Core\Localization\LanguageService;
@@ -45,19 +48,23 @@ class BackendLayoutRepository
      */
     public function findAll(array $pageTsPids = []): array
     {
-        $backendLayoutView = GeneralUtility::makeInstance(BackendLayoutView::class);
         $backendLayouts = [];
 
         // search all the pids for backend layouts defined in the pageTS
         foreach ($pageTsPids as $pid) {
             $pageTsConfig = BackendUtility::getPagesTSconfig($pid);
-            $dataProviderContext = $backendLayoutView->createDataProviderContext()
+            $dataProviderContext = GeneralUtility::makeInstance(DataProviderContext::class);
+            $dataProviderContext
                 ->setPageId(0)
                 ->setFieldName('backend_layout')
                 ->setTableName('backend_layout')
                 ->setData([])
                 ->setPageTsConfig($pageTsConfig);
-            $backendLayoutCollections = $backendLayoutView->getDataProviderCollection()->getBackendLayoutCollections($dataProviderContext);
+            $dataProviderCollection = GeneralUtility::makeInstance(DataProviderCollection::class);
+            $dataProviderCollection->add('default', DefaultDataProvider::class);
+            $dataProviderCollection->add('pagets', PageTsBackendLayoutDataProvider::class);
+            $backendLayoutCollections = $dataProviderCollection->getBackendLayoutCollections($dataProviderContext);
+
             foreach ($backendLayoutCollections['default']->getAll() as $backendLayout) {
                 $backendLayouts[$backendLayout->getIdentifier()] = $backendLayout;
             }
