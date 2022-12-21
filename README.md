@@ -5,7 +5,7 @@
 [![Release](https://img.shields.io/github/v/release/gernott/mask?sort=semver)](https://extensions.typo3.org/extension/mask/)
 [![Total Downloads](https://poser.pugx.org/mask/mask/d/total.svg)](https://packagist.org/packages/mask/mask)
 [![Monthly Downloads](https://poser.pugx.org/mask/mask/d/monthly)](https://packagist.org/packages/mask/mask)
-[![Tests](https://img.shields.io/github/workflow/status/Gernott/mask/Unit%20Tests?label=Tests)](https://github.com/Gernott/mask/actions/workflows/tests.yaml)
+[![Tests](https://img.shields.io/github/actions/workflow/status/Gernott/mask/tests.yaml?branch=main)](https://github.com/Gernott/mask/actions/workflows/tests.yaml)
 [![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat)](https://github.com/phpstan/phpstan)
 
 # TYPO3 extension `mask` :performing_arts:
