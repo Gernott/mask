@@ -577,7 +577,7 @@ class TcaFieldDefinitionTest extends UnitTestCase
     public function getTypeThrowsExceptionIfTypeCanNotBeFound(array $json, string $elementKey): void
     {
         $tcaFieldDefinition = TcaFieldDefinition::createFromFieldArray($json);
-        self::expectException(\OutOfBoundsException::class);
+        $this->expectException(\OutOfBoundsException::class);
         $tcaFieldDefinition->getFieldType($elementKey);
     }
 
