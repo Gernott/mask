@@ -125,6 +125,8 @@ class DefaultTcaMigrationTest extends UnitTestCase
                         'config' => [
                             'type' => 'inline',
                             'foreign_table' => 'sys_file_reference',
+                            'maxitems' => '',
+                            'minitems' => '',
                         ],
                         'imageoverlayPalette' => 1,
                     ],

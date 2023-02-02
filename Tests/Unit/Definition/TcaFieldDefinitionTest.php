@@ -41,6 +41,10 @@ class TcaFieldDefinitionTest extends UnitTestCase
                 ],
             ],
             'expected' => [
+                'config' => [
+                    'maxitems' => '',
+                    'minitems' => '',
+                ],
                 'key' => 'image',
                 'fullKey' => 'tx_mask_image',
                 'type' => 'file',
@@ -328,12 +332,16 @@ class TcaFieldDefinitionTest extends UnitTestCase
             ],
         ];
 
-        yield 'Old Mask file fields without config converted to file field' => [
+        yield 'Old Mask file fields without config converted to file field with dummy config content.' => [
             'json' => [
                 'key' => 'image',
                 'options' => 'file',
             ],
             'expected' => [
+                'config' => [
+                    'minitems' => '',
+                    'maxitems' => '',
+                ],
                 'key' => 'image',
                 'fullKey' => 'tx_mask_image',
                 'type' => 'file',
@@ -349,6 +357,28 @@ class TcaFieldDefinitionTest extends UnitTestCase
     public function createFromArrayWorksOnLegacyFormat(array $json, array $expected): void
     {
         self::assertEquals($expected, TcaFieldDefinition::createFromFieldArray($json)->toArray());
+    }
+
+    /**
+     * @test
+     */
+    public function defaultMinitemsMaxitemsNotAddedForCoreFields(): void
+    {
+        $input = [
+            'coreField' => 1,
+            'key' => 'image',
+            'type' => 'file',
+        ];
+
+        $expected = [
+            'coreField' => 1,
+            'key' => 'image',
+            'fullKey' => 'image',
+            'type' => 'file',
+            'imageoverlayPalette' => 1,
+        ];
+
+        self::assertEquals($expected, TcaFieldDefinition::createFromFieldArray($input)->toArray());
     }
 
     /**

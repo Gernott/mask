@@ -31,6 +31,15 @@ final class TcaFieldDefinition
         FieldType::CHECK => [
             'config.items',
         ],
+        // This is important for upgrades, to keep something in the "config" array.
+        // In TYPO3 v12 type="inline" with foreign_table="sys_file_reference" is now type="file".
+        // Because of this, Mask does not have any standard TCA for this field anymore.
+        // The removeBlankOptions method would thus remove everything and the next save in the backend builder would
+        // result in the file field to be treated as a "coreField".
+        FieldType::FILE => [
+            'config.minitems',
+            'config.maxitems',
+        ],
     ];
 
     private const STOP_RECURSIVE_VALUES_BY_TYPE = [
@@ -139,6 +148,12 @@ final class TcaFieldDefinition
         $fieldType = $definition['type'] ?? $definition['name'] ?? $definition['options'] ?? null;
         if ($fieldType !== null) {
             $tcaFieldDefinition->type = FieldType::cast($fieldType);
+        }
+
+        // Always set minitems / maxitems so the config array is not completely empty.
+        if (!$tcaFieldDefinition->isCoreField && $tcaFieldDefinition->hasFieldType() && $tcaFieldDefinition->getFieldType()->equals(FieldType::FILE)) {
+            $definition['config']['maxitems'] ??= '';
+            $definition['config']['minitems'] ??= '';
         }
 
         $definition = self::migrateTCA($definition, $tcaFieldDefinition);
