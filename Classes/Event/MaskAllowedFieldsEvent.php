@@ -19,14 +19,18 @@ namespace MASK\Mask\Event;
 
 final class MaskAllowedFieldsEvent
 {
+    /**
+     * @var array<string, list<string>>
+     */
     private array $allowedFields;
 
-    public function __construct(array $allowedFields) {
+    public function __construct(array $allowedFields)
+    {
         $this->allowedFields = $allowedFields;
     }
 
     /**
-     * @return array
+     * @return array<string, list<string>>
      */
     public function getAllowedFields(): array
     {
@@ -34,10 +38,21 @@ final class MaskAllowedFieldsEvent
     }
 
     /**
-     * @param array $allowedFields
+     * @param array<string, list<string>> $allowedFields
      */
     public function setAllowedFields(array $allowedFields): void
     {
         $this->allowedFields = $allowedFields;
+    }
+
+    public function addField(string $fieldName, string $table = 'tt_content'): void
+    {
+        $this->allowedFields[$table][] = $fieldName;
+    }
+
+    public function removeField(string $fieldName, string $table = 'tt_content'): void
+    {
+        $position = array_search($fieldName, $this->allowedFields[$table]);
+        array_splice($this->allowedFields[$table], $position, 1);
     }
 }

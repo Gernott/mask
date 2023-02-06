@@ -17,20 +17,27 @@ EventListener example
    :caption: EXT:some_extension/Classes/EventListener/MaskAllowedFieldsEventListener.php
 
    <?php
+
    declare(strict_types=1);
 
    namespace VENDOR\SomeExtension\EventListener;
 
    use MASK\Mask\Event\MaskAllowedFieldsEvent;
 
-   class MaskAllowedFieldsEventListener {
-
+   class MaskAllowedFieldsEventListener
+   {
        public function __invoke(MaskAllowedFieldsEvent $event): void
        {
+           // Add field
+           $event->addField('teaser');
+
+           // Remove field
+           $event->addField('imagecols');
+
+           // Get all allowed fields
            $allowedFields = $event->getAllowedFields();
 
-           $allowedFields['tt_content'][] = 'teaser';
-
+           // Do your magic and set allowed fields
            $event->setAllowedFields($allowedFields);
        }
    }
