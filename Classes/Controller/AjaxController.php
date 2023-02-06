@@ -28,9 +28,11 @@ use MASK\Mask\Domain\Repository\BackendLayoutRepository;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Enumeration\Tab;
+use MASK\Mask\Event\MaskAllowedFieldsEvent;
 use MASK\Mask\Loader\LoaderInterface;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\TemplatePathUtility;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\View\BackendLayout\BackendLayout;
@@ -72,6 +74,7 @@ class AjaxController
     protected OnlineMediaHelperRegistry $onlineMediaHelperRegistry;
     protected TableDefinitionCollection $tableDefinitionCollection;
     protected LoaderInterface $loader;
+    protected EventDispatcherInterface $eventDispatcher;
 
     /**
      * @var array<string, string>
@@ -102,6 +105,7 @@ class AjaxController
         OnlineMediaHelperRegistry $onlineMediaHelperRegistry,
         TableDefinitionCollection $tableDefinitionCollection,
         LoaderInterface $loader,
+        EventDispatcherInterface $eventDispatcher,
         array $maskExtensionConfiguration
     ) {
         $this->storageRepository = $storageRepository;
@@ -115,6 +119,7 @@ class AjaxController
         $this->tableDefinitionCollection = $tableDefinitionCollection;
         $this->maskExtensionConfiguration = $maskExtensionConfiguration;
         $this->loader = $loader;
+        $this->eventDispatcher = $eventDispatcher;
         $this->flashMessageQueue = new FlashMessageQueue('mask');
     }
 
@@ -624,6 +629,12 @@ class AjaxController
                 'category_field',
             ],
         ];
+
+        /** @var MaskAllowedFieldsEvent $allowedFieldsEvent */
+        $allowedFieldsEvent = $this->eventDispatcher->dispatch(
+            new MaskAllowedFieldsEvent($allowedFields)
+        );
+        $allowedFields = $allowedFieldsEvent->getAllowedFields();
 
         $table = $request->getQueryParams()['table'];
         $type = $request->getQueryParams()['type'];
