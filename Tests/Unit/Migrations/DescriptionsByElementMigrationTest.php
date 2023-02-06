@@ -24,9 +24,8 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class DescriptionsByElementMigrationTest extends UnitTestCase
 {
-    protected bool $resetSingletonInstances = true;
-
     use PackageManagerTrait;
+    protected bool $resetSingletonInstances = true;
 
     /**
      * @test
