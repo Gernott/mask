@@ -24,6 +24,9 @@ final class MaskAllowedFieldsEvent
      */
     private array $allowedFields;
 
+    /**
+     * @param array<string, list<string>> $allowedFields
+     */
     public function __construct(array $allowedFields)
     {
         $this->allowedFields = $allowedFields;
