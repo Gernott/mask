@@ -51,7 +51,7 @@
 	},
 	"require-dev": {
 		"typo3/testing-framework": "7.x-dev",
-		"phpunit/phpunit": "^9.5",
+		"phpunit/phpunit": "^9.6.3",
 		"friendsofphp/php-cs-fixer": "^3.4",
 		"phpstan/phpstan": "^1.4",
 		"bnf/phpstan-psr-container": "^1.0",
