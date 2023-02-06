@@ -389,7 +389,7 @@ class JsonLoaderTest extends UnitTestCase
     {
         $this->registerPackageManager();
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectDeprecationMessage('Expected "json" to be a valid file path. The value "../mask.json" was given.');
+        $this->expectExceptionMessage('Expected "json" to be a valid file path. The value "../mask.json" was given.');
         $this->expectExceptionCode(1639220370);
         $jsonLoader = new JsonLoader(['json' => '../mask.json'], new MigrationManager([]));
         $jsonLoader->load();
