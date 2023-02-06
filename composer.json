@@ -58,7 +58,7 @@
 		"friendsoftypo3/phpstan-typo3": "^0.9.0",
 		"jangregor/phpstan-prophecy": "^1.0",
 		"phpstan/phpstan-phpunit": "^1.0",
-		"typo3/coding-standards": "^0.5"
+		"typo3/coding-standards": "^0.6"
 	},
 	"require": {
 		"php": "^7.4 || ^8.0",

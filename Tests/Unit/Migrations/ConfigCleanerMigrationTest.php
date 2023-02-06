@@ -25,9 +25,8 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class ConfigCleanerMigrationTest extends UnitTestCase
 {
-    protected bool $resetSingletonInstances = true;
-
     use PackageManagerTrait;
+    protected bool $resetSingletonInstances = true;
 
     /**
      * @test
