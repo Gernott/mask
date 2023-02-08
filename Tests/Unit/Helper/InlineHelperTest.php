@@ -33,7 +33,7 @@ class InlineHelperTest extends BaseTestCase
     public function addFilesToDataDataProvider(): array
     {
         return [
-            'file fieled is filled with file reference' => [
+            'file field is filled with file reference' => [
                 [
                     'tt_content' => [
                         'elements' => [
