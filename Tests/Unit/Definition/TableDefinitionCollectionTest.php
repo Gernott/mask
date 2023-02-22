@@ -1360,7 +1360,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                 'tt_content',
                 FieldType::DATE,
             ],
-            'Colorpicker resolved' => [
+            'Legacy Colorpicker resolved' => [
                 [],
                 [
                     'tt_content' => [
@@ -1369,6 +1369,24 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'config' => [
                                     'type' => 'input',
                                     'renderType' => 'colorpicker',
+                                ],
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
+                ],
+                'tx_mask_field1',
+                'tt_content',
+                FieldType::COLORPICKER,
+            ],
+            'Colorpicker resolved' => [
+                [],
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'tx_mask_field1' => [
+                                'config' => [
+                                    'type' => 'color',
                                 ],
                                 'key' => 'field1',
                             ],

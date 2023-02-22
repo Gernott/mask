@@ -127,7 +127,7 @@ class ConfigurationLoader implements ConfigurationLoaderInterface
         if (!empty($this->defaults)) {
             return $this->defaults;
         }
-        $this->defaults = require GeneralUtility::getFileAbsFileName('EXT:mask/Configuration/Mask/Defaults.php');
+        $this->defaults = require GeneralUtility::getFileAbsFileName('EXT:mask/Configuration/Mask/TYPO3v' . (new Typo3Version())->getMajorVersion() . '/Defaults.php');
         return $this->defaults;
     }
 }

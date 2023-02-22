@@ -97,6 +97,8 @@ class FieldTypeUtility
                     return FieldType::FLOAT;
                 }
                 return FieldType::INTEGER;
+            case 'color':
+                return FieldType::COLORPICKER;
             default:
                 // Check if fake tca type is valid.
                 try {
