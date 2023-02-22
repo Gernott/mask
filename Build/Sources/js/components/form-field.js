@@ -132,7 +132,7 @@ export default Vue.component(
             <label class="t3js-formengine-label" :for="tcaKey">
                 {{ field.label }}
             </label>
-            <code>[{{ field.code }}]</code><a v-if="field.documentation !== ''" :href="field.documentation" target="_blank" title="Show option in official TYPO3 documentation"><i class="fa fa-question-circle"/></a>
+            <code :class="{'me-1': field.documentation !== ''}">[{{ field.code }}]</code><a v-if="field.documentation !== ''" :href="field.documentation" target="_blank" title="Show option in official TYPO3 documentation"><span v-html="icons.questionCircle"></span></a>
             <div class="t3js-formengine-field-item">
               <span class="formengine-field-item-description text-muted" v-if="field.description">{{ field.description }}</span>
               <div v-if="type == 'text'" class="form-control-wrap">
