@@ -159,13 +159,7 @@ export default Vue.component(
                 </select>
               </div>
               <div v-if="type == 'date'" class="form-control-wrap">
-                <div v-if="global.typo3Version == 10" class="input-group">
-                  <input :id="id" v-model="global.activeField.tca[tcaKey]" :ref="tcaKey" :data-date-type="dateType" class="t3js-datetimepicker form-control t3js-clearable">
-                  <span class="input-group-btn">
-                      <label :for="id" class="btn btn-default" v-html="icons.date"></label>
-                  </span>
-                </div>
-                <div v-else class="input-group">
+                <div class="input-group">
                      <div class="form-control-clearable form-control">
                         <input :id="id" v-model="global.activeField.tca[tcaKey]" :ref="tcaKey" :data-date-type="dateType" class="t3js-datetimepicker form-control t3js-clearable flatpickr-input">
                     </div>

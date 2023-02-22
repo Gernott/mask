@@ -72,7 +72,7 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
           existingFieldKeyFields: []
         },
         global: {
-          typo3Version: 11,
+          typo3Version: 12,
           activeField: {},
           clonedField: {},
           richtextConfiguration: {},
