@@ -447,7 +447,7 @@ class TcaCodeGenerator
             }
 
             // Text: Set correct rendertype if format (code highlighting) is set.
-            if ($field->realTca['config']['format'] ?? false) {
+            if ($fieldType->equals(FieldType::TEXT) && ($field->realTca['config']['format'] ?? false)) {
                 $field->realTca['config']['renderType'] = 't3editor';
             }
 

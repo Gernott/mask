@@ -530,21 +530,39 @@ return [
         ],
     ],
     'config.format' => [
-        'type' => 'radio',
-        'label' => 'tx_mask.field.text.format',
-        'code' => 'format',
-        'items' => [
-            '' => 'tx_mask.field.text.format.none',
-            'html' => 'tx_mask.field.text.format.html',
-            'typoscript' => 'tx_mask.field.text.format.typoscript',
-            'javascript' => 'tx_mask.field.text.format.javascript',
-            'css' => 'tx_mask.field.text.format.css',
-            'xml' => 'tx_mask.field.text.format.xml',
-            'php' => 'tx_mask.field.text.format.php',
+        'collision' => true,
+        FieldType::TEXT => [
+            'type' => 'radio',
+            'label' => 'tx_mask.field.text.format',
+            'code' => 'format',
+            'items' => [
+                '' => 'tx_mask.field.text.format.none',
+                'html' => 'tx_mask.field.text.format.html',
+                'typoscript' => 'tx_mask.field.text.format.typoscript',
+                'javascript' => 'tx_mask.field.text.format.javascript',
+                'css' => 'tx_mask.field.text.format.css',
+                'xml' => 'tx_mask.field.text.format.xml',
+                'php' => 'tx_mask.field.text.format.php',
+            ],
+            'documentation' => [
+                11 => 'ColumnsConfig/Type/Text/Properties/Format.html',
+                12 => 'ColumnsConfig/Type/Text/Properties/Format.html',
+            ],
         ],
-        'documentation' => [
-            11 => 'ColumnsConfig/Type/Text/Properties/Format.html',
-            12 => 'ColumnsConfig/Type/Text/Properties/Format.html',
+        FieldType::TIMESTAMP => [
+            'type' => 'radio',
+            'label' => 'tx_mask.field.timestamp_format',
+            'description' => 'tx_mask.field.timestamp.eval',
+            'code' => 'format',
+            'items' => [
+                'date' => 'tx_mask.field.date_selection',
+                'datetime' => 'tx_mask.field.datetime_selection',
+                'time' => 'tx_mask.field.time_selection',
+                'timesec' => 'tx_mask.field.timesec_selection',
+            ],
+            'documentation' => [
+                12 => 'ColumnsConfig/Type/Datetime/Properties/Format.html',
+            ],
         ],
     ],
     'config.wrap' => [

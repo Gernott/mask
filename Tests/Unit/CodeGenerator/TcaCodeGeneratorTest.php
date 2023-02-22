@@ -561,6 +561,32 @@ class TcaCodeGeneratorTest extends BaseTestCase
             ],
         ];
 
+        yield 'Datetime field with format set are not transformed to t3editor' => [
+            'json' => [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field_1' => [
+                            'config' => [
+                                'type' => 'datetime',
+                                'format' => 'datetime',
+                            ],
+                            'key' => 'field_1',
+                        ],
+                    ],
+                ],
+            ],
+            'table' => 'tt_content',
+            'expected' => [
+                'tx_mask_field_1' => [
+                    'config' => [
+                        'type' => 'datetime',
+                        'format' => 'datetime',
+                    ],
+                    'exclude' => 1,
+                ],
+            ],
+        ];
+
         yield 'Tabs are ignored' => [
             'json' => [
                 'tt_content' => [

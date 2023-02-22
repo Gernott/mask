@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace MASK\Mask\Tests\Unit\Definition;
 
 use MASK\Mask\Definition\TcaFieldDefinition;
+use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class TcaFieldDefinitionTest extends UnitTestCase
@@ -348,6 +349,49 @@ class TcaFieldDefinitionTest extends UnitTestCase
                 'imageoverlayPalette' => 1,
             ],
         ];
+
+        if ((new Typo3Version())->getMajorVersion() > 11) {
+            yield 'Legacy Timestamp eval is moved to "format' => [
+                'json' => [
+                    'config' => [
+                        'type' => 'datetime',
+                        'eval' => 'date,foo',
+                    ],
+                    'key' => 'timestamp',
+                    'type' => 'timestamp',
+                ],
+                'expected' => [
+                    'config' => [
+                        'type' => 'datetime',
+                        'format' => 'date',
+                        'eval' => 'foo',
+                    ],
+                    'key' => 'timestamp',
+                    'fullKey' => 'tx_mask_timestamp',
+                    'type' => 'timestamp',
+                ],
+            ];
+
+            yield 'If eval is empty, nothing happens.' => [
+                'json' => [
+                    'config' => [
+                        'type' => 'datetime',
+                        'format' => 'date',
+                    ],
+                    'key' => 'timestamp',
+                    'type' => 'timestamp',
+                ],
+                'expected' => [
+                    'config' => [
+                        'type' => 'datetime',
+                        'format' => 'date',
+                    ],
+                    'key' => 'timestamp',
+                    'fullKey' => 'tx_mask_timestamp',
+                    'type' => 'timestamp',
+                ],
+            ];
+        }
     }
 
     /**

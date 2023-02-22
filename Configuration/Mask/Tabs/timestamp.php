@@ -1,11 +1,12 @@
 <?php
 
 use MASK\Mask\Enumeration\Tab;
+use TYPO3\CMS\Core\Information\Typo3Version;
 
 return [
     Tab::GENERAL => [
         [
-            'config.eval' => 6,
+            (new Typo3Version())->getMajorVersion() === 11 ? 'config.eval' : 'config.format' => 6,
         ],
         [
             'config.default' => 6,

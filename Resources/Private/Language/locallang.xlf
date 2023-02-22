@@ -84,6 +84,9 @@
 			<trans-unit id="tx_mask.field.timestamp_eval">
 				<source>Date type</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.timestamp_format">
+				<source>Format</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.text">
 				<source>Text</source>
 			</trans-unit>

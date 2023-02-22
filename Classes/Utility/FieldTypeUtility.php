@@ -99,6 +99,14 @@ class FieldTypeUtility
                 return FieldType::INTEGER;
             case 'color':
                 return FieldType::COLORPICKER;
+            case 'datetime':
+                if (($tca['config']['dbType'] ?? '') === 'datetime') {
+                    return FieldType::DATETIME;
+                }
+                if (($tca['config']['dbType'] ?? '') === 'date') {
+                    return FieldType::DATE;
+                }
+                return FieldType::TIMESTAMP;
             default:
                 // Check if fake tca type is valid.
                 try {

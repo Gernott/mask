@@ -20,6 +20,7 @@ namespace MASK\Mask\Definition;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\FieldTypeUtility;
+use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final class TcaFieldDefinition
@@ -532,6 +533,26 @@ final class TcaFieldDefinition
         if ($tcaFieldDefinition->hasFieldType() && $tcaFieldDefinition->type->isFileReference()) {
             unset($definition['config']['type']);
             unset($definition['config']['foreign_table']);
+        }
+
+        // TCA type="datetime" moved "eval=date, datetime, ..." to "format".
+        if (
+            (new Typo3Version())->getMajorVersion() > 11
+            && $tcaFieldDefinition->hasFieldType()
+            && $tcaFieldDefinition->type->equals(FieldType::TIMESTAMP)
+            && ($definition['config']['eval'] ?? '') !== ''
+        ) {
+            $evalList = explode(',', $definition['config']['eval']);
+            $dateTypesInKeys = array_values(array_intersect($evalList, ['date', 'datetime', 'time', 'timesec']));
+            $dateType = $dateTypesInKeys[0] ?? null;
+            if ($dateType !== null) {
+                $definition['config']['format'] = $dateType;
+                // Remove dateType from normal eval array
+                $keys = array_filter($evalList, static function ($a) use ($dateTypesInKeys) {
+                    return $a !== $dateTypesInKeys[0];
+                });
+                $definition['config']['eval'] = implode(',', $keys);
+            }
         }
 
         return $definition;

@@ -921,7 +921,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                 'tt_content',
                 FieldType::FLOAT,
             ],
-            'Type Date is returned' => [
+            'Legacy Date is returned' => [
                 [],
                 [
                     'tt_content' => [
@@ -941,7 +941,26 @@ class TableDefinitionCollectionTest extends BaseTestCase
                 'tt_content',
                 FieldType::DATE,
             ],
-            'Type Datetime is returned' => [
+            'Type Date is returned' => [
+                [],
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'tx_mask_field1' => [
+                                'config' => [
+                                    'type' => 'datetime',
+                                    'dbType' => 'date',
+                                ],
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
+                ],
+                'tx_mask_field1',
+                'tt_content',
+                FieldType::DATE,
+            ],
+            'Legacy Type Datetime is returned' => [
                 [],
                 [
                     'tt_content' => [
@@ -950,6 +969,25 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'config' => [
                                     'type' => 'input',
                                     'eval' => 'datetime',
+                                    'dbType' => 'datetime',
+                                ],
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
+                ],
+                'tx_mask_field1',
+                'tt_content',
+                FieldType::DATETIME,
+            ],
+            'Type Datetime is returned' => [
+                [],
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'tx_mask_field1' => [
+                                'config' => [
+                                    'type' => 'datetime',
                                     'dbType' => 'datetime',
                                 ],
                                 'key' => 'field1',
@@ -1310,7 +1348,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                 'tt_content',
                 FieldType::GROUP,
             ],
-            'Type Timestamp is returned' => [
+            'Legacy Type Timestamp is returned' => [
                 [],
                 [
                     'tt_content' => [
@@ -1320,6 +1358,25 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                     'type' => 'input',
                                     'evaĺ' => 'date,int',
                                     'renderType' => 'inputDateTime',
+                                ],
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
+                ],
+                'tx_mask_field1',
+                'tt_content',
+                FieldType::TIMESTAMP,
+            ],
+            'Type Timestamp is returned' => [
+                [],
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'tx_mask_field1' => [
+                                'config' => [
+                                    'type' => 'datetime',
+                                    'format' => 'date',
                                 ],
                                 'key' => 'field1',
                             ],

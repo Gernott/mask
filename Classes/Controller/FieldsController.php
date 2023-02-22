@@ -28,6 +28,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Localization\LanguageService;
 
 /**
@@ -149,16 +150,17 @@ class FieldsController
 
             if ($fieldType->equals(FieldType::TIMESTAMP)) {
                 $default = $newField['tca']['config.default'] ?? false;
+                $evalDate = (new Typo3Version())->getMajorVersion() === 11 ? $newField['tca']['config.eval'] : $newField['tca']['config.format'];
                 if ($default) {
-                    $newField['tca']['config.default'] = DateUtility::convertTimestampToDate($newField['tca']['config.eval'], $default);
+                    $newField['tca']['config.default'] = DateUtility::convertTimestampToDate($evalDate, $default);
                 }
                 $lower = $newField['tca']['config.range.lower'] ?? false;
                 if ($lower) {
-                    $newField['tca']['config.range.lower'] = DateUtility::convertTimestampToDate($newField['tca']['config.eval'], $lower);
+                    $newField['tca']['config.range.lower'] = DateUtility::convertTimestampToDate($evalDate, $lower);
                 }
                 $upper = $newField['tca']['config.range.upper'] ?? false;
                 if ($upper) {
-                    $newField['tca']['config.range.upper'] = DateUtility::convertTimestampToDate($newField['tca']['config.eval'], $upper);
+                    $newField['tca']['config.range.upper'] = DateUtility::convertTimestampToDate($evalDate, $upper);
                 }
             }
 

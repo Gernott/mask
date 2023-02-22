@@ -18,7 +18,8 @@ declare(strict_types=1);
 namespace MASK\Mask\Utility;
 
 use Symfony\Component\PropertyAccess\PropertyAccess;
-use TYPO3\CMS\Core\Utility\GeneralUtility as CoreUtility;
+use TYPO3\CMS\Core\Information\Typo3Version;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Back and forth converting for flat vs array TCA structure.
@@ -83,7 +84,7 @@ class TcaConverter
                 }
                 $tca[] = [$fullPath => implode(',', $fields)];
             } elseif (in_array($fullPath, self::$commaSeparatedLists, true)) {
-                $tca[] = [$fullPath => CoreUtility::trimExplode(',', $value)];
+                $tca[] = [$fullPath => GeneralUtility::trimExplode(',', $value)];
             } elseif (in_array($fullPath, self::$keyValueFields, true)) {
                 $tca[] = [$fullPath => self::convertAssociativeArrayToKeyValuePairs($value)];
             } elseif (is_array($value) && !in_array($fullPath, self::$itemListFields, true)) {
@@ -101,13 +102,15 @@ class TcaConverter
                     $keys = explode(',', $value);
 
                     // Special handling for timestamp field, as the dateType is in the key "config.eval"
-                    $dateTypesInKeys = array_values(array_intersect($keys, ['date', 'datetime', 'time', 'timesec']));
-                    if (count($dateTypesInKeys) > 0) {
-                        $tca[] = ['config.eval' => $dateTypesInKeys[0]];
-                        // Remove dateType from normal eval array
-                        $keys = array_filter($keys, static function ($a) use ($dateTypesInKeys) {
-                            return $a !== $dateTypesInKeys[0];
-                        });
+                    if ((new Typo3Version())->getMajorVersion() === 11) {
+                        $dateTypesInKeys = array_values(array_intersect($keys, ['date', 'datetime', 'time', 'timesec']));
+                        if (count($dateTypesInKeys) > 0) {
+                            $tca[] = ['config.eval' => $dateTypesInKeys[0]];
+                            // Remove dateType from normal eval array
+                            $keys = array_filter($keys, static function ($a) use ($dateTypesInKeys) {
+                                return $a !== $dateTypesInKeys[0];
+                            });
+                        }
                     }
 
                     // For each eval value create an entry with value set to 1
@@ -152,8 +155,8 @@ class TcaConverter
                 }
                 $value = $fields;
             }
-            // This is for timestamps as it has a fake tca property for eval date, datetime, ...
-            if ($key === 'config.eval' && in_array($value, ['date', 'datetime', 'time', 'timesec'])) {
+            // This is for TYPO3 v11 timestamps as it has a fake tca property for eval date, datetime, ...
+            if ((new Typo3Version())->getMajorVersion() === 11 && $key === 'config.eval' && in_array($value, ['date', 'datetime', 'time', 'timesec'])) {
                 $key = 'config.eval.' . $value;
                 $value = 1;
             }
