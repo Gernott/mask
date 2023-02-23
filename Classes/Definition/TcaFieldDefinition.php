@@ -555,6 +555,32 @@ final class TcaFieldDefinition
             }
         }
 
+        // TCA type=link "fieldControl" moved to "appearance"
+        if (
+            (new Typo3Version())->getMajorVersion() > 11
+            && $tcaFieldDefinition->hasFieldType()
+            && $tcaFieldDefinition->type->equals(FieldType::LINK)
+        ) {
+            if ($definition['config']['fieldControl']['linkPopup']['options']['allowedExtensions'] ?? false) {
+                $definition['config']['appearance']['allowedFileExtensions'] = $definition['config']['fieldControl']['linkPopup']['options']['allowedExtensions'];
+            }
+            $blindLinkOptions = $definition['config']['fieldControl']['linkPopup']['options']['blindLinkOptions'] ?? false;
+            if ($blindLinkOptions) {
+                $availableTypes = $GLOBALS['TYPO3_CONF_VARS']['SYS']['linkHandler'] ?? [];
+                if ($availableTypes !== []) {
+                    $availableTypes = array_keys($availableTypes);
+                } else {
+                    // Fallback to a static list, in case linkHandler configuration is not available at this point
+                    $availableTypes = ['page', 'file', 'folder', 'url', 'email', 'record', 'telephone'];
+                }
+                $definition['config']['allowedTypes'] = array_values(array_diff(
+                    $availableTypes,
+                    GeneralUtility::trimExplode(',', str_replace('mail', 'email', $blindLinkOptions), true)
+                ));
+            }
+            unset($definition['config']['fieldControl']);
+        }
+
         return $definition;
     }
 

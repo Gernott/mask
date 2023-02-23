@@ -193,6 +193,15 @@ class TcaConverterTest extends BaseTestCase
                 ],
             ],
         ];
+
+        yield 'Lists are not flattened' => [
+            [
+                'allowedTypes' => ['page', 'file'],
+            ],
+            [
+                'config.allowedTypes' => ['page', 'file'],
+            ],
+        ];
     }
 
     /**
@@ -355,6 +364,17 @@ class TcaConverterTest extends BaseTestCase
                         'group1' => 'Label Group 1',
                         'group2' => 'Label Group 2',
                     ],
+                ],
+            ],
+        ];
+
+        yield 'lists are not transformed' => [
+            [
+                'config.allowedTypes' => ['page', 'file'],
+            ],
+            [
+                'config' => [
+                    'allowedTypes' => ['page', 'file'],
                 ],
             ],
         ];

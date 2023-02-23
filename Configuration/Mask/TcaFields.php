@@ -477,17 +477,34 @@ return [
         'code' => 'allowedExtensions',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/LinkPopup.html#tca-property-fieldcontrol-linkpopup',
-            12 => 'ColumnsConfig/Type/Input/Properties/LinkPopup.html#tca-property-fieldcontrol-linkpopup',
+        ],
+    ],
+    'config.appearance.allowedFileExtensions' => [
+        'type' => 'text',
+        'label' => 'tx_mask.field.link.wizard.allowed_extensions',
+        'description' => 'tx_mask.field.link.wizard.allowed_extensions.description',
+        'code' => 'allowedFileExtensions',
+        'documentation' => [
+            12 => 'ColumnsConfig/Type/Link/Properties/Appearance.html',
         ],
     ],
     'config.fieldControl.linkPopup.options.blindLinkOptions' => [
-        'type' => 'linkHandler',
+        'type' => 'linkHandlerInverted',
         'label' => 'tx_mask.blindLinkOptions',
         'description' => 'tx_mask.blindLinkOptions.description',
         'code' => 'blindLinkOptions',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/LinkPopup.html#tca-property-fieldcontrol-linkpopup',
             12 => 'ColumnsConfig/Type/Input/Properties/LinkPopup.html#tca-property-fieldcontrol-linkpopup',
+        ],
+    ],
+    'config.allowedTypes' => [
+        'type' => 'linkHandler',
+        'label' => 'tx_mask.link.allowedTypes.label',
+        'description' => 'tx_mask.link.allowedTypes.description',
+        'code' => 'allowedTypes',
+        'documentation' => [
+            12 => 'ColumnsConfig/Type/Link/Properties/AllowedTypes.html',
         ],
     ],
     'config.cols' => [

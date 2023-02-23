@@ -194,7 +194,7 @@ export default Vue.component(
                     </div>
                 </div>
             </div>
-            <div v-if="type == 'linkHandler'" class="form-control-wrap">
+            <div v-if="type == 'linkHandlerInverted'" class="form-control-wrap">
                 <div class="form-wizards-wrap">
                     <div class="form-wizards-element row">
                       <div v-for="linkHandler in linkHandlerList" class="form-group col-sm-4">
@@ -208,6 +208,21 @@ export default Vue.component(
                       </div>
                     </div>
                 </div>
+            </div>
+            <div v-if="type == 'linkHandler'" class="form-control-wrap">
+              <div class="form-wizards-wrap">
+                <div class="form-wizards-element row">
+                  <div v-for="linkHandler in linkHandlerList" class="form-group col-sm-4">
+                    <label class="t3js-formengine-label" :for="id + linkHandler.identifier">{{ linkHandler.label }}</label>
+                    <div class="checkbox checkbox-type-toggle form-check form-switch">
+                      <input :id="id + linkHandler.identifier" class="checkbox-input form-check-input" v-model="global.activeField.tca[tcaKey]" type="checkbox" :value="linkHandler.identifier">
+                      <label class="checkbox-label form-check-label" :for="id + linkHandler.identifier">
+                        <span class="checkbox-label-text form-check-label-text">[{{ linkHandler.identifier }}]</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div v-if="type == 'foreign_table'" class="form-control-wrap">
               <select v-model="global.activeField.tca[tcaKey]" class="form-control form-select">

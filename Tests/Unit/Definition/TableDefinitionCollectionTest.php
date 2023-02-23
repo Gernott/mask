@@ -999,7 +999,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                 'tt_content',
                 FieldType::DATETIME,
             ],
-            'Type Link is returned' => [
+            'Legacy Type Link is returned' => [
                 [],
                 [
                     'tt_content' => [
@@ -1008,6 +1008,24 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'config' => [
                                     'type' => 'input',
                                     'renderType' => 'inputLink',
+                                ],
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
+                ],
+                'tx_mask_field1',
+                'tt_content',
+                FieldType::LINK,
+            ],
+            'Type Link is returned' => [
+                [],
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'tx_mask_field1' => [
+                                'config' => [
+                                    'type' => 'link',
                                 ],
                                 'key' => 'field1',
                             ],

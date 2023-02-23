@@ -46,6 +46,13 @@ class TcaConverter
     /**
      * @var string[]
      */
+    protected static array $listFields = [
+        'config.allowedTypes',
+    ];
+
+    /**
+     * @var string[]
+     */
     protected static array $keyValueFields = [
         'config.itemGroups',
         'config.sortItems',
@@ -87,7 +94,7 @@ class TcaConverter
                 $tca[] = [$fullPath => GeneralUtility::trimExplode(',', $value)];
             } elseif (in_array($fullPath, self::$keyValueFields, true)) {
                 $tca[] = [$fullPath => self::convertAssociativeArrayToKeyValuePairs($value)];
-            } elseif (is_array($value) && !in_array($fullPath, self::$itemListFields, true)) {
+            } elseif (is_array($value) && !in_array($fullPath, self::$itemListFields, true) && !in_array($fullPath, self::$listFields, true)) {
                 $tca[] = self::convertTcaArrayToFlat($value, $path);
             } elseif ($fullPath === 'config.eval') {
                 if ($value !== '') {

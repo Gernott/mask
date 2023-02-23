@@ -54,49 +54,51 @@ class TcaFieldDefinitionTest extends UnitTestCase
             ],
         ];
 
-        yield 'Legacy Link format (wizards) transformed to fieldControl' => [
-            'json' => [
-                'key' => 'link',
-                'config' => [
-                    'type' => 'input',
-                    'wizards' => [
-                        '_PADDING' => '2',
-                        'link' => [
-                            'type' => 'popup',
-                            'title' => 'Link',
-                            'icon' => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_link.gif',
-                            'module' => [
-                                'name' => 'wizard_link',
-                                'urlParameters' => [
-                                    'mode' => 'wizard',
+        if ((new Typo3Version())->getMajorVersion() < 12) {
+            yield 'Legacy Link format (wizards) transformed to fieldControl' => [
+                'json' => [
+                    'key' => 'link',
+                    'config' => [
+                        'type' => 'input',
+                        'wizards' => [
+                            '_PADDING' => '2',
+                            'link' => [
+                                'type' => 'popup',
+                                'title' => 'Link',
+                                'icon' => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_link.gif',
+                                'module' => [
+                                    'name' => 'wizard_link',
+                                    'urlParameters' => [
+                                        'mode' => 'wizard',
+                                    ],
+                                ],
+                                'JSopenParams' => 'height=300,width=500,status=0,menubar=0,scrollbars=1',
+                                'params' => [
+                                    'blindLinkOptions' => 'page,file',
+                                    'allowedExtensions' => 'jpg',
                                 ],
                             ],
-                            'JSopenParams' => 'height=300,width=500,status=0,menubar=0,scrollbars=1',
-                            'params' => [
-                                'blindLinkOptions' => 'page,files',
-                                'allowedExtensions' => 'jpg',
+                        ],
+                    ],
+                ],
+                'expected' => [
+                    'key' => 'link',
+                    'fullKey' => 'tx_mask_link',
+                    'type' => 'link',
+                    'config' => [
+                        'type' => 'input',
+                        'fieldControl' => [
+                            'linkPopup' => [
+                                'options' => [
+                                    'blindLinkOptions' => 'page,file',
+                                    'allowedExtensions' => 'jpg',
+                                ],
                             ],
                         ],
                     ],
                 ],
-            ],
-            'expected' => [
-                'key' => 'link',
-                'fullKey' => 'tx_mask_link',
-                'type' => 'link',
-                'config' => [
-                    'type' => 'input',
-                    'fieldControl' => [
-                        'linkPopup' => [
-                            'options' => [
-                                'blindLinkOptions' => 'page,files',
-                                'allowedExtensions' => 'jpg',
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-        ];
+            ];
+        }
 
         yield 'Blank options are removed' => [
             'json' => [
@@ -389,6 +391,77 @@ class TcaFieldDefinitionTest extends UnitTestCase
                     'key' => 'timestamp',
                     'fullKey' => 'tx_mask_timestamp',
                     'type' => 'timestamp',
+                ],
+            ];
+
+            yield 'Legacy Link format (wizards) transformed to fieldControl' => [
+                'json' => [
+                    'key' => 'link',
+                    'config' => [
+                        'type' => 'input',
+                        'wizards' => [
+                            '_PADDING' => '2',
+                            'link' => [
+                                'type' => 'popup',
+                                'title' => 'Link',
+                                'icon' => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_link.gif',
+                                'module' => [
+                                    'name' => 'wizard_link',
+                                    'urlParameters' => [
+                                        'mode' => 'wizard',
+                                    ],
+                                ],
+                                'JSopenParams' => 'height=300,width=500,status=0,menubar=0,scrollbars=1',
+                                'params' => [
+                                    'blindLinkOptions' => 'page,file',
+                                    'allowedExtensions' => 'jpg,png',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'expected' => [
+                    'key' => 'link',
+                    'fullKey' => 'tx_mask_link',
+                    'type' => 'link',
+                    'config' => [
+                        'type' => 'input',
+                        'allowedTypes' => ['folder', 'url', 'email', 'record', 'telephone'],
+                        'appearance' => [
+                            'allowedFileExtensions' => 'jpg,png',
+                        ],
+                    ],
+                ],
+            ];
+
+            yield 'Legacy Link fieldControl is migrated.' => [
+                'json' => [
+                    'key' => 'link',
+                    'fullKey' => 'tx_mask_link',
+                    'type' => 'link',
+                    'config' => [
+                        'type' => 'link',
+                        'fieldControl' => [
+                            'linkPopup' => [
+                                'options' => [
+                                    'blindLinkOptions' => 'page,file',
+                                    'allowedExtensions' => 'jpg,png',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'expected' => [
+                    'key' => 'link',
+                    'fullKey' => 'tx_mask_link',
+                    'type' => 'link',
+                    'config' => [
+                        'type' => 'link',
+                        'allowedTypes' => ['folder', 'url', 'email', 'record', 'telephone'],
+                        'appearance' => [
+                            'allowedFileExtensions' => 'jpg,png',
+                        ],
+                    ],
                 ],
             ];
         }

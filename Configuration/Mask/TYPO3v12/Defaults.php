@@ -44,11 +44,10 @@ return [
         'tca_in' => [
             'l10n_mode' => '',
             'config.eval.null' => 0,
-            'config.fieldControl.linkPopup.options.blindLinkOptions' => [],
+            'config.allowedTypes' => [],
         ],
         'tca_out' => [
-            'config.type' => 'input',
-            'config.renderType' => 'inputLink',
+            'config.type' => 'link',
         ],
         'sql' => 'varchar(255) DEFAULT \'\' NOT NULL',
     ],

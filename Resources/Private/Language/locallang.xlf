@@ -1388,6 +1388,15 @@ title3, value3, icon3, description3
 			<trans-unit id="tx_mask.blindLinkOptions.description">
 				<source>LinkHandler that should be available</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.link.allowedTypes.label">
+				<source>Allowed types</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.link.allowedTypes.description">
+				<source>LinkHandler that should be available</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.genericLinkhandlerRecord">
+				<source>Record</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.showMultiuseElements">
 				<source>Show content elements</source>
 			</trans-unit>

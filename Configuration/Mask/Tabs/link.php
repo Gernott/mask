@@ -1,6 +1,25 @@
 <?php
 
 use MASK\Mask\Enumeration\Tab;
+use TYPO3\CMS\Core\Information\Typo3Version;
+
+if ((new Typo3Version())->getMajorVersion() < 12) {
+    $linkHandler = [
+        'config.fieldControl.linkPopup.options.blindLinkOptions' => 12,
+    ];
+    $validation = [
+        'config.eval.required' => 6,
+        'config.fieldControl.linkPopup.options.allowedExtensions' => 6,
+    ];
+} else {
+    $linkHandler = [
+        'config.allowedTypes' => 12,
+    ];
+    $validation = [
+        'config.eval.required' => 6,
+        'config.appearance.allowedFileExtensions' => 6,
+    ];
+}
 
 return [
     Tab::GENERAL => [
@@ -12,21 +31,10 @@ return [
         ],
     ],
     Tab::VALIDATION => [
-        [
-            'config.eval.required' => 6,
-            'config.fieldControl.linkPopup.options.allowedExtensions' => 6,
-        ],
+        $validation,
     ],
     Tab::FIELD_CONTROL => [
-        [
-            'config.fieldControl.linkPopup.options.blindLinkOptions' => 12,
-            'config.fieldControl.linkPopup.options.blindLinkOptions.file' => 4,
-            'config.fieldControl.linkPopup.options.blindLinkOptions.mail' => 4,
-            'config.fieldControl.linkPopup.options.blindLinkOptions.page' => 4,
-            'config.fieldControl.linkPopup.options.blindLinkOptions.folder' => 4,
-            'config.fieldControl.linkPopup.options.blindLinkOptions.url' => 4,
-            'config.fieldControl.linkPopup.options.blindLinkOptions.telephone' => 4,
-        ],
+        $linkHandler,
     ],
     Tab::LOCALIZATION => [
         [

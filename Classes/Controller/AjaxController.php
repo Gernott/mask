@@ -907,6 +907,12 @@ class AjaxController
                 'label' => $this->getLanguageService()->sL($linkHandler['label']),
             ];
         }
+        if ((new Typo3Version())->getMajorVersion() > 11) {
+            $linkHandlerResponse[] = [
+                'identifier' => 'record',
+                'label' => $this->translateLabel('tx_mask.genericLinkhandlerRecord'),
+            ];
+        }
 
         return new JsonResponse($linkHandlerResponse);
     }

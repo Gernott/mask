@@ -99,6 +99,8 @@ class FieldTypeUtility
                 return FieldType::INTEGER;
             case 'color':
                 return FieldType::COLORPICKER;
+            case 'link':
+                return FieldType::LINK;
             case 'datetime':
                 if (($tca['config']['dbType'] ?? '') === 'datetime') {
                     return FieldType::DATETIME;
