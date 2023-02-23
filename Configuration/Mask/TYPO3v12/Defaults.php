@@ -23,8 +23,8 @@ return [
             'config.eval.null' => 0,
         ],
         'tca_out' => [
-            'config.type' => 'input',
-            'config.eval.double2' => 1,
+            'config.type' => 'number',
+            'config.format' => 'decimal',
         ],
         'sql' => 'float DEFAULT \'0\' NOT NULL',
     ],
@@ -36,8 +36,7 @@ return [
             'config.eval.null' => 0,
         ],
         'tca_out' => [
-            'config.type' => 'input',
-            'config.eval.int' => 1,
+            'config.type' => 'number',
         ],
         'sql' => 'int(11) DEFAULT \'0\' NOT NULL',
     ],
