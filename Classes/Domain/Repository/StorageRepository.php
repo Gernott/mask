@@ -284,7 +284,7 @@ class StorageRepository implements SingletonInterface
                 }
             }
 
-            if ($fieldAdd['key'] === 'bodytext') {
+            if ($fieldAdd['fullKey'] === 'bodytext') {
                 $fieldAdd['bodytextTypeByElement'][$elementKey] = $fieldAdd['type'];
                 unset($fieldAdd['type']);
             }
