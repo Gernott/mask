@@ -299,4 +299,14 @@ return [
             'config.type' => 'linebreak',
         ],
     ],
+    FieldType::EMAIL => [
+        'tca_in' => [
+            'l10n_mode' => '',
+            'config.eval.null' => 0,
+        ],
+        'tca_out' => [
+            'config.type' => 'email',
+        ],
+        'sql' => 'varchar(255) DEFAULT \'\' NOT NULL',
+    ],
 ];

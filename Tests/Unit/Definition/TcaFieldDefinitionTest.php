@@ -464,6 +464,26 @@ class TcaFieldDefinitionTest extends UnitTestCase
                     ],
                 ],
             ];
+
+            yield 'Legacy E-Mail field is migrated' => [
+                'json' => [
+                    'key' => 'email',
+                    'fullKey' => 'tx_mask_email',
+                    'type' => 'string',
+                    'config' => [
+                        'type' => 'input',
+                        'eval' => 'email',
+                    ],
+                ],
+                'expected' => [
+                    'key' => 'email',
+                    'fullKey' => 'tx_mask_email',
+                    'type' => 'email',
+                    'config' => [
+                        'type' => 'email',
+                    ],
+                ],
+            ];
         }
     }
 

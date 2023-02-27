@@ -192,6 +192,11 @@ class HtmlCodeGenerator
                 $html[] = $this->drawWhitespace(1 + $depth) . '{' . $datafield . '.' . $field->fullKey . '}';
                 $html[] = $this->drawWhitespace(0 + $depth) . '</f:if>';
                 break;
+            case FieldType::EMAIL:
+                $html[] = $this->drawWhitespace(0 + $depth) . '<f:if condition="{' . $datafield . '.' . $field->fullKey . '}">';
+                $html[] = $this->drawWhitespace(1 + $depth) . '<f:link.email email="{' . $datafield . '.' . $field->fullKey . '}"/>';
+                $html[] = $this->drawWhitespace(0 + $depth) . '</f:if>';
+                break;
             case FieldType::LINK:
                 $html[] = $this->drawWhitespace(0 + $depth) . '<f:if condition="{' . $datafield . '.' . $field->fullKey . '}">';
                 $html[] = $this->drawWhitespace(1 + $depth) . '<f:link.typolink parameter="{' . $datafield . '.' . $field->fullKey . '}"></f:link.typolink>';

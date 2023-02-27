@@ -44,6 +44,7 @@ final class FieldType extends Enumeration
     public const LINEBREAK = 'linebreak';
     public const COLORPICKER = 'colorpicker';
     public const SLUG = 'slug';
+    public const EMAIL = 'email';
 
     public function isGroupingField(): bool
     {
@@ -57,7 +58,7 @@ final class FieldType extends Enumeration
 
     public function isSearchable(): bool
     {
-        return in_array($this->value, [self::STRING, self::TEXT, self::RICHTEXT], true);
+        return in_array($this->value, [self::STRING, self::TEXT, self::RICHTEXT, self::EMAIL], true);
     }
 
     public function isRenderable(): bool

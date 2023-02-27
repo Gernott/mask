@@ -581,6 +581,21 @@ final class TcaFieldDefinition
             unset($definition['config']['fieldControl']);
         }
 
+        // New TCA type email since TYPO3 v12
+        if (
+            (new Typo3Version())->getMajorVersion() > 11
+            && $tcaFieldDefinition->hasFieldType()
+            && $tcaFieldDefinition->type->equals(FieldType::STRING)
+        ) {
+            $evalList = GeneralUtility::trimExplode(',', $definition['config']['eval'] ?? '');
+            if (in_array('email', $evalList, true)) {
+                $evalList = array_intersect($evalList, ['unique', 'uniqueInPid']);
+                $definition['config']['eval'] = implode(',', $evalList);
+                $definition['config']['type'] = 'email';
+                $tcaFieldDefinition->setFieldType(new FieldType(FieldType::EMAIL));
+            }
+        }
+
         return $definition;
     }
 

@@ -392,7 +392,7 @@ class AjaxController
     {
         $json = [];
         $availability = [
-            FieldType::CATEGORY => 11,
+            FieldType::EMAIL => 12,
         ];
         $typo3Version = new Typo3Version();
         $defaults = $this->configurationLoader->loadDefaults();

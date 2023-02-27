@@ -276,7 +276,7 @@ return [
     'config.eval.email' => [
         'type' => 'checkbox',
         'label' => 'tx_mask.field.email.label',
-        'description' => 'tx_mask.field.email',
+        'description' => 'tx_mask.field.email.description',
         'code' => 'email',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',

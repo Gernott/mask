@@ -109,6 +109,8 @@ class FieldTypeUtility
                     return FieldType::DATE;
                 }
                 return FieldType::TIMESTAMP;
+            case 'email':
+                return FieldType::EMAIL;
             default:
                 // Check if fake tca type is valid.
                 try {

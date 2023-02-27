@@ -10,6 +10,7 @@ return [
     FieldType::INTEGER => 'input',
     FieldType::FLOAT => 'input',
     FieldType::LINK => 'input',
+    FieldType::EMAIL => 'input',
 
     FieldType::TEXT => 'text',
     FieldType::RICHTEXT => 'text',

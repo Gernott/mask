@@ -1490,6 +1490,24 @@ class TableDefinitionCollectionTest extends BaseTestCase
                 'tt_content',
                 FieldType::SLUG,
             ],
+            'E-Mail field resolved' => [
+                [],
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'tx_mask_field1' => [
+                                'config' => [
+                                    'type' => 'email',
+                                ],
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
+                ],
+                'tx_mask_field1',
+                'tt_content',
+                FieldType::EMAIL,
+            ],
         ];
     }
 

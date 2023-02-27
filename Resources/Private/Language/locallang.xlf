@@ -105,6 +105,9 @@
 			<trans-unit id="tx_mask.field.category">
 				<source>Category</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.email">
+				<source>E-Mail</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.group">
 				<source>Group</source>
 			</trans-unit>
@@ -157,7 +160,7 @@
 				<source>Allows only a-zA-Z characters</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.int">
-				<source>Value is casted to integer</source>
+				<source>Value is cast to integer</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.alphanum.label">
 				<source>Alphanumeric</source>
@@ -180,7 +183,7 @@
 			<trans-unit id="tx_mask.field.email.label">
 				<source>E-Mail</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.email">
+			<trans-unit id="tx_mask.field.email.description">
 				<source>Server-side validation of an email address</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.lower.label">
