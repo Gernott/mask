@@ -243,15 +243,15 @@ class AjaxController
     }
 
     /**
-     * Generates Fluid HTML for Contentelements
+     * Generates Fluid HTML for Content elements
      */
     public function showHtmlAction(ServerRequestInterface $request): Response
     {
         $params = $request->getQueryParams();
         $html = $this->htmlCodeGenerator->generateHtml($params['key'], $params['table']);
         $view = GeneralUtility::makeInstance(StandaloneView::class);
-        $view->setPartialRootPaths(['EXT:mask/Resources/Private/Backend/Partials']);
-        $view->setTemplatePathAndFilename('EXT:mask/Resources/Private/Backend/Templates/Ajax/ShowHtml.html');
+        $view->getRenderingContext()->getTemplatePaths()->fillDefaultsByPackageName('mask');
+        $view->setTemplate('Ajax/ShowHtml');
         $view->assign('html', $html);
         return new HtmlResponse($view->render());
     }

@@ -33,7 +33,6 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
 class MaskController
 {
     protected ModuleTemplateFactory $moduleTemplateFactory;
-    protected StandaloneView $view;
     protected PageRenderer $pageRenderer;
     protected UriBuilder $uriBuilder;
 
@@ -50,21 +49,23 @@ class MaskController
     public function mainAction(ServerRequestInterface $request): ResponseInterface
     {
         $moduleTemplate = $this->moduleTemplateFactory->create($request);
-        $settingsUrl = $this->uriBuilder->buildUriFromRoute('tools_toolssettings');
-        $this->view = GeneralUtility::makeInstance(StandaloneView::class);
-        $this->view->assign('settingsUrl', $settingsUrl);
-        $iconSize = (new Typo3Version())->getMajorVersion() > 11 ? 'medium' : 'default';
-        $this->view->assign('iconSize', $iconSize);
-        $this->view->getRenderingContext()->setControllerAction('Wizard/Main');
-        $this->view->getRenderingContext()->getTemplatePaths()->fillDefaultsByPackageName('mask');
         $moduleTemplate->getDocHeaderComponent()->disable();
-        if ((new Typo3Version())->getMajorVersion() >= 12) {
+
+        $view = GeneralUtility::makeInstance(StandaloneView::class);
+        $view->getRenderingContext()->getTemplatePaths()->fillDefaultsByPackageName('mask');
+        $view->setTemplate('Wizard/Main');
+
+        $view->assign('settingsUrl', $this->uriBuilder->buildUriFromRoute('tools_toolssettings'));
+        $view->assign('iconSize', (new Typo3Version())->getMajorVersion() > 11 ? 'medium' : 'default');
+
+        if ((new Typo3Version())->getMajorVersion() > 11) {
             $this->pageRenderer->loadJavaScriptModule('@mask/mask');
         } else {
             $this->pageRenderer->loadRequireJsModule('TYPO3/CMS/Mask/AmdBundle');
         }
         $this->pageRenderer->addCssFile('EXT:mask/Resources/Public/Styles/mask.css');
-        $moduleTemplate->setContent($this->view->render());
+
+        $moduleTemplate->setContent($view->render());
         return new HtmlResponse($moduleTemplate->renderContent());
     }
 }
