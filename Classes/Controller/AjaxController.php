@@ -762,8 +762,10 @@ class AjaxController
         $items = [];
         $cTypes = $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'];
         foreach ($cTypes ?? [] as $type) {
-            if ($type[1] !== '--div--') {
-                $items[$type[1]] = $this->getLanguageService()->sL($type[0]);
+            $label = $type[0] ?? $type['label'];
+            $value = $type[1] ?? $type['value'];
+            if ($value !== '--div--') {
+                $items[$value] = $this->getLanguageService()->sL($label);
             }
         }
         $json['ctypes'] = $items;
