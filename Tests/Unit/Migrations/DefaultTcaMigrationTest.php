@@ -57,7 +57,7 @@ class DefaultTcaMigrationTest extends UnitTestCase
                     'tx_mask_integer' => [
                         'config' => [
                             'type' => 'input',
-                            'eval' => 'int,required',
+                            'eval' => 'int',
                         ],
                         'key' => 'integer',
                     ],
@@ -114,7 +114,7 @@ class DefaultTcaMigrationTest extends UnitTestCase
                         'type' => 'integer',
                         'config' => [
                             'type' => 'input',
-                            'eval' => 'int,required',
+                            'eval' => 'int',
                         ],
                     ],
                     'tx_mask_file' => [

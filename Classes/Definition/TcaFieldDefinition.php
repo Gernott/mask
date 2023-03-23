@@ -608,6 +608,19 @@ final class TcaFieldDefinition
             }
         }
 
+        if ((new Typo3Version())->getMajorVersion() > 11) {
+            $evalList = GeneralUtility::trimExplode(',', $definition['config']['eval'] ?? '');
+            if (in_array('required', $evalList, true)) {
+                $definition['config']['required'] = 1;
+                $evalList = array_diff($evalList, ['required']);
+            }
+            if (in_array('null', $evalList, true)) {
+                $definition['config']['nullable'] = 1;
+                $evalList = array_diff($evalList, ['null']);
+            }
+            $definition['config']['eval'] = implode(',', $evalList);
+        }
+
         return $definition;
     }
 
@@ -636,6 +649,9 @@ final class TcaFieldDefinition
 
     public function isNullable(): bool
     {
+        if ((new Typo3Version())->getMajorVersion() > 11) {
+            return (bool)($this->realTca['config']['nullable'] ?? false);
+        }
         return GeneralUtility::inList($this->realTca['config']['eval'] ?? '', 'null');
     }
 }

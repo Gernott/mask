@@ -4,7 +4,7 @@ use MASK\Mask\Enumeration\Tab;
 use TYPO3\CMS\Core\Information\Typo3Version;
 
 $validation = [
-    'config.eval.required' => 6,
+    (new Typo3Version())->getMajorVersion() > 11 ? 'config.required' : 'config.eval.required' => 6,
 ];
 
 if ((new Typo3Version())->getMajorVersion() === 11) {
@@ -50,7 +50,7 @@ return [
     ],
     Tab::EXTENDED => [
         [
-            'config.eval.null' => 6,
+            (new Typo3Version())->getMajorVersion() > 11 ? 'config.nullable' : 'config.eval.null' => 6,
             'config.mode' => 6,
             'config.autocomplete' => 6,
         ],

@@ -8,7 +8,7 @@ return [
             'l10n_mode' => '',
             'config.valuePicker.mode' => '',
             'config.valuePicker.items' => [],
-            'config.eval.null' => 0,
+            'config.nullable' => 0,
         ],
         'tca_out' => [
             'config.type' => 'input',
@@ -20,7 +20,7 @@ return [
             'l10n_mode' => '',
             'config.valuePicker.mode' => '',
             'config.valuePicker.items' => [],
-            'config.eval.null' => 0,
+            'config.nullable' => 0,
         ],
         'tca_out' => [
             'config.type' => 'number',
@@ -33,7 +33,7 @@ return [
             'l10n_mode' => '',
             'config.valuePicker.mode' => '',
             'config.valuePicker.items' => [],
-            'config.eval.null' => 0,
+            'config.nullable' => 0,
         ],
         'tca_out' => [
             'config.type' => 'number',
@@ -43,7 +43,7 @@ return [
     FieldType::LINK => [
         'tca_in' => [
             'l10n_mode' => '',
-            'config.eval.null' => 0,
+            'config.nullable' => 0,
             'config.allowedTypes' => [],
         ],
         'tca_out' => [
@@ -56,7 +56,7 @@ return [
             'l10n_mode' => '',
             'config.valuePicker.mode' => '',
             'config.valuePicker.items' => [],
-            'config.eval.null' => 0,
+            'config.nullable' => 0,
             'config.size' => 10,
         ],
         'tca_out' => [
@@ -80,7 +80,7 @@ return [
     FieldType::DATE => [
         'tca_in' => [
             'l10n_mode' => '',
-            'config.eval.null' => 0,
+            'config.nullable' => 0,
         ],
         'tca_out' => [
             'config.type' => 'datetime',
@@ -92,7 +92,7 @@ return [
     FieldType::DATETIME => [
         'tca_in' => [
             'l10n_mode' => '',
-            'config.eval.null' => 0,
+            'config.nullable' => 0,
         ],
         'tca_out' => [
             'config.type' => 'datetime',
@@ -105,7 +105,7 @@ return [
         'tca_in' => [
             'l10n_mode' => '',
             'config.eval' => 'date',
-            'config.eval.null' => 0,
+            'config.nullable' => 0,
         ],
         'tca_out' => [
             'config.type' => 'datetime',
@@ -119,7 +119,7 @@ return [
             'config.format' => '',
             'config.valuePicker.mode' => '',
             'config.valuePicker.items' => [],
-            'config.eval.null' => 0,
+            'config.nullable' => 0,
         ],
         'tca_out' => [
             'config.type' => 'text',
@@ -310,7 +310,7 @@ return [
     FieldType::EMAIL => [
         'tca_in' => [
             'l10n_mode' => '',
-            'config.eval.null' => 0,
+            'config.nullable' => 0,
         ],
         'tca_out' => [
             'config.type' => 'email',

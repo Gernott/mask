@@ -17,7 +17,7 @@ return [
         [
             'config.range.lower' => 6,
             'config.range.upper' => 6,
-            'config.eval.required' => 6,
+            (new Typo3Version())->getMajorVersion() > 11 ? 'config.required' : 'config.eval.required' => 6,
         ],
     ],
     Tab::LOCALIZATION => [
@@ -30,7 +30,7 @@ return [
     ],
     Tab::EXTENDED => [
         [
-            'config.eval.null' => 6,
+            (new Typo3Version())->getMajorVersion() > 11 ? 'config.nullable' : 'config.eval.null' => 6,
             'config.mode' => 6,
         ],
     ],

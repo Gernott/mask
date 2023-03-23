@@ -16,7 +16,7 @@ if ((new Typo3Version())->getMajorVersion() < 12) {
         'config.allowedTypes' => 12,
     ];
     $validation = [
-        'config.eval.required' => 6,
+        'config.required' => 6,
         'config.appearance.allowedFileExtensions' => 6,
     ];
 }
@@ -46,7 +46,7 @@ return [
     ],
     Tab::EXTENDED => [
         [
-            'config.eval.null' => 6,
+            (new Typo3Version())->getMajorVersion() > 11 ? 'config.nullable' : 'config.eval.null' => 6,
             'config.mode' => 6,
         ],
     ],

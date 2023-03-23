@@ -1,6 +1,7 @@
 <?php
 
 use MASK\Mask\Enumeration\FieldType;
+use TYPO3\CMS\Core\Information\Typo3Version;
 
 return [
     'config.default' => [
@@ -210,7 +211,15 @@ return [
         'code' => 'required',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
-            12 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
+        ],
+    ],
+    'config.required' => [
+        'type' => 'checkbox',
+        'label' => 'tx_mask.field.required',
+        'description' => 'tx_mask.field.required.description',
+        'code' => 'required',
+        'documentation' => [
+            12 => 'ColumnsConfig/CommonProperties/Required.html',
         ],
     ],
     'config.eval.trim' => [
@@ -350,7 +359,15 @@ return [
         'code' => 'null',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
-            12 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
+        ],
+    ],
+    'config.nullable' => [
+        'type' => 'checkbox',
+        'label' => 'tx_mask.field.null.label',
+        'description' => 'tx_mask.field.null',
+        'code' => 'nullable',
+        'documentation' => [
+            12 => 'ColumnsConfig/Type/Input/Properties/Nullable.html',
         ],
     ],
     'config.eval.password' => [
@@ -368,7 +385,7 @@ return [
         'label' => 'tx_mask.field.string.mode.label',
         'description' => 'tx_mask.field.string.mode',
         'code' => 'mode',
-        'dependsOn' => 'config.eval.null',
+        'dependsOn' => (new Typo3Version())->getMajorVersion() > 11 ? 'config.nullable' : 'config.eval.null',
         'valueOn' => 'useOrOverridePlaceholder',
         'documentation' => [
             11 => 'ColumnsConfig/CommonProperties/Mode.html#tca-property-mode',

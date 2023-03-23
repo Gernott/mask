@@ -504,6 +504,29 @@ class TcaFieldDefinitionTest extends UnitTestCase
                     ],
                 ],
             ];
+
+            yield 'Legacy eval=required and eval=null migrated' => [
+                'json' => [
+                    'key' => 'afield',
+                    'fullKey' => 'tx_mask_afield',
+                    'type' => 'string',
+                    'config' => [
+                        'type' => 'input',
+                        'eval' => 'required,null,trim',
+                    ],
+                ],
+                'expected' => [
+                    'key' => 'afield',
+                    'fullKey' => 'tx_mask_afield',
+                    'type' => 'string',
+                    'config' => [
+                        'type' => 'input',
+                        'eval' => 'trim',
+                        'required' => 1,
+                        'nullable' => 1,
+                    ],
+                ],
+            ];
         }
     }
 
@@ -794,6 +817,19 @@ class TcaFieldDefinitionTest extends UnitTestCase
             ],
             'expected' => false,
         ];
+
+        if ((new Typo3Version())->getMajorVersion() > 11) {
+            yield 'nullable defined' => [
+                'json' => [
+                    'key' => 'field1',
+                    'config' => [
+                        'type' => 'input',
+                        'nullable' => 1,
+                    ],
+                ],
+                'expected' => true,
+            ];
+        }
     }
 
     /**
