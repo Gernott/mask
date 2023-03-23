@@ -27,7 +27,7 @@ Select with relation to one or more other database tables.
 Available TCA options
 ---------------------
 
-*  :ref:`config.internal_type <t3tca:columns-group-properties-internal-type>`
+*  :ref:`config.internal_type <t3tca:columns-group-properties-internal-type>` (Only for TYPO3 v11 or lower)
 *  :ref:`config.allowed <t3tca:columns-group-properties-allowed>`
 *  :ref:`config.minitems <t3tca:tca_property_minitems>`
 *  :ref:`config.maxitems <t3tca:tca_property_maxitems>`

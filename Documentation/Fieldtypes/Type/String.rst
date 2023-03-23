@@ -39,7 +39,7 @@ Available TCA options
 *  :ref:`config.eval.alphanum <t3tca:columns-input-properties-eval>`
 *  :ref:`config.eval.alphanum_x <t3tca:columns-input-properties-eval>`
 *  :ref:`config.eval.domainname <t3tca:columns-input-properties-eval>`
-*  :ref:`config.eval.email <t3tca:columns-input-properties-eval>`
+*  :ref:`config.eval.email <t3tca:columns-input-properties-eval>` (only for TYPO3 v11 or lower)
 *  :ref:`config.eval.lower <t3tca:columns-input-properties-eval>`
 *  :ref:`config.eval.upper <t3tca:columns-input-properties-eval>`
 *  :ref:`config.eval.unique <t3tca:columns-input-properties-eval>`

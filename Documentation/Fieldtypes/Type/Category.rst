@@ -2,8 +2,12 @@
 
 .. _fields-category:
 
-Category (only v11)
-===================
+Category
+========
+
+.. important::
+
+   Only available for TYPO3 v11 or higher
 
 .. figure:: ../../Images/FieldTypes/Category.svg
    :alt: Check
