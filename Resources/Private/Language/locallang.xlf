@@ -111,6 +111,9 @@
 			<trans-unit id="tx_mask.field.group">
 				<source>Group</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.folder">
+				<source>Folder</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.file">
 				<source>File</source>
 			</trans-unit>

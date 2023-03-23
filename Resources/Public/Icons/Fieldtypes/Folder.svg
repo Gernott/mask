@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16.933mm" height="16.933mm" version="1.1" viewBox="0 0 16.933 16.933" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <metadata>
+        <rdf:RDF>
+            <cc:Work rdf:about="">
+                <dc:format>image/svg+xml</dc:format>
+                <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+                <dc:title/>
+            </cc:Work>
+        </rdf:RDF>
+    </metadata>
+    <g transform="translate(-93.209 -102.57)">
+        <g transform="matrix(.26458 0 0 .26458 -74.801 -18.081)">
+            <rect transform="translate(635,456)" width="64" height="64" fill="#cfa96b" data-name="Rechteck 1"/>
+        </g>
+        <path d="m95.949 107.46c0-0.78967 0.64203-1.4317 1.4317-1.4317h2.9551c0.42727 0 0.83665 0.17002 1.1386 0.47202l0.95967 0.95968h3.5368c0.78967 0 1.4317 0.64203 1.4317 1.4317v5.7268c0 0.78967-0.64203 1.4317-1.4317 1.4317h-8.5902c-0.78967 0-1.4317-0.64203-1.4317-1.4317zm1.4317-0.35792c-0.19686 0-0.35792 0.16106-0.35792 0.35792v7.1585c0 0.19685 0.16107 0.35792 0.35792 0.35792h8.5902c0.19686 0 0.35792-0.16107 0.35792-0.35792v-5.7268c0-0.19686-0.16106-0.35792-0.35792-0.35792h-3.6106c-0.23712 0-0.4653-0.094-0.63308-0.26173l-1.0111-1.0134c-0.10066-0.10067-0.23712-0.15659-0.38029-0.15659z" fill="#fff" stroke-width=".02237"/>
+    </g>
+</svg>

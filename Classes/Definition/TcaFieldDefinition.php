@@ -596,6 +596,18 @@ final class TcaFieldDefinition
             }
         }
 
+        // New TCA type folder since TYPO3 v12
+        if ((new Typo3Version())->getMajorVersion() > 11
+            && $tcaFieldDefinition->hasFieldType()
+            && $tcaFieldDefinition->type->equals(FieldType::GROUP)
+        ) {
+            if (($definition['config']['internal_type'] ?? '') === 'folder') {
+                unset($definition['config']['internal_type']);
+                $definition['config']['type'] = 'folder';
+                $tcaFieldDefinition->setFieldType(new FieldType(FieldType::FOLDER));
+            }
+        }
+
         return $definition;
     }
 

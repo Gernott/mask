@@ -186,7 +186,6 @@ return [
     FieldType::GROUP => [
         'tca_in' => [
             'l10n_mode' => '',
-            'config.internal_type' => 'db',
             'config.allowed' => '',
             'config.fieldControl.editPopup.disabled' => 1,
             'config.fieldControl.addRecord.disabled' => 1,
@@ -194,6 +193,15 @@ return [
         ],
         'tca_out' => [
             'config.type' => 'group',
+        ],
+        'sql' => 'text',
+    ],
+    FieldType::FOLDER => [
+        'tca_in' => [
+            'l10n_mode' => '',
+        ],
+        'tca_out' => [
+            'config.type' => 'folder',
         ],
         'sql' => 'text',
     ],

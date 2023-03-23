@@ -484,6 +484,26 @@ class TcaFieldDefinitionTest extends UnitTestCase
                     ],
                 ],
             ];
+
+            yield 'Legacy folder field defined in group with internal_type is migrated' => [
+                'json' => [
+                    'key' => 'folder_field',
+                    'fullKey' => 'tx_mask_folder_field',
+                    'type' => 'group',
+                    'config' => [
+                        'type' => 'group',
+                        'internal_type' => 'folder',
+                    ],
+                ],
+                'expected' => [
+                    'key' => 'folder_field',
+                    'fullKey' => 'tx_mask_folder_field',
+                    'type' => 'folder',
+                    'config' => [
+                        'type' => 'folder',
+                    ],
+                ],
+            ];
         }
     }
 

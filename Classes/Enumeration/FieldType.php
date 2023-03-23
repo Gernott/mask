@@ -45,6 +45,7 @@ final class FieldType extends Enumeration
     public const COLORPICKER = 'colorpicker';
     public const SLUG = 'slug';
     public const EMAIL = 'email';
+    public const FOLDER = 'folder';
 
     public function isGroupingField(): bool
     {

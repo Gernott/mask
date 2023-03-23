@@ -111,6 +111,10 @@ class FieldTypeUtility
                 return FieldType::TIMESTAMP;
             case 'email':
                 return FieldType::EMAIL;
+            case 'group':
+                return FieldType::GROUP;
+            case 'folder':
+                return FieldType::FOLDER;
             default:
                 // Check if fake tca type is valid.
                 try {

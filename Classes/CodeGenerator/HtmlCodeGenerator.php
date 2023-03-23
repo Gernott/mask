@@ -23,6 +23,7 @@ use MASK\Mask\Definition\TcaFieldDefinition;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Loader\LoaderInterface;
 use MASK\Mask\Utility\AffixUtility;
+use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -178,7 +179,7 @@ class HtmlCodeGenerator
                 }
                 break;
             case FieldType::GROUP:
-                if (($field->realTca['config']['internal_type'] ?? '') !== 'folder') {
+                if ((new Typo3Version())->getMajorVersion() > 11 || ($field->realTca['config']['internal_type'] ?? '') !== 'folder') {
                     $html[] = $this->drawWhitespace(0 + $depth) . '<f:for each="{' . $datafield . '.' . $field->fullKey . '_items}" as="' . $datafield . '_item' . '">';
                     $html[] = $this->drawWhitespace(1 + $depth) . '<div>{' . $datafield . '_item.uid}' . '</div>';
                     $html[] = $this->drawWhitespace(0 + $depth) . '</f:for>';
@@ -188,6 +189,7 @@ class HtmlCodeGenerator
             case FieldType::STRING:
             case FieldType::INTEGER:
             case FieldType::COLORPICKER:
+            case FieldType::FOLDER:
                 $html[] = $this->drawWhitespace(0 + $depth) . '<f:if condition="{' . $datafield . '.' . $field->fullKey . '}">';
                 $html[] = $this->drawWhitespace(1 + $depth) . '{' . $datafield . '.' . $field->fullKey . '}';
                 $html[] = $this->drawWhitespace(0 + $depth) . '</f:if>';

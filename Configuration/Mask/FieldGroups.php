@@ -27,6 +27,7 @@ return [
 
     FieldType::COLORPICKER => 'special',
     FieldType::SLUG => 'special',
+    FieldType::FOLDER => 'special',
 
     FieldType::FILE => 'repeating',
     FieldType::MEDIA => 'repeating',

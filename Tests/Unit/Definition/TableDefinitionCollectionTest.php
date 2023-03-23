@@ -1508,6 +1508,24 @@ class TableDefinitionCollectionTest extends BaseTestCase
                 'tt_content',
                 FieldType::EMAIL,
             ],
+            'Folder field resolved' => [
+                [],
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'tx_mask_field1' => [
+                                'config' => [
+                                    'type' => 'folder',
+                                ],
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
+                ],
+                'tx_mask_field1',
+                'tt_content',
+                FieldType::FOLDER,
+            ],
         ];
     }
 

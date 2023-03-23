@@ -1018,7 +1018,7 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
           if (this.isCoreField(item)) {
             return true;
           }
-          if (item.tca['config.internal_type'] === 'db' && item.tca['config.allowed'] === '') {
+          if ((item.tca['config.internal_type'] === 'db' || this.global.typo3Version > 11) && item.tca['config.allowed'] === '') {
             this.fieldErrors.emptyGroupAllowedFields.push(item);
           }
           if (item.fields.length > 0) {

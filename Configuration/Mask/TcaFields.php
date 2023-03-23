@@ -912,8 +912,8 @@ return [
         'description' => 'tx_mask.field.group.allowed.description',
         'code' => 'allowed',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Group/Properties/InternalType.html#columns-group-properties-internal-type',
-            12 => 'ColumnsConfig/Type/Group/Properties/InternalType.html#columns-group-properties-internal-type',
+            11 => 'ColumnsConfig/Type/Group/Properties/Allowed.html',
+            12 => 'ColumnsConfig/Type/Group/Properties/Allowed.html',
         ],
     ],
     'config.fieldControl.editPopup.disabled' => [
