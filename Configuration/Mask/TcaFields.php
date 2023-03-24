@@ -964,7 +964,7 @@ return [
             'documentation' => [
                 12 => 'ColumnsConfig/Type/Folder/Properties/ElementBrowserEntryPoints.html',
             ],
-        ]
+        ],
     ],
     'config.fieldControl.editPopup.disabled' => [
         'type' => 'checkbox',
