@@ -10,6 +10,7 @@ $general = [
 if ((new Typo3Version())->getMajorVersion() > 11) {
     $general = [
         'config.allowed' => 6,
+        'config.elementBrowserEntryPoints._default' => 6,
     ];
 }
 

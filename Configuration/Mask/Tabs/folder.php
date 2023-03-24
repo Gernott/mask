@@ -4,7 +4,9 @@ use MASK\Mask\Enumeration\Tab;
 
 return [
     Tab::GENERAL => [
-
+        [
+            'config.elementBrowserEntryPoints._default' => 6,
+        ]
     ],
     Tab::VALIDATION => [
         [

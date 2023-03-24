@@ -933,6 +933,27 @@ return [
             12 => 'ColumnsConfig/Type/Group/Properties/Allowed.html',
         ],
     ],
+    'config.elementBrowserEntryPoints._default' => [
+        'collision' => true,
+        FieldType::GROUP => [
+            'type' => 'text',
+            'label' => 'tx_mask.field.elementBrowserEntryPoints.label',
+            'description' => 'tx_mask.field.group.elementBrowserEntryPoints.description',
+            'code' => 'elementBrowserEntryPoints',
+            'documentation' => [
+                12 => 'ColumnsConfig/Type/Group/Properties/ElementBrowserEntryPoints.html',
+            ],
+        ],
+        FieldType::FOLDER => [
+            'type' => 'text',
+            'label' => 'tx_mask.field.elementBrowserEntryPoints.label',
+            'description' => 'tx_mask.field.folder.elementBrowserEntryPoints.description',
+            'code' => 'elementBrowserEntryPoints',
+            'documentation' => [
+                12 => 'ColumnsConfig/Type/Folder/Properties/ElementBrowserEntryPoints.html',
+            ],
+        ]
+    ],
     'config.fieldControl.editPopup.disabled' => [
         'type' => 'checkbox',
         'invert' => true,

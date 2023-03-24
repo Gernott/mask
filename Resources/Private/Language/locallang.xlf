@@ -765,6 +765,15 @@ title3, value3, icon3, description3
 			<trans-unit id="tx_mask.field.group.allowed.description">
 				<source>table names, comma separated (internal_type="db")</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.elementBrowserEntryPoints.label">
+				<source>Element Browser entry point</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.group.elementBrowserEntryPoints.description">
+				<source>The defined page id is selected by default</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.folder.elementBrowserEntryPoints.description">
+				<source>The defined folder identifier is selected by default</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.group.internalType.folder">
 				<source>Folder</source>
 			</trans-unit>
