@@ -32,6 +32,7 @@ Select one or more folders in a folder browse window.
 Available TCA options
 ---------------------
 
+*  :ref:`config.elementBrowserEntryPoints <t3tca:columns-folder-properties-elementBrowserEntryPoints>`
 *  :ref:`config.minitems <t3tca:tca_property_minitems>`
 *  :ref:`config.maxitems <t3tca:tca_property_maxitems>`
 *  :ref:`l10n_mode <t3tca:columns-properties-l10n-mode>`

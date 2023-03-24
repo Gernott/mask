@@ -11,6 +11,7 @@ Have a look at `CHANGELOG.md <https://github.com/Gernott/mask/blob/main/CHANGELO
    :maxdepth: 1
    :titlesonly:
 
+   8.1/Index
    8.0/Index
    7.2/Index
    7.1/Index

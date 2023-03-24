@@ -30,6 +30,7 @@ Available TCA options
 *  :ref:`config.default <t3tca:tca_property_default>`
 *  :ref:`config.placeholder <t3tca:tca_property_placeholder>`
 *  :ref:`config.size <t3tca:columns-input-properties-size>`
+*  :ref:`config.min <t3tca:columns-input-properties-min>` (only for TYPO3 v12 or higher)
 *  :ref:`config.max <t3tca:columns-input-properties-max>`
 *  :ref:`config.is_in <t3tca:columns-input-properties-is-in>`
 *  :ref:`config.eval.required <t3tca:columns-input-properties-eval>`

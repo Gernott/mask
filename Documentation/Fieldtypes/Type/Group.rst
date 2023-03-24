@@ -29,6 +29,7 @@ Available TCA options
 
 *  :ref:`config.internal_type <t3tca:columns-group-properties-internal-type>` (Only for TYPO3 v11 or lower)
 *  :ref:`config.allowed <t3tca:columns-group-properties-allowed>`
+*  :ref:`config.elementBrowserEntryPoints <t3tca:columns-group-properties-elementBrowserEntryPoints>` (only for TYPO3 v12 or higher)
 *  :ref:`config.minitems <t3tca:tca_property_minitems>`
 *  :ref:`config.maxitems <t3tca:tca_property_maxitems>`
 *  :ref:`config.fieldControl.editPopup <t3tca:tca_property_fieldControl_editPopup>`

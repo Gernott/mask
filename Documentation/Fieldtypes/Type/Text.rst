@@ -31,6 +31,7 @@ Available TCA options
 *  :ref:`config.placeholder <t3tca:tca_property_placeholder>`
 *  :ref:`config.cols <t3tca:columns-text-properties-cols>`
 *  :ref:`config.rows <t3tca:columns-text-properties-rows>`
+*  :ref:`config.min <t3tca:columns-input-properties-min>` (only for TYPO3 v12 or higher)
 *  :ref:`config.max <t3tca:columns-input-properties-max>`
 *  :ref:`config.eval.required <t3tca:columns-text-properties-eval>`
 *  :ref:`config.eval.trim <t3tca:columns-text-properties-eval>`
