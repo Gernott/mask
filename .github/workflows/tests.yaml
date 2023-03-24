@@ -18,7 +18,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.1
+          php-version: 8.2
 
       - uses: actions/checkout@v3
         with:
@@ -39,7 +39,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install dependencies
-        run: composer require typo3/cms-core:^11.5 --prefer-dist --no-progress
+        run: composer require typo3/cms-core:~12.3@dev --prefer-dist --no-progress
 
       - name: PHP CS Fixer
         run: Build/Scripts/runTests.sh -s cgl -n
@@ -53,11 +53,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ '7.4', '8.0', '8.1' ]
+        php: [ '7.4', '8.0', '8.1', '8.2' ]
         TYPO3: [ '^11.5' ]
         include:
           - TYPO3: '~12.3@dev'
             php: '8.1'
+          - TYPO3: '~12.3@dev'
+            php: '8.2'
     steps:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -84,14 +86,14 @@ jobs:
         run: Build/Scripts/runTests.sh -s unit -p ${{ matrix.php }}
 
   PHPStan:
-    name: PHPStan TYPO3 v12.0 PHP 8.1
+    name: PHPStan TYPO3 ~12.3@dev PHP 8.2
     runs-on: ubuntu-latest
 
     steps:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.1
+          php-version: 8.2
 
       - uses: actions/checkout@v3
 
@@ -107,7 +109,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install dependencies
-        run: composer require typo3/cms-core:^12.0 --prefer-dist --no-progress
+        run: composer require typo3/cms-core:~12.3@dev --prefer-dist --no-progress
 
       - name: PHPStan
         run: XDEBUG_MODE="off" .Build/bin/phpstan analyse -c Build/phpstan/phpstan.neon --no-progress --no-interaction --memory-limit 4G
