@@ -3,7 +3,12 @@
 use MASK\Mask\Enumeration\Tab;
 use TYPO3\CMS\Core\Information\Typo3Version;
 
-$validation = [
+$validation1 = [
+    'config.max' => 6,
+    'config.is_in' => 6,
+];
+
+$validation2 = [
     (new Typo3Version())->getMajorVersion() > 11 ? 'config.required' : 'config.eval.required' => 6,
     'config.eval.trim' => 6,
     'config.eval.alpha' => 6,
@@ -20,7 +25,13 @@ $validation = [
 ];
 
 if ((new Typo3Version())->getMajorVersion() > 11) {
-    unset($validation['config.eval.email']);
+    unset($validation2['config.eval.email']);
+
+    $validation1 = [
+        'config.min' => 6,
+        'config.max' => 6,
+        'config.is_in' => 6,
+    ];
 }
 
 return [
@@ -34,11 +45,8 @@ return [
         ],
     ],
     Tab::VALIDATION => [
-        [
-            'config.max' => 6,
-            'config.is_in' => 6,
-        ],
-        $validation,
+        $validation1,
+        $validation2,
     ],
     Tab::VALUE_PICKER => [
         [

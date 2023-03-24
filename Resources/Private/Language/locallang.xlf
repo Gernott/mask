@@ -417,6 +417,12 @@ title3, value3, icon3, description3
 			<trans-unit id="tx_mask.field.float.max">
 				<source>Maxlength</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.min.label">
+				<source>Minlength</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.min.description">
+				<source>Minimum number of characters</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.float.default">
 				<source>Default</source>
 			</trans-unit>

@@ -107,6 +107,18 @@ return [
             12 => 'ColumnsConfig/Type/Input/Properties/Max.html#columns-input-properties-max',
         ],
     ],
+    'config.min' => [
+        'type' => 'number',
+        'label' => 'tx_mask.field.min.label',
+        'description' => 'tx_mask.field.min.description',
+        'code' => 'min',
+        'min' => 0,
+        'max' => 512,
+        'step' => 10,
+        'documentation' => [
+            12 => 'ColumnsConfig/Type/Input/Properties/Min.html',
+        ],
+    ],
     'config.is_in' => [
         'type' => 'text',
         'label' => 'tx_mask.field.string.is_in',
