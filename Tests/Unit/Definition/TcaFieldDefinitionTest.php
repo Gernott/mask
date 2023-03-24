@@ -247,61 +247,66 @@ class TcaFieldDefinitionTest extends UnitTestCase
             ],
         ];
 
-        yield 'unset select item array keys are filled with empty strings' => [
-            'json' => [
-                'config' => [
-                    'type' => 'select',
-                    'items' => [
-                        [
-                            'Label 1',
-                            'value1',
-                        ],
-                        [
-                            'Label 2',
-                            'value2',
-                            '',
-                        ],
-                        [
-                            'Label 3',
-                            'value3',
-                            '',
-                            '',
-                        ],
-                    ],
-                ],
-                'type' => 'select',
-                'key' => 'select',
-                'fullKey' => 'tx_mask_select',
-            ],
-            'expected' => [
-                'config' => [
-                    'type' => 'select',
-                    'items' => [
-                        [
-                            'Label 1',
-                            'value1',
-                            '',
-                            '',
-                        ],
-                        [
-                            'Label 2',
-                            'value2',
-                            '',
-                            '',
-                        ],
-                        [
-                            'Label 3',
-                            'value3',
-                            '',
-                            '',
+        if ((new Typo3Version())->getMajorVersion() > 11) {
+            yield 'unset select item array keys are filled with empty strings' => [
+                'json' => [
+                    'config' => [
+                        'type' => 'select',
+                        'items' => [
+                            [
+                                'label' => 'Label 1',
+                                'value' => 'value1',
+                            ],
+                            [
+                                'label' => 'Label 2',
+                                'value' => 'value2',
+                                'icon' => '',
+                            ],
+                            [
+                                'label' => 'Label 3',
+                                'value' => 'value3',
+                                'icon' => '',
+                                'group' => '',
+                            ],
                         ],
                     ],
+                    'type' => 'select',
+                    'key' => 'select',
+                    'fullKey' => 'tx_mask_select',
                 ],
-                'type' => 'select',
-                'key' => 'select',
-                'fullKey' => 'tx_mask_select',
-            ],
-        ];
+                'expected' => [
+                    'config' => [
+                        'type' => 'select',
+                        'items' => [
+                            [
+                                'label' => 'Label 1',
+                                'value' => 'value1',
+                                'icon' => '',
+                                'group' => '',
+                                'description' => '',
+                            ],
+                            [
+                                'label' => 'Label 2',
+                                'value' => 'value2',
+                                'icon' => '',
+                                'group' => '',
+                                'description' => '',
+                            ],
+                            [
+                                'label' => 'Label 3',
+                                'value' => 'value3',
+                                'icon' => '',
+                                'group' => '',
+                                'description' => '',
+                            ],
+                        ],
+                    ],
+                    'type' => 'select',
+                    'key' => 'select',
+                    'fullKey' => 'tx_mask_select',
+                ],
+            ];
+        }
 
         yield 'The core field bodytext without any type defined interpreted as richtext' => [
             'json' => [
@@ -524,6 +529,89 @@ class TcaFieldDefinitionTest extends UnitTestCase
                         'eval' => 'trim',
                         'required' => 1,
                         'nullable' => 1,
+                    ],
+                ],
+            ];
+
+            yield 'Legacy indexed keys for type=select migrated' => [
+                'json' => [
+                    'key' => 'afield',
+                    'fullKey' => 'tx_mask_afield',
+                    'type' => 'select',
+                    'config' => [
+                        'type' => 'select',
+                        'renderType' => 'selectSingle',
+                        'items' => [
+                            ['aLabel', 0, 'icon-identifier', 'mask', 'description'],
+                            ['aLabel 2', 1, 'icon-identifier', 'mask', 'description'],
+                        ],
+                    ],
+                ],
+                'expected' => [
+                    'key' => 'afield',
+                    'fullKey' => 'tx_mask_afield',
+                    'type' => 'select',
+                    'config' => [
+                        'type' => 'select',
+                        'renderType' => 'selectSingle',
+                        'items' => [
+                            ['label' => 'aLabel', 'value' => 0, 'icon' => 'icon-identifier', 'group' => 'mask', 'description' => 'description'],
+                            ['label' => 'aLabel 2', 'value' => 1, 'icon' => 'icon-identifier', 'group' => 'mask', 'description' => 'description'],
+                        ],
+                    ],
+                ],
+            ];
+
+            yield 'Legacy indexed keys for type=radio migrated' => [
+                'json' => [
+                    'key' => 'afield',
+                    'fullKey' => 'tx_mask_afield',
+                    'type' => 'radio',
+                    'config' => [
+                        'type' => 'radio',
+                        'items' => [
+                            ['aLabel', 0],
+                            ['aLabel 2', 1],
+                        ],
+                    ],
+                ],
+                'expected' => [
+                    'key' => 'afield',
+                    'fullKey' => 'tx_mask_afield',
+                    'type' => 'radio',
+                    'config' => [
+                        'type' => 'radio',
+                        'items' => [
+                            ['label' => 'aLabel', 'value' => 0],
+                            ['label' => 'aLabel 2', 'value' => 1],
+                        ],
+                    ],
+                ],
+            ];
+
+            yield 'Legacy indexed keys for type=check migrated' => [
+                'json' => [
+                    'key' => 'afield',
+                    'fullKey' => 'tx_mask_afield',
+                    'type' => 'check',
+                    'config' => [
+                        'type' => 'check',
+                        'items' => [
+                            ['aLabel', 'invertStateDisplay' => 1],
+                            ['aLabel 2'],
+                        ],
+                    ],
+                ],
+                'expected' => [
+                    'key' => 'afield',
+                    'fullKey' => 'tx_mask_afield',
+                    'type' => 'check',
+                    'config' => [
+                        'type' => 'check',
+                        'items' => [
+                            ['label' => 'aLabel', 'invertStateDisplay' => true],
+                            ['label' => 'aLabel 2'],
+                        ],
                     ],
                 ],
             ];

@@ -163,6 +163,7 @@ class TcaCodeGenerator
             $GLOBALS['TCA']['tt_content']['palettes'][$palette->key] = $this->generatePalettesTca($palette, 'tt_content');
         }
 
+        $typo3Version = new Typo3Version();
         foreach ($tt_content->elements as $element) {
             if ($element->hidden) {
                 continue;
@@ -178,10 +179,10 @@ class TcaCodeGenerator
                 'tt_content',
                 'CType',
                 [
-                    $label,
-                    $cTypeKey,
-                    'mask-ce-' . $element->key,
-                    'mask',
+                    ($typo3Version->getMajorVersion() > 11 ? 'label' : 0) => $label,
+                    ($typo3Version->getMajorVersion() > 11 ? 'value' : 1) => $cTypeKey,
+                    ($typo3Version->getMajorVersion() > 11 ? 'icon' : 2) => 'mask-ce-' . $element->key,
+                    ($typo3Version->getMajorVersion() > 11 ? 'group' : 3) => 'mask',
                 ]
             );
 
@@ -772,8 +773,8 @@ class TcaCodeGenerator
                         'renderType' => 'checkboxToggle',
                         'items' => [
                             [
-                                0 => '',
-                                1 => '',
+                                ($typo3Version->getMajorVersion() > 11 ? 'label' : 0) => '',
+                                ($typo3Version->getMajorVersion() > 11 ? 'value' : 1) => '',
                             ],
                         ],
                     ],
@@ -793,8 +794,8 @@ class TcaCodeGenerator
                         'renderType' => 'selectSingle',
                         'items' => [
                             [
-                                '',
-                                0,
+                                ($typo3Version->getMajorVersion() > 11 ? 'label' : 0) => '',
+                                ($typo3Version->getMajorVersion() > 11 ? 'value' : 1) => 0,
                             ],
                         ],
                         'default' => 0,
@@ -813,8 +814,8 @@ class TcaCodeGenerator
                         'renderType' => 'checkboxToggle',
                         'items' => [
                             [
-                                0 => '',
-                                1 => '',
+                                ($typo3Version->getMajorVersion() > 11 ? 'label' : 0) => '',
+                                ($typo3Version->getMajorVersion() > 11 ? 'value' : 1) => '',
                             ],
                         ],
                     ],
@@ -831,16 +832,16 @@ class TcaCodeGenerator
                         'maxitems' => 20,
                         'items' => [
                             [
-                                'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.hide_at_login',
-                                -1,
+                                ($typo3Version->getMajorVersion() > 11 ? 'label' : 0) => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.hide_at_login',
+                                ($typo3Version->getMajorVersion() > 11 ? 'value' : 1) => -1,
                             ],
                             [
-                                'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.any_login',
-                                -2,
+                                ($typo3Version->getMajorVersion() > 11 ? 'label' : 0) => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.any_login',
+                                ($typo3Version->getMajorVersion() > 11 ? 'value' : 1) => -2,
                             ],
                             [
-                                'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.usergroups',
-                                '--div--',
+                                ($typo3Version->getMajorVersion() > 11 ? 'label' : 0) => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.usergroups',
+                                ($typo3Version->getMajorVersion() > 11 ? 'value' : 1) => '--div--',
                             ],
                         ],
                         'exclusiveKeys' => '-1,-2',
@@ -852,7 +853,10 @@ class TcaCodeGenerator
                         'type' => 'select',
                         'renderType' => 'selectSingle',
                         'items' => [
-                            ['', 0],
+                            [
+                                ($typo3Version->getMajorVersion() > 11 ? 'label' : 0) => '',
+                                ($typo3Version->getMajorVersion() > 11 ? 'value' : 1) => 0,
+                            ],
                         ],
                         'default' => 0,
                     ],

@@ -1038,7 +1038,7 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
               this.fieldErrors.emptyRadioItems.push(item);
             } else {
               items.every(radioItem => {
-                if (!this.isNumeric(radioItem[1])) {
+                if (!this.isNumeric(this.global.typo3Version > 11 ? radioItem.value : radioItem[1])) {
                   this.fieldErrors.emptyRadioItems.push(item);
                   return false;
                 }

@@ -649,7 +649,7 @@ return [
             'code' => 'items',
             'maxItems' => 31,
             'properties' => [
-                0 => [
+                ((new Typo3Version()))->getMajorVersion() > 11 ? 'label' : 0 => [
                     'label' => 'tx_mask.field.select.items.label',
                     'type' => 'text',
                 ],
@@ -689,11 +689,11 @@ return [
             'label' => 'tx_mask.content.check.items',
             'description' => 'tx_mask.field.radio.items',
             'properties' => [
-                0 => [
+                ((new Typo3Version()))->getMajorVersion() > 11 ? 'label' : 0 => [
                     'label' => 'tx_mask.field.select.items.label',
                     'type' => 'text',
                 ],
-                1 => [
+                ((new Typo3Version()))->getMajorVersion() > 11 ? 'value' : 1 => [
                     'label' => 'tx_mask.field.radio.items.value',
                     'type' => 'text',
                 ],
@@ -708,23 +708,23 @@ return [
             'type' => 'itemList',
             'code' => 'items',
             'properties' => [
-                0 => [
+                ((new Typo3Version()))->getMajorVersion() > 11 ? 'label' : 0 => [
                     'label' => 'tx_mask.field.select.items.label',
                     'type' => 'text',
                 ],
-                1 => [
+                ((new Typo3Version()))->getMajorVersion() > 11 ? 'value' : 1 => [
                     'label' => 'tx_mask.field.select.items.value',
                     'type' => 'text',
                 ],
-                2 => [
+                ((new Typo3Version()))->getMajorVersion() > 11 ? 'icon' : 2 => [
                     'label' => 'tx_mask.field.select.items.icon',
                     'type' => 'text',
                 ],
-                3 => [
+                ((new Typo3Version()))->getMajorVersion() > 11 ? 'group' : 3 => [
                     'label' => 'tx_mask.field.select.items.group',
                     'type' => 'group',
                 ],
-                4 => [
+                ((new Typo3Version()))->getMajorVersion() > 11 ? 'description' : 4 => [
                     'type' => 'text',
                     'label' => 'tx_mask.field.select.items.description',
                     'renderType' => 'selectCheckBox',

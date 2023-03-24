@@ -21,6 +21,7 @@ use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\FieldTypeUtility;
 use TYPO3\CMS\Core\Information\Typo3Version;
+use TYPO3\CMS\Core\Schema\Struct\SelectItem;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final class TcaFieldDefinition
@@ -521,7 +522,7 @@ final class TcaFieldDefinition
             && $tcaFieldDefinition->type->equals(FieldType::SELECT)
         ) {
             foreach ($definition['config']['items'] ?? [] as $index => $item) {
-                for ($i = 0; $i < 4; $i++) {
+                for ($i = 0; $i < 5; $i++) {
                     if (!isset($item[$i])) {
                         $definition['config']['items'][$index][$i] = '';
                     }
@@ -619,6 +620,24 @@ final class TcaFieldDefinition
                 $evalList = array_diff($evalList, ['null']);
             }
             $definition['config']['eval'] = implode(',', $evalList);
+        }
+
+        if (
+            (new Typo3Version())->getMajorVersion() > 11
+            && $tcaFieldDefinition->hasFieldType()
+            && (
+                $tcaFieldDefinition->getFieldType()->equals(FieldType::SELECT)
+                || $tcaFieldDefinition->getFieldType()->equals(FieldType::RADIO)
+                || $tcaFieldDefinition->getFieldType()->equals(FieldType::CHECK)
+            )
+            && !empty($definition['config']['items'])
+        ) {
+            $processedItems = array_map(
+                fn (array $item) => SelectItem::fromTcaItemArray($item, (string)$tcaFieldDefinition->getFieldType())->toArray(),
+                $definition['config']['items']
+            );
+            // Remove null and false (=invertStateDisplay) values.
+            $definition['config']['items'] = array_map(fn (array $item): array => array_filter($item, fn ($value): bool => $value !== null && $value !== false), $processedItems);
         }
 
         return $definition;
