@@ -38,7 +38,7 @@ Successfully tested with docker version 18.06.1-ce and docker-compose 1.21.2.
 
 Usage: $0 [options] [file]
 
-No arguments: Run all unit tests with PHP 7.2
+No arguments: Run all unit tests with PHP 8.1
 
 Options:
     -s <...>
@@ -51,10 +51,10 @@ Options:
             - phpstan: phpstan tests
             - phpstanGenerateBaseline: regenerate phpstan baseline, handy after phpstan updates
 
-    -p <7.2|7.3>
+    -p <7.4|8.1|8.2>
         Specifies the PHP minor version to be used
-            - 7.2 (default): use PHP 7.2
-            - 7.3: use PHP 7.3
+            - 8.1 (default): use PHP 8.1
+            - 8.2: use PHP 8.2
 
     -e "<phpunit options>"
         Only with -s unit
@@ -86,11 +86,11 @@ Options:
         Show this help.
 
 Examples:
-    # Run unit tests using PHP 7.2
+    # Run unit tests using PHP 8.1
     ./Build/Scripts/runTests.sh
 
-    # Run unit tests using PHP 7.3
-    ./Build/Scripts/runTests.sh -p 7.3
+    # Run unit tests using PHP 8.2
+    ./Build/Scripts/runTests.sh -p 8.2
 EOF
 
 # Test if docker-compose exists, else exit out with error
@@ -110,7 +110,7 @@ cd ../testing-docker || exit 1
 # Option defaults
 ROOT_DIR=`readlink -f ${PWD}/../../`
 TEST_SUITE="unit"
-PHP_VERSION="8.2"
+PHP_VERSION="8.1"
 PHP_XDEBUG_ON=0
 PHP_XDEBUG_PORT=9000
 EXTRA_TEST_OPTIONS=""
