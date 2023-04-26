@@ -25,7 +25,7 @@ export default Vue.component(
             },
             template: `
     <div class="col-xs-6 col-6">
-        <label class="t3js-formengine-label">
+        <label class="t3js-formengine-label form-label">
             {{ label }}
             <a href="https://fontawesome.com/v4.7.0/icons/" target="_blank" title="FontAwesome 4.7 Icons"><i class="fa fa-question-circle"></i></a>
         </label>

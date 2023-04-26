@@ -21,7 +21,7 @@ export default Vue.component(
             },
             template: `
     <div class="col-xs-6 col-6">
-        <label class="t3js-formengine-label" for="meta_color">
+        <label class="t3js-formengine-label form-label" for="meta_color">
             {{ label }}
         </label>
         <div class="t3js-formengine-field-item">

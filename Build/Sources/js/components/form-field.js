@@ -129,7 +129,7 @@ export default Vue.component(
         },
         template: `
           <div v-if="field.available !== false" :class="['form-group', 'col-sm-12 col-xl-' + column, {'has-error': hasError}]">
-            <label class="t3js-formengine-label" :for="tcaKey">
+            <label class="t3js-formengine-label form-label" :for="tcaKey">
                 {{ field.label }}
             </label>
             <code :class="{'me-1': field.documentation !== ''}">[{{ field.code }}]</code><a v-if="field.documentation !== ''" :href="field.documentation" target="_blank" title="Show option in official TYPO3 documentation"><span v-html="icons.questionCircle"></span></a>
@@ -201,7 +201,7 @@ export default Vue.component(
                 <div class="form-wizards-wrap">
                     <div class="form-wizards-element row">
                       <div v-for="linkHandler in linkHandlerList" class="form-group col-sm-4">
-                        <label class="t3js-formengine-label" :for="id + linkHandler.identifier">{{ linkHandler.label }}</label>
+                        <label class="t3js-formengine-label form-label" :for="id + linkHandler.identifier">{{ linkHandler.label }}</label>
                         <div class="checkbox checkbox-type-toggle form-check form-switch checkbox-invert">
                             <input :id="id + linkHandler.identifier" class="checkbox-input form-check-input" v-model="global.activeField.tca[tcaKey]" type="checkbox" :value="linkHandler.identifier">
                             <label class="checkbox-label form-check-label" :for="id + linkHandler.identifier">
@@ -216,7 +216,7 @@ export default Vue.component(
               <div class="form-wizards-wrap">
                 <div class="form-wizards-element row">
                   <div v-for="linkHandler in linkHandlerList" class="form-group col-sm-4">
-                    <label class="t3js-formengine-label" :for="id + linkHandler.identifier">{{ linkHandler.label }}</label>
+                    <label class="t3js-formengine-label form-label" :for="id + linkHandler.identifier">{{ linkHandler.label }}</label>
                     <div class="checkbox checkbox-type-toggle form-check form-switch">
                       <input :id="id + linkHandler.identifier" class="checkbox-input form-check-input" v-model="global.activeField.tca[tcaKey]" type="checkbox" :value="linkHandler.identifier">
                       <label class="checkbox-label form-check-label" :for="id + linkHandler.identifier">
