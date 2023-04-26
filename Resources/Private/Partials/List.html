@@ -14,7 +14,7 @@
                         <div class="form-control-icon">
                             <core:icon identifier="apps-toolbar-menu-search" size="small"/>
                         </div>
-                        <div class="form-control-clearable">
+                        <div class="form-control-clearable form-control-clearable-wrapper">
                             <input class="form-control" v-model="searchString" placeholder="{f:translate(key: 'LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.search')}" aria-label="{f:translate(key: 'LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.search_content_elements')}" autocomplete="off" spellcheck="off" autocapitalize="none"/>
                             <button v-show="searchString !== ''" @click="searchString = ''" class="close" type="button" tabindex="-1">
                                 <core:icon identifier="actions-close"/>

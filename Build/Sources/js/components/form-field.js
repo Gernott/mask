@@ -42,7 +42,7 @@ export default Vue.component(
           if (this.global.activeField.name === 'timestamp' && this.tcaKey === 'config.default') {
             this.$watch(
                 function () {
-                  return this.global.activeField.tca['config.eval'];
+                  return this.global.activeField.tca['config.eval'] ?? this.global.activeField.tca['config.format'];
                 },
                 function () {
                   // Destroy bootstrap datepicker and remove data attributes added by TYPO3 DateTimePicker
@@ -118,7 +118,7 @@ export default Vue.component(
               return this.global.activeField.name;
             }
             if (this.global.activeField.name === 'timestamp') {
-              return this.global.activeField.tca['config.eval'];
+              return this.global.activeField.tca['config.eval'] ?? this.global.activeField.tca['config.format'];
             }
             return 'date';
           },
@@ -160,8 +160,11 @@ export default Vue.component(
               </div>
               <div v-if="type == 'date'" class="form-control-wrap">
                 <div class="input-group">
-                     <div class="form-control-clearable form-control">
+                    <div v-if="global.typo3Version < 12" class="form-control-clearable form-control">
                         <input :id="id" v-model="global.activeField.tca[tcaKey]" :ref="tcaKey" :data-date-type="dateType" class="t3js-datetimepicker form-control t3js-clearable flatpickr-input">
+                    </div>
+                    <div v-else class="form-control-clearable-wrapper">
+                        <input :id="id" v-model="global.activeField.tca[tcaKey]" :ref="tcaKey" :data-date-type="dateType" class="t3js-datetimepicker form-control form-control-clearable t3js-clearable flatpickr-input">
                     </div>
                     <input type="hidden">
                     <span class="input-group-btn">
