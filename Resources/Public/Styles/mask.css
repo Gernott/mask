@@ -1235,4 +1235,17 @@
   user-select: none;
 }
 
+.form-control-icon {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translate(0, -50%);
+  z-index: 1;
+  pointer-events: none;
+}
+.form-control-icon + .form-control,
+.form-control-icon + .form-control-clearable .form-control {
+  padding-left: 3.25em;
+}
+
 /*# sourceMappingURL=mask.css.map */
