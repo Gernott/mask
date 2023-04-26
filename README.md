@@ -32,11 +32,12 @@ via TCA overrides or DataProcessors.
 
 1. Add Mask as a dependency in your `ext_emconf.php` and/or `composer.json` of your sitepackage.
 2. Download Mask with composer by running the command `composer require mask/mask` or install via extension manager.
-3. Activate Mask in the extension manager (not needed in TYPO3 v11 composer mode).
+3. Activate Mask in the extension manager (not needed in TYPO3 v11+ composer mode).
 4. Mask requires `fluid_styled_content` so go to your static includes in the template module and include it there.
 5. Also include the Mask static TypoScript.
-6. Navigate to the Mask module and enter your sitepackage extension key for auto-configuration (your extension must be loaded!).
-7. Start creating your own content elements!
+6. Deactivate the `security.backend.enforceContentSecurityPolicy` feature toggle (Only TYPO3 v12+).
+7. Navigate to the Mask module and enter your sitepackage extension key for auto-configuration (your extension must be loaded!).
+8. Start creating your own content elements!
 
 ## Manual configuration :pencil2:
 

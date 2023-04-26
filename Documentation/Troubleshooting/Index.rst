@@ -12,6 +12,14 @@ Things go wrong and you don't know why? Maybe this troubleshooting guide knows!
    :depth: 1
    :local:
 
+White screen (TYPO3 v12+)
+=========================
+
+CSP is blocking the Mask module JavaScript (VueJs). To fix this, deactivate the
+`security.backend.enforceContentSecurityPolicy` feature toggle.
+
+See `GitHub issue <https://github.com/Gernott/mask/issues/545>__`.
+
 Error in backend after upgrading Mask
 =====================================
 
