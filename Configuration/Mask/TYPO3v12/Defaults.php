@@ -104,7 +104,7 @@ return [
     FieldType::TIMESTAMP => [
         'tca_in' => [
             'l10n_mode' => '',
-            'config.eval' => 'date',
+            'config.format' => 'date',
             'config.nullable' => 0,
         ],
         'tca_out' => [
