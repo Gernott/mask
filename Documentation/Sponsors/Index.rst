@@ -167,3 +167,4 @@ GitHub sponsors
 *  `Sascha Bucher <https://github.com/sabuch>`__
 *  `Axel Hempelt <https://github.com/hempelta>`__
 *  `Lina Wolf <https://github.com/linawolf>`__
+*  `W&S Digitalagentur GmbH <https://github.com/wus-agentur>`__
