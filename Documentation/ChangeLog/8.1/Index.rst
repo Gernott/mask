@@ -66,6 +66,22 @@ bundle is generated for compatibility.
 
 Thanks to Benjamin Franzke (@bnf)!
 
+Upgrade Wizard necessary
+========================
+
+The persistence / matching of type Content fields has changed. It is necessary
+to run the upgrade wizard with the title `Migrate Mask Content fields`.
+
+Command with TYPO3 CLI:
+
+.. code-block:: shell
+
+   // composer mode
+   vendor/bin/typo3 upgrade:run migrateContentFields
+
+   // classic mode
+   typo3/sysext/core/bin/typo3 upgrade:run migrateContentFields
+
 Sponsoring
 ==========
 

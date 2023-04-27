@@ -1025,12 +1025,6 @@ class AjaxController
             return new JsonResponse(['isAvailable' => !$this->tableDefinitionCollection->hasTable($fieldKey)]);
         }
 
-        // Content fields must be absolutely unique for the table, or naming
-        // conflicts may occur.
-        if ($type === FieldType::CONTENT) {
-            return new JsonResponse(['isAvailable' => $this->tableDefinitionCollection->getTableByField($fieldKey, $elementKey) === '']);
-        }
-
         // All other fields must be unique per table. Exception: If a field
         // with the same field type exists, it may be shared.
         $field = $this->tableDefinitionCollection->loadField($table, $fieldKey);

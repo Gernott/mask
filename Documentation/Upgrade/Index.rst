@@ -9,6 +9,23 @@ Upgrade Guide
 Mask tries to minimize breaking changes between each version. But sometimes small changes have to be done, which
 require actions to be performed.
 
+From v8.0.x or lower
+====================
+
+The persistence / matching of type Content fields has changed. It is necessary
+to run the upgrade wizard with the title `Migrate Mask Content fields`.
+
+Command with TYPO3 CLI:
+
+.. code-block:: shell
+
+   // composer mode
+   vendor/bin/typo3 upgrade:run migrateContentFields
+
+   // classic mode
+   typo3/sysext/core/bin/typo3 upgrade:run migrateContentFields
+
+
 From v7.0.x or lower
 ====================
 

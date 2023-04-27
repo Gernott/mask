@@ -100,6 +100,9 @@ services:
   MASK\Mask\Updates\FillTranslationSourceField:
     public: true
 
+  MASK\Mask\Updates\MigrateContentFields:
+    public: true
+
   MASK\Mask\CodeGenerator\SqlCodeGenerator:
     tags:
       - name: event.listener

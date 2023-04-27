@@ -19,8 +19,6 @@ namespace MASK\Mask\ItemsProcFuncs;
 
 use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Definition\TcaFieldDefinition;
-use MASK\Mask\Utility\AffixUtility;
-use MASK\Mask\Utility\AffixUtility as MaskUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -42,28 +40,17 @@ class CTypeList
     {
         // if this tt_content element is inline element of mask
         if ((int)$params['row']['colPos'] === 999) {
-            $fieldKey = '';
-
-            if (isset($GLOBALS['TYPO3_REQUEST']->getParsedBody()['ajax']['context'])) {
+            $fieldKey = $params['row']['tx_mask_content_role'] ?? '';
+            if ($fieldKey === '' && isset($GLOBALS['TYPO3_REQUEST']->getParsedBody()['ajax']['context'])) {
                 $ajaxContext = json_decode($GLOBALS['TYPO3_REQUEST']->getParsedBody()['ajax']['context'], true, 512, JSON_THROW_ON_ERROR);
                 $config = json_decode($ajaxContext['config'], true, 512, JSON_THROW_ON_ERROR);
-                $fieldKey = AffixUtility::removeMaskParentSuffix($config['foreign_field']);
-            } else {
-                $fields = $params['row'];
-                foreach ($fields as $key => $field) {
-                    // search for the parent field, to get the key of mask field this content element belongs to
-                    if ($field > 0 && AffixUtility::hasMaskPrefix($key) && MaskUtility::hasMaskParentSuffix($key)) {
-                        // if a parent field was found, that is filled with a uid, extract the mask field name from it
-                        $fieldKey = AffixUtility::removeMaskParentSuffix($key);
-
-                        // if one parent field was found, don't continue search, there can only be one parent
-                        break;
-                    }
-                }
+                $fieldKey = $config['foreign_match_fields']['tx_mask_content_role'];
             }
 
-            // This works since TYPO3 10.4.16 or v11.2
-            $table = $params['inlineParentTableName'] ?? $this->tableDefinitionCollection->getTableByField($fieldKey);
+            $table = $params['row']['tx_mask_content_tablenames'] ?? '';
+            if ($table === '') {
+                $table = $params['inlineParentTableName'] ?? $this->tableDefinitionCollection->getTableByField($fieldKey);
+            }
 
             // load the json configuration of this field
             $fieldDefinition = $this->tableDefinitionCollection->loadField($table, $fieldKey);

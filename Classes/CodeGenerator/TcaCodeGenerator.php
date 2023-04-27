@@ -459,10 +459,13 @@ class TcaCodeGenerator
 
             // Content: Set foreign_field and default CType in select if restricted.
             if ($fieldType->equals(FieldType::CONTENT)) {
-                $parentField = AffixUtility::addMaskParentSuffix($field->fullKey);
-                $field->realTca['config']['foreign_field'] = $parentField;
+                $field->realTca['config']['foreign_field'] = 'tx_mask_content_parent_uid';
+                $field->realTca['config']['foreign_table_field'] = 'tx_mask_content_tablenames';
+                $field->realTca['config']['foreign_match_fields'] = [
+                    'tx_mask_content_role' => $field->fullKey,
+                ];
                 if ($table === 'tt_content') {
-                    $additionalTca[$parentField] = [
+                    $additionalTca['tx_mask_content_parent_uid'] = [
                         'config' => [
                             'type' => 'passthrough',
                         ],

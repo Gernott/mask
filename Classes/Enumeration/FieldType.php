@@ -69,7 +69,7 @@ final class FieldType extends Enumeration
 
     public function canBeShared(): bool
     {
-        return !in_array($this->value, [self::INLINE, self::CONTENT, self::PALETTE, self::TAB, self::LINEBREAK], true);
+        return !in_array($this->value, [self::INLINE, self::PALETTE, self::TAB, self::LINEBREAK], true);
     }
 
     public function hasDescription(): bool

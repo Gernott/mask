@@ -79,7 +79,7 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
           currentTab: 'general',
           ctypes: {},
           sctructuralFields: ['linebreak', 'palette', 'tab'],
-          nonShareableFields: ['inline', 'content', 'palette', 'linebreak', 'tab'],
+          nonShareableFields: ['inline', 'palette', 'linebreak', 'tab'],
           maskPrefix: 'tx_mask_',
           deletedFields: [],
         },
