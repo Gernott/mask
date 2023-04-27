@@ -89,7 +89,7 @@ class HtmlCodeGenerator
                     $html[] = $this->drawWhitespace(0 + $depth) . $this->getVariableViewHelper($datafield, $field->fullKey);
                     $html[] = $this->drawWhitespace(0 + $depth) . '<f:switch expression="{' . $this->getVariableName($field->fullKey) . '}">';
                     foreach ($field->realTca['config']['items'] ?? [] as $item) {
-                        $html[] = $this->drawWhitespace(1 + $depth) . '<f:case value="' . $item[1] . '">';
+                        $html[] = $this->drawWhitespace(1 + $depth) . '<f:case value="' . ($item[1] ?? $item['value']) . '">';
                         $html[] = $this->drawWhitespace(2 + $depth) . '{' . $this->getVariableName($field->fullKey) . '}';
                         $html[] = $this->drawWhitespace(1 + $depth) . '</f:case>';
                     }

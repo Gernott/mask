@@ -218,6 +218,7 @@ class AjaxController
         }
 
         $success = true;
+        $messages = [];
         $numberTemplateFilesCreated = 0;
         foreach ($this->tableDefinitionCollection->getTable('tt_content')->elements as $element) {
             if (!$this->contentElementTemplateExists($element->key)) {
@@ -226,12 +227,16 @@ class AjaxController
                     $numberTemplateFilesCreated++;
                 } catch (\Exception $e) {
                     $success = false;
+                    $messages[] = $e->getMessage();
                 }
             }
         }
 
         if (!$success) {
-            $this->addFlashMessage('Failed to create template files. Please check your extension configuration "content"', '', AbstractMessage::ERROR);
+            $this->addFlashMessage('Failed to create template files. See errors below.', '', AbstractMessage::ERROR);
+            foreach ($messages as $message) {
+                $this->addFlashMessage($message, '', AbstractMessage::ERROR);
+            }
         }
 
         if ($numberTemplateFilesCreated > 0 && $success) {
@@ -272,7 +277,8 @@ class AjaxController
             try {
                 $this->createHtml($elementKey);
             } catch (\Exception $e) {
-                $this->addFlashMessage('Creating template file has failed. Please check your extension setting "content".', '', AbstractMessage::WARNING);
+                $this->addFlashMessage('Creating template file has failed. See error below.', '', AbstractMessage::ERROR);
+                $this->addFlashMessage($e->getMessage(), '', AbstractMessage::ERROR);
             }
         }
         if ($isNew) {
