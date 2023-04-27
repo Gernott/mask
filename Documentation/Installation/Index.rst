@@ -61,11 +61,9 @@ Install and configure
 
    4. Also include the Mask static TypoScript.
 
-   5. Deactivate the `security.backend.enforceContentSecurityPolicy` feature toggle (Only TYPO3 v12+).
+   5. Navigate to the Mask module and enter your sitepackage extension key for auto-configuration (your extension must be loaded!).
 
-   6. Navigate to the Mask module and enter your sitepackage extension key for auto-configuration (your extension must be loaded!).
-
-   7. Start creating your own content elements!
+   6. Start creating your own content elements!
 
 Manual configuration
 ====================
