@@ -17,7 +17,9 @@ defined('TYPO3') or die();
 );
 
 // Include css for styling of backend preview of mask content elements
-$GLOBALS['TBE_STYLES']['skins']['mask']['stylesheetDirectories']['mask'] = 'EXT:mask/Resources/Public/Styles/Backend/';
+if ((new \TYPO3\CMS\Core\Information\Typo3Version())->getMajorVersion() < 12) {
+    $GLOBALS['TBE_STYLES']['skins']['mask']['stylesheetDirectories']['mask'] = 'EXT:mask/Resources/Public/Styles/Backend/';
+}
 
 (static function () {
     // Allow all inline tables on standard pages

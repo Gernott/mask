@@ -22,6 +22,9 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRe
     ],
 ];
 
+// Include css for styling of backend preview of mask content elements
+$GLOBALS['TYPO3_CONF_VARS']['BE']['stylesheets']['mask'] = 'EXT:mask/Resources/Public/Styles/Backend';
+
 // Update wizards
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['convertTemplatesToUppercase'] = \MASK\Mask\Updates\ConvertTemplatesToUppercase::class;
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['moveRteOptions'] = \MASK\Mask\Updates\MoveRteOptions::class;
