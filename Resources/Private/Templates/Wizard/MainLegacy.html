@@ -1,0 +1,7 @@
+<div id="mask">
+    <div v-if="mode === 'edit' || mode === 'new'">
+        <f:render partial="Edit" arguments="{_all}"/>
+    </div>
+    <f:render partial="List" arguments="{_all}"/>
+    <splashscreen :loaded="loaded" logo-path="{f:uri.image(src: 'EXT:mask/Resources/Public/Icons/MaskUkraine.svg')}"></splashscreen>
+</div>

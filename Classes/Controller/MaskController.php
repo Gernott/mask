@@ -48,24 +48,35 @@ class MaskController
 
     public function mainAction(ServerRequestInterface $request): ResponseInterface
     {
+        if ((new Typo3Version())->getMajorVersion() < 12) {
+            return $this->renderLegacyModuleResponse($request);
+        }
+
+        $moduleTemplate = $this->moduleTemplateFactory->create($request);
+        $moduleTemplate->getDocHeaderComponent()->disable();
+        $moduleTemplate->assign('settingsUrl', $this->uriBuilder->buildUriFromRoute('tools_toolssettings'));
+        $moduleTemplate->assign('iconSize', 'medium');
+        $this->pageRenderer->loadJavaScriptModule('@mask/mask');
+        $this->pageRenderer->addCssFile('EXT:mask/Resources/Public/Styles/mask.css');
+        return $moduleTemplate->renderResponse('Wizard/Main');
+    }
+
+    protected function renderLegacyModuleResponse(ServerRequestInterface $request): ResponseInterface
+    {
         $moduleTemplate = $this->moduleTemplateFactory->create($request);
         $moduleTemplate->getDocHeaderComponent()->disable();
 
-        $view = GeneralUtility::makeInstance(StandaloneView::class);
-        $view->getRenderingContext()->getTemplatePaths()->fillDefaultsByPackageName('mask');
-        $view->setTemplate('Wizard/Main');
-
-        $view->assign('settingsUrl', $this->uriBuilder->buildUriFromRoute('tools_toolssettings'));
-        $view->assign('iconSize', (new Typo3Version())->getMajorVersion() > 11 ? 'medium' : 'default');
-
-        if ((new Typo3Version())->getMajorVersion() > 11) {
-            $this->pageRenderer->loadJavaScriptModule('@mask/mask');
-        } else {
+        if ((new Typo3Version())->getMajorVersion() < 12) {
+            $view = GeneralUtility::makeInstance(StandaloneView::class);
+            $view->getRenderingContext()->getTemplatePaths()->fillDefaultsByPackageName('mask');
+            $view->setTemplate('Wizard/MainLegacy');
+            $view->assign('settingsUrl', $this->uriBuilder->buildUriFromRoute('tools_toolssettings'));
+            $view->assign('iconSize', 'default');
             $this->pageRenderer->loadRequireJsModule('TYPO3/CMS/Mask/AmdBundle');
+            $this->pageRenderer->addCssFile('EXT:mask/Resources/Public/Styles/mask.css');
+            $moduleTemplate->setContent($view->render());
         }
-        $this->pageRenderer->addCssFile('EXT:mask/Resources/Public/Styles/mask.css');
 
-        $moduleTemplate->setContent($view->render());
         return new HtmlResponse($moduleTemplate->renderContent());
     }
 }
