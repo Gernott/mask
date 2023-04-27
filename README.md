@@ -60,9 +60,9 @@ Read a detailed explanation for each advantage and why to use Mask over other al
 
 | Mask Version | TYPO3 Version | Release Date | Status              | More Info                                                                                              |
 |--------------|---------------|--------------|---------------------|--------------------------------------------------------------------------------------------------------|
-| v8.1         | v11, v12.3    | March 2023   | development         | [Deprecation free](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/8.1/Index.html)             |
-| v8.0         | v11, v12      | 2022-10-24   | regular maintenance | [Compatibility TYPO3 v12](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/8.0/Index.html)      |
-| v7.2         | v10, v11      | 2022-05-25   | regular maintenance | [New field types, improved UX](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/7.2/Index.html) |
+| v8.1         | v11, v12      | May 2023     | development         | [Deprecation free](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/8.1/Index.html)             |
+| v8.0         | v11, v12.3    | 2022-10-24   | regular maintenance | [Compatibility TYPO3 v12](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/8.0/Index.html)      |
+| v7.2         | v10, v11      | 2022-05-25   | discontinued        | [New field types, improved UX](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/7.2/Index.html) |
 | v7.1         | v10, v11      | 2021-12-14   | discontinued        | [JsonSplitLoader, new API](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/7.1/Index.html)     |
 | v7.0         | v10, v11      | 2021-05-12   | discontinued        | [VueJS based Mask Backend](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/7.0/Index.html)     |
 | v6           | v10, v11.1    | 2020-10-08   | discontinued        | [Palettes, Groups and more](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/6.0/Index.html)    |
