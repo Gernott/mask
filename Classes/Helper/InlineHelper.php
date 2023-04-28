@@ -166,16 +166,15 @@ class InlineHelper
             $data[$field] = $elements;
         // or if it is of type Content (Nested Content) and has to be filled
         } elseif ($fieldType->equals(FieldType::CONTENT)) {
-            $elements = $this->getInlineElements(
-                $data,
-                $field,
-                $cType,
-                AffixUtility::addMaskParentSuffix($field),
-                'tt_content',
-                'tt_content',
-                $originalTable
-            );
-            $data[$field] = $elements;
+            $content = $this->getRelations((string)($data[$field] ?? ''), $tcaFieldConfig['config']['foreign_table'], '', (int)$data['uid'], $table, $tcaFieldConfig['config'] ?? []);
+            foreach ($content as $key => $element) {
+                if ($element) {
+                    $this->addIrreToData($element, 'tt_content', $cType, $originalTable);
+                    $this->addFilesToData($element);
+                    $content[$key] = $element;
+                }
+            }
+            $data[$field] = $content;
         } elseif ($fieldType->equals(FieldType::CATEGORY)) {
             if ($tcaFieldConfig['config']['relationship'] === 'manyToMany') {
                 $data[$field . '_items'] = $this->getRelations('', ($tcaFieldConfig['config']['foreign_table'] ?? ''), $tcaFieldConfig['config']['MM'] ?? '', (int)$data['uid'], $table, $tcaFieldConfig['config'] ?? []);

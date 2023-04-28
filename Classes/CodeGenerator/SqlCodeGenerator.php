@@ -116,8 +116,10 @@ class SqlCodeGenerator
                 $sql[] = 'CREATE TABLE ' . $tableDefinition->table . " (\n\t" . $column->column . ' ' . $column->sqlDefinition . "\n);\n";
                 // if this field is a content field, also add parent columns
                 if ($fieldType->equals(FieldType::CONTENT)) {
-                    $parentField = AffixUtility::addMaskParentSuffix($column->column);
-                    $sql[] = "CREATE TABLE tt_content (\n\t" . $parentField . ' ' . $column->sqlDefinition . ",\n\t" . 'KEY ' . $column->column . ' (' . $parentField . ', deleted, hidden, sorting)' . "\n);\n";
+                    $sql[] = 'CREATE TABLE tt_content ( tx_mask_content_parent_uid int(11) unsigned DEFAULT \'0\' NOT NULL );' . "\n";
+                    $sql[] = 'CREATE TABLE tt_content ( tx_mask_content_role varchar(255) DEFAULT \'\' NOT NULL );' . "\n";
+                    $sql[] = 'CREATE TABLE tt_content ( tx_mask_content_tablenames varchar(255) DEFAULT \'\' NOT NULL );' . "\n";
+                    $sql[] = 'CREATE TABLE tt_content ( KEY tx_mask_content_parent_uid (tx_mask_content_parent_uid) );' . "\n";
                 }
             }
 

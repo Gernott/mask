@@ -745,7 +745,11 @@ class TcaCodeGeneratorTest extends BaseTestCase
                     'config' => [
                         'type' => 'inline',
                         'foreign_table' => 'tt_content',
-                        'foreign_field' => 'tx_mask_field_1_parent',
+                        'foreign_field' => 'tx_mask_content_parent_uid',
+                        'foreign_table_field' => 'tx_mask_content_tablenames',
+                        'foreign_match_fields' => [
+                            'tx_mask_content_role' => 'tx_mask_field_1',
+                        ],
                         'overrideChildTca' => [
                             'columns' => [
                                 'CType' => [
@@ -758,7 +762,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
                     ],
                     'exclude' => 1,
                 ],
-                'tx_mask_field_1_parent' => [
+                'tx_mask_content_parent_uid' => [
                     'config' => [
                         'type' => 'passthrough',
                     ],
