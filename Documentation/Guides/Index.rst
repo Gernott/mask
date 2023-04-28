@@ -19,3 +19,4 @@ functionality.
    CropVariants
    RTEConfig
    UseExistingTCAFields
+   Labels
