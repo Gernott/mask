@@ -28,6 +28,7 @@ final class ElementDefinition
     public string $icon = '';
     public string $iconOverlay = '';
     public array $columns = [];
+    // TODO! add columnsOverride
     public array $labels = [];
     public array $descriptions = [];
     /**
@@ -59,6 +60,7 @@ final class ElementDefinition
         $elementDefinition->icon = $elementArray['icon'] ?? '';
         $elementDefinition->iconOverlay = $elementArray['iconOverlay'] ?? '';
         $elementDefinition->columns = $elementArray['columns'] ?? [];
+        // TODO! add columnsOverride
         $elementDefinition->labels = $elementArray['labels'] ?? [];
         $elementDefinition->descriptions = $elementArray['descriptions'] ?? [];
         $elementDefinition->options = $elementArray['options'] ?? [];
@@ -81,6 +83,7 @@ final class ElementDefinition
             'icon' => $this->icon,
             'iconOverlay' => $this->iconOverlay,
             'columns' => $this->columns,
+            // TODO! add columnsOverride
             'labels' => $this->labels,
             'descriptions' => $this->descriptions,
             'sorting' => $this->sorting,
