@@ -531,6 +531,8 @@ class TcaCodeGenerator
                         if ($description !== '') {
                             $TCAColumnsOverrides[$table]['types'][$cType]['columnsOverrides'][$paletteField->fullKey]['description'] = $description;
                         }
+
+                        // TODO! do we have to overload this as well?
                     }
                 } else {
                     $label = $element->labels[$index] ?? '';
@@ -541,6 +543,11 @@ class TcaCodeGenerator
                     $description = $element->descriptions[$index] ?? '';
                     if ($description !== '') {
                         $TCAColumnsOverrides[$table]['types'][$cType]['columnsOverrides'][$fieldDefinition->fullKey]['description'] = $description;
+                    }
+
+                    if ($element->hasColumnsOverrideForField($fieldDefinition->fullKey)) {
+                        $TCAColumnsOverrides[$table]['types'][$cType]['columnsOverrides'][$fieldDefinition->fullKey]['config']
+                            = $element->getColumnsOverrideForField($fieldDefinition->fullKey)['config'];
                     }
                 }
             }
