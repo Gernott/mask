@@ -265,6 +265,12 @@ final class TcaFieldDefinition
         return self::removeBlankOptions($definition, $fieldDefinition);
     }
 
+    public function overrideTca(array $config): void
+    {
+        $config = self::migrateTCA($config, $this);
+        $this->realTca = self::extractRealTca($config, $this);
+    }
+
     public function hasInlineParent(string $elementKey = ''): bool
     {
         if ($this->inlineParent !== '') {

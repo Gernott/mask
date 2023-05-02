@@ -188,6 +188,9 @@ final class TableDefinitionCollection implements \IteratorAggregate
         foreach ($element->columns as $fieldKey) {
             if ($tableDefinition->tca->hasField($fieldKey)) {
                 $availableTcaField = $tableDefinition->tca->getField($fieldKey);
+                if ($element->hasColumnsOverrideForField($fieldKey)) {
+                    $availableTcaField->overrideTca($element->getColumnsOverrideForField($fieldKey));
+                }
                 $tcaDefinition->addField($availableTcaField);
                 if ($availableTcaField->hasFieldType() && $availableTcaField->getFieldType()->equals(FieldType::PALETTE)) {
                     $paletteFields = $this->loadInlineFields($availableTcaField->fullKey, $element->key);

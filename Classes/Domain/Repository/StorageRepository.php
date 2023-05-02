@@ -106,10 +106,6 @@ class StorageRepository implements SingletonInterface
         }
 
         $json = $this->remove($table, $element['key'], $fields);
-
-        // TODO! cleanup tca if the tca field entry already exists in $json (überschreibt nicht global aber Daten sind lost)
-        // TODO! add field tca data to elements > $element_key > columnsOverride key that contains tca for all these fields
-
         ArrayUtility::mergeRecursiveWithOverrule($json, $jsonAdd);
 
         return $json;
@@ -295,6 +291,7 @@ class StorageRepository implements SingletonInterface
 
             // Add tca entry for field
             $jsonAdd[$table]['tca'][$field['key']] = $fieldAdd;
+            $jsonAdd[$table]['elements'][$elementKey]['columnsOverride'][$field['key']] = $fieldAdd['config']; // TODO should we only do this if a feature flag is enabled?
 
             // Resolve nested fields
             if (isset($field['fields'])) {
