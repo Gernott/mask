@@ -1,6 +1,6 @@
 ![Page and Content masks for TYPO3](Resources/Public/Images/banner.jpg)
 
-[![TYPO3 compatibility](https://img.shields.io/badge/TYPO3-12.0%20%7C%2011.5-ff8700?maxAge=3600&logo=typo3)](https://get.typo3.org/)
+[![TYPO3 compatibility](https://img.shields.io/badge/TYPO3-12.4%20%7C%2011.5-ff8700?maxAge=3600&logo=typo3)](https://get.typo3.org/)
 [![TYPO3 Verified](https://img.shields.io/badge/TYPO3-verified-ff8700?logo=typo3)](https://typo3.com/typo3-cms/verified-extensions-integrations-for-typo3/extensions/mask-create-custom-content-elements-in-typo3)
 [![Release](https://img.shields.io/github/v/release/gernott/mask?sort=semver)](https://extensions.typo3.org/extension/mask/)
 [![Total Downloads](https://poser.pugx.org/mask/mask/d/total.svg)](https://packagist.org/packages/mask/mask)
@@ -60,7 +60,7 @@ Read a detailed explanation for each advantage and why to use Mask over other al
 
 | Mask Version | TYPO3 Version | Release Date | Status              | More Info                                                                                              |
 |--------------|---------------|--------------|---------------------|--------------------------------------------------------------------------------------------------------|
-| v8.1         | v11, v12      | May 2023     | development         | [Deprecation free](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/8.1/Index.html)             |
+| v8.1         | v11, v12      | 2023-05-02   | development         | [Deprecation free](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/8.1/Index.html)             |
 | v8.0         | v11, v12.3    | 2022-10-24   | regular maintenance | [Compatibility TYPO3 v12](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/8.0/Index.html)      |
 | v7.2         | v10, v11      | 2022-05-25   | discontinued        | [New field types, improved UX](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/7.2/Index.html) |
 | v7.1         | v10, v11      | 2021-12-14   | discontinued        | [JsonSplitLoader, new API](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/7.1/Index.html)     |

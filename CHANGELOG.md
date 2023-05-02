@@ -4,6 +4,75 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [8.1.0] - 2023-05-02
+
+### Added
+- Compatibility TYPO3 v12.4 LTS (deprecation-free)
+- New TCA features adopted
+- PSR-14 MaskAllowedFieldsEvent
+- ES6 modules for TYPO3 v12
+
+## [8.0.8] - 2023-03-22
+
+### Fixed
+- Compatibility fix for upcoming new associative array keys for select items.
+
+## [8.0.7] - 2023-02-27
+
+### Fixed
+- Fixed error when naming own Mask field `bodytext`.
+
+## [8.0.6] - 2023-02-02
+
+### Fixed
+- Error for file fields when upgrading from older installations [#533](https://github.com/Gernott/mask/issues/533)
+
+**Important**: If you already experience this error, you need to remove "coreField" from your custom file fields definition
+of your mask json file and then save the element again.
+
+Before
+```
+    "coreField": 1,
+    "fullKey": "tx_mask_files",
+    "imageoverlayPalette": 1,
+    "key": "files",
+    "type": "file"
+```
+
+After
+```
+    "fullKey": "tx_mask_files",
+    "imageoverlayPalette": 1,
+    "key": "files",
+    "type": "file"
+```
+
+## [8.0.5] - 2022-12-07
+
+### Fixed
+- Compatibility TYPO3 v12.1
+
+## [8.0.4] - 2022-11-22
+
+### Fixed
+- Streamlined inline record filling.
+
+## [8.0.3] - 2022-11-22
+
+### Fixed
+- Fix error in frontend when using palettes in inline fields [#529](https://github.com/Gernott/mask/issues/529)
+- Followup bugfix for last release
+
+## [8.0.2] - 2022-11-21
+
+### Fixed
+- Saving palettes for page templates [#528](https://github.com/Gernott/mask/issues/528)
+
+## [8.0.1] - 2022-11-04
+
+### Fixed
+- Backend preview rendering in TYPO3 v11
+
 ## [8.0.0] - 2022-10-24
 
 ### Added
