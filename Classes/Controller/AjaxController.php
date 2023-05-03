@@ -729,8 +729,8 @@ class AjaxController
     }
 
     /**
-     * @param array<string, array<string, mixed>> $tcaFields
-     * @return array<string, array<string, mixed>>
+     * @param array<string, array<string, string|array<string, mixed>>> $tcaFields
+     * @return array<string, array<string, string|array<string, mixed>>>
      */
     protected function translateTcaFieldLabels(string $key, array $field, array $tcaFields): array
     {
