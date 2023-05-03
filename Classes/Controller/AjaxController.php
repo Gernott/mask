@@ -210,7 +210,7 @@ class AjaxController
             if ($this->createFolder($missingFolderPath)) {
                 $this->addFlashMessage('Successfully created directory: ' . $missingFolderPath);
             } else {
-                $this->addFlashMessage('Failed to create directory: ' . $missingFolderPath, '', $this->getCompatibleSeverity(AbstractMessage::ERROR));
+                $this->addFlashMessage('Failed to create directory: ' . $missingFolderPath, '', AbstractMessage::ERROR);
             }
         }
 
@@ -234,9 +234,9 @@ class AjaxController
         }
 
         if (!$success) {
-            $this->addFlashMessage('Failed to create template files. See errors below.', '', $this->getCompatibleSeverity(AbstractMessage::ERROR));
+            $this->addFlashMessage('Failed to create template files. See errors below.', '', AbstractMessage::ERROR);
             foreach ($messages as $message) {
-                $this->addFlashMessage($message, '', $this->getCompatibleSeverity(AbstractMessage::ERROR));
+                $this->addFlashMessage($message, '', AbstractMessage::ERROR);
             }
         }
 
@@ -270,7 +270,7 @@ class AjaxController
         try {
             $tableDefinitionCollection = $this->storageRepository->update($params['element'], $fields, $params['type'], $isNew);
         } catch (\Exception $e) {
-            $this->addFlashMessage($e->getMessage(), '', $this->getCompatibleSeverity(AbstractMessage::ERROR));
+            $this->addFlashMessage($e->getMessage(), '', AbstractMessage::ERROR);
             return new JsonResponse(['messages' => $this->flashMessageQueue->getAllMessagesAndFlush(), 'hasError' => 1]);
         }
         $this->generateAction($tableDefinitionCollection);
@@ -278,8 +278,8 @@ class AjaxController
             try {
                 $this->createHtml($elementKey);
             } catch (\Exception $e) {
-                $this->addFlashMessage('Creating template file has failed. See error below.', '', $this->getCompatibleSeverity(AbstractMessage::ERROR));
-                $this->addFlashMessage($e->getMessage(), '', $this->getCompatibleSeverity(AbstractMessage::ERROR));
+                $this->addFlashMessage('Creating template file has failed. See error below.', '', AbstractMessage::ERROR);
+                $this->addFlashMessage($e->getMessage(), '', AbstractMessage::ERROR);
             }
         }
         if ($isNew) {
@@ -973,7 +973,7 @@ class AjaxController
         // Update Database
         $result = $this->sqlCodeGenerator->updateDatabase();
         if (array_key_exists('error', $result)) {
-            $this->addFlashMessage($result['error'], '', FlashMessage::ERROR);
+            $this->addFlashMessage($result['error'], '', AbstractMessage::ERROR);
         }
 
         // Clear system cache to force new TCA caching
@@ -1042,7 +1042,7 @@ class AjaxController
      * @throws \TYPO3\CMS\Core\Exception
      * @see \TYPO3\CMS\Core\Messaging\FlashMessage
      */
-    public function addFlashMessage(string $messageBody, string $messageTitle = '', int $severity = AbstractMessage::OK, bool $storeInSession = true): void
+    protected function addFlashMessage(string $messageBody, string $messageTitle = '', int $severity = AbstractMessage::OK, bool $storeInSession = true): void
     {
         $flashMessage = GeneralUtility::makeInstance(
             FlashMessage::class,
@@ -1052,6 +1052,27 @@ class AjaxController
             $storeInSession
         );
         $this->flashMessageQueue->enqueue($flashMessage);
+    }
+
+    /**
+     * @return int|ContextualFeedbackSeverity
+     */
+    protected function getCompatibleSeverity(int $code)
+    {
+        $useEnum = (new Typo3Version())->getMajorVersion() > 11;
+        switch ($code) {
+            case AbstractMessage::NOTICE:
+                return $useEnum ? ContextualFeedbackSeverity::NOTICE : AbstractMessage::NOTICE;
+            case AbstractMessage::INFO:
+                return $useEnum ? ContextualFeedbackSeverity::INFO : AbstractMessage::INFO;
+            case AbstractMessage::OK:
+                return $useEnum ? ContextualFeedbackSeverity::OK : AbstractMessage::OK;
+            case AbstractMessage::WARNING:
+                return $useEnum ? ContextualFeedbackSeverity::WARNING : AbstractMessage::WARNING;
+            case AbstractMessage::ERROR:
+                return $useEnum ? ContextualFeedbackSeverity::ERROR : AbstractMessage::ERROR;
+        }
+        return $useEnum ? ContextualFeedbackSeverity::OK : AbstractMessage::OK;
     }
 
     /**
@@ -1129,26 +1150,5 @@ class AjaxController
     protected function getLanguageService(): LanguageService
     {
         return $GLOBALS['LANG'];
-    }
-
-    /**
-     * @return int|ContextualFeedbackSeverity
-     */
-    protected function getCompatibleSeverity(int $code)
-    {
-        $useEnum = (new Typo3Version())->getMajorVersion() > 11;
-        switch ($code) {
-            case AbstractMessage::NOTICE:
-                return $useEnum ? ContextualFeedbackSeverity::NOTICE : AbstractMessage::NOTICE;
-            case AbstractMessage::INFO:
-                return $useEnum ? ContextualFeedbackSeverity::INFO : AbstractMessage::INFO;
-            case AbstractMessage::OK:
-                return $useEnum ? ContextualFeedbackSeverity::OK : AbstractMessage::OK;
-            case AbstractMessage::WARNING:
-                return $useEnum ? ContextualFeedbackSeverity::WARNING : AbstractMessage::WARNING;
-            case AbstractMessage::ERROR:
-                return $useEnum ? ContextualFeedbackSeverity::ERROR : AbstractMessage::ERROR;
-        }
-        return $useEnum ? ContextualFeedbackSeverity::OK : AbstractMessage::OK;
     }
 }
