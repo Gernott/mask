@@ -1733,8 +1733,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         ],
                         'tx_mask_field2' => [
                             'config' => [
-                                'eval' => 'int',
-                                'type' => 'input',
+                                'type' => 'number',
                             ],
                             'key' => 'field2',
                             'name' => 'integer',
@@ -1788,8 +1787,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     ],
                     'tx_mask_field2' => [
                         'config' => [
-                            'eval' => 'int',
-                            'type' => 'input',
+                            'type' => 'number',
                         ],
                         'key' => 'field2',
                         'fullKey' => 'tx_mask_field2',
