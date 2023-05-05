@@ -304,13 +304,9 @@ class StorageRepository implements SingletonInterface
                 || $fieldAdd['type'] === FieldType::LINEBREAK) {
                 $jsonAdd[$table]['tca'][$field['key']] = $fieldAdd;
             } else {
-                $realTcaConfig = $fieldAdd['config'];
-                // cleanup real tca config to only contain type and not set any defaults
-                $minimalFieldTca = $realTcaConfig;
-                $minimalFieldTca['config'] = array('type' => $realTcaConfig['type']);
-                $jsonAdd[$table]['tca'][$field['key']] = $minimalFieldTca;
+                $jsonAdd[$table]['tca'][$field['key']] = $fieldAdd['config'];
                 // cleanup override tca to not contain type
-                $overrideTca = $realTcaConfig;
+                $overrideTca = $fieldAdd['config'];
                 unset($overrideTca['type']);
                 $jsonAdd[$table]['elements'][$elementKey]['columnsOverride'][$field['key']] = $overrideTca;
             }
