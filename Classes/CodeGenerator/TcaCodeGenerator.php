@@ -531,8 +531,6 @@ class TcaCodeGenerator
                         if ($description !== '') {
                             $TCAColumnsOverrides[$table]['types'][$cType]['columnsOverrides'][$paletteField->fullKey]['description'] = $description;
                         }
-
-                        // TODO! do we have to overload this as well?
                     }
                 } else {
                     $label = $element->labels[$index] ?? '';

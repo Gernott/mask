@@ -42,6 +42,11 @@ class StorageRepository implements SingletonInterface
     protected ConfigurationLoaderInterface $configurationLoader;
 
     /**
+     * @var array<string, string>
+     */
+    protected array $maskExtensionConfiguration;
+
+    /**
      * @var array<string, mixed>
      */
     protected array $defaults = [];
@@ -49,11 +54,13 @@ class StorageRepository implements SingletonInterface
     public function __construct(
         LoaderInterface $loader,
         TableDefinitionCollection $tableDefinitionCollection,
-        ConfigurationLoaderInterface $configurationLoader
+        ConfigurationLoaderInterface $configurationLoader,
+        array $maskExtensionConfiguration
     ) {
         $this->loader = $loader;
         $this->tableDefinitionCollection = $tableDefinitionCollection;
         $this->configurationLoader = $configurationLoader;
+        $this->maskExtensionConfiguration = $maskExtensionConfiguration;
     }
 
     /**
@@ -290,8 +297,23 @@ class StorageRepository implements SingletonInterface
             }
 
             // Add tca entry for field
-            $jsonAdd[$table]['tca'][$field['key']] = $fieldAdd;
-            $jsonAdd[$table]['elements'][$elementKey]['columnsOverride'][$field['key']] = $fieldAdd['config']; // TODO should we only do this if a feature flag is enabled?
+            if (!$this->maskExtensionConfiguration['reuse_fields']
+                || $fieldAdd['type'] === FieldType::INLINE
+                || $fieldAdd['type'] === FieldType::PALETTE
+                || $fieldAdd['type'] === FieldType::TAB
+                || $fieldAdd['type'] === FieldType::LINEBREAK) {
+                $jsonAdd[$table]['tca'][$field['key']] = $fieldAdd;
+            } else {
+                $realTcaConfig = $fieldAdd['config'];
+                // cleanup real tca config to only contain type and not set any defaults
+                $minimalFieldTca = $realTcaConfig;
+                $minimalFieldTca['config'] = array('type' => $realTcaConfig['type']);
+                $jsonAdd[$table]['tca'][$field['key']] = $minimalFieldTca;
+                // cleanup override tca to not contain type
+                $overrideTca = $realTcaConfig;
+                unset($overrideTca['type']);
+                $jsonAdd[$table]['elements'][$elementKey]['columnsOverride'][$field['key']] = $overrideTca;
+            }
 
             // Resolve nested fields
             if (isset($field['fields'])) {

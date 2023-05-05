@@ -59,6 +59,14 @@ __________________
 | Page ids from where the in PageTS defined backend layouts should be loaded (comma separated).
 | Default: 0 (root-pid, all layouts are found)
 
+reuse_fields
+__________________
+
+| If you want to reuse fields with different configurations between content elements this needs to be enabled
+| for example one dropdown field with different items per content element
+| Be careful using this option, it will change the structure in the JSON for storing content element information and can not be undone.
+| Default: false (field configuration is synced between content elements)
+
 Frontend
 ========
 
