@@ -21,7 +21,7 @@ then, you can override the generated TCA from Mask in your Overrides folder.
    $EM_CONF[$_EXTKEY] = [
        'constraints' => [
            'depends' => [
-               'mask' => '' // Add the minimum version here or leave blank for any version.
+               'mask' => '8.1' // Add the minimum version here or leave blank for any version.
            ]
        ]
    ];
@@ -34,7 +34,7 @@ anymore, when in composer mode.
 
    {
       "require": {
-         "mask/mask": "^7"
+         "mask/mask": "^8.1"
       }
    }
 

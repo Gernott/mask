@@ -615,6 +615,7 @@ final class TcaFieldDefinition
             }
         }
 
+        // TYPO3 v12 required=true / nullable=true
         if ((new Typo3Version())->getMajorVersion() > 11) {
             $evalList = GeneralUtility::trimExplode(',', $definition['config']['eval'] ?? '');
             if (in_array('required', $evalList, true)) {
@@ -628,6 +629,7 @@ final class TcaFieldDefinition
             $definition['config']['eval'] = implode(',', $evalList);
         }
 
+        // TYPO3 v12 associative array keys for items.
         if (
             (new Typo3Version())->getMajorVersion() > 11
             && $tcaFieldDefinition->hasFieldType()
@@ -644,6 +646,23 @@ final class TcaFieldDefinition
             );
             // Remove null and false (=invertStateDisplay) values.
             $definition['config']['items'] = array_map(fn (array $item): array => array_filter($item, fn ($value): bool => $value !== null && $value !== false), $processedItems);
+        }
+
+        // TYPO3 v12 type=number
+        if (
+            (new Typo3Version())->getMajorVersion() > 11
+            && $tcaFieldDefinition->hasFieldType()
+            && (
+                $tcaFieldDefinition->getFieldType()->equals(FieldType::INTEGER)
+                || $tcaFieldDefinition->getFieldType()->equals(FieldType::FLOAT)
+            )
+            && !empty($definition['config']['eval'])
+        ) {
+            $evalList = GeneralUtility::trimExplode(',', $definition['config']['eval']);
+            if (in_array('int', $evalList, true) || in_array('double2', $evalList, true)) {
+                $evalList = array_diff($evalList, ['int', 'double2']);
+                $definition['config']['eval'] = implode(',', $evalList);
+            }
         }
 
         return $definition;

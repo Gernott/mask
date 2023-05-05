@@ -54,11 +54,11 @@ jobs:
       fail-fast: false
       matrix:
         php: [ '7.4', '8.0', '8.1', '8.2' ]
-        TYPO3: [ '^11.5' ]
+        TYPO3: [ '11.5' ]
         include:
-          - TYPO3: '^12.4'
+          - TYPO3: '12.4'
             php: '8.1'
-          - TYPO3: '^12.4'
+          - TYPO3: '12.4'
             php: '8.2'
     steps:
       - name: Setup PHP
@@ -80,7 +80,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install dependencies
-        run: composer require typo3/cms-core:${{ matrix.TYPO3 }} --prefer-dist --no-progress
+        run: composer require typo3/cms-core:^${{ matrix.TYPO3 }} --prefer-dist --no-progress
 
       - name: Unit
         run: Build/Scripts/runTests.sh -s unit -p ${{ matrix.php }}

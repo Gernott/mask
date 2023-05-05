@@ -615,6 +615,48 @@ class TcaFieldDefinitionTest extends UnitTestCase
                     ],
                 ],
             ];
+
+            yield 'Type Number removes eval=int' => [
+                'json' => [
+                    'key' => 'afield',
+                    'fullKey' => 'tx_mask_afield',
+                    'type' => 'integer',
+                    'config' => [
+                        'eval' => 'int',
+                        'type' => 'number',
+                    ],
+                ],
+                'expected' => [
+                    'key' => 'afield',
+                    'fullKey' => 'tx_mask_afield',
+                    'type' => 'integer',
+                    'config' => [
+                        'type' => 'number',
+                    ],
+                ],
+            ];
+
+            yield 'Type Float removes eval=double2' => [
+                'json' => [
+                    'key' => 'afield',
+                    'fullKey' => 'tx_mask_afield',
+                    'type' => 'integer',
+                    'config' => [
+                        'eval' => 'double2',
+                        'type' => 'number',
+                        'format' => 'decimal',
+                    ],
+                ],
+                'expected' => [
+                    'key' => 'afield',
+                    'fullKey' => 'tx_mask_afield',
+                    'type' => 'integer',
+                    'config' => [
+                        'type' => 'number',
+                        'format' => 'decimal',
+                    ],
+                ],
+            ];
         }
     }
 
