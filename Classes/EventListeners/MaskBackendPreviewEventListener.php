@@ -22,11 +22,13 @@ use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Helper\InlineHelper;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\TemplatePathUtility;
+use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\View\Event\PageContentPreviewRenderingEvent;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Fluid\Core\Rendering\RenderingContextFactory;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 class MaskBackendPreviewEventListener
@@ -84,8 +86,11 @@ class MaskBackendPreviewEventListener
             return;
         }
 
+        $renderingContext = GeneralUtility::makeInstance(RenderingContextFactory::class)->create();
+        $renderingContext->setRequest($this->getRequest());
+
         // Initialize view.
-        $view = GeneralUtility::makeInstance(StandaloneView::class);
+        $view = GeneralUtility::makeInstance(StandaloneView::class, $renderingContext);
         $view->setTemplatePathAndFilename($templatePathAndFilename);
         if (!empty($this->maskExtensionConfiguration['layouts_backend'])) {
             $layoutRootPath = GeneralUtility::getFileAbsFileName($this->maskExtensionConfiguration['layouts_backend']);
@@ -131,5 +136,10 @@ class MaskBackendPreviewEventListener
     protected function getLanguageService(): LanguageService
     {
         return $GLOBALS['LANG'];
+    }
+
+    protected function getRequest(): ServerRequestInterface
+    {
+        return $GLOBALS['TYPO3_REQUEST'];
     }
 }
