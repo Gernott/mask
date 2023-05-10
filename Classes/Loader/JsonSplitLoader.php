@@ -210,6 +210,7 @@ class JsonSplitLoader implements LoaderInterface
             $newTableDefinition->palettes = $newPaletteDefinitionCollection;
             $newTableDefinition->elements = $newElementsDefinitionCollection;
             $elementTableDefinitionCollection->addTable($newTableDefinition);
+            $elementTableDefinitionCollection->setRestructuringDone($tableDefinitionCollection->getRestructuringDone());
 
             $filePath = $absolutePath . '/' . $element->key . '.json';
             $result = GeneralUtility::writeFile($filePath, json_encode($elementTableDefinitionCollection->toArray(), JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT) . "\n");

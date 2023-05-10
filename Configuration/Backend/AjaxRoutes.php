@@ -132,4 +132,12 @@ return [
         'path' => '/mask/persistDefinition',
         'target' => AjaxController::class . '::persistMaskDefinition',
     ],
+    'mask_restructuring_needed' => [
+        'path' => '/mask/reuseFieldsRestructuringNeeded',
+        'target' => AjaxController::class . '::restructuringNeeded',
+    ],
+    'mask_execute_restructuring' => [
+        'path' => '/mask/executeRestructureForReusingFields',
+        'target' => AjaxController::class . '::executeRestructuring',
+    ],
 ];

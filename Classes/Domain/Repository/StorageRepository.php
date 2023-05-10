@@ -25,6 +25,7 @@ use MASK\Mask\Definition\TcaFieldDefinition;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Loader\LoaderInterface;
 use MASK\Mask\Utility\AffixUtility;
+use MASK\Mask\Utility\ReusingFieldsUtility;
 use MASK\Mask\Utility\TcaConverter;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
@@ -297,17 +298,14 @@ class StorageRepository implements SingletonInterface
             }
 
             // Add tca entry for field
+            unset($jsonAdd[$table]['elements'][$elementKey]['columnsOverride'][$field['key']]);
             if (!$this->maskExtensionConfiguration['reuse_fields']
-                || $fieldAdd['type'] === FieldType::INLINE
-                || $fieldAdd['type'] === FieldType::PALETTE
-                || $fieldAdd['type'] === FieldType::TAB
-                || $fieldAdd['type'] === FieldType::LINEBREAK) {
+                || !ReusingFieldsUtility::fieldTypeIsAllowedToBeReused(new FieldType($fieldAdd['type']))) {
                 $jsonAdd[$table]['tca'][$field['key']] = $fieldAdd;
             } else {
-                $jsonAdd[$table]['tca'][$field['key']] = $fieldAdd['config'];
-                // cleanup override tca to not contain type
-                $overrideTca = $fieldAdd['config'];
-                unset($overrideTca['type']);
+                $minimalFieldTca = ReusingFieldsUtility::getRealTcaConfig($fieldAdd);
+                $jsonAdd[$table]['tca'][$field['key']] = $minimalFieldTca;
+                $overrideTca = ReusingFieldsUtility::getOverrideTcaConfig($fieldAdd['config']);
                 $jsonAdd[$table]['elements'][$elementKey]['columnsOverride'][$field['key']] = $overrideTca;
             }
 

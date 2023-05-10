@@ -31,6 +31,8 @@ use MASK\Mask\Enumeration\Tab;
 use MASK\Mask\Event\MaskAllowedFieldsEvent;
 use MASK\Mask\Loader\LoaderInterface;
 use MASK\Mask\Utility\AffixUtility;
+use MASK\Mask\Utility\ReusingFieldsUtility;
+use MASK\Mask\Utility\TcaConverter;
 use MASK\Mask\Utility\TemplatePathUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -500,7 +502,7 @@ class AjaxController
         $element = $this->tableDefinitionCollection->loadElement($table, $elementKey);
 
         if (!$element) {
-            return new JsonResponse(['multiUseElements' => []]);
+            return new JsonResponse(['multiUseElements' => [], 'reuseFieldsEnabled' => 'false']);
         }
 
         $multiUseElements = [];
@@ -527,7 +529,8 @@ class AjaxController
             $multiUseElements[$field->fullKey] = $this->getMultiUseForField($field->fullKey, $elementKey);
         }
 
-        return new JsonResponse(['multiUseElements' => $multiUseElements]);
+        $reusingFieldsEnabled = $this->maskExtensionConfiguration['reuse_fields'] == 1;
+        return new JsonResponse(['multiUseElements' => $multiUseElements, 'reuseFieldsEnabled' => (int)$reusingFieldsEnabled]);
     }
 
     protected function getMultiUseForField(string $key, string $elementKey): array
@@ -566,6 +569,25 @@ class AjaxController
     {
         try {
             $this->loader->write($this->tableDefinitionCollection);
+            return new JsonResponse(['status' => 'ok', 'title' => $this->translateLabel('tx_mask.update_complete.title'), 'message' => $this->translateLabel('tx_mask.update_complete.message')]);
+        } catch (\Throwable $e) {
+            return new JsonResponse(['status' => 'error', 'title' => $this->translateLabel('tx_mask.update_failed.title'), 'message' => $this->translateLabel('tx_mask.update_failed.message')]);
+        }
+    }
+
+    public function restructuringNeeded(ServerRequestInterface $request): JsonResponse
+    {
+        $reusingFieldsEnabled = $this->maskExtensionConfiguration['reuse_fields'] == 1;
+        $needsRestructure = $this->tableDefinitionCollection->getRestructuringNeeded($reusingFieldsEnabled, $this->loader);
+        return new JsonResponse(['restructuringNeeded' => (int)$needsRestructure]);
+    }
+
+    public function executeRestructuring(ServerRequestInterface $request): Response
+    {
+        $restructuredTableDefinitionCollection = ReusingFieldsUtility::restructureTcaDefinitions( $this->tableDefinitionCollection);
+        try {
+            $this->loader->write($restructuredTableDefinitionCollection);
+            $this->tableDefinitionCollection = $restructuredTableDefinitionCollection;
             return new JsonResponse(['status' => 'ok', 'title' => $this->translateLabel('tx_mask.update_complete.title'), 'message' => $this->translateLabel('tx_mask.update_complete.message')]);
         } catch (\Throwable $e) {
             return new JsonResponse(['status' => 'error', 'title' => $this->translateLabel('tx_mask.update_failed.title'), 'message' => $this->translateLabel('tx_mask.update_failed.message')]);
@@ -888,6 +910,9 @@ class AjaxController
         $language['migrationsPerformedTitle'] = $this->translateLabel('tx_mask.migrations_performed.title');
         $language['migrationsPerformedMessage'] = $this->translateLabel('tx_mask.migrations_performed.message');
         $language['updateMaskDefinition'] = $this->translateLabel('tx_mask.update_mask_definition');
+        $language['restructuringNeededTitle'] = $this->translateLabel('tx_mask.restructuring_needed.title');
+        $language['restructuringNeededMessage'] = $this->translateLabel('tx_mask.restructuring_needed.message');
+        $language['executeRestructuring'] = $this->translateLabel('tx_mask.execute_restructuring');
         $language['selectedItems'] = $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.selected');
         $language['availableItems'] = $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.items');
 

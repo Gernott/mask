@@ -5,7 +5,7 @@
                 <div v-if="global.typo3Version == 11" class="media-left"><span class="fa-stack fa-lg callout-icon"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-info fa-stack-1x"></i></span></div>
                 <div v-else class="media-left"><span class="icon-emphasized"><core:icon identifier="actions-info"></core:icon></span></div>
                 <div class="media-body">
-                    <p><b><f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.content.multiuse"/></b><br><f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.content.multiuse.description"/></p>
+                    <p><b><f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.content.multiuse"/></b><br><span v-if="!reuseFieldsEnabled"><f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.content.multiuse.description"/></span></p>
                     <p class="mb-0"><a href="#" @click.prevent="openMultiUsageModal" class="btn btn-sm btn-primary"><f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.showMultiuseElements"/></a></p>
                 </div>
             </div>

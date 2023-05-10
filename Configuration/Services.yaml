@@ -128,3 +128,10 @@ services:
         command: 'mask:convert'
         description: 'Converts a Mask storage format into another.'
         schedulable: false
+
+  MASK\Mask\Command\RestructureReusingFieldsCommand:
+    tags:
+      - name: 'console.command'
+        command: 'mask:restructureReusingFields'
+        description: 'Migrates shared fields to reusable fields.'
+        schedulable: false

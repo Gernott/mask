@@ -19,8 +19,10 @@ namespace MASK\Mask\Definition;
 
 use InvalidArgumentException;
 use MASK\Mask\Enumeration\FieldType;
+use MASK\Mask\Loader\LoaderInterface;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\FieldTypeUtility;
+use MASK\Mask\Utility\ReusingFieldsUtility;
 
 final class TableDefinitionCollection implements \IteratorAggregate
 {
@@ -31,6 +33,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
     private ArrayDefinitionSorter $arrayDefinitionSorter;
     private string $version = '8.1.0';
     private bool $migrationDone = false;
+    private bool $restructuringDone = false;
 
     public function __construct()
     {
@@ -69,6 +72,76 @@ final class TableDefinitionCollection implements \IteratorAggregate
         $this->migrationDone = true;
     }
 
+    /**
+     * @param bool $reusingFieldsEnabled Is the reusing fields setting enabled?
+     * @return bool returns if a restructuring is needed or not
+     */
+    public function getRestructuringNeeded(bool $reusingFieldsEnabled, LoaderInterface $loader): bool
+    {
+        // restructure already done
+        if ($reusingFieldsEnabled && $this->restructuringDone) {
+            return false;
+        }
+
+        // seems user switched back to sharing fields handling => reset migration state
+        if (!$reusingFieldsEnabled && $this->restructuringDone) {
+            $this->setRestructuringDone(false);
+            $loader->write($this);
+            return false;
+        }
+
+        if (!$reusingFieldsEnabled) {
+            return false;
+        }
+
+        // seems no content elements saved yet
+        if (!$this->hasTable('tt_content')) {
+            $this->setRestructuringDone(true);
+            $loader->write($this);
+            return false;
+        }
+
+        $ttContentDefinition = $this->getTable('tt_content');
+        $tcaDefinition = $ttContentDefinition->tca;
+        foreach ($ttContentDefinition->elements as $element) {
+            // seems the element already has all fields set or has no fields at all
+            if (count($element->columns) == count($element->columnsOverride)) {
+                continue;
+            }
+
+            foreach ($element->columns as $fieldKey) {
+                // already set
+                if (isset($element->columnsOverride[$fieldKey])) {
+                    continue;
+                }
+
+                $fieldType = $tcaDefinition->getField($fieldKey)->getFieldType();
+                if (ReusingFieldsUtility::fieldTypeIsAllowedToBeReused($fieldType)) {
+                    return true;
+                }
+            }
+        }
+
+        // seems we do not need to restructure anything
+        $this->setRestructuringDone(true);
+        $loader->write($this);
+        return false;
+    }
+
+    public function getRestructuringDone(): bool
+    {
+        return $this->restructuringDone;
+    }
+
+    /**
+     * @param bool $state Set the state if restructuring was already executed.
+     * @return void
+     */
+    public function setRestructuringDone(bool $state): void
+    {
+        $this->restructuringDone = !!$state;
+    }
+
     public function addTable(TableDefinition $tableDefinition): void
     {
         if (!$this->hasTable($tableDefinition->table)) {
@@ -102,6 +175,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
         }
         return [
             'version' => $this->version,
+            'restructuringDone' => $this->restructuringDone,
             'tables' => $tablesArray,
         ];
     }
@@ -136,6 +210,9 @@ final class TableDefinitionCollection implements \IteratorAggregate
             $tableDefinitionCollection->version = '0.1.0';
             $tables = $tableDefinitionArray;
         }
+        $tableDefinitionCollection->restructuringDone =
+            array_key_exists('restructuringDone', $tableDefinitionArray)
+                ? $tableDefinitionArray['restructuringDone'] : false;
         foreach ($tables as $table => $definition) {
             $tableDefinition = TableDefinition::createFromTableArray($table, $definition);
             $tableDefinitionCollection->addTable($tableDefinition);

@@ -59,8 +59,10 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
         faIcons: {},
         availableTca: {},
         multiUseElements: {},
+        reuseFieldsEnabled: false,
         optionalExtensionStatus: {},
         migrationsDone: false,
+        restructuringNeeded: false,
         fieldErrors: {
           elementKeyAvailable: true,
           elementKey: false,
@@ -289,6 +291,14 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
                   }
                 ));
 
+              promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_restructuring_needed)).get()
+                .then(
+                  async response => {
+                    const restructuringNeeded = await response.resolve();
+                    this.restructuringNeeded = restructuringNeeded.restructuringNeeded;
+                  }
+                ));
+
               promises.push(Icons.getIcon('actions-edit-delete', Icons.sizes.small).then(icon => {
                 this.icons.delete = icon;
               }));
@@ -330,6 +340,32 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
                         label: this.language.updateMaskDefinition,
                         action: new DeferredAction(() => {
                           return new AjaxRequest(TYPO3.settings.ajaxUrls.mask_persist_definition)
+                            .get()
+                            .then(async response => {
+                              const res = await response.resolve();
+                              if (res.status === 'ok') {
+                                Notification.success(res.title, res.message);
+                              }
+                              if (res.status === 'error') {
+                                Notification.error(res.title, res.message);
+                              }
+                            });
+                        })
+                      }
+                    ]
+                  );
+                }
+
+                if (this.restructuringNeeded) {
+                  Notification.warning(
+                    this.language.restructuringNeededTitle,
+                    this.language.restructuringNeededMessage,
+                    0,
+                    [
+                      {
+                        label: this.language.executeRestructuring,
+                        action: new DeferredAction(() => {
+                          return new AjaxRequest(TYPO3.settings.ajaxUrls.mask_execute_restructuring)
                             .get()
                             .then(async response => {
                               const res = await response.resolve();
@@ -779,6 +815,7 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
                   if (result.multiUseElements.length !== 0) {
                     this.multiUseElements = result.multiUseElements;
                   }
+                  this.reuseFieldsEnabled = result.reuseFieldsEnabled;
                 }
             ));
 
@@ -1411,6 +1448,9 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
           return this.multiUseElements[this.global.activeField.key]
         }
         return [];
+      },
+      isReuseFieldsEnabled: function () {
+        return this.reuseFieldsEnabled === true;
       },
       metaVisible: function () {
         return this.sidebar === 'meta';

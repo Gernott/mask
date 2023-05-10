@@ -119,4 +119,9 @@ final class ElementDefinition
             'config' => $this->columnsOverride[$key]
         );
     }
+
+    public function addColumnsOverrideForField(string $key, array $columnsOverride): void
+    {
+        $this->columnsOverride[$key] = $columnsOverride;
+    }
 }
