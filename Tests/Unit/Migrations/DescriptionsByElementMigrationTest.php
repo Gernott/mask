@@ -157,6 +157,7 @@ class DescriptionsByElementMigrationTest extends UnitTestCase
                         'sorting' => 0,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
+                        'columnsOverride' => array()
                     ],
                 ],
                 'tca' => [
