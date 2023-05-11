@@ -23,6 +23,7 @@ use MASK\Mask\Loader\LoaderInterface;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\FieldTypeUtility;
 use MASK\Mask\Utility\ReusingFieldsUtility;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 
 final class TableDefinitionCollection implements \IteratorAggregate
 {
@@ -266,7 +267,9 @@ final class TableDefinitionCollection implements \IteratorAggregate
             if ($tableDefinition->tca->hasField($fieldKey)) {
                 $availableTcaField = $tableDefinition->tca->getField($fieldKey);
                 if ($element->hasColumnsOverrideForField($fieldKey)) {
-                    $availableTcaField->overrideTca($element->getColumnsOverrideForField($fieldKey));
+                    $realTca = $availableTcaField->realTca;
+                    ArrayUtility::mergeRecursiveWithOverrule($realTca, $element->getColumnsOverrideForField($fieldKey));
+                    $availableTcaField->overrideTca($realTca);
                 }
                 $tcaDefinition->addField($availableTcaField);
                 if ($availableTcaField->hasFieldType() && $availableTcaField->getFieldType()->equals(FieldType::PALETTE)) {
