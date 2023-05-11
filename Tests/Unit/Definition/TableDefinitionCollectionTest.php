@@ -360,8 +360,9 @@ class TableDefinitionCollectionTest extends BaseTestCase
     public function loadInlineFields(array $json, string $parentKey, string $elementKey, array $expected): void
     {
         $tableDefinitionCollection = TableDefinitionCollection::createFromArray($json);
-
-        self::assertEquals($expected, $tableDefinitionCollection->loadInlineFields($parentKey, $elementKey)->toArray());
+        $elementTcaDefinition = $tableDefinitionCollection->loadElement('tt_content', $elementKey);
+        $element = is_null($elementTcaDefinition) ? null : $elementTcaDefinition->elementDefinition;
+        self::assertEquals($expected, $tableDefinitionCollection->loadInlineFields($parentKey, $element)->toArray());
     }
 
     public function getElementsWhichUseFieldDataProvider(): array

@@ -265,7 +265,7 @@ class TcaCodeGenerator
                 $fieldArray[] = '--palette--;;' . $fieldKey;
             } elseif ($fieldType->equals(FieldType::INLINE)) {
                 // Make sure only inline fields with at least 1 field are added.
-                $inlineFields = $this->tableDefinitionCollection->loadInlineFields($fieldKey, $element->key);
+                $inlineFields = $this->tableDefinitionCollection->loadInlineFields($fieldKey, $element);
                 if ($inlineFields->toArray() !== []) {
                     $fieldArray[] = $fieldKey;
                 }
@@ -510,7 +510,7 @@ class TcaCodeGenerator
                 if (
                     $fieldDefinition->hasFieldType()
                     && $fieldDefinition->getFieldType()->equals(FieldType::INLINE)
-                    && $this->tableDefinitionCollection->loadInlineFields($fieldDefinition->fullKey, $element->key)->toArray() === []
+                    && $this->tableDefinitionCollection->loadInlineFields($fieldDefinition->fullKey, $element)->toArray() === []
                 ) {
                     continue;
                 }
@@ -522,7 +522,7 @@ class TcaCodeGenerator
 
                 // Build TCA columns overrides.
                 if ($fieldDefinition->hasFieldType() && $fieldDefinition->getFieldType()->equals(FieldType::PALETTE)) {
-                    foreach ($this->tableDefinitionCollection->loadInlineFields($fieldName, $element->key) as $paletteField) {
+                    foreach ($this->tableDefinitionCollection->loadInlineFields($fieldName, $element) as $paletteField) {
                         $label = $paletteField->getLabel($element->key);
                         if ($label !== '') {
                             $TCAColumnsOverrides[$table]['types'][$cType]['columnsOverrides'][$paletteField->fullKey]['label'] = $label;
@@ -530,6 +530,10 @@ class TcaCodeGenerator
                         $description = $paletteField->getDescription($element->key);
                         if ($description !== '') {
                             $TCAColumnsOverrides[$table]['types'][$cType]['columnsOverrides'][$paletteField->fullKey]['description'] = $description;
+                        }
+                        if ($element->hasColumnsOverrideForField($paletteField->fullKey)) {
+                            $TCAColumnsOverrides[$table]['types'][$cType]['columnsOverrides'][$paletteField->fullKey]['config']
+                                = $element->getColumnsOverrideForField($paletteField->fullKey)['config'];
                         }
                     }
                 } else {
