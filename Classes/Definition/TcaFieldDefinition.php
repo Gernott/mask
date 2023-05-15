@@ -40,7 +40,6 @@ final class TcaFieldDefinition
         // result in the file field to be treated as a "coreField".
         FieldType::FILE => [
             'config.minitems',
-            'config.maxitems',
         ],
     ];
 
@@ -154,7 +153,6 @@ final class TcaFieldDefinition
 
         // Always set minitems / maxitems so the config array is not completely empty.
         if (!$tcaFieldDefinition->isCoreField && $tcaFieldDefinition->hasFieldType() && $tcaFieldDefinition->getFieldType()->equals(FieldType::FILE)) {
-            $definition['config']['maxitems'] ??= '';
             $definition['config']['minitems'] ??= '';
         }
 

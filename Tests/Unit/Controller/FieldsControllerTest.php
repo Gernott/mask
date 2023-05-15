@@ -596,7 +596,6 @@ class FieldsControllerTest extends BaseTestCase
                                 'allowedFileExtensions' => 'jpg',
                                 'config.appearance.fileUploadAllowed' => 1,
                                 'imageoverlayPalette' => 1,
-                                'config.maxitems' => '',
                                 'config.minitems' => '',
                             ],
                         ],
