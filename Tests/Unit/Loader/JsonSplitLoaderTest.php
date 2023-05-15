@@ -307,7 +307,6 @@ class JsonSplitLoaderTest extends UnitTestCase
                             'appearance' => [
                                 'fileUploadAllowed' => 1,
                             ],
-                            'maxitems' => '',
                             'minitems' => '',
                         ],
                         'type' => 'file',
@@ -1011,7 +1010,6 @@ class JsonSplitLoaderTest extends UnitTestCase
                             'appearance' => [
                                 'fileUploadAllowed' => 1,
                             ],
-                            'maxitems' => '',
                             'minitems' => '',
                         ],
                         'type' => 'file',
