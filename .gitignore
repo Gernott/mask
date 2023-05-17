@@ -12,3 +12,4 @@ Documentation-GENERATED-temp/
 .env
 .vscode
 .cache/
+.DS_Store
