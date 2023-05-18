@@ -43,7 +43,6 @@ class TcaFieldDefinitionTest extends UnitTestCase
             ],
             'expected' => [
                 'config' => [
-                    'maxitems' => '',
                     'minitems' => '',
                 ],
                 'key' => 'image',
@@ -348,7 +347,6 @@ class TcaFieldDefinitionTest extends UnitTestCase
             'expected' => [
                 'config' => [
                     'minitems' => '',
-                    'maxitems' => '',
                 ],
                 'key' => 'image',
                 'fullKey' => 'tx_mask_image',
