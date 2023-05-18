@@ -62,6 +62,7 @@ class ReusingFieldsUtility
 
         $ttContentDefinition = $tableDefinitionCollection->getTable('tt_content');
         $tcaDefinition = $ttContentDefinition->tca;
+        $paletteDefinitions = $ttContentDefinition->palettes;
         foreach ($ttContentDefinition->elements as $element) {
             // ignore content elements with no fields
             if (count($element->columns) <= 0) {
@@ -71,17 +72,36 @@ class ReusingFieldsUtility
             foreach ($element->columns as $fieldKey) {
                 $fieldTypeTca = $tcaDefinition->getField($fieldKey);
                 $fieldType = $fieldTypeTca->getFieldType();
-                if (!self::fieldTypeIsAllowedToBeReused($fieldType)) {
+                if (!self::fieldTypeIsAllowedToBeReused($fieldType) && !$fieldType->equals(FieldType::PALETTE) ) {
                     continue;
                 }
 
-                $columnsOverride = self::getOverrideTcaConfig($fieldTypeTca->realTca['config']);
+                if ($fieldType->equals(FieldType::PALETTE) && isset($paletteDefinitions)) {
+                    $paletteDefinition = $paletteDefinitions->getPalette($fieldKey);
+                    foreach ($paletteDefinition->showitem as $childFieldKey) {
+                        $fieldTypeTca = $tcaDefinition->getField($childFieldKey);
+                        $fieldType = $fieldTypeTca->getFieldType();
+                        if (!self::fieldTypeIsAllowedToBeReused($fieldType)) {
+                            continue;
+                        }
+
+                        $columnsOverride = self::getOverrideTcaConfig($fieldTypeTca->toArray());
+                        $element->addColumnsOverrideForField($childFieldKey, $columnsOverride);
+                    }
+                    continue;
+                }
+
+                $columnsOverride = self::getOverrideTcaConfig($fieldTypeTca->toArray());
                 $element->addColumnsOverrideForField($fieldKey, $columnsOverride);
             }
         }
 
         foreach ($tcaDefinition->getKeys() as $fieldKey) {
             $fieldTypeTca = $tcaDefinition->getField($fieldKey);
+            if (!self::fieldTypeIsAllowedToBeReused($fieldTypeTca->getFieldType())) {
+                continue;
+            }
+
             $minimalTca = self::getRealTcaConfig($fieldTypeTca->realTca);
             $fieldTypeTca->overrideTca($minimalTca);
         }
@@ -109,23 +129,41 @@ class ReusingFieldsUtility
             }
         }
 
+        // cleanup other options that are stored in override
+        if (isset($minimalFieldTca['inPalette'])) {
+            unset($minimalFieldTca['inPalette']);
+        }
+
         return $minimalFieldTca;
     }
 
     /**
-     * @param array $realTcaConfig tca field configuration that should be cleaned up to be used as columnsOverride
+     * @param array $fieldConfig tca field configuration that should be cleaned up to be used as columnsOverride
      * @return array cleaned tca field config that can be used as columnOverride
      */
-    public static function getOverrideTcaConfig(array $realTcaConfig): array
+    public static function getOverrideTcaConfig(array $fieldConfig): array
     {
-        $overrideTca = $realTcaConfig;
+        if (!is_array($fieldConfig['config'])) {
+            return $fieldConfig;
+        }
 
-        foreach (array_keys($overrideTca) as $configKey) {
+        $overrideTcaConfig = $fieldConfig['config'];
+        foreach (array_keys($overrideTcaConfig) as $configKey) {
             if (in_array($configKey, self::NON_OVERRIDEABLE_OPTIONS, true)
-                && isset($overrideTca[$configKey])) {
-                unset($overrideTca[$configKey]);
+                && isset($overrideTcaConfig[$configKey])) {
+                unset($overrideTcaConfig[$configKey]);
             }
         }
+
+        $overrideTca = array(
+            'config' => $overrideTcaConfig
+        );
+
+        if (isset($fieldConfig['inPalette'])) {
+            $overrideTca['inPalette'] = $fieldConfig['inPalette'];
+        }
+
+        // TODO move label and description also to this override section and remove from parent
 
         return $overrideTca;
     }

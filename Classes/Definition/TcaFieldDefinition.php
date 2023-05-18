@@ -268,6 +268,7 @@ final class TcaFieldDefinition
     public function overrideTca(array $config): void
     {
         $config = self::migrateTCA($config, $this);
+        $this->inPalette = (bool)($config['inPalette'] ?? false);
         $this->realTca = self::extractRealTca($config, $this);
     }
 

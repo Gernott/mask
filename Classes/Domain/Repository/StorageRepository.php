@@ -305,7 +305,7 @@ class StorageRepository implements SingletonInterface
             } else {
                 $minimalFieldTca = ReusingFieldsUtility::getRealTcaConfig($fieldAdd);
                 $jsonAdd[$table]['tca'][$field['key']] = $minimalFieldTca;
-                $overrideTca = ReusingFieldsUtility::getOverrideTcaConfig($fieldAdd['config']);
+                $overrideTca = ReusingFieldsUtility::getOverrideTcaConfig($fieldAdd);
                 $jsonAdd[$table]['elements'][$elementKey]['columnsOverride'][$field['key']] = $overrideTca;
             }
 
