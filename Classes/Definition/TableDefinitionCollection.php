@@ -289,7 +289,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
      */
     public function loadInlineFields(string $parentKey, ?ElementDefinition $element): NestedTcaFieldDefinitions
     {
-        $elementKey = $element->key;
+        $elementKey = is_null($element) ? '' : $element->key;
         // Load inline fields of own table.
         if ($this->hasTable($parentKey)) {
             $searchTable = $this->getTable($parentKey);
