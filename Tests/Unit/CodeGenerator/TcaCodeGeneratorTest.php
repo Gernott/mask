@@ -1818,15 +1818,15 @@ class TcaCodeGeneratorTest extends BaseTestCase
                             'config' => [
                                 'type' => 'input',
                             ],
-                            'key' => 'field1',
-                            'fullKey' => 'tx_mask_field1',
+                            'key' => 'field2',
+                            'fullKey' => 'tx_mask_field2',
                         ],
                         'tx_mask_field3' => [
                             'config' => [
                                 'type' => 'input',
                             ],
-                            'key' => 'field1',
-                            'fullKey' => 'tx_mask_field1',
+                            'key' => 'field3',
+                            'fullKey' => 'tx_mask_field3',
                         ],
                     ],
                 ],
@@ -1919,8 +1919,8 @@ class TcaCodeGeneratorTest extends BaseTestCase
                             'config' => [
                                 'type' => 'input',
                             ],
-                            'key' => 'field1',
-                            'fullKey' => 'tx_mask_field1',
+                            'key' => 'field2',
+                            'fullKey' => 'tx_mask_field3',
                         ],
                         'tx_mask_tab' => [
                             'config' => [
@@ -1971,8 +1971,8 @@ class TcaCodeGeneratorTest extends BaseTestCase
                             'config' => [
                                 'type' => 'input',
                             ],
-                            'key' => 'field1',
-                            'fullKey' => 'tx_mask_field1',
+                            'key' => 'field2',
+                            'fullKey' => 'tx_mask_field2',
                         ],
                         'tx_mask_palette' => [
                             'config' => [
@@ -2001,6 +2001,111 @@ class TcaCodeGeneratorTest extends BaseTestCase
                                 ],
                                 'tx_mask_field2' => [
                                     'description' => 'Field 2 Description',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        yield 'normal root fields TCA override generated with override fields enabled' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'key' => 'element1',
+                            'label' => 'Element 1',
+                            'columns' => [
+                                'tx_mask_field1',
+                                'tx_mask_field2',
+                            ],
+                            'columnsOverride' => [
+                                'tx_mask_field1' => [
+                                    'config' => [
+                                        'default' => 'Text',
+                                    ]
+                                ],
+                                'tx_mask_field2' => [
+                                    'config' => [
+                                        'default' => 'Text Field 2',
+                                    ]
+                                ]
+                            ],
+                            'descriptions' => [
+                                'Field 1',
+                                'Field 2',
+                            ],
+                        ],
+                        'element2' => [
+                            'key' => 'element2',
+                            'label' => 'Element 2',
+                            'columns' => [
+                                'tx_mask_field3',
+                            ],
+                            'columnsOverride' => [
+                                'tx_mask_field3' => [
+                                    'config' => [
+                                        'default' => 'Text Field 3',
+                                    ]
+                                ]
+                            ],
+                            'descriptions' => [
+                                'Field 3',
+                            ],
+                        ],
+                    ],
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'input',
+                            ],
+                            'key' => 'field1',
+                            'fullKey' => 'tx_mask_field1',
+                        ],
+                        'tx_mask_field2' => [
+                            'config' => [
+                                'type' => 'input',
+                            ],
+                            'key' => 'field2',
+                            'fullKey' => 'tx_mask_field2',
+                        ],
+                        'tx_mask_field3' => [
+                            'config' => [
+                                'type' => 'input',
+                            ],
+                            'key' => 'field3',
+                            'fullKey' => 'tx_mask_field3',
+                        ],
+                    ],
+                ],
+            ],
+            'expected' => [
+                'tt_content' => [
+                    'types' => [
+                        'mask_element1' => [
+                            'columnsOverrides' => [
+                                'tx_mask_field1' => [
+                                    'description' => 'Field 1',
+                                    'config' => [
+                                        'default' => 'Text'
+                                    ]
+                                ],
+                                'tx_mask_field2' => [
+                                    'description' => 'Field 2',
+                                    'config' => [
+                                        'default' => 'Text Field 2',
+                                    ]
+                                ],
+                            ],
+                        ],
+                        'mask_element2' => [
+                            'columnsOverrides' => [
+                                'tx_mask_field3' => [
+                                    'description' => 'Field 3',
+                                    'config' => [
+                                        'default' => 'Text Field 3'
+                                    ],
                                 ],
                             ],
                         ],
