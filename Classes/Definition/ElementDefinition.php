@@ -112,7 +112,7 @@ final class ElementDefinition
     public function getColumnsOverrideForField(string $key): array
     {
         if (!$this->hasColumnsOverrideForField($key)) {
-            return array();
+            return [];
         }
 
         return $this->columnsOverride[$key];

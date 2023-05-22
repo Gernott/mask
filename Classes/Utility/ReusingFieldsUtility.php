@@ -47,7 +47,7 @@ class ReusingFieldsUtility
         FieldType::INLINE,
         FieldType::PALETTE,
         FieldType::TAB,
-        FieldType::LINEBREAK
+        FieldType::LINEBREAK,
     ];
 
     /**
@@ -72,7 +72,7 @@ class ReusingFieldsUtility
             foreach ($element->columns as $fieldKey) {
                 $fieldTypeTca = $tcaDefinition->getField($fieldKey);
                 $fieldType = $fieldTypeTca->getFieldType();
-                if (!self::fieldTypeIsAllowedToBeReused($fieldType) && !$fieldType->equals(FieldType::PALETTE) ) {
+                if (!self::fieldTypeIsAllowedToBeReused($fieldType) && !$fieldType->equals(FieldType::PALETTE)) {
                     continue;
                 }
 
@@ -121,7 +121,6 @@ class ReusingFieldsUtility
             return $minimalFieldTca;
         }
 
-
         foreach (array_keys($minimalFieldTca['config']) as $configKey) {
             if (!in_array($configKey, self::NON_OVERRIDEABLE_OPTIONS, true)
                 && isset($minimalFieldTca['config'][$configKey])) {
@@ -155,9 +154,9 @@ class ReusingFieldsUtility
             }
         }
 
-        $overrideTca = array(
-            'config' => $overrideTcaConfig
-        );
+        $overrideTca = [
+            'config' => $overrideTcaConfig,
+        ];
 
         if (isset($fieldConfig['inPalette'])) {
             $overrideTca['inPalette'] = $fieldConfig['inPalette'];
@@ -182,5 +181,4 @@ class ReusingFieldsUtility
 
         return true;
     }
-
 }

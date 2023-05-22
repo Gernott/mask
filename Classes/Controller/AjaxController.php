@@ -32,7 +32,6 @@ use MASK\Mask\Event\MaskAllowedFieldsEvent;
 use MASK\Mask\Loader\LoaderInterface;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\ReusingFieldsUtility;
-use MASK\Mask\Utility\TcaConverter;
 use MASK\Mask\Utility\TemplatePathUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -584,7 +583,7 @@ class AjaxController
 
     public function executeRestructuring(ServerRequestInterface $request): Response
     {
-        $restructuredTableDefinitionCollection = ReusingFieldsUtility::restructureTcaDefinitions( $this->tableDefinitionCollection);
+        $restructuredTableDefinitionCollection = ReusingFieldsUtility::restructureTcaDefinitions($this->tableDefinitionCollection);
         try {
             $this->loader->write($restructuredTableDefinitionCollection);
             $this->tableDefinitionCollection = $restructuredTableDefinitionCollection;

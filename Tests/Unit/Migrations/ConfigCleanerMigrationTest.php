@@ -86,7 +86,7 @@ class ConfigCleanerMigrationTest extends UnitTestCase
                         'sorting' => 0,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                        'columnsOverride' => array()
+                        'columnsOverride' => [],
                     ],
                 ],
                 'tca' => [

@@ -26,9 +26,9 @@ trait StorageRepositoryCreatorTrait
     {
         $loader = $this->createLoader($json);
         $configurationLoader = new FakeConfigurationLoader();
-        $maskConfiguration = array(
-            'reuse_fields' => false
-        );
+        $maskConfiguration = [
+            'reuse_fields' => false,
+        ];
 
         return new StorageRepository($loader, $loader->load(), $configurationLoader, $maskConfiguration);
     }

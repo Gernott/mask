@@ -851,7 +851,7 @@ class StorageRepositoryTest extends BaseTestCase
                             'sorting' => 0,
                             'colorOverlay' => '',
                             'iconOverlay' => '',
-                            'columnsOverride' => array(),
+                            'columnsOverride' => [],
                         ],
                         'element2' => [
                             'label' => 'Element 2',
@@ -1009,7 +1009,7 @@ class StorageRepositoryTest extends BaseTestCase
                             'sorting' => '0',
                             'colorOverlay' => '',
                             'iconOverlay' => '',
-                            'columnsOverride' => array(),
+                            'columnsOverride' => [],
                         ],
                         'element2' => [
                             'label' => 'Element 2',
@@ -1024,7 +1024,7 @@ class StorageRepositoryTest extends BaseTestCase
                             'sorting' => '2',
                             'colorOverlay' => '',
                             'iconOverlay' => '',
-                            'columnsOverride' => array(),
+                            'columnsOverride' => [],
                         ],
                         'element3' => [
                             'label' => 'Element 3',
@@ -1158,7 +1158,7 @@ class StorageRepositoryTest extends BaseTestCase
                             ],
                             'colorOverlay' => '',
                             'iconOverlay' => '',
-                            'columnsOverride' => array(),
+                            'columnsOverride' => [],
                         ],
                         'element2' => [
                             'label' => 'Element 2',
@@ -1557,7 +1557,7 @@ class StorageRepositoryTest extends BaseTestCase
                                 'sorting' => 0,
                                 'colorOverlay' => '',
                                 'iconOverlay' => '',
-                                'columnsOverride' => array(),
+                                'columnsOverride' => [],
                             ],
                         ],
                         'tca' => [

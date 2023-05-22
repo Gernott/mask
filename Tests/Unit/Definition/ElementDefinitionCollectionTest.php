@@ -53,7 +53,7 @@ class ElementDefinitionCollectionTest extends UnitTestCase
                     'sorting' => 0,
                     'colorOverlay' => '',
                     'iconOverlay' => '',
-                    'columnsOverride' => array()
+                    'columnsOverride' => [],
                 ],
                 [
                     'key' => 'element2',
@@ -68,7 +68,7 @@ class ElementDefinitionCollectionTest extends UnitTestCase
                     'sorting' => 0,
                     'colorOverlay' => '',
                     'iconOverlay' => '',
-                    'columnsOverride' => array()
+                    'columnsOverride' => [],
                 ],
                 [
                     'key' => 'element3',
@@ -83,7 +83,7 @@ class ElementDefinitionCollectionTest extends UnitTestCase
                     'sorting' => 0,
                     'colorOverlay' => '',
                     'iconOverlay' => '',
-                    'columnsOverride' => array()
+                    'columnsOverride' => [],
                 ],
             ],
         ];
@@ -120,7 +120,7 @@ class ElementDefinitionCollectionTest extends UnitTestCase
                     'sorting' => 0,
                     'colorOverlay' => '',
                     'iconOverlay' => '',
-                    'columnsOverride' => array()
+                    'columnsOverride' => [],
                 ],
                 [
                     'key' => 'element2',
@@ -135,7 +135,7 @@ class ElementDefinitionCollectionTest extends UnitTestCase
                     'sorting' => 0,
                     'colorOverlay' => '',
                     'iconOverlay' => '',
-                    'columnsOverride' => array()
+                    'columnsOverride' => [],
                 ],
                 [
                     'key' => 'element3',
@@ -150,7 +150,7 @@ class ElementDefinitionCollectionTest extends UnitTestCase
                     'sorting' => 0,
                     'colorOverlay' => '',
                     'iconOverlay' => '',
-                    'columnsOverride' => array()
+                    'columnsOverride' => [],
                 ],
             ],
         ];
@@ -187,7 +187,7 @@ class ElementDefinitionCollectionTest extends UnitTestCase
                     'sorting' => 0,
                     'colorOverlay' => '',
                     'iconOverlay' => '',
-                    'columnsOverride' => array()
+                    'columnsOverride' => [],
                 ],
                 [
                     'key' => 'element2',
@@ -202,7 +202,7 @@ class ElementDefinitionCollectionTest extends UnitTestCase
                     'sorting' => 1,
                     'colorOverlay' => '',
                     'iconOverlay' => '',
-                    'columnsOverride' => array()
+                    'columnsOverride' => [],
                 ],
                 [
                     'key' => 'element1',
@@ -217,7 +217,7 @@ class ElementDefinitionCollectionTest extends UnitTestCase
                     'sorting' => 2,
                     'colorOverlay' => '',
                     'iconOverlay' => '',
-                    'columnsOverride' => array()
+                    'columnsOverride' => [],
                 ],
             ],
         ];

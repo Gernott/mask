@@ -20,10 +20,8 @@ namespace MASK\Mask\Command;
 use MASK\Mask\Loader\LoaderRegistry;
 use MASK\Mask\Utility\ReusingFieldsUtility;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class RestructureReusingFieldsCommand extends Command
 {

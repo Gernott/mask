@@ -124,7 +124,7 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'sorting' => 0,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                        'columnsOverride' => array(),
+                        'columnsOverride' => [],
                     ],
                 ],
                 'sql' => [
@@ -203,7 +203,7 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'sorting' => 1,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                        'columnsOverride' => array(),
+                        'columnsOverride' => [],
                     ],
                 ],
                 'sql' => [
@@ -294,7 +294,7 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'sorting' => 2,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                        'columnsOverride' => array(),
+                        'columnsOverride' => [],
                     ],
                 ],
                 'sql' => [
@@ -367,7 +367,7 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'sorting' => 3,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                        'columnsOverride' => array(),
+                        'columnsOverride' => [],
                     ],
                 ],
                 'tca' => [
@@ -435,7 +435,7 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'sorting' => 3,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                        'columnsOverride' => array(),
+                        'columnsOverride' => [],
                     ],
                 ],
                 'tca' => [
@@ -796,7 +796,7 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'sorting' => 0,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                        'columnsOverride' => array(),
+                        'columnsOverride' => [],
                     ],
                     'b' => [
                         'key' => 'b',
@@ -823,7 +823,7 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'sorting' => 1,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                        'columnsOverride' => array(),
+                        'columnsOverride' => [],
                     ],
                     'c' => [
                         'key' => 'c',
@@ -844,7 +844,7 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'sorting' => 2,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                        'columnsOverride' => array(),
+                        'columnsOverride' => [],
                     ],
                     'd' => [
                         'key' => 'd',
@@ -865,7 +865,7 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'sorting' => 3,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                        'columnsOverride' => array(),
+                        'columnsOverride' => [],
                     ],
                     'e' => [
                         'key' => 'e',
@@ -886,7 +886,7 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'sorting' => 3,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                        'columnsOverride' => array(),
+                        'columnsOverride' => [],
                     ],
                 ],
                 'sql' => [

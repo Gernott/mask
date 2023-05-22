@@ -136,11 +136,10 @@ final class TableDefinitionCollection implements \IteratorAggregate
 
     /**
      * @param bool $state Set the state if restructuring was already executed.
-     * @return void
      */
     public function setRestructuringDone(bool $state): void
     {
-        $this->restructuringDone = !!$state;
+        $this->restructuringDone = (bool)$state;
     }
 
     public function addTable(TableDefinition $tableDefinition): void

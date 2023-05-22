@@ -451,7 +451,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'sorting' => 0,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                        'columnsOverride' => array()
+                        'columnsOverride' => [],
                     ],
                 ],
             ],
@@ -540,7 +540,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'sorting' => 0,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                        'columnsOverride' => array()
+                        'columnsOverride' => [],
                     ],
                     'element_2' => [
                         'key' => 'element_2',
@@ -559,7 +559,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'sorting' => 0,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                        'columnsOverride' => array()
+                        'columnsOverride' => [],
                     ],
                 ],
             ],
@@ -648,7 +648,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'sorting' => 0,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                        'columnsOverride' => array()
+                        'columnsOverride' => [],
                     ],
                 ],
             ],
@@ -710,7 +710,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'sorting' => 0,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                        'columnsOverride' => array()
+                        'columnsOverride' => [],
                     ],
                     'element_2' => [
                         'key' => 'element_2',
@@ -727,7 +727,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'sorting' => 0,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                        'columnsOverride' => array()
+                        'columnsOverride' => [],
                     ],
                 ],
             ],
@@ -799,7 +799,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'sorting' => 0,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                        'columnsOverride' => array()
+                        'columnsOverride' => [],
                     ],
                     'element_2' => [
                         'key' => 'element_2',
@@ -816,7 +816,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'sorting' => 0,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                        'columnsOverride' => array()
+                        'columnsOverride' => [],
                     ],
                 ],
             ],
@@ -1817,7 +1817,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                 'sorting' => 0,
                 'colorOverlay' => '',
                 'iconOverlay' => '',
-                'columnsOverride' => array()
+                'columnsOverride' => [],
             ],
         ];
 
@@ -1861,7 +1861,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                 'sorting' => 0,
                 'colorOverlay' => '',
                 'iconOverlay' => '',
-                'columnsOverride' => array()
+                'columnsOverride' => [],
             ],
         ];
 
@@ -1895,7 +1895,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
             'sorting' => 0,
             'colorOverlay' => '',
             'iconOverlay' => '',
-            'columnsOverride' => array()
+            'columnsOverride' => [],
         ];
 
         yield 'Tables other than tt_content or pages return empty array' => [
