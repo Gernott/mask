@@ -144,7 +144,7 @@ class ReusingFieldsUtility
         // if no config is left (eg. media or file field we have to create at least an array with a single value)
         if (empty($minimalFieldTca['config'])) {
             $minimalFieldTca['config'] = [
-                'maskReusingField' => 'true'
+                'maskReusingField' => 'true',
             ];
         }
 
