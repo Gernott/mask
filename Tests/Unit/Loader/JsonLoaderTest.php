@@ -146,6 +146,7 @@ class JsonLoaderTest extends UnitTestCase
                         'sorting' => 0,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
+                        'columnsOverride' => array(),
                     ],
                     'b' => [
                         'key' => 'b',
@@ -172,6 +173,7 @@ class JsonLoaderTest extends UnitTestCase
                         'sorting' => 1,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
+                        'columnsOverride' => array(),
                     ],
                     'c' => [
                         'key' => 'c',
@@ -192,6 +194,7 @@ class JsonLoaderTest extends UnitTestCase
                         'sorting' => 2,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
+                        'columnsOverride' => array(),
                     ],
                     'd' => [
                         'key' => 'd',
@@ -212,6 +215,7 @@ class JsonLoaderTest extends UnitTestCase
                         'sorting' => 3,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
+                        'columnsOverride' => array(),
                     ],
                 ],
                 'sql' => [

@@ -105,6 +105,7 @@ class DefaultTcaMigrationTest extends UnitTestCase
                         'sorting' => 0,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
+                        'columnsOverride' => array()
                     ],
                 ],
                 'tca' => [
