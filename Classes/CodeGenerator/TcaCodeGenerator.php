@@ -387,6 +387,7 @@ class TcaCodeGenerator
                 $customSettingOverride['appearance']['fileUploadAllowed'] = (bool)($customSettingOverride['appearance']['fileUploadAllowed'] ?? true);
                 $customSettingOverride['appearance']['useSortable'] = (bool)($customSettingOverride['appearance']['useSortable'] ?? false);
 
+                // TODO! support for allowedFileExtensions needed
                 $typo3Version = new Typo3Version();
                 if ($fieldType->equals(FieldType::FILE) && $field->allowedFileExtensions === '') {
                     if ($typo3Version->getMajorVersion() < 12) {
@@ -422,6 +423,7 @@ class TcaCodeGenerator
                     ArrayUtility::mergeRecursiveWithOverrule($fileFieldTCAConfig, $customSettingOverride);
                     $additionalTca[$field->fullKey]['config'] = $fileFieldTCAConfig;
                 }
+                // TODO! support for allowedFileExtensions needed end
                 unset($customSettingOverride);
             }
 
@@ -430,32 +432,8 @@ class TcaCodeGenerator
                 $field->realTca['config']['foreign_table'] = $field->fullKey;
             }
 
-            // Convert Date and Datetime default and ranges to timestamp
-            $dbType = $field->realTca['config']['dbType'] ?? '';
-            if (in_array($dbType, ['date', 'datetime'])) {
-                $default = $field->realTca['config']['default'] ?? false;
-                if ($default) {
-                    $field->realTca['config']['default'] = DateUtility::convertStringToTimestampByDbType($dbType, $default);
-                }
-                $upper = $field->realTca['config']['range']['upper'] ?? false;
-                if ($upper) {
-                    $field->realTca['config']['range']['upper'] = DateUtility::convertStringToTimestampByDbType($dbType, $upper);
-                }
-                $lower = $field->realTca['config']['range']['lower'] ?? false;
-                if ($lower) {
-                    $field->realTca['config']['range']['lower'] = DateUtility::convertStringToTimestampByDbType($dbType, $lower);
-                }
-            }
-
-            // Text: Set correct rendertype if format (code highlighting) is set.
-            if ($fieldType->equals(FieldType::TEXT) && ($field->realTca['config']['format'] ?? false)) {
-                $field->realTca['config']['renderType'] = 't3editor';
-            }
-
-            // RTE: Add softref
-            if ($fieldType->equals(FieldType::RICHTEXT)) {
-                $field->realTca['config']['softref'] = 'typolink_tag,email[subst],url';
-            }
+            $field->realTca['config'] = self::reconfigureTCAConfig($fieldType, $field->realTca['config'],
+                $field->realTca['config']['dbType'] ?? '');
 
             // Content: Set foreign_field and default CType in select if restricted.
             if ($fieldType->equals(FieldType::CONTENT)) {
@@ -483,6 +461,38 @@ class TcaCodeGenerator
             ArrayUtility::mergeRecursiveWithOverrule($additionalTca[$field->fullKey], $field->realTca);
         }
         return $additionalTca;
+    }
+
+    private static function reconfigureTCAConfig(FieldType $fieldType, array $tcaConfig, string $configDbType): array
+    {
+        // Convert Date and Datetime default and ranges to timestamp
+        $dbType = $configDbType ?? '';
+        if (in_array($dbType, ['date', 'datetime'])) {
+            $default = $tcaConfig['default'] ?? false;
+            if ($default) {
+                $tcaConfig['default'] = DateUtility::convertStringToTimestampByDbType($dbType, $default);
+            }
+            $upper = $tcaConfig['range']['upper'] ?? false;
+            if ($upper) {
+                $tcaConfig['range']['upper'] = DateUtility::convertStringToTimestampByDbType($dbType, $upper);
+            }
+            $lower = $tcaConfig['range']['lower'] ?? false;
+            if ($lower) {
+                $tcaConfig['range']['lower'] = DateUtility::convertStringToTimestampByDbType($dbType, $lower);
+            }
+        }
+
+        // Text: Set correct rendertype if format (code highlighting) is set.
+        if ($fieldType->equals(FieldType::TEXT) && ($tcaConfig['format'] ?? false)) {
+            $tcaConfig['renderType'] = 't3editor';
+        }
+
+        // RTE: Add softref
+        if ($fieldType->equals(FieldType::RICHTEXT)) {
+            $tcaConfig['softref'] = 'typolink_tag,email[subst],url';
+        }
+
+        return $tcaConfig;
     }
 
     /**
@@ -532,8 +542,11 @@ class TcaCodeGenerator
                             $TCAColumnsOverrides[$table]['types'][$cType]['columnsOverrides'][$paletteField->fullKey]['description'] = $description;
                         }
                         if ($element->hasColumnsOverrideForField($paletteField->fullKey)) {
+                            $tcaConfig = self::reconfigureTCAConfig($fieldDefinition->getFieldType(),
+                                $element->getColumnsOverrideForField($paletteField->fullKey)['config'],
+                                $paletteField->realTca['config']['dbType'] ?? '');
                             $TCAColumnsOverrides[$table]['types'][$cType]['columnsOverrides'][$paletteField->fullKey]['config']
-                                = $element->getColumnsOverrideForField($paletteField->fullKey)['config'];
+                                = $tcaConfig;
                         }
                     }
                 } else {
@@ -548,8 +561,11 @@ class TcaCodeGenerator
                     }
 
                     if ($element->hasColumnsOverrideForField($fieldDefinition->fullKey)) {
+                        $tcaConfig = self::reconfigureTCAConfig($fieldDefinition->getFieldType(),
+                            $element->getColumnsOverrideForField($fieldDefinition->fullKey)['config'],
+                            $fieldDefinition->realTca['config']['dbType'] ?? '');
                         $TCAColumnsOverrides[$table]['types'][$cType]['columnsOverrides'][$fieldDefinition->fullKey]['config']
-                            = $element->getColumnsOverrideForField($fieldDefinition->fullKey)['config'];
+                            = $tcaConfig;
                     }
                 }
             }
