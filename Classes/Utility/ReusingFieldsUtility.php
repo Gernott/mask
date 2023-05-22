@@ -117,7 +117,7 @@ class ReusingFieldsUtility
     public static function getRealTcaConfig(array $fieldConfig): array
     {
         $minimalFieldTca = $fieldConfig;
-        if (!is_array($minimalFieldTca['config'])) {
+        if (!isset($minimalFieldTca['config']) || !is_array($minimalFieldTca['config'])) {
             return $minimalFieldTca;
         }
 
@@ -131,6 +131,21 @@ class ReusingFieldsUtility
         // cleanup other options that are stored in override
         if (isset($minimalFieldTca['inPalette'])) {
             unset($minimalFieldTca['inPalette']);
+        }
+
+        if (isset($minimalFieldTca['allowedFileExtensions'])) {
+            unset($minimalFieldTca['allowedFileExtensions']);
+        }
+
+        if (isset($minimalFieldTca['onlineMedia'])) {
+            unset($minimalFieldTca['onlineMedia']);
+        }
+
+        // if no config is left (eg. media or file field we have to create at least an array with a single value)
+        if (empty($minimalFieldTca['config'])) {
+            $minimalFieldTca['config'] = [
+                'maskReusingField' => 'true'
+            ];
         }
 
         return $minimalFieldTca;
@@ -160,6 +175,14 @@ class ReusingFieldsUtility
 
         if (isset($fieldConfig['inPalette'])) {
             $overrideTca['inPalette'] = $fieldConfig['inPalette'];
+        }
+
+        if (isset($fieldConfig['allowedFileExtensions'])) {
+            $overrideTca['allowedFileExtensions'] = $fieldConfig['allowedFileExtensions'];
+        }
+
+        if (isset($fieldConfig['onlineMedia'])) {
+            $overrideTca['onlineMedia'] = $fieldConfig['onlineMedia'];
         }
 
         // TODO move label and description also to this override section and remove from parent
