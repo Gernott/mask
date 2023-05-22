@@ -472,10 +472,9 @@ class TcaCodeGenerator
         return $fileFieldTCAConfig;
     }
 
-    private static function reconfigureTCAConfig(FieldType $fieldType, array $tcaConfig, string $configDbType): array
+    private static function reconfigureTCAConfig(FieldType $fieldType, array $tcaConfig, string $dbType): array
     {
         // Convert Date and Datetime default and ranges to timestamp
-        $dbType = $configDbType ?? '';
         if (in_array($dbType, ['date', 'datetime'])) {
             $default = $tcaConfig['default'] ?? false;
             if ($default) {
