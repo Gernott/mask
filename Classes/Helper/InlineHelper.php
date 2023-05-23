@@ -164,7 +164,7 @@ class InlineHelper
         if ($fieldType->equals(FieldType::INLINE) && $this->tableDefinitionCollection->hasTable($field)) {
             $elements = $this->getInlineElements($data, $field, $cType, 'parentid', $table, null, $originalTable);
             $data[$field] = $elements;
-        // or if it is of type Content (Nested Content) and has to be filled
+            // or if it is of type Content (Nested Content) and has to be filled
         } elseif ($fieldType->equals(FieldType::CONTENT)) {
             $content = $this->getRelations((string)($data[$field] ?? ''), $tcaFieldConfig['config']['foreign_table'], '', (int)$data['uid'], $table, $tcaFieldConfig['config'] ?? []);
             foreach ($content as $key => $element) {
