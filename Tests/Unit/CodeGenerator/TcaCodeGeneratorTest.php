@@ -480,7 +480,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
 
     public function generateFieldsTcaDataProvider(): iterable
     {
-        yield 'Input fields are processd correctly' => [
+        yield 'Input fields are processed correctly' => [
             'json' => [
                 'tt_content' => [
                     'tca' => [
@@ -498,6 +498,14 @@ class TcaCodeGeneratorTest extends BaseTestCase
                             ],
                             'key' => 'field_2',
                         ],
+                        'tx_mask_field_3' => [
+                            'config' => [
+                                'type' => 'input',
+                                'renderType' => 'inputLink',
+                                'eval' => 'trim',
+                            ],
+                            'key' => 'field_3',
+                        ],
                     ],
                 ],
             ],
@@ -513,6 +521,15 @@ class TcaCodeGeneratorTest extends BaseTestCase
                     'config' => [
                         'type' => 'input',
                         'eval' => 'trim',
+                    ],
+                    'exclude' => 1,
+                ],
+                'tx_mask_field_3' => [
+                    'config' => [
+                        'type' => 'input',
+                        'renderType' => 'inputLink',
+                        'eval' => 'trim',
+                        'softref' => 'typolink',
                     ],
                     'exclude' => 1,
                 ],
