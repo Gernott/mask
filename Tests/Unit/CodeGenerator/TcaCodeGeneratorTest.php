@@ -498,14 +498,6 @@ class TcaCodeGeneratorTest extends BaseTestCase
                             ],
                             'key' => 'field_2',
                         ],
-                        'tx_mask_field_3' => [
-                            'config' => [
-                                'type' => 'input',
-                                'renderType' => 'inputLink',
-                                'eval' => 'trim',
-                            ],
-                            'key' => 'field_3',
-                        ],
                     ],
                 ],
             ],
@@ -524,11 +516,27 @@ class TcaCodeGeneratorTest extends BaseTestCase
                     ],
                     'exclude' => 1,
                 ],
-                'tx_mask_field_3' => [
+            ],
+        ];
+
+        yield 'Link fields add softref=typolink' => [
+            'json' => [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_link' => [
+                            'config' => [
+                                'type' => 'link',
+                            ],
+                            'key' => 'link',
+                        ],
+                    ],
+                ],
+            ],
+            'table' => 'tt_content',
+            'expected' => [
+                'tx_mask_link' => [
                     'config' => [
-                        'type' => 'input',
-                        'renderType' => 'inputLink',
-                        'eval' => 'trim',
+                        'type' => 'link',
                         'softref' => 'typolink',
                     ],
                     'exclude' => 1,
