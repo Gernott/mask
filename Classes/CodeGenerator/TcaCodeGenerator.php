@@ -358,6 +358,11 @@ class TcaCodeGenerator
                 $field->realTca['config']['dbType'] ?? ''
             );
 
+            // InputLink: Add softref
+            if ($fieldType->equals(FieldType::LINK)) {
+                $field->realTca['config']['softref'] = 'typolink';
+            }
+
             // Content: Set foreign_field and default CType in select if restricted.
             if ($fieldType->equals(FieldType::CONTENT)) {
                 $field->realTca['config']['foreign_field'] = 'tx_mask_content_parent_uid';
