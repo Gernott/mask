@@ -22,12 +22,12 @@ use MASK\Mask\Tests\Unit\ConfigurationLoader\FakeConfigurationLoader;
 
 trait StorageRepositoryCreatorTrait
 {
-    protected function createStorageRepository(array $json): StorageRepository
+    protected function createStorageRepository(array $json, bool $reusingFieldsEnabled): StorageRepository
     {
         $loader = $this->createLoader($json);
         $configurationLoader = new FakeConfigurationLoader();
         $maskConfiguration = [
-            'reuse_fields' => false,
+            'reuse_fields' => $reusingFieldsEnabled,
         ];
 
         return new StorageRepository($loader, $loader->load(), $configurationLoader, $maskConfiguration);

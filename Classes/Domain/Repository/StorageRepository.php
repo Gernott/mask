@@ -300,13 +300,15 @@ class StorageRepository implements SingletonInterface
             // Add tca entry for field
             unset($jsonAdd[$table]['elements'][$elementKey]['columnsOverride'][$field['key']]);
             if (!$this->maskExtensionConfiguration['reuse_fields']
-                || !ReusingFieldsUtility::fieldTypeIsAllowedToBeReused(new FieldType($fieldAdd['type']))) {
+                || !ReusingFieldsUtility::fieldTypeIsAllowedToBeReused(new FieldType($fieldAdd['type']), $isMaskField)) {
                 $jsonAdd[$table]['tca'][$field['key']] = $fieldAdd;
             } else {
-                $minimalFieldTca = ReusingFieldsUtility::getRealTcaConfig($fieldAdd);
+                $minimalFieldTca = ReusingFieldsUtility::getRealTcaConfig($fieldAdd, $table);
                 $jsonAdd[$table]['tca'][$field['key']] = $minimalFieldTca;
-                $overrideTca = ReusingFieldsUtility::getOverrideTcaConfig($fieldAdd);
-                $jsonAdd[$table]['elements'][$elementKey]['columnsOverride'][$field['key']] = $overrideTca;
+                $overrideTca = ReusingFieldsUtility::getOverrideTcaConfig($fieldAdd, $table);
+                if (!empty($overrideTca)) {
+                    $jsonAdd[$table]['elements'][$elementKey]['columnsOverride'][$field['key']] = $overrideTca;
+                }
             }
 
             // Resolve nested fields

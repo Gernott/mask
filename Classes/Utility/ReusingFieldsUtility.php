@@ -56,11 +56,12 @@ class ReusingFieldsUtility
      */
     public static function restructureTcaDefinitions(TableDefinitionCollection $tableDefinitionCollection): TableDefinitionCollection
     {
-        if (!$tableDefinitionCollection->hasTable('tt_content')) {
+        $table = 'tt_content';
+        if (!$tableDefinitionCollection->hasTable($table)) {
             return $tableDefinitionCollection;
         }
 
-        $ttContentDefinition = $tableDefinitionCollection->getTable('tt_content');
+        $ttContentDefinition = $tableDefinitionCollection->getTable($table);
         $tcaDefinition = $ttContentDefinition->tca;
         $paletteDefinitions = $ttContentDefinition->palettes;
         foreach ($ttContentDefinition->elements as $element) {
@@ -85,13 +86,13 @@ class ReusingFieldsUtility
                             continue;
                         }
 
-                        $columnsOverride = self::getOverrideTcaConfig($fieldTypeTca->toArray());
+                        $columnsOverride = self::getOverrideTcaConfig($fieldTypeTca->toArray(), $table);
                         $element->addColumnsOverrideForField($childFieldKey, $columnsOverride);
                     }
                     continue;
                 }
 
-                $columnsOverride = self::getOverrideTcaConfig($fieldTypeTca->toArray());
+                $columnsOverride = self::getOverrideTcaConfig($fieldTypeTca->toArray(), $table);
                 $element->addColumnsOverrideForField($fieldKey, $columnsOverride);
             }
         }
@@ -102,7 +103,7 @@ class ReusingFieldsUtility
                 continue;
             }
 
-            $minimalTca = self::getRealTcaConfig($fieldTypeTca->realTca);
+            $minimalTca = self::getRealTcaConfig($fieldTypeTca->realTca, $table);
             $fieldTypeTca->overrideTca($minimalTca);
         }
 
@@ -112,12 +113,15 @@ class ReusingFieldsUtility
 
     /**
      * @param array $fieldConfig complete field configuration that should be changed to minified field config
+     * @param string $table the table the field is used in (we only support tt_content, no inline tables
      * @return array minified field configuration
      */
-    public static function getRealTcaConfig(array $fieldConfig): array
+    public static function getRealTcaConfig(array $fieldConfig, string $table): array
     {
         $minimalFieldTca = $fieldConfig;
-        if (!isset($minimalFieldTca['config']) || !is_array($minimalFieldTca['config'])) {
+        if (!isset($minimalFieldTca['config']) || !is_array($minimalFieldTca['config'])
+            || (isset($fieldConfig['coreField']) && $fieldConfig['coreField'] === 1)
+            || $table !== 'tt_content')  {
             return $minimalFieldTca;
         }
 
@@ -153,12 +157,21 @@ class ReusingFieldsUtility
 
     /**
      * @param array $fieldConfig tca field configuration that should be cleaned up to be used as columnsOverride
+     * @param string $table the table the field is used in (we only support tt_content, no inline tables
      * @return array cleaned tca field config that can be used as columnOverride
      */
-    public static function getOverrideTcaConfig(array $fieldConfig): array
+    public static function getOverrideTcaConfig(array $fieldConfig, string $table): array
     {
-        if (!is_array($fieldConfig['config'])) {
+        if (!isset($fieldConfig['config']) || !is_array($fieldConfig['config'])) {
             return $fieldConfig;
+        }
+
+        if (isset($fieldConfig['coreField']) && $fieldConfig['coreField'] === 1) {
+            return [];
+        }
+
+        if ($table !== 'tt_content') {
+            return [];
         }
 
         $overrideTcaConfig = $fieldConfig['config'];
@@ -169,9 +182,12 @@ class ReusingFieldsUtility
             }
         }
 
-        $overrideTca = [
-            'config' => $overrideTcaConfig,
-        ];
+        $overrideTca = [];
+        if (!empty($overrideTcaConfig)) {
+            $overrideTca = [
+                'config' => $overrideTcaConfig,
+            ];
+        }
 
         if (isset($fieldConfig['inPalette'])) {
             $overrideTca['inPalette'] = $fieldConfig['inPalette'];
@@ -192,10 +208,15 @@ class ReusingFieldsUtility
 
     /**
      * @param FieldType $fieldType
+     * @param bool $isMaskField
      * @return bool
      */
-    public static function fieldTypeIsAllowedToBeReused(FieldType $fieldType): bool
+    public static function fieldTypeIsAllowedToBeReused(FieldType $fieldType, bool $isMaskField = true): bool
     {
+        if (!$isMaskField) {
+            return false;
+        }
+
         foreach (self::NON_OVERRIDEABLE_FIELD_TYPES as $FIELD_TYPE) {
             if ($fieldType->equals($FIELD_TYPE)) {
                 return false;
