@@ -1941,8 +1941,8 @@ class StorageRepositoryTest extends BaseTestCase
                                             'lower' => 1609459200,
                                             'upper' => 1610668800,
                                         ],
-                                    ]
-                                ]
+                                    ],
+                                ],
                             ],
                             'labels' => [
                                 'Timestamp',
@@ -2080,8 +2080,8 @@ class StorageRepositoryTest extends BaseTestCase
                             ],
                             'columnsOverride' => [
                                 'tx_mask_field' => [
-                                    'inPalette' => 1
-                                ]
+                                    'inPalette' => 1,
+                                ],
                             ],
                             'labels' => [
                                 'My Palette',
@@ -2334,7 +2334,7 @@ class StorageRepositoryTest extends BaseTestCase
                             'order' => 1,
                             'inPalette' => 1,
                         ],
-                    ]
+                    ],
                 ],
             ],
             'isNew' => false,
@@ -2488,9 +2488,9 @@ class StorageRepositoryTest extends BaseTestCase
                             'sorting' => '1',
                             'columnsOverride' => [
                                 'tx_mask_field_1' => [
-                                    'inPalette' => 1
-                                ]
-                            ]
+                                    'inPalette' => 1,
+                                ],
+                            ],
                         ],
                     ],
                     'palettes' => [
@@ -2693,8 +2693,8 @@ class StorageRepositoryTest extends BaseTestCase
                                             ],
                                         ],
                                         'renderType' => 'selectSingle',
-                                    ]
-                                ]
+                                    ],
+                                ],
                             ],
                             'labels' => [
                                 'Select 1',
@@ -2726,8 +2726,8 @@ class StorageRepositoryTest extends BaseTestCase
                                             ],
                                         ],
                                         'renderType' => 'selectSingle',
-                                    ]
-                                ]
+                                    ],
+                                ],
                             ],
                             'labels' => [
                                 'Select 1',
@@ -2823,8 +2823,8 @@ class StorageRepositoryTest extends BaseTestCase
                                             ],
                                         ],
                                         'renderType' => 'selectSingle',
-                                    ]
-                                ]
+                                    ],
+                                ],
                             ],
                             'labels' => [
                                 'Select 1',
@@ -2863,8 +2863,8 @@ class StorageRepositoryTest extends BaseTestCase
                                             ],
                                         ],
                                         'renderType' => 'selectSingle',
-                                    ]
-                                ]
+                                    ],
+                                ],
                             ],
                             'labels' => [
                                 'Select 1',

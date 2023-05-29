@@ -121,7 +121,7 @@ class ReusingFieldsUtility
         $minimalFieldTca = $fieldConfig;
         if (!isset($minimalFieldTca['config']) || !is_array($minimalFieldTca['config'])
             || (isset($fieldConfig['coreField']) && $fieldConfig['coreField'] === 1)
-            || $table !== 'tt_content')  {
+            || $table !== 'tt_content') {
             return $minimalFieldTca;
         }
 

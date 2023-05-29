@@ -265,7 +265,7 @@ class TcaCodeGenerator
                 $fieldArray[] = '--palette--;;' . $fieldKey;
             } elseif ($fieldType->equals(FieldType::INLINE)) {
                 // Make sure only inline fields with at least 1 field are added.
-                $inlineFields = $this->tableDefinitionCollection->loadInlineFields($fieldKey, $element);
+                $inlineFields = $this->tableDefinitionCollection->loadInlineFields($fieldKey, $element->key, $element);
                 if ($inlineFields->toArray() !== []) {
                     $fieldArray[] = $fieldKey;
                 }
@@ -533,7 +533,7 @@ class TcaCodeGenerator
                 if (
                     $fieldDefinition->hasFieldType()
                     && $fieldDefinition->getFieldType()->equals(FieldType::INLINE)
-                    && $this->tableDefinitionCollection->loadInlineFields($fieldDefinition->fullKey, $element)->toArray() === []
+                    && $this->tableDefinitionCollection->loadInlineFields($fieldDefinition->fullKey, $element->key, $element)->toArray() === []
                 ) {
                     continue;
                 }
@@ -545,7 +545,7 @@ class TcaCodeGenerator
 
                 // Build TCA columns overrides.
                 if ($fieldDefinition->hasFieldType() && $fieldDefinition->getFieldType()->equals(FieldType::PALETTE)) {
-                    foreach ($this->tableDefinitionCollection->loadInlineFields($fieldName, $element) as $paletteField) {
+                    foreach ($this->tableDefinitionCollection->loadInlineFields($fieldName, $element->key, $element) as $paletteField) {
                         $label = $paletteField->getLabel($element->key);
                         if ($label !== '') {
                             $TCAColumnsOverrides[$table]['types'][$cType]['columnsOverrides'][$paletteField->fullKey]['label'] = $label;

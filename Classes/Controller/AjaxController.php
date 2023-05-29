@@ -512,7 +512,7 @@ class AjaxController
 
             // Get fields in palette
             if ($field->getFieldType()->equals(FieldType::PALETTE)) {
-                foreach ($this->tableDefinitionCollection->loadInlineFields($field->fullKey, $element->elementDefinition) as $paletteField) {
+                foreach ($this->tableDefinitionCollection->loadInlineFields($field->fullKey, $elementKey, $element->elementDefinition) as $paletteField) {
                     if ($paletteField->isCoreField || !$paletteField->getFieldType()->canBeShared()) {
                         continue;
                     }

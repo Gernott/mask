@@ -1091,6 +1091,31 @@ parameters:
 			path: ../../Tests/Unit/Domain/Repository/StorageRepositoryTest.php
 
 		-
+			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\Domain\\\\Repository\\\\StorageRepositoryTest\\:\\:addDataReusingProvider\\(\\) return type has no value type specified in iterable type iterable\\.$#"
+			count: 1
+			path: ../../Tests/Unit/Domain/Repository/StorageRepositoryTest.php
+
+		-
+			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\Domain\\\\Repository\\\\StorageRepositoryTest\\:\\:addReusing\\(\\) has parameter \\$element with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../Tests/Unit/Domain/Repository/StorageRepositoryTest.php
+
+		-
+			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\Domain\\\\Repository\\\\StorageRepositoryTest\\:\\:addReusing\\(\\) has parameter \\$expected with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../Tests/Unit/Domain/Repository/StorageRepositoryTest.php
+
+		-
+			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\Domain\\\\Repository\\\\StorageRepositoryTest\\:\\:addReusing\\(\\) has parameter \\$fields with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../Tests/Unit/Domain/Repository/StorageRepositoryTest.php
+
+		-
+			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\Domain\\\\Repository\\\\StorageRepositoryTest\\:\\:addReusing\\(\\) has parameter \\$json with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../Tests/Unit/Domain/Repository/StorageRepositoryTest.php
+
+		-
 			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\Domain\\\\Repository\\\\StorageRepositoryTest\\:\\:createLoader\\(\\) has parameter \\$json with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Tests/Unit/Domain/Repository/StorageRepositoryTest.php
@@ -1229,6 +1254,36 @@ parameters:
 			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\Loader\\\\JsonSplitLoaderTest\\:\\:getExpectedConfigurationArray\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Tests/Unit/Loader/JsonSplitLoaderTest.php
+
+		-
+			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\ReusingFieldsUtilityTest\\:\\:convertTcaArrayToMinimalTcaDataProvider\\(\\) return type has no value type specified in iterable type iterable\\.$#"
+			count: 1
+			path: ../../Tests/Unit/Utility/ReusingFieldsUtilityTest.php
+
+		-
+			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\ReusingFieldsUtilityTest\\:\\:convertTcaArrayToMinimalTcaTest\\(\\) has parameter \\$array with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../Tests/Unit/Utility/ReusingFieldsUtilityTest.php
+
+		-
+			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\ReusingFieldsUtilityTest\\:\\:convertTcaArrayToMinimalTcaTest\\(\\) has parameter \\$expected with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../Tests/Unit/Utility/ReusingFieldsUtilityTest.php
+
+		-
+			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\ReusingFieldsUtilityTest\\:\\:convertTcaArrayToOverrideTcaDataProvider\\(\\) return type has no value type specified in iterable type iterable\\.$#"
+			count: 1
+			path: ../../Tests/Unit/Utility/ReusingFieldsUtilityTest.php
+
+		-
+			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\ReusingFieldsUtilityTest\\:\\:convertTcaArrayToOverrideTcaTest\\(\\) has parameter \\$array with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../Tests/Unit/Utility/ReusingFieldsUtilityTest.php
+
+		-
+			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\ReusingFieldsUtilityTest\\:\\:convertTcaArrayToOverrideTcaTest\\(\\) has parameter \\$expected with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../Tests/Unit/Utility/ReusingFieldsUtilityTest.php
 
 		-
 			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\TcaConverterTest\\:\\:convertFlatTcaToArrayTest\\(\\) has parameter \\$array with no value type specified in iterable type array\\.$#"

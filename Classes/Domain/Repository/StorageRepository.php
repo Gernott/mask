@@ -352,7 +352,7 @@ class StorageRepository implements SingletonInterface
                 // Recursively delete all inline field if possible
                 $elementTcaDefinition = $this->tableDefinitionCollection->loadElement($table, $this->currentKey);
                 $element = is_null($elementTcaDefinition) ? null : $elementTcaDefinition->elementDefinition;
-                foreach ($this->tableDefinitionCollection->loadInlineFields($field->fullKey, $element) as $inlineField) {
+                foreach ($this->tableDefinitionCollection->loadInlineFields($field->fullKey, $this->currentKey, $element) as $inlineField) {
                     $parentTable = $inlineField->inPalette ? $table : $inlineField->inlineParent;
                     $json = $this->removeField($parentTable, $inlineField, $json, $addedFields);
                 }

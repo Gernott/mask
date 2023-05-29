@@ -195,7 +195,7 @@ class FieldsController
             if ($fieldType->isParentField()) {
                 $elementTcaDefinition = $this->tableDefinitionCollection->loadElement($table, $elementKey);
                 $element = is_null($elementTcaDefinition) ? null : $elementTcaDefinition->elementDefinition;
-                $inlineFields = $this->tableDefinitionCollection->loadInlineFields($newField['key'], $element);
+                $inlineFields = $this->tableDefinitionCollection->loadInlineFields($newField['key'], $elementKey, $element);
                 $inlineTable = $fieldType->equals(FieldType::INLINE) ? $newField['key'] : $table;
                 $newField['fields'] = $this->addFields(
                     $inlineFields->toArray(),

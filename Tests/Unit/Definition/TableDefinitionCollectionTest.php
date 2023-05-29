@@ -362,7 +362,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
         $tableDefinitionCollection = TableDefinitionCollection::createFromArray($json);
         $elementTcaDefinition = $tableDefinitionCollection->loadElement('tt_content', $elementKey);
         $element = is_null($elementTcaDefinition) ? null : $elementTcaDefinition->elementDefinition;
-        self::assertEquals($expected, $tableDefinitionCollection->loadInlineFields($parentKey, $element)->toArray());
+        self::assertEquals($expected, $tableDefinitionCollection->loadInlineFields($parentKey, $elementKey, $element)->toArray());
     }
 
     public function getElementsWhichUseFieldDataProvider(): array

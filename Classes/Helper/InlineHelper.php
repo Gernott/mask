@@ -140,10 +140,11 @@ class InlineHelper
 
         // Fill data for all fields recursively.
         foreach ($elementFields as $field) {
+            $elementKey = $element->elementDefinition->key;
             $fieldType = $this->tableDefinitionCollection->getFieldType($field, $table);
 
             if ($fieldType->equals(FieldType::PALETTE)) {
-                foreach ($this->tableDefinitionCollection->loadInlineFields($field, $element->elementDefinition) as $paletteField) {
+                foreach ($this->tableDefinitionCollection->loadInlineFields($field, $elementKey, $element->elementDefinition) as $paletteField) {
                     $fieldType = $this->tableDefinitionCollection->getFieldType($paletteField->fullKey, $table);
                     $this->fillInlineField($data, $fieldType, $paletteField->fullKey, $cType, $table, $originalTable);
                 }
@@ -163,7 +164,7 @@ class InlineHelper
         if ($fieldType->equals(FieldType::INLINE) && $this->tableDefinitionCollection->hasTable($field)) {
             $elements = $this->getInlineElements($data, $field, $cType, 'parentid', $table, null, $originalTable);
             $data[$field] = $elements;
-            // or if it is of type Content (Nested Content) and has to be filled
+        // or if it is of type Content (Nested Content) and has to be filled
         } elseif ($fieldType->equals(FieldType::CONTENT)) {
             $content = $this->getRelations((string)($data[$field] ?? ''), $tcaFieldConfig['config']['foreign_table'], '', (int)$data['uid'], $table, $tcaFieldConfig['config'] ?? []);
             foreach ($content as $key => $element) {

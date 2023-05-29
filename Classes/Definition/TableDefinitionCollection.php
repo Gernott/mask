@@ -272,7 +272,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
                 }
                 $tcaDefinition->addField($availableTcaField);
                 if ($availableTcaField->hasFieldType() && $availableTcaField->getFieldType()->equals(FieldType::PALETTE)) {
-                    $paletteFields = $this->loadInlineFields($availableTcaField->fullKey, $element);
+                    $paletteFields = $this->loadInlineFields($availableTcaField->fullKey, $element->key, $element);
                     foreach ($paletteFields as $paletteField) {
                         $tcaDefinition->addField($paletteField);
                     }
@@ -286,9 +286,8 @@ final class TableDefinitionCollection implements \IteratorAggregate
      * Loads all the inline fields of an inline-field, recursively!
      * Not specifying an element key means, the parent key has to be an inline table.
      */
-    public function loadInlineFields(string $parentKey, ?ElementDefinition $element): NestedTcaFieldDefinitions
+    public function loadInlineFields(string $parentKey, string $elementKey, ?ElementDefinition $element): NestedTcaFieldDefinitions
     {
-        $elementKey = is_null($element) ? '' : $element->key;
         // Load inline fields of own table.
         if ($this->hasTable($parentKey)) {
             $searchTable = $this->getTable($parentKey);
@@ -305,7 +304,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
                 }
                 // Check if FieldType is available
                 if ($field->hasFieldType() && $field->getFieldType()->isParentField()) {
-                    foreach ($this->loadInlineFields($field->fullKey, $element) as $inlineField) {
+                    foreach ($this->loadInlineFields($field->fullKey, $elementKey, $element) as $inlineField) {
                         $field->addInlineField($inlineField);
                     }
                 }

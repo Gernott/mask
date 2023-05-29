@@ -29,12 +29,12 @@ class ReusingFieldsUtilityTest extends BaseTestCase
                 'config' => [
                     'type' => 'input',
                     'max' => '1',
-                ]
+                ],
             ],
             [
                 'config' => [
                     'type' => 'input',
-                ]
+                ],
             ],
         ];
 
@@ -44,11 +44,11 @@ class ReusingFieldsUtilityTest extends BaseTestCase
                     'default' => 'select',
                     'fieldWizard' => [
                         'selectIcons' => [
-                            'disabled' => 1
-                        ]
+                            'disabled' => 1,
+                        ],
                     ],
                     'itemGroups' => [
-                        'group' => 'group'
+                        'group' => 'group',
                     ],
                     'items' => [
                         [
@@ -56,29 +56,29 @@ class ReusingFieldsUtilityTest extends BaseTestCase
                             'option',
                             '',
                             'group',
-                            ''
+                            '',
                         ],
                         [
                             'option 2',
                             'option2',
                             '',
                             '',
-                            ''
-                        ]
+                            '',
+                        ],
                     ],
                     'maxitems' => '1',
                     'minitems' => '0',
                     'renderType' => 'selectSingleBox',
                     'sortItems' => [
-                        'value' => 'desc'
+                        'value' => 'desc',
                     ],
-                    'type' => 'select'
-                ]
+                    'type' => 'select',
+                ],
             ],
             [
                 'config' => [
                     'type' => 'select',
-                ]
+                ],
             ],
         ];
 
@@ -96,25 +96,25 @@ class ReusingFieldsUtilityTest extends BaseTestCase
                             'hide' => 1,
                             'info' => 1,
                             'localize' => 1,
-                            'sort' => 1
+                            'sort' => 1,
                         ],
                         'expandSingle' => 1,
                         'fileByUrlAllowed' => 1,
                         'fileUploadAllowed' => 1,
-                        'useSortable' => 1
+                        'useSortable' => 1,
                     ],
                     'maxitems' => '100',
-                    'minitems' => '0'
+                    'minitems' => '0',
                 ],
                 'onlineMedia' => [
                     'youtube',
-                    'vimeo'
-                ]
+                    'vimeo',
+                ],
             ],
             [
                 'config' => [
                     'maskReusingField' => 'true',
-                ]
+                ],
             ],
         ];
     }
@@ -128,7 +128,6 @@ class ReusingFieldsUtilityTest extends BaseTestCase
         // self::assertSame($expected, ReusingFieldsUtility::getRealTcaConfig($array));
     }
 
-
     public function convertTcaArrayToOverrideTcaDataProvider(): iterable
     {
         yield 'Simple Input Field' => [
@@ -136,12 +135,12 @@ class ReusingFieldsUtilityTest extends BaseTestCase
                 'config' => [
                     'type' => 'input',
                     'max' => '1',
-                ]
+                ],
             ],
             [
                 'config' => [
                     'max' => '1',
-                ]
+                ],
             ],
         ];
 
@@ -151,11 +150,11 @@ class ReusingFieldsUtilityTest extends BaseTestCase
                     'default' => 'select',
                     'fieldWizard' => [
                         'selectIcons' => [
-                            'disabled' => 1
-                        ]
+                            'disabled' => 1,
+                        ],
                     ],
                     'itemGroups' => [
-                        'group' => 'group'
+                        'group' => 'group',
                     ],
                     'items' => [
                         [
@@ -163,35 +162,35 @@ class ReusingFieldsUtilityTest extends BaseTestCase
                             'option',
                             '',
                             'group',
-                            ''
+                            '',
                         ],
                         [
                             'option 2',
                             'option2',
                             '',
                             '',
-                            ''
-                        ]
+                            '',
+                        ],
                     ],
                     'maxitems' => '1',
                     'minitems' => '0',
                     'renderType' => 'selectSingleBox',
                     'sortItems' => [
-                        'value' => 'desc'
+                        'value' => 'desc',
                     ],
-                    'type' => 'select'
-                ]
+                    'type' => 'select',
+                ],
             ],
             [
                 'config' => [
                     'default' => 'select',
                     'fieldWizard' => [
                         'selectIcons' => [
-                            'disabled' => 1
-                        ]
+                            'disabled' => 1,
+                        ],
                     ],
                     'itemGroups' => [
-                        'group' => 'group'
+                        'group' => 'group',
                     ],
                     'items' => [
                         [
@@ -199,23 +198,23 @@ class ReusingFieldsUtilityTest extends BaseTestCase
                             'option',
                             '',
                             'group',
-                            ''
+                            '',
                         ],
                         [
                             'option 2',
                             'option2',
                             '',
                             '',
-                            ''
-                        ]
+                            '',
+                        ],
                     ],
                     'maxitems' => '1',
                     'minitems' => '0',
                     'renderType' => 'selectSingleBox',
                     'sortItems' => [
-                        'value' => 'desc'
-                    ]
-                ]
+                        'value' => 'desc',
+                    ],
+                ],
             ],
         ];
 
@@ -233,20 +232,20 @@ class ReusingFieldsUtilityTest extends BaseTestCase
                             'hide' => 1,
                             'info' => 1,
                             'localize' => 1,
-                            'sort' => 1
+                            'sort' => 1,
                         ],
                         'expandSingle' => 1,
                         'fileByUrlAllowed' => 1,
                         'fileUploadAllowed' => 1,
-                        'useSortable' => 1
+                        'useSortable' => 1,
                     ],
                     'maxitems' => '100',
-                    'minitems' => '0'
+                    'minitems' => '0',
                 ],
                 'onlineMedia' => [
                     'youtube',
-                    'vimeo'
-                ]
+                    'vimeo',
+                ],
             ],
             [
                 'config' => [
@@ -260,21 +259,21 @@ class ReusingFieldsUtilityTest extends BaseTestCase
                             'hide' => 1,
                             'info' => 1,
                             'localize' => 1,
-                            'sort' => 1
+                            'sort' => 1,
                         ],
                         'expandSingle' => 1,
                         'fileByUrlAllowed' => 1,
                         'fileUploadAllowed' => 1,
-                        'useSortable' => 1
+                        'useSortable' => 1,
                     ],
                     'maxitems' => '100',
-                    'minitems' => '0'
+                    'minitems' => '0',
                 ],
                 'allowedFileExtensions' => 'png,gif',
                 'onlineMedia' => [
                     'youtube',
-                    'vimeo'
-                ]
+                    'vimeo',
+                ],
             ],
         ];
     }
