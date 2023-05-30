@@ -56,15 +56,12 @@ class JsonSplitLoader implements LoaderInterface
         }
 
         $this->tableDefinitionCollection = new TableDefinitionCollection();
-
-        // Early return, if the content elements folder does not exist.
-        $contentElementsFolder = $this->validateFolderPath('tt_content');
-        if (!file_exists($contentElementsFolder)) {
-            return clone $this->tableDefinitionCollection;
-        }
-
         $definitionArray = [];
-        $definitionArray = $this->mergeElementDefinitions($definitionArray, $contentElementsFolder);
+
+        $contentElementsFolder = $this->validateFolderPath('tt_content');
+        if (file_exists($contentElementsFolder)) {
+            $definitionArray = $this->mergeElementDefinitions($definitionArray, $contentElementsFolder);
+        }
 
         // If optional backendLayoutsFolder is not empty, validate the path.
         $backendLayoutsFolder = $this->getAbsolutePath('pages');
