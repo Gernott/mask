@@ -108,10 +108,8 @@ class MaskBackendPreviewEventListener
         $view->assign('row', $event->getRecord());
         $view->assign('data', $data);
 
-        // Render the preview with a header as the Mask element name.
-        $elementLabel = $this->getLanguageService()->sL($elementTcaDefinition->elementDefinition->label);
-        $itemContent = '<strong><a href="' . $this->getEditUrl($event->getRecord()) . '">' . $elementLabel . '</a></strong><br>';
-        $itemContent .= '<div class="content_preview content_preview_' . $elementKey . '">';
+        // Render the preview with a standard border.
+        $itemContent = '<div class="content_preview content_preview_' . $elementKey . '">';
         $itemContent .= $view->render();
         $itemContent .= '</div>';
         $event->setPreviewContent($itemContent);
