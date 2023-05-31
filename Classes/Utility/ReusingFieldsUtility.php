@@ -72,6 +72,9 @@ class ReusingFieldsUtility
 
             foreach ($element->columns as $fieldKey) {
                 $fieldTypeTca = $tcaDefinition->getField($fieldKey);
+                if ($fieldTypeTca->isCoreField) {
+                    continue;
+                }
                 $fieldType = $fieldTypeTca->getFieldType();
                 if (!self::fieldTypeIsAllowedToBeReused($fieldType) && !$fieldType->equals(FieldType::PALETTE)) {
                     continue;
@@ -93,7 +96,9 @@ class ReusingFieldsUtility
                 }
 
                 $columnsOverride = self::getOverrideTcaConfig($fieldTypeTca->toArray(), $table);
-                $element->addColumnsOverrideForField($fieldKey, $columnsOverride);
+                if (!empty($columnsOverride)) {
+                    $element->addColumnsOverrideForField($fieldKey, $columnsOverride);
+                }
             }
         }
 

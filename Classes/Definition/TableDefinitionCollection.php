@@ -309,7 +309,8 @@ final class TableDefinitionCollection implements \IteratorAggregate
                     }
                 }
 
-                if (!is_null($element) && $element->hasColumnsOverrideForField($field->fullKey)) {
+                if ($tableDefinition->table === 'tt_content'
+                    && !is_null($element) && $element->hasColumnsOverrideForField($field->fullKey)) {
                     $realTca = $field->realTca;
                     ArrayUtility::mergeRecursiveWithOverrule($realTca, $element->getColumnsOverrideForField($field->fullKey));
                     $field->overrideTca($realTca);

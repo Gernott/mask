@@ -77,8 +77,10 @@ class StorageRepository implements SingletonInterface
      */
     public function write(array $json): TableDefinitionCollection
     {
+        $currentTableDefinitionCollection = $this->loader->load();
         $tableDefinitionCollection = TableDefinitionCollection::createFromArray($json);
         $tableDefinitionCollection->setToCurrentVersion();
+        $tableDefinitionCollection->setRestructuringDone($currentTableDefinitionCollection->getRestructuringDone());
         $this->loader->write($tableDefinitionCollection);
         return $tableDefinitionCollection;
     }
