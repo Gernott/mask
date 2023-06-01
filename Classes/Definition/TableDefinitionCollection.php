@@ -32,7 +32,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
      */
     private array $definitions = [];
     private ArrayDefinitionSorter $arrayDefinitionSorter;
-    private string $version = '8.1.0';
+    private string $version = '8.2.0';
     private bool $migrationDone = false;
     private bool $restructuringDone = false;
 
