@@ -50,7 +50,7 @@ class TemplatePathUtilityTest extends UnitTestCase
                 false,
                 null,
                 false,
-                Environment::getProjectPath() . '/Tests/Unit/Fixtures/Templates/Under_scored.html', // TODO reset back to under_scored.html
+                Environment::getProjectPath() . '/Tests/Unit/Fixtures/Templates/under_scored.html',
             ],
             'Uc_first exists' => [
                 ['content' => 'EXT:mask/Tests/Unit/Fixtures/Templates/'],
