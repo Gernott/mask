@@ -19,11 +19,8 @@ namespace MASK\Mask\Definition;
 
 use InvalidArgumentException;
 use MASK\Mask\Enumeration\FieldType;
-use MASK\Mask\Loader\LoaderInterface;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\FieldTypeUtility;
-use MASK\Mask\Utility\ReusingFieldsUtility;
-use TYPO3\CMS\Core\Utility\ArrayUtility;
 
 final class TableDefinitionCollection implements \IteratorAggregate
 {
@@ -73,73 +70,37 @@ final class TableDefinitionCollection implements \IteratorAggregate
         $this->migrationDone = true;
     }
 
-    /**
-     * @param bool $reusingFieldsEnabled Is the reusing fields setting enabled?
-     * @return bool returns if a restructuring is needed or not
-     */
-    public function getRestructuringNeeded(bool $reusingFieldsEnabled, LoaderInterface $loader): bool
+    public function isRestructuringNeeded(): bool
     {
-        // restructure already done
-        if ($reusingFieldsEnabled && $this->restructuringDone) {
+        if ($this->restructuringDone) {
             return false;
         }
 
-        // seems user switched back to sharing fields handling => reset migration state
-        if (!$reusingFieldsEnabled && $this->restructuringDone) {
-            $this->setRestructuringDone(false);
-            $loader->write($this);
-            return false;
-        }
-
-        if (!$reusingFieldsEnabled) {
-            return false;
-        }
-
-        // seems no content elements saved yet
+        // No content elements saved yet
         if (!$this->hasTable('tt_content')) {
-            $this->setRestructuringDone(true);
-            $loader->write($this);
             return false;
         }
 
         $ttContentDefinition = $this->getTable('tt_content');
-        $tcaDefinition = $ttContentDefinition->tca;
         foreach ($ttContentDefinition->elements as $element) {
-            // seems the element already has all fields set or has no fields at all
-            if (count($element->columns) == count($element->columnsOverride)) {
-                continue;
+            // If at least one override is set, we can infer that all are set.
+            if ($element->columnsOverride !== []) {
+                return false;
             }
-
             foreach ($element->columns as $fieldKey) {
-                // already set
-                if (isset($element->columnsOverride[$fieldKey])) {
-                    continue;
-                }
-
-                $fieldType = $tcaDefinition->getField($fieldKey)->getFieldType();
-                if (ReusingFieldsUtility::fieldTypeIsAllowedToBeReused($fieldType)) {
+                $fieldType = $ttContentDefinition->tca->getField($fieldKey)->getFieldType();
+                if ($fieldType->canBeShared()) {
                     return true;
                 }
             }
         }
 
-        // seems we do not need to restructure anything
-        $this->setRestructuringDone(true);
-        $loader->write($this);
         return false;
     }
 
-    public function getRestructuringDone(): bool
+    public function setRestructuringDone(): void
     {
-        return $this->restructuringDone;
-    }
-
-    /**
-     * @param bool $state Set the state if restructuring was already executed.
-     */
-    public function setRestructuringDone(bool $state): void
-    {
-        $this->restructuringDone = (bool)$state;
+        $this->restructuringDone = true;
     }
 
     public function addTable(TableDefinition $tableDefinition): void
@@ -266,9 +227,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
             if ($tableDefinition->tca->hasField($fieldKey)) {
                 $availableTcaField = $tableDefinition->tca->getField($fieldKey);
                 if ($element->hasColumnsOverrideForField($fieldKey)) {
-                    $realTca = $availableTcaField->realTca;
-                    ArrayUtility::mergeRecursiveWithOverrule($realTca, $element->getColumnsOverrideForField($fieldKey));
-                    $availableTcaField->overrideTca($realTca);
+                    $availableTcaField = $element->getColumnsOverrideForField($fieldKey);
                 }
                 $tcaDefinition->addField($availableTcaField);
                 if ($availableTcaField->hasFieldType() && $availableTcaField->getFieldType()->equals(FieldType::PALETTE)) {
@@ -308,17 +267,6 @@ final class TableDefinitionCollection implements \IteratorAggregate
                         $field->addInlineField($inlineField);
                     }
                 }
-
-                if (
-                    $tableDefinition->table === 'tt_content'
-                    && $element instanceof ElementDefinition
-                    && $element->hasColumnsOverrideForField($field->fullKey)
-                ) {
-                    $realTca = $field->realTca;
-                    ArrayUtility::mergeRecursiveWithOverrule($realTca, $element->getColumnsOverrideForField($field->fullKey));
-                    $field->overrideTca($realTca);
-                }
-
                 $nestedTcaFields->addField($field);
             }
         }

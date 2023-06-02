@@ -580,8 +580,11 @@ class AjaxController
 
     public function restructuringNeeded(ServerRequestInterface $request): JsonResponse
     {
-        $reusingFieldsEnabled = $this->features->isFeatureEnabled('overrideSharedFields');
-        $needsRestructure = $this->tableDefinitionCollection->getRestructuringNeeded($reusingFieldsEnabled, $this->loader);
+        $overrideSharedFields = $this->features->isFeatureEnabled('overrideSharedFields');
+        if (!$overrideSharedFields) {
+            return new JsonResponse(['restructuringNeeded' => 0]);
+        }
+        $needsRestructure = $this->tableDefinitionCollection->isRestructuringNeeded();
         return new JsonResponse(['restructuringNeeded' => (int)$needsRestructure]);
     }
 
@@ -590,7 +593,6 @@ class AjaxController
         $restructuredTableDefinitionCollection = ReusingFieldsUtility::restructureTcaDefinitions($this->tableDefinitionCollection);
         try {
             $this->loader->write($restructuredTableDefinitionCollection);
-            $this->tableDefinitionCollection = $restructuredTableDefinitionCollection;
             return new JsonResponse(['status' => 'ok', 'title' => $this->translateLabel('tx_mask.update_complete.title'), 'message' => $this->translateLabel('tx_mask.update_complete.message')]);
         } catch (\Throwable $e) {
             return new JsonResponse(['status' => 'error', 'title' => $this->translateLabel('tx_mask.update_failed.title'), 'message' => $this->translateLabel('tx_mask.update_failed.message')]);

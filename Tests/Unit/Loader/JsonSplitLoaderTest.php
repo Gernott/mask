@@ -21,6 +21,7 @@ use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Loader\JsonSplitLoader;
 use MASK\Mask\Migrations\MigrationManager;
 use MASK\Mask\Tests\Unit\PackageManagerTrait;
+use TYPO3\CMS\Core\Configuration\Features;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
@@ -46,7 +47,8 @@ class JsonSplitLoaderTest extends UnitTestCase
                 'content_elements_folder' => 'EXT:mask/Tests/Unit/Fixtures/Configuration/ContentElements',
                 'backend_layouts_folder' => 'EXT:mask/Tests/Unit/Fixtures/Configuration/BackendLayouts',
             ],
-            new MigrationManager([])
+            new MigrationManager([]),
+            new Features()
         );
 
         self::assertEquals($this->getExpectedConfigurationArray(), $jsonSplitLoader->load()->toArray(false));
@@ -65,7 +67,8 @@ class JsonSplitLoaderTest extends UnitTestCase
                 'content_elements_folder' => 'EXT:mask/var/ContentElements',
                 'backend_layouts_folder' => 'EXT:mask/var/BackendLayouts',
             ],
-            new MigrationManager([])
+            new MigrationManager([]),
+            new Features()
         );
 
         $jsonSplitLoader->write(TableDefinitionCollection::createFromArray($this->getExpectedConfigurationArray()));
@@ -124,7 +127,6 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'sorting' => 0,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                        'columnsOverride' => [],
                     ],
                 ],
                 'sql' => [
@@ -203,7 +205,6 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'sorting' => 1,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                        'columnsOverride' => [],
                     ],
                 ],
                 'sql' => [
@@ -294,7 +295,6 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'sorting' => 2,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                        'columnsOverride' => [],
                     ],
                 ],
                 'sql' => [
@@ -367,7 +367,6 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'sorting' => 3,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                        'columnsOverride' => [],
                     ],
                 ],
                 'tca' => [
@@ -435,7 +434,6 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'sorting' => 3,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                        'columnsOverride' => [],
                     ],
                 ],
                 'tca' => [
@@ -796,7 +794,6 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'sorting' => 0,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                        'columnsOverride' => [],
                     ],
                     'b' => [
                         'key' => 'b',
@@ -823,7 +820,6 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'sorting' => 1,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                        'columnsOverride' => [],
                     ],
                     'c' => [
                         'key' => 'c',
@@ -844,7 +840,6 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'sorting' => 2,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                        'columnsOverride' => [],
                     ],
                     'd' => [
                         'key' => 'd',
@@ -865,7 +860,6 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'sorting' => 3,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                        'columnsOverride' => [],
                     ],
                     'e' => [
                         'key' => 'e',
@@ -886,7 +880,6 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'sorting' => 3,
                         'colorOverlay' => '',
                         'iconOverlay' => '',
-                        'columnsOverride' => [],
                     ],
                 ],
                 'sql' => [
@@ -1061,7 +1054,7 @@ class JsonSplitLoaderTest extends UnitTestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionCode('Expected content_elements_folder to be a correct file system path. The value "" was given.');
         $this->expectExceptionCode(1639218892);
-        $jsonSplitLoader = new JsonSplitLoader(['content_elements_folder' => '../folder'], new MigrationManager([]));
+        $jsonSplitLoader = new JsonSplitLoader(['content_elements_folder' => '../folder'], new MigrationManager([]), new Features());
         $jsonSplitLoader->load();
     }
 }

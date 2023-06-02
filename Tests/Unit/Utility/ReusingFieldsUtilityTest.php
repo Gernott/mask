@@ -17,103 +17,284 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Test\Utility;
 
+use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Utility\ReusingFieldsUtility;
 use TYPO3\TestingFramework\Core\BaseTestCase;
 
 class ReusingFieldsUtilityTest extends BaseTestCase
 {
-    public function convertTcaArrayToMinimalTcaDataProvider(): iterable
+    public static function restructuringFieldsWorksDataProvider(): iterable
     {
-        yield 'Simple Input Field' => [
-            [
-                'config' => [
-                    'type' => 'input',
-                    'max' => '1',
+        yield 'simple fields on root' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'key' => 'element1',
+                            'label' => 'Element1',
+                            'columns' => [
+                                'tx_mask_foo',
+                                'tx_mask_bar',
+                            ],
+                        ],
+                        'element2' => [
+                            'key' => 'element2',
+                            'label' => 'Element2',
+                            'columns' => [
+                                'tx_mask_foo',
+                                'tx_mask_fizz',
+                            ],
+                        ],
+                    ],
+                    'tca' => [
+                        'tx_mask_foo' => [
+                            'type' => 'string',
+                            'key' => 'foo',
+                            'fullKey' => 'tx_mask_foo',
+                            'config' => [
+                                'type' => 'input',
+                                'required' => true,
+                            ],
+                        ],
+                        'tx_mask_bar' => [
+                            'type' => 'string',
+                            'key' => 'bar',
+                            'fullKey' => 'tx_mask_bar',
+                            'config' => [
+                                'type' => 'input',
+                                'required' => true,
+                            ],
+                        ],
+                        'tx_mask_fizz' => [
+                            'type' => 'string',
+                            'key' => 'fizz',
+                            'fullKey' => 'tx_mask_fizz',
+                            'config' => [
+                                'type' => 'input',
+                                'required' => true,
+                            ],
+                        ],
+                    ],
                 ],
             ],
-            [
-                'config' => [
-                    'type' => 'input',
+            'expected' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'key' => 'element1',
+                            'label' => 'Element1',
+                            'color' => '',
+                            'colorOverlay' => '',
+                            'description' => '',
+                            'descriptions' => [],
+                            'icon' => '',
+                            'iconOverlay' => '',
+                            'labels' => [],
+                            'shortLabel' => '',
+                            'sorting' => 0,
+                            'columns' => [
+                                'tx_mask_foo',
+                                'tx_mask_bar',
+                            ],
+                            'columnsOverride' => [
+                                'tx_mask_foo' => [
+                                    'type' => 'string',
+                                    'key' => 'foo',
+                                    'fullKey' => 'tx_mask_foo',
+                                    'config' => [
+                                        'required' => true,
+                                    ],
+                                ],
+                                'tx_mask_bar' => [
+                                    'type' => 'string',
+                                    'key' => 'bar',
+                                    'fullKey' => 'tx_mask_bar',
+                                    'config' => [
+                                        'required' => true,
+                                    ],
+                                ],
+                            ],
+                        ],
+                        'element2' => [
+                            'key' => 'element2',
+                            'label' => 'Element2',
+                            'color' => '',
+                            'colorOverlay' => '',
+                            'description' => '',
+                            'descriptions' => [],
+                            'icon' => '',
+                            'iconOverlay' => '',
+                            'labels' => [],
+                            'shortLabel' => '',
+                            'sorting' => 0,
+                            'columns' => [
+                                'tx_mask_foo',
+                                'tx_mask_fizz',
+                            ],
+                            'columnsOverride' => [
+                                'tx_mask_foo' => [
+                                    'type' => 'string',
+                                    'key' => 'foo',
+                                    'fullKey' => 'tx_mask_foo',
+                                    'config' => [
+                                        'required' => true,
+                                    ],
+                                ],
+                                'tx_mask_fizz' => [
+                                    'type' => 'string',
+                                    'key' => 'fizz',
+                                    'fullKey' => 'tx_mask_fizz',
+                                    'config' => [
+                                        'required' => true,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
             ],
         ];
 
-        yield 'Complex Select Field' => [
-            [
-                'config' => [
-                    'default' => 'select',
-                    'fieldWizard' => [
-                        'selectIcons' => [
-                            'disabled' => 1,
+        yield 'simple fields in palette' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'key' => 'element1',
+                            'label' => 'Element1',
+                            'columns' => [
+                                'tx_mask_palette1',
+                            ],
+                        ],
+                        'element2' => [
+                            'key' => 'element2',
+                            'label' => 'Element2',
+                            'columns' => [
+                                'tx_mask_fizz',
+                                'tx_mask_bar',
+                            ],
                         ],
                     ],
-                    'itemGroups' => [
-                        'group' => 'group',
-                    ],
-                    'items' => [
-                        [
-                            'option 1',
-                            'option',
-                            '',
-                            'group',
-                            '',
-                        ],
-                        [
-                            'option 2',
-                            'option2',
-                            '',
-                            '',
-                            '',
+                    'palettes' => [
+                        'tx_mask_palette1' => [
+                            'showitem' => [
+                                'tx_mask_foo',
+                                'tx_mask_bar',
+                            ],
                         ],
                     ],
-                    'maxitems' => '1',
-                    'minitems' => '0',
-                    'renderType' => 'selectSingleBox',
-                    'sortItems' => [
-                        'value' => 'desc',
+                    'tca' => [
+                        'tx_mask_palette1' => [
+                            'type' => 'palette',
+                            'key' => 'palette1',
+                            'fullKey' => 'tx_mask_palette1',
+                            'config' => [
+                                'type' => 'palette',
+                            ],
+                        ],
+                        'tx_mask_foo' => [
+                            'type' => 'string',
+                            'key' => 'foo',
+                            'fullKey' => 'tx_mask_foo',
+                            'config' => [
+                                'type' => 'input',
+                                'required' => true,
+                            ],
+                        ],
+                        'tx_mask_bar' => [
+                            'type' => 'string',
+                            'key' => 'bar',
+                            'fullKey' => 'tx_mask_bar',
+                            'config' => [
+                                'type' => 'input',
+                                'required' => true,
+                            ],
+                        ],
+                        'tx_mask_fizz' => [
+                            'type' => 'string',
+                            'key' => 'fizz',
+                            'fullKey' => 'tx_mask_fizz',
+                            'config' => [
+                                'type' => 'input',
+                                'required' => true,
+                            ],
+                        ],
                     ],
-                    'type' => 'select',
                 ],
             ],
-            [
-                'config' => [
-                    'type' => 'select',
-                ],
-            ],
-        ];
-
-        yield 'Media Field' => [
-            [
-                'allowedFileExtensions' => 'png,gif',
-                'config' => [
-                    'appearance' => [
-                        'collapseAll' => '1',
-                        'createNewRelationLinkTitle' => 'create new relation',
-                        'elementBrowserEnabled' => 1,
-                        'enabledControls' => [
-                            'delete' => 1,
-                            'dragdrop' => 1,
-                            'hide' => 1,
-                            'info' => 1,
-                            'localize' => 1,
-                            'sort' => 1,
+            'expected' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'key' => 'element1',
+                            'label' => 'Element1',
+                            'color' => '',
+                            'colorOverlay' => '',
+                            'description' => '',
+                            'descriptions' => [],
+                            'icon' => '',
+                            'iconOverlay' => '',
+                            'labels' => [],
+                            'shortLabel' => '',
+                            'sorting' => 0,
+                            'columns' => [
+                                'tx_mask_palette1',
+                            ],
+                            'columnsOverride' => [
+                                'tx_mask_foo' => [
+                                    'type' => 'string',
+                                    'key' => 'foo',
+                                    'fullKey' => 'tx_mask_foo',
+                                    'config' => [
+                                        'required' => true,
+                                    ],
+                                ],
+                                'tx_mask_bar' => [
+                                    'type' => 'string',
+                                    'key' => 'bar',
+                                    'fullKey' => 'tx_mask_bar',
+                                    'config' => [
+                                        'required' => true,
+                                    ],
+                                ],
+                            ],
                         ],
-                        'expandSingle' => 1,
-                        'fileByUrlAllowed' => 1,
-                        'fileUploadAllowed' => 1,
-                        'useSortable' => 1,
+                        'element2' => [
+                            'key' => 'element2',
+                            'label' => 'Element2',
+                            'color' => '',
+                            'colorOverlay' => '',
+                            'description' => '',
+                            'descriptions' => [],
+                            'icon' => '',
+                            'iconOverlay' => '',
+                            'labels' => [],
+                            'shortLabel' => '',
+                            'sorting' => 0,
+                            'columns' => [
+                                'tx_mask_fizz',
+                                'tx_mask_bar',
+                            ],
+                            'columnsOverride' => [
+                                'tx_mask_fizz' => [
+                                    'type' => 'string',
+                                    'key' => 'fizz',
+                                    'fullKey' => 'tx_mask_fizz',
+                                    'config' => [
+                                        'required' => true,
+                                    ],
+                                ],
+                                'tx_mask_bar' => [
+                                    'type' => 'string',
+                                    'key' => 'bar',
+                                    'fullKey' => 'tx_mask_bar',
+                                    'config' => [
+                                        'required' => true,
+                                    ],
+                                ],
+                            ],
+                        ],
                     ],
-                    'maxitems' => '100',
-                    'minitems' => '0',
-                ],
-                'onlineMedia' => [
-                    'youtube',
-                    'vimeo',
-                ],
-            ],
-            [
-                'config' => [
-                    'maskReusingField' => 'true',
                 ],
             ],
         ];
@@ -121,169 +302,14 @@ class ReusingFieldsUtilityTest extends BaseTestCase
 
     /**
      * @test
-     * @dataProvider convertTcaArrayToMinimalTcaDataProvider
+     * @dataProvider restructuringFieldsWorksDataProvider
      */
-    public function convertTcaArrayToMinimalTcaTest(array $array, array $expected): void
+    public function restructuringFieldsWorks(array $json, array $expected): void
     {
-        self::assertSame($expected, ReusingFieldsUtility::getRealTcaConfig($array, 'tt_content'));
-    }
+        $tableDefinitionCollection = TableDefinitionCollection::createFromArray($json);
 
-    public function convertTcaArrayToOverrideTcaDataProvider(): iterable
-    {
-        yield 'Simple Input Field' => [
-            [
-                'config' => [
-                    'type' => 'input',
-                    'max' => '1',
-                ],
-            ],
-            [
-                'config' => [
-                    'max' => '1',
-                ],
-            ],
-        ];
+        $result = ReusingFieldsUtility::restructureTcaDefinitions($tableDefinitionCollection);
 
-        yield 'Complex Select Field' => [
-            [
-                'config' => [
-                    'default' => 'select',
-                    'fieldWizard' => [
-                        'selectIcons' => [
-                            'disabled' => 1,
-                        ],
-                    ],
-                    'itemGroups' => [
-                        'group' => 'group',
-                    ],
-                    'items' => [
-                        [
-                            'option 1',
-                            'option',
-                            '',
-                            'group',
-                            '',
-                        ],
-                        [
-                            'option 2',
-                            'option2',
-                            '',
-                            '',
-                            '',
-                        ],
-                    ],
-                    'maxitems' => '1',
-                    'minitems' => '0',
-                    'renderType' => 'selectSingleBox',
-                    'sortItems' => [
-                        'value' => 'desc',
-                    ],
-                    'type' => 'select',
-                ],
-            ],
-            [
-                'config' => [
-                    'default' => 'select',
-                    'fieldWizard' => [
-                        'selectIcons' => [
-                            'disabled' => 1,
-                        ],
-                    ],
-                    'itemGroups' => [
-                        'group' => 'group',
-                    ],
-                    'items' => [
-                        [
-                            'option 1',
-                            'option',
-                            '',
-                            'group',
-                            '',
-                        ],
-                        [
-                            'option 2',
-                            'option2',
-                            '',
-                            '',
-                            '',
-                        ],
-                    ],
-                    'maxitems' => '1',
-                    'minitems' => '0',
-                    'renderType' => 'selectSingleBox',
-                    'sortItems' => [
-                        'value' => 'desc',
-                    ],
-                ],
-            ],
-        ];
-
-        yield 'Media Field' => [
-            [
-                'allowedFileExtensions' => 'png,gif',
-                'config' => [
-                    'appearance' => [
-                        'collapseAll' => '1',
-                        'createNewRelationLinkTitle' => 'create new relation',
-                        'elementBrowserEnabled' => 1,
-                        'enabledControls' => [
-                            'delete' => 1,
-                            'dragdrop' => 1,
-                            'hide' => 1,
-                            'info' => 1,
-                            'localize' => 1,
-                            'sort' => 1,
-                        ],
-                        'expandSingle' => 1,
-                        'fileByUrlAllowed' => 1,
-                        'fileUploadAllowed' => 1,
-                        'useSortable' => 1,
-                    ],
-                    'maxitems' => '100',
-                    'minitems' => '0',
-                ],
-                'onlineMedia' => [
-                    'youtube',
-                    'vimeo',
-                ],
-            ],
-            [
-                'config' => [
-                    'appearance' => [
-                        'collapseAll' => '1',
-                        'createNewRelationLinkTitle' => 'create new relation',
-                        'elementBrowserEnabled' => 1,
-                        'enabledControls' => [
-                            'delete' => 1,
-                            'dragdrop' => 1,
-                            'hide' => 1,
-                            'info' => 1,
-                            'localize' => 1,
-                            'sort' => 1,
-                        ],
-                        'expandSingle' => 1,
-                        'fileByUrlAllowed' => 1,
-                        'fileUploadAllowed' => 1,
-                        'useSortable' => 1,
-                    ],
-                    'maxitems' => '100',
-                    'minitems' => '0',
-                ],
-                'allowedFileExtensions' => 'png,gif',
-                'onlineMedia' => [
-                    'youtube',
-                    'vimeo',
-                ],
-            ],
-        ];
-    }
-
-    /**
-     * @test
-     * @dataProvider convertTcaArrayToOverrideTcaDataProvider
-     */
-    public function convertTcaArrayToOverrideTcaTest(array $array, array $expected): void
-    {
-        self::assertSame($expected, ReusingFieldsUtility::getOverrideTcaConfig($array, 'tt_content'));
+        self::assertEquals($expected['tt_content']['elements'], $result->toArray()['tables']['tt_content']['elements']);
     }
 }

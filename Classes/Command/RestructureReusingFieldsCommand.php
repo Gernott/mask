@@ -53,15 +53,12 @@ class RestructureReusingFieldsCommand extends Command
     {
         $reusingFieldsEnabled = $this->features->isFeatureEnabled('overrideSharedFields');
         if (!$reusingFieldsEnabled) {
-            return 0;
+            return Command::SUCCESS;
         }
 
-        $loader = $this->loaderRegistry->getActiveLoader();
-        $tableDefinitionCollection = $loader->load();
-        $restructuredTableDefinition = ReusingFieldsUtility::restructureTcaDefinitions($tableDefinitionCollection);
-        $loader->write($restructuredTableDefinition);
-
-        // @todo Return error code, if write was not successfully executed.
-        return 0;
+        $tableDefinitionCollection = $this->loaderRegistry->loadActiveDefinition();
+        $restructuredTableDefinitionCollection = ReusingFieldsUtility::restructureTcaDefinitions($tableDefinitionCollection);
+        $this->loaderRegistry->getActiveLoader()->write($restructuredTableDefinitionCollection);
+        return Command::SUCCESS;
     }
 }

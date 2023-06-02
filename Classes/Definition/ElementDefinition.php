@@ -28,6 +28,7 @@ final class ElementDefinition
     public string $icon = '';
     public string $iconOverlay = '';
     public array $columns = [];
+    /** @var array<string, TcaFieldDefinition> */
     public array $columnsOverride = [];
     public array $labels = [];
     public array $descriptions = [];
@@ -60,13 +61,19 @@ final class ElementDefinition
         $elementDefinition->icon = $elementArray['icon'] ?? '';
         $elementDefinition->iconOverlay = $elementArray['iconOverlay'] ?? '';
         $elementDefinition->columns = $elementArray['columns'] ?? [];
-        $elementDefinition->columnsOverride = $elementArray['columnsOverride'] ?? [];
         $elementDefinition->labels = $elementArray['labels'] ?? [];
         $elementDefinition->descriptions = $elementArray['descriptions'] ?? [];
         $elementDefinition->options = $elementArray['options'] ?? [];
         $elementDefinition->hidden = !empty($elementArray['hidden']);
         $elementDefinition->sorting = (int)($elementArray['sorting'] ?? 0);
         $elementDefinition->saveAndClose = !empty($elementArray['saveAndClose']);
+
+        foreach ($elementArray['columnsOverride'] ?? [] as $key => $columnOverride) {
+            $elementDefinition->addColumnsOverrideForField(
+                $key,
+                TcaFieldDefinition::createFromFieldArray($columnOverride)
+            );
+        }
 
         return $elementDefinition;
     }
@@ -83,7 +90,6 @@ final class ElementDefinition
             'icon' => $this->icon,
             'iconOverlay' => $this->iconOverlay,
             'columns' => $this->columns,
-            'columnsOverride' => $this->columnsOverride,
             'labels' => $this->labels,
             'descriptions' => $this->descriptions,
             'sorting' => $this->sorting,
@@ -101,6 +107,10 @@ final class ElementDefinition
             $element['options'] = $this->options;
         }
 
+        foreach ($this->columnsOverride as $key => $column) {
+            $element['columnsOverride'][$key] = $column->getOverridesDefinition();
+        }
+
         return $element;
     }
 
@@ -109,16 +119,18 @@ final class ElementDefinition
         return isset($this->columnsOverride[$key]);
     }
 
-    public function getColumnsOverrideForField(string $key): array
+    public function getColumnsOverrideForField(string $key): TcaFieldDefinition
     {
         if (!$this->hasColumnsOverrideForField($key)) {
-            return [];
+            throw new \OutOfBoundsException(
+                'The element "' . $this->key . '" does not have an override field for the key "' . $key . '".',
+                1685697116
+            );
         }
-
         return $this->columnsOverride[$key];
     }
 
-    public function addColumnsOverrideForField(string $key, array $columnsOverride): void
+    public function addColumnsOverrideForField(string $key, TcaFieldDefinition $columnsOverride): void
     {
         $this->columnsOverride[$key] = $columnsOverride;
     }

@@ -2050,11 +2050,15 @@ class TcaCodeGeneratorTest extends BaseTestCase
                                     'config' => [
                                         'default' => 'Text',
                                     ],
+                                    'key' => 'field1',
+                                    'type' => 'string',
                                 ],
                                 'tx_mask_field2' => [
                                     'config' => [
                                         'default' => 'Text Field 2',
                                     ],
+                                    'key' => 'field2',
+                                    'type' => 'string',
                                 ],
                             ],
                             'descriptions' => [
@@ -2073,6 +2077,8 @@ class TcaCodeGeneratorTest extends BaseTestCase
                                     'config' => [
                                         'default' => 'Text Field 3',
                                     ],
+                                    'key' => 'field3',
+                                    'type' => 'string',
                                 ],
                             ],
                             'descriptions' => [

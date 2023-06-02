@@ -52,6 +52,22 @@ final class TcaFieldDefinition
         ],
     ];
 
+    private const NON_OVERRIDEABLE_OPTIONS = [
+        'type',
+        'relationship',
+        'dbType',
+        'nullable',
+        'MM',
+        'MM_opposite_field',
+        'MM_hasUidField',
+        'MM_oppositeUsage',
+        'allowed',
+        'foreign_table',
+        'foreign_field',
+        'foreign_table_field',
+        'foreign_match_fields',
+    ];
+
     private ?FieldType $type = null;
     public string $key = '';
     public string $fullKey = '';
@@ -263,11 +279,41 @@ final class TcaFieldDefinition
         return self::removeBlankOptions($definition, $fieldDefinition);
     }
 
-    public function overrideTca(array $config): void
+    public function getOverridesDefinition(): array
     {
-        $config = self::migrateTCA($config, $this);
-        $this->inPalette = (bool)($config['inPalette'] ?? false);
-        $this->realTca = self::extractRealTca($config, $this);
+        $fieldConfig = $this->toArray();
+        $overrideTcaConfig = $fieldConfig['config'] ?? [];
+        foreach (array_keys($overrideTcaConfig) as $configKey) {
+            if (in_array($configKey, self::NON_OVERRIDEABLE_OPTIONS, true)) {
+                unset($overrideTcaConfig[$configKey]);
+            }
+        }
+        // cleanup other options that are stored in minimal definition
+        unset(
+            $fieldConfig['inlineParent'],
+            $fieldConfig['label'],
+            $fieldConfig['description'],
+            $fieldConfig['order'],
+        );
+        $fieldConfig['config'] = $overrideTcaConfig;
+        return $fieldConfig;
+    }
+
+    public function getMinimalDefinition(): array
+    {
+        $minimalFieldTca = $this->toArray();
+        foreach (array_keys($minimalFieldTca['config'] ?? []) as $configKey) {
+            if (!in_array($configKey, self::NON_OVERRIDEABLE_OPTIONS, true)) {
+                unset($minimalFieldTca['config'][$configKey]);
+            }
+        }
+
+        // cleanup other options that are stored in override definition
+        unset(
+            $minimalFieldTca['allowedFileExtensions'],
+            $minimalFieldTca['onlineMedia'],
+        );
+        return $minimalFieldTca;
     }
 
     public function hasInlineParent(string $elementKey = ''): bool

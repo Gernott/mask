@@ -26,11 +26,6 @@ parameters:
 			path: ../../Classes/CodeGenerator/TcaCodeGenerator.php
 
 		-
-			message: "#^Method MASK\\\\Mask\\\\CodeGenerator\\\\TcaCodeGenerator\\:\\:getFileTCAConfig\\(\\) has parameter \\$columnsOverride with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../Classes/CodeGenerator/TcaCodeGenerator.php
-
-		-
 			message: "#^Method MASK\\\\Mask\\\\CodeGenerator\\\\TcaCodeGenerator\\:\\:getFileTCAConfig\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/CodeGenerator/TcaCodeGenerator.php
@@ -47,6 +42,11 @@ parameters:
 
 		-
 			message: "#^Method MASK\\\\Mask\\\\CodeGenerator\\\\TcaCodeGenerator\\:\\:getTcaTemplate\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../Classes/CodeGenerator/TcaCodeGenerator.php
+
+		-
+			message: "#^Method MASK\\\\Mask\\\\CodeGenerator\\\\TcaCodeGenerator\\:\\:processOverrideTca\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/CodeGenerator/TcaCodeGenerator.php
 
@@ -206,17 +206,7 @@ parameters:
 			path: ../../Classes/DataProcessing/MaskProcessor.php
 
 		-
-			message: "#^Method MASK\\\\Mask\\\\Definition\\\\ElementDefinition\\:\\:addColumnsOverrideForField\\(\\) has parameter \\$columnsOverride with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../Classes/Definition/ElementDefinition.php
-
-		-
 			message: "#^Method MASK\\\\Mask\\\\Definition\\\\ElementDefinition\\:\\:createFromArray\\(\\) has parameter \\$elementArray with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../Classes/Definition/ElementDefinition.php
-
-		-
-			message: "#^Method MASK\\\\Mask\\\\Definition\\\\ElementDefinition\\:\\:getColumnsOverrideForField\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Definition/ElementDefinition.php
 
@@ -227,11 +217,6 @@ parameters:
 
 		-
 			message: "#^Property MASK\\\\Mask\\\\Definition\\\\ElementDefinition\\:\\:\\$columns type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../Classes/Definition/ElementDefinition.php
-
-		-
-			message: "#^Property MASK\\\\Mask\\\\Definition\\\\ElementDefinition\\:\\:\\$columnsOverride type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Definition/ElementDefinition.php
 
@@ -406,7 +391,12 @@ parameters:
 			path: ../../Classes/Definition/TcaFieldDefinition.php
 
 		-
-			message: "#^Method MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\:\\:overrideTca\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
+			message: "#^Method MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\:\\:getMinimalDefinition\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../Classes/Definition/TcaFieldDefinition.php
+
+		-
+			message: "#^Method MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\:\\:getOverridesDefinition\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Definition/TcaFieldDefinition.php
 
@@ -679,26 +669,6 @@ parameters:
 			message: "#^Method MASK\\\\Mask\\\\Utility\\\\FieldTypeUtility\\:\\:getFieldType\\(\\) has parameter \\$tca with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Utility/FieldTypeUtility.php
-
-		-
-			message: "#^Method MASK\\\\Mask\\\\Utility\\\\ReusingFieldsUtility\\:\\:getOverrideTcaConfig\\(\\) has parameter \\$fieldConfig with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../Classes/Utility/ReusingFieldsUtility.php
-
-		-
-			message: "#^Method MASK\\\\Mask\\\\Utility\\\\ReusingFieldsUtility\\:\\:getOverrideTcaConfig\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../Classes/Utility/ReusingFieldsUtility.php
-
-		-
-			message: "#^Method MASK\\\\Mask\\\\Utility\\\\ReusingFieldsUtility\\:\\:getRealTcaConfig\\(\\) has parameter \\$fieldConfig with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../Classes/Utility/ReusingFieldsUtility.php
-
-		-
-			message: "#^Method MASK\\\\Mask\\\\Utility\\\\ReusingFieldsUtility\\:\\:getRealTcaConfig\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../Classes/Utility/ReusingFieldsUtility.php
 
 		-
 			message: "#^Method MASK\\\\Mask\\\\Utility\\\\TcaConverter\\:\\:convertFlatTcaToArray\\(\\) has parameter \\$tca with no value type specified in iterable type array\\.$#"
@@ -1246,32 +1216,17 @@ parameters:
 			path: ../../Tests/Unit/Loader/JsonSplitLoaderTest.php
 
 		-
-			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\ReusingFieldsUtilityTest\\:\\:convertTcaArrayToMinimalTcaDataProvider\\(\\) return type has no value type specified in iterable type iterable\\.$#"
+			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\ReusingFieldsUtilityTest\\:\\:restructuringFieldsWorks\\(\\) has parameter \\$expected with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Tests/Unit/Utility/ReusingFieldsUtilityTest.php
 
 		-
-			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\ReusingFieldsUtilityTest\\:\\:convertTcaArrayToMinimalTcaTest\\(\\) has parameter \\$array with no value type specified in iterable type array\\.$#"
+			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\ReusingFieldsUtilityTest\\:\\:restructuringFieldsWorks\\(\\) has parameter \\$json with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Tests/Unit/Utility/ReusingFieldsUtilityTest.php
 
 		-
-			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\ReusingFieldsUtilityTest\\:\\:convertTcaArrayToMinimalTcaTest\\(\\) has parameter \\$expected with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../Tests/Unit/Utility/ReusingFieldsUtilityTest.php
-
-		-
-			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\ReusingFieldsUtilityTest\\:\\:convertTcaArrayToOverrideTcaDataProvider\\(\\) return type has no value type specified in iterable type iterable\\.$#"
-			count: 1
-			path: ../../Tests/Unit/Utility/ReusingFieldsUtilityTest.php
-
-		-
-			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\ReusingFieldsUtilityTest\\:\\:convertTcaArrayToOverrideTcaTest\\(\\) has parameter \\$array with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../Tests/Unit/Utility/ReusingFieldsUtilityTest.php
-
-		-
-			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\ReusingFieldsUtilityTest\\:\\:convertTcaArrayToOverrideTcaTest\\(\\) has parameter \\$expected with no value type specified in iterable type array\\.$#"
+			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\ReusingFieldsUtilityTest\\:\\:restructuringFieldsWorksDataProvider\\(\\) return type has no value type specified in iterable type iterable\\.$#"
 			count: 1
 			path: ../../Tests/Unit/Utility/ReusingFieldsUtilityTest.php
 

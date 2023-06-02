@@ -25,7 +25,6 @@ use MASK\Mask\Definition\TcaFieldDefinition;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Loader\LoaderInterface;
 use MASK\Mask\Utility\AffixUtility;
-use MASK\Mask\Utility\ReusingFieldsUtility;
 use MASK\Mask\Utility\TcaConverter;
 use TYPO3\CMS\Core\Configuration\Features;
 use TYPO3\CMS\Core\SingletonInterface;
@@ -74,10 +73,8 @@ class StorageRepository implements SingletonInterface
      */
     public function write(array $json): TableDefinitionCollection
     {
-        $currentTableDefinitionCollection = $this->loader->load();
         $tableDefinitionCollection = TableDefinitionCollection::createFromArray($json);
         $tableDefinitionCollection->setToCurrentVersion();
-        $tableDefinitionCollection->setRestructuringDone($currentTableDefinitionCollection->getRestructuringDone());
         $this->loader->write($tableDefinitionCollection);
         return $tableDefinitionCollection;
     }
@@ -268,13 +265,13 @@ class StorageRepository implements SingletonInterface
             // Add label, order and flags to child fields
             if (isset($parent)) {
                 if ($parent['name'] === FieldType::PALETTE) {
-                    $fieldAdd['inPalette'] = 1;
                     if ($onRootLevel) {
                         $fieldAdd['inlineParent'][$elementKey] = $parent['key'];
                         $fieldAdd['label'][$elementKey] = $field['label'];
                         $fieldAdd['description'][$elementKey] = $field['description'];
                         $fieldAdd['order'][$elementKey] = $order;
                     } else {
+                        $fieldAdd['inPalette'] = 1;
                         $fieldAdd['inlineParent'] = $parent['key'];
                         $fieldAdd['label'] = $field['label'];
                         $fieldAdd['description'] = $field['description'];
@@ -299,26 +296,18 @@ class StorageRepository implements SingletonInterface
             // Add tca entry for field
             unset($jsonAdd[$table]['elements'][$elementKey]['columnsOverride'][$field['key']]);
 
-            $minimalFieldTca = $fieldAdd;
-            if (
-                $this->features->isFeatureEnabled('overrideSharedFields')
-                && ReusingFieldsUtility::fieldTypeIsAllowedToBeReused(new FieldType($fieldAdd['type']), $isMaskField)
-            ) {
-                $minimalFieldTca = ReusingFieldsUtility::getRealTcaConfig($fieldAdd, $table);
+            $overrideSharedField =
+                $onRootLevel
+                && $this->features->isFeatureEnabled('overrideSharedFields')
+                && FieldType::cast($fieldAdd['type'])->canBeShared();
+
+            if ($overrideSharedField) {
                 $tcaFieldDefinition = TcaFieldDefinition::createFromFieldArray($fieldAdd);
-                $tcaFieldDefinition->overrideTca($fieldAdd);
-                $overrideTca = ReusingFieldsUtility::getOverrideTcaConfig($tcaFieldDefinition->realTca, $table);
-                // @todo There is also allowedFileExtensions and onlineMedia set in ReusingFieldsUtility.
-                // @todo This needs to be streamlined somehow. Possibly integrate getOverrideTcaConfig into
-                // @todo TcaFieldDefinition directly.
-                if ($tcaFieldDefinition->inPalette && $table === 'tt_content') {
-                    $overrideTca['inPalette'] = 1;
-                }
-                if ($overrideTca !== []) {
-                    $jsonAdd[$table]['elements'][$elementKey]['columnsOverride'][$field['key']] = $overrideTca;
-                }
+                $jsonAdd[$table]['elements'][$elementKey]['columnsOverride'][$field['key']] = $tcaFieldDefinition->getOverridesDefinition();
+                $jsonAdd[$table]['tca'][$field['key']] = $tcaFieldDefinition->getMinimalDefinition();
+            } else {
+                $jsonAdd[$table]['tca'][$field['key']] = $fieldAdd;
             }
-            $jsonAdd[$table]['tca'][$field['key']] = $minimalFieldTca;
 
             // Resolve nested fields
             if (isset($field['fields'])) {

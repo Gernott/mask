@@ -21,6 +21,7 @@ use MASK\Mask\Loader\JsonLoader;
 use MASK\Mask\Migrations\MigrationManager;
 use MASK\Mask\Migrations\OrphanRemoverMigration;
 use MASK\Mask\Tests\Unit\PackageManagerTrait;
+use TYPO3\CMS\Core\Configuration\Features;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class OrphanTableMigrationTest extends UnitTestCase
@@ -44,7 +45,8 @@ class OrphanTableMigrationTest extends UnitTestCase
                 [
                     new OrphanRemoverMigration(),
                 ]
-            )
+            ),
+            new Features()
         );
 
         $tableDefinitionCollection = $jsonLoader->load();

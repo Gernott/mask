@@ -344,7 +344,7 @@ class TcaCodeGenerator
 
             // File: Add file config.
             if ($fieldType->equals(FieldType::FILE) || $fieldType->equals(FieldType::MEDIA)) {
-                $additionalTca[$field->fullKey]['config'] = $this->getFileTCAConfig($fieldType, $field, []);
+                $additionalTca[$field->fullKey]['config'] = $this->getFileTCAConfig($fieldType, $field);
             }
 
             // Inline (Repeating): Fill missing foreign_table in tca config.
@@ -352,11 +352,7 @@ class TcaCodeGenerator
                 $field->realTca['config']['foreign_table'] = $field->fullKey;
             }
 
-            $field->realTca['config'] = self::reconfigureTCAConfig(
-                $fieldType,
-                $field->realTca['config'],
-                $field->realTca['config']['dbType'] ?? ''
-            );
+            $field->realTca['config'] = self::reconfigureTCAConfig($field, $field->realTca['config']);
 
             // InputLink: Add softref
             if ($fieldType->equals(FieldType::LINK)) {
@@ -391,7 +387,7 @@ class TcaCodeGenerator
         return $additionalTca;
     }
 
-    private function getFileTCAConfig(FieldType $fieldType, TcaFieldDefinition $field, array $columnsOverride): array
+    private function getFileTCAConfig(FieldType $fieldType, TcaFieldDefinition $field, ?TcaFieldDefinition $columnsOverride = null): array
     {
         if ($field->imageoverlayPalette || $fieldType->equals(FieldType::MEDIA)) {
             $customSettingOverride = [
@@ -437,8 +433,12 @@ class TcaCodeGenerator
         $customSettingOverride['appearance']['useSortable'] = (bool)($customSettingOverride['appearance']['useSortable'] ?? false);
 
         // read from columnsOverride if set
-        $field->allowedFileExtensions = $columnsOverride['allowedFileExtensions'] ?? $field->allowedFileExtensions;
-        $field->onlineMedia = $columnsOverride['onlineMedia'] ?? $field->onlineMedia;
+        $field->allowedFileExtensions = ($columnsOverride instanceof TcaFieldDefinition && $columnsOverride->allowedFileExtensions !== '')
+            ? $columnsOverride->allowedFileExtensions
+            : $field->allowedFileExtensions;
+        $field->onlineMedia = ($columnsOverride instanceof TcaFieldDefinition && $columnsOverride->onlineMedia !== [])
+            ? $columnsOverride->onlineMedia
+            : $field->onlineMedia;
 
         $typo3Version = new Typo3Version();
         if ($fieldType->equals(FieldType::FILE) && $field->allowedFileExtensions === '') {
@@ -477,8 +477,10 @@ class TcaCodeGenerator
         return $fileFieldTCAConfig;
     }
 
-    private static function reconfigureTCAConfig(FieldType $fieldType, array $tcaConfig, string $dbType): array
+    private static function reconfigureTCAConfig(TcaFieldDefinition $field, array $tcaConfig): array
     {
+        $fieldType = $field->getFieldType();
+        $dbType = $field->realTca['config']['dbType'] ?? '';
         // Convert Date and Datetime default and ranges to timestamp
         if (in_array($dbType, ['date', 'datetime'])) {
             $default = $tcaConfig['default'] ?? false;
@@ -554,24 +556,9 @@ class TcaCodeGenerator
                         if ($description !== '') {
                             $TCAColumnsOverrides[$table]['types'][$cType]['columnsOverrides'][$paletteField->fullKey]['description'] = $description;
                         }
-                        if ($element->hasColumnsOverrideForField($paletteField->fullKey)) {
-                            $tcaConfig = self::reconfigureTCAConfig(
-                                $fieldDefinition->getFieldType(),
-                                $element->getColumnsOverrideForField($paletteField->fullKey)['config'],
-                                $paletteField->realTca['config']['dbType'] ?? ''
-                            );
-                            // File: Add file config.
-                            if ($paletteField->getFieldType()->equals(FieldType::FILE)
-                                || $paletteField->getFieldType()->equals(FieldType::MEDIA)) {
-                                $fileTca = $this->getFileTCAConfig(
-                                    $paletteField->getFieldType(),
-                                    $paletteField,
-                                    $element->getColumnsOverrideForField($paletteField->fullKey)
-                                );
-                                ArrayUtility::mergeRecursiveWithOverrule($tcaConfig, $fileTca);
-                            }
-                            $TCAColumnsOverrides[$table]['types'][$cType]['columnsOverrides'][$paletteField->fullKey]['config']
-                                = $tcaConfig;
+                        if ($table === 'tt_content' && $element->hasColumnsOverrideForField($paletteField->fullKey)) {
+                            $tcaConfig = $this->processOverrideTca($fieldDefinition, $element->getColumnsOverrideForField($paletteField->fullKey));
+                            $TCAColumnsOverrides[$table]['types'][$cType]['columnsOverrides'][$paletteField->fullKey]['config'] = $tcaConfig;
                         }
                     }
                 } else {
@@ -585,30 +572,31 @@ class TcaCodeGenerator
                         $TCAColumnsOverrides[$table]['types'][$cType]['columnsOverrides'][$fieldDefinition->fullKey]['description'] = $description;
                     }
 
-                    if ($element->hasColumnsOverrideForField($fieldDefinition->fullKey)) {
-                        $tcaConfig = self::reconfigureTCAConfig(
-                            $fieldDefinition->getFieldType(),
-                            $element->getColumnsOverrideForField($fieldDefinition->fullKey)['config'],
-                            $fieldDefinition->realTca['config']['dbType'] ?? ''
-                        );
-                        // File: Add file config.
-                        if ($fieldDefinition->getFieldType()->equals(FieldType::FILE)
-                            || $fieldDefinition->getFieldType()->equals(FieldType::MEDIA)) {
-                            $fileTca = $this->getFileTCAConfig(
-                                $fieldDefinition->getFieldType(),
-                                $fieldDefinition,
-                                $element->getColumnsOverrideForField($fieldDefinition->fullKey)
-                            );
-                            ArrayUtility::mergeRecursiveWithOverrule($tcaConfig, $fileTca);
-                        }
-                        $TCAColumnsOverrides[$table]['types'][$cType]['columnsOverrides'][$fieldDefinition->fullKey]['config']
-                            = $tcaConfig;
+                    if ($table === 'tt_content' && $element->hasColumnsOverrideForField($fieldDefinition->fullKey)) {
+                        $tcaConfig = $this->processOverrideTca($fieldDefinition, $element->getColumnsOverrideForField($fieldDefinition->fullKey));
+                        $TCAColumnsOverrides[$table]['types'][$cType]['columnsOverrides'][$fieldDefinition->fullKey]['config'] = $tcaConfig;
                     }
                 }
             }
         }
 
         return $TCAColumnsOverrides;
+    }
+
+    protected function processOverrideTca(TcaFieldDefinition $tcaFieldDefinition, TcaFieldDefinition $overrideTcaFieldDefinition): array
+    {
+        $tcaConfig = $overrideTcaFieldDefinition->getOverridesDefinition();
+        $tcaConfig = self::reconfigureTCAConfig($tcaFieldDefinition, $tcaConfig);
+        // File: Add file config.
+        if ($tcaFieldDefinition->getFieldType()->isFileReference()) {
+            $fileTca = $this->getFileTCAConfig(
+                $tcaFieldDefinition->getFieldType(),
+                $tcaFieldDefinition,
+                $overrideTcaFieldDefinition
+            );
+            ArrayUtility::mergeRecursiveWithOverrule($tcaConfig['config'], $fileTca);
+        }
+        return $tcaConfig['config'];
     }
 
     /**

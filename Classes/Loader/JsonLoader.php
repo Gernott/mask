@@ -19,6 +19,7 @@ namespace MASK\Mask\Loader;
 
 use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Migrations\MigrationManager;
+use TYPO3\CMS\Core\Configuration\Features;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class JsonLoader implements LoaderInterface
@@ -26,13 +27,16 @@ class JsonLoader implements LoaderInterface
     protected ?TableDefinitionCollection $tableDefinitionCollection = null;
     protected array $maskExtensionConfiguration;
     protected MigrationManager $migrationManager;
+    protected Features $features;
 
     public function __construct(
         array $maskExtensionConfiguration,
-        MigrationManager $migrationManager
+        MigrationManager $migrationManager,
+        Features $features
     ) {
         $this->maskExtensionConfiguration = $maskExtensionConfiguration;
         $this->migrationManager = $migrationManager;
+        $this->features = $features;
     }
 
     public function load(): TableDefinitionCollection
@@ -60,6 +64,11 @@ class JsonLoader implements LoaderInterface
     public function write(TableDefinitionCollection $tableDefinitionCollection): void
     {
         $this->tableDefinitionCollection = $tableDefinitionCollection;
+
+        if ($this->features->isFeatureEnabled('overrideSharedFields')) {
+            $this->tableDefinitionCollection->setRestructuringDone();
+        }
+
         $maskJsonFilePath = $this->validateGetJsonFilePath();
 
         // Create folder for json file, if it doesn't exist.
