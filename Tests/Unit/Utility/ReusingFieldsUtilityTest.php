@@ -125,7 +125,7 @@ class ReusingFieldsUtilityTest extends BaseTestCase
      */
     public function convertTcaArrayToMinimalTcaTest(array $array, array $expected): void
     {
-         self::assertSame($expected, ReusingFieldsUtility::getRealTcaConfig($array, 'tt_content'));
+        self::assertSame($expected, ReusingFieldsUtility::getRealTcaConfig($array, 'tt_content'));
     }
 
     public function convertTcaArrayToOverrideTcaDataProvider(): iterable
@@ -284,6 +284,6 @@ class ReusingFieldsUtilityTest extends BaseTestCase
      */
     public function convertTcaArrayToOverrideTcaTest(array $array, array $expected): void
     {
-         self::assertSame($expected, ReusingFieldsUtility::getOverrideTcaConfig($array, 'tt_content'));
+        self::assertSame($expected, ReusingFieldsUtility::getOverrideTcaConfig($array, 'tt_content'));
     }
 }
