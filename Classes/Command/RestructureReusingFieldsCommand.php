@@ -22,13 +22,11 @@ use MASK\Mask\Utility\ReusingFieldsUtility;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use TYPO3\CMS\Core\Configuration\Features;
 
 class RestructureReusingFieldsCommand extends Command
 {
-    /**
-     * @var array<string, string>
-     */
-    protected array $maskExtensionConfiguration;
+    protected Features $features;
     protected LoaderRegistry $loaderRegistry;
 
     public function injectLoaderRegistry(LoaderRegistry $loaderRegistry): void
@@ -36,9 +34,9 @@ class RestructureReusingFieldsCommand extends Command
         $this->loaderRegistry = $loaderRegistry;
     }
 
-    public function injectMaskExtensionConfiguration(array $maskExtensionConfiguration): void
+    public function injectFeatures(Features $features): void
     {
-        $this->maskExtensionConfiguration = $maskExtensionConfiguration;
+        $this->features = $features;
     }
 
     protected function configure(): void
@@ -53,7 +51,7 @@ class RestructureReusingFieldsCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $reusingFieldsEnabled = $this->maskExtensionConfiguration['reuse_fields'] == 1;
+        $reusingFieldsEnabled = $this->features->isFeatureEnabled('overrideSharedFields');
         if (!$reusingFieldsEnabled) {
             return 0;
         }

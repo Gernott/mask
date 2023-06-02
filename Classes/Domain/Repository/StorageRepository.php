@@ -27,6 +27,7 @@ use MASK\Mask\Loader\LoaderInterface;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\ReusingFieldsUtility;
 use MASK\Mask\Utility\TcaConverter;
+use TYPO3\CMS\Core\Configuration\Features;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 
@@ -41,11 +42,7 @@ class StorageRepository implements SingletonInterface
     protected LoaderInterface $loader;
     protected TableDefinitionCollection $tableDefinitionCollection;
     protected ConfigurationLoaderInterface $configurationLoader;
-
-    /**
-     * @var array<string, string>
-     */
-    protected array $maskExtensionConfiguration;
+    protected Features $features;
 
     /**
      * @var array<string, mixed>
@@ -56,12 +53,12 @@ class StorageRepository implements SingletonInterface
         LoaderInterface $loader,
         TableDefinitionCollection $tableDefinitionCollection,
         ConfigurationLoaderInterface $configurationLoader,
-        array $maskExtensionConfiguration
+        Features $features
     ) {
         $this->loader = $loader;
         $this->tableDefinitionCollection = $tableDefinitionCollection;
         $this->configurationLoader = $configurationLoader;
-        $this->maskExtensionConfiguration = $maskExtensionConfiguration;
+        $this->features = $features;
     }
 
     /**
@@ -301,7 +298,7 @@ class StorageRepository implements SingletonInterface
 
             // Add tca entry for field
             unset($jsonAdd[$table]['elements'][$elementKey]['columnsOverride'][$field['key']]);
-            if (!$this->maskExtensionConfiguration['reuse_fields']
+            if (!$this->features->isFeatureEnabled('overrideSharedFields')
                 || !ReusingFieldsUtility::fieldTypeIsAllowedToBeReused(new FieldType($fieldAdd['type']), $isMaskField)) {
                 $jsonAdd[$table]['tca'][$field['key']] = $fieldAdd;
             } else {

@@ -39,6 +39,7 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\View\BackendLayout\BackendLayout;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Core\Configuration\Features;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Http\JsonResponse;
@@ -76,6 +77,7 @@ class AjaxController
     protected TableDefinitionCollection $tableDefinitionCollection;
     protected LoaderInterface $loader;
     protected EventDispatcherInterface $eventDispatcher;
+    protected Features $features;
 
     /**
      * @var array<string, string>
@@ -107,6 +109,7 @@ class AjaxController
         TableDefinitionCollection $tableDefinitionCollection,
         LoaderInterface $loader,
         EventDispatcherInterface $eventDispatcher,
+        Features $features,
         array $maskExtensionConfiguration
     ) {
         $this->storageRepository = $storageRepository;
@@ -121,6 +124,7 @@ class AjaxController
         $this->maskExtensionConfiguration = $maskExtensionConfiguration;
         $this->loader = $loader;
         $this->eventDispatcher = $eventDispatcher;
+        $this->features = $features;
         $this->flashMessageQueue = new FlashMessageQueue('mask');
     }
 
@@ -528,7 +532,7 @@ class AjaxController
             $multiUseElements[$field->fullKey] = $this->getMultiUseForField($field->fullKey, $elementKey);
         }
 
-        $reusingFieldsEnabled = $this->maskExtensionConfiguration['reuse_fields'] == 1;
+        $reusingFieldsEnabled = $this->features->isFeatureEnabled('overrideSharedFields');
         return new JsonResponse(['multiUseElements' => $multiUseElements, 'reuseFieldsEnabled' => (int)$reusingFieldsEnabled]);
     }
 
@@ -576,7 +580,7 @@ class AjaxController
 
     public function restructuringNeeded(ServerRequestInterface $request): JsonResponse
     {
-        $reusingFieldsEnabled = $this->maskExtensionConfiguration['reuse_fields'] == 1;
+        $reusingFieldsEnabled = $this->features->isFeatureEnabled('overrideSharedFields');
         $needsRestructure = $this->tableDefinitionCollection->getRestructuringNeeded($reusingFieldsEnabled, $this->loader);
         return new JsonResponse(['restructuringNeeded' => (int)$needsRestructure]);
     }

@@ -81,11 +81,6 @@ parameters:
 			path: ../../Classes/CodeGenerator/TyposcriptCodeGenerator.php
 
 		-
-			message: "#^Method MASK\\\\Mask\\\\Command\\\\RestructureReusingFieldsCommand\\:\\:injectMaskExtensionConfiguration\\(\\) has parameter \\$maskExtensionConfiguration with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../Classes/Command/RestructureReusingFieldsCommand.php
-
-		-
 			message: "#^Method MASK\\\\Mask\\\\ConfigurationLoader\\\\ConfigurationLoader\\:\\:loadDefaults\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/ConfigurationLoader/ConfigurationLoader.php
@@ -444,11 +439,6 @@ parameters:
 			message: "#^Method MASK\\\\Mask\\\\Domain\\\\Repository\\\\BackendLayoutRepository\\:\\:findAll\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Domain/Repository/BackendLayoutRepository.php
-
-		-
-			message: "#^Method MASK\\\\Mask\\\\Domain\\\\Repository\\\\StorageRepository\\:\\:__construct\\(\\) has parameter \\$maskExtensionConfiguration with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../Classes/Domain/Repository/StorageRepository.php
 
 		-
 			message: "#^Method MASK\\\\Mask\\\\Domain\\\\Repository\\\\StorageRepository\\:\\:add\\(\\) has parameter \\$element with no value type specified in iterable type array\\.$#"
