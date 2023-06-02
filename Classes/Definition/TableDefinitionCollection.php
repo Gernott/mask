@@ -286,7 +286,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
      * Loads all the inline fields of an inline-field, recursively!
      * Not specifying an element key means, the parent key has to be an inline table.
      */
-    public function loadInlineFields(string $parentKey, string $elementKey, ?ElementDefinition $element): NestedTcaFieldDefinitions
+    public function loadInlineFields(string $parentKey, string $elementKey, ?ElementDefinition $element = null): NestedTcaFieldDefinitions
     {
         // Load inline fields of own table.
         if ($this->hasTable($parentKey)) {
