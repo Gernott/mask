@@ -21,7 +21,7 @@ Please note that this feature is not enabled by default and needs to be explicit
 You can also enable it in your PHP configuration:
 
 ```
-$GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['mask']['reuse_fields'] = '1';
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['features']['overrideSharedFields'] = true;
 ```
 
 Caution should be exercised when enabling this option, as once reusing fields are enabled,

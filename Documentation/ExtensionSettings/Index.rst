@@ -59,8 +59,8 @@ __________________
 | Page ids from where the in PageTS defined backend layouts should be loaded (comma separated).
 | Default: 0 (root-pid, all layouts are found)
 
-reuse_fields
-__________________
+overrideSharedFields
+____________________
 
 | If you want to reuse fields with different configurations between content elements this needs to be enabled
 | for example one dropdown field with different items per content element
