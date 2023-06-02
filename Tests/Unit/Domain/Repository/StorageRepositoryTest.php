@@ -1936,11 +1936,12 @@ class StorageRepositoryTest extends BaseTestCase
                                 'tx_mask_timestamp' => [
                                     'config' => [
                                         'renderType' => 'inputDateTime',
-                                        'eval' => 'date,int',
+                                        'eval' => 'int',
                                         'range' => [
                                             'lower' => 1609459200,
                                             'upper' => 1610668800,
                                         ],
+                                        'format' => 'date',
                                     ],
                                 ],
                             ],
@@ -2686,10 +2687,8 @@ class StorageRepositoryTest extends BaseTestCase
                                     'config' => [
                                         'items' => [
                                             [
-                                                'Item 1',
-                                                '1',
-                                                '',
-                                                '',
+                                                'label' => 'Item 1',
+                                                'value' => '1',
                                             ],
                                         ],
                                         'renderType' => 'selectSingle',
@@ -2719,10 +2718,8 @@ class StorageRepositoryTest extends BaseTestCase
                                     'config' => [
                                         'items' => [
                                             [
-                                                'Item 1',
-                                                '1',
-                                                '',
-                                                '',
+                                                'label' => 'Item 1',
+                                                'value' => '1',
                                             ],
                                         ],
                                         'renderType' => 'selectSingle',
@@ -2746,16 +2743,12 @@ class StorageRepositoryTest extends BaseTestCase
                                 'type' => 'select',
                                 'items' => [
                                     [
-                                        'Item 1',
-                                        '1',
-                                        '',
-                                        '',
+                                        'label' => 'Item 1',
+                                        'value' => '1',
                                     ],
                                     [
-                                        'Item 2',
-                                        '2',
-                                        '',
-                                        '',
+                                        'label' => 'Item 2',
+                                        'value' => '2',
                                     ],
                                 ],
                             ],
@@ -2780,16 +2773,12 @@ class StorageRepositoryTest extends BaseTestCase
                     'tca' => [
                         'config.items' => [
                             [
-                                'Item 1',
-                                '1',
-                                '',
-                                '',
+                                'label' => 'Item 1',
+                                'value' => '1',
                             ],
                             [
-                                'Item 2',
-                                '2',
-                                '',
-                                '',
+                                'label' => 'Item 2',
+                                'value' => '2',
                             ],
                         ],
                         'config.renderType' => 'selectSingle',
@@ -2816,10 +2805,8 @@ class StorageRepositoryTest extends BaseTestCase
                                     'config' => [
                                         'items' => [
                                             [
-                                                'Item 1',
-                                                '1',
-                                                '',
-                                                '',
+                                                'label' => 'Item 1',
+                                                'value' => '1',
                                             ],
                                         ],
                                         'renderType' => 'selectSingle',
@@ -2850,16 +2837,18 @@ class StorageRepositoryTest extends BaseTestCase
                                     'config' => [
                                         'items' => [
                                             [
-                                                'Item 1',
-                                                '1',
-                                                '',
-                                                '',
+                                                'label' => 'Item 1',
+                                                'value' => '1',
+                                                'icon' => '',
+                                                'group' => '',
+                                                'description' => '',
                                             ],
                                             [
-                                                'Item 2',
-                                                '2',
-                                                '',
-                                                '',
+                                                'label' => 'Item 2',
+                                                'value' => '2',
+                                                'icon' => '',
+                                                'group' => '',
+                                                'description' => '',
                                             ],
                                         ],
                                         'renderType' => 'selectSingle',

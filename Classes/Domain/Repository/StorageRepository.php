@@ -305,7 +305,15 @@ class StorageRepository implements SingletonInterface
                 && ReusingFieldsUtility::fieldTypeIsAllowedToBeReused(new FieldType($fieldAdd['type']), $isMaskField)
             ) {
                 $minimalFieldTca = ReusingFieldsUtility::getRealTcaConfig($fieldAdd, $table);
-                $overrideTca = ReusingFieldsUtility::getOverrideTcaConfig($fieldAdd, $table);
+                $tcaFieldDefinition = TcaFieldDefinition::createFromFieldArray($fieldAdd);
+                $tcaFieldDefinition->overrideTca($fieldAdd);
+                $overrideTca = ReusingFieldsUtility::getOverrideTcaConfig($tcaFieldDefinition->realTca, $table);
+                // @todo There is also allowedFileExtensions and onlineMedia set in ReusingFieldsUtility.
+                // @todo This needs to be streamlined somehow. Possibly integrate getOverrideTcaConfig into
+                // @todo TcaFieldDefinition directly.
+                if ($tcaFieldDefinition->inPalette && $table === 'tt_content') {
+                    $overrideTca['inPalette'] = 1;
+                }
                 if ($overrideTca !== []) {
                     $jsonAdd[$table]['elements'][$elementKey]['columnsOverride'][$field['key']] = $overrideTca;
                 }
