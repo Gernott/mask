@@ -298,17 +298,19 @@ class StorageRepository implements SingletonInterface
 
             // Add tca entry for field
             unset($jsonAdd[$table]['elements'][$elementKey]['columnsOverride'][$field['key']]);
-            if (!$this->features->isFeatureEnabled('overrideSharedFields')
-                || !ReusingFieldsUtility::fieldTypeIsAllowedToBeReused(new FieldType($fieldAdd['type']), $isMaskField)) {
-                $jsonAdd[$table]['tca'][$field['key']] = $fieldAdd;
-            } else {
+
+            $minimalFieldTca = $fieldAdd;
+            if (
+                $this->features->isFeatureEnabled('overrideSharedFields')
+                && ReusingFieldsUtility::fieldTypeIsAllowedToBeReused(new FieldType($fieldAdd['type']), $isMaskField)
+            ) {
                 $minimalFieldTca = ReusingFieldsUtility::getRealTcaConfig($fieldAdd, $table);
-                $jsonAdd[$table]['tca'][$field['key']] = $minimalFieldTca;
                 $overrideTca = ReusingFieldsUtility::getOverrideTcaConfig($fieldAdd, $table);
-                if (!empty($overrideTca)) {
+                if ($overrideTca !== []) {
                     $jsonAdd[$table]['elements'][$elementKey]['columnsOverride'][$field['key']] = $overrideTca;
                 }
             }
+            $jsonAdd[$table]['tca'][$field['key']] = $minimalFieldTca;
 
             // Resolve nested fields
             if (isset($field['fields'])) {
