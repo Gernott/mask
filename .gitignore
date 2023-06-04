@@ -6,6 +6,7 @@ composer.lock
 var/
 Build/testing-docker/.env
 Build/phpunit/.phpunit.result.cache
+.phpunit.result.cache
 .php_cs.cache
 .php-cs-fixer.cache
 Documentation-GENERATED-temp/
