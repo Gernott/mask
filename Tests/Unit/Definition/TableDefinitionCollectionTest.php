@@ -1730,6 +1730,27 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'tx_mask_field2',
                                 'tx_mask_field3',
                             ],
+                            'columnsOverride' => [
+                                'tx_mask_field1' => [
+                                    'key' => 'field1',
+                                    'type' => 'string',
+                                    'config' => [
+                                        'required' => true,
+                                    ],
+                                ],
+                                'tx_mask_field2' => [
+                                    'key' => 'field2',
+                                    'type' => 'string',
+                                    'config' => [],
+                                    'allowedFileExtensions' => 'jpg',
+                                ],
+                                'tx_mask_field3' => [
+                                    'key' => 'field3',
+                                    'type' => 'link',
+                                    'config' => [],
+                                    'onlineMedia' => 'youtube',
+                                ],
+                            ],
                             'labels' => [
                                 'Field 1',
                                 'Field 2',
@@ -1785,6 +1806,30 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     'tx_mask_field2',
                     'tx_mask_field3',
                 ],
+                'columnsOverride' => [
+                    'tx_mask_field1' => [
+                        'key' => 'field1',
+                        'fullKey' => 'tx_mask_field1',
+                        'type' => 'string',
+                        'config' => [
+                            'required' => true,
+                        ],
+                    ],
+                    'tx_mask_field2' => [
+                        'key' => 'field2',
+                        'fullKey' => 'tx_mask_field2',
+                        'type' => 'string',
+                        'config' => [],
+                        'allowedFileExtensions' => 'jpg',
+                    ],
+                    'tx_mask_field3' => [
+                        'key' => 'field3',
+                        'fullKey' => 'tx_mask_field3',
+                        'type' => 'link',
+                        'config' => [],
+                        'onlineMedia' => ['youtube'],
+                    ],
+                ],
                 'labels' => [
                     'Field 1',
                     'Field 2',
@@ -1799,6 +1844,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     'tx_mask_field1' => [
                         'config' => [
                             'type' => 'input',
+                            'required' => true,
                         ],
                         'key' => 'field1',
                         'fullKey' => 'tx_mask_field1',
@@ -1813,6 +1859,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'fullKey' => 'tx_mask_field2',
                         'type' => 'integer',
                         'description' => 'Field 2 Description',
+                        'allowedFileExtensions' => 'jpg',
                     ],
                     'tx_mask_field3' => [
                         'config' => [
@@ -1823,6 +1870,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'fullKey' => 'tx_mask_field3',
                         'type' => 'link',
                         'description' => 'Field 3 Description',
+                        'onlineMedia' => ['youtube'],
                     ],
                 ],
                 'sorting' => 0,
