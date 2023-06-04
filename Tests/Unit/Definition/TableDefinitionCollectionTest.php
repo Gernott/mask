@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Tests\Unit\Definition;
 
+use MASK\Mask\Definition\ElementTcaDefinition;
 use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Enumeration\FieldType;
 use TYPO3\TestingFramework\Core\BaseTestCase;
@@ -162,6 +163,22 @@ class TableDefinitionCollectionTest extends BaseTestCase
                             'columns' => [
                                 'tx_mask_a',
                             ],
+                            'columnsOverride' => [
+                                'tx_mask_b' => [
+                                    'config' => [
+                                        'eval' => 'trim',
+                                    ],
+                                    'key' => 'b',
+                                    'type' => 'string',
+                                ],
+                                'tx_mask_c' => [
+                                    'config' => [
+                                        'required' => true,
+                                    ],
+                                    'key' => 'c',
+                                    'type' => 'string',
+                                ],
+                            ],
                         ],
                     ],
                     'tca' => [
@@ -206,9 +223,10 @@ class TableDefinitionCollectionTest extends BaseTestCase
                 [
                     'config' => [
                         'type' => 'input',
+                        'required' => true,
                     ],
                     'key' => 'c',
-                    'inPalette' => '1',
+                    'inPalette' => 1,
                     'inlineParent' => [
                         'element1' => 'tx_mask_a',
                     ],
@@ -222,9 +240,10 @@ class TableDefinitionCollectionTest extends BaseTestCase
                 [
                     'config' => [
                         'type' => 'input',
+                        'eval' => 'trim',
                     ],
                     'key' => 'b',
-                    'inPalette' => '1',
+                    'inPalette' => 1,
                     'inlineParent' => [
                         'element1' => 'tx_mask_a',
                     ],
@@ -361,7 +380,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
     {
         $tableDefinitionCollection = TableDefinitionCollection::createFromArray($json);
         $elementTcaDefinition = $tableDefinitionCollection->loadElement('tt_content', $elementKey);
-        $element = is_null($elementTcaDefinition) ? null : $elementTcaDefinition->elementDefinition;
+        $element = $elementTcaDefinition instanceof ElementTcaDefinition ? $elementTcaDefinition->elementDefinition : null;
         self::assertEquals($expected, $tableDefinitionCollection->loadInlineFields($parentKey, $elementKey, $element)->toArray());
     }
 
