@@ -920,6 +920,8 @@ class AjaxController
         $language['executeRestructuring'] = $this->translateLabel('tx_mask.execute_restructuring');
         $language['selectedItems'] = $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.selected');
         $language['availableItems'] = $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.items');
+        $language['multiuseTitle'] = $this->translateLabel('tx_mask.content.multiuse');
+        $language['multiuseMessage'] = $this->translateLabel('tx_mask.content.multiuse.description');
 
         return new JsonResponse($language);
     }

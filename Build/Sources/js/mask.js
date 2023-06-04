@@ -82,6 +82,7 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
           ctypes: {},
           structuralFields: ['linebreak', 'palette', 'tab'],
           nonShareableFields: ['inline', 'palette', 'linebreak', 'tab'],
+          nonOverridableFields: ['allowed'], // TODO get list dynamically on start
           maskPrefix: 'tx_mask_',
           deletedFields: [],
         },
@@ -1335,6 +1336,14 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
        */
       forceRenderer() {
         this.ticks += 1;
+      },
+      isAllowedToOverride(fieldKey) {
+        if (!this.reuseFieldsEnabled) {
+          return true;
+        }
+        fieldKey = fieldKey.replace('config.', '');
+        return !this.global.nonOverridableFields.includes(fieldKey)
+          || (this.activeMultiUseElements.length === 0 && !this.isActiveCoreField);
       },
       keyWithoutMask: function (key) {
         if (key.substr(0, 8) === this.global.maskPrefix) {
