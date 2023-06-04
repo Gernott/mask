@@ -268,8 +268,8 @@ final class TableDefinitionCollection implements \IteratorAggregate
                     }
                 }
                 // Merge TCA so it will be available in the Content Element Builder.
-                if ($element instanceof ElementDefinition && $element->hasColumnsOverride($field->key)) {
-                    $field->realTca = array_merge($field->realTca, $element->getColumnsOverride($field->key)->realTca);
+                if ($element instanceof ElementDefinition && $element->hasColumnsOverride($field->fullKey)) {
+                    $field->realTca = array_merge($field->realTca, $element->getColumnsOverride($field->fullKey)->realTca);
                 }
                 $nestedTcaFields->addField($field);
             }
