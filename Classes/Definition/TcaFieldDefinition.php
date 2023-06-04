@@ -42,6 +42,9 @@ final class TcaFieldDefinition
         FieldType::FILE => [
             'config.minitems',
         ],
+        FieldType::MEDIA => [
+            'config.minitems',
+        ],
     ];
 
     private const STOP_RECURSIVE_VALUES_BY_TYPE = [
@@ -169,7 +172,7 @@ final class TcaFieldDefinition
         }
 
         // Always set minitems / maxitems so the config array is not completely empty.
-        if (!$tcaFieldDefinition->isCoreField && $tcaFieldDefinition->hasFieldType() && $tcaFieldDefinition->getFieldType()->equals(FieldType::FILE)) {
+        if (!$tcaFieldDefinition->isCoreField && $tcaFieldDefinition->hasFieldType() && $tcaFieldDefinition->getFieldType()->isFileReference()) {
             $definition['config']['minitems'] ??= '';
         }
 
