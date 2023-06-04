@@ -556,8 +556,8 @@ class TcaCodeGenerator
                         if ($description !== '') {
                             $TCAColumnsOverrides[$table]['types'][$cType]['columnsOverrides'][$paletteField->fullKey]['description'] = $description;
                         }
-                        if ($table === 'tt_content' && $element->hasColumnsOverrideForField($paletteField->fullKey)) {
-                            $tcaConfig = $this->processOverrideTca($fieldDefinition, $element->getColumnsOverrideForField($paletteField->fullKey));
+                        if ($table === 'tt_content' && $element->hasColumnsOverride($paletteField->fullKey)) {
+                            $tcaConfig = $this->processOverrideTca($fieldDefinition, $element->getColumnsOverride($paletteField->fullKey));
                             $TCAColumnsOverrides[$table]['types'][$cType]['columnsOverrides'][$paletteField->fullKey]['config'] = $tcaConfig;
                         }
                     }
@@ -572,8 +572,8 @@ class TcaCodeGenerator
                         $TCAColumnsOverrides[$table]['types'][$cType]['columnsOverrides'][$fieldDefinition->fullKey]['description'] = $description;
                     }
 
-                    if ($table === 'tt_content' && $element->hasColumnsOverrideForField($fieldDefinition->fullKey)) {
-                        $tcaConfig = $this->processOverrideTca($fieldDefinition, $element->getColumnsOverrideForField($fieldDefinition->fullKey));
+                    if ($table === 'tt_content' && $element->hasColumnsOverride($fieldDefinition->fullKey)) {
+                        $tcaConfig = $this->processOverrideTca($fieldDefinition, $element->getColumnsOverride($fieldDefinition->fullKey));
                         $TCAColumnsOverrides[$table]['types'][$cType]['columnsOverrides'][$fieldDefinition->fullKey]['config'] = $tcaConfig;
                     }
                 }

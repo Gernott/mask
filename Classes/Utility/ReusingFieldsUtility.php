@@ -53,7 +53,7 @@ class ReusingFieldsUtility
                         if (!$paletteFieldType->canBeShared()) {
                             continue;
                         }
-                        $element->addColumnsOverrideForField($paletteFieldKey, $paletteTcaDefinition);
+                        $element->addColumnsOverride($paletteFieldKey, $paletteTcaDefinition);
                     }
                     continue;
                 }
@@ -62,7 +62,7 @@ class ReusingFieldsUtility
                     continue;
                 }
 
-                $element->addColumnsOverrideForField($fieldKey, $fieldTypeTca);
+                $element->addColumnsOverride($fieldKey, $fieldTypeTca);
             }
         }
 

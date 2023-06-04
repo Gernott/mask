@@ -226,8 +226,8 @@ final class TableDefinitionCollection implements \IteratorAggregate
         foreach ($element->columns as $fieldKey) {
             if ($tableDefinition->tca->hasField($fieldKey)) {
                 $availableTcaField = $tableDefinition->tca->getField($fieldKey);
-                if ($element->hasColumnsOverrideForField($fieldKey)) {
-                    $availableTcaField = $element->getColumnsOverrideForField($fieldKey);
+                if ($element->hasColumnsOverride($fieldKey)) {
+                    $availableTcaField = $element->getColumnsOverride($fieldKey);
                 }
                 $tcaDefinition->addField($availableTcaField);
                 if ($availableTcaField->hasFieldType() && $availableTcaField->getFieldType()->equals(FieldType::PALETTE)) {
@@ -266,6 +266,10 @@ final class TableDefinitionCollection implements \IteratorAggregate
                     foreach ($this->loadInlineFields($field->fullKey, $elementKey, $element) as $inlineField) {
                         $field->addInlineField($inlineField);
                     }
+                }
+                // Merge TCA so it will be available in the Content Element Builder.
+                if ($element instanceof ElementDefinition && $element->hasColumnsOverride($field->key)) {
+                    $field->realTca = array_merge($field->realTca, $element->getColumnsOverride($field->key)->realTca);
                 }
                 $nestedTcaFields->addField($field);
             }

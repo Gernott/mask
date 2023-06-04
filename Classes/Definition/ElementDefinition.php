@@ -69,7 +69,7 @@ final class ElementDefinition
         $elementDefinition->saveAndClose = !empty($elementArray['saveAndClose']);
 
         foreach ($elementArray['columnsOverride'] ?? [] as $key => $columnOverride) {
-            $elementDefinition->addColumnsOverrideForField(
+            $elementDefinition->addColumnsOverride(
                 $key,
                 TcaFieldDefinition::createFromFieldArray($columnOverride)
             );
@@ -114,14 +114,14 @@ final class ElementDefinition
         return $element;
     }
 
-    public function hasColumnsOverrideForField(string $key): bool
+    public function hasColumnsOverride(string $key): bool
     {
         return isset($this->columnsOverride[$key]);
     }
 
-    public function getColumnsOverrideForField(string $key): TcaFieldDefinition
+    public function getColumnsOverride(string $key): TcaFieldDefinition
     {
-        if (!$this->hasColumnsOverrideForField($key)) {
+        if (!$this->hasColumnsOverride($key)) {
             throw new \OutOfBoundsException(
                 'The element "' . $this->key . '" does not have an override field for the key "' . $key . '".',
                 1685697116
@@ -130,7 +130,7 @@ final class ElementDefinition
         return $this->columnsOverride[$key];
     }
 
-    public function addColumnsOverrideForField(string $key, TcaFieldDefinition $columnsOverride): void
+    public function addColumnsOverride(string $key, TcaFieldDefinition $columnsOverride): void
     {
         $this->columnsOverride[$key] = $columnsOverride;
     }
