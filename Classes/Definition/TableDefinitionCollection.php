@@ -21,7 +21,6 @@ use InvalidArgumentException;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\FieldTypeUtility;
-use TYPO3\CMS\Core\Utility\ArrayUtility;
 
 final class TableDefinitionCollection implements \IteratorAggregate
 {
@@ -226,7 +225,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
             if ($tableDefinition->tca->hasField($fieldKey)) {
                 $availableTcaField = $tableDefinition->tca->getField($fieldKey);
                 if ($element->hasColumnsOverride($fieldKey)) {
-                    $availableTcaField = $element->getColumnsOverride($fieldKey);
+                    $availableTcaField = $availableTcaField->mergeTca($element->getColumnsOverride($fieldKey));
                 }
                 $tcaDefinition->addField($availableTcaField);
                 if ($availableTcaField->hasFieldType() && $availableTcaField->getFieldType()->equals(FieldType::PALETTE)) {
@@ -268,7 +267,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
                 }
                 // Merge TCA so it will be available in the Content Element Builder.
                 if ($element instanceof ElementDefinition && $element->hasColumnsOverride($field->fullKey)) {
-                    ArrayUtility::mergeRecursiveWithOverrule($field->realTca, $element->getColumnsOverride($field->fullKey)->realTca);
+                    $field = $field->mergeTca($element->getColumnsOverride($field->fullKey));
                 }
                 $nestedTcaFields->addField($field);
             }

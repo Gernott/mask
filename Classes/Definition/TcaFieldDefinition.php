@@ -22,6 +22,7 @@ use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\FieldTypeUtility;
 use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Schema\Struct\SelectItem;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final class TcaFieldDefinition
@@ -744,5 +745,16 @@ final class TcaFieldDefinition
             return (bool)($this->realTca['config']['nullable'] ?? false);
         }
         return GeneralUtility::inList($this->realTca['config']['eval'] ?? '', 'null');
+    }
+
+    public function mergeTca(TcaFieldDefinition $tcaFieldDefinition): TcaFieldDefinition
+    {
+        $field = clone $this;
+        ArrayUtility::mergeRecursiveWithOverrule($field->realTca, $tcaFieldDefinition->realTca);
+
+        $field->allowedFileExtensions = $tcaFieldDefinition->allowedFileExtensions;
+        $field->onlineMedia = $tcaFieldDefinition->onlineMedia;
+
+        return $field;
     }
 }
