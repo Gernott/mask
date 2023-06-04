@@ -306,17 +306,16 @@ class StorageRepository implements SingletonInterface
                 && FieldType::cast($fieldAdd['type'])->canBeShared();
 
             $combinedFieldAdd = array_merge($fieldAdd, $tcaConfig);
-            if ($overrideSharedField) {
-                $tcaFieldDefinition = TcaFieldDefinition::createFromFieldArray($combinedFieldAdd);
-                $jsonAdd[$table]['elements'][$elementKey]['columnsOverride'][$field['key']] = $tcaFieldDefinition->getOverridesDefinition();
-            }
-
+            $tcaFieldDefinition = TcaFieldDefinition::createFromFieldArray($combinedFieldAdd);
             if ($overrideSharedField && $isMaskField) {
                 $jsonAdd[$table]['tca'][$field['key']] = $tcaFieldDefinition->getMinimalDefinition();
             } elseif (!$overrideSharedField && $isMaskField) {
                 $jsonAdd[$table]['tca'][$field['key']] = $combinedFieldAdd;
             } else {
                 $jsonAdd[$table]['tca'][$field['key']] = $fieldAdd;
+            }
+            if ($overrideSharedField) {
+                $jsonAdd[$table]['elements'][$elementKey]['columnsOverride'][$field['key']] = $tcaFieldDefinition->getOverridesDefinition();
             }
 
             // Resolve nested fields
