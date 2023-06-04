@@ -171,9 +171,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
             $tableDefinitionCollection->version = '0.1.0';
             $tables = $tableDefinitionArray;
         }
-        $tableDefinitionCollection->restructuringDone =
-            array_key_exists('restructuringDone', $tableDefinitionArray)
-                ? $tableDefinitionArray['restructuringDone'] : false;
+        $tableDefinitionCollection->restructuringDone = (bool)($tableDefinitionArray['restructuringDone'] ?? false);
         foreach ($tables as $table => $definition) {
             $tableDefinition = TableDefinition::createFromTableArray($table, $definition);
             $tableDefinitionCollection->addTable($tableDefinition);
