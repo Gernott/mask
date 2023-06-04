@@ -294,6 +294,8 @@ final class TcaFieldDefinition
             $fieldConfig['label'],
             $fieldConfig['description'],
             $fieldConfig['order'],
+            $fieldConfig['inPalette'],
+            $fieldConfig['coreField'],
         );
         $fieldConfig['config'] = $overrideTcaConfig;
         return $fieldConfig;

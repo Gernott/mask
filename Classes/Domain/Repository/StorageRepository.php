@@ -269,13 +269,13 @@ class StorageRepository implements SingletonInterface
             // Add label, order and flags to child fields
             if (isset($parent)) {
                 if ($parent['name'] === FieldType::PALETTE) {
+                    $fieldAdd['inPalette'] = 1;
                     if ($onRootLevel) {
                         $fieldAdd['inlineParent'][$elementKey] = $parent['key'];
                         $fieldAdd['label'][$elementKey] = $field['label'];
                         $fieldAdd['description'][$elementKey] = $field['description'];
                         $fieldAdd['order'][$elementKey] = $order;
                     } else {
-                        $fieldAdd['inPalette'] = 1;
                         $fieldAdd['inlineParent'] = $parent['key'];
                         $fieldAdd['label'] = $field['label'];
                         $fieldAdd['description'] = $field['description'];

@@ -514,6 +514,7 @@ class StorageRepositoryTest extends BaseTestCase
                             'order' => [
                                 'element1' => 2,
                             ],
+                            'inPalette' => 1,
                         ],
                         'header' => [
                             'key' => 'header',
@@ -532,6 +533,7 @@ class StorageRepositoryTest extends BaseTestCase
                                 'element1' => 1,
                             ],
                             'coreField' => 1,
+                            'inPalette' => 1,
                         ],
                     ],
                 ],
@@ -1709,7 +1711,6 @@ class StorageRepositoryTest extends BaseTestCase
                                     'config' => [],
                                     'key' => 'header',
                                     'fullKey' => 'header',
-                                    'coreField' => 1,
                                     'type' => 'string',
                                 ],
                             ],
@@ -1801,7 +1802,6 @@ class StorageRepositoryTest extends BaseTestCase
                                     'config' => [],
                                     'key' => 'header',
                                     'fullKey' => 'header',
-                                    'coreField' => 1,
                                     'type' => 'string',
                                 ],
                             ],
@@ -2119,7 +2119,6 @@ class StorageRepositoryTest extends BaseTestCase
                                     'key' => 'header',
                                     'fullKey' => 'header',
                                     'type' => 'string',
-                                    'coreField' => 1,
                                 ],
                             ],
                             'labels' => [
@@ -2173,6 +2172,7 @@ class StorageRepositoryTest extends BaseTestCase
                             'order' => [
                                 'element1' => 2,
                             ],
+                            'inPalette' => 1,
                         ],
                         'header' => [
                             'key' => 'header',
@@ -2191,6 +2191,7 @@ class StorageRepositoryTest extends BaseTestCase
                                 'element1' => 1,
                             ],
                             'coreField' => 1,
+                            'inPalette' => 1,
                         ],
                     ],
                 ],
@@ -2535,7 +2536,6 @@ class StorageRepositoryTest extends BaseTestCase
                                     'key' => 'header',
                                     'fullKey' => 'header',
                                     'type' => 'string',
-                                    'coreField' => 1,
                                 ],
                             ],
                         ],
