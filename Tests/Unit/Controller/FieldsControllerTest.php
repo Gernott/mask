@@ -157,7 +157,10 @@ class FieldsControllerTest extends BaseTestCase
                             'name' => 'string',
                             'icon' => '',
                             'description' => '',
-                            'tca' => [],
+                            'tca' => [
+                                'l10n_mode' => '',
+                                'config.eval.null' => 0,
+                            ],
                         ],
                     ],
                 ],
@@ -339,7 +342,10 @@ class FieldsControllerTest extends BaseTestCase
                                     'name' => 'string',
                                     'icon' => '',
                                     'description' => '',
-                                    'tca' => [],
+                                    'tca' => [
+                                        'l10n_mode' => '',
+                                        'config.eval.null' => 0,
+                                    ],
                                 ],
                             ],
                         ],

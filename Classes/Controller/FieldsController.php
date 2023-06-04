@@ -134,11 +134,6 @@ class FieldsController
             $newField['icon'] = $this->iconFactory->getIcon('mask-fieldtype-' . $newField['name'])->getMarkup();
             $newField['tca'] = [];
 
-            if ($field['coreField'] ?? false) {
-                $nestedFields[] = $newField;
-                continue;
-            }
-
             if (!$fieldType->isGroupingField()) {
                 $tableDefinition = $this->tableDefinitionCollection->getTable($table);
                 if ($tableDefinition->sql->hasColumn($newField['key'])) {

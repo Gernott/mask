@@ -216,18 +216,22 @@ class StorageRepository implements SingletonInterface
                 $jsonAdd[$defaultTable]['elements'][$elementKey]['descriptions'][] = $field['description'] ?? '';
             }
 
-            // Add key and config to mask field
-            $fieldAdd = [];
+            // Add config to mask field
+            $defaults = $this->configurationLoader->loadDefaults();
+            $field['tca'] = $field['tca'] ?? [];
+            ArrayUtility::mergeRecursiveWithOverrule($field['tca'], $defaults[$field['name']]['tca_out'] ?? []);
+            $tcaConfig = TcaConverter::convertFlatTcaToArray($field['tca']);
+
+            // Add key to mask field
             $isMaskField = AffixUtility::hasMaskPrefix($field['key']);
+            $fieldAdd = [];
             if ($isMaskField) {
-                $defaults = $this->configurationLoader->loadDefaults();
-                $field['tca'] = $field['tca'] ?? [];
-                ArrayUtility::mergeRecursiveWithOverrule($field['tca'], $defaults[$field['name']]['tca_out'] ?? []);
-                $fieldAdd = TcaConverter::convertFlatTcaToArray($field['tca']);
                 $fieldAdd['key'] = AffixUtility::removeMaskPrefix($field['key']);
             } else {
-                $fieldAdd['key'] = $field['key'];
-                $fieldAdd['coreField'] = 1;
+                $fieldAdd = [
+                    'key' => $field['key'],
+                    'coreField' => 1,
+                ];
             }
 
             // Add the full key in addition to the abbreviated key.
@@ -237,21 +241,21 @@ class StorageRepository implements SingletonInterface
             $fieldAdd['type'] = $field['name'];
 
             // Convert range values of timestamp to integers
-            if ($isMaskField && $field['name'] === FieldType::TIMESTAMP) {
-                $default = $fieldAdd['config']['default'] ?? false;
+            if (FieldType::cast($fieldAdd['type'])->equals(FieldType::TIMESTAMP)) {
+                $default = $tcaConfig['config']['default'] ?? false;
                 if ($default) {
                     $date = new \DateTime($default);
-                    $fieldAdd['config']['default'] = $date->getTimestamp();
+                    $tcaConfig['config']['default'] = $date->getTimestamp();
                 }
-                $rangeLower = $fieldAdd['config']['range']['lower'] ?? false;
+                $rangeLower = $tcaConfig['config']['range']['lower'] ?? false;
                 if ($rangeLower) {
                     $date = new \DateTime($rangeLower);
-                    $fieldAdd['config']['range']['lower'] = $date->getTimestamp();
+                    $tcaConfig['config']['range']['lower'] = $date->getTimestamp();
                 }
-                $rangeUpper = $fieldAdd['config']['range']['upper'] ?? false;
+                $rangeUpper = $tcaConfig['config']['range']['upper'] ?? false;
                 if ($rangeUpper) {
                     $date = new \DateTime($rangeUpper);
-                    $fieldAdd['config']['range']['upper'] = $date->getTimestamp();
+                    $tcaConfig['config']['range']['upper'] = $date->getTimestamp();
                 }
             }
 
@@ -301,10 +305,16 @@ class StorageRepository implements SingletonInterface
                 && $this->features->isFeatureEnabled('overrideSharedFields')
                 && FieldType::cast($fieldAdd['type'])->canBeShared();
 
+            $combinedFieldAdd = array_merge($fieldAdd, $tcaConfig);
             if ($overrideSharedField) {
-                $tcaFieldDefinition = TcaFieldDefinition::createFromFieldArray($fieldAdd);
+                $tcaFieldDefinition = TcaFieldDefinition::createFromFieldArray($combinedFieldAdd);
                 $jsonAdd[$table]['elements'][$elementKey]['columnsOverride'][$field['key']] = $tcaFieldDefinition->getOverridesDefinition();
+            }
+
+            if ($overrideSharedField && $isMaskField) {
                 $jsonAdd[$table]['tca'][$field['key']] = $tcaFieldDefinition->getMinimalDefinition();
+            } elseif (!$overrideSharedField && $isMaskField) {
+                $jsonAdd[$table]['tca'][$field['key']] = $combinedFieldAdd;
             } else {
                 $jsonAdd[$table]['tca'][$field['key']] = $fieldAdd;
             }
