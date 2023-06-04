@@ -926,6 +926,11 @@ class AjaxController
         return new JsonResponse($language);
     }
 
+    public function nonOverrideableOptions(ServerRequestInterface $request): Response
+    {
+        return new JsonResponse(TcaFieldDefinition::NON_OVERRIDEABLE_OPTIONS);
+    }
+
     public function richtextConfiguration(ServerRequestInterface $request): Response
     {
         $config[''] = $this->translateLabel('tx_mask.config.richtextConfiguration.none');

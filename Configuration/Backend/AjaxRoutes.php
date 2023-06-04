@@ -36,6 +36,10 @@ return [
         'path' => '/mask/language',
         'target' => AjaxController::class . '::language',
     ],
+    'mask_non_overrideable_options' => [
+        'path' => '/mask/nonOverrideableOptions',
+        'target' => AjaxController::class . '::nonOverrideableOptions',
+    ],
     'mask_richtext_configuration' => [
         'path' => '/mask/richtextConfiguration',
         'target' => AjaxController::class . '::richtextConfiguration',

@@ -1,5 +1,5 @@
-<div class="mask-field-form__inner" v-if="global.activeField.name && !reuseFieldsEnabled">
-    <div v-if="!activeFieldHasKeyError && activeMultiUseElements.length">
+<div class="mask-field-form__inner" v-if="global.activeField.name">
+    <div v-if="!activeFieldHasKeyError && activeMultiUseElements.length && !reuseFieldsEnabled">
         <div class="callout callout-info">
             <div class="media">
                 <div v-if="global.typo3Version == 11" class="media-left"><span class="fa-stack fa-lg callout-icon"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-info fa-stack-1x"></i></span></div>

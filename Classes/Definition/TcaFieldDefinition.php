@@ -56,7 +56,7 @@ final class TcaFieldDefinition
         ],
     ];
 
-    private const NON_OVERRIDEABLE_OPTIONS = [
+    public const NON_OVERRIDEABLE_OPTIONS = [
         'type',
         'relationship',
         'dbType',

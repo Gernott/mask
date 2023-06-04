@@ -55,6 +55,7 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
         tabs: {},
         fields: [],
         language: [],
+        nonOverrideableOptions: [],
         icons: {},
         faIcons: {},
         availableTca: {},
@@ -82,7 +83,6 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
           ctypes: {},
           structuralFields: ['linebreak', 'palette', 'tab'],
           nonShareableFields: ['inline', 'palette', 'linebreak', 'tab'],
-          nonOverridableFields: ['allowed'], // TODO get list dynamically on start
           maskPrefix: 'tx_mask_',
           deletedFields: [],
         },
@@ -169,6 +169,14 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
                 .then(
                   async response => {
                     this.language = await response.resolve();
+                  }
+                ));
+
+              // Fetch non overrideable options
+              promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_non_overrideable_options)).get()
+                .then(
+                  async response => {
+                    this.nonOverrideableOptions = await response.resolve();
                   }
                 ));
 
@@ -1342,7 +1350,7 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
           return true;
         }
         fieldKey = fieldKey.replace('config.', '');
-        return !this.global.nonOverridableFields.includes(fieldKey)
+        return !this.nonOverrideableOptions.includes(fieldKey)
           || (this.activeMultiUseElements.length === 0 && !this.isActiveCoreField);
       },
       keyWithoutMask: function (key) {
