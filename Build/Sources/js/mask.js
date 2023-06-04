@@ -80,7 +80,7 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
           richtextConfiguration: {},
           currentTab: 'general',
           ctypes: {},
-          sctructuralFields: ['linebreak', 'palette', 'tab'],
+          structuralFields: ['linebreak', 'palette', 'tab'],
           nonShareableFields: ['inline', 'palette', 'linebreak', 'tab'],
           maskPrefix: 'tx_mask_',
           deletedFields: [],
@@ -1400,7 +1400,7 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
         return this.searchString.toLowerCase();
       },
       keyFieldVisible: function () {
-        return !this.global.sctructuralFields.includes(this.global.activeField.name) && this.maskFieldGeneralTabOpen;
+        return !this.global.structuralFields.includes(this.global.activeField.name) && this.maskFieldGeneralTabOpen;
       },
       maskFieldGeneralTabOpen: function () {
         return this.isGeneralTabOpen && !this.isActiveCoreField;

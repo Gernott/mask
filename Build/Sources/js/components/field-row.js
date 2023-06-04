@@ -62,7 +62,7 @@ export default Vue.component(
             <span v-if="field.name == 'linebreak'" class="mask-field__label">Linebreak</span>
             <span v-else-if="field.translatedLabel != ''" class="mask-field__label">{{ field.translatedLabel }}</span>
             <span v-else class="mask-field__label">{{ field.label }}</span>
-            <span class="mask-field__key" v-if="!global.sctructuralFields.includes(field.name)">{{ keyWithoutMask(field.key) }}</span>
+            <span class="mask-field__key" v-if="!global.structuralFields.includes(field.name)">{{ keyWithoutMask(field.key) }}</span>
           </div>
           <div class="mask-field__actions">
               <a class="btn btn-default btn-sm" @click.stop="$emit('remove-field', index); hideTooltip();" data-bs-toggle="tooltip" :title="language.tooltip.deleteField" v-html="icons.delete" :ref="'row' + index"></a>
