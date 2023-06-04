@@ -1935,8 +1935,8 @@ class TableDefinitionCollectionTest extends BaseTestCase
      */
     public function loadElement(array $json, string $table, string $element, array $expected): void
     {
-        $tableDefinitonCollection = TableDefinitionCollection::createFromArray($json);
-        $element = $tableDefinitonCollection->loadElement($table, $element);
+        $tableDefinitionCollection = TableDefinitionCollection::createFromArray($json);
+        $element = $tableDefinitionCollection->loadElement($table, $element);
         $array = $element !== null ? $element->toArray() : [];
         self::assertEquals($expected, $array);
     }
