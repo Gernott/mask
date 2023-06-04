@@ -55,7 +55,7 @@
             </div>
         </div>
         <div class="mask-elements__column mask-elements__column--templates">
-            <div class="mask-elements__header" v-if="features.length">
+            <div class="mask-elements__header" v-if="Object.keys(features).length">
                 <div class="mask-elements__header-icon-wrap">
                     <core:icon identifier="actions-cog-alt" size="{iconSize}"/>
                     <div class="mask-elements__header-icon-label">
@@ -63,7 +63,7 @@
                     </div>
                 </div>
             </div>
-            <div class="mask-list__short-list" v-if="features.length">
+            <div class="mask-list__short-list" v-if="Object.keys(features).length">
                 <ul>
                     <li v-for="(feature) in features">
                         <i class="fa fa-lightbulb-o"></i>

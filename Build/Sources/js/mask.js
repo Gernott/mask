@@ -61,7 +61,6 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
         faIcons: {},
         availableTca: {},
         multiUseElements: {},
-        reuseFieldsEnabled: false,
         optionalExtensionStatus: {},
         migrationsDone: false,
         restructuringNeeded: false,
@@ -833,7 +832,6 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
                   if (result.multiUseElements.length !== 0) {
                     this.multiUseElements = result.multiUseElements;
                   }
-                  this.reuseFieldsEnabled = result.reuseFieldsEnabled;
                 }
             ));
 
@@ -1355,7 +1353,7 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
         this.ticks += 1;
       },
       isAllowedToOverride(fieldKey) {
-        if (!this.reuseFieldsEnabled) {
+        if (!this.isOverrideSharedFieldsEnabled) {
           return true;
         }
         fieldKey = fieldKey.replace('config.', '');
@@ -1475,8 +1473,8 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
         }
         return [];
       },
-      isReuseFieldsEnabled: function () {
-        return this.reuseFieldsEnabled === true;
+      isOverrideSharedFieldsEnabled: function () {
+        return this.features?.overrideSharedFields?.state === 1;
       },
       metaVisible: function () {
         return this.sidebar === 'meta';

@@ -505,7 +505,7 @@ class AjaxController
         $element = $this->tableDefinitionCollection->loadElement($table, $elementKey);
 
         if (!$element) {
-            return new JsonResponse(['multiUseElements' => [], 'reuseFieldsEnabled' => 'false']);
+            return new JsonResponse(['multiUseElements' => []]);
         }
 
         $multiUseElements = [];
@@ -532,8 +532,7 @@ class AjaxController
             $multiUseElements[$field->fullKey] = $this->getMultiUseForField($field->fullKey, $elementKey);
         }
 
-        $reusingFieldsEnabled = $this->features->isFeatureEnabled('overrideSharedFields');
-        return new JsonResponse(['multiUseElements' => $multiUseElements, 'reuseFieldsEnabled' => (int)$reusingFieldsEnabled]);
+        return new JsonResponse(['multiUseElements' => $multiUseElements]);
     }
 
     protected function getMultiUseForField(string $key, string $elementKey): array
@@ -934,7 +933,7 @@ class AjaxController
     public function features(ServerRequestInterface $request): Response
     {
         $featuresList = [];
-        $featuresList[] = [
+        $featuresList['overrideSharedFields'] = [
             'title' => $this->translateLabel('tx_mask.features.overrideSharedFields'),
             'state' => (int)$this->features->isFeatureEnabled('overrideSharedFields'),
         ];
