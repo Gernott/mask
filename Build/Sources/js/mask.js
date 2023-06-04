@@ -56,6 +56,7 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
         fields: [],
         language: [],
         nonOverrideableOptions: [],
+        features: [],
         icons: {},
         faIcons: {},
         availableTca: {},
@@ -177,6 +178,14 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
                 .then(
                   async response => {
                     this.nonOverrideableOptions = await response.resolve();
+                  }
+                ));
+
+              // Fetch features
+              promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_features)).get()
+                .then(
+                  async response => {
+                    this.features = await response.resolve();
                   }
                 ));
 

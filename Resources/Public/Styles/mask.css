@@ -774,6 +774,14 @@
   color: #D4372F;
   text-decoration: none;
 }
+.mask-list__short-list {
+  padding: 10px;
+}
+.mask-list__short-list ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
 .mask-list__logo-wrap {
   display: flex;
   align-items: center;

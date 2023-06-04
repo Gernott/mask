@@ -3,6 +3,9 @@
 	<file source-language="en" datatype="plaintext" original="messages" date="2015-02-12T18:53:00Z" product-name="mask">
 		<header/>
 		<body>
+			<trans-unit id="tx_mask.features.overrideSharedFields">
+				<source>Override Shared Fields</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.string">
 				<source>String</source>
 			</trans-unit>
@@ -1148,6 +1151,9 @@ title3, value3, icon3, description3
 			</trans-unit>
 			<trans-unit id="tx_mask.all.pagetemplates">
 				<source>Page Templates</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.features">
+				<source>Features</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.confirmdelete">
 				<source>Do you want to delete the content element?

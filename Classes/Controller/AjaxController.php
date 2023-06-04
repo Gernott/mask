@@ -931,6 +931,17 @@ class AjaxController
         return new JsonResponse(TcaFieldDefinition::NON_OVERRIDEABLE_OPTIONS);
     }
 
+    public function features(ServerRequestInterface $request): Response
+    {
+        $featuresList = [];
+        $featuresList[] = [
+            'title' => $this->translateLabel('tx_mask.features.overrideSharedFields'),
+            'state' => (int)$this->features->isFeatureEnabled('overrideSharedFields'),
+        ];
+
+        return new JsonResponse($featuresList);
+    }
+
     public function richtextConfiguration(ServerRequestInterface $request): Response
     {
         $config[''] = $this->translateLabel('tx_mask.config.richtextConfiguration.none');
