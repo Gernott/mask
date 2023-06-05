@@ -900,7 +900,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
                     'fileUploadAllowed' => true,
                     'expandSingle' => true,
                 ],
-                'allowed' => ['jpeg'],
+                'allowed' => 'jpeg',
             ],
         ];
 
@@ -951,7 +951,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
                     'fileUploadAllowed' => true,
                     'expandSingle' => true,
                 ],
-                'allowed' => ['jpeg'],
+                'allowed' => 'jpeg',
             ],
         ];
 
@@ -1002,7 +1002,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
                     'fileUploadAllowed' => true,
                     'expandSingle' => true,
                 ],
-                'allowed' => ['flac', 'mp4', 'youtube'],
+                'allowed' => 'flac,mp4,youtube',
             ],
         ];
 
@@ -1052,7 +1052,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
                     'fileUploadAllowed' => true,
                     'expandSingle' => true,
                 ],
-                'allowed' => ['flac', 'mp4'],
+                'allowed' => 'flac,mp4',
             ],
         ];
     }
