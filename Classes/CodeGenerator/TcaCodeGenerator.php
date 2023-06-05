@@ -27,6 +27,7 @@ use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\DateUtility;
 use TYPO3\CMS\Core\Information\Typo3Version;
+use TYPO3\CMS\Core\Preparations\TcaPreparation;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\OnlineMedia\Helpers\OnlineMediaHelperRegistry;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
@@ -469,9 +470,10 @@ class TcaCodeGenerator
             return ExtensionManagementUtility::getFileFieldTCAConfig($field->fullKey, $customSettingOverride, $field->allowedFileExtensions);
         }
 
+        $field->allowedFileExtensions = TcaPreparation::prepareFileExtensions($field->allowedFileExtensions);
         $fileFieldTCAConfig = [
             'type' => 'file',
-            'allowed' => explode(',', $field->allowedFileExtensions),
+            'allowed' => $field->allowedFileExtensions,
         ];
         ArrayUtility::mergeRecursiveWithOverrule($fileFieldTCAConfig, $customSettingOverride);
         return $fileFieldTCAConfig;
