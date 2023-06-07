@@ -133,5 +133,5 @@ services:
     tags:
       - name: 'console.command'
         command: 'mask:restructureOverrideFields'
-        description: 'Migrates shared fields to reusable fields.'
+        description: 'Migrates shared fields to override fields.'
         schedulable: false
