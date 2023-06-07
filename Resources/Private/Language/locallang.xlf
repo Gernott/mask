@@ -1519,7 +1519,7 @@ title3, value3, icon3, description3
 				<source>Restructuring of fields needed!</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.restructuring_needed.message">
-				<source>Seems you have used shared fields before and enabled reusing fields now within the settings. Mask has to restructure the content element definitions therefore. Be careful! This action can not be undone. As soon as the definitions are restructured you can not switch back to shared fields. Please back up your mask element definitions before.</source>
+				<source>Seems you have used shared fields before and enabled the override shared fields feature. Mask has to restructure the content element definitions therefore. Be careful! This action can not be undone. As soon as the definitions are restructured you can not switch back to shared fields. Please back up your mask element definitions before.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.execute_restructuring">
 				<source>Restructure Mask definitions</source>
