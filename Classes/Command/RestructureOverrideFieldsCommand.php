@@ -18,13 +18,13 @@ declare(strict_types=1);
 namespace MASK\Mask\Command;
 
 use MASK\Mask\Loader\LoaderRegistry;
-use MASK\Mask\Utility\ReusingFieldsUtility;
+use MASK\Mask\Utility\OverrideFieldsUtility;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CMS\Core\Configuration\Features;
 
-class RestructureReusingFieldsCommand extends Command
+class RestructureOverrideFieldsCommand extends Command
 {
     protected Features $features;
     protected LoaderRegistry $loaderRegistry;
@@ -45,7 +45,7 @@ class RestructureReusingFieldsCommand extends Command
             'Migrates all content elements from shared field to reusable fields.' . LF .
             'This action can not be undone!' . LF .
             'This command will only be executed if you already have enabled reusable fields in the mask configuration.' . LF . LF .
-            'Usage: mask:restructureReusingFields'
+            'Usage: mask:restructureOverrideFields'
         );
     }
 
@@ -57,7 +57,7 @@ class RestructureReusingFieldsCommand extends Command
         }
 
         $tableDefinitionCollection = $this->loaderRegistry->loadActiveDefinition();
-        $restructuredTableDefinitionCollection = ReusingFieldsUtility::restructureTcaDefinitions($tableDefinitionCollection);
+        $restructuredTableDefinitionCollection = OverrideFieldsUtility::restructureTcaDefinitions($tableDefinitionCollection);
         $this->loaderRegistry->getActiveLoader()->write($restructuredTableDefinitionCollection);
         return Command::SUCCESS;
     }

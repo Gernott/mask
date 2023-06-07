@@ -31,7 +31,7 @@ use MASK\Mask\Enumeration\Tab;
 use MASK\Mask\Event\MaskAllowedFieldsEvent;
 use MASK\Mask\Loader\LoaderInterface;
 use MASK\Mask\Utility\AffixUtility;
-use MASK\Mask\Utility\ReusingFieldsUtility;
+use MASK\Mask\Utility\OverrideFieldsUtility;
 use MASK\Mask\Utility\TemplatePathUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -589,7 +589,7 @@ class AjaxController
 
     public function executeRestructuring(ServerRequestInterface $request): Response
     {
-        $restructuredTableDefinitionCollection = ReusingFieldsUtility::restructureTcaDefinitions($this->tableDefinitionCollection);
+        $restructuredTableDefinitionCollection = OverrideFieldsUtility::restructureTcaDefinitions($this->tableDefinitionCollection);
         try {
             $this->loader->write($restructuredTableDefinitionCollection);
             return new JsonResponse(['status' => 'ok', 'title' => $this->translateLabel('tx_mask.update_complete.title'), 'message' => $this->translateLabel('tx_mask.update_complete.message')]);
@@ -932,10 +932,10 @@ class AjaxController
 
     public function features(ServerRequestInterface $request): Response
     {
-        $featuresList = [];
-        $featuresList['overrideSharedFields'] = [
+        $featuresList[] = [
             'title' => $this->translateLabel('tx_mask.features.overrideSharedFields'),
             'state' => (int)$this->features->isFeatureEnabled('overrideSharedFields'),
+            'documentation' => 'https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/8.2/Index.html',
         ];
 
         return new JsonResponse($featuresList);

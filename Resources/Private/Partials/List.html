@@ -63,11 +63,11 @@
                     </div>
                 </div>
             </div>
-            <div class="mask-list__short-list" v-if="Object.keys(features).length">
+            <div class="mask-list__short-list" v-if="features.length > 0">
                 <ul>
-                    <li v-for="(feature) in features">
+                    <li v-for="feature in features">
                         <i class="fa fa-lightbulb-o"></i>
-                        &nbsp;{{ feature.title }}:
+                        &nbsp;<a :href="feature.documentation" class="text-primary" target="_blank">{{ feature.title }}</a>:
                         <span v-if="feature.state">enabled</span>
                         <span v-if="!feature.state">disabled</span>
                     </li>

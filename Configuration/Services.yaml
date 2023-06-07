@@ -129,9 +129,9 @@ services:
         description: 'Converts a Mask storage format into another.'
         schedulable: false
 
-  MASK\Mask\Command\RestructureReusingFieldsCommand:
+  MASK\Mask\Command\RestructureOverrideFieldsCommand:
     tags:
       - name: 'console.command'
-        command: 'mask:restructureReusingFields'
+        command: 'mask:restructureOverrideFields'
         description: 'Migrates shared fields to reusable fields.'
         schedulable: false

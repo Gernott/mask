@@ -18,7 +18,7 @@ declare(strict_types=1);
 namespace MASK\Mask\Test\Utility;
 
 use MASK\Mask\Definition\TableDefinitionCollection;
-use MASK\Mask\Utility\ReusingFieldsUtility;
+use MASK\Mask\Utility\OverrideFieldsUtility;
 use TYPO3\TestingFramework\Core\BaseTestCase;
 
 class ReusingFieldsUtilityTest extends BaseTestCase
@@ -308,7 +308,7 @@ class ReusingFieldsUtilityTest extends BaseTestCase
     {
         $tableDefinitionCollection = TableDefinitionCollection::createFromArray($json);
 
-        $result = ReusingFieldsUtility::restructureTcaDefinitions($tableDefinitionCollection);
+        $result = OverrideFieldsUtility::restructureTcaDefinitions($tableDefinitionCollection);
 
         self::assertEquals($expected['tt_content']['elements'], $result->toArray()['tables']['tt_content']['elements']);
     }

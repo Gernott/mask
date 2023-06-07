@@ -25,7 +25,7 @@ use MASK\Mask\Enumeration\FieldType;
  *
  * @internal
  */
-class ReusingFieldsUtility
+class OverrideFieldsUtility
 {
     public static function restructureTcaDefinitions(TableDefinitionCollection $tableDefinitionCollection): TableDefinitionCollection
     {
