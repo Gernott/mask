@@ -932,7 +932,7 @@ class AjaxController
 
     public function features(ServerRequestInterface $request): Response
     {
-        $featuresList[] = [
+        $featuresList['overrideSharedFields'] = [
             'title' => $this->translateLabel('tx_mask.features.overrideSharedFields'),
             'state' => (int)$this->features->isFeatureEnabled('overrideSharedFields'),
             'documentation' => 'https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/8.2/Index.html',
