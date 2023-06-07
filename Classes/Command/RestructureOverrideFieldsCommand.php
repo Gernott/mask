@@ -17,7 +17,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Command;
 
-use MASK\Mask\Loader\LoaderRegistry;
+use MASK\Mask\Loader\LoaderInterface;
 use MASK\Mask\Utility\OverrideFieldsUtility;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -27,11 +27,11 @@ use TYPO3\CMS\Core\Configuration\Features;
 class RestructureOverrideFieldsCommand extends Command
 {
     protected Features $features;
-    protected LoaderRegistry $loaderRegistry;
+    protected LoaderInterface $loader;
 
-    public function injectLoaderRegistry(LoaderRegistry $loaderRegistry): void
+    public function injectLoader(LoaderInterface $loader): void
     {
-        $this->loaderRegistry = $loaderRegistry;
+        $this->loader = $loader;
     }
 
     public function injectFeatures(Features $features): void
@@ -56,9 +56,9 @@ class RestructureOverrideFieldsCommand extends Command
             return Command::SUCCESS;
         }
 
-        $tableDefinitionCollection = $this->loaderRegistry->loadActiveDefinition();
+        $tableDefinitionCollection = $this->loader->load();
         $restructuredTableDefinitionCollection = OverrideFieldsUtility::restructureTcaDefinitions($tableDefinitionCollection);
-        $this->loaderRegistry->getActiveLoader()->write($restructuredTableDefinitionCollection);
+        $this->loader->write($restructuredTableDefinitionCollection);
         return Command::SUCCESS;
     }
 }
