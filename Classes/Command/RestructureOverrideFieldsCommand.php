@@ -42,9 +42,9 @@ class RestructureOverrideFieldsCommand extends Command
     protected function configure(): void
     {
         $this->setHelp(
-            'Migrates all content elements from shared field to reusable fields.' . LF .
+            'Migrates all content elements from shared to override fields.' . LF .
             'This action can not be undone!' . LF .
-            'This command will only be executed if you already have enabled reusable fields in the mask configuration.' . LF . LF .
+            'This command will only be executed if you already have enabled override fields in the Mask configuration.' . LF . LF .
             'Usage: mask:restructureOverrideFields'
         );
     }
