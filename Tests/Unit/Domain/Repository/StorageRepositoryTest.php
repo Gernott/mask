@@ -60,6 +60,9 @@ class StorageRepositoryTest extends BaseTestCase
                     'label' => 'Header',
                     'description' => '',
                     'name' => 'string',
+                    'tca' => [
+                        'config.size' => 30,
+                    ],
                 ],
             ],
             'table' => 'tt_content',
@@ -77,6 +80,16 @@ class StorageRepositoryTest extends BaseTestCase
                                 'tx_mask_field1',
                                 'tx_mask_field2',
                                 'header',
+                            ],
+                            'columnsOverride' => [
+                                'header' => [
+                                    'key' => 'header',
+                                    'fullKey' => 'header',
+                                    'config' => [
+                                        'size' => 30,
+                                    ],
+                                    'type' => 'string',
+                                ],
                             ],
                             'labels' => [
                                 'Field 1',
@@ -1694,26 +1707,6 @@ class StorageRepositoryTest extends BaseTestCase
                                 '',
                             ],
                             'sorting' => '1',
-                            'columnsOverride' => [
-                                'tx_mask_field1' => [
-                                    'config' => [],
-                                    'key' => 'field1',
-                                    'fullKey' => 'tx_mask_field1',
-                                    'type' => 'string',
-                                ],
-                                'tx_mask_field2' => [
-                                    'config' => [],
-                                    'key' => 'field2',
-                                    'fullKey' => 'tx_mask_field2',
-                                    'type' => 'string',
-                                ],
-                                'header' => [
-                                    'config' => [],
-                                    'key' => 'header',
-                                    'fullKey' => 'header',
-                                    'type' => 'string',
-                                ],
-                            ],
                         ],
                     ],
                     'sql' => [
@@ -1797,14 +1790,6 @@ class StorageRepositoryTest extends BaseTestCase
                                 '',
                             ],
                             'sorting' => '1',
-                            'columnsOverride' => [
-                                'header' => [
-                                    'config' => [],
-                                    'key' => 'header',
-                                    'fullKey' => 'header',
-                                    'type' => 'string',
-                                ],
-                            ],
                         ],
                     ],
                     'tca' => [
@@ -2106,20 +2091,6 @@ class StorageRepositoryTest extends BaseTestCase
                             'key' => 'element1',
                             'columns' => [
                                 'tx_mask_palette',
-                            ],
-                            'columnsOverride' => [
-                                'tx_mask_field' => [
-                                    'config' => [],
-                                    'key' => 'field',
-                                    'fullKey' => 'tx_mask_field',
-                                    'type' => 'string',
-                                ],
-                                'header' => [
-                                    'config' => [],
-                                    'key' => 'header',
-                                    'fullKey' => 'header',
-                                    'type' => 'string',
-                                ],
                             ],
                             'labels' => [
                                 'My Palette',
@@ -2524,20 +2495,6 @@ class StorageRepositoryTest extends BaseTestCase
                                 '',
                             ],
                             'sorting' => '1',
-                            'columnsOverride' => [
-                                'tx_mask_field_1' => [
-                                    'config' => [],
-                                    'key' => 'field_1',
-                                    'fullKey' => 'tx_mask_field_1',
-                                    'type' => 'string',
-                                ],
-                                'header' => [
-                                    'config' => [],
-                                    'key' => 'header',
-                                    'fullKey' => 'header',
-                                    'type' => 'string',
-                                ],
-                            ],
                         ],
                     ],
                     'palettes' => [

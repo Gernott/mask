@@ -300,10 +300,11 @@ class StorageRepository implements SingletonInterface
             // Add tca entry for field
             unset($jsonAdd[$table]['elements'][$elementKey]['columnsOverride'][$field['key']]);
 
-            $overrideSharedField =
-                $onRootLevel
-                && $this->features->isFeatureEnabled('overrideSharedFields')
-                && FieldType::cast($fieldAdd['type'])->canBeShared();
+            // Override shared fields when:
+            // The feature overrideSharedFields is enabled OR it is a core field
+            // AND we are on root level AND the field type is able to be shared.
+            $isCoreFieldOrOverrideSharedFieldsIsEnabled = !$isMaskField || $this->features->isFeatureEnabled('overrideSharedFields');
+            $overrideSharedField = $isCoreFieldOrOverrideSharedFieldsIsEnabled && $onRootLevel && FieldType::cast($fieldAdd['type'])->canBeShared();
 
             $combinedFieldAdd = array_merge($fieldAdd, $tcaConfig);
             $tcaFieldDefinition = TcaFieldDefinition::createFromFieldArray($combinedFieldAdd);
@@ -315,7 +316,10 @@ class StorageRepository implements SingletonInterface
                 $jsonAdd[$table]['tca'][$field['key']] = $fieldAdd;
             }
             if ($overrideSharedField) {
-                $jsonAdd[$table]['elements'][$elementKey]['columnsOverride'][$field['key']] = $tcaFieldDefinition->getOverridesDefinition();
+                $overrideDefinition = $tcaFieldDefinition->getOverridesDefinition();
+                if ($overrideDefinition['config'] !== []) {
+                    $jsonAdd[$table]['elements'][$elementKey]['columnsOverride'][$field['key']] = $overrideDefinition;
+                }
             }
 
             // Resolve nested fields

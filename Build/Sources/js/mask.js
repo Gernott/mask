@@ -1353,12 +1353,20 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
         this.ticks += 1;
       },
       isAllowedToOverride(fieldKey) {
-        if (!this.isOverrideSharedFieldsEnabled) {
+        // If feature "isOverrideSharedFields" is not active AND the active field is not a Core field.
+        if (!this.isOverrideSharedFieldsEnabled && !this.isActiveCoreField) {
           return true;
         }
-        fieldKey = fieldKey.replace('config.', '');
-        return !this.nonOverrideableOptions.includes(fieldKey)
-          || (this.activeMultiUseElements.length === 0 && !this.isActiveCoreField);
+        const fieldKeyWithoutConfig = fieldKey.replace('config.', '');
+        const fieldIsShared = this.activeMultiUseElements.length !== 0 || this.isActiveCoreField;
+        if (!fieldIsShared) {
+          return true;
+        }
+        const isOverridableField = !this.nonOverrideableOptions.includes(fieldKeyWithoutConfig);
+        if (isOverridableField) {
+          return true;
+        }
+        return false;
       },
       keyWithoutMask: function (key) {
         if (key.substr(0, 8) === this.global.maskPrefix) {

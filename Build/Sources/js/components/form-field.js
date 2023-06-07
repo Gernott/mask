@@ -81,9 +81,6 @@ export default Vue.component(
           return this.tcaFields[this.tcaKey];
         }
       },
-      allowedToOverride: function () {
-        return this.isAllowedToOverride(this.tcaKey);
-      },
       valueOn: function () {
         return 'valueOn' in this.field ? this.field.valueOn : 1;
       },
@@ -185,7 +182,7 @@ export default Vue.component(
                   </div>
                 </div>
               </div>
-              <p class="mask-shared-info" v-if="!allowedToOverride">
+              <p class="mask-shared-info" v-if="!isAllowedToOverride(this.tcaKey)">
                 {{ language.multiuseTitle }}
                 <small>{{ language.multiuseMessage }}</small>
               </p>
