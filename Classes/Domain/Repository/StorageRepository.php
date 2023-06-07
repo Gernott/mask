@@ -302,9 +302,14 @@ class StorageRepository implements SingletonInterface
 
             // Override shared fields when:
             // The feature overrideSharedFields is enabled OR it is a core field
+            // AND the table is tt_content (does not work for pages).
             // AND we are on root level AND the field type is able to be shared.
             $isCoreFieldOrOverrideSharedFieldsIsEnabled = !$isMaskField || $this->features->isFeatureEnabled('overrideSharedFields');
-            $overrideSharedField = $isCoreFieldOrOverrideSharedFieldsIsEnabled && $onRootLevel && FieldType::cast($fieldAdd['type'])->canBeShared();
+            $overrideSharedField =
+                $isCoreFieldOrOverrideSharedFieldsIsEnabled
+                && $table === 'tt_content'
+                && $onRootLevel
+                && FieldType::cast($fieldAdd['type'])->canBeShared();
 
             $combinedFieldAdd = array_merge($fieldAdd, $tcaConfig);
             $tcaFieldDefinition = TcaFieldDefinition::createFromFieldArray($combinedFieldAdd);
