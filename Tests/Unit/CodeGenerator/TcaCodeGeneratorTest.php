@@ -2154,7 +2154,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
                             'label' => 'Element 1',
                             'columns' => [
                                 'tx_mask_field_1',
-                                'tx_mask_field_2'
+                                'tx_mask_field_2',
                             ],
                             'columnsOverride' => [
                                 'tx_mask_field_1' => [
@@ -2167,7 +2167,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
                                     ],
                                     'key' => 'field_1',
                                     'fullKey' => 'tx_mask_field_1',
-                                    'type' => 'date'
+                                    'type' => 'date',
                                 ],
                                 'tx_mask_field_2' => [
                                     'config' => [
@@ -2178,12 +2178,12 @@ class TcaCodeGeneratorTest extends BaseTestCase
                                     ],
                                     'key' => 'field_2',
                                     'fullKey' => 'tx_mask_field_2',
-                                    'type' => 'datetime'
+                                    'type' => 'datetime',
                                 ],
                             ],
                             'descriptions' => [
                                 'Field 1',
-                                'Field 2'
+                                'Field 2',
                             ],
                         ],
                     ],
@@ -2195,7 +2195,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
                             ],
                             'key' => 'field_1',
                             'fullKey' => 'tx_mask_field_1',
-                            'type' => 'date'
+                            'type' => 'date',
                         ],
                         'tx_mask_field_2' => [
                             'config' => [
@@ -2204,7 +2204,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
                             ],
                             'key' => 'field_2',
                             'fullKey' => 'tx_mask_field_2',
-                            'type' => 'datetime'
+                            'type' => 'datetime',
                         ],
                     ],
                 ],
@@ -2220,18 +2220,18 @@ class TcaCodeGeneratorTest extends BaseTestCase
                                         'eval' => 'date',
                                         'range' => [
                                             'lower' => 1609459200,
-                                            'upper' => 1640822400
-                                        ]
-                                    ]
+                                            'upper' => 1640822400,
+                                        ],
+                                    ],
                                 ],
                                 'tx_mask_field_2' => [
                                     'description' => 'Field 2',
                                     'config' => [
                                         'eval' => 'datetime',
                                         'range' => [
-                                            'upper' => 1640896200
-                                        ]
-                                    ]
+                                            'upper' => 1640896200,
+                                        ],
+                                    ],
                                 ],
                             ],
                         ],
