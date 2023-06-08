@@ -353,7 +353,7 @@ class TcaCodeGenerator
                 $field->realTca['config']['foreign_table'] = $field->fullKey;
             }
 
-            $field->realTca['config'] = self::reconfigureTCAConfig($field, $field->realTca['config']);
+            $field->realTca['config'] = self::reconfigureTCAConfig($field, $field->realTca)['config'];
 
             // InputLink: Add softref
             if ($fieldType->equals(FieldType::LINK)) {
@@ -485,28 +485,28 @@ class TcaCodeGenerator
         $dbType = $field->realTca['config']['dbType'] ?? '';
         // Convert Date and Datetime default and ranges to timestamp
         if (in_array($dbType, ['date', 'datetime'])) {
-            $default = $tcaConfig['default'] ?? false;
+            $default = $tcaConfig['config']['default'] ?? false;
             if ($default) {
-                $tcaConfig['default'] = DateUtility::convertStringToTimestampByDbType($dbType, $default);
+                $tcaConfig['config']['default'] = DateUtility::convertStringToTimestampByDbType($dbType, $default);
             }
-            $upper = $tcaConfig['range']['upper'] ?? false;
+            $upper = $tcaConfig['config']['range']['upper'] ?? false;
             if ($upper) {
-                $tcaConfig['range']['upper'] = DateUtility::convertStringToTimestampByDbType($dbType, $upper);
+                $tcaConfig['config']['range']['upper'] = DateUtility::convertStringToTimestampByDbType($dbType, $upper);
             }
-            $lower = $tcaConfig['range']['lower'] ?? false;
+            $lower = $tcaConfig['config']['range']['lower'] ?? false;
             if ($lower) {
-                $tcaConfig['range']['lower'] = DateUtility::convertStringToTimestampByDbType($dbType, $lower);
+                $tcaConfig['config']['range']['lower'] = DateUtility::convertStringToTimestampByDbType($dbType, $lower);
             }
         }
 
         // Text: Set correct rendertype if format (code highlighting) is set.
-        if ($fieldType->equals(FieldType::TEXT) && ($tcaConfig['format'] ?? false)) {
-            $tcaConfig['renderType'] = 't3editor';
+        if ($fieldType->equals(FieldType::TEXT) && ($tcaConfig['config']['format'] ?? false)) {
+            $tcaConfig['config']['renderType'] = 't3editor';
         }
 
         // RTE: Add softref
         if ($fieldType->equals(FieldType::RICHTEXT)) {
-            $tcaConfig['softref'] = 'typolink_tag,email[subst],url';
+            $tcaConfig['config']['softref'] = 'typolink_tag,email[subst],url';
         }
 
         return $tcaConfig;
