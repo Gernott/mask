@@ -2144,6 +2144,101 @@ class TcaCodeGeneratorTest extends BaseTestCase
                 ],
             ],
         ];
+
+        yield 'Date fields ranges are applied in override' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'key' => 'element1',
+                            'label' => 'Element 1',
+                            'columns' => [
+                                'tx_mask_field_1',
+                                'tx_mask_field_2'
+                            ],
+                            'columnsOverride' => [
+                                'tx_mask_field_1' => [
+                                    'config' => [
+                                        'eval' => 'date',
+                                        'range' => [
+                                            'lower' => '01-01-2021',
+                                            'upper' => '30-12-2021',
+                                        ],
+                                    ],
+                                    'key' => 'field_1',
+                                    'fullKey' => 'tx_mask_field_1',
+                                    'type' => 'date'
+                                ],
+                                'tx_mask_field_2' => [
+                                    'config' => [
+                                        'eval' => 'datetime',
+                                        'range' => [
+                                            'upper' => '20:30 30-12-2021',
+                                        ],
+                                    ],
+                                    'key' => 'field_2',
+                                    'fullKey' => 'tx_mask_field_2',
+                                    'type' => 'datetime'
+                                ],
+                            ],
+                            'descriptions' => [
+                                'Field 1',
+                                'Field 2'
+                            ],
+                        ],
+                    ],
+                    'tca' => [
+                        'tx_mask_field_1' => [
+                            'config' => [
+                                'type' => 'input',
+                                'dbType' => 'date',
+                            ],
+                            'key' => 'field_1',
+                            'fullKey' => 'tx_mask_field_1',
+                            'type' => 'date'
+                        ],
+                        'tx_mask_field_2' => [
+                            'config' => [
+                                'type' => 'input',
+                                'dbType' => 'datetime',
+                            ],
+                            'key' => 'field_2',
+                            'fullKey' => 'tx_mask_field_2',
+                            'type' => 'datetime'
+                        ],
+                    ],
+                ],
+            ],
+            'expected' => [
+                'tt_content' => [
+                    'types' => [
+                        'mask_element1' => [
+                            'columnsOverrides' => [
+                                'tx_mask_field_1' => [
+                                    'description' => 'Field 1',
+                                    'config' => [
+                                        'eval' => 'date',
+                                        'range' => [
+                                            'lower' => 1609459200,
+                                            'upper' => 1640822400
+                                        ]
+                                    ]
+                                ],
+                                'tx_mask_field_2' => [
+                                    'description' => 'Field 2',
+                                    'config' => [
+                                        'eval' => 'datetime',
+                                        'range' => [
+                                            'upper' => 1640896200
+                                        ]
+                                    ]
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
     }
 
     /**
