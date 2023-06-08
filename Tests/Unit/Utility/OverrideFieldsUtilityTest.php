@@ -21,7 +21,7 @@ use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Utility\OverrideFieldsUtility;
 use TYPO3\TestingFramework\Core\BaseTestCase;
 
-class ReusingFieldsUtilityTest extends BaseTestCase
+class OverrideFieldsUtilityTest extends BaseTestCase
 {
     public static function restructuringFieldsWorksDataProvider(): iterable
     {
@@ -144,6 +144,93 @@ class ReusingFieldsUtilityTest extends BaseTestCase
                                     'type' => 'string',
                                     'key' => 'fizz',
                                     'fullKey' => 'tx_mask_fizz',
+                                    'config' => [
+                                        'required' => true,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        yield 'Existing overrideColumns are kept as they are' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'key' => 'element1',
+                            'label' => 'Element1',
+                            'columns' => [
+                                'tx_mask_foo',
+                                'tx_mask_bar',
+                            ],
+                            'columnsOverride' => [
+                                'tx_mask_foo' => [
+                                    'key' => 'foo',
+                                    'type' => 'string',
+                                    'config' => [
+                                        'eval' => 'alpha',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                    'tca' => [
+                        'tx_mask_foo' => [
+                            'type' => 'string',
+                            'key' => 'foo',
+                            'fullKey' => 'tx_mask_foo',
+                            'config' => [
+                                'type' => 'input',
+                                'required' => true,
+                            ],
+                        ],
+                        'tx_mask_bar' => [
+                            'type' => 'string',
+                            'key' => 'bar',
+                            'fullKey' => 'tx_mask_bar',
+                            'config' => [
+                                'type' => 'input',
+                                'required' => true,
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'expected' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'key' => 'element1',
+                            'label' => 'Element1',
+                            'color' => '',
+                            'colorOverlay' => '',
+                            'description' => '',
+                            'descriptions' => [],
+                            'icon' => '',
+                            'iconOverlay' => '',
+                            'labels' => [],
+                            'shortLabel' => '',
+                            'sorting' => 0,
+                            'columns' => [
+                                'tx_mask_foo',
+                                'tx_mask_bar',
+                            ],
+                            'columnsOverride' => [
+                                'tx_mask_foo' => [
+                                    'type' => 'string',
+                                    'key' => 'foo',
+                                    'fullKey' => 'tx_mask_foo',
+                                    'config' => [
+                                        'eval' => 'alpha',
+                                    ],
+                                ],
+                                'tx_mask_bar' => [
+                                    'type' => 'string',
+                                    'key' => 'bar',
+                                    'fullKey' => 'tx_mask_bar',
                                     'config' => [
                                         'required' => true,
                                     ],

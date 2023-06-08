@@ -42,11 +42,11 @@ class OverrideFieldsUtility
             }
 
             foreach ($element->columns as $fieldKey) {
-                $fieldTypeTca = $tcaDefinition->getField($fieldKey);
-                if ($fieldTypeTca->isCoreField) {
+                if ($element->hasColumnsOverride($fieldKey)) {
                     continue;
                 }
 
+                $fieldTypeTca = $tcaDefinition->getField($fieldKey);
                 $fieldType = $fieldTypeTca->getFieldType();
 
                 if ($fieldType->equals(FieldType::PALETTE)) {
