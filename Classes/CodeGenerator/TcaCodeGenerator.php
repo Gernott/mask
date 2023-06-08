@@ -588,7 +588,7 @@ class TcaCodeGenerator
     protected function processOverrideTca(TcaFieldDefinition $tcaFieldDefinition, TcaFieldDefinition $overrideTcaFieldDefinition): array
     {
         $tcaConfig = $overrideTcaFieldDefinition->getOverridesDefinition();
-        $tcaConfig = self::reconfigureTCAConfig($tcaFieldDefinition, $tcaConfig);
+        $tcaConfig['config'] = self::reconfigureTCAConfig($tcaFieldDefinition, $tcaConfig['config']);
         // File: Add file config.
         if ($tcaFieldDefinition->getFieldType()->isFileReference()) {
             $fileTca = $this->getFileTCAConfig(
