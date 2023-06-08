@@ -1216,19 +1216,19 @@ parameters:
 			path: ../../Tests/Unit/Loader/JsonSplitLoaderTest.php
 
 		-
-			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\ReusingFieldsUtilityTest\\:\\:restructuringFieldsWorks\\(\\) has parameter \\$expected with no value type specified in iterable type array\\.$#"
+			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\OverrideFieldsUtilityTest\\:\\:restructuringFieldsWorks\\(\\) has parameter \\$expected with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: ../../Tests/Unit/Utility/ReusingFieldsUtilityTest.php
+			path: ../../Tests/Unit/Utility/OverrideFieldsUtilityTest.php
 
 		-
-			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\ReusingFieldsUtilityTest\\:\\:restructuringFieldsWorks\\(\\) has parameter \\$json with no value type specified in iterable type array\\.$#"
+			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\OverrideFieldsUtilityTest\\:\\:restructuringFieldsWorks\\(\\) has parameter \\$json with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: ../../Tests/Unit/Utility/ReusingFieldsUtilityTest.php
+			path: ../../Tests/Unit/Utility/OverrideFieldsUtilityTest.php
 
 		-
-			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\ReusingFieldsUtilityTest\\:\\:restructuringFieldsWorksDataProvider\\(\\) return type has no value type specified in iterable type iterable\\.$#"
+			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\OverrideFieldsUtilityTest\\:\\:restructuringFieldsWorksDataProvider\\(\\) return type has no value type specified in iterable type iterable\\.$#"
 			count: 1
-			path: ../../Tests/Unit/Utility/ReusingFieldsUtilityTest.php
+			path: ../../Tests/Unit/Utility/OverrideFieldsUtilityTest.php
 
 		-
 			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\TcaConverterTest\\:\\:convertFlatTcaToArrayTest\\(\\) has parameter \\$array with no value type specified in iterable type array\\.$#"
