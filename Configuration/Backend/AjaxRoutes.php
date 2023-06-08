@@ -36,6 +36,14 @@ return [
         'path' => '/mask/language',
         'target' => AjaxController::class . '::language',
     ],
+    'mask_features' => [
+        'path' => '/mask/features',
+        'target' => AjaxController::class . '::features',
+    ],
+    'mask_non_overrideable_options' => [
+        'path' => '/mask/nonOverrideableOptions',
+        'target' => AjaxController::class . '::nonOverrideableOptions',
+    ],
     'mask_richtext_configuration' => [
         'path' => '/mask/richtextConfiguration',
         'target' => AjaxController::class . '::richtextConfiguration',
@@ -131,5 +139,13 @@ return [
     'mask_persist_definition' => [
         'path' => '/mask/persistDefinition',
         'target' => AjaxController::class . '::persistMaskDefinition',
+    ],
+    'mask_restructuring_needed' => [
+        'path' => '/mask/reuseFieldsRestructuringNeeded',
+        'target' => AjaxController::class . '::restructuringNeeded',
+    ],
+    'mask_execute_restructuring' => [
+        'path' => '/mask/executeRestructureForReusingFields',
+        'target' => AjaxController::class . '::executeRestructuring',
     ],
 ];

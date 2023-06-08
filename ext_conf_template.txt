@@ -8,6 +8,8 @@ content_elements_folder =
 backend_layouts_folder =
 # cat=general; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-backendlayout_pids
 backendlayout_pids = 0
+# cat=general; type=boolean; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-override_shared_fields
+override_shared_fields = 0
 
 # cat=frontend; type=folder; label=LLL:EXT:mask/Resources/Private/Language/locallang_mask.xlf:ext_conf_template-content
 content =

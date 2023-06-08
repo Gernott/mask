@@ -3,6 +3,9 @@
 	<file source-language="en" datatype="plaintext" original="messages" date="2015-02-12T18:53:00Z" product-name="mask">
 		<header/>
 		<body>
+			<trans-unit id="tx_mask.features.overrideSharedFields">
+				<source>Override Shared Fields</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.string">
 				<source>String</source>
 			</trans-unit>
@@ -1149,6 +1152,9 @@ title3, value3, icon3, description3
 			<trans-unit id="tx_mask.all.pagetemplates">
 				<source>Page Templates</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.all.features">
+				<source>Features</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.all.confirmdelete">
 				<source>Do you want to delete the content element?
 					"Delete" only deletes the configuration. "Purge" deletes the configuration and all the corresponding template files. The content in the database can be deleted via the install tool.</source>
@@ -1508,6 +1514,17 @@ title3, value3, icon3, description3
 			<trans-unit id="tx_mask.update_mask_definition">
 				<source>Update Mask definition</source>
 			</trans-unit>
+
+			<trans-unit id="tx_mask.restructuring_needed.title">
+				<source>Restructuring of fields needed!</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.restructuring_needed.message">
+				<source>Seems you have used shared fields before and enabled the override shared fields feature. Mask has to restructure the content element definitions therefore. Be careful! This action can not be undone. As soon as the definitions are restructured you can not switch back to shared fields. Please back up your mask element definitions before.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.execute_restructuring">
+				<source>Restructure Mask definitions</source>
+			</trans-unit>
+
 			<trans-unit id="tx_mask.update_complete.title">
 				<source>Update complete</source>
 			</trans-unit>

@@ -25,6 +25,11 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRe
 // Include css for styling of backend preview of mask content elements
 $GLOBALS['TYPO3_CONF_VARS']['BE']['stylesheets']['mask'] = 'EXT:mask/Resources/Public/Styles/Backend';
 
+// Include feature for using columnsOverrides on shared fields
+$extensionConfiguration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class)
+    ->get('mask');
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['features']['overrideSharedFields'] ??= (bool)($extensionConfiguration['override_shared_fields'] ?? false);
+
 // Update wizards
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['convertTemplatesToUppercase'] = \MASK\Mask\Updates\ConvertTemplatesToUppercase::class;
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['moveRteOptions'] = \MASK\Mask\Updates\MoveRteOptions::class;

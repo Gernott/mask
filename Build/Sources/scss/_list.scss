@@ -28,6 +28,16 @@
         }
     }
 
+    &__short-list {
+        padding: 10px;
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+    }
+
     &__logo-wrap {
         display: flex;
         align-items: center;

@@ -144,7 +144,7 @@ class InlineHelper
             $fieldType = $this->tableDefinitionCollection->getFieldType($field, $table);
 
             if ($fieldType->equals(FieldType::PALETTE)) {
-                foreach ($this->tableDefinitionCollection->loadInlineFields($field, $elementKey) as $paletteField) {
+                foreach ($this->tableDefinitionCollection->loadInlineFields($field, $elementKey, $element->elementDefinition) as $paletteField) {
                     $fieldType = $this->tableDefinitionCollection->getFieldType($paletteField->fullKey, $table);
                     $this->fillInlineField($data, $fieldType, $paletteField->fullKey, $cType, $table, $originalTable);
                 }

@@ -128,3 +128,10 @@ services:
         command: 'mask:convert'
         description: 'Converts a Mask storage format into another.'
         schedulable: false
+
+  MASK\Mask\Command\RestructureOverrideFieldsCommand:
+    tags:
+      - name: 'console.command'
+        command: 'mask:restructureOverrideFields'
+        description: 'Migrates shared fields to override fields.'
+        schedulable: false

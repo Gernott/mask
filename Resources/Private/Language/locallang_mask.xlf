@@ -27,6 +27,9 @@
 			<trans-unit id="ext_conf_template-backend-layouts-folder">
 				<source>Folder in which to store backend layout definitions (JsonSplitLoader)</source>
 			</trans-unit>
+			<trans-unit id="ext_conf_template-override_shared_fields">
+				<source>Override shared fields per content element.:Careful! As soon as this option is enabled and you save content elements, the fields are not synced anymore and this action can not be undone! Please back up your Mask element definitions before.</source>
+			</trans-unit>
 			<trans-unit id="ext_conf_template-content">
 				<source>Folder for Content Fluid Templates</source>
 			</trans-unit>

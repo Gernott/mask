@@ -31,6 +31,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
     private ArrayDefinitionSorter $arrayDefinitionSorter;
     private string $version = '8.1.0';
     private bool $migrationDone = false;
+    private bool $restructuringDone = false;
 
     public function __construct()
     {
@@ -69,6 +70,39 @@ final class TableDefinitionCollection implements \IteratorAggregate
         $this->migrationDone = true;
     }
 
+    public function isRestructuringNeeded(): bool
+    {
+        if ($this->restructuringDone) {
+            return false;
+        }
+
+        // No content elements saved yet
+        if (!$this->hasTable('tt_content')) {
+            return false;
+        }
+
+        $ttContentDefinition = $this->getTable('tt_content');
+        foreach ($ttContentDefinition->elements as $element) {
+            // If at least one override is set, we can infer that all are set.
+            if ($element->columnsOverride !== []) {
+                return false;
+            }
+            foreach ($element->columns as $fieldKey) {
+                $fieldType = $ttContentDefinition->tca->getField($fieldKey)->getFieldType();
+                if ($fieldType->canBeShared()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public function setRestructuringDone(): void
+    {
+        $this->restructuringDone = true;
+    }
+
     public function addTable(TableDefinition $tableDefinition): void
     {
         if (!$this->hasTable($tableDefinition->table)) {
@@ -102,6 +136,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
         }
         return [
             'version' => $this->version,
+            'restructuringDone' => $this->restructuringDone,
             'tables' => $tablesArray,
         ];
     }
@@ -136,6 +171,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
             $tableDefinitionCollection->version = '0.1.0';
             $tables = $tableDefinitionArray;
         }
+        $tableDefinitionCollection->restructuringDone = (bool)($tableDefinitionArray['restructuringDone'] ?? false);
         foreach ($tables as $table => $definition) {
             $tableDefinition = TableDefinition::createFromTableArray($table, $definition);
             $tableDefinitionCollection->addTable($tableDefinition);
@@ -188,9 +224,12 @@ final class TableDefinitionCollection implements \IteratorAggregate
         foreach ($element->columns as $fieldKey) {
             if ($tableDefinition->tca->hasField($fieldKey)) {
                 $availableTcaField = $tableDefinition->tca->getField($fieldKey);
+                if ($element->hasColumnsOverride($fieldKey)) {
+                    $availableTcaField = $availableTcaField->mergeTca($element->getColumnsOverride($fieldKey));
+                }
                 $tcaDefinition->addField($availableTcaField);
                 if ($availableTcaField->hasFieldType() && $availableTcaField->getFieldType()->equals(FieldType::PALETTE)) {
-                    $paletteFields = $this->loadInlineFields($availableTcaField->fullKey, $element->key);
+                    $paletteFields = $this->loadInlineFields($availableTcaField->fullKey, $element->key, $element);
                     foreach ($paletteFields as $paletteField) {
                         $tcaDefinition->addField($paletteField);
                     }
@@ -204,7 +243,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
      * Loads all the inline fields of an inline-field, recursively!
      * Not specifying an element key means, the parent key has to be an inline table.
      */
-    public function loadInlineFields(string $parentKey, string $elementKey): NestedTcaFieldDefinitions
+    public function loadInlineFields(string $parentKey, string $elementKey, ?ElementDefinition $element = null): NestedTcaFieldDefinitions
     {
         // Load inline fields of own table.
         if ($this->hasTable($parentKey)) {
@@ -222,9 +261,13 @@ final class TableDefinitionCollection implements \IteratorAggregate
                 }
                 // Check if FieldType is available
                 if ($field->hasFieldType() && $field->getFieldType()->isParentField()) {
-                    foreach ($this->loadInlineFields($field->fullKey, $elementKey) as $inlineField) {
+                    foreach ($this->loadInlineFields($field->fullKey, $elementKey, $element) as $inlineField) {
                         $field->addInlineField($inlineField);
                     }
+                }
+                // Merge TCA so it will be available in the Content Element Builder.
+                if ($element instanceof ElementDefinition && $element->hasColumnsOverride($field->fullKey)) {
+                    $field = $field->mergeTca($element->getColumnsOverride($field->fullKey));
                 }
                 $nestedTcaFields->addField($field);
             }

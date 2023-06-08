@@ -36,6 +36,7 @@
 					"tx_mask_a",
 					"tx_mask_repeat1"
 				],
+				"columnsOverride": [],
 				"labels": [
 					"A",
 					"Repeat1"

@@ -26,6 +26,11 @@ parameters:
 			path: ../../Classes/CodeGenerator/TcaCodeGenerator.php
 
 		-
+			message: "#^Method MASK\\\\Mask\\\\CodeGenerator\\\\TcaCodeGenerator\\:\\:getFileTCAConfig\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../Classes/CodeGenerator/TcaCodeGenerator.php
+
+		-
 			message: "#^Method MASK\\\\Mask\\\\CodeGenerator\\\\TcaCodeGenerator\\:\\:getFirstNoneTabField\\(\\) has parameter \\$fields with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/CodeGenerator/TcaCodeGenerator.php
@@ -41,7 +46,22 @@ parameters:
 			path: ../../Classes/CodeGenerator/TcaCodeGenerator.php
 
 		-
+			message: "#^Method MASK\\\\Mask\\\\CodeGenerator\\\\TcaCodeGenerator\\:\\:processOverrideTca\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../Classes/CodeGenerator/TcaCodeGenerator.php
+
+		-
 			message: "#^Method MASK\\\\Mask\\\\CodeGenerator\\\\TcaCodeGenerator\\:\\:processTableTca\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../Classes/CodeGenerator/TcaCodeGenerator.php
+
+		-
+			message: "#^Method MASK\\\\Mask\\\\CodeGenerator\\\\TcaCodeGenerator\\:\\:reconfigureTCAConfig\\(\\) has parameter \\$tcaConfig with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../Classes/CodeGenerator/TcaCodeGenerator.php
+
+		-
+			message: "#^Method MASK\\\\Mask\\\\CodeGenerator\\\\TcaCodeGenerator\\:\\:reconfigureTCAConfig\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/CodeGenerator/TcaCodeGenerator.php
 
@@ -371,6 +391,16 @@ parameters:
 			path: ../../Classes/Definition/TcaFieldDefinition.php
 
 		-
+			message: "#^Method MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\:\\:getMinimalDefinition\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../Classes/Definition/TcaFieldDefinition.php
+
+		-
+			message: "#^Method MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\:\\:getOverridesDefinition\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../Classes/Definition/TcaFieldDefinition.php
+
+		-
 			message: "#^Method MASK\\\\Mask\\\\Definition\\\\TcaFieldDefinition\\:\\:removeBlankOptions\\(\\) has parameter \\$haystack with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Definition/TcaFieldDefinition.php
@@ -564,16 +594,6 @@ parameters:
 			message: "#^Method MASK\\\\Mask\\\\Helper\\\\InlineHelper\\:\\:getRelations\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Helper/InlineHelper.php
-
-		-
-			message: "#^Method MASK\\\\Mask\\\\Hooks\\\\PageLayoutViewDrawItem\\:\\:preProcess\\(\\) has parameter \\$row with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../Classes/Hooks/PageLayoutViewDrawItem.php
-
-		-
-			message: "#^Method MASK\\\\Mask\\\\Hooks\\\\PageLayoutViewHook\\:\\:contentIsUsed\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../Classes/Hooks/PageLayoutViewHook.php
 
 		-
 			message: "#^Method MASK\\\\Mask\\\\Imaging\\\\IconProvider\\\\ContentElementIconProvider\\:\\:generateMarkup\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
@@ -1031,6 +1051,31 @@ parameters:
 			path: ../../Tests/Unit/Domain/Repository/StorageRepositoryTest.php
 
 		-
+			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\Domain\\\\Repository\\\\StorageRepositoryTest\\:\\:addDataReusingProvider\\(\\) return type has no value type specified in iterable type iterable\\.$#"
+			count: 1
+			path: ../../Tests/Unit/Domain/Repository/StorageRepositoryTest.php
+
+		-
+			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\Domain\\\\Repository\\\\StorageRepositoryTest\\:\\:addReusing\\(\\) has parameter \\$element with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../Tests/Unit/Domain/Repository/StorageRepositoryTest.php
+
+		-
+			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\Domain\\\\Repository\\\\StorageRepositoryTest\\:\\:addReusing\\(\\) has parameter \\$expected with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../Tests/Unit/Domain/Repository/StorageRepositoryTest.php
+
+		-
+			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\Domain\\\\Repository\\\\StorageRepositoryTest\\:\\:addReusing\\(\\) has parameter \\$fields with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../Tests/Unit/Domain/Repository/StorageRepositoryTest.php
+
+		-
+			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\Domain\\\\Repository\\\\StorageRepositoryTest\\:\\:addReusing\\(\\) has parameter \\$json with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../Tests/Unit/Domain/Repository/StorageRepositoryTest.php
+
+		-
 			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\Domain\\\\Repository\\\\StorageRepositoryTest\\:\\:createLoader\\(\\) has parameter \\$json with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Tests/Unit/Domain/Repository/StorageRepositoryTest.php
@@ -1169,6 +1214,21 @@ parameters:
 			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\Loader\\\\JsonSplitLoaderTest\\:\\:getExpectedConfigurationArray\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Tests/Unit/Loader/JsonSplitLoaderTest.php
+
+		-
+			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\OverrideFieldsUtilityTest\\:\\:restructuringFieldsWorks\\(\\) has parameter \\$expected with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../Tests/Unit/Utility/OverrideFieldsUtilityTest.php
+
+		-
+			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\OverrideFieldsUtilityTest\\:\\:restructuringFieldsWorks\\(\\) has parameter \\$json with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../Tests/Unit/Utility/OverrideFieldsUtilityTest.php
+
+		-
+			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\OverrideFieldsUtilityTest\\:\\:restructuringFieldsWorksDataProvider\\(\\) return type has no value type specified in iterable type iterable\\.$#"
+			count: 1
+			path: ../../Tests/Unit/Utility/OverrideFieldsUtilityTest.php
 
 		-
 			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\TcaConverterTest\\:\\:convertFlatTcaToArrayTest\\(\\) has parameter \\$array with no value type specified in iterable type array\\.$#"

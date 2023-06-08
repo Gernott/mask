@@ -55,12 +55,15 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
         tabs: {},
         fields: [],
         language: [],
+        nonOverrideableOptions: [],
+        features: [],
         icons: {},
         faIcons: {},
         availableTca: {},
         multiUseElements: {},
         optionalExtensionStatus: {},
         migrationsDone: false,
+        restructuringNeeded: false,
         fieldErrors: {
           elementKeyAvailable: true,
           elementKey: false,
@@ -78,7 +81,7 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
           richtextConfiguration: {},
           currentTab: 'general',
           ctypes: {},
-          sctructuralFields: ['linebreak', 'palette', 'tab'],
+          structuralFields: ['linebreak', 'palette', 'tab'],
           nonShareableFields: ['inline', 'palette', 'linebreak', 'tab'],
           maskPrefix: 'tx_mask_',
           deletedFields: [],
@@ -166,6 +169,22 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
                 .then(
                   async response => {
                     this.language = await response.resolve();
+                  }
+                ));
+
+              // Fetch non overrideable options
+              promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_non_overrideable_options)).get()
+                .then(
+                  async response => {
+                    this.nonOverrideableOptions = await response.resolve();
+                  }
+                ));
+
+              // Fetch features
+              promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_features)).get()
+                .then(
+                  async response => {
+                    this.features = await response.resolve();
                   }
                 ));
 
@@ -289,6 +308,14 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
                   }
                 ));
 
+              promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_restructuring_needed)).get()
+                .then(
+                  async response => {
+                    const restructuringNeeded = await response.resolve();
+                    this.restructuringNeeded = restructuringNeeded.restructuringNeeded;
+                  }
+                ));
+
               promises.push(Icons.getIcon('actions-edit-delete', Icons.sizes.small).then(icon => {
                 this.icons.delete = icon;
               }));
@@ -330,6 +357,32 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
                         label: this.language.updateMaskDefinition,
                         action: new DeferredAction(() => {
                           return new AjaxRequest(TYPO3.settings.ajaxUrls.mask_persist_definition)
+                            .get()
+                            .then(async response => {
+                              const res = await response.resolve();
+                              if (res.status === 'ok') {
+                                Notification.success(res.title, res.message);
+                              }
+                              if (res.status === 'error') {
+                                Notification.error(res.title, res.message);
+                              }
+                            });
+                        })
+                      }
+                    ]
+                  );
+                }
+
+                if (this.restructuringNeeded) {
+                  Notification.warning(
+                    this.language.restructuringNeededTitle,
+                    this.language.restructuringNeededMessage,
+                    0,
+                    [
+                      {
+                        label: this.language.executeRestructuring,
+                        action: new DeferredAction(() => {
+                          return new AjaxRequest(TYPO3.settings.ajaxUrls.mask_execute_restructuring)
                             .get()
                             .then(async response => {
                               const res = await response.resolve();
@@ -1299,6 +1352,22 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
       forceRenderer() {
         this.ticks += 1;
       },
+      isAllowedToOverride(fieldKey) {
+        // If feature "isOverrideSharedFields" is not active AND the active field is not a Core field.
+        if (!this.isOverrideSharedFieldsEnabled && !this.isActiveCoreField) {
+          return true;
+        }
+        const fieldKeyWithoutConfig = fieldKey.replace('config.', '');
+        const fieldIsShared = this.activeMultiUseElements.length !== 0 || this.isActiveCoreField;
+        if (!fieldIsShared) {
+          return true;
+        }
+        const isOverridableField = !this.nonOverrideableOptions.includes(fieldKeyWithoutConfig);
+        if (isOverridableField) {
+          return true;
+        }
+        return false;
+      },
       keyWithoutMask: function (key) {
         if (key.substr(0, 8) === this.global.maskPrefix) {
           return key.substr(8);
@@ -1363,7 +1432,7 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
         return this.searchString.toLowerCase();
       },
       keyFieldVisible: function () {
-        return !this.global.sctructuralFields.includes(this.global.activeField.name) && this.maskFieldGeneralTabOpen;
+        return !this.global.structuralFields.includes(this.global.activeField.name) && this.maskFieldGeneralTabOpen;
       },
       maskFieldGeneralTabOpen: function () {
         return this.isGeneralTabOpen && !this.isActiveCoreField;
@@ -1411,6 +1480,9 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
           return this.multiUseElements[this.global.activeField.key]
         }
         return [];
+      },
+      isOverrideSharedFieldsEnabled: function () {
+        return this.features?.overrideSharedFields?.state === 1;
       },
       metaVisible: function () {
         return this.sidebar === 'meta';

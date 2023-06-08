@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Tests\Unit\Definition;
 
+use MASK\Mask\Definition\ElementTcaDefinition;
 use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Enumeration\FieldType;
 use TYPO3\TestingFramework\Core\BaseTestCase;
@@ -162,6 +163,22 @@ class TableDefinitionCollectionTest extends BaseTestCase
                             'columns' => [
                                 'tx_mask_a',
                             ],
+                            'columnsOverride' => [
+                                'tx_mask_b' => [
+                                    'config' => [
+                                        'eval' => 'trim',
+                                    ],
+                                    'key' => 'b',
+                                    'type' => 'string',
+                                ],
+                                'tx_mask_c' => [
+                                    'config' => [
+                                        'required' => true,
+                                    ],
+                                    'key' => 'c',
+                                    'type' => 'string',
+                                ],
+                            ],
                         ],
                     ],
                     'tca' => [
@@ -206,9 +223,10 @@ class TableDefinitionCollectionTest extends BaseTestCase
                 [
                     'config' => [
                         'type' => 'input',
+                        'required' => true,
                     ],
                     'key' => 'c',
-                    'inPalette' => '1',
+                    'inPalette' => 1,
                     'inlineParent' => [
                         'element1' => 'tx_mask_a',
                     ],
@@ -222,9 +240,10 @@ class TableDefinitionCollectionTest extends BaseTestCase
                 [
                     'config' => [
                         'type' => 'input',
+                        'eval' => 'trim',
                     ],
                     'key' => 'b',
-                    'inPalette' => '1',
+                    'inPalette' => 1,
                     'inlineParent' => [
                         'element1' => 'tx_mask_a',
                     ],
@@ -360,8 +379,9 @@ class TableDefinitionCollectionTest extends BaseTestCase
     public function loadInlineFields(array $json, string $parentKey, string $elementKey, array $expected): void
     {
         $tableDefinitionCollection = TableDefinitionCollection::createFromArray($json);
-
-        self::assertEquals($expected, $tableDefinitionCollection->loadInlineFields($parentKey, $elementKey)->toArray());
+        $elementTcaDefinition = $tableDefinitionCollection->loadElement('tt_content', $elementKey);
+        $element = $elementTcaDefinition instanceof ElementTcaDefinition ? $elementTcaDefinition->elementDefinition : null;
+        self::assertEquals($expected, $tableDefinitionCollection->loadInlineFields($parentKey, $elementKey, $element)->toArray());
     }
 
     public function getElementsWhichUseFieldDataProvider(): array
@@ -1710,6 +1730,27 @@ class TableDefinitionCollectionTest extends BaseTestCase
                                 'tx_mask_field2',
                                 'tx_mask_field3',
                             ],
+                            'columnsOverride' => [
+                                'tx_mask_field1' => [
+                                    'key' => 'field1',
+                                    'type' => 'string',
+                                    'config' => [
+                                        'required' => true,
+                                    ],
+                                ],
+                                'tx_mask_field2' => [
+                                    'key' => 'field2',
+                                    'type' => 'string',
+                                    'config' => [],
+                                    'allowedFileExtensions' => 'jpg',
+                                ],
+                                'tx_mask_field3' => [
+                                    'key' => 'field3',
+                                    'type' => 'link',
+                                    'config' => [],
+                                    'onlineMedia' => 'youtube',
+                                ],
+                            ],
                             'labels' => [
                                 'Field 1',
                                 'Field 2',
@@ -1765,6 +1806,30 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     'tx_mask_field2',
                     'tx_mask_field3',
                 ],
+                'columnsOverride' => [
+                    'tx_mask_field1' => [
+                        'key' => 'field1',
+                        'fullKey' => 'tx_mask_field1',
+                        'type' => 'string',
+                        'config' => [
+                            'required' => true,
+                        ],
+                    ],
+                    'tx_mask_field2' => [
+                        'key' => 'field2',
+                        'fullKey' => 'tx_mask_field2',
+                        'type' => 'string',
+                        'config' => [],
+                        'allowedFileExtensions' => 'jpg',
+                    ],
+                    'tx_mask_field3' => [
+                        'key' => 'field3',
+                        'fullKey' => 'tx_mask_field3',
+                        'type' => 'link',
+                        'config' => [],
+                        'onlineMedia' => ['youtube'],
+                    ],
+                ],
                 'labels' => [
                     'Field 1',
                     'Field 2',
@@ -1779,6 +1844,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     'tx_mask_field1' => [
                         'config' => [
                             'type' => 'input',
+                            'required' => true,
                         ],
                         'key' => 'field1',
                         'fullKey' => 'tx_mask_field1',
@@ -1793,6 +1859,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'fullKey' => 'tx_mask_field2',
                         'type' => 'integer',
                         'description' => 'Field 2 Description',
+                        'allowedFileExtensions' => 'jpg',
                     ],
                     'tx_mask_field3' => [
                         'config' => [
@@ -1803,6 +1870,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
                         'fullKey' => 'tx_mask_field3',
                         'type' => 'link',
                         'description' => 'Field 3 Description',
+                        'onlineMedia' => ['youtube'],
                     ],
                 ],
                 'sorting' => 0,
@@ -1934,8 +2002,8 @@ class TableDefinitionCollectionTest extends BaseTestCase
      */
     public function loadElement(array $json, string $table, string $element, array $expected): void
     {
-        $tableDefinitonCollection = TableDefinitionCollection::createFromArray($json);
-        $element = $tableDefinitonCollection->loadElement($table, $element);
+        $tableDefinitionCollection = TableDefinitionCollection::createFromArray($json);
+        $element = $tableDefinitionCollection->loadElement($table, $element);
         $array = $element !== null ? $element->toArray() : [];
         self::assertEquals($expected, $array);
     }

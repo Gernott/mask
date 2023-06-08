@@ -37,7 +37,7 @@ export default Vue.component(
 
             this.$set(e, 'uid', key);
             // Auto set key on structural fields
-            if ((e.key === this.global.maskPrefix || e.key === '') && this.global.sctructuralFields.includes(e.name)) {
+            if ((e.key === this.global.maskPrefix || e.key === '') && this.global.structuralFields.includes(e.name)) {
               this.$set(e, 'key', this.global.maskPrefix + key);
             }
             return e.uid;

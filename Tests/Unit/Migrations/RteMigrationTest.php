@@ -22,6 +22,7 @@ use MASK\Mask\Loader\JsonLoader;
 use MASK\Mask\Migrations\MigrationManager;
 use MASK\Mask\Migrations\RteMigration;
 use MASK\Mask\Tests\Unit\PackageManagerTrait;
+use TYPO3\CMS\Core\Configuration\Features;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class RteMigrationTest extends UnitTestCase
@@ -45,7 +46,8 @@ class RteMigrationTest extends UnitTestCase
                 [
                     new RteMigration(),
                 ]
-            )
+            ),
+            new Features()
         );
 
         $tableDefinitionCollection = $jsonLoader->load();

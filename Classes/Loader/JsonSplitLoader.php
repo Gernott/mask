@@ -27,6 +27,7 @@ use MASK\Mask\Definition\TcaFieldDefinition;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Migrations\MigrationManager;
 use Symfony\Component\Finder\Finder;
+use TYPO3\CMS\Core\Configuration\Features;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -35,6 +36,7 @@ class JsonSplitLoader implements LoaderInterface
     protected ?TableDefinitionCollection $tableDefinitionCollection = null;
     protected array $maskExtensionConfiguration;
     protected MigrationManager $migrationManager;
+    protected Features $features;
 
     private const FOLDER_KEYS = [
         'tt_content' => 'content_elements_folder',
@@ -43,10 +45,12 @@ class JsonSplitLoader implements LoaderInterface
 
     public function __construct(
         array $maskExtensionConfiguration,
-        MigrationManager $migrationManager
+        MigrationManager $migrationManager,
+        Features $features
     ) {
         $this->maskExtensionConfiguration = $maskExtensionConfiguration;
         $this->migrationManager = $migrationManager;
+        $this->features = $features;
     }
 
     public function load(): TableDefinitionCollection
@@ -132,6 +136,7 @@ class JsonSplitLoader implements LoaderInterface
             return;
         }
 
+        $overrideSharedFields = $this->features->isFeatureEnabled('overrideSharedFields');
         $absolutePath = $this->validateFolderPath($table);
 
         if (!file_exists($absolutePath)) {
@@ -207,7 +212,9 @@ class JsonSplitLoader implements LoaderInterface
             $newTableDefinition->palettes = $newPaletteDefinitionCollection;
             $newTableDefinition->elements = $newElementsDefinitionCollection;
             $elementTableDefinitionCollection->addTable($newTableDefinition);
-
+            if ($overrideSharedFields) {
+                $elementTableDefinitionCollection->setRestructuringDone();
+            }
             $filePath = $absolutePath . '/' . $element->key . '.json';
             $result = GeneralUtility::writeFile($filePath, json_encode($elementTableDefinitionCollection->toArray(), JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT) . "\n");
 

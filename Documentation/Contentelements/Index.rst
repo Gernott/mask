@@ -70,6 +70,43 @@ TCA is used to define how the fields will be rendered and validated. There is a 
 course Mask has not adapted (yet) all of the available functionality, but for the most part it should be enough to
 tackle day to day needs.
 
+.. _content-elements-shared-reuse:
+Share fields vs. override them
+------------------------------
+
+By default, Mask shares field configurations across content elements,
+allowing you to selectively overwrite labels and descriptions for individual fields.
+Starting from Mask v8.2, it became possible to override fields across different elements.
+When this behavior is enabled in the extension settings, you gain the ability
+to override nearly every setting for individual fields and utilize them across multiple elements.
+For instance, consider a dropdown field that needs to be reused with various select options.
+This behavior is particularly useful when you have numerous elements with diverse options
+but prefer not to expand your database with an excessive number of fields.
+
+Note that Core fields are always allowed to be overridden.
+
+Even when you have enabled the reuse of fields, there are certain options in
+TYPO3 which remain shared and cannot be overridden:
+
+*  Category Field Relationship, Possible Options: oneToOne, oneToMany, manyToMany (TCA Key: `relationship`)
+*  Select Field Database Options, `foreign_table`, `foreign_field`, `foreign_table_field`, `foreign_match_fields`
+*  Group Field `allowed` in case of `internal_type=db`
+
+Other internally used TCA Options that are not overwritten:
+
+*  `type` (used for field type)
+*  `dbType` (eg. datetime and date field)
+*  `nullable`
+*  `MM`
+*  `MM_opposite_field`
+*  `MM_hasUidField`
+*  `MM_oppositeUsage`
+
+Furthermore, it's important to note that repeating (inline) fields cannot be shared
+and you are also not able to share different field types between each other (eg. text input and float have to be two fields).
+If you are currently using Mask with shared fields but wish to switch to override shared fields,
+you can find more information in the :ref:`8.2 changelog <migrateToReusingFields>` on how to migrate to override shared fields.
+
 The Element Meta Data Tab
 =========================
 

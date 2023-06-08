@@ -162,7 +162,7 @@ class HtmlCodeGenerator
                 $html[] = $this->drawWhitespace(1 + $depth) . '<ul>';
                 $html[] = $this->drawWhitespace(2 + $depth) . '<f:for each="{' . $datafield . '.' . $field->fullKey . '}" as="' . $datafield . '_item' . '">';
                 $html[] = $this->drawWhitespace(3 + $depth) . '<li>';
-                foreach ($this->tableDefinitionCollection->loadInlineFields($field->fullKey, $element->elementDefinition->key) as $inlineField) {
+                foreach ($this->tableDefinitionCollection->loadInlineFields($field->fullKey, $element->elementDefinition->key, $element->elementDefinition) as $inlineField) {
                     $html[] = $this->generateFieldHtml($inlineField, $element, $field->fullKey, $datafield . '_item', 4 + $depth);
                 }
                 $html[] = $this->drawWhitespace(3 + $depth) . '</li>';
@@ -171,7 +171,7 @@ class HtmlCodeGenerator
                 $html[] = $this->drawWhitespace(0 + $depth) . '</f:if>';
                 break;
             case FieldType::PALETTE:
-                foreach ($this->tableDefinitionCollection->loadInlineFields($field->fullKey, $element->elementDefinition->key) as $paletteField) {
+                foreach ($this->tableDefinitionCollection->loadInlineFields($field->fullKey, $element->elementDefinition->key, $element->elementDefinition) as $paletteField) {
                     $part = $this->generateFieldHtml($paletteField, $element, $table, $datafield, $depth);
                     if ($part !== '') {
                         $html[] = $part;

@@ -1,5 +1,5 @@
 <div class="mask-field-form__inner" v-if="global.activeField.name">
-    <div v-if="!activeFieldHasKeyError && activeMultiUseElements.length">
+    <div v-if="!activeFieldHasKeyError && activeMultiUseElements.length && !isOverrideSharedFieldsEnabled">
         <div class="callout callout-info">
             <div class="media">
                 <div v-if="global.typo3Version == 11" class="media-left"><span class="fa-stack fa-lg callout-icon"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-info fa-stack-1x"></i></span></div>
@@ -24,7 +24,7 @@
     </div>
     <div v-if="global.activeField.name != 'linebreak'" class="mask-field-form__tabpanel" role="tabpanel">
         <ul class="nav nav-tabs" role="tablist" data-store-last-tab="1">
-            <li v-for="(tab, key) in fieldTabs" role="presentation" :class="{active: key === global.currentTab, 'has-validation-error': key == 'general' && activeFieldHasKeyError}" v-if="key == 'general' || !isActiveCoreField">
+            <li v-for="(tab, key) in fieldTabs" role="presentation" :class="{active: key === global.currentTab, 'has-validation-error': key == 'general' && activeFieldHasKeyError}">
                 <a role="tab" href="#" @click.prevent="global.currentTab = key" :class="{active: key === global.currentTab}">
                     {{ language.tabs[key] }}
                 </a>
@@ -79,10 +79,11 @@
                     </div>
 
                 </div>
-                <div v-if="!isActiveCoreField" v-for="(row, tcaKey) in tabs[global.activeField.name][global.currentTab]" class="form-section">
+                <div v-for="(row, tcaKey) in tabs[global.activeField.name][global.currentTab]" class="form-section">
                     <div class="row">
                         <form-field
                             v-for="(column, tcaKey) in row"
+                            v-if="!isActiveCoreField || isAllowedToOverride(tcaKey)"
                             :key="global.activeField.uid + '.' + tcaKey + ticks"
                             :id="global.activeField.uid + '.' + tcaKey"
                             :global="global"
@@ -95,6 +96,7 @@
                             :column="column"
                             :field-errors="fieldErrors"
                             :force-renderer="forceRenderer"
+                            :is-allowed-to-override="isAllowedToOverride"
                         ></form-field>
                     </div>
                 </div>

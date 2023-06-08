@@ -22,6 +22,7 @@ use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\FieldTypeUtility;
 use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Schema\Struct\SelectItem;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final class TcaFieldDefinition
@@ -41,6 +42,9 @@ final class TcaFieldDefinition
         FieldType::FILE => [
             'config.minitems',
         ],
+        FieldType::MEDIA => [
+            'config.minitems',
+        ],
     ];
 
     private const STOP_RECURSIVE_VALUES_BY_TYPE = [
@@ -50,6 +54,22 @@ final class TcaFieldDefinition
         FieldType::SLUG => [
             'config.generatorOptions.replacements',
         ],
+    ];
+
+    public const NON_OVERRIDEABLE_OPTIONS = [
+        'type',
+        'relationship',
+        'dbType',
+        'nullable',
+        'MM',
+        'MM_opposite_field',
+        'MM_hasUidField',
+        'MM_oppositeUsage',
+        'allowed',
+        'foreign_table',
+        'foreign_field',
+        'foreign_table_field',
+        'foreign_match_fields',
     ];
 
     private ?FieldType $type = null;
@@ -152,7 +172,7 @@ final class TcaFieldDefinition
         }
 
         // Always set minitems / maxitems so the config array is not completely empty.
-        if (!$tcaFieldDefinition->isCoreField && $tcaFieldDefinition->hasFieldType() && $tcaFieldDefinition->getFieldType()->equals(FieldType::FILE)) {
+        if (!$tcaFieldDefinition->isCoreField && $tcaFieldDefinition->hasFieldType() && $tcaFieldDefinition->getFieldType()->isFileReference()) {
             $definition['config']['minitems'] ??= '';
         }
 
@@ -261,6 +281,45 @@ final class TcaFieldDefinition
         }
 
         return self::removeBlankOptions($definition, $fieldDefinition);
+    }
+
+    public function getOverridesDefinition(): array
+    {
+        $fieldConfig = $this->toArray();
+        $overrideTcaConfig = $fieldConfig['config'] ?? [];
+        foreach (array_keys($overrideTcaConfig) as $configKey) {
+            if (in_array($configKey, self::NON_OVERRIDEABLE_OPTIONS, true)) {
+                unset($overrideTcaConfig[$configKey]);
+            }
+        }
+        // cleanup other options that are stored in minimal definition
+        unset(
+            $fieldConfig['inlineParent'],
+            $fieldConfig['label'],
+            $fieldConfig['description'],
+            $fieldConfig['order'],
+            $fieldConfig['inPalette'],
+            $fieldConfig['coreField'],
+        );
+        $fieldConfig['config'] = $overrideTcaConfig;
+        return $fieldConfig;
+    }
+
+    public function getMinimalDefinition(): array
+    {
+        $minimalFieldTca = $this->toArray();
+        foreach (array_keys($minimalFieldTca['config'] ?? []) as $configKey) {
+            if (!in_array($configKey, self::NON_OVERRIDEABLE_OPTIONS, true)) {
+                unset($minimalFieldTca['config'][$configKey]);
+            }
+        }
+
+        // cleanup other options that are stored in override definition
+        unset(
+            $minimalFieldTca['allowedFileExtensions'],
+            $minimalFieldTca['onlineMedia'],
+        );
+        return $minimalFieldTca;
     }
 
     public function hasInlineParent(string $elementKey = ''): bool
@@ -689,5 +748,16 @@ final class TcaFieldDefinition
             return (bool)($this->realTca['config']['nullable'] ?? false);
         }
         return GeneralUtility::inList($this->realTca['config']['eval'] ?? '', 'null');
+    }
+
+    public function mergeTca(TcaFieldDefinition $tcaFieldDefinition): TcaFieldDefinition
+    {
+        $field = clone $this;
+        ArrayUtility::mergeRecursiveWithOverrule($field->realTca, $tcaFieldDefinition->realTca);
+
+        $field->allowedFileExtensions = $tcaFieldDefinition->allowedFileExtensions;
+        $field->onlineMedia = $tcaFieldDefinition->onlineMedia;
+
+        return $field;
     }
 }

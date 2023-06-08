@@ -900,7 +900,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
                     'fileUploadAllowed' => true,
                     'expandSingle' => true,
                 ],
-                'allowed' => ['jpeg'],
+                'allowed' => 'jpeg',
             ],
         ];
 
@@ -951,7 +951,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
                     'fileUploadAllowed' => true,
                     'expandSingle' => true,
                 ],
-                'allowed' => ['jpeg'],
+                'allowed' => 'jpeg',
             ],
         ];
 
@@ -1002,7 +1002,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
                     'fileUploadAllowed' => true,
                     'expandSingle' => true,
                 ],
-                'allowed' => ['flac', 'mp4', 'youtube'],
+                'allowed' => 'flac,mp4,youtube',
             ],
         ];
 
@@ -1052,7 +1052,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
                     'fileUploadAllowed' => true,
                     'expandSingle' => true,
                 ],
-                'allowed' => ['flac', 'mp4'],
+                'allowed' => 'flac,mp4',
             ],
         ];
     }
@@ -1843,15 +1843,15 @@ class TcaCodeGeneratorTest extends BaseTestCase
                             'config' => [
                                 'type' => 'input',
                             ],
-                            'key' => 'field1',
-                            'fullKey' => 'tx_mask_field1',
+                            'key' => 'field2',
+                            'fullKey' => 'tx_mask_field2',
                         ],
                         'tx_mask_field3' => [
                             'config' => [
                                 'type' => 'input',
                             ],
-                            'key' => 'field1',
-                            'fullKey' => 'tx_mask_field1',
+                            'key' => 'field3',
+                            'fullKey' => 'tx_mask_field3',
                         ],
                     ],
                 ],
@@ -1944,8 +1944,8 @@ class TcaCodeGeneratorTest extends BaseTestCase
                             'config' => [
                                 'type' => 'input',
                             ],
-                            'key' => 'field1',
-                            'fullKey' => 'tx_mask_field1',
+                            'key' => 'field2',
+                            'fullKey' => 'tx_mask_field3',
                         ],
                         'tx_mask_tab' => [
                             'config' => [
@@ -1996,8 +1996,8 @@ class TcaCodeGeneratorTest extends BaseTestCase
                             'config' => [
                                 'type' => 'input',
                             ],
-                            'key' => 'field1',
-                            'fullKey' => 'tx_mask_field1',
+                            'key' => 'field2',
+                            'fullKey' => 'tx_mask_field2',
                         ],
                         'tx_mask_palette' => [
                             'config' => [
@@ -2026,6 +2026,212 @@ class TcaCodeGeneratorTest extends BaseTestCase
                                 ],
                                 'tx_mask_field2' => [
                                     'description' => 'Field 2 Description',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        yield 'normal root fields TCA override generated with override fields enabled' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'key' => 'element1',
+                            'label' => 'Element 1',
+                            'columns' => [
+                                'tx_mask_field1',
+                                'tx_mask_field2',
+                            ],
+                            'columnsOverride' => [
+                                'tx_mask_field1' => [
+                                    'config' => [
+                                        'default' => 'Text',
+                                    ],
+                                    'key' => 'field1',
+                                    'type' => 'string',
+                                ],
+                                'tx_mask_field2' => [
+                                    'config' => [
+                                        'default' => 'Text Field 2',
+                                    ],
+                                    'key' => 'field2',
+                                    'type' => 'string',
+                                ],
+                            ],
+                            'descriptions' => [
+                                'Field 1',
+                                'Field 2',
+                            ],
+                        ],
+                        'element2' => [
+                            'key' => 'element2',
+                            'label' => 'Element 2',
+                            'columns' => [
+                                'tx_mask_field3',
+                            ],
+                            'columnsOverride' => [
+                                'tx_mask_field3' => [
+                                    'config' => [
+                                        'default' => 'Text Field 3',
+                                    ],
+                                    'key' => 'field3',
+                                    'type' => 'string',
+                                ],
+                            ],
+                            'descriptions' => [
+                                'Field 3',
+                            ],
+                        ],
+                    ],
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'input',
+                            ],
+                            'key' => 'field1',
+                            'fullKey' => 'tx_mask_field1',
+                        ],
+                        'tx_mask_field2' => [
+                            'config' => [
+                                'type' => 'input',
+                            ],
+                            'key' => 'field2',
+                            'fullKey' => 'tx_mask_field2',
+                        ],
+                        'tx_mask_field3' => [
+                            'config' => [
+                                'type' => 'input',
+                            ],
+                            'key' => 'field3',
+                            'fullKey' => 'tx_mask_field3',
+                        ],
+                    ],
+                ],
+            ],
+            'expected' => [
+                'tt_content' => [
+                    'types' => [
+                        'mask_element1' => [
+                            'columnsOverrides' => [
+                                'tx_mask_field1' => [
+                                    'description' => 'Field 1',
+                                    'config' => [
+                                        'default' => 'Text',
+                                    ],
+                                ],
+                                'tx_mask_field2' => [
+                                    'description' => 'Field 2',
+                                    'config' => [
+                                        'default' => 'Text Field 2',
+                                    ],
+                                ],
+                            ],
+                        ],
+                        'mask_element2' => [
+                            'columnsOverrides' => [
+                                'tx_mask_field3' => [
+                                    'description' => 'Field 3',
+                                    'config' => [
+                                        'default' => 'Text Field 3',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        yield 'Date fields ranges are applied in override' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'key' => 'element1',
+                            'label' => 'Element 1',
+                            'columns' => [
+                                'tx_mask_field_1',
+                                'tx_mask_field_2',
+                            ],
+                            'columnsOverride' => [
+                                'tx_mask_field_1' => [
+                                    'config' => [
+                                        'eval' => 'date',
+                                        'range' => [
+                                            'lower' => '01-01-2021',
+                                            'upper' => '30-12-2021',
+                                        ],
+                                    ],
+                                    'key' => 'field_1',
+                                    'fullKey' => 'tx_mask_field_1',
+                                    'type' => 'date',
+                                ],
+                                'tx_mask_field_2' => [
+                                    'config' => [
+                                        'eval' => 'datetime',
+                                        'range' => [
+                                            'upper' => '20:30 30-12-2021',
+                                        ],
+                                    ],
+                                    'key' => 'field_2',
+                                    'fullKey' => 'tx_mask_field_2',
+                                    'type' => 'datetime',
+                                ],
+                            ],
+                            'descriptions' => [
+                                'Field 1',
+                                'Field 2',
+                            ],
+                        ],
+                    ],
+                    'tca' => [
+                        'tx_mask_field_1' => [
+                            'config' => [
+                                'type' => 'input',
+                                'dbType' => 'date',
+                            ],
+                            'key' => 'field_1',
+                            'fullKey' => 'tx_mask_field_1',
+                            'type' => 'date',
+                        ],
+                        'tx_mask_field_2' => [
+                            'config' => [
+                                'type' => 'input',
+                                'dbType' => 'datetime',
+                            ],
+                            'key' => 'field_2',
+                            'fullKey' => 'tx_mask_field_2',
+                            'type' => 'datetime',
+                        ],
+                    ],
+                ],
+            ],
+            'expected' => [
+                'tt_content' => [
+                    'types' => [
+                        'mask_element1' => [
+                            'columnsOverrides' => [
+                                'tx_mask_field_1' => [
+                                    'description' => 'Field 1',
+                                    'config' => [
+                                        'eval' => 'date',
+                                        'range' => [
+                                            'lower' => 1609459200,
+                                            'upper' => 1640822400,
+                                        ],
+                                    ],
+                                ],
+                                'tx_mask_field_2' => [
+                                    'description' => 'Field 2',
+                                    'config' => [
+                                        'eval' => 'datetime',
+                                        'range' => [
+                                            'upper' => 1640896200,
+                                        ],
+                                    ],
                                 ],
                             ],
                         ],

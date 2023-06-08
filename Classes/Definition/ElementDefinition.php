@@ -28,6 +28,8 @@ final class ElementDefinition
     public string $icon = '';
     public string $iconOverlay = '';
     public array $columns = [];
+    /** @var array<string, TcaFieldDefinition> */
+    public array $columnsOverride = [];
     public array $labels = [];
     public array $descriptions = [];
     /**
@@ -66,6 +68,13 @@ final class ElementDefinition
         $elementDefinition->sorting = (int)($elementArray['sorting'] ?? 0);
         $elementDefinition->saveAndClose = !empty($elementArray['saveAndClose']);
 
+        foreach ($elementArray['columnsOverride'] ?? [] as $key => $columnOverride) {
+            $elementDefinition->addColumnsOverride(
+                $key,
+                TcaFieldDefinition::createFromFieldArray($columnOverride)
+            );
+        }
+
         return $elementDefinition;
     }
 
@@ -98,6 +107,31 @@ final class ElementDefinition
             $element['options'] = $this->options;
         }
 
+        foreach ($this->columnsOverride as $key => $column) {
+            $element['columnsOverride'][$key] = $column->getOverridesDefinition();
+        }
+
         return $element;
+    }
+
+    public function hasColumnsOverride(string $key): bool
+    {
+        return isset($this->columnsOverride[$key]);
+    }
+
+    public function getColumnsOverride(string $key): TcaFieldDefinition
+    {
+        if (!$this->hasColumnsOverride($key)) {
+            throw new \OutOfBoundsException(
+                'The element "' . $this->key . '" does not have an override field for the key "' . $key . '".',
+                1685697116
+            );
+        }
+        return $this->columnsOverride[$key];
+    }
+
+    public function addColumnsOverride(string $key, TcaFieldDefinition $columnsOverride): void
+    {
+        $this->columnsOverride[$key] = $columnsOverride;
     }
 }

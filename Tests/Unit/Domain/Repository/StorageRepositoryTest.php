@@ -19,6 +19,7 @@ namespace MASK\Mask\Tests\Unit\Domain\Repository;
 
 use MASK\Mask\Tests\Unit\PackageManagerTrait;
 use MASK\Mask\Tests\Unit\StorageRepositoryCreatorTrait;
+use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\TestingFramework\Core\BaseTestCase;
 
 class StorageRepositoryTest extends BaseTestCase
@@ -59,6 +60,9 @@ class StorageRepositoryTest extends BaseTestCase
                     'label' => 'Header',
                     'description' => '',
                     'name' => 'string',
+                    'tca' => [
+                        'config.size' => 30,
+                    ],
                 ],
             ],
             'table' => 'tt_content',
@@ -76,6 +80,16 @@ class StorageRepositoryTest extends BaseTestCase
                                 'tx_mask_field1',
                                 'tx_mask_field2',
                                 'header',
+                            ],
+                            'columnsOverride' => [
+                                'header' => [
+                                    'key' => 'header',
+                                    'fullKey' => 'header',
+                                    'config' => [
+                                        'size' => 30,
+                                    ],
+                                    'type' => 'string',
+                                ],
                             ],
                             'labels' => [
                                 'Field 1',
@@ -504,7 +518,6 @@ class StorageRepositoryTest extends BaseTestCase
                             'inlineParent' => [
                                 'element1' => 'tx_mask_palette',
                             ],
-                            'inPalette' => 1,
                             'label' => [
                                 'element1' => 'Field',
                             ],
@@ -514,6 +527,7 @@ class StorageRepositoryTest extends BaseTestCase
                             'order' => [
                                 'element1' => 2,
                             ],
+                            'inPalette' => 1,
                         ],
                         'header' => [
                             'key' => 'header',
@@ -522,7 +536,6 @@ class StorageRepositoryTest extends BaseTestCase
                             'inlineParent' => [
                                 'element1' => 'tx_mask_palette',
                             ],
-                            'inPalette' => 1,
                             'label' => [
                                 'element1' => 'Header',
                             ],
@@ -533,6 +546,7 @@ class StorageRepositoryTest extends BaseTestCase
                                 'element1' => 1,
                             ],
                             'coreField' => 1,
+                            'inPalette' => 1,
                         ],
                     ],
                 ],
@@ -1212,7 +1226,7 @@ class StorageRepositoryTest extends BaseTestCase
      */
     public function add(array $json, array $element, array $fields, string $table, array $expected, bool $isNew): void
     {
-        $storageRepository = $this->createStorageRepository($json);
+        $storageRepository = $this->createStorageRepository($json, false);
         $this->registerPackageManager();
         self::assertEquals($expected, $storageRepository->add($element, $fields, $table, $isNew));
     }
@@ -1626,8 +1640,1279 @@ class StorageRepositoryTest extends BaseTestCase
     {
         $GLOBALS['TCA']['tt_content']['columns']['header']['config']['type'] = 'input';
 
-        $storageRepository = $this->createStorageRepository($json);
+        $storageRepository = $this->createStorageRepository($json, false);
 
         self::assertEquals($expected, $storageRepository->remove($table, $elementKey));
+    }
+
+    public function addDataReusingProvider(): iterable
+    {
+        yield 'fields are added' => [
+            'json' => [],
+            'element' => [
+                'label' => 'Element 1',
+                'key' => 'element1',
+                'shortLabel' => '',
+                'description' => '',
+                'icon' => '',
+                'color' => '#000000',
+                'sorting' => '1',
+            ],
+            'fields' => [
+                [
+                    'key' => 'tx_mask_field1',
+                    'label' => 'Field 1',
+                    'description' => 'Field 1 description',
+                    'name' => 'string',
+                    'tca' => [],
+                ],
+                [
+                    'key' => 'tx_mask_field2',
+                    'label' => 'Field 2',
+                    'description' => '',
+                    'name' => 'string',
+                    'tca' => [],
+                ],
+                [
+                    'key' => 'header',
+                    'label' => 'Header',
+                    'description' => '',
+                    'name' => 'string',
+                ],
+            ],
+            'table' => 'tt_content',
+            'expected' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'label' => 'Element 1',
+                            'key' => 'element1',
+                            'shortLabel' => '',
+                            'description' => '',
+                            'icon' => '',
+                            'color' => '#000000',
+                            'columns' => [
+                                'tx_mask_field1',
+                                'tx_mask_field2',
+                                'header',
+                            ],
+                            'labels' => [
+                                'Field 1',
+                                'Field 2',
+                                'Header',
+                            ],
+                            'descriptions' => [
+                                'Field 1 description',
+                                '',
+                                '',
+                            ],
+                            'sorting' => '1',
+                        ],
+                    ],
+                    'sql' => [
+                        'tx_mask_field1' => [
+                            'tt_content' => [
+                                'tx_mask_field1' => 'varchar(255) DEFAULT \'\' NOT NULL',
+                            ],
+                        ],
+                        'tx_mask_field2' => [
+                            'tt_content' => [
+                                'tx_mask_field2' => 'varchar(255) DEFAULT \'\' NOT NULL',
+                            ],
+                        ],
+                    ],
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'key' => 'field1',
+                            'fullKey' => 'tx_mask_field1',
+                            'type' => 'string',
+                            'config' => [
+                                'type' => 'input',
+                            ],
+                        ],
+                        'tx_mask_field2' => [
+                            'key' => 'field2',
+                            'fullKey' => 'tx_mask_field2',
+                            'type' => 'string',
+                            'config' => [
+                                'type' => 'input',
+                            ],
+                        ],
+                        'header' => [
+                            'key' => 'header',
+                            'fullKey' => 'header',
+                            'type' => 'string',
+                            'coreField' => 1,
+                        ],
+                    ],
+                ],
+            ],
+            'isNew' => false,
+        ];
+
+        yield 'existing typo3 fields do not generate sql' => [
+            'json' => [],
+            'element' => [
+                'label' => 'Element 1',
+                'key' => 'element1',
+                'shortLabel' => '',
+                'description' => '',
+                'icon' => '',
+                'color' => '#000000',
+                'sorting' => '1',
+            ],
+            'fields' => [
+                [
+                    'key' => 'header',
+                    'label' => 'Header 1',
+                    'description' => '',
+                    'name' => 'string',
+                ],
+            ],
+            'table' => 'tt_content',
+            'expected' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'label' => 'Element 1',
+                            'key' => 'element1',
+                            'shortLabel' => '',
+                            'description' => '',
+                            'icon' => '',
+                            'color' => '#000000',
+                            'columns' => [
+                                'header',
+                            ],
+                            'labels' => [
+                                'Header 1',
+                            ],
+                            'descriptions' => [
+                                '',
+                            ],
+                            'sorting' => '1',
+                        ],
+                    ],
+                    'tca' => [
+                        'header' => [
+                            'key' => 'header',
+                            'fullKey' => 'header',
+                            'type' => 'string',
+                            'coreField' => 1,
+                        ],
+                    ],
+                ],
+            ],
+            'isNew' => false,
+        ];
+
+        yield 'inline fields are added as new table' => [
+            'json' => [],
+            'element' => [
+                'label' => 'Element 1',
+                'key' => 'element1',
+                'shortLabel' => '',
+                'description' => '',
+                'icon' => '',
+                'color' => '#000000',
+                'sorting' => '1',
+            ],
+            'fields' => [
+                [
+                    'key' => 'tx_mask_inline_field',
+                    'label' => 'Inline Field',
+                    'description' => 'Inline Field description',
+                    'name' => 'inline',
+                    'tca' => [],
+                    'fields' => [
+                        [
+                            'key' => 'tx_mask_field1',
+                            'label' => 'Field 1',
+                            'description' => 'Field 1 description',
+                            'name' => 'string',
+                            'tca' => [],
+                        ],
+                    ],
+                ],
+            ],
+            'table' => 'tt_content',
+            'expected' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'label' => 'Element 1',
+                            'key' => 'element1',
+                            'shortLabel' => '',
+                            'description' => '',
+                            'icon' => '',
+                            'color' => '#000000',
+                            'columns' => [
+                                'tx_mask_inline_field',
+                            ],
+                            'labels' => [
+                                'Inline Field',
+                            ],
+                            'descriptions' => [
+                                'Inline Field description',
+                            ],
+                            'sorting' => '1',
+                        ],
+                    ],
+                    'sql' => [
+                        'tx_mask_inline_field' => [
+                            'tt_content' => [
+                                'tx_mask_inline_field' => 'int(11) unsigned DEFAULT \'0\' NOT NULL',
+                            ],
+                        ],
+                    ],
+                    'tca' => [
+                        'tx_mask_inline_field' => [
+                            'key' => 'inline_field',
+                            'fullKey' => 'tx_mask_inline_field',
+                            'config' => [
+                                'type' => 'inline',
+                                'foreign_table' => '--inlinetable--',
+                                'foreign_field' => 'parentid',
+                                'foreign_table_field' => 'parenttable',
+                                'foreign_sortby' => 'sorting',
+                                'appearance' => [
+                                    'enabledControls' => [
+                                        'dragdrop' => 1,
+                                    ],
+                                ],
+                            ],
+                            'type' => 'inline',
+                        ],
+                    ],
+                ],
+                'tx_mask_inline_field' => [
+                    'sql' => [
+                        'tx_mask_field1' => [
+                            'tx_mask_inline_field' => [
+                                'tx_mask_field1' => 'varchar(255) DEFAULT \'\' NOT NULL',
+                            ],
+                        ],
+                    ],
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'key' => 'field1',
+                            'fullKey' => 'tx_mask_field1',
+                            'label' => 'Field 1',
+                            'inlineParent' => 'tx_mask_inline_field',
+                            'order' => 1,
+                            'description' => 'Field 1 description',
+                            'type' => 'string',
+                            'config' => [
+                                'type' => 'input',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'isNew' => false,
+        ];
+
+        if ((new Typo3Version())->getMajorVersion() === 11) {
+            yield 'Timestamps range converted to integer' => [
+                'json' => [],
+                'element' => [
+                    'key' => 'element1',
+                    'label' => 'Element 1',
+                    'sorting' => '1',
+                ],
+                'fields' => [
+                    [
+                        'key' => 'tx_mask_timestamp',
+                        'label' => 'Timestamp',
+                        'description' => '',
+                        'name' => 'timestamp',
+                        'tca' => [
+                            'config.eval.date' => 1,
+                            'config.range.lower' => '00:00 01.01.2021',
+                            'config.range.upper' => '00:00 15.01.2021',
+                        ],
+                    ],
+                ],
+                'table' => 'tt_content',
+                'expected' => [
+                    'tt_content' => [
+                        'elements' => [
+                            'element1' => [
+                                'label' => 'Element 1',
+                                'key' => 'element1',
+                                'columns' => [
+                                    'tx_mask_timestamp',
+                                ],
+                                'columnsOverride' => [
+                                    'tx_mask_timestamp' => [
+                                        'config' => [
+                                            'renderType' => 'inputDateTime',
+                                            'eval' => 'date,int',
+                                            'range' => [
+                                                'lower' => 1609459200,
+                                                'upper' => 1610668800,
+                                            ],
+                                        ],
+                                        'key' => 'timestamp',
+                                        'fullKey' => 'tx_mask_timestamp',
+                                        'type' => 'timestamp',
+                                    ],
+                                ],
+                                'labels' => [
+                                    'Timestamp',
+                                ],
+                                'descriptions' => [
+                                    '',
+                                ],
+                                'sorting' => '1',
+                            ],
+                        ],
+                        'sql' => [
+                            'tx_mask_timestamp' => [
+                                'tt_content' => [
+                                    'tx_mask_timestamp' => 'int(10) unsigned DEFAULT \'0\' NOT NULL',
+                                ],
+                            ],
+                        ],
+                        'tca' => [
+                            'tx_mask_timestamp' => [
+                                'key' => 'timestamp',
+                                'fullKey' => 'tx_mask_timestamp',
+                                'type' => 'timestamp',
+                                'config' => [
+                                    'type' => 'input',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'isNew' => false,
+            ];
+        }
+
+        yield 'inline fields with no children are not added as new table' => [
+            'json' => [],
+            'element' => [
+                'label' => 'Element 1',
+                'key' => 'element1',
+                'sorting' => '1',
+            ],
+            'fields' => [
+                [
+                    'key' => 'tx_mask_inline_field',
+                    'name' => 'inline',
+                    'label' => 'Inline Field',
+                    'description' => 'Inline Field description',
+                ],
+            ],
+            'table' => 'tt_content',
+            'expected' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'label' => 'Element 1',
+                            'key' => 'element1',
+                            'columns' => [
+                                'tx_mask_inline_field',
+                            ],
+                            'labels' => [
+                                'Inline Field',
+                            ],
+                            'descriptions' => [
+                                'Inline Field description',
+                            ],
+                            'sorting' => '1',
+                        ],
+                    ],
+                    'sql' => [
+                        'tx_mask_inline_field' => [
+                            'tt_content' => [
+                                'tx_mask_inline_field' => 'int(11) unsigned DEFAULT \'0\' NOT NULL',
+                            ],
+                        ],
+                    ],
+                    'tca' => [
+                        'tx_mask_inline_field' => [
+                            'key' => 'inline_field',
+                            'fullKey' => 'tx_mask_inline_field',
+                            'type' => 'inline',
+                            'config' => [
+                                'type' => 'inline',
+                                'foreign_table' => '--inlinetable--',
+                                'foreign_field' => 'parentid',
+                                'foreign_table_field' => 'parenttable',
+                                'foreign_sortby' => 'sorting',
+                                'appearance' => [
+                                    'enabledControls' => [
+                                        'dragdrop' => 1,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'isNew' => false,
+        ];
+
+        yield 'palettes are added' => [
+            'json' => [],
+            'element' => [
+                'label' => 'Element 1',
+                'key' => 'element1',
+                'sorting' => '1',
+            ],
+            'fields' => [
+                [
+                    'key' => 'tx_mask_palette',
+                    'label' => 'My Palette',
+                    'name' => 'palette',
+                    'fields' => [
+                        [
+                            'key' => 'header',
+                            'label' => 'Header',
+                            'name' => 'string',
+                            'description' => '',
+                        ],
+                        [
+                            'key' => 'tx_mask_field',
+                            'label' => 'Field',
+                            'name' => 'string',
+                            'description' => '',
+                        ],
+                    ],
+                ],
+            ],
+            'table' => 'tt_content',
+            'expected' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'label' => 'Element 1',
+                            'key' => 'element1',
+                            'columns' => [
+                                'tx_mask_palette',
+                            ],
+                            'labels' => [
+                                'My Palette',
+                            ],
+                            'descriptions' => [
+                                '',
+                            ],
+                            'sorting' => '1',
+                        ],
+                    ],
+                    'palettes' => [
+                        'tx_mask_palette' => [
+                            'label' => 'My Palette',
+                            'description' => '',
+                            'showitem' => ['header', 'tx_mask_field'],
+                        ],
+                    ],
+                    'sql' => [
+                        'tx_mask_field' => [
+                            'tt_content' => [
+                                'tx_mask_field' => 'varchar(255) DEFAULT \'\' NOT NULL',
+                            ],
+                        ],
+                    ],
+                    'tca' => [
+                        'tx_mask_palette' => [
+                            'config' => [
+                                'type' => 'palette',
+                            ],
+                            'key' => 'palette',
+                            'fullKey' => 'tx_mask_palette',
+                            'type' => 'palette',
+                        ],
+                        'tx_mask_field' => [
+                            'config' => [
+                                'type' => 'input',
+                            ],
+                            'type' => 'string',
+                            'key' => 'field',
+                            'fullKey' => 'tx_mask_field',
+                            'inlineParent' => [
+                                'element1' => 'tx_mask_palette',
+                            ],
+                            'label' => [
+                                'element1' => 'Field',
+                            ],
+                            'description' => [
+                                'element1' => '',
+                            ],
+                            'order' => [
+                                'element1' => 2,
+                            ],
+                            'inPalette' => 1,
+                        ],
+                        'header' => [
+                            'key' => 'header',
+                            'fullKey' => 'header',
+                            'type' => 'string',
+                            'inlineParent' => [
+                                'element1' => 'tx_mask_palette',
+                            ],
+                            'label' => [
+                                'element1' => 'Header',
+                            ],
+                            'description' => [
+                                'element1' => '',
+                            ],
+                            'order' => [
+                                'element1' => 1,
+                            ],
+                            'coreField' => 1,
+                            'inPalette' => 1,
+                        ],
+                    ],
+                ],
+            ],
+            'isNew' => false,
+        ];
+
+        yield 'empty palettes are added' => [
+            'json' => [],
+            'element' => [
+                'label' => 'Element 1',
+                'key' => 'element1',
+                'sorting' => '1',
+            ],
+            'fields' => [
+                [
+                    'key' => 'tx_mask_palette',
+                    'label' => 'My Palette',
+                    'name' => 'palette',
+                    'fields' => [],
+                ],
+            ],
+            'table' => 'tt_content',
+            'expected' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'label' => 'Element 1',
+                            'key' => 'element1',
+                            'columns' => [
+                                'tx_mask_palette',
+                            ],
+                            'labels' => [
+                                'My Palette',
+                            ],
+                            'descriptions' => [
+                                '',
+                            ],
+                            'sorting' => '1',
+                        ],
+                    ],
+                    'palettes' => [
+                        'tx_mask_palette' => [
+                            'label' => 'My Palette',
+                            'description' => '',
+                            'showitem' => [],
+                        ],
+                    ],
+                    'tca' => [
+                        'tx_mask_palette' => [
+                            'config' => [
+                                'type' => 'palette',
+                            ],
+                            'key' => 'palette',
+                            'fullKey' => 'tx_mask_palette',
+                            'type' => 'palette',
+                        ],
+                    ],
+                ],
+            ],
+            'isNew' => false,
+        ];
+
+        yield 'Fields in palette of inline field point directly to inline table' => [
+            'json' => [],
+            'element' => [
+                'label' => 'Element 1',
+                'key' => 'element1',
+                'sorting' => '1',
+            ],
+            'fields' => [
+                [
+                    'key' => 'tx_mask_inline',
+                    'label' => 'Inline Field',
+                    'description' => '',
+                    'name' => 'inline',
+                    'fields' => [
+                        [
+                            'key' => 'tx_mask_palette',
+                            'label' => 'My Palette',
+                            'description' => '',
+                            'name' => 'palette',
+                            'fields' => [
+                                [
+                                    'key' => 'tx_mask_field',
+                                    'label' => 'Field',
+                                    'description' => '',
+                                    'name' => 'string',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'table' => 'tt_content',
+            'expected' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'label' => 'Element 1',
+                            'key' => 'element1',
+                            'columns' => [
+                                'tx_mask_inline',
+                            ],
+                            'labels' => [
+                                'Inline Field',
+                            ],
+                            'descriptions' => [
+                                '',
+                            ],
+                            'sorting' => '1',
+                        ],
+                    ],
+                    'sql' => [
+                        'tx_mask_inline' => [
+                            'tt_content' => [
+                                'tx_mask_inline' => 'int(11) unsigned DEFAULT \'0\' NOT NULL',
+                            ],
+                        ],
+                    ],
+                    'tca' => [
+                        'tx_mask_inline' => [
+                            'config' => [
+                                'type' => 'inline',
+                                'foreign_table' => '--inlinetable--',
+                                'foreign_field' => 'parentid',
+                                'foreign_table_field' => 'parenttable',
+                                'foreign_sortby' => 'sorting',
+                                'appearance' => [
+                                    'enabledControls' => [
+                                        'dragdrop' => 1,
+                                    ],
+                                ],
+                            ],
+                            'key' => 'inline',
+                            'fullKey' => 'tx_mask_inline',
+                            'type' => 'inline',
+                        ],
+                    ],
+                ],
+                'tx_mask_inline' => [
+                    'palettes' => [
+                        'tx_mask_palette' => [
+                            'label' => 'My Palette',
+                            'description' => '',
+                            'showitem' => ['tx_mask_field'],
+                        ],
+                    ],
+                    'sql' => [
+                        'tx_mask_field' => [
+                            'tx_mask_inline' => [
+                                'tx_mask_field' => 'varchar(255) DEFAULT \'\' NOT NULL',
+                            ],
+                        ],
+                    ],
+                    'tca' => [
+                        'tx_mask_palette' => [
+                            'config' => [
+                                'type' => 'palette',
+                            ],
+                            'key' => 'palette',
+                            'fullKey' => 'tx_mask_palette',
+                            'description' => '',
+                            'type' => 'palette',
+                            'inlineParent' => 'tx_mask_inline',
+                            'label' => 'My Palette',
+                            'order' => 1,
+                        ],
+                        'tx_mask_field' => [
+                            'config' => [
+                                'type' => 'input',
+                            ],
+                            'type' => 'string',
+                            'key' => 'field',
+                            'fullKey' => 'tx_mask_field',
+                            'description' => '',
+                            'inlineParent' => 'tx_mask_palette',
+                            'label' => 'Field',
+                            'order' => 1,
+                            'inPalette' => 1,
+                        ],
+                    ],
+                ],
+            ],
+            'isNew' => false,
+        ];
+
+        yield 'existing custom field in another element added freshly to palette' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'columns' => [
+                                'tx_mask_palette_1',
+                            ],
+                            'labels' => [
+                                'Palette 1',
+                            ],
+                            'descriptions' => [
+                                '',
+                            ],
+                            'key' => 'element1',
+                            'label' => 'Element 1',
+                            'sorting' => '0',
+                        ],
+                    ],
+                    'palettes' => [
+                        'tx_mask_palette_1' => [
+                            'label' => 'Palette 1',
+                            'description' => '',
+                            'showitem' => ['tx_mask_field_1', 'header'],
+                        ],
+                    ],
+                    'sql' => [
+                        'tx_mask_field_1' => [
+                            'tt_content' => [
+                                'tx_mask_field_1' => 'varchar(255) DEFAULT \'\' NOT NULL',
+                            ],
+                        ],
+                    ],
+                    'tca' => [
+                        'tx_mask_palette_1' => [
+                            'config' => [
+                                'type' => 'palette',
+                            ],
+                            'key' => 'palette_1',
+                            'type' => 'palette',
+                        ],
+                        'tx_mask_field_1' => [
+                            'config' => [
+                                'type' => 'input',
+                            ],
+                            'key' => 'field_1',
+                            'inPalette' => '1',
+                            'inlineParent' => [
+                                'element1' => 'tx_mask_palette_1',
+                            ],
+                            'label' => [
+                                'element1' => 'Field 1 in Element 1',
+                            ],
+                            'description' => [
+                                'element1' => '',
+                            ],
+                            'order' => [
+                                'element1' => 1,
+                            ],
+                            'type' => 'string',
+                        ],
+                        'header' => [
+                            'key' => 'header',
+                            'inPalette' => '1',
+                            'inlineParent' => [
+                                'element1' => 'tx_mask_palette_1',
+                            ],
+                            'label' => [
+                                'element1' => 'Header in Element 1',
+                            ],
+                            'description' => [
+                                'element1' => '',
+                            ],
+                            'order' => [
+                                'element1' => 2,
+                            ],
+                            'coreField' => '1',
+                            'type' => 'string',
+                        ],
+                    ],
+                ],
+            ],
+            'element' => [
+                'label' => 'Element 2',
+                'key' => 'element2',
+                'sorting' => '1',
+            ],
+            'fields' => [
+                [
+                    'key' => 'tx_mask_palette_2',
+                    'label' => 'Palette 2',
+                    'name' => 'palette',
+                    'fields' => [
+                        [
+                            'key' => 'tx_mask_field_1',
+                            'label' => 'Field 1 in Element 2',
+                            'description' => '',
+                            'name' => 'string',
+                        ],
+                        [
+                            'key' => 'header',
+                            'label' => 'Header in Element 2',
+                            'description' => '',
+                            'name' => 'string',
+                        ],
+                    ],
+                ],
+            ],
+            'table' => 'tt_content',
+            'expected' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'label' => 'Element 1',
+                            'key' => 'element1',
+                            'shortLabel' => '',
+                            'description' => '',
+                            'icon' => '',
+                            'color' => '',
+                            'columns' => [
+                                'tx_mask_palette_1',
+                            ],
+                            'labels' => [
+                                'Palette 1',
+                            ],
+                            'descriptions' => [
+                                '',
+                            ],
+                            'sorting' => 0,
+                            'colorOverlay' => '',
+                            'iconOverlay' => '',
+                        ],
+                        'element2' => [
+                            'label' => 'Element 2',
+                            'key' => 'element2',
+                            'columns' => [
+                                'tx_mask_palette_2',
+                            ],
+                            'labels' => [
+                                'Palette 2',
+                            ],
+                            'descriptions' => [
+                                '',
+                            ],
+                            'sorting' => '1',
+                        ],
+                    ],
+                    'palettes' => [
+                        'tx_mask_palette_1' => [
+                            'label' => 'Palette 1',
+                            'description' => '',
+                            'showitem' => ['tx_mask_field_1', 'header'],
+                        ],
+                        'tx_mask_palette_2' => [
+                            'label' => 'Palette 2',
+                            'description' => '',
+                            'showitem' => ['tx_mask_field_1', 'header'],
+                        ],
+                    ],
+                    'sql' => [
+                        'tx_mask_field_1' => [
+                            'tt_content' => [
+                                'tx_mask_field_1' => 'varchar(255) DEFAULT \'\' NOT NULL',
+                            ],
+                        ],
+                    ],
+                    'tca' => [
+                        'tx_mask_palette_1' => [
+                            'config' => [
+                                'type' => 'palette',
+                            ],
+                            'key' => 'palette_1',
+                            'fullKey' => 'tx_mask_palette_1',
+                            'type' => 'palette',
+                        ],
+                        'tx_mask_palette_2' => [
+                            'config' => [
+                                'type' => 'palette',
+                            ],
+                            'key' => 'palette_2',
+                            'fullKey' => 'tx_mask_palette_2',
+                            'type' => 'palette',
+                        ],
+                        'tx_mask_field_1' => [
+                            'config' => [
+                                'type' => 'input',
+                            ],
+                            'key' => 'field_1',
+                            'fullKey' => 'tx_mask_field_1',
+                            'inlineParent' => [
+                                'element1' => 'tx_mask_palette_1',
+                                'element2' => 'tx_mask_palette_2',
+                            ],
+                            'inPalette' => 1,
+                            'label' => [
+                                'element1' => 'Field 1 in Element 1',
+                                'element2' => 'Field 1 in Element 2',
+                            ],
+                            'description' => [
+                                'element1' => '',
+                                'element2' => '',
+                            ],
+                            'order' => [
+                                'element1' => 1,
+                                'element2' => 1,
+                            ],
+                            'type' => 'string',
+                        ],
+                        'header' => [
+                            'key' => 'header',
+                            'fullKey' => 'header',
+                            'inPalette' => 1,
+                            'inlineParent' => [
+                                'element1' => 'tx_mask_palette_1',
+                                'element2' => 'tx_mask_palette_2',
+                            ],
+                            'label' => [
+                                'element1' => 'Header in Element 1',
+                                'element2' => 'Header in Element 2',
+                            ],
+                            'description' => [
+                                'element1' => '',
+                                'element2' => '',
+                            ],
+                            'order' => [
+                                'element1' => 2,
+                                'element2' => 2,
+                            ],
+                            'coreField' => 1,
+                            'type' => 'string',
+                        ],
+                    ],
+                ],
+            ],
+            'isNew' => false,
+        ];
+
+        yield 'New content element added as last sorting' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'label' => 'Element 1',
+                            'key' => 'element1',
+                            'shortLabel' => '',
+                            'description' => '',
+                            'icon' => '',
+                            'color' => '#000000',
+                            'sorting' => '0',
+                        ],
+                        'element2' => [
+                            'label' => 'Element 2',
+                            'key' => 'element2',
+                            'shortLabel' => '',
+                            'description' => '',
+                            'icon' => '',
+                            'color' => '#000000',
+                            'sorting' => '2',
+                        ],
+                    ],
+                ],
+            ],
+            'element' => [
+                'label' => 'Element 3',
+                'key' => 'element3',
+                'shortLabel' => '',
+                'description' => '',
+                'icon' => '',
+                'color' => '#000000',
+            ],
+            'fields' => [],
+            'table' => 'tt_content',
+            'expected' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'label' => 'Element 1',
+                            'key' => 'element1',
+                            'shortLabel' => '',
+                            'description' => '',
+                            'icon' => '',
+                            'color' => '#000000',
+                            'columns' => [],
+                            'labels' => [],
+                            'descriptions' => [],
+                            'sorting' => '0',
+                            'colorOverlay' => '',
+                            'iconOverlay' => '',
+                        ],
+                        'element2' => [
+                            'label' => 'Element 2',
+                            'key' => 'element2',
+                            'shortLabel' => '',
+                            'description' => '',
+                            'icon' => '',
+                            'color' => '#000000',
+                            'columns' => [],
+                            'labels' => [],
+                            'descriptions' => [],
+                            'sorting' => '2',
+                            'colorOverlay' => '',
+                            'iconOverlay' => '',
+                        ],
+                        'element3' => [
+                            'label' => 'Element 3',
+                            'key' => 'element3',
+                            'shortLabel' => '',
+                            'description' => '',
+                            'icon' => '',
+                            'color' => '#000000',
+                            'sorting' => '3',
+                        ],
+                    ],
+                ],
+            ],
+            'isNew' => true,
+        ];
+
+        if ((new Typo3Version())->getMajorVersion() > 11) {
+            yield 'Array like TCA fields are not replaced when used in other elements' => [
+                'json' => [
+                    'tt_content' => [
+                        'elements' => [
+                            'element1' => [
+                                'label' => 'Element 1',
+                                'key' => 'element1',
+                                'shortLabel' => '',
+                                'description' => '',
+                                'icon' => '',
+                                'color' => '#000000',
+                                'sorting' => '1',
+                                'columns' => [
+                                    'tx_mask_select',
+                                ],
+                                'columnsOverride' => [
+                                    'tx_mask_select' => [
+                                        'key' => 'select',
+                                        'fullKey' => 'tx_mask_select',
+                                        'type' => 'select',
+                                        'config' => [
+                                            'renderType' => 'selectSingle',
+                                            'items' => [
+                                                [
+                                                    'label' => 'Item 1',
+                                                    'value' => '1',
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                                'labels' => [
+                                    'Select 1',
+                                ],
+                                'descriptions' => [
+                                    '',
+                                ],
+                            ],
+                            'element2' => [
+                                'label' => 'Element 2',
+                                'key' => 'element2',
+                                'shortLabel' => '',
+                                'description' => '',
+                                'icon' => '',
+                                'color' => '#000000',
+                                'sorting' => '2',
+                                'columns' => [
+                                    'tx_mask_select',
+                                ],
+                                'columnsOverride' => [
+                                    'tx_mask_select' => [
+                                        'key' => 'select',
+                                        'fullKey' => 'tx_mask_select',
+                                        'type' => 'select',
+                                        'renderType' => 'selectSingle',
+                                        'config' => [
+                                            'items' => [
+                                                [
+                                                    'label' => 'Item 1',
+                                                    'value' => '1',
+                                                ],
+                                            ],
+                                            'renderType' => 'selectSingle',
+                                        ],
+                                    ],
+                                ],
+                                'labels' => [
+                                    'Select 1',
+                                ],
+                                'descriptions' => [
+                                    '',
+                                ],
+                            ],
+                        ],
+                        'tca' => [
+                            'tx_mask_select' => [
+                                'key' => 'select',
+                                'fullKey' => 'tx_mask_select',
+                                'type' => 'select',
+                                'config' => [
+                                    'type' => 'select',
+                                    'items' => [
+                                        [
+                                            'label' => 'Item 1',
+                                            'value' => '1',
+                                        ],
+                                        [
+                                            'label' => 'Item 2',
+                                            'value' => '2',
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'element' => [
+                    'label' => 'Element 2',
+                    'key' => 'element2',
+                    'shortLabel' => '',
+                    'description' => '',
+                    'icon' => '',
+                    'color' => '#000000',
+                ],
+                'fields' => [
+                    'tx_mask_select' => [
+                        'key' => 'tx_mask_select',
+                        'label' => 'Select 1',
+                        'description' => '',
+                        'name' => 'select',
+                        'tca' => [
+                            'config.items' => [
+                                [
+                                    'label' => 'Item 1',
+                                    'value' => '1',
+                                ],
+                                [
+                                    'label' => 'Item 2',
+                                    'value' => '2',
+                                ],
+                            ],
+                            'config.renderType' => 'selectSingle',
+                        ],
+                    ],
+                ],
+                'table' => 'tt_content',
+                'expected' => [
+                    'tt_content' => [
+                        'elements' => [
+                            'element1' => [
+                                'label' => 'Element 1',
+                                'key' => 'element1',
+                                'shortLabel' => '',
+                                'description' => '',
+                                'icon' => '',
+                                'color' => '#000000',
+                                'sorting' => 1,
+                                'columns' => [
+                                    'tx_mask_select',
+                                ],
+                                'columnsOverride' => [
+                                    'tx_mask_select' => [
+                                        'key' => 'select',
+                                        'type' => 'select',
+                                        'fullKey' => 'tx_mask_select',
+                                        'config' => [
+                                            'renderType' => 'selectSingle',
+                                            'items' => [
+                                                [
+                                                    'label' => 'Item 1',
+                                                    'value' => '1',
+                                                    'icon' => '',
+                                                    'group' => '',
+                                                    'description' => '',
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                                'labels' => [
+                                    'Select 1',
+                                ],
+                                'descriptions' => [
+                                    '',
+                                ],
+                                'colorOverlay' => '',
+                                'iconOverlay' => '',
+                            ],
+                            'element2' => [
+                                'label' => 'Element 2',
+                                'key' => 'element2',
+                                'shortLabel' => '',
+                                'description' => '',
+                                'icon' => '',
+                                'color' => '#000000',
+                                'columns' => [
+                                    'tx_mask_select',
+                                ],
+                                'columnsOverride' => [
+                                    'tx_mask_select' => [
+                                        'key' => 'select',
+                                        'fullKey' => 'tx_mask_select',
+                                        'type' => 'select',
+                                        'config' => [
+                                            'renderType' => 'selectSingle',
+                                            'items' => [
+                                                [
+                                                    'label' => 'Item 1',
+                                                    'value' => '1',
+                                                    'icon' => '',
+                                                    'group' => '',
+                                                    'description' => '',
+                                                ],
+                                                [
+                                                    'label' => 'Item 2',
+                                                    'value' => '2',
+                                                    'icon' => '',
+                                                    'group' => '',
+                                                    'description' => '',
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                                'labels' => [
+                                    'Select 1',
+                                ],
+                                'descriptions' => [
+                                    '',
+                                ],
+                            ],
+                        ],
+                        'tca' => [
+                            'tx_mask_select' => [
+                                'key' => 'select',
+                                'fullKey' => 'tx_mask_select',
+                                'type' => 'select',
+                                'config' => [
+                                    'type' => 'select',
+                                ],
+                            ],
+                        ],
+                        'sql' => [
+                            'tx_mask_select' => [
+                                'tt_content' => [
+                                    'tx_mask_select' => 'varchar(255) DEFAULT \'\' NOT NULL',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'isNew' => false,
+            ];
+        }
+    }
+
+    /**
+     * @dataProvider addDataReusingProvider
+     * @test
+     */
+    public function addReusing(array $json, array $element, array $fields, string $table, array $expected, bool $isNew): void
+    {
+        $storageRepository = $this->createStorageRepository($json, true);
+        $this->registerPackageManager();
+        self::assertEquals($expected, $storageRepository->add($element, $fields, $table, $isNew));
     }
 }

@@ -26,6 +26,7 @@ use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Loader\LoaderInterface;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\TcaConverter;
+use TYPO3\CMS\Core\Configuration\Features;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 
@@ -40,6 +41,7 @@ class StorageRepository implements SingletonInterface
     protected LoaderInterface $loader;
     protected TableDefinitionCollection $tableDefinitionCollection;
     protected ConfigurationLoaderInterface $configurationLoader;
+    protected Features $features;
 
     /**
      * @var array<string, mixed>
@@ -49,11 +51,13 @@ class StorageRepository implements SingletonInterface
     public function __construct(
         LoaderInterface $loader,
         TableDefinitionCollection $tableDefinitionCollection,
-        ConfigurationLoaderInterface $configurationLoader
+        ConfigurationLoaderInterface $configurationLoader,
+        Features $features
     ) {
         $this->loader = $loader;
         $this->tableDefinitionCollection = $tableDefinitionCollection;
         $this->configurationLoader = $configurationLoader;
+        $this->features = $features;
     }
 
     /**
@@ -212,18 +216,22 @@ class StorageRepository implements SingletonInterface
                 $jsonAdd[$defaultTable]['elements'][$elementKey]['descriptions'][] = $field['description'] ?? '';
             }
 
-            // Add key and config to mask field
-            $fieldAdd = [];
+            // Add config to mask field
+            $defaults = $this->configurationLoader->loadDefaults();
+            $field['tca'] = $field['tca'] ?? [];
+            ArrayUtility::mergeRecursiveWithOverrule($field['tca'], $defaults[$field['name']]['tca_out'] ?? []);
+            $tcaConfig = TcaConverter::convertFlatTcaToArray($field['tca']);
+
+            // Add key to mask field
             $isMaskField = AffixUtility::hasMaskPrefix($field['key']);
+            $fieldAdd = [];
             if ($isMaskField) {
-                $defaults = $this->configurationLoader->loadDefaults();
-                $field['tca'] = $field['tca'] ?? [];
-                ArrayUtility::mergeRecursiveWithOverrule($field['tca'], $defaults[$field['name']]['tca_out'] ?? []);
-                $fieldAdd = TcaConverter::convertFlatTcaToArray($field['tca']);
                 $fieldAdd['key'] = AffixUtility::removeMaskPrefix($field['key']);
             } else {
-                $fieldAdd['key'] = $field['key'];
-                $fieldAdd['coreField'] = 1;
+                $fieldAdd = [
+                    'key' => $field['key'],
+                    'coreField' => 1,
+                ];
             }
 
             // Add the full key in addition to the abbreviated key.
@@ -233,21 +241,21 @@ class StorageRepository implements SingletonInterface
             $fieldAdd['type'] = $field['name'];
 
             // Convert range values of timestamp to integers
-            if ($isMaskField && $field['name'] === FieldType::TIMESTAMP) {
-                $default = $fieldAdd['config']['default'] ?? false;
+            if (FieldType::cast($fieldAdd['type'])->equals(FieldType::TIMESTAMP)) {
+                $default = $tcaConfig['config']['default'] ?? false;
                 if ($default) {
                     $date = new \DateTime($default);
-                    $fieldAdd['config']['default'] = $date->getTimestamp();
+                    $tcaConfig['config']['default'] = $date->getTimestamp();
                 }
-                $rangeLower = $fieldAdd['config']['range']['lower'] ?? false;
+                $rangeLower = $tcaConfig['config']['range']['lower'] ?? false;
                 if ($rangeLower) {
                     $date = new \DateTime($rangeLower);
-                    $fieldAdd['config']['range']['lower'] = $date->getTimestamp();
+                    $tcaConfig['config']['range']['lower'] = $date->getTimestamp();
                 }
-                $rangeUpper = $fieldAdd['config']['range']['upper'] ?? false;
+                $rangeUpper = $tcaConfig['config']['range']['upper'] ?? false;
                 if ($rangeUpper) {
                     $date = new \DateTime($rangeUpper);
-                    $fieldAdd['config']['range']['upper'] = $date->getTimestamp();
+                    $tcaConfig['config']['range']['upper'] = $date->getTimestamp();
                 }
             }
 
@@ -290,7 +298,34 @@ class StorageRepository implements SingletonInterface
             }
 
             // Add tca entry for field
-            $jsonAdd[$table]['tca'][$field['key']] = $fieldAdd;
+            unset($jsonAdd[$table]['elements'][$elementKey]['columnsOverride'][$field['key']]);
+
+            // Override shared fields when:
+            // The feature overrideSharedFields is enabled OR it is a core field
+            // AND the table is tt_content (does not work for pages).
+            // AND we are on root level AND the field type is able to be shared.
+            $isCoreFieldOrOverrideSharedFieldsIsEnabled = !$isMaskField || $this->features->isFeatureEnabled('overrideSharedFields');
+            $overrideSharedField =
+                $isCoreFieldOrOverrideSharedFieldsIsEnabled
+                && $table === 'tt_content'
+                && $onRootLevel
+                && FieldType::cast($fieldAdd['type'])->canBeShared();
+
+            $combinedFieldAdd = array_merge($fieldAdd, $tcaConfig);
+            $tcaFieldDefinition = TcaFieldDefinition::createFromFieldArray($combinedFieldAdd);
+            if ($overrideSharedField && $isMaskField) {
+                $jsonAdd[$table]['tca'][$field['key']] = $tcaFieldDefinition->getMinimalDefinition();
+            } elseif (!$overrideSharedField && $isMaskField) {
+                $jsonAdd[$table]['tca'][$field['key']] = $combinedFieldAdd;
+            } else {
+                $jsonAdd[$table]['tca'][$field['key']] = $fieldAdd;
+            }
+            if ($overrideSharedField) {
+                $overrideDefinition = $tcaFieldDefinition->getOverridesDefinition();
+                if ($overrideDefinition['config'] !== []) {
+                    $jsonAdd[$table]['elements'][$elementKey]['columnsOverride'][$field['key']] = $overrideDefinition;
+                }
+            }
 
             // Resolve nested fields
             if (isset($field['fields'])) {
@@ -331,7 +366,11 @@ class StorageRepository implements SingletonInterface
             $fieldType = $this->tableDefinitionCollection->getFieldType($field->fullKey, $table);
             if ($fieldType->isParentField()) {
                 // Recursively delete all inline field if possible
-                foreach ($this->tableDefinitionCollection->loadInlineFields($field->fullKey, $this->currentKey) as $inlineField) {
+                $elementTcaDefinition = $this->tableDefinitionCollection->loadElement($table, $this->currentKey);
+                $element = $elementTcaDefinition instanceof ElementTcaDefinition
+                    ? $elementTcaDefinition->elementDefinition
+                    : null;
+                foreach ($this->tableDefinitionCollection->loadInlineFields($field->fullKey, $this->currentKey, $element) as $inlineField) {
                     $parentTable = $inlineField->inPalette ? $table : $inlineField->inlineParent;
                     $json = $this->removeField($parentTable, $inlineField, $json, $addedFields);
                 }

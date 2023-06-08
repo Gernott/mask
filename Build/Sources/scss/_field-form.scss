@@ -8,4 +8,27 @@
         position: sticky;
         top: 10px;
     }
+
+    .mask-shared-info {
+        font-weight: bold;
+        border-left: 3px solid #6daae0;
+        background: #ebf3fb;
+        padding: 4px 10px;
+
+        &:before {
+            font-family: FontAwesome;
+            font-size: 12.5px;
+            text-align: center;
+            content: "\f06a";
+            color: #6daae0;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        small {
+            display: block;
+            font-weight: initial;
+            margin-left: 20px;
+        }
+    }
 }

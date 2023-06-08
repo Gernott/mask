@@ -6,128 +6,129 @@ import ItemList from './item-list.js';
 import SelectMultipleSideBySide from './select-multiple-side-by-side.js';
 
 export default Vue.component(
-      'form-field',
-      {
-        components: {
-          Colorpicker,
-          KeyValueList,
-          ItemList,
-          SelectMultipleSideBySide,
-        },
-        props: {
-          column: Number,
-          tcaFields: Object,
-          onlineMedia: Array,
-          linkHandlerList: Array,
-          tcaKey: String,
-          global: Object,
-          language: Object,
-          icons: Object,
-          fieldErrors: Object,
-          forceRenderer: Function,
-          id: String
-        },
-        beforeMount: function () {
-          // Load richtextConfiguration with presets
-          if (this.tcaKey === 'config.richtextConfiguration') {
-            this.tcaFields[this.tcaKey].items = this.global.richtextConfiguration;
-          }
-        },
-        mounted: function () {
-          // Initialize datepicker.
-          if ((this.tcaKey in this.$refs) && this.$refs[this.tcaKey].classList.contains('t3js-datetimepicker')) {
-            this.bootDateTimePicker();
-          }
+  'form-field',
+  {
+    components: {
+      Colorpicker,
+      KeyValueList,
+      ItemList,
+      SelectMultipleSideBySide,
+    },
+    props: {
+      column: Number,
+      tcaFields: Object,
+      onlineMedia: Array,
+      linkHandlerList: Array,
+      tcaKey: String,
+      global: Object,
+      language: Object,
+      icons: Object,
+      fieldErrors: Object,
+      forceRenderer: Function,
+      isAllowedToOverride: Function,
+      id: String
+    },
+    beforeMount: function () {
+      // Load richtextConfiguration with presets
+      if (this.tcaKey === 'config.richtextConfiguration') {
+        this.tcaFields[this.tcaKey].items = this.global.richtextConfiguration;
+      }
+    },
+    mounted: function () {
+      // Initialize datepicker.
+      if ((this.tcaKey in this.$refs) && this.$refs[this.tcaKey].classList.contains('t3js-datetimepicker')) {
+        this.bootDateTimePicker();
+      }
 
-          if (this.global.activeField.name === 'timestamp' && this.tcaKey === 'config.default') {
-            this.$watch(
-                function () {
-                  return this.global.activeField.tca['config.eval'] ?? this.global.activeField.tca['config.format'];
-                },
-                function () {
-                  // Destroy bootstrap datepicker and remove data attributes added by TYPO3 DateTimePicker
-                  this.forceRenderer();
-                }
-            );
+      if (this.global.activeField.name === 'timestamp' && this.tcaKey === 'config.default') {
+        this.$watch(
+          function () {
+            return this.global.activeField.tca['config.eval'] ?? this.global.activeField.tca['config.format'];
+          },
+          function () {
+            // Destroy bootstrap datepicker and remove data attributes added by TYPO3 DateTimePicker
+            this.forceRenderer();
           }
-        },
-        methods: {
-          bootDateTimePicker: function () {
-            DateTimePicker.initialize(this.$refs[this.tcaKey]);
-          },
-          switchDependsOn: function (tcaKey, dependsOn) {
-            if (!!dependsOn && this.global.activeField.tca[tcaKey] === this.valueOn) {
-              this.global.activeField.tca[dependsOn] = 1;
-            }
-          },
-          checkPrefixLangTitle: function (key) {
-            if (key !== 'prefixLangTitle') {
-              return true;
-            }
-            return ['string', 'text', 'richtext'].includes(this.global.activeField.name);
-          },
-        },
-        computed: {
-          field: function () {
-            if (typeof this.tcaFields[this.tcaKey] === 'undefined') {
-              return {available: false};
-            }
-            if (this.global.activeField.name in this.tcaFields[this.tcaKey]) {
-              return this.tcaFields[this.tcaKey][this.global.activeField.name];
-            } else if ('other' in this.tcaFields[this.tcaKey]) {
-              return this.tcaFields[this.tcaKey]['other'];
-            } else {
-              return this.tcaFields[this.tcaKey];
-            }
-          },
-          valueOn: function () {
-            return 'valueOn' in this.field ? this.field.valueOn : 1;
-          },
-          valueOff: function () {
-            return 'valueOff' in this.field ? this.field.valueOff : 0;
-          },
-          type: function () {
-            if (this.field.type !== 'variable') {
-              return this.field.type;
-            }
+        );
+      }
+    },
+    methods: {
+      bootDateTimePicker: function () {
+        DateTimePicker.initialize(this.$refs[this.tcaKey]);
+      },
+      switchDependsOn: function (tcaKey, dependsOn) {
+        if (!!dependsOn && this.global.activeField.tca[tcaKey] === this.valueOn) {
+          this.global.activeField.tca[dependsOn] = 1;
+        }
+      },
+      checkPrefixLangTitle: function (key) {
+        if (key !== 'prefixLangTitle') {
+          return true;
+        }
+        return ['string', 'text', 'richtext'].includes(this.global.activeField.name);
+      },
+    },
+    computed: {
+      field: function () {
+        if (typeof this.tcaFields[this.tcaKey] === 'undefined') {
+          return {available: false};
+        }
+        if (this.global.activeField.name in this.tcaFields[this.tcaKey]) {
+          return this.tcaFields[this.tcaKey][this.global.activeField.name];
+        } else if ('other' in this.tcaFields[this.tcaKey]) {
+          return this.tcaFields[this.tcaKey]['other'];
+        } else {
+          return this.tcaFields[this.tcaKey];
+        }
+      },
+      valueOn: function () {
+        return 'valueOn' in this.field ? this.field.valueOn : 1;
+      },
+      valueOff: function () {
+        return 'valueOff' in this.field ? this.field.valueOff : 0;
+      },
+      type: function () {
+        if (this.field.type !== 'variable') {
+          return this.field.type;
+        }
 
-            if ('types' in this.field) {
-              if (this.global.activeField.name in this.field.types) {
-                return this.field.types[this.global.activeField.name];
-              }
-              return 'text';
-            }
-
-            const formFieldMap = {
-              'integer': 'number',
-              'float': 'number',
-              'date': 'date',
-              'datetime': 'date',
-              'timestamp': 'date',
-              'text': 'textarea',
-              'richtext': 'textarea',
-              'colorpicker': 'colorpicker'
-            };
-            if (this.global.activeField.name in formFieldMap) {
-              return formFieldMap[this.global.activeField.name];
-            }
-            return 'text';
-          },
-          dateType: function () {
-            if (['date', 'datetime'].includes(this.global.activeField.name)) {
-              return this.global.activeField.name;
-            }
-            if (this.global.activeField.name === 'timestamp') {
-              return this.global.activeField.tca['config.eval'] ?? this.global.activeField.tca['config.format'];
-            }
-            return 'date';
-          },
-          hasError: function () {
-            return (this.fieldErrors.emptyGroupAllowedFields.includes(this.global.activeField) && this.tcaKey === 'config.allowed')
-              || (this.fieldErrors.emptyRadioItems.includes(this.global.activeField) && this.tcaKey === 'config.items')
+        if ('types' in this.field) {
+          if (this.global.activeField.name in this.field.types) {
+            return this.field.types[this.global.activeField.name];
           }
-        },
-        template: `
+          return 'text';
+        }
+
+        const formFieldMap = {
+          'integer': 'number',
+          'float': 'number',
+          'date': 'date',
+          'datetime': 'date',
+          'timestamp': 'date',
+          'text': 'textarea',
+          'richtext': 'textarea',
+          'colorpicker': 'colorpicker'
+        };
+        if (this.global.activeField.name in formFieldMap) {
+          return formFieldMap[this.global.activeField.name];
+        }
+        return 'text';
+      },
+      dateType: function () {
+        if (['date', 'datetime'].includes(this.global.activeField.name)) {
+          return this.global.activeField.name;
+        }
+        if (this.global.activeField.name === 'timestamp') {
+          return this.global.activeField.tca['config.eval'] ?? this.global.activeField.tca['config.format'];
+        }
+        return 'date';
+      },
+      hasError: function () {
+        return (this.fieldErrors.emptyGroupAllowedFields.includes(this.global.activeField) && this.tcaKey === 'config.allowed')
+          || (this.fieldErrors.emptyRadioItems.includes(this.global.activeField) && this.tcaKey === 'config.items')
+      }
+    },
+    template: `
           <div v-if="field.available !== false" :class="['form-group', 'col-sm-12 col-xl-' + column, {'has-error': hasError}]">
             <label class="t3js-formengine-label form-label" :for="tcaKey">
                 {{ field.label }}
@@ -181,6 +182,10 @@ export default Vue.component(
                   </div>
                 </div>
               </div>
+              <p class="mask-shared-info" v-if="!isAllowedToOverride(this.tcaKey)">
+                {{ language.multiuseTitle }}
+                <small>{{ language.multiuseMessage }}</small>
+              </p>
             </div>
             <div v-if="type == 'cTypes'" class="form-control-wrap">
               <select-multiple-side-by-side v-model="global.activeField.tca[tcaKey]" :items="global.ctypes" :language="language" :version="global.typo3Version"/>
@@ -236,5 +241,5 @@ export default Vue.component(
             <item-list v-model="global.activeField.tca[tcaKey]" v-if="type == 'itemList'" :global="global" :tcaKey="tcaKey" :icons="icons" :tca-fields="tcaFields" :language="language"/>
           </div>
         `
-      }
-    );
+  }
+);

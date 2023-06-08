@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -19,15 +21,16 @@ use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Loader\LoaderInterface;
 use MASK\Mask\Tests\Unit\ConfigurationLoader\FakeConfigurationLoader;
+use TYPO3\CMS\Core\Configuration\Features;
 
 trait StorageRepositoryCreatorTrait
 {
-    protected function createStorageRepository(array $json): StorageRepository
+    protected function createStorageRepository(array $json, bool $reusingFieldsEnabled): StorageRepository
     {
         $loader = $this->createLoader($json);
         $configurationLoader = new FakeConfigurationLoader();
-
-        return new StorageRepository($loader, $loader->load(), $configurationLoader);
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['features']['overrideSharedFields'] = $reusingFieldsEnabled;
+        return new StorageRepository($loader, $loader->load(), $configurationLoader, new Features());
     }
 
     protected function createLoader(array $json): LoaderInterface

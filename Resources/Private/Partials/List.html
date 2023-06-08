@@ -55,6 +55,25 @@
             </div>
         </div>
         <div class="mask-elements__column mask-elements__column--templates">
+            <div class="mask-elements__header" v-if="Object.keys(features).length">
+                <div class="mask-elements__header-icon-wrap">
+                    <core:icon identifier="actions-cog-alt" size="{iconSize}"/>
+                    <div class="mask-elements__header-icon-label">
+                        <f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.all.features"/>
+                    </div>
+                </div>
+            </div>
+            <div class="mask-list__short-list" v-if="Object.keys(features).length">
+                <ul>
+                    <li v-for="feature in features">
+                        <i class="fa fa-lightbulb-o"></i>
+                        &nbsp;<a :href="feature.documentation" class="text-primary" target="_blank">{{ feature.title }}</a>:
+                        <span v-if="feature.state">enabled</span>
+                        <span v-if="!feature.state">disabled</span>
+                    </li>
+                </ul>
+            </div>
+
             <div class="mask-elements__header">
                 <div class="mask-elements__header-icon-wrap">
                     <core:icon identifier="mimetypes-x-backend_layout" size="{iconSize}"/>

@@ -503,6 +503,26 @@
   position: sticky;
   top: 10px;
 }
+.mask-field-form .mask-shared-info {
+  font-weight: bold;
+  border-left: 3px solid #6daae0;
+  background: #ebf3fb;
+  padding: 4px 10px;
+}
+.mask-field-form .mask-shared-info:before {
+  font-family: FontAwesome;
+  font-size: 12.5px;
+  text-align: center;
+  content: "\f06a";
+  color: #6daae0;
+  display: inline-block;
+  margin-right: 5px;
+}
+.mask-field-form .mask-shared-info small {
+  display: block;
+  font-weight: initial;
+  margin-left: 20px;
+}
 
 .mask-fields {
   background-color: #fafafa;
@@ -753,6 +773,14 @@
 .mask-list__header a:focus {
   color: #D4372F;
   text-decoration: none;
+}
+.mask-list__short-list {
+  padding: 10px;
+}
+.mask-list__short-list ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 .mask-list__logo-wrap {
   display: flex;
