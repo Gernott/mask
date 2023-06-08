@@ -169,7 +169,7 @@ class InlineHelper
             $content = $this->getRelations((string)($data[$field] ?? ''), $tcaFieldConfig['config']['foreign_table'], '', (int)$data['uid'], $table, $tcaFieldConfig['config'] ?? []);
             foreach ($content as $key => $element) {
                 if ($element) {
-                    $this->addIrreToData($element, 'tt_content', $cType, $originalTable);
+                    $this->addIrreToData($element, 'tt_content', $element['CType'], $originalTable);
                     $this->addFilesToData($element);
                     $content[$key] = $element;
                 }
