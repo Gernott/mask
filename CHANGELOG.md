@@ -4,6 +4,38 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [8.1.6] - 2023-06-08
+
+### Fixed
+- Properly resolve nested IRRE elements of type content (Thanks to Alexander Schnitzler) [#561](https://github.com/Gernott/mask/issues/561)
+
+## [8.1.5] - 2023-05-31
+
+### Fixed
+- Page Layouts not disappearing if added before first CE [#539](https://github.com/Gernott/mask/issues/539)
+- Do not render content element header twice [#557](https://github.com/Gernott/mask/issues/539)
+
+## [8.1.4] - 2023-05-26
+
+### Fixed
+- Add softref "typolink" for link fields (thanks to Rémy DANIEL) [#555](https://github.com/Gernott/mask/issues/555)
+
+## [8.1.3] - 2023-05-16
+
+### Fixed
+- maxitems no longer forced to 1 for File fields.
+
+## [8.1.2] - 2023-05-15
+
+### Fixed
+- Prevent error when `be:uri.editRecord` is used in preview template (Thanks to nitori) [#549](https://github.com/Gernott/mask/pull/549)
+
+## [8.1.1] - 2023-05-08
+
+### Fixed
+- Errors in module appear in notification again
+- Type Integer eval cleaned up
+
 ## [8.1.0] - 2023-05-02
 
 ### Added
