@@ -59,6 +59,8 @@ __________________
 | Page ids from where the in PageTS defined backend layouts should be loaded (comma separated).
 | Default: 0 (root-pid, all layouts are found)
 
+.. _extension-override-shared-fields:
+
 override_shared_fields
 ______________________
 

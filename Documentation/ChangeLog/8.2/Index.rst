@@ -1,5 +1,7 @@
 .. include:: ../../Includes.txt
 
+.. _mask-8.2:
+
 ================
 Mask version 8.2
 ================

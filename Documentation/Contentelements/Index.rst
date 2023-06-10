@@ -71,6 +71,7 @@ course Mask has not adapted (yet) all of the available functionality, but for th
 tackle day to day needs.
 
 .. _content-elements-shared-reuse:
+
 Share fields vs. override them
 ------------------------------
 

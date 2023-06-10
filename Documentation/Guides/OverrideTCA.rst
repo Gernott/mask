@@ -36,12 +36,14 @@ Example:
 
    $GLOBALS['TCA']['tt_content']['columns']['tx_mask_your_field']['config']['some_option'] = 'some_value';
 
-Furthermore, starting from mask version 8.2, you have the option to enable field reuse,
-allowing you to configure and reuse fields directly in the mask UI or through the JSON configuration.
-For more detailed information, please refer to the :ref`"Create Content Elements" section <content-elements-shared-reuse>`,
+Furthermore, starting from :ref:`Mask v8.2 <mask-8.2>`, you have the option to
+enable :ref:`Override Shared Fields <extension-override-shared-fields>`,
+allowing you to configure the same field differently per content element.
+For more detailed information, please refer to the :ref:`"Create Content Elements" section <content-elements-shared-reuse>`,
 where you can find additional guidance and instructions on this topic.
-With reusing fields feature enabled, Mask will automatically generate TCA columnsOverride
-for almost all available options, making it easier to configure and customize your elements.
+With overriding shared fields feature enabled, Mask will automatically generate
+TCA :php:`columnsOverride` for almost all available options, making it easier to
+configure and customize your elements.
 
 Fields in custom tables
 -----------------------
