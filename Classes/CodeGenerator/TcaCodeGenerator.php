@@ -479,9 +479,9 @@ class TcaCodeGenerator
         return $fileFieldTCAConfig;
     }
 
-    private static function reconfigureTCAConfig(TcaFieldDefinition $field, array $tcaConfig): array
+    private static function reconfigureTCAConfig(TcaFieldDefinition $field, array $tcaConfig, string $elementKey = ''): array
     {
-        $fieldType = $field->getFieldType();
+        $fieldType = $field->getFieldType($elementKey);
         $dbType = $field->realTca['config']['dbType'] ?? '';
         // Convert Date and Datetime default and ranges to timestamp
         if (in_array($dbType, ['date', 'datetime'])) {
@@ -559,7 +559,7 @@ class TcaCodeGenerator
                             $TCAColumnsOverrides[$table]['types'][$cType]['columnsOverrides'][$paletteField->fullKey]['description'] = $description;
                         }
                         if ($table === 'tt_content' && $element->hasColumnsOverride($paletteField->fullKey)) {
-                            $tcaConfig = $this->processOverrideTca($fieldDefinition, $element->getColumnsOverride($paletteField->fullKey));
+                            $tcaConfig = $this->processOverrideTca($fieldDefinition, $element->getColumnsOverride($paletteField->fullKey), $element->key);
                             $TCAColumnsOverrides[$table]['types'][$cType]['columnsOverrides'][$paletteField->fullKey]['config'] = $tcaConfig;
                         }
                     }
@@ -575,7 +575,7 @@ class TcaCodeGenerator
                     }
 
                     if ($table === 'tt_content' && $element->hasColumnsOverride($fieldDefinition->fullKey)) {
-                        $tcaConfig = $this->processOverrideTca($fieldDefinition, $element->getColumnsOverride($fieldDefinition->fullKey));
+                        $tcaConfig = $this->processOverrideTca($fieldDefinition, $element->getColumnsOverride($fieldDefinition->fullKey), $element->key);
                         $TCAColumnsOverrides[$table]['types'][$cType]['columnsOverrides'][$fieldDefinition->fullKey]['config'] = $tcaConfig;
                     }
                 }
@@ -585,12 +585,12 @@ class TcaCodeGenerator
         return $TCAColumnsOverrides;
     }
 
-    protected function processOverrideTca(TcaFieldDefinition $tcaFieldDefinition, TcaFieldDefinition $overrideTcaFieldDefinition): array
+    protected function processOverrideTca(TcaFieldDefinition $tcaFieldDefinition, TcaFieldDefinition $overrideTcaFieldDefinition, string $elementKey): array
     {
         $tcaConfig = $overrideTcaFieldDefinition->getOverridesDefinition();
-        $tcaConfig['config'] = self::reconfigureTCAConfig($tcaFieldDefinition, $tcaConfig['config']);
+        $tcaConfig['config'] = self::reconfigureTCAConfig($tcaFieldDefinition, $tcaConfig['config'], $elementKey);
         // File: Add file config.
-        if ($tcaFieldDefinition->getFieldType()->isFileReference()) {
+        if ($tcaFieldDefinition->getFieldType($elementKey)->isFileReference()) {
             $fileTca = $this->getFileTCAConfig(
                 $tcaFieldDefinition->getFieldType(),
                 $tcaFieldDefinition,
