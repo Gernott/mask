@@ -300,6 +300,7 @@ final class TcaFieldDefinition
             $fieldConfig['order'],
             $fieldConfig['inPalette'],
             $fieldConfig['coreField'],
+            $fieldConfig['bodytextTypeByElement'],
         );
         $fieldConfig['config'] = $overrideTcaConfig;
         return $fieldConfig;
