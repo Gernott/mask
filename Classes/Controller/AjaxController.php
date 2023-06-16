@@ -746,7 +746,7 @@ class AjaxController
             if ($table['ctrl']['hideTable'] ?? false) {
                 continue;
             }
-            $items[$tableKey] = $this->getLanguageService()->sL($table['ctrl']['title']);
+            $items[$tableKey] = $this->getLanguageService()->sL($table['ctrl']['title'] ?? $tableKey);
         }
 
         ksort($items);
