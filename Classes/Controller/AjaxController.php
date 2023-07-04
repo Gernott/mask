@@ -380,6 +380,7 @@ class AjaxController
                 'hidden' => $element->hidden ? 1 : 0,
                 'count' => $this->getElementCount($element->key),
                 'sorting' => $element->sorting,
+                'saveAndClose' => $element->saveAndClose ? 1 : 0,
             ];
         }
         $json['elements'] = $elements;
