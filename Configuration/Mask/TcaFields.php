@@ -430,7 +430,7 @@ return [
         'code' => 'range.lower',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/Range.html#columns-input-properties-range',
-            12 => 'ColumnsConfig/Type/Input/Properties/Range.html#columns-input-properties-range',
+            12 => 'ColumnsConfig/Type/Datetime/Properties/Range.html',
         ],
     ],
     'config.range.upper' => [
@@ -439,7 +439,7 @@ return [
         'code' => 'range.upper',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Input/Properties/Range.html#columns-input-properties-range',
-            12 => 'ColumnsConfig/Type/Input/Properties/Range.html#columns-input-properties-range',
+            12 => 'ColumnsConfig/Type/Datetime/Properties/Range.html',
         ],
     ],
     'config.slider.step' => [
