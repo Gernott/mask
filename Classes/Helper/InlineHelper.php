@@ -212,7 +212,12 @@ class InlineHelper
         $records = [];
         foreach ($relations as $relation) {
             $tableName = $relation['table'];
-            $translatedRecord = $pageRepository->getLanguageOverlay($tableName, $relation['record']);
+            $record = $relation['record'];
+            $pageRepository->versionOL($tableName, $record);
+            if (!is_array($record)) {
+                continue;
+            }
+            $translatedRecord = $pageRepository->getLanguageOverlay($tableName, $record);
             if ($translatedRecord !== null) {
                 $records[] = $translatedRecord;
             }
