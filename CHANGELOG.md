@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [8.2.4] - 2023-07-24
+
+### Fixed
+- Hidden restrictions applied for relations in Frontend [#568](https://github.com/Gernott/mask/issues/568)
+- Workspace overlays applied for relations
+- Links to TCA option range fixed for TYPO3 v12
+
 ## [8.2.3] - 2023-06-20
 
 ### Fixed
