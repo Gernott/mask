@@ -200,6 +200,13 @@ class InlineHelper
         $pageRepository = $this->getPageRepository();
         $relationHandler = GeneralUtility::makeInstance(RelationHandler::class);
         $relationHandler->start($uidList, $allowed, $mmTable, $uid, $table, $tcaFieldConf);
+        foreach (array_keys($relationHandler->tableArray) as $table) {
+            if (isset($GLOBALS['TCA'][$table])) {
+                $autoHiddenSelection = -1;
+                $ignoreWorkspaceFilter = ['pid' => true];
+                $relationHandler->additionalWhere[$table] = $pageRepository->enableFields($table, $autoHiddenSelection, $ignoreWorkspaceFilter);
+            }
+        }
         $relationHandler->getFromDB();
         $relations = $relationHandler->getResolvedItemArray();
         $records = [];
