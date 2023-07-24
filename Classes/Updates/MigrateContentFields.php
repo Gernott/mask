@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Updates;
 
+use Doctrine\DBAL\Exception\InvalidFieldNameException;
 use MASK\Mask\Definition\TableDefinition;
 use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Definition\TcaFieldDefinition;
@@ -84,11 +85,24 @@ class MigrateContentFields implements UpgradeWizardInterface
     public function updateNecessary(): bool
     {
         foreach ($this->tableDefinitionCollection as $tableDefinition) {
-            foreach ($tableDefinition->tca ?? [] as $tcaDefinition) {
-                if (!$tcaDefinition->hasFieldType()) {
+            foreach ($tableDefinition->tca ?? [] as $tcaFieldDefinition) {
+                if (!$tcaFieldDefinition->hasFieldType()) {
                     continue;
                 }
-                if ($tcaDefinition->getFieldType()->equals(FieldType::CONTENT)) {
+                if ($tcaFieldDefinition->getFieldType()->equals(FieldType::CONTENT)) {
+                    $legacyParentColumnName = AffixUtility::addMaskParentSuffix($tcaFieldDefinition->fullKey);
+                    $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+                        ->getQueryBuilderForTable('tt_content');
+                    try {
+                        $queryBuilder
+                            ->select($legacyParentColumnName)
+                            ->from('tt_content')
+                            ->executeQuery();
+                    } catch (InvalidFieldNameException) {
+                        // The legacy field does not exist, no update necessary.
+                        continue;
+                    }
+
                     return true;
                 }
             }
