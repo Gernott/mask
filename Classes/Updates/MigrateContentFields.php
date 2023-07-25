@@ -98,7 +98,7 @@ class MigrateContentFields implements UpgradeWizardInterface
                             ->select($legacyParentColumnName)
                             ->from('tt_content')
                             ->executeQuery();
-                    } catch (InvalidFieldNameException) {
+                    } catch (InvalidFieldNameException $e) {
                         // The legacy field does not exist, no update necessary.
                         continue;
                     }
