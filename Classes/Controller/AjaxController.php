@@ -295,7 +295,7 @@ class AjaxController
         }
 
         $this->eventDispatcher->dispatch(
-            new MaskAfterElementSavedEvent($elementKey, $isNew)
+            new MaskAfterElementSavedEvent($tableDefinitionCollection, $elementKey, $isNew)
         );
 
         return new JsonResponse(['messages' => $this->flashMessageQueue->getAllMessagesAndFlush(), 'hasError' => 0]);

@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Tests\Unit\Event;
 
+use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Event\MaskAfterElementSavedEvent;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
@@ -29,7 +30,7 @@ final class MaskAfterElementSavedEventTest extends UnitTestCase
     {
         $elementKey = 'mask_test_element';
 
-        $event = new MaskAfterElementSavedEvent($elementKey, true);
+        $event = new MaskAfterElementSavedEvent(new TableDefinitionCollection(), $elementKey, true);
 
         self::assertSame($elementKey, $event->getElementKey());
         self::assertTrue($event->isNewElement());

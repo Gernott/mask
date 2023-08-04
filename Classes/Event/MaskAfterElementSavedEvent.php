@@ -17,15 +17,24 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Event;
 
+use MASK\Mask\Definition\TableDefinitionCollection;
+
 final class MaskAfterElementSavedEvent
 {
     private string $elementKey;
     private bool $isNewElement;
+    private TableDefinitionCollection $tableDefinitionCollection;
 
-    public function __construct(string $elementKey, bool $isNewElement)
+    public function __construct(TableDefinitionCollection $tableDefinitionCollection, string $elementKey, bool $isNewElement)
     {
+        $this->tableDefinitionCollection = $tableDefinitionCollection;
         $this->elementKey = $elementKey;
         $this->isNewElement = $isNewElement;
+    }
+
+    public function getTableDefinitionCollection(): TableDefinitionCollection
+    {
+        return $this->tableDefinitionCollection;
     }
 
     public function getElementKey(): string
