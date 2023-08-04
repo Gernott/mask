@@ -28,6 +28,7 @@ use MASK\Mask\Domain\Repository\BackendLayoutRepository;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Enumeration\Tab;
+use MASK\Mask\Event\MaskAfterElementDeletedEvent;
 use MASK\Mask\Event\MaskAfterElementSavedEvent;
 use MASK\Mask\Event\MaskAllowedFieldsEvent;
 use MASK\Mask\Loader\LoaderInterface;
@@ -313,6 +314,11 @@ class AjaxController
         $tableDefinitionCollection = $this->storageRepository->persist($this->storageRepository->remove('tt_content', $params['key']));
         $this->generateAction($tableDefinitionCollection);
         $this->addFlashMessage($this->translateLabel('tx_mask.content.deletedcontentelement'));
+
+        $this->eventDispatcher->dispatch(
+            new MaskAfterElementDeletedEvent($tableDefinitionCollection, $params['key'])
+        );
+
         return new JsonResponse($this->flashMessageQueue->getAllMessagesAndFlush());
     }
 
