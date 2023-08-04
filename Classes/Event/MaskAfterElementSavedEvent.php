@@ -19,37 +19,20 @@ namespace MASK\Mask\Event;
 
 final class MaskAfterElementSavedEvent
 {
-    /**
-     * @var string
-     */
     private string $elementKey;
-
-    /**
-     * @var bool
-     */
     private bool $isNewElement;
 
-    /**
-     * @param string $elementKey the key of the saved content element
-     * @param bool $isNewElement weather the element is a new element or a already existing one
-     */
     public function __construct(string $elementKey, bool $isNewElement)
     {
         $this->elementKey = $elementKey;
         $this->isNewElement = $isNewElement;
     }
 
-    /**
-     * @return string
-     */
     public function getElementKey(): string
     {
         return $this->elementKey;
     }
 
-    /**
-     * @return bool
-     */
     public function isNewElement(): bool
     {
         return $this->isNewElement;

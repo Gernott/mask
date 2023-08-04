@@ -20,7 +20,7 @@ namespace MASK\Mask\Tests\Unit\Event;
 use MASK\Mask\Event\MaskAfterElementSavedEvent;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-class MaskAfterSaveElementEventTest extends UnitTestCase
+final class MaskAfterElementSavedEventTest extends UnitTestCase
 {
     /**
      * @test
