@@ -28,7 +28,7 @@ use MASK\Mask\Domain\Repository\BackendLayoutRepository;
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Enumeration\Tab;
-use MASK\Mask\Event\MaskAfterSaveElementEvent;
+use MASK\Mask\Event\MaskAfterElementSavedEvent;
 use MASK\Mask\Event\MaskAllowedFieldsEvent;
 use MASK\Mask\Loader\LoaderInterface;
 use MASK\Mask\Utility\AffixUtility;
@@ -295,7 +295,7 @@ class AjaxController
         }
 
         $this->eventDispatcher->dispatch(
-            new MaskAfterSaveElementEvent($elementKey, $isNew)
+            new MaskAfterElementSavedEvent($elementKey, $isNew)
         );
 
         return new JsonResponse(['messages' => $this->flashMessageQueue->getAllMessagesAndFlush(), 'hasError' => 0]);

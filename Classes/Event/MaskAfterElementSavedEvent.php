@@ -17,7 +17,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Event;
 
-final class MaskAfterSaveElementEvent
+final class MaskAfterElementSavedEvent
 {
     /**
      * @var string
