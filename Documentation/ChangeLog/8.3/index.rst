@@ -8,12 +8,12 @@ New PSR-14 MaskAfterElementSavedEvent and MaskAfterElementDeletedEvent
 ======================================================================
 
 The newly introduced :php:`\MASK\Mask\Event\MaskAfterElementSavedEvent`
-and :php:`\MASK\Mask\Event\MaskAfterElementDeletedEvent` allows to
-add execute custom code as soon as an content element was saved or deleted.
-Refer to this :ref:`guide <mask-events-guide>` on how to use it.
+and :php:`\MASK\Mask\Event\MaskAfterElementDeletedEvent` allow to execute custom
+code as soon as an content element was saved or deleted.
+Refer to this :ref:`documentation <mask-events-api>` on how to use it.
 
-Sponsoring
-==========
+Special Thanks
+==============
 
-Do you like the early adoption of Mask? You can now sponsor my (Nikita Hovratov)
-free contribution to this project on `GitHub <https://github.com/sponsors/nhovratov>`__.
+This version was brought to you by Sebastian Dernbach `sebastiande <https://github.com/sebastiande>`__.
+Thank you!

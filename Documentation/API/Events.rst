@@ -1,10 +1,10 @@
 .. include:: ../Includes.txt
 
-.. _mask-events-guide:
+.. _mask-events-api:
 
-=======================
+=====================
 Element Change Events
-=======================
+=====================
 
 If you want to execute additional actions after a element is created, updated or deleted,
 you can use an EventListener to trigger your own actions.
