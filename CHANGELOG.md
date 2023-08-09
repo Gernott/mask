@@ -4,6 +4,43 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [8.2.6] - 2023-07-25
+
+### Fixed
+- Fix compatibility with PHP 7.4 [#572](https://github.com/Gernott/mask/issues/572)
+
+## [8.2.5] - 2023-07-24
+
+### Fixed
+- Fix exception in UpgradeWizard "Migrate Content" [#570](https://github.com/Gernott/mask/issues/570)
+
+## [8.2.4] - 2023-07-24
+
+### Fixed
+- Hidden restrictions applied for relations in Frontend [#568](https://github.com/Gernott/mask/issues/568)
+- Workspace overlays applied for relations
+- Links to TCA option range fixed for TYPO3 v12
+
+## [8.2.3] - 2023-06-20
+
+### Fixed
+- Show correct field "l10n_parent" in language palette (thanks to Albrecht Köhnlein) [#563](https://github.com/Gernott/mask/pull/564)
+
+## [8.2.2] - 2023-06-16
+
+### Fixed
+- Undefined array key warning (thanks to Georg Ringer) [#563](https://github.com/Gernott/mask/pull/563)
+
+## [8.2.1] - 2023-06-14
+
+### Fixed
+- Fix error when saving bodytext field
+
+## [8.2.0] - 2023-06-12
+
+### Added
+- Mask supports now `columnsOverride`. This means you can use the same field with different configuration per element! (BIG thanks to Sebastian Dernbach) [#559](https://github.com/Gernott/mask/pull/559)
+
 ## [8.1.6] - 2023-06-08
 
 ### Fixed
