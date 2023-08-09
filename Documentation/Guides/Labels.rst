@@ -16,3 +16,8 @@ This label can be easily changed by TSconfig.
 .. code-block::
 
    mod.wizards.newContentElement.wizardItems.mask.header = Custom label
+
+.. note::
+
+   This does not work inside the newly introduced :file:`page.tsconfig` file in
+   TYPO3 v12, as it does not take loading order into account.
