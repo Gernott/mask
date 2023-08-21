@@ -429,7 +429,10 @@ class TcaCodeGenerator
             ];
         }
 
-        $customSettingOverride['appearance'] = $field->realTca['config']['appearance'] ?? [];
+        $customSettingOverride['appearance'] = array_replace_recursive(
+            $field->realTca['config']['appearance'] ?? [],
+            $columnsOverride instanceof TcaFieldDefinition ? ($columnsOverride->realTca['config']['appearance'] ?? []) : []
+        );
         $customSettingOverride['appearance']['fileUploadAllowed'] = (bool)($customSettingOverride['appearance']['fileUploadAllowed'] ?? true);
         $customSettingOverride['appearance']['useSortable'] = (bool)($customSettingOverride['appearance']['useSortable'] ?? false);
 
