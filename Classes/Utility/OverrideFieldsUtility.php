@@ -47,13 +47,13 @@ class OverrideFieldsUtility
                 }
 
                 $fieldTypeTca = $tcaDefinition->getField($fieldKey);
-                $fieldType = $fieldTypeTca->getFieldType();
+                $fieldType = $fieldTypeTca->getFieldType($element->key);
 
                 if ($fieldType->equals(FieldType::PALETTE)) {
                     $paletteDefinition = $ttContentDefinition->palettes->getPalette($fieldKey);
                     foreach ($paletteDefinition->showitem as $paletteFieldKey) {
                         $paletteTcaDefinition = $tcaDefinition->getField($paletteFieldKey);
-                        $paletteFieldType = $paletteTcaDefinition->getFieldType();
+                        $paletteFieldType = $paletteTcaDefinition->getFieldType($element->key);
                         if (!$paletteFieldType->canBeShared()) {
                             continue;
                         }
