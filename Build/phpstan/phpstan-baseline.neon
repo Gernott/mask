@@ -616,7 +616,17 @@ parameters:
 			path: ../../Classes/ItemsProcFuncs/CTypeList.php
 
 		-
+			message: "#^Method MASK\\\\Mask\\\\ItemsProcFuncs\\\\CTypeList\\:\\:itemsProcFunc\\(\\) has parameter \\$parentObj with no type specified\\.$#"
+			count: 1
+			path: ../../Classes/ItemsProcFuncs/CTypeList.php
+
+		-
 			message: "#^Method MASK\\\\Mask\\\\ItemsProcFuncs\\\\ColPosList\\:\\:itemsProcFunc\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../Classes/ItemsProcFuncs/ColPosList.php
+
+		-
+			message: "#^Method MASK\\\\Mask\\\\ItemsProcFuncs\\\\ColPosList\\:\\:itemsProcFunc\\(\\) has parameter \\$parentObj with no type specified\\.$#"
 			count: 1
 			path: ../../Classes/ItemsProcFuncs/ColPosList.php
 

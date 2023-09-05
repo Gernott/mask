@@ -29,7 +29,7 @@ class ColPosList
      * Render the allowed colPos for nested content elements
      * @param array $params
      */
-    public function itemsProcFunc(&$params): void
+    public function itemsProcFunc(&$params, $parentObj): void
     {
         // if this tt_content element is inline element of mask
         if ((int)$params['row']['colPos'] === 999) {
@@ -49,7 +49,7 @@ class ColPosList
             GeneralUtility::callUserFunction(
                 $params['config']['m_itemsProcFunc'],
                 $params,
-                $this
+                $parentObj
             );
         }
     }
