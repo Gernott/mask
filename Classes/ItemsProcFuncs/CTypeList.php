@@ -36,7 +36,7 @@ class CTypeList
     /**
      * Render the allowed CTypes for nested content elements
      */
-    public function itemsProcFunc(array &$params): void
+    public function itemsProcFunc(array &$params, $parentObj): void
     {
         // if this tt_content element is inline element of mask
         if ((int)$params['row']['colPos'] === 999) {
@@ -74,7 +74,7 @@ class CTypeList
             GeneralUtility::callUserFunction(
                 $params['config']['m_itemsProcFunc'],
                 $params,
-                $this
+                $parentObj
             );
         }
     }
