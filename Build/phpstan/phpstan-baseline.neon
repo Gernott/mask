@@ -681,6 +681,11 @@ parameters:
 			path: ../../Classes/Utility/FieldTypeUtility.php
 
 		-
+			message: "#^Method MASK\\\\Mask\\\\Utility\\\\FieldTypeUtility\\:\\:isMediaType\\(\\) has parameter \\$tca with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../Classes/Utility/FieldTypeUtility.php
+
+		-
 			message: "#^Method MASK\\\\Mask\\\\Utility\\\\TcaConverter\\:\\:convertFlatTcaToArray\\(\\) has parameter \\$tca with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Classes/Utility/TcaConverter.php
@@ -976,7 +981,7 @@ parameters:
 			path: ../../Tests/Unit/Definition/TableDefinitionCollectionTest.php
 
 		-
-			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\Definition\\\\TableDefinitionCollectionTest\\:\\:getFormTypeDataProvider\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\Definition\\\\TableDefinitionCollectionTest\\:\\:getFormTypeDataProvider\\(\\) return type has no value type specified in iterable type iterable\\.$#"
 			count: 1
 			path: ../../Tests/Unit/Definition/TableDefinitionCollectionTest.php
 

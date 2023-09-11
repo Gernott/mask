@@ -19,6 +19,7 @@ namespace MASK\Mask\Utility;
 
 use InvalidArgumentException;
 use MASK\Mask\Enumeration\FieldType;
+use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Resource\OnlineMedia\Helpers\OnlineMediaHelperRegistry;
 use TYPO3\CMS\Core\Type\Exception\InvalidEnumerationValueException;
 use TYPO3\CMS\Core\Utility\GeneralUtility as CoreGeneralUtility;
@@ -74,12 +75,7 @@ class FieldTypeUtility
                 return FieldType::TEXT;
             case 'inline':
                 if (($tca['config']['foreign_table'] ?? '') === 'sys_file_reference') {
-                    // Check if the allowed list contains online media types.
-                    $allowedList = $tca['config']['overrideChildTca']['columns']['uid_local']['config']['appearance']['elementBrowserAllowed'] ?? '';
-                    $allowedList = CoreGeneralUtility::trimExplode(',', $allowedList, true);
-                    $onlineMediaHelperRegistry = CoreGeneralUtility::makeInstance(OnlineMediaHelperRegistry::class);
-                    $onlineMediaTypes = $onlineMediaHelperRegistry->getSupportedFileExtensions();
-                    if (!empty(array_intersect($allowedList, $onlineMediaTypes))) {
+                    if (self::isMediaType($tca)) {
                         return FieldType::MEDIA;
                     }
                     return FieldType::FILE;
@@ -115,6 +111,11 @@ class FieldTypeUtility
                 return FieldType::GROUP;
             case 'folder':
                 return FieldType::FOLDER;
+            case 'file':
+                if (self::isMediaType($tca)) {
+                    return FieldType::MEDIA;
+                }
+                return FieldType::FILE;
             default:
                 // Check if fake tca type is valid.
                 try {
@@ -123,5 +124,22 @@ class FieldTypeUtility
                     throw new \InvalidArgumentException(sprintf('Could not resolve the field type of "%s". Please check, if your TCA is correct.', $fieldKey), 1629484452);
                 }
         }
+    }
+
+    protected static function isMediaType(array $tca): bool
+    {
+        // Check if the allowed list contains online media types.
+        if ((new Typo3Version())->getVersion() < 12) {
+            $allowedList = $tca['config']['overrideChildTca']['columns']['uid_local']['config']['appearance']['elementBrowserAllowed'] ?? '';
+        } else {
+            $allowedList = $tca['config']['allowed'] ?? '';
+        }
+        $allowedList = CoreGeneralUtility::trimExplode(',', $allowedList, true);
+        $onlineMediaHelperRegistry = CoreGeneralUtility::makeInstance(OnlineMediaHelperRegistry::class);
+        $onlineMediaTypes = $onlineMediaHelperRegistry->getSupportedFileExtensions();
+        if (!empty(array_intersect($allowedList, $onlineMediaTypes))) {
+            return true;
+        }
+        return false;
     }
 }
