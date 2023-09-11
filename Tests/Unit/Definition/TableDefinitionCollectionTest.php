@@ -20,6 +20,7 @@ namespace MASK\Mask\Tests\Unit\Definition;
 use MASK\Mask\Definition\ElementTcaDefinition;
 use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Enumeration\FieldType;
+use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\TestingFramework\Core\BaseTestCase;
 
 class TableDefinitionCollectionTest extends BaseTestCase
@@ -845,346 +846,364 @@ class TableDefinitionCollectionTest extends BaseTestCase
         self::assertEquals($expected, $tableDefinitionCollection->getElementsWhichUseField($column, $table)->toArray());
     }
 
-    public function getFormTypeDataProvider(): array
+    public function getFormTypeDataProvider(): iterable
     {
-        return [
-            'Type String is returned' => [
-                [],
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'input',
-                                ],
-                                'key' => 'field1',
+        yield 'Type String is returned' => [
+            [],
+            [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'input',
                             ],
+                            'key' => 'field1',
                         ],
                     ],
                 ],
-                'tx_mask_field1',
-                'tt_content',
-                FieldType::STRING,
             ],
-            'Type Integer is returned' => [
-                [],
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'input',
-                                    'eval' => 'int',
-                                ],
-                                'key' => 'field1',
+            'tx_mask_field1',
+            'tt_content',
+            FieldType::STRING,
+        ];
+
+        yield 'Type Integer is returned' => [
+            [],
+            [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'input',
+                                'eval' => 'int',
                             ],
+                            'key' => 'field1',
                         ],
                     ],
                 ],
-                'tx_mask_field1',
-                'tt_content',
-                FieldType::INTEGER,
             ],
-            'Type Integer is returned (v12)' => [
-                [],
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'number',
-                                ],
-                                'key' => 'field1',
+            'tx_mask_field1',
+            'tt_content',
+            FieldType::INTEGER,
+        ];
+
+        yield 'Type Integer is returned (v12)' => [
+            [],
+            [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'number',
                             ],
+                            'key' => 'field1',
                         ],
                     ],
                 ],
-                'tx_mask_field1',
-                'tt_content',
-                FieldType::INTEGER,
             ],
-            'Type Float is returned' => [
-                [],
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'input',
-                                    'eval' => 'double2',
-                                ],
-                                'key' => 'field1',
+            'tx_mask_field1',
+            'tt_content',
+            FieldType::INTEGER,
+        ];
+
+        yield 'Type Float is returned' => [
+            [],
+            [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'input',
+                                'eval' => 'double2',
                             ],
+                            'key' => 'field1',
                         ],
                     ],
                 ],
-                'tx_mask_field1',
-                'tt_content',
-                FieldType::FLOAT,
             ],
-            'Type Float is returned (v12)' => [
-                [],
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'number',
-                                    'format' => 'decimal',
-                                ],
-                                'key' => 'field1',
+            'tx_mask_field1',
+            'tt_content',
+            FieldType::FLOAT,
+        ];
+
+        yield 'Type Float is returned (v12)' => [
+            [],
+            [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'number',
+                                'format' => 'decimal',
                             ],
+                            'key' => 'field1',
                         ],
                     ],
                 ],
-                'tx_mask_field1',
-                'tt_content',
-                FieldType::FLOAT,
             ],
-            'Legacy Date is returned' => [
-                [],
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'input',
-                                    'eval' => 'date',
-                                    'dbType' => 'date',
-                                ],
-                                'key' => 'field1',
+            'tx_mask_field1',
+            'tt_content',
+            FieldType::FLOAT,
+        ];
+
+        yield 'Legacy Date is returned' => [
+            [],
+            [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'input',
+                                'eval' => 'date',
+                                'dbType' => 'date',
                             ],
+                            'key' => 'field1',
                         ],
                     ],
                 ],
-                'tx_mask_field1',
-                'tt_content',
-                FieldType::DATE,
             ],
-            'Type Date is returned' => [
-                [],
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'datetime',
-                                    'dbType' => 'date',
-                                ],
-                                'key' => 'field1',
+            'tx_mask_field1',
+            'tt_content',
+            FieldType::DATE,
+        ];
+
+        yield 'Type Date is returned' => [
+            [],
+            [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'datetime',
+                                'dbType' => 'date',
                             ],
+                            'key' => 'field1',
                         ],
                     ],
                 ],
-                'tx_mask_field1',
-                'tt_content',
-                FieldType::DATE,
             ],
-            'Legacy Type Datetime is returned' => [
-                [],
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'input',
-                                    'eval' => 'datetime',
-                                    'dbType' => 'datetime',
-                                ],
-                                'key' => 'field1',
+            'tx_mask_field1',
+            'tt_content',
+            FieldType::DATE,
+        ];
+
+        yield 'Legacy Type Datetime is returned' => [
+            [],
+            [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'input',
+                                'eval' => 'datetime',
+                                'dbType' => 'datetime',
                             ],
+                            'key' => 'field1',
                         ],
                     ],
                 ],
-                'tx_mask_field1',
-                'tt_content',
-                FieldType::DATETIME,
             ],
-            'Type Datetime is returned' => [
-                [],
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'datetime',
-                                    'dbType' => 'datetime',
-                                ],
-                                'key' => 'field1',
+            'tx_mask_field1',
+            'tt_content',
+            FieldType::DATETIME,
+        ];
+
+        yield 'Type Datetime is returned' => [
+            [],
+            [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'datetime',
+                                'dbType' => 'datetime',
                             ],
+                            'key' => 'field1',
                         ],
                     ],
                 ],
-                'tx_mask_field1',
-                'tt_content',
-                FieldType::DATETIME,
             ],
-            'Legacy Type Link is returned' => [
-                [],
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'input',
-                                    'renderType' => 'inputLink',
-                                ],
-                                'key' => 'field1',
+            'tx_mask_field1',
+            'tt_content',
+            FieldType::DATETIME,
+        ];
+
+        yield 'Legacy Type Link is returned' => [
+            [],
+            [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'input',
+                                'renderType' => 'inputLink',
                             ],
+                            'key' => 'field1',
                         ],
                     ],
                 ],
-                'tx_mask_field1',
-                'tt_content',
-                FieldType::LINK,
             ],
-            'Type Link is returned' => [
-                [],
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'link',
-                                ],
-                                'key' => 'field1',
+            'tx_mask_field1',
+            'tt_content',
+            FieldType::LINK,
+        ];
+
+        yield 'Type Link is returned' => [
+            [],
+            [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'link',
                             ],
+                            'key' => 'field1',
                         ],
                     ],
                 ],
-                'tx_mask_field1',
-                'tt_content',
-                FieldType::LINK,
             ],
-            'Type Text is returned' => [
-                [],
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'text',
-                                ],
-                                'key' => 'field1',
+            'tx_mask_field1',
+            'tt_content',
+            FieldType::LINK,
+        ];
+
+        yield 'Type Text is returned' => [
+            [],
+            [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'text',
                             ],
+                            'key' => 'field1',
                         ],
                     ],
                 ],
-                'tx_mask_field1',
-                'tt_content',
-                FieldType::TEXT,
             ],
-            'Type Richtext is returned if in inline' => [
-                [],
-                [
-                    'tx_mask_inline' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'text',
-                                ],
-                                'rte' => '1',
-                                'key' => 'field1',
+            'tx_mask_field1',
+            'tt_content',
+            FieldType::TEXT,
+        ];
+
+        yield 'Type Richtext is returned if in inline' => [
+            [],
+            [
+                'tx_mask_inline' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'text',
                             ],
+                            'rte' => '1',
+                            'key' => 'field1',
                         ],
                     ],
                 ],
-                'tx_mask_field1',
-                'tx_mask_inline',
-                FieldType::RICHTEXT,
             ],
-            'Type Richtext is returned, if enableRichtext is set' => [
-                [],
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'text',
-                                    'enableRichtext' => '1',
-                                ],
-                                'key' => 'field1',
+            'tx_mask_field1',
+            'tx_mask_inline',
+            FieldType::RICHTEXT,
+        ];
+
+        yield 'Type Richtext is returned, if enableRichtext is set' => [
+            [],
+            [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'text',
+                                'enableRichtext' => '1',
                             ],
+                            'key' => 'field1',
                         ],
                     ],
                 ],
-                'tx_mask_field1',
-                'tt_content',
-                FieldType::RICHTEXT,
             ],
-            'Type Check is returned' => [
-                [],
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'check',
-                                ],
-                                'key' => 'field1',
+            'tx_mask_field1',
+            'tt_content',
+            FieldType::RICHTEXT,
+        ];
+
+        yield 'Type Check is returned' => [
+            [],
+            [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'check',
                             ],
+                            'key' => 'field1',
                         ],
                     ],
                 ],
-                'tx_mask_field1',
-                'tt_content',
-                FieldType::CHECK,
             ],
-            'Type Radio is returned' => [
-                [],
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'radio',
-                                ],
-                                'key' => 'field1',
+            'tx_mask_field1',
+            'tt_content',
+            FieldType::CHECK,
+        ];
+
+        yield 'Type Radio is returned' => [
+            [],
+            [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'radio',
                             ],
+                            'key' => 'field1',
                         ],
                     ],
                 ],
-                'tx_mask_field1',
-                'tt_content',
-                FieldType::RADIO,
             ],
-            'Type Select is returned' => [
-                [],
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'select',
-                                ],
-                                'key' => 'field1',
+            'tx_mask_field1',
+            'tt_content',
+            FieldType::RADIO,
+        ];
+
+        yield 'Type Select is returned' => [
+            [],
+            [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'select',
                             ],
+                            'key' => 'field1',
                         ],
                     ],
                 ],
-                'tx_mask_field1',
-                'tt_content',
-                FieldType::SELECT,
             ],
-            'Type Inline is returned' => [
-                [],
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'inline',
-                                ],
-                                'key' => 'field1',
+            'tx_mask_field1',
+            'tt_content',
+            FieldType::SELECT,
+        ];
+
+        yield 'Type Inline is returned' => [
+            [],
+            [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'inline',
                             ],
+                            'key' => 'field1',
                         ],
                     ],
                 ],
-                'tx_mask_field1',
-                'tt_content',
-                FieldType::INLINE,
             ],
-            'Type File is returned' => [
+            'tx_mask_field1',
+            'tt_content',
+            FieldType::INLINE,
+        ];
+
+        if ((new Typo3Version())->getMajorVersion() < 12) {
+            yield 'Type File is returned (< v12)' => [
                 [],
                 [
                     'tt_content' => [
@@ -1202,8 +1221,30 @@ class TableDefinitionCollectionTest extends BaseTestCase
                 'tx_mask_field1',
                 'tt_content',
                 FieldType::FILE,
-            ],
-            'Type Media is returned' => [
+            ];
+        } else {
+            yield 'Type File is returned (v12+)' => [
+                [],
+                [
+                    'tt_content' => [
+                        'tca' => [
+                            'tx_mask_field1' => [
+                                'config' => [
+                                    'type' => 'file',
+                                ],
+                                'key' => 'field1',
+                            ],
+                        ],
+                    ],
+                ],
+                'tx_mask_field1',
+                'tt_content',
+                FieldType::FILE,
+            ];
+        }
+
+        if ((new Typo3Version())->getMajorVersion() < 12) {
+            yield 'Type Media is returned (< v12)' => [
                 [],
                 [
                     'tt_content' => [
@@ -1232,35 +1273,17 @@ class TableDefinitionCollectionTest extends BaseTestCase
                 'tx_mask_field1',
                 'tt_content',
                 FieldType::MEDIA,
-            ],
-            'Type File by option is returned' => [
+            ];
+        } else {
+            yield 'Type Media is returned (v12+)' => [
                 [],
                 [
                     'tt_content' => [
                         'tca' => [
                             'tx_mask_field1' => [
                                 'config' => [
-                                    'type' => 'inline',
-                                ],
-                                'options' => 'file',
-                                'key' => 'field1',
-                            ],
-                        ],
-                    ],
-                ],
-                'tx_mask_field1',
-                'tt_content',
-                FieldType::FILE,
-            ],
-            'Type Content is returned' => [
-                [],
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'inline',
-                                    'foreign_table' => 'tt_content',
+                                    'type' => 'file',
+                                    'allowed' => 'vimeo,youtube',
                                 ],
                                 'key' => 'field1',
                             ],
@@ -1269,283 +1292,335 @@ class TableDefinitionCollectionTest extends BaseTestCase
                 ],
                 'tx_mask_field1',
                 'tt_content',
-                FieldType::CONTENT,
+                FieldType::MEDIA,
+            ];
+        }
+
+        yield 'Type File by option is returned' => [
+            [],
+            [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'inline',
+                            ],
+                            'options' => 'file',
+                            'key' => 'field1',
+                        ],
+                    ],
+                ],
             ],
-            'Type Tab is returned' => [
-                [],
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'tab',
-                                ],
-                                'key' => 'field1',
+            'tx_mask_field1',
+            'tt_content',
+            FieldType::FILE,
+        ];
+
+        yield 'Type Content is returned' => [
+            [],
+            [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'inline',
+                                'foreign_table' => 'tt_content',
+                            ],
+                            'key' => 'field1',
+                        ],
+                    ],
+                ],
+            ],
+            'tx_mask_field1',
+            'tt_content',
+            FieldType::CONTENT,
+        ];
+
+        yield 'Type Tab is returned' => [
+            [],
+            [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'tab',
+                            ],
+                            'key' => 'field1',
+                        ],
+                    ],
+                ],
+            ],
+            'tx_mask_field1',
+            'tt_content',
+            FieldType::TAB,
+        ];
+
+        yield 'Type Palette is returned' => [
+            [],
+            [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'palette',
+                            ],
+                            'key' => 'field1',
+                        ],
+                    ],
+                ],
+            ],
+            'tx_mask_field1',
+            'tt_content',
+            FieldType::PALETTE,
+        ];
+
+        yield 'Field is found when in palette' => [
+            [],
+            [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'key' => 'element1',
+                            'label' => 'Element 1',
+                            'columns' => [
+                                'tx_mask_palette',
+                            ],
+                        ],
+                        'element2' => [
+                            'key' => 'element2',
+                            'label' => 'Element 1',
+                            'columns' => [
+                                'tx_mask_palette2',
+                            ],
+                        ],
+                    ],
+                    'tca' => [
+                        'tx_mask_palette' => [
+                            'config' => [
+                                'type' => 'palette',
+                            ],
+                            'key' => 'palette',
+                        ],
+                        'tx_mask_palette2' => [
+                            'config' => [
+                                'type' => 'palette',
+                            ],
+                            'key' => 'palette2',
+                        ],
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'input',
+                                'eval' => 'int',
+                            ],
+                            'key' => 'field1',
+                        ],
+                    ],
+                    'palettes' => [
+                        'tx_mask_palette' => [
+                            'label' => 'Palette 1',
+                            'showitem' => [
+                                'tx_mask_field1',
+                            ],
+                        ],
+                        'tx_mask_palette2' => [
+                            'label' => 'Palette 2',
+                            'showitem' => [
+                                'tx_mask_field1',
                             ],
                         ],
                     ],
                 ],
-                'tx_mask_field1',
-                'tt_content',
-                FieldType::TAB,
             ],
-            'Type Palette is returned' => [
-                [],
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'palette',
-                                ],
-                                'key' => 'field1',
+            'tx_mask_field1',
+            'tt_content',
+            FieldType::INTEGER,
+        ];
+
+        yield 'Type Group is returned' => [
+            [],
+            [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'group',
+                            ],
+                            'key' => 'field1',
+                        ],
+                    ],
+                ],
+            ],
+            'tx_mask_field1',
+            'tt_content',
+            FieldType::GROUP,
+        ];
+
+        yield 'Legacy Type Timestamp is returned' => [
+            [],
+            [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'input',
+                                'evaĺ' => 'date,int',
+                                'renderType' => 'inputDateTime',
+                            ],
+                            'key' => 'field1',
+                        ],
+                    ],
+                ],
+            ],
+            'tx_mask_field1',
+            'tt_content',
+            FieldType::TIMESTAMP,
+        ];
+
+        yield 'Type Timestamp is returned' => [
+            [],
+            [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'datetime',
+                                'format' => 'date',
+                            ],
+                            'key' => 'field1',
+                        ],
+                    ],
+                ],
+            ],
+            'tx_mask_field1',
+            'tt_content',
+            FieldType::TIMESTAMP,
+        ];
+
+        yield 'Type from global tca is returned' => [
+            [
+                'tt_content' => [
+                    'columns' => [
+                        'date' => [
+                            'config' => [
+                                'type' => 'input',
+                                'eval' => 'date',
+                                'dbType' => 'date',
                             ],
                         ],
                     ],
                 ],
-                'tx_mask_field1',
-                'tt_content',
-                FieldType::PALETTE,
             ],
-            'Field is found when in palette' => [
-                [],
-                [
-                    'tt_content' => [
-                        'elements' => [
-                            'element1' => [
-                                'key' => 'element1',
-                                'label' => 'Element 1',
-                                'columns' => [
-                                    'tx_mask_palette',
-                                ],
+            [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'group',
                             ],
-                            'element2' => [
-                                'key' => 'element2',
-                                'label' => 'Element 1',
-                                'columns' => [
-                                    'tx_mask_palette2',
-                                ],
-                            ],
-                        ],
-                        'tca' => [
-                            'tx_mask_palette' => [
-                                'config' => [
-                                    'type' => 'palette',
-                                ],
-                                'key' => 'palette',
-                            ],
-                            'tx_mask_palette2' => [
-                                'config' => [
-                                    'type' => 'palette',
-                                ],
-                                'key' => 'palette2',
-                            ],
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'input',
-                                    'eval' => 'int',
-                                ],
-                                'key' => 'field1',
-                            ],
-                        ],
-                        'palettes' => [
-                            'tx_mask_palette' => [
-                                'label' => 'Palette 1',
-                                'showitem' => [
-                                    'tx_mask_field1',
-                                ],
-                            ],
-                            'tx_mask_palette2' => [
-                                'label' => 'Palette 2',
-                                'showitem' => [
-                                    'tx_mask_field1',
-                                ],
-                            ],
+                            'key' => 'field1',
                         ],
                     ],
                 ],
-                'tx_mask_field1',
-                'tt_content',
-                FieldType::INTEGER,
             ],
-            'Type Group is returned' => [
-                [],
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'group',
-                                ],
-                                'key' => 'field1',
+            'date',
+            'tt_content',
+            FieldType::DATE,
+        ];
+
+        yield 'Legacy Colorpicker resolved' => [
+            [],
+            [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'input',
+                                'renderType' => 'colorpicker',
                             ],
+                            'key' => 'field1',
                         ],
                     ],
                 ],
-                'tx_mask_field1',
-                'tt_content',
-                FieldType::GROUP,
             ],
-            'Legacy Type Timestamp is returned' => [
-                [],
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'input',
-                                    'evaĺ' => 'date,int',
-                                    'renderType' => 'inputDateTime',
-                                ],
-                                'key' => 'field1',
+            'tx_mask_field1',
+            'tt_content',
+            FieldType::COLORPICKER,
+        ];
+
+        yield 'Colorpicker resolved' => [
+            [],
+            [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'color',
                             ],
+                            'key' => 'field1',
                         ],
                     ],
                 ],
-                'tx_mask_field1',
-                'tt_content',
-                FieldType::TIMESTAMP,
             ],
-            'Type Timestamp is returned' => [
-                [],
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'datetime',
-                                    'format' => 'date',
-                                ],
-                                'key' => 'field1',
+            'tx_mask_field1',
+            'tt_content',
+            FieldType::COLORPICKER,
+        ];
+
+        yield 'Slug resolved' => [
+            [],
+            [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'slug',
                             ],
+                            'key' => 'field1',
                         ],
                     ],
                 ],
-                'tx_mask_field1',
-                'tt_content',
-                FieldType::TIMESTAMP,
             ],
-            'Type from global tca is returned' => [
-                [
-                    'tt_content' => [
-                        'columns' => [
-                            'date' => [
-                                'config' => [
-                                    'type' => 'input',
-                                    'eval' =>  'date',
-                                    'dbType' => 'date',
-                                ],
+            'tx_mask_field1',
+            'tt_content',
+            FieldType::SLUG,
+        ];
+
+        yield 'E-Mail field resolved' => [
+            [],
+            [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'email',
                             ],
+                            'key' => 'field1',
                         ],
                     ],
                 ],
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'group',
-                                ],
-                                'key' => 'field1',
+            ],
+            'tx_mask_field1',
+            'tt_content',
+            FieldType::EMAIL,
+        ];
+
+        yield 'Folder field resolved' => [
+            [],
+            [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'folder',
                             ],
+                            'key' => 'field1',
                         ],
                     ],
                 ],
-                'date',
-                'tt_content',
-                FieldType::DATE,
             ],
-            'Legacy Colorpicker resolved' => [
-                [],
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'input',
-                                    'renderType' => 'colorpicker',
-                                ],
-                                'key' => 'field1',
-                            ],
-                        ],
-                    ],
-                ],
-                'tx_mask_field1',
-                'tt_content',
-                FieldType::COLORPICKER,
-            ],
-            'Colorpicker resolved' => [
-                [],
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'color',
-                                ],
-                                'key' => 'field1',
-                            ],
-                        ],
-                    ],
-                ],
-                'tx_mask_field1',
-                'tt_content',
-                FieldType::COLORPICKER,
-            ],
-            'Slug resolved' => [
-                [],
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'slug',
-                                ],
-                                'key' => 'field1',
-                            ],
-                        ],
-                    ],
-                ],
-                'tx_mask_field1',
-                'tt_content',
-                FieldType::SLUG,
-            ],
-            'E-Mail field resolved' => [
-                [],
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'email',
-                                ],
-                                'key' => 'field1',
-                            ],
-                        ],
-                    ],
-                ],
-                'tx_mask_field1',
-                'tt_content',
-                FieldType::EMAIL,
-            ],
-            'Folder field resolved' => [
-                [],
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'folder',
-                                ],
-                                'key' => 'field1',
-                            ],
-                        ],
-                    ],
-                ],
-                'tx_mask_field1',
-                'tt_content',
-                FieldType::FOLDER,
-            ],
+            'tx_mask_field1',
+            'tt_content',
+            FieldType::FOLDER,
         ];
     }
 
