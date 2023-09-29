@@ -29,16 +29,16 @@ jobs:
       - name: Get comment
         id: get-comment
         run: |
-          comment=$(git tag -n10 -l v${{ env.version }} | sed "s/^v[0-9.]*[ ]*//g")
-
-          comment="${comment//'%'/'%25'}"
-          comment="${comment//$'\n'/'%0A'}"
-          comment="${comment//$'\r'/'%0D'}"
+          readonly local comment=$(git tag -n10 -l v${{ env.version }} | sed "s/^v[0-9.]*[ ]*//g")
 
           if [[ -z "${comment// }" ]]; then
             echo "comment=Released version ${{ env.version }} of ${{ env.TYPO3_EXTENSION_KEY }}" >> $GITHUB_ENV
           else
-            echo "comment=$comment" >> $GITHUB_ENV
+            {
+              echo 'comment<<EOF'
+              echo "$comment"
+              echo EOF
+            } >> "$GITHUB_ENV"
           fi
 
       - name: Setup PHP
