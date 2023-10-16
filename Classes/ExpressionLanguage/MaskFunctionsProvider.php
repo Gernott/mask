@@ -44,6 +44,11 @@ class MaskFunctionsProvider implements ExpressionFunctionProviderInterface
                     return in_array($backend_layout, [$layout, $layoutWithPrefix], true);
                 }
 
+                // If not in context of a tree, nothing to do here.
+                if (!isset($arguments['tree'])) {
+                    return false;
+                }
+
                 // If backend_layout is not set on current page, check backend_layout_next_level on rootline
                 $rootline = $arguments['tree']->rootLine;
                 // Sort rootline by (indexed) key, because the order depends on the context.
