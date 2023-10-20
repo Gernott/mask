@@ -113,14 +113,17 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'color' => '#000000',
                         'icon' => '',
                         'columns' => [
+                            'tx_mask_4e12de3d14bd6',
                             'tx_mask_a',
                             'tx_mask_repeat1',
                         ],
                         'labels' => [
+                            'Palette 1',
                             'A',
                             'Repeat1',
                         ],
                         'descriptions' => [
+                            '',
                             '',
                             'description for field tx_mask_repeat1',
                         ],
@@ -142,6 +145,30 @@ class JsonSplitLoaderTest extends UnitTestCase
                     ],
                 ],
                 'tca' => [
+                    'tx_mask_4e12de3d14bd6' => [
+                        'config' => [
+                            'type' => 'palette',
+                        ],
+                        'type' => 'palette',
+                        'key' => '4e12de3d14bd6',
+                        'fullKey' => 'tx_mask_4e12de3d14bd6',
+                    ],
+                    'header' => [
+                        'coreField' => 1,
+                        'type' => 'string',
+                        'key' => 'header',
+                        'fullKey' => 'header',
+                        'inPalette' => 1,
+                        'inlineParent' => [
+                            'a' => 'tx_mask_4e12de3d14bd6',
+                        ],
+                        'label' => [
+                            'a' => 'Header A',
+                        ],
+                        'order' => [
+                            'a' => 1,
+                        ],
+                    ],
                     'tx_mask_a' => [
                         'config' => [
                             'type' => 'input',
@@ -170,6 +197,13 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'type' => 'inline',
                         'key' => 'repeat1',
                         'fullKey' => 'tx_mask_repeat1',
+                    ],
+                ],
+                'palettes' => [
+                    'tx_mask_4e12de3d14bd6' => [
+                        'label' => 'Palette 1',
+                        'description' => '',
+                        'showitem' => ['header'],
                     ],
                 ],
             ],
@@ -780,14 +814,17 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'color' => '#000000',
                         'icon' => '',
                         'columns' => [
+                            'tx_mask_4e12de3d14bd6',
                             'tx_mask_a',
                             'tx_mask_repeat1',
                         ],
                         'labels' => [
+                            'Palette 1',
                             'A',
                             'Repeat1',
                         ],
                         'descriptions' => [
+                            '',
                             '',
                             'description for field tx_mask_repeat1',
                         ],
@@ -984,6 +1021,14 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'type' => 'inline',
                         'key' => 'inline',
                     ],
+                    'tx_mask_4e12de3d14bd6' => [
+                        'config' => [
+                            'type' => 'palette',
+                        ],
+                        'type' => 'palette',
+                        'key' => '4e12de3d14bd6',
+                        'fullKey' => 'tx_mask_4e12de3d14bd6',
+                    ],
                     'tx_mask_4e12de3d14bd5' => [
                         'config' => [
                             'type' => 'palette',
@@ -999,12 +1044,15 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'fullKey' => 'header',
                         'inPalette' => 1,
                         'inlineParent' => [
+                            'a' => 'tx_mask_4e12de3d14bd6',
                             'b' => 'tx_mask_4e12de3d14bd5',
                         ],
                         'label' => [
+                            'a' => 'Header A',
                             'b' => 'Header',
                         ],
                         'order' => [
+                            'a' => 1,
                             'b' => 1,
                         ],
                     ],
@@ -1030,6 +1078,11 @@ class JsonSplitLoaderTest extends UnitTestCase
                     ],
                 ],
                 'palettes' => [
+                    'tx_mask_4e12de3d14bd6' => [
+                        'label' => 'Palette 1',
+                        'description' => '',
+                        'showitem' => ['header'],
+                    ],
                     'tx_mask_4e12de3d14bd5' => [
                         'label' => 'Palette 1',
                         'description' => '',

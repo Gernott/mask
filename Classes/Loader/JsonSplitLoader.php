@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Loader;
 
+use MASK\Mask\Definition\ElementDefinition;
 use MASK\Mask\Definition\ElementDefinitionCollection;
 use MASK\Mask\Definition\PaletteDefinitionCollection;
 use MASK\Mask\Definition\SqlDefinition;
@@ -196,7 +197,8 @@ class JsonSplitLoader implements LoaderInterface
                     $paletteDefinition = $tableDefinition->palettes->getPalette($field->fullKey);
                     $newPaletteDefinitionCollection->addPalette($paletteDefinition);
                     foreach ($paletteDefinition->showitem as $item) {
-                        $paletteField = $tableDefinition->tca->getField($item);
+                        $paletteField = clone $tableDefinition->tca->getField($item);
+                        $paletteField = $this->cleanParentPaletteInformation($paletteField, $element);
                         $newTcaDefinition->addField($paletteField);
                         if ($tableDefinition->sql->hasColumn($paletteField->fullKey)) {
                             $newSqlDefinition->addColumn($tableDefinition->sql->getColumn($paletteField->fullKey));
@@ -236,5 +238,30 @@ class JsonSplitLoader implements LoaderInterface
                 $this->addInlineRecursive($inlineChild, $elementTableDefinitionCollection, $tableDefinitionCollection);
             }
         }
+    }
+
+    protected function cleanParentPaletteInformation(TcaFieldDefinition $field, ElementDefinition $element): TcaFieldDefinition
+    {
+        if (isset($field->inlineParentByElement[$element->key])) {
+            $inlineParent = $field->inlineParentByElement[$element->key];
+            $field->inlineParentByElement = [$element->key => $inlineParent];
+        }
+        if (isset($field->labelByElement[$element->key])) {
+            $label = $field->labelByElement[$element->key];
+            $field->labelByElement = [$element->key => $label];
+        }
+        if (isset($field->descriptionByElement[$element->key])) {
+            $description = $field->descriptionByElement[$element->key];
+            $field->descriptionByElement = [$element->key => $description];
+        }
+        if (isset($field->bodytextTypeByElement[$element->key])) {
+            $bodyTextElement = $field->bodytextTypeByElement[$element->key];
+            $field->bodytextTypeByElement = [$element->key => $bodyTextElement];
+        }
+        if (isset($field->orderByElement[$element->key])) {
+            $order = $field->orderByElement[$element->key];
+            $field->orderByElement = [$element->key => $order];
+        }
+        return $field;
     }
 }
