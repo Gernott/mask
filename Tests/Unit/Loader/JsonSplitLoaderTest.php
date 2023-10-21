@@ -318,12 +318,15 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'color' => '#000000',
                         'icon' => '',
                         'columns' => [
+                            'header',
                             'tx_mask_file',
                         ],
                         'labels' => [
+                            'Header',
                             'File',
                         ],
                         'descriptions' => [
+                            '',
                             'only images are allowed',
                         ],
                         'sorting' => 2,
@@ -339,6 +342,12 @@ class JsonSplitLoaderTest extends UnitTestCase
                     ],
                 ],
                 'tca' => [
+                    'header' => [
+                        'type' => 'string',
+                        'key' => 'header',
+                        'fullKey' => 'header',
+                        'coreField' => 1,
+                    ],
                     'tx_mask_file' => [
                         'config' => [
                             'appearance' => [
@@ -866,12 +875,15 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'color' => '#000000',
                         'icon' => '',
                         'columns' => [
+                            'header',
                             'tx_mask_file',
                         ],
                         'labels' => [
+                            'Header',
                             'File',
                         ],
                         'descriptions' => [
+                            '',
                             'only images are allowed',
                         ],
                         'sorting' => 2,

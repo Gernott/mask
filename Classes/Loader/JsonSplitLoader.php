@@ -184,7 +184,9 @@ class JsonSplitLoader implements LoaderInterface
             $sorting += 1;
 
             foreach ($element->columns as $column) {
-                $field = $tableDefinition->tca->getField($column);
+                $field = clone $tableDefinition->tca->getField($column);
+                $field = $this->cleanParentPaletteInformation($field, $element);
+                $field->inPalette = false;
                 $newTcaDefinition->addField($field);
                 if ($tableDefinition->sql->hasColumn($field->fullKey)) {
                     $newSqlDefinition->addColumn($tableDefinition->sql->getColumn($field->fullKey));
@@ -245,22 +247,32 @@ class JsonSplitLoader implements LoaderInterface
         if (isset($field->inlineParentByElement[$element->key])) {
             $inlineParent = $field->inlineParentByElement[$element->key];
             $field->inlineParentByElement = [$element->key => $inlineParent];
+        } else {
+            $field->inlineParentByElement = [];
         }
         if (isset($field->labelByElement[$element->key])) {
             $label = $field->labelByElement[$element->key];
             $field->labelByElement = [$element->key => $label];
+        } else {
+            $field->labelByElement = [];
         }
         if (isset($field->descriptionByElement[$element->key])) {
             $description = $field->descriptionByElement[$element->key];
             $field->descriptionByElement = [$element->key => $description];
+        } else {
+            $field->descriptionByElement = [];
         }
         if (isset($field->bodytextTypeByElement[$element->key])) {
             $bodyTextElement = $field->bodytextTypeByElement[$element->key];
             $field->bodytextTypeByElement = [$element->key => $bodyTextElement];
+        } else {
+            $field->bodytextTypeByElement = [];
         }
         if (isset($field->orderByElement[$element->key])) {
             $order = $field->orderByElement[$element->key];
             $field->orderByElement = [$element->key => $order];
+        } else {
+            $field->orderByElement = [];
         }
         return $field;
     }

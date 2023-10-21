@@ -9,13 +9,16 @@
 				"color": "#000000",
 				"icon": "",
 				"columns": [
+					"header",
 					"tx_mask_file"
 				],
 				"columnsOverride": [],
 				"labels": [
+					"Header",
 					"File"
 				],
 				"descriptions": [
+					"",
 					"only images are allowed"
 				],
 				"sorting": 2
@@ -39,6 +42,12 @@
 				"key": "file",
 				"fullKey": "tx_mask_file",
 				"imageoverlayPalette": 1
+			},
+			"header": {
+				"coreField": 1,
+				"type": "string",
+				"key": "header",
+				"fullKey": "header"
 			}
 		},
 		"palettes": []
