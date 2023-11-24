@@ -19,4 +19,4 @@ functionality.
    CropVariants
    RTEConfig
    UseExistingTCAFields
-   Labels
+   NewContentElementWizard
