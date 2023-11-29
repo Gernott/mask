@@ -858,8 +858,8 @@ return [
     ],
     'config.fileFolderConfig.folder' => [
         'type' => 'text',
-        'label' => 'tx_mask.field.select.file_folder_ext_list',
-        'description' => 'tx_mask.field.select.file_folder_ext_list.description',
+        'label' => 'tx_mask.field.select.file_folder',
+        'description' => 'tx_mask.field.select.file_folder.description',
         'code' => 'folder',
         'documentation' => [
             11 => 'ColumnsConfig/Type/Select/Properties/FileFolderConfig.html#columns-select-properties-filefolder',
