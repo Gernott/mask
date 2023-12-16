@@ -39,7 +39,7 @@ class CTypeList
     public function itemsProcFunc(array &$params, $parentObj): void
     {
         // if this tt_content element is inline element of mask
-        if ((int)$params['row']['colPos'] === 999) {
+        if ((int)($params['row']['colPos'] ?? 0) === 999) {
             $fieldKey = $params['row']['tx_mask_content_role'] ?? '';
             if ($fieldKey === '' && isset($GLOBALS['TYPO3_REQUEST']->getParsedBody()['ajax']['context'])) {
                 $ajaxContext = json_decode($GLOBALS['TYPO3_REQUEST']->getParsedBody()['ajax']['context'], true, 512, JSON_THROW_ON_ERROR);
