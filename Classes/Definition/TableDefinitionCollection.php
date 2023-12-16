@@ -88,7 +88,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
                 return false;
             }
             foreach ($element->columns as $fieldKey) {
-                $fieldType = $ttContentDefinition->tca->getField($fieldKey)->getFieldType();
+                $fieldType = $this->getFieldType($fieldKey, 'tt_content', $element->key);
                 if ($fieldType->canBeShared()) {
                     return true;
                 }
