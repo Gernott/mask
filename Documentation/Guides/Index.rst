@@ -20,3 +20,4 @@ functionality.
    RTEConfig
    UseExistingTCAFields
    NewContentElementWizard
+   TypoScriptConstants
