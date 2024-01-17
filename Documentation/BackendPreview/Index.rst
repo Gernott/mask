@@ -40,6 +40,7 @@ You can use a core ViewHelper to show an edit icon for every child element:
           </be:link.editRecord><br>
       </f:for>
 
+.. _content-element-icon:
 
 Preview image for a content element
 ===================================

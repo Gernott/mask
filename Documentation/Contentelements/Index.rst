@@ -153,6 +153,12 @@ FontIconPicker
 
    Use a FontAwesome icon
 
+Custom icon
+===========
+
+See :ref:`content-element-icon`.
+
+
 Save the content element
 ========================
 
