@@ -44,7 +44,7 @@ class CTypeList
             if ($fieldKey === '' && isset($GLOBALS['TYPO3_REQUEST']->getParsedBody()['ajax']['context'])) {
                 $ajaxContext = json_decode($GLOBALS['TYPO3_REQUEST']->getParsedBody()['ajax']['context'], true, 512, JSON_THROW_ON_ERROR);
                 $config = json_decode($ajaxContext['config'], true, 512, JSON_THROW_ON_ERROR);
-                $fieldKey = $config['foreign_match_fields']['tx_mask_content_role'];
+                $fieldKey = $config['foreign_match_fields']['tx_mask_content_role'] ?? '';
             }
 
             $table = $params['row']['tx_mask_content_tablenames'] ?? '';
