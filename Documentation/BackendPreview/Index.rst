@@ -47,6 +47,9 @@ Preview image for a content element
 
 Besides setting a FontAwesome Icon for you content element, you can also provide a custom preview image. This can be
 done by placing a 32x32 pixel png image or svg graphic into the :ref:`specified<extension-settings-backend-preview>`
-folder for preview images. The name of the image has to be the key of your element. For example my_element.png or
-my_element.svg. Ideally this should be a screenshot of your element or a nice icon. It will be shown in the new
+folder for preview images. The name of the image has to be the key of your element. For example `my_element.png` or
+`my_element.svg`. Ideally this should be a screenshot of your element or a nice icon. It will be shown in the new
 contentelement wizard and as the preview icon in the backend.
+
+When the new icon is not showing up in the "new content element" wizard,
+clear your browser's local storage.
