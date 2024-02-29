@@ -26,6 +26,7 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\Restriction\FrontendGroupRestriction;
+use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\WorkspaceRestriction;
 use TYPO3\CMS\Core\Database\RelationHandler;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
@@ -271,6 +272,10 @@ class InlineHelper
         // Remove default restrictions for workspace preview in order to fetch the original record uids.
         if ($inWorkspacePreviewMode) {
             $queryBuilder->getRestrictions()->removeAll();
+        } elseif ($isFrontendRequest === false) {
+            // In backend context we want to display hidden records.
+            $restrictions = $queryBuilder->getRestrictions();
+            $restrictions->removeByType(HiddenRestriction::class);
         }
 
         if (BackendUtility::isTableWorkspaceEnabled($childTable)) {
