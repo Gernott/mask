@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [8.3.9] - 2024-02-29
+
+### Fixed
+- Avoid undefined array key warning "foreign_match_fields" [#616](https://github.com/Gernott/mask/issues/616)
+- Use f:uri.resource over image ViewHelper for static assets [#622](https://github.com/Gernott/mask/issues/622)
+- Show hidden inline child elements in backend preview [#620](https://github.com/Gernott/mask/issues/620)
+
 ## [8.3.8] - 2024-01-18
 
 ### Fixed
