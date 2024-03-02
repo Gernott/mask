@@ -31,8 +31,8 @@ Available TCA options
 *  :ref:`config.placeholder <t3tca:tca_property_placeholder>`
 *  :ref:`config.size <t3tca:columns-input-properties-size>`
 *  :ref:`config.eval.required <t3tca:columns-input-properties-eval>`
-*  :ref:`config.fieldControl.linkPopup.options.allowedExtensions <t3tca:tca_property_fieldControl_linkPopup>`
-*  :ref:`config.fieldControl.linkPopup.options.blindLinkOptions <t3tca:tca_property_fieldControl_linkPopup>`
+*  :ref:`config.fieldControl.linkPopup.options.allowedExtensions <t3tca:columns-link-properties-appearance>`
+*  :ref:`config.fieldControl.linkPopup.options.blindLinkOptions <t3tca:columns-link-properties-appearance>`
 *  :ref:`l10n_mode <t3tca:columns-properties-l10n-mode>`
 *  :ref:`config.behaviour.allowLanguageSynchronization <t3tca:tca_property_behaviour_allowLanguageSynchronization>`
 *  :ref:`config.eval.null <t3tca:columns-input-properties-eval>`

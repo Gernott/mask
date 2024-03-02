@@ -13,7 +13,7 @@ Here you can find explanations for common terms when working with Mask.
 Fluid Styled Content
 ====================
 
-:ref:`Fluid Styled Content<t3fsc:start>` is a core extension of TYPO3 which provides all the regular content elements
+:doc:`Fluid Styled Content<typo3/cms-fluid-styled-content:Index>` is a core extension of TYPO3 which provides all the regular content elements
 you can find in your installation like Header, Text and Text & Images. Mask does not depend on it directly, but it is
 good practice to include it nevertheless. Most of the time you will want to have some generic content elements for your
 site. Even if you don't need them, this extension includes the TypoScript snippet `lib.parseFunc_RTE` too, which is
