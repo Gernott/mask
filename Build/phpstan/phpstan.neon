@@ -22,7 +22,6 @@ parameters:
     - ../../Tests
     - ../../Configuration
     - ../../ext_localconf.php
-    - ../../ext_tables.php
 
   # These paths contain classes, which are not present anymore in TYPO3 v12
   excludePaths:
