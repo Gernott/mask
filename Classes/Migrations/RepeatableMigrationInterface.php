@@ -17,6 +17,4 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Migrations;
 
-interface RepeatableMigrationInterface extends MigrationInterface
-{
-}
+interface RepeatableMigrationInterface extends MigrationInterface {}

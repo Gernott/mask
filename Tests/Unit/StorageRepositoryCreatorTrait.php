@@ -35,7 +35,7 @@ trait StorageRepositoryCreatorTrait
 
     protected function createLoader(array $json): LoaderInterface
     {
-        $loader = new class() implements LoaderInterface {
+        $loader = new class () implements LoaderInterface {
             private TableDefinitionCollection $tableDefinitionCollection;
             public function load(): TableDefinitionCollection
             {
