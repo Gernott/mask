@@ -71,4 +71,3 @@ Mask
    ChangeLog/Index
    Sponsors/Index
    ToDoList/Index
-   Targets

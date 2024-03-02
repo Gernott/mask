@@ -277,11 +277,11 @@ Mask is now deprecation free in TYPO3 v11 in terms of TCA migrations. The
 following migrations are done by Mask to mitigate deprecation log entries from
 the core:
 
-*  The new option :ref:`showNewRecordLink <t3tca:columns-inline-properties-showNewRecordLink>`
+*  The new option :ref:`showNewRecordLink <t3tca:columns-inline-properties-appearance>`
    has been added, while the former `levelLinksPosition` option with the value
    `none` is migrated to use this option.
 
-*  The new option :ref:`fileFolderConfig <columns-select-properties-fileFolderConfig>`
+*  The new option :ref:`fileFolderConfig <t3tca:columns-select-properties-fileFolderConfig>`
    is now used instead of the old separate versions.
 
 Bugfixes
