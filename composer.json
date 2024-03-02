@@ -40,8 +40,6 @@
 		}
 	],
 	"license": "GPL-2.0-or-later",
-	"minimum-stability": "dev",
-	"prefer-stable": true,
 	"config": {
 		"vendor-dir": ".Build/vendor",
 		"bin-dir": ".Build/bin",
@@ -52,7 +50,7 @@
 		}
 	},
 	"require-dev": {
-		"typo3/testing-framework": "7.x-dev",
+		"typo3/testing-framework": "^8.0",
 		"phpunit/phpunit": "^10",
 		"friendsofphp/php-cs-fixer": "^3.4",
 		"phpstan/phpstan": "^1.4",

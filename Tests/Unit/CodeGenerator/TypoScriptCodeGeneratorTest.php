@@ -29,6 +29,7 @@ class TypoScriptCodeGeneratorTest extends UnitTestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $this->registerPackageManager();
     }
 
