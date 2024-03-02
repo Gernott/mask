@@ -20,7 +20,6 @@ namespace MASK\Mask\Tests\Unit\CodeGenerator;
 use MASK\Mask\CodeGenerator\TcaCodeGenerator;
 use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Tests\Unit\StorageRepositoryCreatorTrait;
-use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Package\PackageManager;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\OnlineMedia\Helpers\OnlineMediaHelperRegistry;
@@ -1066,27 +1065,14 @@ class TcaCodeGeneratorTest extends BaseTestCase
     {
         $tcaGenerator = new TcaCodeGenerator(TableDefinitionCollection::createFromArray($json), new OnlineMediaHelperRegistry());
         $result = $tcaGenerator->generateFieldsTca($table);
-        if ((new Typo3Version())->getMajorVersion() < 12) {
-            self::assertSame($expected['type'], $result[$field]['config']['type']);
-            self::assertSame($expected['minitems'], $result[$field]['config']['minitems']);
-            self::assertSame($expected['maxitems'], $result[$field]['config']['maxitems']);
-            self::assertSame($expected['elementBrowserAllowed'], $result[$field]['config']['overrideChildTca']['columns']['uid_local']['config']['appearance']['elementBrowserAllowed']);
-            self::assertEquals($expected['elementBrowserAllowed'], $result[$field]['config']['filter'][0]['parameters']['allowedFileExtensions']);
-            self::assertSame($expected['foreign_match_fields'], $result[$field]['config']['foreign_match_fields']['fieldname']);
-            self::assertEquals($expected['appearance']['useSortable'], $result[$field]['config']['appearance']['useSortable']);
-            self::assertEquals($expected['appearance']['fileUploadAllowed'], $result[$field]['config']['appearance']['fileUploadAllowed']);
-            self::assertEquals($expected['appearance']['expandSingle'], $result[$field]['config']['appearance']['expandSingle']);
-            self::assertEquals($expected['imageoverlayPalette'], isset($result[$field]['config']['overrideChildTca']['types'][File::FILETYPE_IMAGE]));
-        } else {
-            self::assertSame('file', $result[$field]['config']['type']);
-            self::assertSame($expectedTypeFile['minitems'], $result[$field]['config']['minitems']);
-            self::assertSame($expectedTypeFile['maxitems'], $result[$field]['config']['maxitems']);
-            self::assertEquals($expectedTypeFile['appearance']['useSortable'], $result[$field]['config']['appearance']['useSortable']);
-            self::assertEquals($expectedTypeFile['appearance']['fileUploadAllowed'], $result[$field]['config']['appearance']['fileUploadAllowed']);
-            self::assertEquals($expectedTypeFile['appearance']['expandSingle'], $result[$field]['config']['appearance']['expandSingle']);
-            self::assertEquals($expectedTypeFile['allowed'], $result[$field]['config']['allowed']);
-            self::assertEquals($expectedTypeFile['imageoverlayPalette'], isset($result[$field]['config']['overrideChildTca']['types'][File::FILETYPE_IMAGE]));
-        }
+        self::assertSame('file', $result[$field]['config']['type']);
+        self::assertSame($expectedTypeFile['minitems'], $result[$field]['config']['minitems']);
+        self::assertSame($expectedTypeFile['maxitems'], $result[$field]['config']['maxitems']);
+        self::assertEquals($expectedTypeFile['appearance']['useSortable'], $result[$field]['config']['appearance']['useSortable']);
+        self::assertEquals($expectedTypeFile['appearance']['fileUploadAllowed'], $result[$field]['config']['appearance']['fileUploadAllowed']);
+        self::assertEquals($expectedTypeFile['appearance']['expandSingle'], $result[$field]['config']['appearance']['expandSingle']);
+        self::assertEquals($expectedTypeFile['allowed'], $result[$field]['config']['allowed']);
+        self::assertEquals($expectedTypeFile['imageoverlayPalette'], isset($result[$field]['config']['overrideChildTca']['types'][File::FILETYPE_IMAGE]));
     }
 
     public function setElementsTcaDataProvider(): array

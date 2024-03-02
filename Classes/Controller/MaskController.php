@@ -21,11 +21,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
-use TYPO3\CMS\Core\Http\HtmlResponse;
-use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Page\PageRenderer;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
  * @internal
@@ -48,10 +44,6 @@ class MaskController
 
     public function mainAction(ServerRequestInterface $request): ResponseInterface
     {
-        if ((new Typo3Version())->getMajorVersion() < 12) {
-            return $this->renderLegacyModuleResponse($request);
-        }
-
         $moduleTemplate = $this->moduleTemplateFactory->create($request);
         $moduleTemplate->getDocHeaderComponent()->disable();
         $moduleTemplate->assign('settingsUrl', $this->uriBuilder->buildUriFromRoute('tools_toolssettings'));
@@ -59,24 +51,5 @@ class MaskController
         $this->pageRenderer->loadJavaScriptModule('@mask/mask');
         $this->pageRenderer->addCssFile('EXT:mask/Resources/Public/Styles/mask.css');
         return $moduleTemplate->renderResponse('Wizard/Main');
-    }
-
-    protected function renderLegacyModuleResponse(ServerRequestInterface $request): ResponseInterface
-    {
-        $moduleTemplate = $this->moduleTemplateFactory->create($request);
-        $moduleTemplate->getDocHeaderComponent()->disable();
-
-        if ((new Typo3Version())->getMajorVersion() < 12) {
-            $view = GeneralUtility::makeInstance(StandaloneView::class);
-            $view->getRenderingContext()->getTemplatePaths()->fillDefaultsByPackageName('mask');
-            $view->setTemplate('Wizard/MainLegacy');
-            $view->assign('settingsUrl', $this->uriBuilder->buildUriFromRoute('tools_toolssettings'));
-            $view->assign('iconSize', 'default');
-            $this->pageRenderer->loadRequireJsModule('TYPO3/CMS/Mask/AmdBundle');
-            $this->pageRenderer->addCssFile('EXT:mask/Resources/Public/Styles/mask.css');
-            $moduleTemplate->setContent($view->render());
-        }
-
-        return new HtmlResponse($moduleTemplate->renderContent());
     }
 }

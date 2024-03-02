@@ -1071,7 +1071,7 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
           if (this.isCoreField(item)) {
             return true;
           }
-          if ((item.tca['config.internal_type'] === 'db' || this.global.typo3Version > 11) && item.tca['config.allowed'] === '') {
+          if (item.tca['config.allowed'] === '') {
             this.fieldErrors.emptyGroupAllowedFields.push(item);
           }
           if (item.fields.length > 0) {
@@ -1091,7 +1091,7 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
               this.fieldErrors.emptyRadioItems.push(item);
             } else {
               items.every(radioItem => {
-                if (!this.isNumeric(this.global.typo3Version > 11 ? radioItem.value : radioItem[1])) {
+                if (!this.isNumeric(radioItem.value)) {
                   this.fieldErrors.emptyRadioItems.push(item);
                   return false;
                 }

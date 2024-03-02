@@ -62,12 +62,12 @@
 		"typo3/coding-standards": "^0.6"
 	},
 	"require": {
-		"php": "^7.4 || ^8.0",
+		"php": "^8.1",
 		"ext-json": "*",
-		"typo3/cms-core": "^11.5.0 || ^12.4",
-		"typo3/cms-backend": "^11.5.0 || ^12.4",
-		"typo3/cms-fluid": "^11.5.0 || ^12.4",
-		"typo3/cms-fluid-styled-content": "^11.5.0 || ^12.4",
+		"typo3/cms-core": "^12.4",
+		"typo3/cms-backend": "^12.4",
+		"typo3/cms-fluid": "^12.4",
+		"typo3/cms-fluid-styled-content": "^12.4",
 		"friendsoftypo3/fontawesome-provider": "^1.0"
 	},
 	"suggest": {

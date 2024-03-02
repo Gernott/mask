@@ -13,7 +13,6 @@ return [
             'description' => 'tx_mask.field.string.default.description',
             'code' => 'default',
             'documentation' => [
-                11 => 'ColumnsConfig/CommonProperties/Default.html#tca-property-default',
                 12 => 'ColumnsConfig/CommonProperties/Default.html#tca-property-default',
             ],
         ],
@@ -25,7 +24,6 @@ return [
             'label' => 'tx_mask.field.string.default',
             'description' => 'tx_mask.field.check.default.description',
             'documentation' => [
-                11 => 'ColumnsConfig/Type/Check/Properties/Default.html#columns-check-properties-default',
                 12 => 'ColumnsConfig/Type/Check/Properties/Default.html#columns-check-properties-default',
             ],
         ],
@@ -41,7 +39,6 @@ return [
         'description' => 'tx_mask.field.string.placeholder.description',
         'code' => 'placeholder',
         'documentation' => [
-            11 => 'ColumnsConfig/CommonProperties/Placeholder.html#tca-property-placeholder',
             12 => 'ColumnsConfig/CommonProperties/Placeholder.html#tca-property-placeholder',
         ],
     ],
@@ -53,7 +50,6 @@ return [
             'description' => 'tx_mask.field.string.size.description',
             'code' => 'size',
             'documentation' => [
-                11 => 'ColumnsConfig/Type/Input/Properties/Size.html#columns-input-properties-size',
                 12 => 'ColumnsConfig/Type/Input/Properties/Size.html#columns-input-properties-size',
             ],
             'min' => 10,
@@ -67,7 +63,6 @@ return [
             'description' => 'tx_mask.field.category.size.description',
             'code' => 'size',
             'documentation' => [
-                11 => 'ColumnsConfig/CommonProperties/Size.html#tca-property-size',
                 12 => 'ColumnsConfig/CommonProperties/Size.html#tca-property-size',
             ],
         ],
@@ -78,7 +73,6 @@ return [
             'description' => 'tx_mask.field.select.size.description',
             'code' => 'size',
             'documentation' => [
-                11 => 'ColumnsConfig/CommonProperties/Size.html#tca-property-size',
                 12 => 'ColumnsConfig/CommonProperties/Size.html#tca-property-size',
             ],
         ],
@@ -89,7 +83,6 @@ return [
             'description' => 'tx_mask.field.select.size.description',
             'code' => 'size',
             'documentation' => [
-                11 => 'ColumnsConfig/CommonProperties/Size.html#tca-property-size',
                 12 => 'ColumnsConfig/CommonProperties/Size.html#tca-property-size',
             ],
         ],
@@ -103,7 +96,6 @@ return [
         'max' => 512,
         'step' => 10,
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Input/Properties/Max.html#columns-input-properties-max',
             12 => 'ColumnsConfig/Type/Input/Properties/Max.html#columns-input-properties-max',
         ],
     ],
@@ -125,7 +117,6 @@ return [
         'description' => 'tx_mask.field.string.is_in.description',
         'code' => 'is_in',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Input/Properties/IsIn.html#columns-input-properties-is-in',
             12 => 'ColumnsConfig/Type/Input/Properties/IsIn.html#columns-input-properties-is-in',
         ],
     ],
@@ -142,7 +133,6 @@ return [
             'timesec' => 'tx_mask.field.timesec_selection',
         ],
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Input/DateTime/Properties/Eval.html',
             12 => 'ColumnsConfig/Type/Input/DateTime/Properties/Eval.html',
         ],
     ],
@@ -158,7 +148,6 @@ return [
             'uniqueInPid' => 'tx_mask.field.slug_unique_in_pid',
         ],
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Slug/Properties/Eval.html#columns-slug-properties-eval',
             12 => 'ColumnsConfig/Type/Slug/Properties/Eval.html#columns-slug-properties-eval',
         ],
     ],
@@ -168,7 +157,6 @@ return [
         'description' => 'tx_mask.field.slug.generatorOptions.fields.description',
         'code' => 'generatorOptions.fields',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Slug/Properties/GeneratorOptions.html#confval-generatorOptions:fields',
             12 => 'ColumnsConfig/Type/Slug/Properties/GeneratorOptions.html#confval-generatorOptions:fields',
         ],
     ],
@@ -178,7 +166,6 @@ return [
         'description' => 'tx_mask.field.slug.generatorOptions.fieldSeparator.description',
         'code' => 'generatorOptions.fieldSeparator',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Slug/Properties/GeneratorOptions.html#confval-generatorOptions:fieldSeparator',
             12 => 'ColumnsConfig/Type/Slug/Properties/GeneratorOptions.html#confval-generatorOptions:fieldSeparator',
         ],
     ],
@@ -192,7 +179,6 @@ return [
             'value' => 'tx_mask.field.slug.generatorOptions.value',
         ],
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Slug/Properties/GeneratorOptions.html#confval-generatorOptions:replacements',
             12 => 'ColumnsConfig/Type/Slug/Properties/GeneratorOptions.html#confval-generatorOptions:replacements',
         ],
     ],
@@ -202,7 +188,6 @@ return [
         'description' => 'tx_mask.field.slug.prependSlash.description',
         'code' => 'prependSlash',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Slug/Properties/PrependSlash.html#columns-slug-properties-prependslash',
             12 => 'ColumnsConfig/Type/Slug/Properties/PrependSlash.html#columns-slug-properties-prependslash',
         ],
     ],
@@ -212,7 +197,6 @@ return [
         'description' => 'tx_mask.field.slug.fallbackCharacter.description',
         'code' => 'fallbackCharacter',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Slug/Properties/FallbackCharacter.html#columns-slug-properties-fallbackcharacter',
             12 => 'ColumnsConfig/Type/Slug/Properties/FallbackCharacter.html#columns-slug-properties-fallbackcharacter',
         ],
     ],
@@ -222,7 +206,6 @@ return [
         'description' => 'tx_mask.field.required.description',
         'code' => 'required',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
         ],
     ],
     'config.required' => [
@@ -240,7 +223,6 @@ return [
         'description' => 'tx_mask.field.trim.description',
         'code' => 'trim',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
             12 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
         ],
     ],
@@ -250,7 +232,6 @@ return [
         'description' => 'tx_mask.field.alpha',
         'code' => 'alpha',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
             12 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
         ],
     ],
@@ -260,7 +241,6 @@ return [
         'description' => 'tx_mask.field.num',
         'code' => 'num',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
             12 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
         ],
     ],
@@ -270,7 +250,6 @@ return [
         'description' => 'tx_mask.field.alphanum',
         'code' => 'alphanum',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
             12 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
         ],
     ],
@@ -280,7 +259,6 @@ return [
         'description' => 'tx_mask.field.alphanum_x',
         'code' => 'alphanum_x',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
             12 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
         ],
     ],
@@ -290,7 +268,6 @@ return [
         'description' => 'tx_mask.field.domainname',
         'code' => 'domainname',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
             12 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
         ],
     ],
@@ -300,7 +277,6 @@ return [
         'description' => 'tx_mask.field.email.description',
         'code' => 'email',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
             12 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
         ],
     ],
@@ -310,7 +286,6 @@ return [
         'description' => 'tx_mask.field.lower',
         'code' => 'lower',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
             12 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
         ],
     ],
@@ -320,7 +295,6 @@ return [
         'description' => 'tx_mask.field.upper',
         'code' => 'upper',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
             12 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
         ],
     ],
@@ -330,7 +304,6 @@ return [
         'description' => 'tx_mask.field.unique',
         'code' => 'unique',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
             12 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
         ],
     ],
@@ -340,7 +313,6 @@ return [
         'description' => 'tx_mask.field.uniqueInPid',
         'code' => 'uniqueInPid',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
             12 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
         ],
     ],
@@ -350,7 +322,6 @@ return [
         'description' => 'tx_mask.field.nospace',
         'code' => 'nospace',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
             12 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
         ],
     ],
@@ -360,7 +331,6 @@ return [
         'description' => 'tx_mask.field.md5',
         'code' => 'md5',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
             12 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
         ],
     ],
@@ -370,7 +340,6 @@ return [
         'description' => 'tx_mask.field.null',
         'code' => 'null',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
         ],
     ],
     'config.nullable' => [
@@ -388,7 +357,6 @@ return [
         'description' => 'tx_mask.field.password',
         'code' => 'password',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
             12 => 'ColumnsConfig/Type/Input/Properties/Eval.html#columns-input-properties-eval',
         ],
     ],
@@ -400,7 +368,6 @@ return [
         'dependsOn' => (new Typo3Version())->getMajorVersion() > 11 ? 'config.nullable' : 'config.eval.null',
         'valueOn' => 'useOrOverridePlaceholder',
         'documentation' => [
-            11 => 'ColumnsConfig/CommonProperties/Mode.html#tca-property-mode',
             12 => 'ColumnsConfig/CommonProperties/Mode.html#tca-property-mode',
         ],
     ],
@@ -410,7 +377,6 @@ return [
         'description' => 'tx_mask.field.string.autocomplete',
         'code' => 'autocomplete',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Input/Properties/Autocomplete.html#columns-input-properties-autocomplete',
             12 => 'ColumnsConfig/Type/Input/Properties/Autocomplete.html#columns-input-properties-autocomplete',
         ],
     ],
@@ -420,7 +386,6 @@ return [
         'description' => 'tx_mask.allowLanguageSynchronization.description',
         'code' => 'allowLanguageSynchronization',
         'documentation' => [
-            11 => 'ColumnsConfig/CommonProperties/BehaviourAllowLanguageSynchronization.html#tca-property-behaviour-allowlanguagesynchronization',
             12 => 'ColumnsConfig/CommonProperties/BehaviourAllowLanguageSynchronization.html#tca-property-behaviour-allowlanguagesynchronization',
         ],
     ],
@@ -429,7 +394,6 @@ return [
         'label' => 'tx_mask.field.float.range.lower',
         'code' => 'range.lower',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Input/Properties/Range.html#columns-input-properties-range',
             12 => 'ColumnsConfig/Type/Datetime/Properties/Range.html',
         ],
     ],
@@ -438,7 +402,6 @@ return [
         'label' => 'tx_mask.field.float.range.upper',
         'code' => 'range.upper',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Input/Properties/Range.html#columns-input-properties-range',
             12 => 'ColumnsConfig/Type/Datetime/Properties/Range.html',
         ],
     ],
@@ -448,7 +411,6 @@ return [
         'description' => 'tx_mask.config.slider.step.description',
         'code' => 'slider.step',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Input/Properties/Slider.html#columns-input-properties-slider',
             12 => 'ColumnsConfig/Type/Input/Properties/Slider.html#columns-input-properties-slider',
         ],
     ],
@@ -460,7 +422,6 @@ return [
         'step' => 50,
         'code' => 'slider.width',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Input/Properties/Slider.html#columns-input-properties-slider',
             12 => 'ColumnsConfig/Type/Input/Properties/Slider.html#columns-input-properties-slider',
         ],
     ],
@@ -475,7 +436,6 @@ return [
             'prepend' => 'tx_mask.config.valuePicker.mode.prepend',
         ],
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Input/Properties/ValuePicker.html',
             12 => 'ColumnsConfig/Type/Input/Properties/ValuePicker.html',
         ],
     ],
@@ -495,7 +455,6 @@ return [
             ],
         ],
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Input/Properties/ValuePicker.html',
             12 => 'ColumnsConfig/Type/Input/Properties/ValuePicker.html',
         ],
     ],
@@ -505,7 +464,6 @@ return [
         'description' => 'tx_mask.field.link.wizard.allowed_extensions.description',
         'code' => 'allowedExtensions',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Input/Properties/LinkPopup.html#tca-property-fieldcontrol-linkpopup',
         ],
     ],
     'config.appearance.allowedFileExtensions' => [
@@ -523,7 +481,6 @@ return [
         'description' => 'tx_mask.blindLinkOptions.description',
         'code' => 'blindLinkOptions',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Input/Properties/LinkPopup.html#tca-property-fieldcontrol-linkpopup',
             12 => 'ColumnsConfig/Type/Input/Properties/LinkPopup.html#tca-property-fieldcontrol-linkpopup',
         ],
     ],
@@ -544,7 +501,6 @@ return [
             'description' => 'tx_mask.content.check.columns.description',
             'code' => 'cols',
             'documentation' => [
-                11 => 'ColumnsConfig/Type/Check/Properties/Cols.html',
                 12 => 'ColumnsConfig/Type/Check/Properties/Cols.html',
             ],
         ],
@@ -557,7 +513,6 @@ return [
             'max' => 50,
             'step' => 5,
             'documentation' => [
-                11 => 'ColumnsConfig/Type/Text/Properties/Cols.html#columns-text-properties-cols',
                 12 => 'ColumnsConfig/Type/Text/Properties/Cols.html#columns-text-properties-cols',
             ],
         ],
@@ -571,7 +526,6 @@ return [
         'max' => 20,
         'step' => 2,
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Text/Properties/Rows.html',
             12 => 'ColumnsConfig/Type/Text/Properties/Rows.html',
         ],
     ],
@@ -591,7 +545,6 @@ return [
                 'php' => 'tx_mask.field.text.format.php',
             ],
             'documentation' => [
-                11 => 'ColumnsConfig/Type/Text/Properties/Format.html',
                 12 => 'ColumnsConfig/Type/Text/Properties/Format.html',
             ],
         ],
@@ -618,7 +571,6 @@ return [
         'valueOff' => 'off',
         'valueOn' => 'virtual',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Text/Properties/Wrap.html',
             12 => 'ColumnsConfig/Type/Text/Properties/Wrap.html',
         ],
     ],
@@ -628,7 +580,6 @@ return [
         'description' => 'tx_mask.config.fixedFont.description',
         'code' => 'fixedFont',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Text/Properties/FixedFont.html',
             12 => 'ColumnsConfig/Type/Text/Properties/FixedFont.html',
         ],
     ],
@@ -638,7 +589,6 @@ return [
         'description' => 'tx_mask.config.enableTabulator.description',
         'code' => 'enableTabulator',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Text/Properties/EnableTabulator.html',
             12 => 'ColumnsConfig/Type/Text/Properties/EnableTabulator.html',
         ],
     ],
@@ -647,7 +597,6 @@ return [
         'label' => 'tx_mask.config.richtextConfiguration',
         'code' => 'richtextConfiguration',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Text/Properties/RichtextConfiguration.html',
             12 => 'ColumnsConfig/Type/Text/Properties/RichtextConfiguration.html',
         ],
     ],
@@ -691,7 +640,6 @@ return [
                 ],
             ],
             'documentation' => [
-                11 => 'ColumnsConfig/Type/Check/Properties/Items.html',
                 12 => 'ColumnsConfig/Type/Check/Properties/Items.html',
             ],
         ],
@@ -712,7 +660,6 @@ return [
             ],
             'placeholder' => 'tx_mask.content.radio.items.placeholder',
             'documentation' => [
-                11 => 'ColumnsConfig/Type/Radio/Properties/Items.html',
                 12 => 'ColumnsConfig/Type/Radio/Properties/Items.html',
             ],
         ],
@@ -746,7 +693,6 @@ return [
             'description' => 'tx_mask.field.select.items',
             'placeholder' => 'tx_mask.content.select.items.placeholder',
             'documentation' => [
-                11 => 'ColumnsConfig/Type/Select/Properties/Items.html',
                 12 => 'ColumnsConfig/Type/Select/Properties/Items.html',
             ],
         ],
@@ -761,7 +707,6 @@ return [
             'value' => 'tx_mask.content.select.itemGroups.value',
         ],
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Select/Properties/ItemGroups.html',
             12 => 'ColumnsConfig/Type/Select/Properties/ItemGroups.html',
         ],
     ],
@@ -798,7 +743,6 @@ return [
         ],
         'maxItems' => 1,
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Select/Properties/SortItems.html',
             12 => 'ColumnsConfig/Type/Select/Properties/SortItems.html',
         ],
     ],
@@ -816,7 +760,6 @@ return [
                 'selectMultipleSideBySide' => 'tx_mask.field.select.renderType.selectMultipleSideBySide',
             ],
             'documentation' => [
-                11 => 'ColumnsConfig/Type/Select/Index.html',
                 12 => 'ColumnsConfig/Type/Select/Index.html',
             ],
         ],
@@ -831,7 +774,6 @@ return [
                 'checkboxLabeledToggle' => 'tx_mask.field.check.renderType.checkboxLabeledToggle',
             ],
             'documentation' => [
-                11 => 'ColumnsConfig/Type/Check/Index.html',
                 12 => 'ColumnsConfig/Type/Check/Index.html',
             ],
         ],
@@ -842,7 +784,6 @@ return [
         'description' => 'tx_mask.field.select.foreign_table.description',
         'code' => 'foreign_table',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Select/Properties/ForeignTable.html',
             12 => 'ColumnsConfig/Type/Select/Properties/ForeignTable.html',
         ],
     ],
@@ -852,7 +793,6 @@ return [
         'description' => 'tx_mask.field.select.foreign_table_where.description',
         'code' => 'foreign_table_where',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Select/Properties/ForeignTableWhere.html',
             12 => 'ColumnsConfig/Type/Select/Properties/ForeignTableWhere.html',
         ],
     ],
@@ -862,7 +802,6 @@ return [
         'description' => 'tx_mask.field.select.file_folder.description',
         'code' => 'folder',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Select/Properties/FileFolderConfig.html#columns-select-properties-filefolder',
             12 => 'ColumnsConfig/Type/Select/Properties/FileFolderConfig.html#columns-select-properties-filefolder',
         ],
     ],
@@ -872,7 +811,6 @@ return [
         'description' => 'tx_mask.field.select.file_folder_ext_list.description',
         'code' => 'allowedExtensions',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Select/Properties/FileFolderConfig.html#columns-select-properties-filefolder-extlist',
             12 => 'ColumnsConfig/Type/Select/Properties/FileFolderConfig.html#columns-select-properties-filefolder-extlist',
         ],
     ],
@@ -884,7 +822,6 @@ return [
         'description' => 'tx_mask.field.select.file_folder_recursions.description',
         'code' => 'depth',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Select/Properties/FileFolderConfig.html#columns-select-properties-filefolder-recursions',
             12 => 'ColumnsConfig/Type/Select/Properties/FileFolderConfig.html#columns-select-properties-filefolder-recursions',
         ],
     ],
@@ -895,7 +832,6 @@ return [
         'description' => 'tx_mask.field.select.autosizemax.description',
         'code' => 'autoSizeMax',
         'documentation' => [
-            11 => 'ColumnsConfig/CommonProperties/AutoSizeMax.html#tca-property-autosizemax',
             12 => 'ColumnsConfig/CommonProperties/AutoSizeMax.html#tca-property-autosizemax',
         ],
     ],
@@ -906,7 +842,6 @@ return [
         'description' => 'tx_mask.field.select.minitems.description',
         'code' => 'minitems',
         'documentation' => [
-            11 => 'ColumnsConfig/CommonProperties/Minitems.html#tca-property-minitems',
             12 => 'ColumnsConfig/CommonProperties/Minitems.html#tca-property-minitems',
         ],
     ],
@@ -917,7 +852,6 @@ return [
         'description' => 'tx_mask.field.select.maxitems.description',
         'code' => 'maxitems',
         'documentation' => [
-            11 => 'ColumnsConfig/CommonProperties/Maxitems.html#tca-property-maxitems',
             12 => 'ColumnsConfig/CommonProperties/Maxitems.html#tca-property-maxitems',
         ],
     ],
@@ -931,7 +865,6 @@ return [
             'folder' => 'tx_mask.field.group.internalType.folder',
         ],
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Group/Properties/InternalType.html#columns-group-properties-internal-type',
             12 => 'ColumnsConfig/Type/Group/Properties/InternalType.html#columns-group-properties-internal-type',
         ],
     ],
@@ -941,7 +874,6 @@ return [
         'description' => 'tx_mask.field.group.allowed.description',
         'code' => 'allowed',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Group/Properties/Allowed.html',
             12 => 'ColumnsConfig/Type/Group/Properties/Allowed.html',
         ],
     ],
@@ -973,7 +905,6 @@ return [
         'description' => 'tx_mask.group.editPopup.description',
         'code' => 'editPopup',
         'documentation' => [
-            11 => 'ColumnsConfig/CommonProperties/FieldControl/EditPopup.html#tca-property-fieldcontrol-editpopup',
             12 => 'ColumnsConfig/CommonProperties/FieldControl/EditPopup.html#tca-property-fieldcontrol-editpopup',
         ],
     ],
@@ -984,7 +915,6 @@ return [
         'description' => 'tx_mask.group.addRecord.description',
         'code' => 'addRecord',
         'documentation' => [
-            11 => 'ColumnsConfig/CommonProperties/FieldControl/AddRecord.html#tca-property-fieldcontrol-addrecord',
             12 => 'ColumnsConfig/CommonProperties/FieldControl/AddRecord.html#tca-property-fieldcontrol-addrecord',
         ],
     ],
@@ -995,7 +925,6 @@ return [
         'description' => 'tx_mask.group.listModule.description',
         'code' => 'listModule',
         'documentation' => [
-            11 => 'ColumnsConfig/CommonProperties/FieldControl/ListModule.html#tca-property-fieldcontrol-listmodule',
             12 => 'ColumnsConfig/CommonProperties/FieldControl/ListModule.html#tca-property-fieldcontrol-listmodule',
         ],
     ],
@@ -1006,7 +935,6 @@ return [
         'description' => 'tx_mask.group.elementBrowser.description',
         'code' => 'elementBrowser',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Group/Properties/FieldControl.html#columns-group-properties-elementbrowser',
             12 => 'ColumnsConfig/Type/Group/Properties/FieldControl.html#columns-group-properties-elementbrowser',
         ],
     ],
@@ -1017,7 +945,6 @@ return [
         'description' => 'tx_mask.group.insertClipboard.description',
         'code' => 'insertClipboard',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Group/Properties/FieldControl.html#tca-property-fieldcontrol-insertclipboard',
             12 => 'ColumnsConfig/Type/Group/Properties/FieldControl.html#tca-property-fieldcontrol-insertclipboard',
         ],
     ],
@@ -1027,7 +954,6 @@ return [
         'description' => 'tx_mask.fieldControl.description',
         'code' => 'fieldControl',
         'documentation' => [
-            11 => 'ColumnsConfig/CommonProperties/FieldControl.html',
             12 => 'ColumnsConfig/CommonProperties/FieldControl.html',
         ],
     ],
@@ -1038,7 +964,6 @@ return [
         'description' => 'tx_mask.group.recordsOverview.description',
         'code' => 'recordsOverview',
         'documentation' => [
-            11 => 'ColumnsConfig/CommonProperties/FieldWizard/RecordsOverview.html#tca-property-fieldwizard-recordsoverview',
             12 => 'ColumnsConfig/CommonProperties/FieldWizard/RecordsOverview.html#tca-property-fieldwizard-recordsoverview',
         ],
     ],
@@ -1049,7 +974,6 @@ return [
         'description' => 'tx_mask.group.tableList.description',
         'code' => 'tableList',
         'documentation' => [
-            11 => 'ColumnsConfig/CommonProperties/FieldWizard/TableList.html#tca-property-fieldwizard-tablelist',
             12 => 'ColumnsConfig/CommonProperties/FieldWizard/TableList.html#tca-property-fieldwizard-tablelist',
         ],
     ],
@@ -1060,7 +984,6 @@ return [
         'description' => 'tx_mask.group.selectIcons.description',
         'code' => 'selectIcons',
         'documentation' => [
-            11 => 'ColumnsConfig/CommonProperties/FieldWizard/SelectIcons.html#tca-property-fieldwizard-selecticons',
             12 => 'ColumnsConfig/CommonProperties/FieldWizard/SelectIcons.html#tca-property-fieldwizard-selecticons',
         ],
     ],
@@ -1070,7 +993,6 @@ return [
         'description' => 'tx_mask.fieldWizard.description',
         'code' => 'fieldWizard',
         'documentation' => [
-            11 => 'ColumnsConfig/CommonProperties/FieldWizard.html',
             12 => 'ColumnsConfig/CommonProperties/FieldWizard.html',
         ],
     ],
@@ -1080,7 +1002,6 @@ return [
         'description' => 'tx_mask.group.multiple.description',
         'code' => 'multiple',
         'documentation' => [
-            11 => 'ColumnsConfig/CommonProperties/Multiple.html#tca-property-multiple',
             12 => 'ColumnsConfig/CommonProperties/Multiple.html#tca-property-multiple',
         ],
     ],
@@ -1095,7 +1016,6 @@ return [
             '0' => 'tx_mask.field.inline.collapse_all.off',
         ],
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
             12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
@@ -1105,7 +1025,6 @@ return [
         'description' => 'tx_mask.field.inline.expand_single',
         'code' => 'expandSingle',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
             12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
@@ -1115,7 +1034,6 @@ return [
         'description' => 'tx_mask.field.inline.use_sortable',
         'code' => 'useSortable',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
             12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
@@ -1125,7 +1043,6 @@ return [
         'description' => 'tx_mask.field.inline.enabledControls.description',
         'code' => 'enabledControls',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
             12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
@@ -1134,7 +1051,6 @@ return [
         'label' => 'tx_mask.field.inline.enabledControls.info.label',
         'code' => 'info',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
             12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
@@ -1143,7 +1059,6 @@ return [
         'label' => 'tx_mask.field.inline.enabledControls.new.label',
         'code' => 'new',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
             12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
@@ -1152,7 +1067,6 @@ return [
         'label' => 'tx_mask.field.inline.enabledControls.dragdrop.label',
         'code' => 'dragdrop',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
             12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
@@ -1161,7 +1075,6 @@ return [
         'label' => 'tx_mask.field.inline.enabledControls.sort.label',
         'code' => 'sort',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
             12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
@@ -1170,7 +1083,6 @@ return [
         'label' => 'tx_mask.field.inline.enabledControls.hide.label',
         'code' => 'hide',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
             12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
@@ -1179,7 +1091,6 @@ return [
         'label' => 'tx_mask.field.inline.enabledControls.delete.label',
         'code' => 'delete',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
             12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
@@ -1188,7 +1099,6 @@ return [
         'label' => 'tx_mask.field.inline.enabledControls.localize.label',
         'code' => 'localize',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
             12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
@@ -1198,7 +1108,6 @@ return [
         'description' => 'tx_mask.field.inline.elementBrowserEnabled.description',
         'code' => 'elementBrowserEnabled',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
             12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
@@ -1208,7 +1117,6 @@ return [
         'description' => 'tx_mask.field.inline.file_upload_allowed',
         'code' => 'fileUploadAllowed',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
             12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
@@ -1218,7 +1126,6 @@ return [
         'description' => 'tx_mask.field.inline.file_by_url_allowed.description',
         'code' => 'fileByUrlAllowed',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
             12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
@@ -1235,7 +1142,6 @@ return [
         'dependsOn' => 'config.appearance.showPossibleLocalizationRecords',
         'code' => 'showSynchronizationLink',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
             12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
@@ -1245,7 +1151,6 @@ return [
         'description' => 'tx_mask.field.inline.show_possible_localization_records.description',
         'code' => 'showPossibleLocalizationRecords',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
             12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
@@ -1256,7 +1161,6 @@ return [
         'dependsOn' => 'config.appearance.showPossibleLocalizationRecords',
         'code' => 'showAllLocalizationLink',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
             12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
@@ -1266,7 +1170,6 @@ return [
         'description' => 'tx_mask.field.inline.new_record_link_title',
         'code' => 'newRecordLinkTitle',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
             12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
@@ -1276,7 +1179,6 @@ return [
         'description' => 'tx_mask.field.inline.createNewRelationLinkTitle.description',
         'code' => 'createNewRelationLinkTitle',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html',
             12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html',
         ],
     ],
@@ -1291,7 +1193,6 @@ return [
         'description' => 'tx_mask.field.inline.level_links_position',
         'code' => 'levelLinksPosition',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
             12 => 'ColumnsConfig/Type/Inline/Properties/Appearance.html#columns-inline-properties-appearance',
         ],
     ],
@@ -1301,7 +1202,6 @@ return [
         'description' => 'tx_mask.field.inline.show_new_record_link.description',
         'code' => 'showNewRecordLink',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Inline/Properties/ShowNewRecordLink.html',
             12 => 'ColumnsConfig/Type/Inline/Properties/ShowNewRecordLink.html',
         ],
     ],
@@ -1316,7 +1216,6 @@ return [
         'description' => 'tx_mask.field.category.relationship.description',
         'code' => 'relationship',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Category/Properties/Relationship.html',
             12 => 'ColumnsConfig/Type/Category/Properties/Relationship.html',
         ],
     ],
@@ -1326,7 +1225,6 @@ return [
         'description' => 'tx_mask.field.category.exclusiveKeys.description',
         'code' => 'exclusiveKeys',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Category/Properties/ExclusiveKeys.html',
             12 => 'ColumnsConfig/Type/Category/Properties/ExclusiveKeys.html',
         ],
     ],
@@ -1336,7 +1234,6 @@ return [
         'description' => 'tx_mask.field.category.treeConfig.startingPoints.description',
         'code' => 'startingPoints',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Category/Properties/TreeConfig.html',
             12 => 'ColumnsConfig/Type/Category/Properties/TreeConfig.html',
         ],
     ],
@@ -1346,7 +1243,6 @@ return [
         'description' => 'tx_mask.field.category.treeConfig.appearance.showHeader.description',
         'code' => 'showHeader',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Category/Properties/TreeConfig.html',
             12 => 'ColumnsConfig/Type/Category/Properties/TreeConfig.html',
         ],
     ],
@@ -1356,7 +1252,6 @@ return [
         'description' => 'tx_mask.field.category.treeConfig.appearance.expandAll.description',
         'code' => 'expandAll',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Category/Properties/TreeConfig.html',
             12 => 'ColumnsConfig/Type/Category/Properties/TreeConfig.html',
         ],
     ],
@@ -1366,7 +1261,6 @@ return [
         'description' => 'tx_mask.field.category.treeConfig.appearance.nonSelectableLevels.description',
         'code' => 'nonSelectableLevels',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Category/Properties/TreeConfig.html',
             12 => 'ColumnsConfig/Type/Category/Properties/TreeConfig.html',
         ],
     ],
@@ -1376,7 +1270,6 @@ return [
         'description' => 'tx_mask.field.select.appearance.expandAll.description',
         'code' => 'expandAll',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Select/Properties/CheckBoxAppearance.html',
             12 => 'ColumnsConfig/Type/Select/Properties/CheckBoxAppearance.html',
         ],
     ],
@@ -1386,7 +1279,6 @@ return [
         'description' => 'tx_mask.field.inline.inline_label',
         'code' => 'label',
         'documentation' => [
-            11 => 'Ctrl/Properties/Label.html#ctrl-reference-label',
             12 => 'Ctrl/Properties/Label.html#ctrl-reference-label',
         ],
     ],
@@ -1396,7 +1288,6 @@ return [
         'description' => 'tx_mask.field.inline.inline_icon',
         'code' => 'iconfile',
         'documentation' => [
-            11 => 'Ctrl/Properties/Iconfile.html#ctrl-reference-iconfile',
             12 => 'Ctrl/Properties/Iconfile.html#ctrl-reference-iconfile',
         ],
     ],
@@ -1412,7 +1303,6 @@ return [
         'description' => 'tx_mask.field.inline.elementBrowserAllowed.description',
         'code' => 'allowedFileExtensions',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Group/Properties/Appearance.html#columns-group-properties-appearance',
             12 => 'ColumnsConfig/Type/Group/Properties/Appearance.html#columns-group-properties-appearance',
         ],
     ],
@@ -1422,7 +1312,6 @@ return [
         'description' => 'tx_mask.field.imageoverlayPalette.description',
         'code' => 'imageoverlayPalette',
         'documentation' => [
-            11 => 'ColumnsConfig/Type/Inline/Examples.html#columns-inline-examples-fal',
             12 => 'ColumnsConfig/Type/Inline/Examples.html#columns-inline-examples-fal',
         ],
     ],
@@ -1431,7 +1320,6 @@ return [
         'label' => 'tx_mask.field.inline.localization_mode',
         'code' => 'l10n_mode',
         'documentation' => [
-            11 => 'Columns/Properties/L10nMode.html#columns-properties-l10n-mode',
             12 => 'Columns/Properties/L10nMode.html#columns-properties-l10n-mode',
         ],
         'items' => [

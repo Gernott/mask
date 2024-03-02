@@ -20,7 +20,6 @@ namespace MASK\Mask\Tests\Unit\Definition;
 use MASK\Mask\Definition\ElementTcaDefinition;
 use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Enumeration\FieldType;
-use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\TestingFramework\Core\BaseTestCase;
 
 class TableDefinitionCollectionTest extends BaseTestCase
@@ -1202,99 +1201,44 @@ class TableDefinitionCollectionTest extends BaseTestCase
             FieldType::INLINE,
         ];
 
-        if ((new Typo3Version())->getMajorVersion() < 12) {
-            yield 'Type File is returned (< v12)' => [
-                [],
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'inline',
-                                    'foreign_table' => 'sys_file_reference',
-                                ],
-                                'key' => 'field1',
+        yield 'Type File is returned (v12+)' => [
+            [],
+            [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'file',
                             ],
+                            'key' => 'field1',
                         ],
                     ],
                 ],
-                'tx_mask_field1',
-                'tt_content',
-                FieldType::FILE,
-            ];
-        } else {
-            yield 'Type File is returned (v12+)' => [
-                [],
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'file',
-                                ],
-                                'key' => 'field1',
-                            ],
-                        ],
-                    ],
-                ],
-                'tx_mask_field1',
-                'tt_content',
-                FieldType::FILE,
-            ];
-        }
+            ],
+            'tx_mask_field1',
+            'tt_content',
+            FieldType::FILE,
+        ];
 
-        if ((new Typo3Version())->getMajorVersion() < 12) {
-            yield 'Type Media is returned (< v12)' => [
-                [],
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'inline',
-                                    'foreign_table' => 'sys_file_reference',
-                                    'overrideChildTca' => [
-                                        'columns' => [
-                                            'uid_local' => [
-                                                'config' => [
-                                                    'appearance' => [
-                                                        'elementBrowserAllowed' => 'vimeo,youtube',
-                                                    ],
-                                                ],
-                                            ],
-                                        ],
-                                    ],
-                                ],
-                                'key' => 'field1',
+        yield 'Type Media is returned (v12+)' => [
+            [],
+            [
+                'tt_content' => [
+                    'tca' => [
+                        'tx_mask_field1' => [
+                            'config' => [
+                                'type' => 'file',
+                                'allowed' => 'vimeo,youtube',
                             ],
+                            'key' => 'field1',
                         ],
                     ],
                 ],
-                'tx_mask_field1',
-                'tt_content',
-                FieldType::MEDIA,
-            ];
-        } else {
-            yield 'Type Media is returned (v12+)' => [
-                [],
-                [
-                    'tt_content' => [
-                        'tca' => [
-                            'tx_mask_field1' => [
-                                'config' => [
-                                    'type' => 'file',
-                                    'allowed' => 'vimeo,youtube',
-                                ],
-                                'key' => 'field1',
-                            ],
-                        ],
-                    ],
-                ],
-                'tx_mask_field1',
-                'tt_content',
-                FieldType::MEDIA,
-            ];
-        }
+            ],
+            'tx_mask_field1',
+            'tt_content',
+            FieldType::MEDIA,
+        ];
 
         yield 'Type File by option is returned' => [
             [],

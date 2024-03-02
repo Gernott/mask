@@ -50,7 +50,6 @@ use TYPO3\CMS\Core\Http\ServerRequest;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Localization\LanguageService;
-use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageQueue;
 use TYPO3\CMS\Core\Resource\File;
@@ -217,7 +216,7 @@ class AjaxController
             if ($this->createFolder($missingFolderPath)) {
                 $this->addFlashMessage('Successfully created directory: ' . $missingFolderPath);
             } else {
-                $this->addFlashMessage('Failed to create directory: ' . $missingFolderPath, '', AbstractMessage::ERROR);
+                $this->addFlashMessage('Failed to create directory: ' . $missingFolderPath, '', ContextualFeedbackSeverity::ERROR);
             }
         }
 
@@ -241,9 +240,9 @@ class AjaxController
         }
 
         if (!$success) {
-            $this->addFlashMessage('Failed to create template files. See errors below.', '', AbstractMessage::ERROR);
+            $this->addFlashMessage('Failed to create template files. See errors below.', '', ContextualFeedbackSeverity::ERROR);
             foreach ($messages as $message) {
-                $this->addFlashMessage($message, '', AbstractMessage::ERROR);
+                $this->addFlashMessage($message, '', ContextualFeedbackSeverity::ERROR);
             }
         }
 
@@ -277,7 +276,7 @@ class AjaxController
         try {
             $tableDefinitionCollection = $this->storageRepository->update($params['element'], $fields, $params['type'], $isNew);
         } catch (\Exception $e) {
-            $this->addFlashMessage($e->getMessage(), '', AbstractMessage::ERROR);
+            $this->addFlashMessage($e->getMessage(), '', ContextualFeedbackSeverity::ERROR);
             return new JsonResponse(['messages' => $this->flashMessageQueue->getAllMessagesAndFlush(), 'hasError' => 1]);
         }
         $this->generateAction($tableDefinitionCollection);
@@ -285,8 +284,8 @@ class AjaxController
             try {
                 $this->createHtml($elementKey);
             } catch (\Exception $e) {
-                $this->addFlashMessage('Creating template file has failed. See error below.', '', AbstractMessage::ERROR);
-                $this->addFlashMessage($e->getMessage(), '', AbstractMessage::ERROR);
+                $this->addFlashMessage('Creating template file has failed. See error below.', '', ContextualFeedbackSeverity::ERROR);
+                $this->addFlashMessage($e->getMessage(), '', ContextualFeedbackSeverity::ERROR);
             }
         }
         if ($isNew) {
@@ -387,7 +386,7 @@ class AjaxController
                 'label' => $element->label,
                 'translatedLabel' => $translatedLabel !== $element->label ? $translatedLabel : '',
                 'shortLabel' => $element->shortLabel,
-                'iconMarkup' => $this->iconFactory->getIcon('mask-ce-' . $element->key, (new Typo3Version())->getMajorVersion() > 11 ? 'medium' : 'default', $overlay)->render(),
+                'iconMarkup' => $this->iconFactory->getIcon('mask-ce-' . $element->key, 'medium', $overlay)->render(),
                 'templateExists' => $this->contentElementTemplateExists($element->key) ? 1 : 0,
                 'hidden' => $element->hidden ? 1 : 0,
                 'count' => $this->getElementCount($element->key),
@@ -415,17 +414,17 @@ class AjaxController
     public function fieldTypes(ServerRequestInterface $request): Response
     {
         $json = [];
-        $availability = [
-            FieldType::EMAIL => 12,
-            FieldType::FOLDER => 12,
-        ];
-        $typo3Version = new Typo3Version();
+        //        $availability = [
+        //            FieldType::EMAIL => 12,
+        //            FieldType::FOLDER => 12,
+        //        ];
+        //        $typo3Version = new Typo3Version();
         $defaults = $this->configurationLoader->loadDefaults();
         $grouping = $this->configurationLoader->loadFieldGroups();
         foreach (FieldType::getConstants() as $type) {
-            if (isset($availability[$type]) && $typo3Version->getMajorVersion() < $availability[$type]) {
-                continue;
-            }
+            //            if (isset($availability[$type]) && $typo3Version->getMajorVersion() < $availability[$type]) {
+            //                continue;
+            //            }
 
             $config = [
                 'name' => $type,
@@ -821,16 +820,16 @@ class AjaxController
 
     public function tabs(ServerRequestInterface $request): Response
     {
-        $availability = [
-            FieldType::CATEGORY => 11,
-        ];
-        $typo3Version = new Typo3Version();
+        //        $availability = [
+        //            FieldType::CATEGORY => 11,
+        //        ];
+        //        $typo3Version = new Typo3Version();
         $tabs = [];
         $availableTcaFields = $this->configurationLoader->loadTcaFields();
         foreach (FieldType::getConstants() as $type) {
-            if (isset($availability[$type]) && $typo3Version->getMajorVersion() < $availability[$type]) {
-                continue;
-            }
+            //            if (isset($availability[$type]) && $typo3Version->getMajorVersion() < $availability[$type]) {
+            //                continue;
+            //            }
             $tabs[$type] = $this->configurationLoader->loadTab($type);
             // Remove unavailable TCA options
             foreach ($tabs[$type] as $tabType => $rows) {
@@ -976,12 +975,10 @@ class AjaxController
                 'label' => $this->getLanguageService()->sL($linkHandler['label']),
             ];
         }
-        if ((new Typo3Version())->getMajorVersion() > 11) {
-            $linkHandlerResponse[] = [
-                'identifier' => 'record',
-                'label' => $this->translateLabel('tx_mask.genericLinkhandlerRecord'),
-            ];
-        }
+        $linkHandlerResponse[] = [
+            'identifier' => 'record',
+            'label' => $this->translateLabel('tx_mask.genericLinkhandlerRecord'),
+        ];
 
         return new JsonResponse($linkHandlerResponse);
     }
@@ -998,7 +995,7 @@ class AjaxController
 
     public function versions(ServerRequestInterface $request): Response
     {
-        $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);
+        $typo3Version = new Typo3Version();
         return new JsonResponse(
             [
                 'typo3' => $typo3Version->getMajorVersion(),
@@ -1033,7 +1030,7 @@ class AjaxController
         // Update Database
         $result = $this->sqlCodeGenerator->updateDatabase();
         if (array_key_exists('error', $result)) {
-            $this->addFlashMessage($result['error'], '', AbstractMessage::ERROR);
+            $this->addFlashMessage($result['error'], '', ContextualFeedbackSeverity::ERROR);
         }
 
         // Clear system cache to force new TCA caching
@@ -1092,47 +1089,16 @@ class AjaxController
         return new JsonResponse(['isAvailable' => (!$field instanceof TcaFieldDefinition || !$field->hasFieldType($elementKey) || $field->getFieldType($elementKey)->equals($type))]);
     }
 
-    /**
-     * Creates a Message object and adds it to the FlashMessageQueue.
-     *
-     * @param string $messageBody The message
-     * @param string $messageTitle Optional message title
-     * @param int $severity Optional severity, must be one of \TYPO3\CMS\Core\Messaging\FlashMessage constants
-     * @param bool $storeInSession Optional, defines whether the message should be stored in the session (default) or not
-     * @throws \TYPO3\CMS\Core\Exception
-     * @see \TYPO3\CMS\Core\Messaging\FlashMessage
-     */
-    protected function addFlashMessage(string $messageBody, string $messageTitle = '', int $severity = AbstractMessage::OK, bool $storeInSession = true): void
+    protected function addFlashMessage(string $messageBody, string $messageTitle = '', ContextualFeedbackSeverity $severity = ContextualFeedbackSeverity::OK, bool $storeInSession = true): void
     {
         $flashMessage = GeneralUtility::makeInstance(
             FlashMessage::class,
             $messageBody,
             $messageTitle,
-            $this->getCompatibleSeverity($severity),
+            $severity,
             $storeInSession
         );
         $this->flashMessageQueue->enqueue($flashMessage);
-    }
-
-    /**
-     * @return int|ContextualFeedbackSeverity
-     */
-    protected function getCompatibleSeverity(int $code)
-    {
-        $useEnum = (new Typo3Version())->getMajorVersion() > 11;
-        switch ($code) {
-            case AbstractMessage::NOTICE:
-                return $useEnum ? ContextualFeedbackSeverity::NOTICE : AbstractMessage::NOTICE;
-            case AbstractMessage::INFO:
-                return $useEnum ? ContextualFeedbackSeverity::INFO : AbstractMessage::INFO;
-            case AbstractMessage::OK:
-                return $useEnum ? ContextualFeedbackSeverity::OK : AbstractMessage::OK;
-            case AbstractMessage::WARNING:
-                return $useEnum ? ContextualFeedbackSeverity::WARNING : AbstractMessage::WARNING;
-            case AbstractMessage::ERROR:
-                return $useEnum ? ContextualFeedbackSeverity::ERROR : AbstractMessage::ERROR;
-        }
-        return $useEnum ? ContextualFeedbackSeverity::OK : AbstractMessage::OK;
     }
 
     /**

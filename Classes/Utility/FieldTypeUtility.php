@@ -19,7 +19,6 @@ namespace MASK\Mask\Utility;
 
 use InvalidArgumentException;
 use MASK\Mask\Enumeration\FieldType;
-use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Resource\OnlineMedia\Helpers\OnlineMediaHelperRegistry;
 use TYPO3\CMS\Core\Type\Exception\InvalidEnumerationValueException;
 use TYPO3\CMS\Core\Utility\GeneralUtility as CoreGeneralUtility;
@@ -129,11 +128,7 @@ class FieldTypeUtility
     protected static function isMediaType(array $tca): bool
     {
         // Check if the allowed list contains online media types.
-        if ((new Typo3Version())->getVersion() < 12) {
-            $allowedList = $tca['config']['overrideChildTca']['columns']['uid_local']['config']['appearance']['elementBrowserAllowed'] ?? '';
-        } else {
-            $allowedList = $tca['config']['allowed'] ?? '';
-        }
+        $allowedList = $tca['config']['allowed'] ?? '';
         $allowedList = CoreGeneralUtility::trimExplode(',', $allowedList, true);
         $onlineMediaHelperRegistry = CoreGeneralUtility::makeInstance(OnlineMediaHelperRegistry::class);
         $onlineMediaTypes = $onlineMediaHelperRegistry->getSupportedFileExtensions();

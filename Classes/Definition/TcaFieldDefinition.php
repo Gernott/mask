@@ -20,7 +20,6 @@ namespace MASK\Mask\Definition;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\FieldTypeUtility;
-use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Schema\Struct\SelectItem;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -596,8 +595,7 @@ final class TcaFieldDefinition
 
         // TCA type="datetime" moved "eval=date, datetime, ..." to "format".
         if (
-            (new Typo3Version())->getMajorVersion() > 11
-            && $tcaFieldDefinition->hasFieldType()
+            $tcaFieldDefinition->hasFieldType()
             && $tcaFieldDefinition->type->equals(FieldType::TIMESTAMP)
             && ($definition['config']['eval'] ?? '') !== ''
         ) {
@@ -616,8 +614,7 @@ final class TcaFieldDefinition
 
         // TCA type=link "fieldControl" moved to "appearance"
         if (
-            (new Typo3Version())->getMajorVersion() > 11
-            && $tcaFieldDefinition->hasFieldType()
+            $tcaFieldDefinition->hasFieldType()
             && $tcaFieldDefinition->type->equals(FieldType::LINK)
         ) {
             if ($definition['config']['fieldControl']['linkPopup']['options']['allowedExtensions'] ?? false) {
@@ -642,8 +639,7 @@ final class TcaFieldDefinition
 
         // New TCA type email since TYPO3 v12
         if (
-            (new Typo3Version())->getMajorVersion() > 11
-            && $tcaFieldDefinition->hasFieldType()
+            $tcaFieldDefinition->hasFieldType()
             && $tcaFieldDefinition->type->equals(FieldType::STRING)
         ) {
             $evalList = GeneralUtility::trimExplode(',', $definition['config']['eval'] ?? '');
@@ -656,8 +652,8 @@ final class TcaFieldDefinition
         }
 
         // New TCA type folder since TYPO3 v12
-        if ((new Typo3Version())->getMajorVersion() > 11
-            && $tcaFieldDefinition->hasFieldType()
+        if (
+            $tcaFieldDefinition->hasFieldType()
             && $tcaFieldDefinition->type->equals(FieldType::GROUP)
         ) {
             if (($definition['config']['internal_type'] ?? '') === 'folder') {
@@ -668,23 +664,20 @@ final class TcaFieldDefinition
         }
 
         // TYPO3 v12 required=true / nullable=true
-        if ((new Typo3Version())->getMajorVersion() > 11) {
-            $evalList = GeneralUtility::trimExplode(',', $definition['config']['eval'] ?? '');
-            if (in_array('required', $evalList, true)) {
-                $definition['config']['required'] = 1;
-                $evalList = array_diff($evalList, ['required']);
-            }
-            if (in_array('null', $evalList, true)) {
-                $definition['config']['nullable'] = 1;
-                $evalList = array_diff($evalList, ['null']);
-            }
-            $definition['config']['eval'] = implode(',', $evalList);
+        $evalList = GeneralUtility::trimExplode(',', $definition['config']['eval'] ?? '');
+        if (in_array('required', $evalList, true)) {
+            $definition['config']['required'] = 1;
+            $evalList = array_diff($evalList, ['required']);
         }
+        if (in_array('null', $evalList, true)) {
+            $definition['config']['nullable'] = 1;
+            $evalList = array_diff($evalList, ['null']);
+        }
+        $definition['config']['eval'] = implode(',', $evalList);
 
         // TYPO3 v12 associative array keys for items.
         if (
-            (new Typo3Version())->getMajorVersion() > 11
-            && $tcaFieldDefinition->hasFieldType()
+            $tcaFieldDefinition->hasFieldType()
             && (
                 $tcaFieldDefinition->getFieldType()->equals(FieldType::SELECT)
                 || $tcaFieldDefinition->getFieldType()->equals(FieldType::RADIO)
@@ -702,8 +695,7 @@ final class TcaFieldDefinition
 
         // TYPO3 v12 type=number
         if (
-            (new Typo3Version())->getMajorVersion() > 11
-            && $tcaFieldDefinition->hasFieldType()
+            $tcaFieldDefinition->hasFieldType()
             && (
                 $tcaFieldDefinition->getFieldType()->equals(FieldType::INTEGER)
                 || $tcaFieldDefinition->getFieldType()->equals(FieldType::FLOAT)
@@ -745,10 +737,7 @@ final class TcaFieldDefinition
 
     public function isNullable(): bool
     {
-        if ((new Typo3Version())->getMajorVersion() > 11) {
-            return (bool)($this->realTca['config']['nullable'] ?? false);
-        }
-        return GeneralUtility::inList($this->realTca['config']['eval'] ?? '', 'null');
+        return (bool)($this->realTca['config']['nullable'] ?? false);
     }
 
     public function mergeTca(TcaFieldDefinition $tcaFieldDefinition): TcaFieldDefinition

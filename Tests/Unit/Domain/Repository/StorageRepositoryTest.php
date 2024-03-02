@@ -19,7 +19,6 @@ namespace MASK\Mask\Tests\Unit\Domain\Repository;
 
 use MASK\Mask\Tests\Unit\PackageManagerTrait;
 use MASK\Mask\Tests\Unit\StorageRepositoryCreatorTrait;
-use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\TestingFramework\Core\BaseTestCase;
 
 class StorageRepositoryTest extends BaseTestCase
@@ -1911,84 +1910,6 @@ class StorageRepositoryTest extends BaseTestCase
             'isNew' => false,
         ];
 
-        if ((new Typo3Version())->getMajorVersion() === 11) {
-            yield 'Timestamps range converted to integer' => [
-                'json' => [],
-                'element' => [
-                    'key' => 'element1',
-                    'label' => 'Element 1',
-                    'sorting' => '1',
-                ],
-                'fields' => [
-                    [
-                        'key' => 'tx_mask_timestamp',
-                        'label' => 'Timestamp',
-                        'description' => '',
-                        'name' => 'timestamp',
-                        'tca' => [
-                            'config.eval.date' => 1,
-                            'config.range.lower' => '00:00 01.01.2021',
-                            'config.range.upper' => '00:00 15.01.2021',
-                        ],
-                    ],
-                ],
-                'table' => 'tt_content',
-                'expected' => [
-                    'tt_content' => [
-                        'elements' => [
-                            'element1' => [
-                                'label' => 'Element 1',
-                                'key' => 'element1',
-                                'columns' => [
-                                    'tx_mask_timestamp',
-                                ],
-                                'columnsOverride' => [
-                                    'tx_mask_timestamp' => [
-                                        'config' => [
-                                            'renderType' => 'inputDateTime',
-                                            'eval' => 'date,int',
-                                            'range' => [
-                                                'lower' => 1609459200,
-                                                'upper' => 1610668800,
-                                            ],
-                                        ],
-                                        'key' => 'timestamp',
-                                        'fullKey' => 'tx_mask_timestamp',
-                                        'type' => 'timestamp',
-                                    ],
-                                ],
-                                'labels' => [
-                                    'Timestamp',
-                                ],
-                                'descriptions' => [
-                                    '',
-                                ],
-                                'sorting' => '1',
-                            ],
-                        ],
-                        'sql' => [
-                            'tx_mask_timestamp' => [
-                                'tt_content' => [
-                                    'tx_mask_timestamp' => 'int(10) unsigned DEFAULT \'0\' NOT NULL',
-                                ],
-                            ],
-                        ],
-                        'tca' => [
-                            'tx_mask_timestamp' => [
-                                'key' => 'timestamp',
-                                'fullKey' => 'tx_mask_timestamp',
-                                'type' => 'timestamp',
-                                'config' => [
-                                    'type' => 'input',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                'isNew' => false,
-            ];
-        }
-
         yield 'inline fields with no children are not added as new table' => [
             'json' => [],
             'element' => [
@@ -2668,241 +2589,239 @@ class StorageRepositoryTest extends BaseTestCase
             'isNew' => true,
         ];
 
-        if ((new Typo3Version())->getMajorVersion() > 11) {
-            yield 'Array like TCA fields are not replaced when used in other elements' => [
-                'json' => [
-                    'tt_content' => [
-                        'elements' => [
-                            'element1' => [
-                                'label' => 'Element 1',
-                                'key' => 'element1',
-                                'shortLabel' => '',
-                                'description' => '',
-                                'icon' => '',
-                                'color' => '#000000',
-                                'sorting' => '1',
-                                'columns' => [
-                                    'tx_mask_select',
-                                ],
-                                'columnsOverride' => [
-                                    'tx_mask_select' => [
-                                        'key' => 'select',
-                                        'fullKey' => 'tx_mask_select',
-                                        'type' => 'select',
-                                        'config' => [
-                                            'renderType' => 'selectSingle',
-                                            'items' => [
-                                                [
-                                                    'label' => 'Item 1',
-                                                    'value' => '1',
-                                                ],
-                                            ],
-                                        ],
-                                    ],
-                                ],
-                                'labels' => [
-                                    'Select 1',
-                                ],
-                                'descriptions' => [
-                                    '',
-                                ],
+        yield 'Array like TCA fields are not replaced when used in other elements' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'label' => 'Element 1',
+                            'key' => 'element1',
+                            'shortLabel' => '',
+                            'description' => '',
+                            'icon' => '',
+                            'color' => '#000000',
+                            'sorting' => '1',
+                            'columns' => [
+                                'tx_mask_select',
                             ],
-                            'element2' => [
-                                'label' => 'Element 2',
-                                'key' => 'element2',
-                                'shortLabel' => '',
-                                'description' => '',
-                                'icon' => '',
-                                'color' => '#000000',
-                                'sorting' => '2',
-                                'columns' => [
-                                    'tx_mask_select',
-                                ],
-                                'columnsOverride' => [
-                                    'tx_mask_select' => [
-                                        'key' => 'select',
-                                        'fullKey' => 'tx_mask_select',
-                                        'type' => 'select',
+                            'columnsOverride' => [
+                                'tx_mask_select' => [
+                                    'key' => 'select',
+                                    'fullKey' => 'tx_mask_select',
+                                    'type' => 'select',
+                                    'config' => [
                                         'renderType' => 'selectSingle',
-                                        'config' => [
-                                            'items' => [
-                                                [
-                                                    'label' => 'Item 1',
-                                                    'value' => '1',
-                                                ],
+                                        'items' => [
+                                            [
+                                                'label' => 'Item 1',
+                                                'value' => '1',
                                             ],
-                                            'renderType' => 'selectSingle',
                                         ],
                                     ],
                                 ],
-                                'labels' => [
-                                    'Select 1',
-                                ],
-                                'descriptions' => [
-                                    '',
-                                ],
+                            ],
+                            'labels' => [
+                                'Select 1',
+                            ],
+                            'descriptions' => [
+                                '',
                             ],
                         ],
-                        'tca' => [
-                            'tx_mask_select' => [
-                                'key' => 'select',
-                                'fullKey' => 'tx_mask_select',
-                                'type' => 'select',
-                                'config' => [
+                        'element2' => [
+                            'label' => 'Element 2',
+                            'key' => 'element2',
+                            'shortLabel' => '',
+                            'description' => '',
+                            'icon' => '',
+                            'color' => '#000000',
+                            'sorting' => '2',
+                            'columns' => [
+                                'tx_mask_select',
+                            ],
+                            'columnsOverride' => [
+                                'tx_mask_select' => [
+                                    'key' => 'select',
+                                    'fullKey' => 'tx_mask_select',
                                     'type' => 'select',
-                                    'items' => [
-                                        [
-                                            'label' => 'Item 1',
-                                            'value' => '1',
+                                    'renderType' => 'selectSingle',
+                                    'config' => [
+                                        'items' => [
+                                            [
+                                                'label' => 'Item 1',
+                                                'value' => '1',
+                                            ],
                                         ],
-                                        [
-                                            'label' => 'Item 2',
-                                            'value' => '2',
-                                        ],
+                                        'renderType' => 'selectSingle',
+                                    ],
+                                ],
+                            ],
+                            'labels' => [
+                                'Select 1',
+                            ],
+                            'descriptions' => [
+                                '',
+                            ],
+                        ],
+                    ],
+                    'tca' => [
+                        'tx_mask_select' => [
+                            'key' => 'select',
+                            'fullKey' => 'tx_mask_select',
+                            'type' => 'select',
+                            'config' => [
+                                'type' => 'select',
+                                'items' => [
+                                    [
+                                        'label' => 'Item 1',
+                                        'value' => '1',
+                                    ],
+                                    [
+                                        'label' => 'Item 2',
+                                        'value' => '2',
                                     ],
                                 ],
                             ],
                         ],
                     ],
                 ],
-                'element' => [
-                    'label' => 'Element 2',
-                    'key' => 'element2',
-                    'shortLabel' => '',
+            ],
+            'element' => [
+                'label' => 'Element 2',
+                'key' => 'element2',
+                'shortLabel' => '',
+                'description' => '',
+                'icon' => '',
+                'color' => '#000000',
+            ],
+            'fields' => [
+                'tx_mask_select' => [
+                    'key' => 'tx_mask_select',
+                    'label' => 'Select 1',
                     'description' => '',
-                    'icon' => '',
-                    'color' => '#000000',
-                ],
-                'fields' => [
-                    'tx_mask_select' => [
-                        'key' => 'tx_mask_select',
-                        'label' => 'Select 1',
-                        'description' => '',
-                        'name' => 'select',
-                        'tca' => [
-                            'config.items' => [
-                                [
-                                    'label' => 'Item 1',
-                                    'value' => '1',
-                                ],
-                                [
-                                    'label' => 'Item 2',
-                                    'value' => '2',
-                                ],
+                    'name' => 'select',
+                    'tca' => [
+                        'config.items' => [
+                            [
+                                'label' => 'Item 1',
+                                'value' => '1',
                             ],
-                            'config.renderType' => 'selectSingle',
+                            [
+                                'label' => 'Item 2',
+                                'value' => '2',
+                            ],
                         ],
+                        'config.renderType' => 'selectSingle',
                     ],
                 ],
-                'table' => 'tt_content',
-                'expected' => [
-                    'tt_content' => [
-                        'elements' => [
-                            'element1' => [
-                                'label' => 'Element 1',
-                                'key' => 'element1',
-                                'shortLabel' => '',
-                                'description' => '',
-                                'icon' => '',
-                                'color' => '#000000',
-                                'sorting' => 1,
-                                'columns' => [
-                                    'tx_mask_select',
-                                ],
-                                'columnsOverride' => [
-                                    'tx_mask_select' => [
-                                        'key' => 'select',
-                                        'type' => 'select',
-                                        'fullKey' => 'tx_mask_select',
-                                        'config' => [
-                                            'renderType' => 'selectSingle',
-                                            'items' => [
-                                                [
-                                                    'label' => 'Item 1',
-                                                    'value' => '1',
-                                                    'icon' => '',
-                                                    'group' => '',
-                                                    'description' => '',
-                                                ],
-                                            ],
-                                        ],
-                                    ],
-                                ],
-                                'labels' => [
-                                    'Select 1',
-                                ],
-                                'descriptions' => [
-                                    '',
-                                ],
-                                'colorOverlay' => '',
-                                'iconOverlay' => '',
+            ],
+            'table' => 'tt_content',
+            'expected' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'label' => 'Element 1',
+                            'key' => 'element1',
+                            'shortLabel' => '',
+                            'description' => '',
+                            'icon' => '',
+                            'color' => '#000000',
+                            'sorting' => 1,
+                            'columns' => [
+                                'tx_mask_select',
                             ],
-                            'element2' => [
-                                'label' => 'Element 2',
-                                'key' => 'element2',
-                                'shortLabel' => '',
-                                'description' => '',
-                                'icon' => '',
-                                'color' => '#000000',
-                                'columns' => [
-                                    'tx_mask_select',
-                                ],
-                                'columnsOverride' => [
-                                    'tx_mask_select' => [
-                                        'key' => 'select',
-                                        'fullKey' => 'tx_mask_select',
-                                        'type' => 'select',
-                                        'config' => [
-                                            'renderType' => 'selectSingle',
-                                            'items' => [
-                                                [
-                                                    'label' => 'Item 1',
-                                                    'value' => '1',
-                                                    'icon' => '',
-                                                    'group' => '',
-                                                    'description' => '',
-                                                ],
-                                                [
-                                                    'label' => 'Item 2',
-                                                    'value' => '2',
-                                                    'icon' => '',
-                                                    'group' => '',
-                                                    'description' => '',
-                                                ],
-                                            ],
-                                        ],
-                                    ],
-                                ],
-                                'labels' => [
-                                    'Select 1',
-                                ],
-                                'descriptions' => [
-                                    '',
-                                ],
-                            ],
-                        ],
-                        'tca' => [
-                            'tx_mask_select' => [
-                                'key' => 'select',
-                                'fullKey' => 'tx_mask_select',
-                                'type' => 'select',
-                                'config' => [
+                            'columnsOverride' => [
+                                'tx_mask_select' => [
+                                    'key' => 'select',
                                     'type' => 'select',
+                                    'fullKey' => 'tx_mask_select',
+                                    'config' => [
+                                        'renderType' => 'selectSingle',
+                                        'items' => [
+                                            [
+                                                'label' => 'Item 1',
+                                                'value' => '1',
+                                                'icon' => '',
+                                                'group' => '',
+                                                'description' => '',
+                                            ],
+                                        ],
+                                    ],
                                 ],
                             ],
+                            'labels' => [
+                                'Select 1',
+                            ],
+                            'descriptions' => [
+                                '',
+                            ],
+                            'colorOverlay' => '',
+                            'iconOverlay' => '',
                         ],
-                        'sql' => [
-                            'tx_mask_select' => [
-                                'tt_content' => [
-                                    'tx_mask_select' => 'varchar(255) DEFAULT \'\' NOT NULL',
+                        'element2' => [
+                            'label' => 'Element 2',
+                            'key' => 'element2',
+                            'shortLabel' => '',
+                            'description' => '',
+                            'icon' => '',
+                            'color' => '#000000',
+                            'columns' => [
+                                'tx_mask_select',
+                            ],
+                            'columnsOverride' => [
+                                'tx_mask_select' => [
+                                    'key' => 'select',
+                                    'fullKey' => 'tx_mask_select',
+                                    'type' => 'select',
+                                    'config' => [
+                                        'renderType' => 'selectSingle',
+                                        'items' => [
+                                            [
+                                                'label' => 'Item 1',
+                                                'value' => '1',
+                                                'icon' => '',
+                                                'group' => '',
+                                                'description' => '',
+                                            ],
+                                            [
+                                                'label' => 'Item 2',
+                                                'value' => '2',
+                                                'icon' => '',
+                                                'group' => '',
+                                                'description' => '',
+                                            ],
+                                        ],
+                                    ],
                                 ],
+                            ],
+                            'labels' => [
+                                'Select 1',
+                            ],
+                            'descriptions' => [
+                                '',
+                            ],
+                        ],
+                    ],
+                    'tca' => [
+                        'tx_mask_select' => [
+                            'key' => 'select',
+                            'fullKey' => 'tx_mask_select',
+                            'type' => 'select',
+                            'config' => [
+                                'type' => 'select',
+                            ],
+                        ],
+                    ],
+                    'sql' => [
+                        'tx_mask_select' => [
+                            'tt_content' => [
+                                'tx_mask_select' => 'varchar(255) DEFAULT \'\' NOT NULL',
                             ],
                         ],
                     ],
                 ],
-                'isNew' => false,
-            ];
-        }
+            ],
+            'isNew' => false,
+        ];
     }
 
     /**

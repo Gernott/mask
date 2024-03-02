@@ -26,7 +26,6 @@ use MASK\Mask\Definition\TcaFieldDefinition;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\DateUtility;
-use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Preparations\TcaPreparation;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\OnlineMedia\Helpers\OnlineMediaHelperRegistry;
@@ -164,7 +163,6 @@ class TcaCodeGenerator
             $GLOBALS['TCA']['tt_content']['palettes'][$palette->key] = $this->generatePalettesTca($palette, 'tt_content');
         }
 
-        $typo3Version = new Typo3Version();
         foreach ($tt_content->elements as $element) {
             if ($element->hidden) {
                 continue;
@@ -180,10 +178,10 @@ class TcaCodeGenerator
                 'tt_content',
                 'CType',
                 [
-                    ($typo3Version->getMajorVersion() > 11 ? 'label' : 0) => $label,
-                    ($typo3Version->getMajorVersion() > 11 ? 'value' : 1) => $cTypeKey,
-                    ($typo3Version->getMajorVersion() > 11 ? 'icon' : 2) => 'mask-ce-' . $element->key,
-                    ($typo3Version->getMajorVersion() > 11 ? 'group' : 3) => 'mask',
+                    'label' => $label,
+                    'value' => $cTypeKey,
+                    'icon' => 'mask-ce-' . $element->key,
+                    'group' => 'mask',
                 ]
             );
 
@@ -444,21 +442,12 @@ class TcaCodeGenerator
             ? $columnsOverride->onlineMedia
             : $field->onlineMedia;
 
-        $typo3Version = new Typo3Version();
         if ($fieldType->equals(FieldType::FILE) && $field->allowedFileExtensions === '') {
-            if ($typo3Version->getMajorVersion() < 12) {
-                $field->allowedFileExtensions = $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'];
-            } else {
-                $field->allowedFileExtensions = 'common-image-types';
-            }
+            $field->allowedFileExtensions = 'common-image-types';
         }
 
         if ($fieldType->equals(FieldType::MEDIA) && $field->allowedFileExtensions === '') {
-            if ($typo3Version->getMajorVersion() < 12) {
-                $field->allowedFileExtensions = $GLOBALS['TYPO3_CONF_VARS']['SYS']['mediafile_ext'];
-            } else {
-                $field->allowedFileExtensions = 'common-media-types';
-            }
+            $field->allowedFileExtensions = 'common-media-types';
         }
 
         // Only allow media types the user has selected, but always include the rest.
@@ -467,10 +456,6 @@ class TcaCodeGenerator
             $allowedFileExtensionList = GeneralUtility::trimExplode(',', $field->allowedFileExtensions, true);
             $alwaysIncluded = array_diff($allowedFileExtensionList, $onlineMediaHelpers);
             $field->allowedFileExtensions = implode(',', array_merge($alwaysIncluded, $field->onlineMedia));
-        }
-
-        if ($typo3Version->getMajorVersion() < 12) {
-            return ExtensionManagementUtility::getFileFieldTCAConfig($field->fullKey, $customSettingOverride, $field->allowedFileExtensions);
         }
 
         $field->allowedFileExtensions = TcaPreparation::prepareFileExtensions($field->allowedFileExtensions);
@@ -722,66 +707,34 @@ class TcaCodeGenerator
 
     protected static function getTcaTemplate(): array
     {
-        $typo3Version = new Typo3Version();
-        if ($typo3Version->getMajorVersion() > 11) {
-            $starttime = [
-                'exclude' => true,
-                'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.starttime',
-                'config' => [
-                    'type' => 'datetime',
-                    'default' => 0,
+        $starttime = [
+            'exclude' => true,
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.starttime',
+            'config' => [
+                'type' => 'datetime',
+                'default' => 0,
+            ],
+            'l10n_mode' => 'exclude',
+            'l10n_display' => 'defaultAsReadonly',
+        ];
+        $endtime = [
+            'exclude' => true,
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.endtime',
+            'config' => [
+                'type' => 'datetime',
+                'default' => 0,
+                'range' => [
+                    'upper' => mktime(0, 0, 0, 1, 1, 2038),
                 ],
-                'l10n_mode' => 'exclude',
-                'l10n_display' => 'defaultAsReadonly',
-            ];
-            $endtime = [
-                'exclude' => true,
-                'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.endtime',
-                'config' => [
-                    'type' => 'datetime',
-                    'default' => 0,
-                    'range' => [
-                        'upper' => mktime(0, 0, 0, 1, 1, 2038),
-                    ],
-                ],
-                'l10n_mode' => 'exclude',
-                'l10n_display' => 'defaultAsReadonly',
-            ];
-        } else {
-            $starttime = [
-                'exclude' => true,
-                'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.starttime',
-                'config' => [
-                    'type' => 'input',
-                    'renderType' => 'inputDateTime',
-                    'eval' => 'datetime,int',
-                    'default' => 0,
-                ],
-                'l10n_mode' => 'exclude',
-                'l10n_display' => 'defaultAsReadonly',
-            ];
-            $endtime = [
-                'exclude' => true,
-                'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.endtime',
-                'config' => [
-                    'type' => 'input',
-                    'renderType' => 'inputDateTime',
-                    'eval' => 'datetime,int',
-                    'default' => 0,
-                    'range' => [
-                        'upper' => mktime(0, 0, 0, 1, 1, 2038),
-                    ],
-                ],
-                'l10n_mode' => 'exclude',
-                'l10n_display' => 'defaultAsReadonly',
-            ];
-        }
+            ],
+            'l10n_mode' => 'exclude',
+            'l10n_display' => 'defaultAsReadonly',
+        ];
         $tcaTemplate = [
             'ctrl' => [
                 'sortby' => 'sorting',
                 'tstamp' => 'tstamp',
                 'crdate' => 'crdate',
-                'cruser_id' => 'cruser_id',
                 'editlock' => 'editlock',
                 'versioningWS' => true,
                 'origUid' => 't3_origuid',
@@ -831,8 +784,8 @@ class TcaCodeGenerator
                         'renderType' => 'checkboxToggle',
                         'items' => [
                             [
-                                ($typo3Version->getMajorVersion() > 11 ? 'label' : 0) => '',
-                                ($typo3Version->getMajorVersion() > 11 ? 'value' : 1) => '',
+                                'label' => '',
+                                'value' => '',
                             ],
                         ],
                     ],
@@ -852,8 +805,8 @@ class TcaCodeGenerator
                         'renderType' => 'selectSingle',
                         'items' => [
                             [
-                                ($typo3Version->getMajorVersion() > 11 ? 'label' : 0) => '',
-                                ($typo3Version->getMajorVersion() > 11 ? 'value' : 1) => 0,
+                                'label' => '',
+                                'value' => 0,
                             ],
                         ],
                         'default' => 0,
@@ -872,8 +825,8 @@ class TcaCodeGenerator
                         'renderType' => 'checkboxToggle',
                         'items' => [
                             [
-                                ($typo3Version->getMajorVersion() > 11 ? 'label' : 0) => '',
-                                ($typo3Version->getMajorVersion() > 11 ? 'value' : 1) => '',
+                                'label' => '',
+                                'value' => '',
                             ],
                         ],
                     ],
@@ -890,16 +843,16 @@ class TcaCodeGenerator
                         'maxitems' => 20,
                         'items' => [
                             [
-                                ($typo3Version->getMajorVersion() > 11 ? 'label' : 0) => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.hide_at_login',
-                                ($typo3Version->getMajorVersion() > 11 ? 'value' : 1) => -1,
+                                'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.hide_at_login',
+                                'value' => -1,
                             ],
                             [
-                                ($typo3Version->getMajorVersion() > 11 ? 'label' : 0) => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.any_login',
-                                ($typo3Version->getMajorVersion() > 11 ? 'value' : 1) => -2,
+                                'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.any_login',
+                                'value' => -2,
                             ],
                             [
-                                ($typo3Version->getMajorVersion() > 11 ? 'label' : 0) => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.usergroups',
-                                ($typo3Version->getMajorVersion() > 11 ? 'value' : 1) => '--div--',
+                                'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.usergroups',
+                                'value' => '--div--',
                             ],
                         ],
                         'exclusiveKeys' => '-1,-2',
@@ -912,8 +865,8 @@ class TcaCodeGenerator
                         'renderType' => 'selectSingle',
                         'items' => [
                             [
-                                ($typo3Version->getMajorVersion() > 11 ? 'label' : 0) => '',
-                                ($typo3Version->getMajorVersion() > 11 ? 'value' : 1) => 0,
+                                'label' => '',
+                                'value' => 0,
                             ],
                         ],
                         'default' => 0,
@@ -931,9 +884,6 @@ class TcaCodeGenerator
                 ],
             ],
         ];
-        if ($typo3Version->getMajorVersion() > 11) {
-            unset($tcaTemplate['ctrl']['cruser_id']);
-        }
         return $tcaTemplate;
     }
 }

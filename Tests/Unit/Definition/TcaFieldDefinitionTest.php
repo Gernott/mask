@@ -18,7 +18,6 @@ declare(strict_types=1);
 namespace MASK\Mask\Tests\Unit\Definition;
 
 use MASK\Mask\Definition\TcaFieldDefinition;
-use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class TcaFieldDefinitionTest extends UnitTestCase
@@ -52,52 +51,6 @@ class TcaFieldDefinitionTest extends UnitTestCase
                 'imageoverlayPalette' => 1,
             ],
         ];
-
-        if ((new Typo3Version())->getMajorVersion() < 12) {
-            yield 'Legacy Link format (wizards) transformed to fieldControl' => [
-                'json' => [
-                    'key' => 'link',
-                    'config' => [
-                        'type' => 'input',
-                        'wizards' => [
-                            '_PADDING' => '2',
-                            'link' => [
-                                'type' => 'popup',
-                                'title' => 'Link',
-                                'icon' => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_link.gif',
-                                'module' => [
-                                    'name' => 'wizard_link',
-                                    'urlParameters' => [
-                                        'mode' => 'wizard',
-                                    ],
-                                ],
-                                'JSopenParams' => 'height=300,width=500,status=0,menubar=0,scrollbars=1',
-                                'params' => [
-                                    'blindLinkOptions' => 'page,file',
-                                    'allowedExtensions' => 'jpg',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                'expected' => [
-                    'key' => 'link',
-                    'fullKey' => 'tx_mask_link',
-                    'type' => 'link',
-                    'config' => [
-                        'type' => 'input',
-                        'fieldControl' => [
-                            'linkPopup' => [
-                                'options' => [
-                                    'blindLinkOptions' => 'page,file',
-                                    'allowedExtensions' => 'jpg',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-            ];
-        }
 
         yield 'Blank options are removed' => [
             'json' => [
@@ -246,66 +199,64 @@ class TcaFieldDefinitionTest extends UnitTestCase
             ],
         ];
 
-        if ((new Typo3Version())->getMajorVersion() > 11) {
-            yield 'unset select item array keys are filled with empty strings' => [
-                'json' => [
-                    'config' => [
-                        'type' => 'select',
-                        'items' => [
-                            [
-                                'label' => 'Label 1',
-                                'value' => 'value1',
-                            ],
-                            [
-                                'label' => 'Label 2',
-                                'value' => 'value2',
-                                'icon' => '',
-                            ],
-                            [
-                                'label' => 'Label 3',
-                                'value' => 'value3',
-                                'icon' => '',
-                                'group' => '',
-                            ],
+        yield 'unset select item array keys are filled with empty strings' => [
+            'json' => [
+                'config' => [
+                    'type' => 'select',
+                    'items' => [
+                        [
+                            'label' => 'Label 1',
+                            'value' => 'value1',
+                        ],
+                        [
+                            'label' => 'Label 2',
+                            'value' => 'value2',
+                            'icon' => '',
+                        ],
+                        [
+                            'label' => 'Label 3',
+                            'value' => 'value3',
+                            'icon' => '',
+                            'group' => '',
                         ],
                     ],
-                    'type' => 'select',
-                    'key' => 'select',
-                    'fullKey' => 'tx_mask_select',
                 ],
-                'expected' => [
-                    'config' => [
-                        'type' => 'select',
-                        'items' => [
-                            [
-                                'label' => 'Label 1',
-                                'value' => 'value1',
-                                'icon' => '',
-                                'group' => '',
-                                'description' => '',
-                            ],
-                            [
-                                'label' => 'Label 2',
-                                'value' => 'value2',
-                                'icon' => '',
-                                'group' => '',
-                                'description' => '',
-                            ],
-                            [
-                                'label' => 'Label 3',
-                                'value' => 'value3',
-                                'icon' => '',
-                                'group' => '',
-                                'description' => '',
-                            ],
+                'type' => 'select',
+                'key' => 'select',
+                'fullKey' => 'tx_mask_select',
+            ],
+            'expected' => [
+                'config' => [
+                    'type' => 'select',
+                    'items' => [
+                        [
+                            'label' => 'Label 1',
+                            'value' => 'value1',
+                            'icon' => '',
+                            'group' => '',
+                            'description' => '',
+                        ],
+                        [
+                            'label' => 'Label 2',
+                            'value' => 'value2',
+                            'icon' => '',
+                            'group' => '',
+                            'description' => '',
+                        ],
+                        [
+                            'label' => 'Label 3',
+                            'value' => 'value3',
+                            'icon' => '',
+                            'group' => '',
+                            'description' => '',
                         ],
                     ],
-                    'type' => 'select',
-                    'key' => 'select',
-                    'fullKey' => 'tx_mask_select',
                 ],
-            ];
-        }
+                'type' => 'select',
+                'key' => 'select',
+                'fullKey' => 'tx_mask_select',
+            ],
+        ];
 
         yield 'The core field bodytext without any type defined interpreted as richtext' => [
             'json' => [
@@ -355,307 +306,317 @@ class TcaFieldDefinitionTest extends UnitTestCase
             ],
         ];
 
-        if ((new Typo3Version())->getMajorVersion() > 11) {
-            yield 'Legacy Timestamp eval is moved to "format' => [
-                'json' => [
-                    'config' => [
-                        'type' => 'datetime',
-                        'eval' => 'date,foo',
-                    ],
-                    'key' => 'timestamp',
-                    'type' => 'timestamp',
+        yield 'Legacy Timestamp eval is moved to "format' => [
+            'json' => [
+                'config' => [
+                    'type' => 'datetime',
+                    'eval' => 'date,foo',
                 ],
-                'expected' => [
-                    'config' => [
-                        'type' => 'datetime',
-                        'format' => 'date',
-                        'eval' => 'foo',
-                    ],
-                    'key' => 'timestamp',
-                    'fullKey' => 'tx_mask_timestamp',
-                    'type' => 'timestamp',
+                'key' => 'timestamp',
+                'type' => 'timestamp',
+            ],
+            'expected' => [
+                'config' => [
+                    'type' => 'datetime',
+                    'format' => 'date',
+                    'eval' => 'foo',
                 ],
-            ];
+                'key' => 'timestamp',
+                'fullKey' => 'tx_mask_timestamp',
+                'type' => 'timestamp',
+            ],
+        ];
 
-            yield 'If eval is empty, nothing happens.' => [
-                'json' => [
-                    'config' => [
-                        'type' => 'datetime',
-                        'format' => 'date',
-                    ],
-                    'key' => 'timestamp',
-                    'type' => 'timestamp',
+        yield 'If eval is empty, nothing happens.' => [
+            'json' => [
+                'config' => [
+                    'type' => 'datetime',
+                    'format' => 'date',
                 ],
-                'expected' => [
-                    'config' => [
-                        'type' => 'datetime',
-                        'format' => 'date',
-                    ],
-                    'key' => 'timestamp',
-                    'fullKey' => 'tx_mask_timestamp',
-                    'type' => 'timestamp',
+                'key' => 'timestamp',
+                'type' => 'timestamp',
+            ],
+            'expected' => [
+                'config' => [
+                    'type' => 'datetime',
+                    'format' => 'date',
                 ],
-            ];
+                'key' => 'timestamp',
+                'fullKey' => 'tx_mask_timestamp',
+                'type' => 'timestamp',
+            ],
+        ];
 
-            yield 'Legacy Link format (wizards) transformed to fieldControl' => [
-                'json' => [
-                    'key' => 'link',
-                    'config' => [
-                        'type' => 'input',
-                        'wizards' => [
-                            '_PADDING' => '2',
-                            'link' => [
-                                'type' => 'popup',
-                                'title' => 'Link',
-                                'icon' => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_link.gif',
-                                'module' => [
-                                    'name' => 'wizard_link',
-                                    'urlParameters' => [
-                                        'mode' => 'wizard',
-                                    ],
+        yield 'Legacy Link format (wizards) transformed to fieldControl' => [
+            'json' => [
+                'key' => 'link',
+                'config' => [
+                    'type' => 'input',
+                    'wizards' => [
+                        '_PADDING' => '2',
+                        'link' => [
+                            'type' => 'popup',
+                            'title' => 'Link',
+                            'icon' => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_link.gif',
+                            'module' => [
+                                'name' => 'wizard_link',
+                                'urlParameters' => [
+                                    'mode' => 'wizard',
                                 ],
-                                'JSopenParams' => 'height=300,width=500,status=0,menubar=0,scrollbars=1',
-                                'params' => [
-                                    'blindLinkOptions' => 'page,file',
-                                    'allowedExtensions' => 'jpg,png',
-                                ],
+                            ],
+                            'JSopenParams' => 'height=300,width=500,status=0,menubar=0,scrollbars=1',
+                            'params' => [
+                                'blindLinkOptions' => 'page,file',
+                                'allowedExtensions' => 'jpg,png',
                             ],
                         ],
                     ],
                 ],
-                'expected' => [
-                    'key' => 'link',
-                    'fullKey' => 'tx_mask_link',
-                    'type' => 'link',
-                    'config' => [
-                        'type' => 'input',
-                        'allowedTypes' => ['folder', 'url', 'email', 'record', 'telephone'],
-                        'appearance' => [
-                            'allowedFileExtensions' => 'jpg,png',
-                        ],
+            ],
+            'expected' => [
+                'key' => 'link',
+                'fullKey' => 'tx_mask_link',
+                'type' => 'link',
+                'config' => [
+                    'type' => 'input',
+                    'allowedTypes' => ['folder', 'url', 'email', 'record', 'telephone'],
+                    'appearance' => [
+                        'allowedFileExtensions' => 'jpg,png',
                     ],
                 ],
-            ];
+            ],
+        ];
 
-            yield 'Legacy Link fieldControl is migrated.' => [
-                'json' => [
-                    'key' => 'link',
-                    'fullKey' => 'tx_mask_link',
+        yield 'Legacy Link fieldControl is migrated.' => [
+            'json' => [
+                'key' => 'link',
+                'fullKey' => 'tx_mask_link',
+                'type' => 'link',
+                'config' => [
                     'type' => 'link',
-                    'config' => [
-                        'type' => 'link',
-                        'fieldControl' => [
-                            'linkPopup' => [
-                                'options' => [
-                                    'blindLinkOptions' => 'page,file',
-                                    'allowedExtensions' => 'jpg,png',
-                                ],
+                    'fieldControl' => [
+                        'linkPopup' => [
+                            'options' => [
+                                'blindLinkOptions' => 'page,file',
+                                'allowedExtensions' => 'jpg,png',
                             ],
                         ],
                     ],
                 ],
-                'expected' => [
-                    'key' => 'link',
-                    'fullKey' => 'tx_mask_link',
+            ],
+            'expected' => [
+                'key' => 'link',
+                'fullKey' => 'tx_mask_link',
+                'type' => 'link',
+                'config' => [
                     'type' => 'link',
-                    'config' => [
-                        'type' => 'link',
-                        'allowedTypes' => ['folder', 'url', 'email', 'record', 'telephone'],
-                        'appearance' => [
-                            'allowedFileExtensions' => 'jpg,png',
-                        ],
+                    'allowedTypes' => ['folder', 'url', 'email', 'record', 'telephone'],
+                    'appearance' => [
+                        'allowedFileExtensions' => 'jpg,png',
                     ],
                 ],
-            ];
+            ],
+        ];
 
-            yield 'Legacy E-Mail field is migrated' => [
-                'json' => [
-                    'key' => 'email',
-                    'fullKey' => 'tx_mask_email',
-                    'type' => 'string',
-                    'config' => [
-                        'type' => 'input',
-                        'eval' => 'email',
-                    ],
+        yield 'Legacy E-Mail field is migrated' => [
+            'json' => [
+                'key' => 'email',
+                'fullKey' => 'tx_mask_email',
+                'type' => 'string',
+                'config' => [
+                    'type' => 'input',
+                    'eval' => 'email',
                 ],
-                'expected' => [
-                    'key' => 'email',
-                    'fullKey' => 'tx_mask_email',
+            ],
+            'expected' => [
+                'key' => 'email',
+                'fullKey' => 'tx_mask_email',
+                'type' => 'email',
+                'config' => [
                     'type' => 'email',
-                    'config' => [
-                        'type' => 'email',
-                    ],
                 ],
-            ];
+            ],
+        ];
 
-            yield 'Legacy folder field defined in group with internal_type is migrated' => [
-                'json' => [
-                    'key' => 'folder_field',
-                    'fullKey' => 'tx_mask_folder_field',
+        yield 'Legacy folder field defined in group with internal_type is migrated' => [
+            'json' => [
+                'key' => 'folder_field',
+                'fullKey' => 'tx_mask_folder_field',
+                'type' => 'group',
+                'config' => [
                     'type' => 'group',
-                    'config' => [
-                        'type' => 'group',
-                        'internal_type' => 'folder',
-                    ],
+                    'internal_type' => 'folder',
                 ],
-                'expected' => [
-                    'key' => 'folder_field',
-                    'fullKey' => 'tx_mask_folder_field',
+            ],
+            'expected' => [
+                'key' => 'folder_field',
+                'fullKey' => 'tx_mask_folder_field',
+                'type' => 'folder',
+                'config' => [
                     'type' => 'folder',
-                    'config' => [
-                        'type' => 'folder',
-                    ],
                 ],
-            ];
+            ],
+        ];
 
-            yield 'Legacy eval=required and eval=null migrated' => [
-                'json' => [
-                    'key' => 'afield',
-                    'fullKey' => 'tx_mask_afield',
-                    'type' => 'string',
-                    'config' => [
-                        'type' => 'input',
-                        'eval' => 'required,null,trim',
-                    ],
+        yield 'Legacy eval=required and eval=null migrated' => [
+            'json' => [
+                'key' => 'afield',
+                'fullKey' => 'tx_mask_afield',
+                'type' => 'string',
+                'config' => [
+                    'type' => 'input',
+                    'eval' => 'required,null,trim',
                 ],
-                'expected' => [
-                    'key' => 'afield',
-                    'fullKey' => 'tx_mask_afield',
-                    'type' => 'string',
-                    'config' => [
-                        'type' => 'input',
-                        'eval' => 'trim',
-                        'required' => 1,
-                        'nullable' => 1,
-                    ],
+            ],
+            'expected' => [
+                'key' => 'afield',
+                'fullKey' => 'tx_mask_afield',
+                'type' => 'string',
+                'config' => [
+                    'type' => 'input',
+                    'eval' => 'trim',
+                    'required' => 1,
+                    'nullable' => 1,
                 ],
-            ];
+            ],
+        ];
 
-            yield 'Legacy indexed keys for type=select migrated' => [
-                'json' => [
-                    'key' => 'afield',
-                    'fullKey' => 'tx_mask_afield',
+        yield 'Legacy indexed keys for type=select migrated' => [
+            'json' => [
+                'key' => 'afield',
+                'fullKey' => 'tx_mask_afield',
+                'type' => 'select',
+                'config' => [
                     'type' => 'select',
-                    'config' => [
-                        'type' => 'select',
-                        'renderType' => 'selectSingle',
-                        'items' => [
-                            ['aLabel', 0, 'icon-identifier', 'mask', 'description'],
-                            ['aLabel 2', 1, 'icon-identifier', 'mask', 'description'],
-                        ],
+                    'renderType' => 'selectSingle',
+                    'items' => [
+                        ['aLabel', 0, 'icon-identifier', 'mask', 'description'],
+                        ['aLabel 2', 1, 'icon-identifier', 'mask', 'description'],
                     ],
                 ],
-                'expected' => [
-                    'key' => 'afield',
-                    'fullKey' => 'tx_mask_afield',
+            ],
+            'expected' => [
+                'key' => 'afield',
+                'fullKey' => 'tx_mask_afield',
+                'type' => 'select',
+                'config' => [
                     'type' => 'select',
-                    'config' => [
-                        'type' => 'select',
-                        'renderType' => 'selectSingle',
-                        'items' => [
-                            ['label' => 'aLabel', 'value' => 0, 'icon' => 'icon-identifier', 'group' => 'mask', 'description' => 'description'],
-                            ['label' => 'aLabel 2', 'value' => 1, 'icon' => 'icon-identifier', 'group' => 'mask', 'description' => 'description'],
+                    'renderType' => 'selectSingle',
+                    'items' => [
+                        [
+                            'label' => 'aLabel',
+                            'value' => 0,
+                            'icon' => 'icon-identifier',
+                            'group' => 'mask',
+                            'description' => 'description',
+                        ],
+                        [
+                            'label' => 'aLabel 2',
+                            'value' => 1,
+                            'icon' => 'icon-identifier',
+                            'group' => 'mask',
+                            'description' => 'description',
                         ],
                     ],
                 ],
-            ];
+            ],
+        ];
 
-            yield 'Legacy indexed keys for type=radio migrated' => [
-                'json' => [
-                    'key' => 'afield',
-                    'fullKey' => 'tx_mask_afield',
+        yield 'Legacy indexed keys for type=radio migrated' => [
+            'json' => [
+                'key' => 'afield',
+                'fullKey' => 'tx_mask_afield',
+                'type' => 'radio',
+                'config' => [
                     'type' => 'radio',
-                    'config' => [
-                        'type' => 'radio',
-                        'items' => [
-                            ['aLabel', 0],
-                            ['aLabel 2', 1],
-                        ],
+                    'items' => [
+                        ['aLabel', 0],
+                        ['aLabel 2', 1],
                     ],
                 ],
-                'expected' => [
-                    'key' => 'afield',
-                    'fullKey' => 'tx_mask_afield',
+            ],
+            'expected' => [
+                'key' => 'afield',
+                'fullKey' => 'tx_mask_afield',
+                'type' => 'radio',
+                'config' => [
                     'type' => 'radio',
-                    'config' => [
-                        'type' => 'radio',
-                        'items' => [
-                            ['label' => 'aLabel', 'value' => 0],
-                            ['label' => 'aLabel 2', 'value' => 1],
-                        ],
+                    'items' => [
+                        ['label' => 'aLabel', 'value' => 0],
+                        ['label' => 'aLabel 2', 'value' => 1],
                     ],
                 ],
-            ];
+            ],
+        ];
 
-            yield 'Legacy indexed keys for type=check migrated' => [
-                'json' => [
-                    'key' => 'afield',
-                    'fullKey' => 'tx_mask_afield',
+        yield 'Legacy indexed keys for type=check migrated' => [
+            'json' => [
+                'key' => 'afield',
+                'fullKey' => 'tx_mask_afield',
+                'type' => 'check',
+                'config' => [
                     'type' => 'check',
-                    'config' => [
-                        'type' => 'check',
-                        'items' => [
-                            ['aLabel', 'invertStateDisplay' => 1],
-                            ['aLabel 2'],
-                        ],
+                    'items' => [
+                        ['aLabel', 'invertStateDisplay' => 1],
+                        ['aLabel 2'],
                     ],
                 ],
-                'expected' => [
-                    'key' => 'afield',
-                    'fullKey' => 'tx_mask_afield',
+            ],
+            'expected' => [
+                'key' => 'afield',
+                'fullKey' => 'tx_mask_afield',
+                'type' => 'check',
+                'config' => [
                     'type' => 'check',
-                    'config' => [
-                        'type' => 'check',
-                        'items' => [
-                            ['label' => 'aLabel', 'invertStateDisplay' => true],
-                            ['label' => 'aLabel 2'],
-                        ],
+                    'items' => [
+                        ['label' => 'aLabel', 'invertStateDisplay' => true],
+                        ['label' => 'aLabel 2'],
                     ],
                 ],
-            ];
+            ],
+        ];
 
-            yield 'Type Number removes eval=int' => [
-                'json' => [
-                    'key' => 'afield',
-                    'fullKey' => 'tx_mask_afield',
-                    'type' => 'integer',
-                    'config' => [
-                        'eval' => 'int',
-                        'type' => 'number',
-                    ],
+        yield 'Type Number removes eval=int' => [
+            'json' => [
+                'key' => 'afield',
+                'fullKey' => 'tx_mask_afield',
+                'type' => 'integer',
+                'config' => [
+                    'eval' => 'int',
+                    'type' => 'number',
                 ],
-                'expected' => [
-                    'key' => 'afield',
-                    'fullKey' => 'tx_mask_afield',
-                    'type' => 'integer',
-                    'config' => [
-                        'type' => 'number',
-                    ],
+            ],
+            'expected' => [
+                'key' => 'afield',
+                'fullKey' => 'tx_mask_afield',
+                'type' => 'integer',
+                'config' => [
+                    'type' => 'number',
                 ],
-            ];
+            ],
+        ];
 
-            yield 'Type Float removes eval=double2' => [
-                'json' => [
-                    'key' => 'afield',
-                    'fullKey' => 'tx_mask_afield',
-                    'type' => 'integer',
-                    'config' => [
-                        'eval' => 'double2',
-                        'type' => 'number',
-                        'format' => 'decimal',
-                    ],
+        yield 'Type Float removes eval=double2' => [
+            'json' => [
+                'key' => 'afield',
+                'fullKey' => 'tx_mask_afield',
+                'type' => 'integer',
+                'config' => [
+                    'eval' => 'double2',
+                    'type' => 'number',
+                    'format' => 'decimal',
                 ],
-                'expected' => [
-                    'key' => 'afield',
-                    'fullKey' => 'tx_mask_afield',
-                    'type' => 'integer',
-                    'config' => [
-                        'type' => 'number',
-                        'format' => 'decimal',
-                    ],
+            ],
+            'expected' => [
+                'key' => 'afield',
+                'fullKey' => 'tx_mask_afield',
+                'type' => 'integer',
+                'config' => [
+                    'type' => 'number',
+                    'format' => 'decimal',
                 ],
-            ];
-        }
+            ],
+        ];
     }
 
     /**
@@ -946,18 +907,16 @@ class TcaFieldDefinitionTest extends UnitTestCase
             'expected' => false,
         ];
 
-        if ((new Typo3Version())->getMajorVersion() > 11) {
-            yield 'nullable defined' => [
-                'json' => [
-                    'key' => 'field1',
-                    'config' => [
-                        'type' => 'input',
-                        'nullable' => 1,
-                    ],
+        yield 'nullable defined' => [
+            'json' => [
+                'key' => 'field1',
+                'config' => [
+                    'type' => 'input',
+                    'nullable' => 1,
                 ],
-                'expected' => true,
-            ];
-        }
+            ],
+            'expected' => true,
+        ];
     }
 
     /**

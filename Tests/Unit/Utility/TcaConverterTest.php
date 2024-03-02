@@ -18,7 +18,6 @@ declare(strict_types=1);
 namespace MASK\Mask\Test\Utility;
 
 use MASK\Mask\Utility\TcaConverter;
-use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\TestingFramework\Core\BaseTestCase;
 
 class TcaConverterTest extends BaseTestCase
@@ -95,17 +94,6 @@ class TcaConverterTest extends BaseTestCase
             ],
             [],
         ];
-
-        if ((new Typo3Version())->getMajorVersion() === 11) {
-            yield 'Date types in eval moved to config.eval instead' => [
-                [
-                    'eval' => 'date',
-                ],
-                [
-                    'config.eval' => 'date',
-                ],
-            ];
-        }
 
         yield 'blindLinkOptions values converted to array' => [
             [
@@ -256,20 +244,6 @@ class TcaConverterTest extends BaseTestCase
                 ],
             ],
         ];
-
-        if ((new Typo3Version())->getMajorVersion() === 11) {
-            yield 'Date eval value moves back to eval list' => [
-                [
-                    'config.eval.required' => 1,
-                    'config.eval' => 'date',
-                ],
-                [
-                    'config' => [
-                        'eval' => 'required,date',
-                    ],
-                ],
-            ];
-        }
 
         yield 'blindLinkOptions values converted to comma separated list' => [
             [

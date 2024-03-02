@@ -18,7 +18,6 @@ declare(strict_types=1);
 namespace MASK\Mask\Utility;
 
 use Symfony\Component\PropertyAccess\PropertyAccess;
-use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -105,21 +104,7 @@ class TcaConverter
                         array_pop($path);
                         continue;
                     }
-
                     $keys = explode(',', $value);
-
-                    // Special handling for timestamp field, as the dateType is in the key "config.eval"
-                    if ((new Typo3Version())->getMajorVersion() === 11) {
-                        $dateTypesInKeys = array_values(array_intersect($keys, ['date', 'datetime', 'time', 'timesec']));
-                        if (count($dateTypesInKeys) > 0) {
-                            $tca[] = ['config.eval' => $dateTypesInKeys[0]];
-                            // Remove dateType from normal eval array
-                            $keys = array_filter($keys, static function ($a) use ($dateTypesInKeys) {
-                                return $a !== $dateTypesInKeys[0];
-                            });
-                        }
-                    }
-
                     // For each eval value create an entry with value set to 1
                     $evalArray = array_combine($keys, array_fill(0, count($keys), 1));
                     $tca[] = self::convertTcaArrayToFlat($evalArray, $path);
@@ -161,11 +146,6 @@ class TcaConverter
                     $fields[] = $field;
                 }
                 $value = $fields;
-            }
-            // This is for TYPO3 v11 timestamps as it has a fake tca property for eval date, datetime, ...
-            if ((new Typo3Version())->getMajorVersion() === 11 && $key === 'config.eval' && in_array($value, ['date', 'datetime', 'time', 'timesec'])) {
-                $key = 'config.eval.' . $value;
-                $value = 1;
             }
             // This is for slug as it has a fake tca property for eval unique, uniqueInSite, ...
             if ($key === 'config.eval.slug') {

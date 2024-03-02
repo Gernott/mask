@@ -80,8 +80,7 @@ class ConfigurationLoader implements ConfigurationLoaderInterface
 
         // Remove options not available in current TYPO3 version.
         $typo3Version = new Typo3Version();
-        // @todo Remove fallback to "main", when v12 documentation has been published.
-        $documentationBase = 'https://docs.typo3.org/m/typo3/reference-tca/' . ($typo3Version->getMajorVersion() === 11 ? $typo3Version->getBranch() : 'main') . '/en-us/';
+        $documentationBase = 'https://docs.typo3.org/m/typo3/reference-tca/' . $typo3Version->getBranch() . '/en-us/';
         foreach ($this->tcaFields as $key => $tcaField) {
             $isAvailable = true;
             if (array_key_exists('version', $tcaField)) {

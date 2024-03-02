@@ -28,7 +28,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Imaging\IconFactory;
-use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Localization\LanguageService;
 
 /**
@@ -145,7 +144,7 @@ class FieldsController
 
             if ($fieldType->equals(FieldType::TIMESTAMP)) {
                 $default = $newField['tca']['config.default'] ?? false;
-                $evalDate = (new Typo3Version())->getMajorVersion() === 11 ? $newField['tca']['config.eval'] : $newField['tca']['config.format'];
+                $evalDate = $newField['tca']['config.format'];
                 if ($default) {
                     $newField['tca']['config.default'] = DateUtility::convertTimestampToDate($evalDate, $default);
                 }

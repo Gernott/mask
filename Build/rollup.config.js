@@ -94,11 +94,7 @@ export default {
     {
       file: '../Resources/Public/JavaScript/mask.js',
       format: 'es',
-    },
-    {
-      file: '../Resources/Public/JavaScript/AmdBundle.js',
-      format: 'amd',
-    },
+    }
   ],
   plugins: [
     vueResolve(),
