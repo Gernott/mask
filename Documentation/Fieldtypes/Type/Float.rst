@@ -33,8 +33,8 @@ Available TCA options
 *  :ref:`config.size <t3tca:columns-input-properties-size>`
 *  :ref:`config.eval.required <t3tca:columns-input-properties-eval>`
 *  :ref:`config.max <t3tca:columns-input-properties-max>`
-*  :ref:`config.range.lower <t3tca:columns-input-properties-range>`
-*  :ref:`config.range.upper <t3tca:columns-input-properties-range>`
+*  :ref:`config.range.lower <t3tca-11:columns-input-properties-range>` (Until TYPO3 v11.5)
+*  :ref:`config.range.upper <t3tca-11:columns-input-properties-range>` (Until TYPO3 v11.5)
 *  :ref:`config.slider.step <t3tca:columns-input-properties-slider>`
 *  :ref:`config.slider.width <t3tca:columns-input-properties-slider>`
 *  :ref:`l10n_mode <t3tca:columns-properties-l10n-mode>`

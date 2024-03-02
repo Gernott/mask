@@ -6,7 +6,7 @@
 RTE Config
 ==========
 
-You can exactly define which :ref:`RTE config <cms-rte-ckeditor:config-examples>` a mask element should offer for its
+You can exactly define which :ref:`RTE config <typo3/cms-rte-ckeditor:config-examples>` a mask element should offer for its
 richtext fields.
 
 For this, you have to follow these 3 steps:

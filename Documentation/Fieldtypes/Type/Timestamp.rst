@@ -28,11 +28,11 @@ An input field for a date (stored as UNIX timestamp).
 Available TCA options
 ---------------------
 
-*  :ref:`config.eval <columns-input-renderType-inputDateTime-eval>`
+*  :ref:`config.eval <t3tca-11:columns-input-renderType-inputDateTime-eval>` (Until TYPO3 v 11.5)
 *  :ref:`config.default <t3tca:tca_property_default>`
 *  :ref:`config.placeholder <t3tca:tca_property_placeholder>`
-*  :ref:`config.range.lower <t3tca:columns-input-datetime-properties-range>`
-*  :ref:`config.range.upper <t3tca:columns-input-datetime-properties-range>`
+*  :ref:`config.range.lower <t3tca-11:columns-input-datetime-properties-range>` (Until TYPO3 v 11.5)
+*  :ref:`config.range.upper <t3tca-11:columns-input-datetime-properties-range>` (Until TYPO3 v 11.5)
 *  :ref:`config.eval.required <t3tca:columns-input-properties-eval>`
 *  :ref:`l10n_mode <t3tca:columns-properties-l10n-mode>`
 *  :ref:`config.behaviour.allowLanguageSynchronization <t3tca:tca_property_behaviour_allowLanguageSynchronization>`

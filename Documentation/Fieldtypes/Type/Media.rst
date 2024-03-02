@@ -42,7 +42,7 @@ Available TCA options
 *  `onlineMedia` (custom Mask option, which toggles available online media types)
 *  :ref:`config.minitems <t3tca:tca_property_minitems>`
 *  :ref:`config.maxitems <t3tca:tca_property_maxitems>`
-*  :ref:`allowedFileExtensions <t3tca:columns-group-properties-appearance>` (used in :ref:`overrideChildTca <columns-inline-properties-overrideChildTca>`)
+*  :ref:`allowedFileExtensions <t3tca:columns-group-properties-appearance>` (used in :ref:`overrideChildTca <t3tca:columns-inline-properties-overrideChildTca>`)
 *  :ref:`config.appearance.collapseAll <t3tca:columns-inline-properties-appearance>`
 *  :ref:`config.appearance.expandSingle <t3tca:columns-inline-properties-appearance>`
 *  :ref:`config.appearance.useSortable <t3tca:columns-inline-properties-appearance>`

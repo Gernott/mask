@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<guides xmlns="https://www.phpdoc.org/guides" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://www.phpdoc.org/guides ../vendor/phpdocumentor/guides-cli/resources/schema/guides.xsd"
+        links-are-relative="true">
+    <extension class="\T3Docs\Typo3DocsTheme\DependencyInjection\Typo3DocsThemeExtension"
+               project-home="https://extensions.typo3.org/extension/mask"
+               project-contact="https://typo3.slack.com/archives/C0FD5F6P2"
+               project-repository="https://github.com/Gernott/mask"
+               project-issues="https://github.com/Gernott/mask/issues"
+               edit-on-github-branch="main"
+               edit-on-github="Gernott/mask"
+               typo3-core-preferred="stable"
+               interlink-shortcode="mask/mask"
+    />
+    <project title="Mask"
+             release="8.3.0"
+             copyright="2023"
+    />
+</guides>
