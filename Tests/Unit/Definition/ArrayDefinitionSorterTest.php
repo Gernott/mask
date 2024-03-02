@@ -25,7 +25,7 @@ class ArrayDefinitionSorterTest extends UnitTestCase
     /**
      * @return array<string|int, mixed> iterable
      */
-    public function arrayIsSortedByKeysDataProvider(): iterable
+    public static function arrayIsSortedByKeysDataProvider(): iterable
     {
         yield 'associative array is sorted by keys recursively' => [
             'array' => [
@@ -117,7 +117,7 @@ class ArrayDefinitionSorterTest extends UnitTestCase
     /**
      * @return array<string|int, mixed> iterable
      */
-    public function excludedKeysAreNotSortedDataProvider(): iterable
+    public static function excludedKeysAreNotSortedDataProvider(): iterable
     {
         yield 'given excluded keys are not sorted' => [
             'array' => [

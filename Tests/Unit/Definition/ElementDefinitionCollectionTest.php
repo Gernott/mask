@@ -22,7 +22,7 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class ElementDefinitionCollectionTest extends UnitTestCase
 {
-    public function elementsAreSortedBySortingDataProvider(): iterable
+    public static function elementsAreSortedBySortingDataProvider(): iterable
     {
         yield 'Sorting of elements is preserved without sorting set' => [
             'json' => [

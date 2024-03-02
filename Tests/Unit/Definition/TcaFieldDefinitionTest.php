@@ -24,7 +24,7 @@ class TcaFieldDefinitionTest extends UnitTestCase
 {
     protected bool $resetSingletonInstances = true;
 
-    public function createFromArrayWorksOnLegacyFormatDataProvider(): iterable
+    public static function createFromArrayWorksOnLegacyFormatDataProvider(): iterable
     {
         yield 'Legacy file field format with "options: file" and no config type works.' => [
             'json' => [
@@ -653,7 +653,7 @@ class TcaFieldDefinitionTest extends UnitTestCase
     /**
      * @return iterable<string, mixed>
      */
-    public function hasTypeReturnsTrueIfTypeCanBeFoundDataProvider(): iterable
+    public static function hasTypeReturnsTrueIfTypeCanBeFoundDataProvider(): iterable
     {
         yield 'Mask field with type attribute' => [
             'json' => [
@@ -760,7 +760,7 @@ class TcaFieldDefinitionTest extends UnitTestCase
     /**
      * @return iterable<string, mixed>
      */
-    public function getTypeReturnsTypeIfTypeCanBeFoundDataProvider(): iterable
+    public static function getTypeReturnsTypeIfTypeCanBeFoundDataProvider(): iterable
     {
         yield 'Mask field with type attribute' => [
             'json' => [
@@ -848,7 +848,7 @@ class TcaFieldDefinitionTest extends UnitTestCase
     /**
      * @return iterable<string, mixed>
      */
-    public function getTypeThrowsExceptionIfTypeCanNotBeFoundDataProvider(): iterable
+    public static function getTypeThrowsExceptionIfTypeCanNotBeFoundDataProvider(): iterable
     {
         yield 'Core field without type attribute' => [
             'json' => [
@@ -883,7 +883,7 @@ class TcaFieldDefinitionTest extends UnitTestCase
     /**
      * @return iterable<string, mixed>
      */
-    public function isNullableReturnsTrueIfTCADefinesNullableFieldDataProvider(): iterable
+    public static function isNullableReturnsTrueIfTCADefinesNullableFieldDataProvider(): iterable
     {
         yield 'eval contains null' => [
             'json' => [

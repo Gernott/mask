@@ -30,7 +30,7 @@ class InlineHelperTest extends BaseTestCase
 {
     use StorageRepositoryCreatorTrait;
 
-    public function addFilesToDataDataProvider(): array
+    public static function addFilesToDataDataProvider(): array
     {
         return [
             'file field is filled with file reference' => [
@@ -133,7 +133,7 @@ class InlineHelperTest extends BaseTestCase
         self::assertInstanceOf(FileReference::class, $data[$key][0]);
     }
 
-    public function addIrreToData_tt_contentDataProvider(): array
+    public static function addIrreToData_tt_contentDataProvider(): array
     {
         return [
             'Inline field is added' => [
@@ -279,7 +279,7 @@ class InlineHelperTest extends BaseTestCase
         self::assertSame($inlineElements, $data[$key]);
     }
 
-    public function addIrreToData_pagesDataProvider(): array
+    public static function addIrreToData_pagesDataProvider(): array
     {
         return [
             'Inline field is added' => [
@@ -360,7 +360,7 @@ class InlineHelperTest extends BaseTestCase
         self::assertSame($inlineElements, $data[$key]);
     }
 
-    public function addIrreToDataNoBeLayoutDataProvider(): array
+    public static function addIrreToDataNoBeLayoutDataProvider(): array
     {
         return [
             'Inline field is added' => [
@@ -439,7 +439,7 @@ class InlineHelperTest extends BaseTestCase
         self::assertIsNotArray($data[$key]);
     }
 
-    public function addIrreToDataToInlineFieldDataProvider(): array
+    public static function addIrreToDataToInlineFieldDataProvider(): array
     {
         return [
             'Inline field is added to another inline field' => [

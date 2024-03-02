@@ -32,7 +32,7 @@ class TypoScriptCodeGeneratorTest extends UnitTestCase
         $this->registerPackageManager();
     }
 
-    public function generateSetupTyposcriptDataProvider(): iterable
+    public static function generateSetupTyposcriptDataProvider(): iterable
     {
         yield 'all configuration, 1 element' => [
             'json' => [

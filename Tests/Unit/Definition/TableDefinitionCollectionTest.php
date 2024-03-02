@@ -24,7 +24,7 @@ use TYPO3\TestingFramework\Core\BaseTestCase;
 
 class TableDefinitionCollectionTest extends BaseTestCase
 {
-    public function loadInlineFieldsDataProvider(): iterable
+    public static function loadInlineFieldsDataProvider(): iterable
     {
         yield 'inline fields loaded' => [
             'json' => [
@@ -384,7 +384,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
         self::assertEquals($expected, $tableDefinitionCollection->loadInlineFields($parentKey, $elementKey, $element)->toArray());
     }
 
-    public function getElementsWhichUseFieldDataProvider(): array
+    public static function getElementsWhichUseFieldDataProvider(): array
     {
         return [
             'Element which uses field is returned' => [
@@ -845,7 +845,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
         self::assertEquals($expected, $tableDefinitionCollection->getElementsWhichUseField($column, $table)->toArray());
     }
 
-    public function getFormTypeDataProvider(): iterable
+    public static function getFormTypeDataProvider(): iterable
     {
         yield 'Type String is returned' => [
             [],
@@ -1581,7 +1581,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
         self::assertEquals($expected, (string)$tableDefinitionCollection->getFieldType($fieldKey, $table));
     }
 
-    public function findFirstNonEmptyLabelDataProvider(): array
+    public static function findFirstNonEmptyLabelDataProvider(): array
     {
         return [
             'First found field label returned' => [
@@ -1731,7 +1731,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
         self::assertSame($expected, $tableDefinitionCollection->findFirstNonEmptyLabel($table, $key));
     }
 
-    public function loadElementDataProvider(): iterable
+    public static function loadElementDataProvider(): iterable
     {
         yield 'Element with fields returned' => [
             'json' => [
@@ -2027,7 +2027,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
         self::assertEquals($expected, $array);
     }
 
-    public function getLabelDataProvider(): array
+    public static function getLabelDataProvider(): array
     {
         return [
             'Correct label is returned' => [
@@ -2488,7 +2488,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
         self::assertSame($expected, $tableDefinitionCollection->getLabel($elementKey, $fieldKey, $type));
     }
 
-    public function getDescriptionDataProvider(): iterable
+    public static function getDescriptionDataProvider(): iterable
     {
         yield 'Backwards compatibility: Description defined in field directly found.' => [
             'json' => [
@@ -2608,7 +2608,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
         self::assertSame($expected, $tableDefinitionCollection->getDescription($elementKey, $fieldKey, $table));
     }
 
-    public function getFieldTypeDataProvider(): array
+    public static function getFieldTypeDataProvider(): array
     {
         return [
             'Correct table is returned for field' => [

@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -17,7 +16,7 @@
  * This file is defined in UnitTests.xml and called by phpunit
  * before instantiating the test suites.
  */
-call_user_func(function () {
+(static function () {
     $testbase = new \TYPO3\TestingFramework\Core\Testbase();
 
     // These if's are for core testing (package typo3/cms) only. cms-composer-installer does
@@ -57,11 +56,7 @@ call_user_func(function () {
         new \TYPO3\CMS\Core\Cache\Backend\NullBackend('production', [])
     );
     // Set all packages to active
-    if (method_exists(\TYPO3\CMS\Core\Core\Bootstrap::class, 'createPackageCache')) {
-        $packageManager = \TYPO3\CMS\Core\Core\Bootstrap::createPackageManager(\TYPO3\CMS\Core\Package\UnitTestPackageManager::class, \TYPO3\CMS\Core\Core\Bootstrap::createPackageCache($cache));
-    } else {
-        $packageManager = \TYPO3\CMS\Core\Core\Bootstrap::createPackageManager(\TYPO3\CMS\Core\Package\UnitTestPackageManager::class, $cache);
-    }
+    $packageManager = \TYPO3\CMS\Core\Core\Bootstrap::createPackageManager(\TYPO3\CMS\Core\Package\UnitTestPackageManager::class, \TYPO3\CMS\Core\Core\Bootstrap::createPackageCache($cache));
 
     \TYPO3\CMS\Core\Utility\GeneralUtility::setSingletonInstance(\TYPO3\CMS\Core\Package\PackageManager::class, $packageManager);
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::setPackageManager($packageManager);
@@ -69,4 +64,4 @@ call_user_func(function () {
     $testbase->dumpClassLoadingInformation();
 
     \TYPO3\CMS\Core\Utility\GeneralUtility::purgeInstances();
-});
+})();

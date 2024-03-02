@@ -22,7 +22,7 @@ use TYPO3\TestingFramework\Core\BaseTestCase;
 
 class TcaConverterTest extends BaseTestCase
 {
-    public function convertTcaArrayToFlatTestDataProvider(): iterable
+    public static function convertTcaArrayToFlatTestDataProvider(): iterable
     {
         yield 'Simple array converted to flat' => [
             [
@@ -201,7 +201,7 @@ class TcaConverterTest extends BaseTestCase
         self::assertSame($expected, TcaConverter::convertTcaArrayToFlat($array, ['config']));
     }
 
-    public function convertFlatTcaToArrayTestDataProvider(): iterable
+    public static function convertFlatTcaToArrayTestDataProvider(): iterable
     {
         yield 'Nested flat array is converted to original TCA array' => [
             [

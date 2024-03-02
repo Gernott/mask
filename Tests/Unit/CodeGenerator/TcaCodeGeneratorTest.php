@@ -26,11 +26,11 @@ use TYPO3\CMS\Core\Resource\OnlineMedia\Helpers\OnlineMediaHelperRegistry;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\TestingFramework\Core\BaseTestCase;
 
-class TcaCodeGeneratorTest extends BaseTestCase
+final class TcaCodeGeneratorTest extends BaseTestCase
 {
     use StorageRepositoryCreatorTrait;
 
-    public function getPageShowItemProvider(): array
+    public static function getPageShowItemProvider(): array
     {
         return [
             'Layout 1 is rendered in correct order' => [
@@ -265,7 +265,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
         self::assertSame($expected, $tcaCodeGenerator->getPageShowItem($key));
     }
 
-    public function processTableTcaDataProvider(): array
+    public static function processTableTcaDataProvider(): array
     {
         return [
             'Order is correct and tab is put correctly' => [
@@ -477,7 +477,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
         self::assertSame($expected, $tcaGenerator->processTableTca($tableDefinitionCollection->getTable($table)));
     }
 
-    public function generateFieldsTcaDataProvider(): iterable
+    public static function generateFieldsTcaDataProvider(): iterable
     {
         yield 'Input fields are processed correctly' => [
             'json' => [
@@ -850,7 +850,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
         self::assertSame($expected, $tcaGenerator->generateFieldsTca($table));
     }
 
-    public function generateFileTcaDataProvider(): iterable
+    public static function generateFileTcaDataProvider(): iterable
     {
         yield 'Files are processed correctly' => [
             'json' => [
@@ -1075,7 +1075,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
         self::assertEquals($expectedTypeFile['imageoverlayPalette'], isset($result[$field]['config']['overrideChildTca']['types'][File::FILETYPE_IMAGE]));
     }
 
-    public function setElementsTcaDataProvider(): array
+    public static function setElementsTcaDataProvider(): array
     {
         return [
             'showitem is set for each field' => [
@@ -1502,7 +1502,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
         self::assertSame($bodytextIsRichtext, ($GLOBALS['TCA']['tt_content']['types'][$key]['columnsOverrides']['bodytext']['config']['enableRichtext'] ?? 0) === 1);
     }
 
-    public function generateTableTcaDataProvider(): array
+    public static function generateTableTcaDataProvider(): array
     {
         return [
             'Label and Icon generated when ctrl provided' => [
@@ -1660,7 +1660,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
         self::assertSame($expectedIcon, $tcaGenerator->generateTableTca($tableDefinition)['ctrl']['iconfile']);
     }
 
-    public function getPagePalettesTestDataProvider(): array
+    public static function getPagePalettesTestDataProvider(): array
     {
         return [
             'Palettes of pages returned' => [
@@ -1764,7 +1764,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
         self::assertEquals($expected, array_keys($tcaGenerator->getPagePalettes($elementKey)));
     }
 
-    public function getFirstNoneTabFieldDataProvider(): iterable
+    public static function getFirstNoneTabFieldDataProvider(): iterable
     {
         return [
             'Tab is first element' => [
@@ -1788,7 +1788,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
         self::assertSame($expected, $tcaGenerator->getFirstNoneTabField($data));
     }
 
-    public function generateTCAColumnsOverridesDataProvider(): iterable
+    public static function generateTCAColumnsOverridesDataProvider(): iterable
     {
         yield 'normal root fields TCA override generated' => [
             'json' => [
@@ -2240,7 +2240,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
     /**
      * @return mixed[]
      */
-    public function addSearchFieldsReturnsCorrectFieldStringDataProvider(): iterable
+    public static function addSearchFieldsReturnsCorrectFieldStringDataProvider(): iterable
     {
         yield 'No fields return current search string as is' => [
             'json' => [
@@ -2405,7 +2405,7 @@ class TcaCodeGeneratorTest extends BaseTestCase
     /**
      * @return mixed[]
      */
-    public function extendBodytextSearchAndWhereReturnsCorrectConstraintDataProvider(): iterable
+    public static function extendBodytextSearchAndWhereReturnsCorrectConstraintDataProvider(): iterable
     {
         yield 'A field with bodytext is added' => [
             'json' => [

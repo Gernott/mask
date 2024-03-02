@@ -26,7 +26,7 @@ class StorageRepositoryTest extends BaseTestCase
     use StorageRepositoryCreatorTrait;
     use PackageManagerTrait;
 
-    public function addDataProvider(): iterable
+    public static function addDataProvider(): iterable
     {
         yield 'fields are added' => [
             'json' => [],
@@ -1230,7 +1230,7 @@ class StorageRepositoryTest extends BaseTestCase
         self::assertEquals($expected, $storageRepository->add($element, $fields, $table, $isNew));
     }
 
-    public function removeDataProvider(): array
+    public static function removeDataProvider(): array
     {
         return [
             'fields are removed' => [
@@ -1644,7 +1644,7 @@ class StorageRepositoryTest extends BaseTestCase
         self::assertEquals($expected, $storageRepository->remove($table, $elementKey));
     }
 
-    public function addDataReusingProvider(): iterable
+    public static function addDataReusingProvider(): iterable
     {
         yield 'fields are added' => [
             'json' => [],

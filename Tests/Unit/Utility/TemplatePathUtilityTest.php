@@ -25,7 +25,7 @@ class TemplatePathUtilityTest extends UnitTestCase
 {
     use PackageManagerTrait;
 
-    public function getTemplatePathDataProvider(): iterable
+    public static function getTemplatePathDataProvider(): iterable
     {
         return [
             'UpperCamelCase exists' => [

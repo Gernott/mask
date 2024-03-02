@@ -41,7 +41,7 @@ class FieldsControllerTest extends BaseTestCase
         $GLOBALS['LANG'] = $languageServiceMock;
     }
 
-    public function loadElementDataProvider(): array
+    public static function loadElementDataProvider(): array
     {
         return [
             'Simple fields converted to fields array' => [
