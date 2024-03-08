@@ -60,14 +60,6 @@
     </div>
 </div>
 
-<div class="row mb-1">
-    <font-icon-picker :element="element" :label="language.icon" :fa-icons="faIcons" property="icon" ref="iconPicker"></font-icon-picker>
-    <element-color-picker :element="element" :label="language.color" property="color"></element-color-picker>
-</div>
-<div v-if="global.typo3Version > 10" class="row mb-1">
-    <font-icon-picker :element="element" :label="language.iconOverlay" :fa-icons="faIcons" property="iconOverlay" ref="iconOverlayPicker"></font-icon-picker>
-    <element-color-picker :element="element" :label="language.colorOverlay" property="colorOverlay"></element-color-picker>
-</div>
 <div class="checkbox checkbox-type-toggle form-check form-switch">
     <input id="elementSaveAndClose" class="checkbox-input form-check-input" v-model="element.saveAndClose" type="checkbox" :true-value="1" :false-value="0">
     <label class="checkbox-label form-check-label" for="elementSaveAndClose">

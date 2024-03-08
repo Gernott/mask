@@ -7,9 +7,7 @@ import fieldKey from './components/field-key.js';
 import elementKey from './components/element-key.js';
 import splashscreen from './components/splash-screen.js';
 import buttonBar from './components/button-bar.js';
-import fontIconPicker from './components/font-icon-picker.js';
 import fieldGroup from './components/field-group.js';
-import elementColorPicker from './components/element-color-picker.js';
 import AjaxRequest from '@typo3/core/ajax/ajax-request.js';
 import Icons from '@typo3/backend/icons.js';
 import Modal from '@typo3/backend/modal.js';
@@ -33,9 +31,7 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
       fieldKey,
       splashscreen,
       buttonBar,
-      fontIconPicker,
       fieldGroup,
-      elementColorPicker,
     },
     data: function () {
       return {
@@ -58,7 +54,6 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
         nonOverrideableOptions: [],
         features: [],
         icons: {},
-        faIcons: {},
         availableTca: {},
         multiUseElements: {},
         optionalExtensionStatus: {},
@@ -275,14 +270,6 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
                   }
                 ));
 
-              // fetch fontawesome icons
-              promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_icons)).get()
-                .then(
-                  async response => {
-                    this.faIcons = await response.resolve();
-                  }
-                ));
-
               // fetch possible missing files or folders
               promises.push((new AjaxRequest(TYPO3.settings.ajaxUrls.mask_missing)).get()
                 .then(
@@ -472,9 +459,8 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
       },
       getPostElement() {
         if (this.type === 'tt_content') {
-          const postElement = {
+          return {
             key: this.element.key,
-            icon: this.$refs.iconPicker.iconPicker.currentIcon,
             label: this.element.label,
             shortLabel: this.element.shortLabel,
             description: this.element.description,
@@ -484,9 +470,6 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
             sorting: this.element.sorting,
             saveAndClose: this.element.saveAndClose,
           };
-
-          postElement.iconOverlay = this.$refs.iconOverlayPicker.iconPicker.currentIcon;
-          return postElement;
         } else {
           return {
             key: this.element.key

@@ -16,10 +16,6 @@ return [
         'path' => '/mask/fieldTypes',
         'target' => AjaxController::class . '::fieldTypes',
     ],
-    'mask_icons' => [
-        'path' => '/mask/icons',
-        'target' => AjaxController::class . '::icons',
-    ],
     'mask_existing_tca' => [
         'path' => '/mask/existingTca',
         'target' => AjaxController::class . '::existingTca',
