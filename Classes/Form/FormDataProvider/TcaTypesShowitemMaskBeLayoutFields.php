@@ -19,19 +19,16 @@ namespace MASK\Mask\Form\FormDataProvider;
 
 use MASK\Mask\CodeGenerator\TcaCodeGenerator;
 use MASK\Mask\Definition\TableDefinitionCollection;
-use TYPO3\CMS\Backend\Configuration\TypoScript\ConditionMatching\ConditionMatcher;
 use TYPO3\CMS\Backend\Form\FormDataProviderInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Page\PageLayoutResolver;
 
 class TcaTypesShowitemMaskBeLayoutFields implements FormDataProviderInterface
 {
-    protected TcaCodeGenerator $tcaCodeGenerator;
-    protected TableDefinitionCollection $tableDefinitionCollection;
-
-    public function __construct(TableDefinitionCollection $tableDefinitionCollection, TcaCodeGenerator $tcaCodeGenerator)
-    {
-        $this->tcaCodeGenerator = $tcaCodeGenerator;
-        $this->tableDefinitionCollection = $tableDefinitionCollection;
+    public function __construct(
+        protected TableDefinitionCollection $tableDefinitionCollection,
+        protected TcaCodeGenerator $tcaCodeGenerator,
+        protected PageLayoutResolver $pageLayoutResolver,
+    ) {
     }
 
     public function addData(array $result)
@@ -46,9 +43,13 @@ class TcaTypesShowitemMaskBeLayoutFields implements FormDataProviderInterface
 
         $pages = $this->tableDefinitionCollection->getTable('pages');
         if (!empty($pages->elements)) {
-            $conditionMatcher = GeneralUtility::makeInstance(ConditionMatcher::class, null, $result['vanillaUid'], $result['rootline']);
             foreach ($pages->elements as $element) {
-                if ($conditionMatcher->match("[maskBeLayout('$element->key')]")) {
+                $layout = $element->key;
+                $currentLayout = $this->pageLayoutResolver->getLayoutForPage($result['databaseRow'], $result['rootline']);
+                if (str_starts_with($currentLayout, 'pagets__') === true) {
+                    $currentLayout = substr($currentLayout, 8);
+                }
+                if ($currentLayout === $layout) {
                     $result['processedTca']['types'][$result['recordTypeValue']]['showitem'] .= $this->tcaCodeGenerator->getPageShowItem($element->key);
                     $result['processedTca']['palettes'] = array_merge(($result['processedTca']['palettes'] ?? []), $this->tcaCodeGenerator->getPagePalettes($element->key));
                     break;
