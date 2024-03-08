@@ -185,7 +185,7 @@ export default Vue.component(
               </p>
             </div>
             <div v-if="type == 'cTypes'" class="form-control-wrap">
-              <select-multiple-side-by-side v-model="global.activeField.tca[tcaKey]" :items="global.ctypes" :language="language" :version="global.typo3Version"/>
+              <select-multiple-side-by-side v-model="global.activeField.tca[tcaKey]" :items="global.ctypes" :language="language" :icons="icons"/>
             </div>
             <div v-if="type == 'onlineMedia'" class="form-control-wrap">
                 <div class="form-wizards-wrap">

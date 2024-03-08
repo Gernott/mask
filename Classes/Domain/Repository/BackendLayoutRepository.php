@@ -18,12 +18,12 @@ declare(strict_types=1);
 namespace MASK\Mask\Domain\Repository;
 
 use RuntimeException;
-use TYPO3\CMS\Backend\Provider\PageTsBackendLayoutDataProvider;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\View\BackendLayout\BackendLayout;
 use TYPO3\CMS\Backend\View\BackendLayout\DataProviderCollection;
 use TYPO3\CMS\Backend\View\BackendLayout\DataProviderContext;
 use TYPO3\CMS\Backend\View\BackendLayout\DefaultDataProvider;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Imaging\IconRegistry;
 use TYPO3\CMS\Core\Localization\LanguageService;
@@ -62,7 +62,7 @@ class BackendLayoutRepository
                 ->setPageTsConfig($pageTsConfig);
             $dataProviderCollection = GeneralUtility::makeInstance(DataProviderCollection::class);
             $dataProviderCollection->add('default', DefaultDataProvider::class);
-            $dataProviderCollection->add('pagets', PageTsBackendLayoutDataProvider::class);
+            $dataProviderCollection->add('pagets', $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['BackendLayoutDataProvider']['pagets']);
             $backendLayoutCollections = $dataProviderCollection->getBackendLayoutCollections($dataProviderContext);
 
             foreach ($backendLayoutCollections['default']->getAll() as $backendLayout) {
@@ -119,7 +119,7 @@ class BackendLayoutRepository
         $statement = $this->pagesQueryBuilder
             ->select('backend_layout', 'backend_layout_next_level', 'uid')
             ->from('pages')
-            ->where($this->pagesQueryBuilder->expr()->eq('uid', $this->pagesQueryBuilder->createNamedParameter($pid, \PDO::PARAM_INT)))
+            ->where($this->pagesQueryBuilder->expr()->eq('uid', $this->pagesQueryBuilder->createNamedParameter($pid, Connection::PARAM_INT)))
             ->executeQuery();
 
         $requestPage = $statement->fetchAssociative();

@@ -27,7 +27,7 @@ final class PaletteDefinitionCollection implements \IteratorAggregate, \Countabl
 
     public function __clone()
     {
-        $this->definitions = array_map(function (PaletteDefinition $paletteDefinition) {
+        $this->definitions = array_map(function(PaletteDefinition $paletteDefinition) {
             return clone $paletteDefinition;
         }, $this->definitions);
     }

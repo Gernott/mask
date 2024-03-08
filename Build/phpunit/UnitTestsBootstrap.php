@@ -16,7 +16,7 @@
  * This file is defined in UnitTests.xml and called by phpunit
  * before instantiating the test suites.
  */
-(static function () {
+(static function() {
     $testbase = new \TYPO3\TestingFramework\Core\Testbase();
 
     // These if's are for core testing (package typo3/cms) only. cms-composer-installer does

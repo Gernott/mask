@@ -28,7 +28,7 @@ final class SqlDefinition implements \IteratorAggregate, \Countable
 
     public function __clone()
     {
-        $this->definitions = array_map(function (SqlColumnDefinition $sqlColumnDefinition) {
+        $this->definitions = array_map(function(SqlColumnDefinition $sqlColumnDefinition) {
             return clone $sqlColumnDefinition;
         }, $this->definitions);
     }

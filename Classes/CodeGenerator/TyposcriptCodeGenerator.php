@@ -26,6 +26,7 @@ use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\ArrayToTypoScriptConverter;
 use MASK\Mask\Utility\TemplatePathUtility;
 use TYPO3\CMS\Core\Imaging\IconRegistry;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 /**
  * Generates all the typoscript needed for mask content elements
@@ -140,9 +141,13 @@ class TyposcriptCodeGenerator
         $TSConfig = [];
         $pages = $this->tableDefinitionCollection->getTable('pages');
         foreach ($pages->elements as $element) {
+            $layout = $element->key;
+            if (MathUtility::canBeInterpretedAsInteger($layout) === false) {
+                $layout = 'pagets__' . $layout;
+            }
             // Labels for pages
             $TSConfig[] = '';
-            $TSConfig[] = "[maskBeLayout('$element->key')]";
+            $TSConfig[] = "[tree.pagelayout == '$layout']";
             // if page has backendlayout with this element-key
             foreach ($element->columns as $index => $column) {
                 $TSConfig = $this->generateTCEFORM($column, $index, $element, 'pages', $TSConfig);

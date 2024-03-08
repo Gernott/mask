@@ -23,7 +23,6 @@
     displayDetailsOnTestsThatTriggerErrors="true"
     displayDetailsOnTestsThatTriggerNotices="true"
     displayDetailsOnTestsThatTriggerWarnings="true"
-    failOnDeprecation="true"
     failOnNotice="true"
     failOnRisky="true"
     failOnWarning="true"

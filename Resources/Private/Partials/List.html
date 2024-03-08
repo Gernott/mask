@@ -22,8 +22,8 @@
                         </div>
                     </div>
                 </div>
-                <div v-if="missingFilesOrFolders.missing" @click="showMissingFilesOrFolder" class="mask-elements__missing btn btn-warning"><i class="fa fa-warning"></i> <f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.all.missingFilesOrFolders"/></div>
-                <div @click="openNew" class="btn btn-success"><i class="fa fa-plus"></i> <f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.all.create_content_element"/></div>
+                <div v-if="missingFilesOrFolders.missing" @click="showMissingFilesOrFolder" class="mask-elements__missing btn btn-warning"><core:icon identifier="actions-exclamation-triangle-alt" size="small" /> <f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.all.missingFilesOrFolders"/></div>
+                <div @click="openNew" class="btn btn-success"><core:icon identifier="actions-plus-square-alt" size="small" /> <f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.all.create_content_element"/></div>
             </div>
             <div class="mask-elements__table-wrap">
                 <table class="table table-hover mask-elements__table">
@@ -66,7 +66,7 @@
             <div class="mask-list__short-list" v-if="Object.keys(features).length">
                 <ul>
                     <li v-for="feature in features">
-                        <i class="fa fa-lightbulb-o"></i>
+                        <core:icon identifier="actions-lightbulb-on" size="small" />
                         &nbsp;<a :href="feature.documentation" class="text-primary" target="_blank">{{ feature.title }}</a>:
                         <span v-if="feature.state">enabled</span>
                         <span v-if="!feature.state">disabled</span>
@@ -137,7 +137,7 @@
                 <div class="col-sm-2 d-flex align-items-center"><span class="text-danger" v-if="setupConfiguration.error">{{ setupConfiguration.error }}</span></div>
             </div>
             <div class="form-group row">
-                <div class="col-sm-2 control-label"><b>Loader <a href="https://docs.typo3.org/p/mask/mask/main/en-us/API/Loader.html#available-loaders" title="{f:translate(key: 'LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.learn_about_loaders')}" target="_blank"><i class="fa fa-info-circle"></i></a> :</b></div>
+                <div class="col-sm-2 control-label"><b>Loader <a href="https://docs.typo3.org/p/mask/mask/main/en-us/API/Loader.html#available-loaders" title="{f:translate(key: 'LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.learn_about_loaders')}" target="_blank"><core:icon identifier="actions-info-circle-alt" size="small" /></a> :</b></div>
                 <div class="col-sm-10">
                     <div><f:translate key="LLL:EXT:mask/Resources/Private/Language/locallang.xlf:tx_mask.loader.description"/></div>
                     <div>

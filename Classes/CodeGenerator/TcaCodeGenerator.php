@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace MASK\Mask\CodeGenerator;
 
 use InvalidArgumentException;
+use MASK\Mask\CompatibilityLayer\TcaPreparation;
 use MASK\Mask\Definition\ElementTcaDefinition;
 use MASK\Mask\Definition\PaletteDefinition;
 use MASK\Mask\Definition\TableDefinition;
@@ -26,7 +27,6 @@ use MASK\Mask\Definition\TcaFieldDefinition;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\DateUtility;
-use TYPO3\CMS\Core\Preparations\TcaPreparation;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\OnlineMedia\Helpers\OnlineMediaHelperRegistry;
 use TYPO3\CMS\Core\Utility\ArrayUtility;

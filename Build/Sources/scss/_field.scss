@@ -76,19 +76,20 @@
     }
 
     &__multiuse {
-        font-size: 15px;
+        font-size: 14px;
         text-align: center;
-        color: #6daae0;
         display: flex;
         justify-content: center;
         align-items: center;
         position: absolute;
         bottom: -2px;
         left: -3px;
-        width: 13px;
-        height: 13px;
+        width: 14px;
+        height: 14px;
         border-radius: 50%;
         background-color: #fff;
+        background-size: 1em 1em;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' xml:space='preserve' viewBox='0 0 16 16'%3e%3cg fill='%230060b8'%3e%3cpath d='M8 1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7zm1 10a1 1 0 1 1-2 0V8a1 1 0 1 1 2 0v3zM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2z'/%3e%3c/g%3e%3c/svg%3e");
     }
 
     &__dragarea {

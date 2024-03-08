@@ -20,7 +20,7 @@ export default Vue.component(
               optionalExtensionStatus: Object,
             },
             template: `
-                <div class="mask-field-group" data-bs-toggle="tooltip">
+                <div class="mask-field-group">
                     <span class="mask-field-group__label">{{label}}</span>
                     <ul class="mask-field-group__list">
                         <draggable

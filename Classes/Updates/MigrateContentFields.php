@@ -23,6 +23,7 @@ use MASK\Mask\Definition\TableDefinitionCollection;
 use MASK\Mask\Definition\TcaFieldDefinition;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\AffixUtility;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
@@ -78,7 +79,7 @@ class MigrateContentFields implements UpgradeWizardInterface
             ->set('tx_mask_content_parent_uid', $queryBuilder->quoteIdentifier($legacyParentColumnName), false)
             ->set('tx_mask_content_tablenames', $tableDefinition->table)
             ->set('tx_mask_content_role', $tcaFieldDefinition->fullKey)
-            ->where($queryBuilder->expr()->neq($legacyParentColumnName, $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)))
+            ->where($queryBuilder->expr()->neq($legacyParentColumnName, $queryBuilder->createNamedParameter(0, Connection::PARAM_INT)))
             ->executeStatement();
     }
 

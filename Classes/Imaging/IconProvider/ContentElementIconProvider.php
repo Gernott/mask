@@ -46,39 +46,17 @@ class ContentElementIconProvider implements IconProviderInterface
     {
         $styles = [];
         $previewIconAvailable = $this->previewIconResolver->isPreviewIconAvailable($options['key']);
-        $fontAwesomeKeyAvailable = trim($options['icon']) !== '';
-
+        if ($previewIconAvailable) {
+            $iconPath = str_replace(Environment::getPublicPath(), '', $this->previewIconResolver->getPreviewIconPath($options['key']));
+            return '<img src="' . $iconPath . '" alt="' . $options['label'] . '" title="' . $options['label'] . '"/>';
+        }
         // decide what kind of icon to render
         $color = $this->getColor($options['color']);
-        if ($fontAwesomeKeyAvailable && !$previewIconAvailable) {
-            if ($color !== '') {
-                $styles[] = 'color: #' . $color;
-            }
-
-            if (empty($styles)) {
-                return '<span class="icon-unify" ><i class="fa fa-' . htmlspecialchars($this->getFontAwesomeKey($options['color'])) . '"></i></span>';
-            }
-            return '<span class="icon-unify" style="' . implode('; ', $styles) . '"><i class="fa fa-' . htmlspecialchars($this->getFontAwesomeKey($options['icon'])) . '"></i></span>';
-        }
-
-        if ($previewIconAvailable) {
-            return '<img src="' . str_replace(Environment::getPublicPath(), '', $this->previewIconResolver->getPreviewIconPath($options['key'])) . '" alt="' . $options['label'] . '" title="' . $options['label'] . '"/>';
-        }
-
         if ($color !== '') {
             $styles[] = 'background-color: #' . $color;
         }
         $styles[] = 'color: #fff';
-
         return '<span class="icon-unify mask-default-icon" style="' . implode('; ', $styles) . '">' . mb_substr($options['label'], 0, 1) . '</span>';
-    }
-
-    /**
-     * returns trimmed and unified font-awesome key
-     */
-    protected function getFontAwesomeKey(string $icon): string
-    {
-        return trim(str_replace('fa-', '', $icon));
     }
 
     /**
