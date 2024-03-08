@@ -61,12 +61,12 @@ class FillTranslationSourceField implements UpgradeWizardInterface
                 ->getConnectionForTable($maskTable->table);
             $queryBuilder = $connection->createQueryBuilder();
             $queryBuilder->getRestrictions()->removeAll();
-            $queryBuilder->update($maskTable->table, 't')
-                ->set('t.l10n_source', 't.l10n_parent', false)
+            $queryBuilder->update($maskTable->table)
+                ->set('l10n_source', 'l10n_parent', false)
                 ->where(
                     $queryBuilder->expr()->and(
-                        $queryBuilder->expr()->gt('t.l10n_parent', $queryBuilder->createNamedParameter(0)),
-                        $queryBuilder->expr()->eq('t.l10n_source', $queryBuilder->createNamedParameter(0))
+                        $queryBuilder->expr()->gt('l10n_parent', $queryBuilder->createNamedParameter(0)),
+                        $queryBuilder->expr()->eq('l10n_source', $queryBuilder->createNamedParameter(0))
                     )
                 );
             $queryBuilder->executeStatement();
