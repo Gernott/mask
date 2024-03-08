@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Icons from '@typo3/backend/icons.js';
 import AjaxRequest from '@typo3/core/ajax/ajax-request.js';
-import Tooltip from '@typo3/backend/tooltip.js';
 import Modal from '@typo3/backend/modal.js';
 
 export default Vue.component(
@@ -40,9 +39,6 @@ export default Vue.component(
                         }
                     )
               },
-              hideTooltip(key) {
-                Tooltip.hide(this.$refs[this.element.key + key]);
-              },
               openFluidCodeModal(element) {
                 const url = new URL(TYPO3.settings.ajaxUrls.mask_html, window.location.origin);
                 url.searchParams.append('key', element.key);
@@ -77,31 +73,23 @@ export default Vue.component(
               Icons.getIcon('sysnote-type-2', Icons.sizes.small).then((icon) => {
                 this.htmlIcon = icon;
               });
-              Tooltip.initialize(`.${this.table}-${this.element.key}-bar [data-bs-toggle="tooltip"]`, {
-                  delay: {
-                      'show': 500,
-                      'hide': 100
-                  },
-                  trigger: 'hover',
-                  container: 'body'
-              });
             },
             template: `
             <div :class="table + '-' + element.key + '-bar'" class="mask-elements__btn-group">
               <div class="btn-group">
-                <a :ref="element.key + 'html'" class="btn btn-default" @click="hideTooltip('html'); openFluidCodeModal(element);" data-bs-toggle="tooltip" :title="language.tooltip.html">
+                <a :ref="element.key + 'html'" class="btn btn-default" :title="language.tooltip.html">
                     <span v-html="htmlIcon"></span>
                 </a>
-                <a :ref="element.key + 'edit'" class="btn btn-default" @click="hideTooltip('edit'); openEdit(table, element);" data-bs-toggle="tooltip" :title="language.tooltip.editElement">
+                <a :ref="element.key + 'edit'" class="btn btn-default" @click="openEdit(table, element);" :title="language.tooltip.editElement">
                     <span v-html="icons.edit"></span>
                 </a>
-                <a v-if="table == 'tt_content'" v-show="!element.hidden" :ref="element.key + 'hide'" class="btn btn-default" :class="{'disable-pointer': loading}" @click="hideTooltip('hide'); toggleVisibility('hide');" data-bs-toggle="tooltip" :title="language.tooltip.disableElement">
+                <a v-if="table == 'tt_content'" v-show="!element.hidden" :ref="element.key + 'hide'" class="btn btn-default" :class="{'disable-pointer': loading}" @click="toggleVisibility('hide');" :title="language.tooltip.disableElement">
                    <span v-html="toggleIcon"></span>
                 </a>
-                <a v-if="table == 'tt_content'" v-show="element.hidden" :ref="element.key + 'enable'" class="btn btn-default" :class="{'disable-pointer': loading}" @click="hideTooltip('enable'); toggleVisibility('enable');" data-bs-toggle="tooltip" :title="language.tooltip.enableElement">
+                <a v-if="table == 'tt_content'" v-show="element.hidden" :ref="element.key + 'enable'" class="btn btn-default" :class="{'disable-pointer': loading}" @click="toggleVisibility('enable');" :title="language.tooltip.enableElement">
                    <span v-html="toggleIcon"></span>
                 </a>
-                <a v-if="table == 'tt_content'" :ref="element.key + 'delete'" class="btn btn-default" @click="hideTooltip('delete'); openDeleteDialog(element)" data-bs-toggle="tooltip" :title="language.tooltip.deleteElement">
+                <a v-if="table == 'tt_content'" :ref="element.key + 'delete'" class="btn btn-default" @click="openDeleteDialog(element)" :title="language.tooltip.deleteElement">
                     <span v-html="icons.delete"></span>
                 </a>
               </div>

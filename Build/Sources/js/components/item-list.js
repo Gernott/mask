@@ -1,7 +1,5 @@
 import Vue from 'vue';
 import draggable from 'vuedraggable';
-import $ from 'jquery';
-import Tooltip from '@typo3/backend/tooltip.js';
 
 export default Vue.component(
       'itemList',
@@ -16,12 +14,6 @@ export default Vue.component(
         },
         components: {
           draggable,
-        },
-        mounted() {
-          this.initializeTooltip();
-        },
-        updated() {
-          this.initializeTooltip();
         },
         computed: {
           tcaField() {
@@ -59,31 +51,10 @@ export default Vue.component(
                 newObj[key] = '';
               }
             }
-            this.hideTooltip('add' + this.tcaKey);
             this.value.push(newObj);
           },
           deleteItem(index) {
-            this.hideTooltip('delete' + this.tcaKey + index);
             this.value.splice(index, 1);
-          },
-          hideTooltip(id) {
-            let ref;
-            if (typeof this.$refs[id][0] !== 'undefined') {
-              ref = this.$refs[id][0];
-            } else {
-              ref = this.$refs[id];
-            }
-            Tooltip.hide(ref);
-          },
-          initializeTooltip() {
-            Tooltip.initialize(`.item-table [data-bs-toggle="tooltip"]`, {
-              delay: {
-                'show': 500,
-                'hide': 100
-              },
-              trigger: 'hover',
-              container: 'body'
-            });
           },
         },
         template: `
@@ -116,10 +87,10 @@ export default Vue.component(
                                     <option v-for="itemGroup in itemGroups" :value="itemGroup.key">{{ itemGroup.key }}</option>
                                 </select>
                             </td>
-                            <td class="text-center"><a @click.prevent="deleteItem(index)" href="#" class="btn btn-default btn-sm" data-bs-toggle="tooltip" :title="language.delete" :ref="'delete' + tcaKey + index"><span v-html="icons.delete"></span></a></td>
+                            <td class="text-center"><a @click.prevent="deleteItem(index)" href="#" class="btn btn-default btn-sm" :title="language.delete" :ref="'delete' + tcaKey + index"><span v-html="icons.delete"></span></a></td>
                         </tr>
                         <tr v-if="!maxItemsReached">
-                            <td class="text-center"><a @click.prevent="add" href="#" class="btn btn-default btn-sm" data-bs-toggle="tooltip" :title="language.add" :ref="'add' + tcaKey"><span v-html="icons.add"></span></a></td>
+                            <td class="text-center"><a @click.prevent="add" href="#" class="btn btn-default btn-sm" :title="language.add" :ref="'add' + tcaKey"><span v-html="icons.add"></span></a></td>
                             <td v-for="property in properties"></td>
                             <td></td>
                         </tr>

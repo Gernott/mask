@@ -1,5 +1,4 @@
 import Vue from 'vue';
-import Tooltip from '@typo3/backend/tooltip.js';
 
 export default Vue.component(
       'fieldRow',
@@ -17,20 +16,7 @@ export default Vue.component(
           keyWithoutMask: Function,
           isRoot: Function
         },
-        mounted: function () {
-          Tooltip.initialize(`.field-row-${this.fieldKey} [data-bs-toggle="tooltip"]`, {
-              delay: {
-                  'show': 500,
-                  'hide': 100
-              },
-              trigger: 'hover',
-              container: 'body'
-          });
-        },
         methods: {
-          hideTooltip() {
-            Tooltip.hide(this.$refs['row' + this.index]);
-          },
           setActiveField() {
             this.global.activeField = this.field;
             this.global.currentTab = 'general';
@@ -65,7 +51,7 @@ export default Vue.component(
             <span class="mask-field__key" v-if="!global.structuralFields.includes(field.name)">{{ keyWithoutMask(field.key) }}</span>
           </div>
           <div class="mask-field__actions">
-              <a class="btn btn-default btn-sm" @click.stop="$emit('remove-field', index); hideTooltip();" data-bs-toggle="tooltip" :title="language.tooltip.deleteField" v-html="icons.delete" :ref="'row' + index"></a>
+              <a class="btn btn-default btn-sm" @click.stop="$emit('remove-field', index);" :title="language.tooltip.deleteField" v-html="icons.delete" :ref="'row' + index"></a>
           </div>
         </div>
     </div>
