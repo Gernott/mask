@@ -555,13 +555,13 @@ class AjaxController
         // Filter elements with same element key
         $multiUseElements = array_filter(
             $multiUseElements,
-            static function ($item) use ($elementKey) {
+            static function($item) use ($elementKey) {
                 return $item['key'] !== $elementKey;
             }
         );
 
         $multiUseElements = array_map(
-            static function ($item) {
+            static function($item) {
                 return [
                     'key' => $item['key'],
                     'label' => $item['label'],
@@ -631,7 +631,7 @@ class AjaxController
             'Medical' => ['ambulance', 'h-square', 'heart', 'heart-o', 'heartbeat', 'hospital-o', 'medkit', 'stethoscope', 'user-md'],
         ];
         foreach ($icons as $category => $values) {
-            $icons[$category] = array_map(function ($item) {
+            $icons[$category] = array_map(function($item) {
                 return 'fa-' . $item;
             }, $values);
         }
@@ -957,7 +957,7 @@ class AjaxController
     {
         $config[''] = $this->translateLabel('tx_mask.config.richtextConfiguration.none');
         $presets = array_keys($GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets'] ?? []);
-        $presets = array_filter($presets, function ($item) {
+        $presets = array_filter($presets, function($item) {
             return $item !== 'sys_news';
         });
         $presets = array_combine($presets, $presets);

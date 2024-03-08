@@ -79,7 +79,7 @@ class ConvertTemplatesToUppercase implements UpgradeWizardInterface
             $absolutePath = Environment::getPublicPath() . '/' . $settings['content'];
         }
         try {
-            return (new Finder())->files()->in($absolutePath)->filter(function (SplFileInfo $info) {
+            return (new Finder())->files()->in($absolutePath)->filter(function(SplFileInfo $info) {
                 $filename = $info->getFilename();
                 return ctype_lower(substr($filename, 0, 1)) || str_contains($filename, '_');
             });

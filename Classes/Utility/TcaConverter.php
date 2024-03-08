@@ -157,7 +157,7 @@ class TcaConverter
                 $value = self::convertKeyValuePairsToAssociativeArray($value);
             }
             $explodedKey = explode('.', $key);
-            $propertyPath = array_reduce($explodedKey, static function ($carry, $property) {
+            $propertyPath = array_reduce($explodedKey, static function($carry, $property) {
                 return $carry . "[$property]";
             });
             $accessor->setValue($tcaArray, $propertyPath, $value);

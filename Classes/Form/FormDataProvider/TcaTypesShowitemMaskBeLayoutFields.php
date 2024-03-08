@@ -28,8 +28,7 @@ class TcaTypesShowitemMaskBeLayoutFields implements FormDataProviderInterface
         protected TableDefinitionCollection $tableDefinitionCollection,
         protected TcaCodeGenerator $tcaCodeGenerator,
         protected PageLayoutResolver $pageLayoutResolver,
-    ) {
-    }
+    ) {}
 
     public function addData(array $result)
     {

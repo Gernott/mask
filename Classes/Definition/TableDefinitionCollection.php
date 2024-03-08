@@ -45,7 +45,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
 
     public function __clone()
     {
-        $this->definitions = array_map(function (TableDefinition $tableDefinition) {
+        $this->definitions = array_map(function(TableDefinition $tableDefinition) {
             return clone $tableDefinition;
         }, $this->definitions);
     }
