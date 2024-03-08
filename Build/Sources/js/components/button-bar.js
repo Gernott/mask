@@ -77,7 +77,7 @@ export default Vue.component(
             template: `
             <div :class="table + '-' + element.key + '-bar'" class="mask-elements__btn-group">
               <div class="btn-group">
-                <a :ref="element.key + 'html'" class="btn btn-default" :title="language.tooltip.html">
+                <a :ref="element.key + 'html'" @click="openFluidCodeModal(element);" class="btn btn-default" :title="language.tooltip.html">
                     <span v-html="htmlIcon"></span>
                 </a>
                 <a :ref="element.key + 'edit'" class="btn btn-default" @click="openEdit(table, element);" :title="language.tooltip.editElement">
