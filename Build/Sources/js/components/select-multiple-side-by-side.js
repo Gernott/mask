@@ -13,7 +13,7 @@ export default Vue.component(
           items: Array,
           value: Array,
           language: Object,
-          version: Number,
+          icons: Object,
         },
         components: {
           draggable,
@@ -73,8 +73,8 @@ export default Vue.component(
                     <div class="form-wizards-element">
                         <div class="form-multigroup-item-wizard">
                             <span class="input-group input-group-sm">
-                            <span class="input-group-text" :class="{'input-group-addon': version === 10}">
-                                <span class="fa fa-filter"></span>
+                            <span class="input-group-text">
+                                <span v-html="icons.filter"></span>
                             </span>
                             <input v-model="search" class="t3js-formengine-multiselect-filter-textfield form-control" value="">
                             </span>

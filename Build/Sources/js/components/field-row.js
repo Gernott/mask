@@ -39,7 +39,7 @@ export default Vue.component(
         },
         template: `
     <div :class="'field-row-' + fieldKey" class="mask-field__row" @click="setActiveField">
-        <i v-if="isMultiUse" class="mask-field__multiuse fa fa-info-circle"></i>
+        <i v-if="isMultiUse" class="mask-field__multiuse"></i>
         <div class="mask-field__image">
             <div v-html="field.icon"></div>
         </div>

@@ -330,6 +330,9 @@ import DeferredAction from '@typo3/backend/action-button/deferred-action.js';
               promises.push(Icons.getIcon('actions-question-circle-alt', Icons.sizes.small).then(icon => {
                 this.icons.questionCircle = icon;
               }));
+              promises.push(Icons.getIcon('actions-filter', Icons.sizes.small).then(icon => {
+                this.icons.filter = icon;
+              }));
 
               Promise.all(promises).then(() => {
                 this.loaded = true;
