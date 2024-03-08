@@ -18,7 +18,6 @@ declare(strict_types=1);
 namespace MASK\Mask\Domain\Repository;
 
 use RuntimeException;
-use TYPO3\CMS\Backend\Provider\PageTsBackendLayoutDataProvider;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\View\BackendLayout\BackendLayout;
 use TYPO3\CMS\Backend\View\BackendLayout\DataProviderCollection;
@@ -62,7 +61,7 @@ class BackendLayoutRepository
                 ->setPageTsConfig($pageTsConfig);
             $dataProviderCollection = GeneralUtility::makeInstance(DataProviderCollection::class);
             $dataProviderCollection->add('default', DefaultDataProvider::class);
-            $dataProviderCollection->add('pagets', PageTsBackendLayoutDataProvider::class);
+            $dataProviderCollection->add('pagets', $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['BackendLayoutDataProvider']['pagets']);
             $backendLayoutCollections = $dataProviderCollection->getBackendLayoutCollections($dataProviderContext);
 
             foreach ($backendLayoutCollections['default']->getAll() as $backendLayout) {
