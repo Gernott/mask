@@ -46,19 +46,16 @@ class ContentElementIconProvider implements IconProviderInterface
     {
         $styles = [];
         $previewIconAvailable = $this->previewIconResolver->isPreviewIconAvailable($options['key']);
-
+        if ($previewIconAvailable) {
+            $iconPath = str_replace(Environment::getPublicPath(), '', $this->previewIconResolver->getPreviewIconPath($options['key']));
+            return '<img src="' . $iconPath . '" alt="' . $options['label'] . '" title="' . $options['label'] . '"/>';
+        }
         // decide what kind of icon to render
         $color = $this->getColor($options['color']);
-
-        if ($previewIconAvailable) {
-            return '<img src="' . str_replace(Environment::getPublicPath(), '', $this->previewIconResolver->getPreviewIconPath($options['key'])) . '" alt="' . $options['label'] . '" title="' . $options['label'] . '"/>';
-        }
-
         if ($color !== '') {
             $styles[] = 'background-color: #' . $color;
         }
         $styles[] = 'color: #fff';
-
         return '<span class="icon-unify mask-default-icon" style="' . implode('; ', $styles) . '">' . mb_substr($options['label'], 0, 1) . '</span>';
     }
 
