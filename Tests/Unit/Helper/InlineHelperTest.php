@@ -23,6 +23,7 @@ use MASK\Mask\Helper\InlineHelper;
 use MASK\Mask\Tests\Unit\StorageRepositoryCreatorTrait;
 use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Resource\FileRepository;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\BaseTestCase;
 
@@ -125,8 +126,11 @@ class InlineHelperTest extends BaseTestCase
         $fileRepositoryMock = $this->createMock(FileRepository::class);
         $fileReference = $this->createMock(FileReference::class);
         $fileRepositoryMock->method('findByRelation')->willReturn([$fileReference]);
-        GeneralUtility::setSingletonInstance(FileRepository::class, $fileRepositoryMock);
-
+        if ($fileRepositoryMock instanceof SingletonInterface) {
+            GeneralUtility::setSingletonInstance(FileRepository::class, $fileRepositoryMock);
+        } else {
+            GeneralUtility::addInstance(FileRepository::class, $fileRepositoryMock);
+        }
         $inlineHelper = new InlineHelper(TableDefinitionCollection::createFromArray($json), $backendLayoutRepositoryMock);
         $inlineHelper->addFilesToData($data, $table);
 
