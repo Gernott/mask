@@ -24,6 +24,7 @@ use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\AffixUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\Restriction\FrontendGroupRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
@@ -285,7 +286,7 @@ class InlineHelper
         $queryBuilder
             ->select('*')
             ->from($childTable)
-            ->where($queryBuilder->expr()->eq($parentFieldName, $queryBuilder->createNamedParameter($parentUid, \PDO::PARAM_INT)))
+            ->where($queryBuilder->expr()->eq($parentFieldName, $queryBuilder->createNamedParameter($parentUid, Connection::PARAM_INT)))
             ->orderBy('sorting');
 
         if ($childTable !== 'tt_content') {
