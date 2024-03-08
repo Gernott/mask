@@ -60,14 +60,6 @@ class ContentElementIconProvider implements IconProviderInterface
     }
 
     /**
-     * returns trimmed and unified font-awesome key
-     */
-    protected function getFontAwesomeKey(string $icon): string
-    {
-        return trim(str_replace('fa-', '', $icon));
-    }
-
-    /**
      * returns trimmed and unified hex-code
      */
     protected function getColor(string $color): string
