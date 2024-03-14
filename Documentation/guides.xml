@@ -13,7 +13,7 @@
                interlink-shortcode="mask/mask"
     />
     <project title="Mask"
-             release="8.3.9"
+             release="8.3.10"
              copyright="2024"
     />
 </guides>
