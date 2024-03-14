@@ -153,6 +153,10 @@ FontIconPicker
 
    Use a FontAwesome icon
 
+On TYPO3 v12, FontAwesome icons do not get displayed in the "New Content Element Wizard"
+- see `issue #551 <https://github.com/Gernott/mask/issues/551>`_.
+Use `.svg` icon files instead as described in :ref:`content-element-icon`.
+
 Custom icon
 ===========
 
