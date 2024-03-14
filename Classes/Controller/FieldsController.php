@@ -160,7 +160,7 @@ class FieldsController
             }
 
             if ($fieldType->equals(FieldType::FILE)) {
-                $newField['tca']['imageoverlayPalette'] = $field['imageoverlayPalette'];
+                $newField['tca']['imageoverlayPalette'] = $field['imageoverlayPalette'] ?? 1;
             }
 
             if ($fieldType->isFileReference()) {
