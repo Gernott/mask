@@ -21,7 +21,7 @@ use MASK\Mask\CodeGenerator\TcaCodeGenerator;
 use MASK\Mask\Definition\TableDefinitionCollection;
 use TYPO3\CMS\Backend\Form\FormDataProviderInterface;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Frontend\Page\PageLayoutResolver;
+use TYPO3\CMS\Core\Page\PageLayoutResolver;
 
 class TcaTypesShowitemMaskBeLayoutFields implements FormDataProviderInterface
 {
@@ -42,16 +42,16 @@ class TcaTypesShowitemMaskBeLayoutFields implements FormDataProviderInterface
         $pages = $this->tableDefinitionCollection->getTable('pages');
         if (!empty($pages->elements)) {
             $rootline = BackendUtility::BEgetRootLine($result['databaseRow']['uid'], '', true);
-            $currentLayout = $this->pageLayoutResolver->getLayoutForPage($result['databaseRow'], $rootline);
-            if ($currentLayout === 'default') {
+            $layoutIdentifier = $this->pageLayoutResolver->getLayoutIdentifierForPage($result['databaseRow'], $rootline);
+            if ($layoutIdentifier === 'default') {
                 return $result;
             }
-            if (str_starts_with($currentLayout, 'pagets__') === true) {
-                $currentLayout = substr($currentLayout, 8);
+            if (str_starts_with($layoutIdentifier, 'pagets__') === true) {
+                $layoutIdentifier = substr($layoutIdentifier, 8);
             }
             foreach ($pages->elements as $element) {
                 $layout = $element->key;
-                if ($currentLayout === $layout) {
+                if ($layoutIdentifier === $layout) {
                     $result['processedTca']['types'][$result['recordTypeValue']]['showitem'] .= $this->tcaCodeGenerator->getPageShowItem($element->key);
                     $result['processedTca']['palettes'] = array_merge(($result['processedTca']['palettes'] ?? []), $this->tcaCodeGenerator->getPagePalettes($element->key));
                     break;
