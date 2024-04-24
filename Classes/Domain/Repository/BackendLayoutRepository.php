@@ -97,7 +97,7 @@ class BackendLayoutRepository
 
         foreach ($statement->fetchAllAssociative() as $layout) {
             $backendLayout = new BackendLayout(
-                $layout['uid'],
+                (string)$layout['uid'],
                 $layout['title'],
                 [
                     'backend_layout.' => [
