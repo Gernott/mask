@@ -17,7 +17,6 @@ declare(strict_types=1);
 
 namespace MASK\Mask\CodeGenerator;
 
-use InvalidArgumentException;
 use MASK\Mask\CompatibilityLayer\TcaPreparation;
 use MASK\Mask\Definition\ElementTcaDefinition;
 use MASK\Mask\Definition\PaletteDefinition;
@@ -69,7 +68,7 @@ class TcaCodeGenerator
             // Enhance boilerplate table tca with user settings
             try {
                 $GLOBALS['TCA'][$table] = $this->generateTableTca($tableDefinition);
-            } catch (InvalidArgumentException $e) {
+            } catch (\InvalidArgumentException $e) {
                 continue;
             }
 
@@ -247,7 +246,7 @@ class TcaCodeGenerator
             // after Mask, fall back to string type.
             try {
                 $fieldType = $this->tableDefinitionCollection->getFieldType($fieldKey, $table);
-            } catch (InvalidArgumentException $e) {
+            } catch (\InvalidArgumentException $e) {
                 $fieldType = new FieldType(FieldType::STRING);
             }
             // Check if this field is of type tab
@@ -656,7 +655,7 @@ class TcaCodeGenerator
             // most cases. And if not, it's no big deal if they are searchable.
             try {
                 $fieldType = $this->tableDefinitionCollection->getFieldType($field->fullKey, $table);
-            } catch (InvalidArgumentException $e) {
+            } catch (\InvalidArgumentException $e) {
                 $fieldType = new FieldType(FieldType::STRING);
             }
             if ($fieldType->isSearchable() && !in_array($field->fullKey, $searchFields, true)) {

@@ -464,7 +464,7 @@ final class TcaFieldDefinition
             $field['order'] = $this->order;
         }
 
-        $field = array_filter($field, static function($item) {
+        $field = array_filter($field, static function ($item) {
             return $item !== null;
         });
 
@@ -605,7 +605,7 @@ final class TcaFieldDefinition
             if ($dateType !== null) {
                 $definition['config']['format'] = $dateType;
                 // Remove dateType from normal eval array
-                $keys = array_filter($evalList, static function($a) use ($dateTypesInKeys) {
+                $keys = array_filter($evalList, static function ($a) use ($dateTypesInKeys) {
                     return $a !== $dateTypesInKeys[0];
                 });
                 $definition['config']['eval'] = implode(',', $keys);
@@ -686,11 +686,11 @@ final class TcaFieldDefinition
             && !empty($definition['config']['items'])
         ) {
             $processedItems = array_map(
-                fn (array $item) => SelectItem::fromTcaItemArray($item, (string)$tcaFieldDefinition->getFieldType())->toArray(),
+                fn(array $item) => SelectItem::fromTcaItemArray($item, (string)$tcaFieldDefinition->getFieldType())->toArray(),
                 $definition['config']['items']
             );
             // Remove null and false (=invertStateDisplay) values.
-            $definition['config']['items'] = array_map(fn (array $item): array => array_filter($item, fn ($value): bool => $value !== null && $value !== false), $processedItems);
+            $definition['config']['items'] = array_map(fn(array $item): array => array_filter($item, fn($value): bool => $value !== null && $value !== false), $processedItems);
         }
 
         // TYPO3 v12 type=number

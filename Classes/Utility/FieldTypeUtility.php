@@ -17,7 +17,6 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Utility;
 
-use InvalidArgumentException;
 use MASK\Mask\Enumeration\FieldType;
 use TYPO3\CMS\Core\Resource\OnlineMedia\Helpers\OnlineMediaHelperRegistry;
 use TYPO3\CMS\Core\Type\Exception\InvalidEnumerationValueException;
@@ -29,13 +28,13 @@ class FieldTypeUtility
     {
         // If TCA is still empty, error out.
         if (empty($tca)) {
-            throw new InvalidArgumentException(sprintf('The TCA for the field "%s" must not be empty.', $fieldKey), 1629484158);
+            throw new \InvalidArgumentException(sprintf('The TCA for the field "%s" must not be empty.', $fieldKey), 1629484158);
         }
 
         // The tca "type" attribute has to be set. Can also be a fake one like "palette" or "linebreak".
         $tcaType = $tca['config']['type'] ?? '';
         if ($tcaType === '') {
-            throw new InvalidArgumentException(sprintf('The TCA type attribute of the field "%s" must not be empty.', $fieldKey), 1629485122);
+            throw new \InvalidArgumentException(sprintf('The TCA type attribute of the field "%s" must not be empty.', $fieldKey), 1629485122);
         }
 
         // Decide by different tca settings which field type it is.

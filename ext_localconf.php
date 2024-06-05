@@ -31,7 +31,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['moveRteOptio
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['fillTranslationSourceField'] = \MASK\Mask\Updates\FillTranslationSourceField::class;
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['migrateContentFields'] = \MASK\Mask\Updates\MigrateContentFields::class;
 
-(static function() {
+(static function () {
     // Register Icons needed in the backend module
     $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
     foreach (\MASK\Mask\Enumeration\FieldType::getConstants() as $maskIcon) {

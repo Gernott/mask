@@ -321,7 +321,7 @@ class InlineHelper
         }
 
         // Need to sort overlaid records again, because sorting might have changed.
-        usort($elements, static function($a, $b) {
+        usort($elements, static function ($a, $b) {
             return $a['sorting'] <=> $b['sorting'];
         });
 

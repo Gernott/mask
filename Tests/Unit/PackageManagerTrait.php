@@ -32,7 +32,7 @@ trait PackageManagerTrait
         $packageManagerMock->method('isPackageActive')->willReturn(true)->with('mask');
         $packageManagerMock->method('getPackage')->willReturn($packageMock)->with('mask');
         // @todo Replace workaround for resolvePackagePath.
-        $packageManagerMock->method('resolvePackagePath')->willReturnCallback(function($path) {
+        $packageManagerMock->method('resolvePackagePath')->willReturnCallback(function ($path) {
             return Environment::getProjectPath() . str_replace('EXT:mask', '', $path);
         });
 

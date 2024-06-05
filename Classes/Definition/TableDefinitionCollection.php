@@ -17,7 +17,6 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Definition;
 
-use InvalidArgumentException;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Utility\AffixUtility;
 use MASK\Mask\Utility\FieldTypeUtility;
@@ -45,7 +44,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
 
     public function __clone()
     {
-        $this->definitions = array_map(function(TableDefinition $tableDefinition) {
+        $this->definitions = array_map(function (TableDefinition $tableDefinition) {
             return clone $tableDefinition;
         }, $this->definitions);
     }
@@ -294,7 +293,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
             }
             try {
                 return FieldTypeUtility::getFieldType($fieldDefinition->toArray(), $fieldDefinition->fullKey);
-            } catch (InvalidArgumentException $e) {
+            } catch (\InvalidArgumentException $e) {
                 // For core fields this exception might pop up, because in older
                 // Mask versions no type was defined directly in the definition.
             }
@@ -383,7 +382,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
     {
         $validProperties = ['label', 'description'];
         if (!in_array($property, $validProperties)) {
-            throw new InvalidArgumentException('The property ' . $property . ' is not a valid. Valid properties are: ' . implode(' ', $validProperties) . '.', 1636825949);
+            throw new \InvalidArgumentException('The property ' . $property . ' is not a valid. Valid properties are: ' . implode(' ', $validProperties) . '.', 1636825949);
         }
         if (!$this->hasTable($table)) {
             return '';

@@ -555,13 +555,13 @@ class AjaxController
         // Filter elements with same element key
         $multiUseElements = array_filter(
             $multiUseElements,
-            static function($item) use ($elementKey) {
+            static function ($item) use ($elementKey) {
                 return $item['key'] !== $elementKey;
             }
         );
 
         $multiUseElements = array_map(
-            static function($item) {
+            static function ($item) {
                 return [
                     'key' => $item['key'],
                     'label' => $item['label'],
@@ -929,7 +929,7 @@ class AjaxController
     {
         $config[''] = $this->translateLabel('tx_mask.config.richtextConfiguration.none');
         $presets = array_keys($GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets'] ?? []);
-        $presets = array_filter($presets, function($item) {
+        $presets = array_filter($presets, function ($item) {
             return $item !== 'sys_news';
         });
         $presets = array_combine($presets, $presets);

@@ -220,7 +220,7 @@ class FieldsController
         }
         $tcaOptions = array_merge([], ...$tcaOptions);
 
-        return array_filter($config, static function($key) use ($tcaOptions) {
+        return array_filter($config, static function ($key) use ($tcaOptions) {
             return in_array($key, $tcaOptions, true);
         }, ARRAY_FILTER_USE_KEY);
     }

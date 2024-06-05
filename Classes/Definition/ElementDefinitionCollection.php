@@ -32,7 +32,7 @@ final class ElementDefinitionCollection implements \IteratorAggregate, \Countabl
 
     public function __clone()
     {
-        $this->definitions = array_map(function(ElementDefinition $elementDefinition) {
+        $this->definitions = array_map(function (ElementDefinition $elementDefinition) {
             return clone $elementDefinition;
         }, $this->definitions);
     }
@@ -97,11 +97,11 @@ final class ElementDefinitionCollection implements \IteratorAggregate, \Countabl
     private function sort(array $definitions): array
     {
         if (PHP_VERSION_ID < 80000) {
-            $this->stable_usort($definitions, static function($a, $b) {
+            $this->stable_usort($definitions, static function ($a, $b) {
                 return $a->sorting <=> $b->sorting;
             });
         } else {
-            usort($definitions, static function($a, $b) {
+            usort($definitions, static function ($a, $b) {
                 return $a->sorting <=> $b->sorting;
             });
         }
@@ -119,7 +119,7 @@ final class ElementDefinitionCollection implements \IteratorAggregate, \Countabl
         foreach ($array as $value) {
             $arrayAndPos[] = [$value, $pos++];
         }
-        usort($arrayAndPos, static function($a, $b) use ($compare) {
+        usort($arrayAndPos, static function ($a, $b) use ($compare) {
             return $compare($a[0], $b[0]) ?: $a[1] <=> $b[1];
         });
         $array = [];

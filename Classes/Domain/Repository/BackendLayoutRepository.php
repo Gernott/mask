@@ -17,7 +17,6 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Domain\Repository;
 
-use RuntimeException;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\View\BackendLayout\BackendLayout;
 use TYPO3\CMS\Backend\View\BackendLayout\DataProviderCollection;
@@ -137,7 +136,7 @@ class BackendLayoutRepository
         $rootLineUtility = GeneralUtility::makeInstance(RootlineUtility::class, $pid);
         try {
             $rootline = $rootLineUtility->get();
-        } catch (RuntimeException $ex) {
+        } catch (\RuntimeException $ex) {
             $rootline = [];
         }
         foreach ($rootline as $page) {

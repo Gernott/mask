@@ -27,7 +27,7 @@ final class TcaDefinition implements \IteratorAggregate, \Countable
 
     public function __clone()
     {
-        $this->definitions = array_map(function(TcaFieldDefinition $tcaFieldDefinition) {
+        $this->definitions = array_map(function (TcaFieldDefinition $tcaFieldDefinition) {
             return clone $tcaFieldDefinition;
         }, $this->definitions);
     }
@@ -71,7 +71,7 @@ final class TcaDefinition implements \IteratorAggregate, \Countable
     private function getOrderedFields(): array
     {
         $fields = $this->definitions;
-        usort($fields, static function(TcaFieldDefinition $fieldA, TcaFieldDefinition $fieldB) {
+        usort($fields, static function (TcaFieldDefinition $fieldA, TcaFieldDefinition $fieldB) {
             return $fieldA->order <=> $fieldB->order;
         });
         return $fields;
