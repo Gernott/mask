@@ -158,7 +158,7 @@ class ArrayDefinitionSorterTest extends UnitTestCase
                     ],
                 ],
             ],
-            [
+            'excludedKeys' => [
                 'excluded',
                 'alsoExcluded',
             ],

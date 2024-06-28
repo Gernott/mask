@@ -49,8 +49,8 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     ],
                 ],
             ],
-            'parent' => 'tx_mask_a1',
-            'element' => '',
+            'parentKey' => 'tx_mask_a1',
+            'elementKey' => '',
             'expected' => [
                 [
                     'config' => [
@@ -112,8 +112,8 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     ],
                 ],
             ],
-            'parent' => 'tx_mask_a1',
-            'element' => '',
+            'parentKey' => 'tx_mask_a1',
+            'elementKey' => '',
             'expected' => [
                 [
                     'config' => [
@@ -217,8 +217,8 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     ],
                 ],
             ],
-            'parent' => 'tx_mask_a',
-            'element' => 'element1',
+            'parentKey' => 'tx_mask_a',
+            'elementKey' => 'element1',
             'expected' => [
                 [
                     'config' => [
@@ -317,8 +317,8 @@ class TableDefinitionCollectionTest extends BaseTestCase
                     ],
                 ],
             ],
-            'parent' => 'tx_mask_repeat',
-            'element' => 'element1',
+            'parentKey' => 'tx_mask_repeat',
+            'elementKey' => 'element1',
             'expected' => [
                 [
                     'config' => [
@@ -1968,9 +1968,6 @@ class TableDefinitionCollectionTest extends BaseTestCase
             'table' => 'tt_content',
             'element' => 'element2',
             'expected' => [],
-            'sorting' => 0,
-            'colorOverlay' => '',
-            'iconOverlay' => '',
         ];
 
         yield 'Tables other than tt_content or pages return empty array' => [
@@ -2538,7 +2535,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
             'elementKey' => 'element_1',
             'fieldKey' => 'tx_mask_column_1',
             'table' => 'tt_content',
-            'Description column 1',
+            'expected' => 'Description column 1',
         ];
 
         yield 'Description found in elements description array' => [
@@ -2590,7 +2587,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
             'elementKey' => 'element_1',
             'fieldKey' => 'tx_mask_column_2',
             'table' => 'tt_content',
-            'Description column 2',
+            'expected' => 'Description column 2',
         ];
     }
 
