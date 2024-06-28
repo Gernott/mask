@@ -52,7 +52,7 @@
 		}
 	},
 	"require-dev": {
-		"typo3/testing-framework": "dev-main",
+		"typo3/testing-framework": "^8",
 		"phpunit/phpunit": "^11",
 		"friendsofphp/php-cs-fixer": "^3.4",
 		"phpstan/phpstan": "^1.4",
