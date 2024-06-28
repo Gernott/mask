@@ -55,8 +55,6 @@ jobs:
       matrix:
         include:
           - TYPO3: '12.4'
-            php: '8.1'
-          - TYPO3: '12.4'
             php: '8.2'
           - TYPO3: '13.1'
             php: '8.2'
