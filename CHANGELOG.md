@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [8.3.11] - 2024-07-09
+
+### Fixed
+- Fix collection resolving for pages [#634](https://github.com/Gernott/mask/issues/634)
+- Fix TCA overrides for core file fields [#628](https://github.com/Gernott/mask/issues/628)
+
 ## [8.3.10] - 2024-03-14
 
 ### Fixed
