@@ -103,17 +103,16 @@ class InlineHelper
      */
     public function addIrreToData(array &$data, string $table = 'tt_content', string $cType = '', string $originalTable = 'tt_content'): void
     {
-        if ($cType === '') {
-            $cType = (string)($data['CType'] ?? '');
-        }
-        if ($cType === '') {
-            return;
-        }
         if (!$this->tableDefinitionCollection->hasTable($table)) {
             return;
         }
-
         if ($table === 'tt_content') {
+            if ($cType === '') {
+                $cType = (string)($data['CType'] ?? '');
+            }
+            if ($cType === '') {
+                return;
+            }
             $element = $this->tableDefinitionCollection->loadElement($table, AffixUtility::removeCTypePrefix($cType));
             $elementFields = $element->elementDefinition->columns ?? [];
         } elseif ($table === 'pages') {
