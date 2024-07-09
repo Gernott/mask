@@ -56,8 +56,10 @@ jobs:
         include:
           - TYPO3: '12.4'
             php: '8.2'
+            phpunit: '10'
           - TYPO3: '13.2'
             php: '8.2'
+            phpunit: '11'
     steps:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -78,7 +80,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install dependencies
-        run: composer require typo3/cms-core:^${{ matrix.TYPO3 }} --prefer-dist --no-progress
+        run: composer require typo3/cms-core:^${{ matrix.TYPO3 }} phpunit/phpunit:^${{ matrix.phpunit }} --prefer-dist --no-progress
 
       - name: Unit
         run: Build/Scripts/runTests.sh -s unit -p ${{ matrix.php }}
