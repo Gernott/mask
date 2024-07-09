@@ -546,7 +546,7 @@ class TcaCodeGenerator
                             $TCAColumnsOverrides[$table]['types'][$cType]['columnsOverrides'][$paletteField->fullKey]['description'] = $description;
                         }
                         if ($table === 'tt_content' && $element->hasColumnsOverride($paletteField->fullKey)) {
-                            $tcaConfig = $this->processOverrideTca($fieldDefinition, $element->getColumnsOverride($paletteField->fullKey), $element->key);
+                            $tcaConfig = $this->processOverrideTca($paletteField, $element->getColumnsOverride($paletteField->fullKey), $element->key);
                             $TCAColumnsOverrides[$table]['types'][$cType]['columnsOverrides'][$paletteField->fullKey]['config'] = $tcaConfig;
                         }
                     }
