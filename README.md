@@ -60,6 +60,7 @@ Read a detailed explanation for each advantage and why to use Mask over other al
 
 | Mask Version | TYPO3 Version | Release Date | Status              | More Info                                                                                              |
 |--------------|---------------|--------------|---------------------|--------------------------------------------------------------------------------------------------------|
+| v9.0         | v12, v13      | late 2024    | development         |                                                                                                        |
 | v8.3         | v11, v12      | 2023-08-09   | regular maintenance | [Mask Events](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/8.3/Index.html)                  |
 | v8.2         | v11, v12      | 2023-06-12   | discontinued        | [TCA columnsOverride support](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/8.2/Index.html)  |
 | v8.1         | v11, v12      | 2023-05-02   | discontinued        | [Deprecation free, new types](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/8.1/Index.html)  |
