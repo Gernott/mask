@@ -17,7 +17,6 @@ declare(strict_types=1);
 
 namespace MASK\Mask\CodeGenerator;
 
-use MASK\Mask\CompatibilityLayer\TcaPreparation;
 use MASK\Mask\Definition\ElementTcaDefinition;
 use MASK\Mask\Definition\PaletteDefinition;
 use MASK\Mask\Definition\TableDefinition;
@@ -457,7 +456,6 @@ class TcaCodeGenerator
             $field->allowedFileExtensions = implode(',', array_merge($alwaysIncluded, $field->onlineMedia));
         }
 
-        $field->allowedFileExtensions = TcaPreparation::prepareFileExtensions($field->allowedFileExtensions);
         $fileFieldTCAConfig = [
             'type' => 'file',
             'allowed' => $field->allowedFileExtensions,
