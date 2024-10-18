@@ -1,6 +1,6 @@
 ![Page and Content masks for TYPO3](Resources/Public/Images/banner.jpg)
 
-[![TYPO3 compatibility](https://img.shields.io/badge/TYPO3-12.4%20%7C%2011.5-ff8700?maxAge=3600&logo=typo3)](https://get.typo3.org/)
+[![TYPO3 compatibility](https://img.shields.io/badge/TYPO3-13.4%20%7C%2012.4-ff8700?maxAge=3600&logo=typo3)](https://get.typo3.org/)
 [![TYPO3 Verified](https://img.shields.io/badge/TYPO3-verified-ff8700?logo=typo3)](https://typo3.com/typo3-cms/verified-extensions-integrations-for-typo3/extensions/mask-create-custom-content-elements-in-typo3)
 [![Release](https://img.shields.io/github/v/release/gernott/mask?sort=semver)](https://extensions.typo3.org/extension/mask/)
 [![Total Downloads](https://poser.pugx.org/mask/mask/d/total.svg)](https://packagist.org/packages/mask/mask)
