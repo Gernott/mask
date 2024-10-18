@@ -39,7 +39,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install dependencies
-        run: composer require typo3/cms-core:^13.2 --prefer-dist --no-progress
+        run: composer require typo3/cms-core:^13.4 --prefer-dist --no-progress
 
       - name: PHP CS Fixer
         run: Build/Scripts/runTests.sh -s cgl -n
@@ -57,7 +57,7 @@ jobs:
           - TYPO3: '12.4'
             php: '8.2'
             phpunit: '10'
-          - TYPO3: '13.2'
+          - TYPO3: '13.4'
             php: '8.2'
             phpunit: '11'
     steps:
@@ -86,7 +86,7 @@ jobs:
         run: Build/Scripts/runTests.sh -s unit -p ${{ matrix.php }}
 
   PHPStan:
-    name: PHPStan TYPO3 13.2 PHP 8.2
+    name: PHPStan TYPO3 13.4 PHP 8.2
     runs-on: ubuntu-latest
 
     steps:
@@ -109,7 +109,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install dependencies
-        run: composer require typo3/cms-core:^13.2 --prefer-dist --no-progress
+        run: composer require typo3/cms-core:^13.4 --prefer-dist --no-progress
 
       - name: PHPStan
         run: XDEBUG_MODE="off" .Build/bin/phpstan analyse -c Build/phpstan/phpstan.neon --no-progress --no-interaction --memory-limit 4G
