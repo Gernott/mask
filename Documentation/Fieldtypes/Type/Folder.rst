@@ -5,11 +5,6 @@
 Folder
 ======
 
-.. important::
-
-   Only available for TYPO3 v12 or higher. For TYPO3 v11 or lower use type
-   :ref:`Group <fields-group>` with `internal_type` set to `folder`.
-
 .. figure:: ../../Images/FieldTypes/Folder.svg
    :alt: Folder
    :class: float-left

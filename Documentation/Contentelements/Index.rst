@@ -90,7 +90,7 @@ TYPO3 which remain shared and cannot be overridden:
 
 *  Category Field Relationship, Possible Options: oneToOne, oneToMany, manyToMany (TCA Key: `relationship`)
 *  Select Field Database Options, `foreign_table`, `foreign_field`, `foreign_table_field`, `foreign_match_fields`
-*  Group Field `allowed` in case of `internal_type=db`
+*  Group Field `allowed`
 
 Other internally used TCA Options that are not overwritten:
 

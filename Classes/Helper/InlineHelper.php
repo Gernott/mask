@@ -184,7 +184,7 @@ class InlineHelper
             }
         } elseif (($tcaFieldConfig['config']['foreign_table'] ?? '') !== '' && $fieldType->equals(FieldType::SELECT)) {
             $data[$field . '_items'] = $this->getRelations((string)($data[$field] ?? ''), $tcaFieldConfig['config']['foreign_table'], $tcaFieldConfig['config']['MM'] ?? '', (int)$data['uid'], $table, $tcaFieldConfig['config'] ?? []);
-        } elseif (($tcaFieldConfig['config']['internal_type'] ?? '') !== 'folder' && ($tcaFieldConfig['config']['type'] ?? '') !== 'folder' && $fieldType->equals(FieldType::GROUP)) {
+        } elseif ($fieldType->equals(FieldType::GROUP)) {
             $data[$field . '_items'] = $this->getRelations((string)($data[$field] ?? ''), $tcaFieldConfig['config']['allowed'], $tcaFieldConfig['config']['MM'] ?? '', (int)$data['uid'], $table, $tcaFieldConfig['config'] ?? []);
         } elseif (in_array(($tcaFieldConfig['config']['renderType'] ?? ''), ['selectCheckBox', 'selectSingleBox', 'selectMultipleSideBySide'], true) && $fieldType->equals(FieldType::SELECT)) {
             $data[$field . '_items'] = ($data[$field] ?? '') !== '' ? explode(',', $data[$field]) : [];

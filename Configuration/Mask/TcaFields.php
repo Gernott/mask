@@ -855,19 +855,6 @@ return [
             12 => 'ColumnsConfig/CommonProperties/Maxitems.html#tca-property-maxitems',
         ],
     ],
-    'config.internal_type' => [
-        'type' => 'radio',
-        'label' => 'tx_mask.field.group.internal_type',
-        'description' => 'tx_mask.field.group.internal_type.description',
-        'code' => 'internal_type',
-        'items' => [
-            'db' => 'tx_mask.field.group.internalType.db',
-            'folder' => 'tx_mask.field.group.internalType.folder',
-        ],
-        'documentation' => [
-            12 => 'ColumnsConfig/Type/Group/Properties/InternalType.html#columns-group-properties-internal-type',
-        ],
-    ],
     'config.allowed' => [
         'type' => 'text',
         'label' => 'tx_mask.field.group.allowed',

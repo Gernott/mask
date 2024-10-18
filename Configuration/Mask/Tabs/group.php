@@ -1,22 +1,13 @@
 <?php
 
 use MASK\Mask\Enumeration\Tab;
-use TYPO3\CMS\Core\Information\Typo3Version;
-
-$general = [
-    'config.internal_type' => 6,
-    'config.allowed' => 6,
-];
-if ((new Typo3Version())->getMajorVersion() > 11) {
-    $general = [
-        'config.allowed' => 6,
-        'config.elementBrowserEntryPoints._default' => 6,
-    ];
-}
 
 return [
     Tab::GENERAL => [
-        $general,
+        [
+            'config.allowed' => 6,
+            'config.elementBrowserEntryPoints._default' => 6,
+        ],
     ],
     Tab::VALIDATION => [
         [
