@@ -1288,9 +1288,9 @@ return [
         'type' => 'text',
         'label' => 'tx_mask.field.inline.allowed_file_extensions',
         'description' => 'tx_mask.field.inline.elementBrowserAllowed.description',
-        'code' => 'allowedFileExtensions',
+        'code' => 'allowed',
         'documentation' => [
-            12 => 'ColumnsConfig/Type/Group/Properties/Appearance.html#columns-group-properties-appearance',
+            12 => 'ColumnsConfig/Type/File/Index.html#confval-file-allowed',
         ],
     ],
     'imageoverlayPalette' => [

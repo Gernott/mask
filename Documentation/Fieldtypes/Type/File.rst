@@ -31,7 +31,7 @@ Available TCA options
 *  :ref:`imageoverlayPalette <t3tca-11:columns-inline-examples-fal>` (custom Mask option, which enables the core TCA palette `imageoverlayPalette` used for images)
 *  :ref:`config.minitems <t3tca:tca_property_minitems>`
 *  :ref:`config.maxitems <t3tca:tca_property_maxitems>`
-*  :ref:`allowedFileExtensions <t3tca:columns-group-properties-appearance>` (used in :ref:`overrideChildTca <t3tca:columns-inline-properties-overrideChildTca>`)
+*  config.allowed
 *  :ref:`config.appearance.collapseAll <t3tca:columns-inline-properties-appearance>`
 *  :ref:`config.appearance.expandSingle <t3tca:columns-inline-properties-appearance>`
 *  :ref:`config.appearance.useSortable <t3tca:columns-inline-properties-appearance>`
