@@ -48,22 +48,57 @@ Install and configure
 
 .. rst-class:: bignums
 
-   1. Download Mask with composer by running the command `composer require mask/mask` or install via extension manager.
+   #. Download Mask with composer by running the command `composer require mask/mask` or install via extension manager.
 
-   2. Activate Mask in the extension manager (not needed in TYPO3 v11 composer mode)
+   #. Activate Mask in the extension manager (not needed in TYPO3 Composer mode)
 
-   3. Mask requires `fluid_styled_content` so go to your static includes in the template module and include it there.
+   #. :ref:`include-site-set` or :ref:`include-typoscript`.
 
-      :ref:`Read here how to include static templates <t3sitepackage:typo3-backend-typoscript-template>`
+   #. Navigate to the Mask module and enter your site package extension key for
+      auto-configuration (your extension must be loaded!).
+
+   #. Start creating your own content elements!
+
+.. _include-site-set:
+
+Include the Mask site set (TYPO3 v13 and above)
+-----------------------------------------------
+
+If you have a custom :ref:`site package extension <t3sitepackage:start>`, add
+the Mask site set as dependency to your site packages
+:ref:`Site set definition <t3coreapi:site-sets-definition>`:
+
+.. literalinclude:: _codesnippets/_config.yaml
+
+   :caption: EXT:my_site_package/Configuration/Sets/SitePackage/config.yaml
+
+It is also possible to include mask as site dependency directly in the backend:
+
+Got to module :guilabel:`Site Management > Sites` and edit your site
+configuration.
+
+In section :guilabel:`Sets for this Site` chose site set :guilabel:`Mask`.
+
+.. note::
+   The site set of Mask depends on the set Fluid Styled Content. You do not
+   have to include this set separately as was done with manual TypoScript
+   inclusion.
+
+.. _include-typoscript:
+
+Include the required TypoScript directly (TYPO3 v12 and bellow)
+---------------------------------------------------------------
+
+.. rst-class:: bignums
+
+   #. Mask requires `fluid_styled_content` so go to your static includes in the template module and include it there.
+
+      :ref:`Read here how to include static templates <t3sitepackage/12:typo3-backend-typoscript-template>`
 
       | You can install this core extension in composer mode with the command
       | `composer require typo3/cms-fluid-styled-content`
 
-   4. Also include the Mask static TypoScript.
-
-   5. Navigate to the Mask module and enter your sitepackage extension key for auto-configuration (your extension must be loaded!).
-
-   6. Start creating your own content elements!
+   #. Also include the Mask static TypoScript.
 
 Manual configuration
 ====================
