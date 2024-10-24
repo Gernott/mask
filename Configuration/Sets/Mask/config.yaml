@@ -1,0 +1,4 @@
+name: mask/mask
+label: Mask
+dependencies:
+  - typo3/fluid-styled-content

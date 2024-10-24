@@ -1,0 +1,4 @@
+name: myvendor/my-site-package
+label: My site package set
+dependencies:
+  - mask/mask
