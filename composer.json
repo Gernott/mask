@@ -64,11 +64,11 @@
 	"require": {
 		"php": "^8.1",
 		"ext-json": "*",
-		"typo3/cms-core": "^13.2 || ^12.4",
-		"typo3/cms-backend": "^13.2 || ^12.4",
-		"typo3/cms-fluid": "^13.2 || ^12.4",
-		"typo3/cms-fluid-styled-content": "^13.2 || ^12.4",
-		"typo3/cms-install": "^13.2 || ^12.4"
+		"typo3/cms-core": "^13.4 || ^12.4",
+		"typo3/cms-backend": "^13.4 || ^12.4",
+		"typo3/cms-fluid": "^13.4 || ^12.4",
+		"typo3/cms-fluid-styled-content": "^13.4 || ^12.4",
+		"typo3/cms-install": "^13.4 || ^12.4"
 	},
 	"suggest": {
 		"b13/container": "Allows creating container elements to place your Mask elements into.",

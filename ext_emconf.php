@@ -12,9 +12,9 @@ $EM_CONF[$_EXTKEY] = [
     'version' => '9.0.0-dev',
     'constraints' => [
         'depends' => [
-            'typo3' => '12.4.0-13.0.1',
-            'fluid' => '12.4.0-13.0.1',
-            'fluid_styled_content' => '12.4.0-13.0.1',
+            'typo3' => '12.4.0-13.4.99',
+            'fluid' => '12.4.0-13.4.99',
+            'fluid_styled_content' => '12.4.0-13.4.99',
         ],
         'conflicts' => [],
         'suggests' => [
