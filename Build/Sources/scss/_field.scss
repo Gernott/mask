@@ -133,13 +133,13 @@
 
     &--inline {
         > .mask-field__dragarea {
-            border-left: 4px solid var(--mask-color-inline);
+            border-left: 4px solid var(--mask-color-inline-border);
         }
     }
 
     &--palette {
         > .mask-field__dragarea {
-            border-left: 4px solid var(--mask-color-palette);
+            border-left: 4px solid var(--mask-color-palette-border);
         }
     }
 }

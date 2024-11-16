@@ -8,8 +8,8 @@
   --mask-webprofil-5: #b20027;
   --mask-webprofil-10: #980022;
   --mask-highlight-color: light-dark(#eaf4fd, #07070a);
-  --mask-color-inline: light-dark(#9e97d1, #4e4870);
-  --mask-color-palette: light-dark(#4e4e4e, #b1b1b1);
+  --mask-color-inline-border: #9e97d1;
+  --mask-color-palette-border: #4e4e4e;
   --mask-border-color: light-dark(#ccc, #333);
   --mask-default-bg: light-dark(#fff, #000);
   --mask-default-color: light-dark(#000, #fff);
@@ -823,10 +823,10 @@
   border-bottom-left-radius: 0;
 }
 .mask-field--inline > .mask-field__dragarea {
-  border-left: 4px solid var(--mask-color-inline);
+  border-left: 4px solid var(--mask-color-inline-border);
 }
 .mask-field--palette > .mask-field__dragarea {
-  border-left: 4px solid var(--mask-color-palette);
+  border-left: 4px solid var(--mask-color-palette-border);
 }
 
 .btn-mask {
