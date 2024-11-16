@@ -60,6 +60,8 @@ class TcaTypesShowitemMaskBeLayoutFields implements FormDataProviderInterface
     }
 
     /**
+     * @param array{backend_layout?: string} $page
+     * @param array<array{backend_layout_next_level?: string}> $rootLine
      * @todo Copied from Core PageLayoutResolver to work independently in v12 and v13.
      */
     protected function getLayoutIdentifierForPage(array $page, array $rootLine): string
