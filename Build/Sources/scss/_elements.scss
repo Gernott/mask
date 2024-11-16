@@ -6,7 +6,7 @@
     }
 
     &__column {
-        background-color: $bg-light;
+        background-color: var(--mask-bg-light);
         min-height: 100px;
 
         &--elements {
@@ -35,7 +35,7 @@
         position: relative;
         z-index: 100;
         padding: 10px;
-        background-color: $bg-dark;
+        background-color: var(--mask-bg-dark);
 
         @media screen and (min-width: $bp-laptop) {
             height: 45px;

@@ -1,5 +1,5 @@
 .mask-footer {
-    background-color: $bg-medium;
+    background-color: var(--mask-bg-medium);
     padding: 20px;
     margin-top: 10px;
 
@@ -20,7 +20,7 @@
         &:hover,
         &:focus {
             text-decoration: none;
-            color: $mask;
+            color: var(--mask-color);
         }
     }
 

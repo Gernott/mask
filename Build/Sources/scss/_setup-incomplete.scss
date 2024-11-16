@@ -23,7 +23,7 @@
     &__form {
         width: 850px;
         max-width: 100%;
-        border: 1px solid $border-color;
+        border: 1px solid var(--mask-border-color);
         padding: 20px;
 
         .control-label {

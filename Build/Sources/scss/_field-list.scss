@@ -2,15 +2,15 @@
     background: none;
     height: auto;
     margin: 0;
-    border: 1px dashed #bbb;
+    border: 1px dashed var(--mask-field-list-border);
     padding: 10px;
-    background-color: #fff;
+    background-color: var(--mask-default-bg);
 
     &--empty {
         background: url('../Images/empty.svg') no-repeat;
         background-position: center 35%;
         background-size: 300px;
-        background-color: #fff;
+        background-color: var(--mask-default-bg);
     }
 
     > .dragtarget {
@@ -23,6 +23,6 @@
 
     .mask-field--selectable {
         width: 100%;
-        border: 1px dashed $border-color;
+        border: 1px dashed var(--mask-border-color);
     }
 }

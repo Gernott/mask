@@ -20,8 +20,8 @@
     }
 
     &__background {
-        background-color: $bg-light;
-        border: 1px solid $border-color;
+        background-color: var(--mask-bg-light);
+        border: 1px solid var(--mask-border-color);
         position: sticky;
         top: 10px;
 
@@ -57,12 +57,12 @@
     &__toggle {
         flex-grow: 1;
         padding: 7px;
-        background-color: #ededed;
+        background-color: var(--mask-sidebar-toggle-bg);
         text-align: center;
         cursor: pointer;
         width: 50%;
         position: relative;
-        border: 1px solid $border-color;
+        border: 1px solid var(--mask-border-color);
 
         &:first-child {
             border-left: 0;
@@ -74,11 +74,11 @@
         }
 
         &:hover {
-            background-color: #e1e0e0;
+            background-color: var(--mask-sidebar-toggle-bg-hover);
         }
 
         &.active {
-            background-color: $bg-light;
+            background-color: var(--mask-bg-light);
             border-bottom: 0;
         }
 

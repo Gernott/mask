@@ -1,0 +1,26 @@
+:root {
+    color-scheme: light dark;
+
+    // basic colors (previously scss variables)
+    --mask-bg-light: light-dark(#fafafa, #050505);
+    --mask-bg-medium: light-dark(#efefef, #101010);
+    --mask-bg-dark: light-dark(#dedede, #212121);
+    --mask-color: #D4372F;
+    --mask-webprofil: #cb002d;
+    --mask-webprofil-5: #{darken(#cb002d, 5)};
+    --mask-webprofil-10: #{darken(#cb002d, 10)};
+    --mask-highlight-color: light-dark(#eaf4fd, #07070a);
+    --mask-color-inline-border: #9e97d1;
+    --mask-color-palette-border: #4e4e4e;
+    --mask-border-color: light-dark(#ccc, #333);
+    --mask-default-bg: light-dark(#fff, #000);
+    --mask-default-color: light-dark(#000, #fff);
+
+    // some colors for specific elements/areas
+    --mask-error-bg: #c83c3c;
+    --mask-field-list-border: light-dark(#bbb, #444);
+    --mask-sidebar-toggle-bg: light-dark(#ededed, #121212);
+    --mask-sidebar-toggle-bg-hover: light-dark(#e1e0e0, #1e1f1f);
+    --mask-field-group-color: light-dark(#555, #aaa);
+    --mask-field-group-item-color: light-dark(#4c4c4c, #b3b3b3);
+}
