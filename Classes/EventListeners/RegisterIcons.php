@@ -14,8 +14,7 @@ class RegisterIcons
 {
     public function __construct(
         protected IconRegistry $iconRegistry
-    ) {
-    }
+    ) {}
 
     public function __invoke(BootCompletedEvent $event): void
     {
