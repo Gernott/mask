@@ -54,6 +54,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - TYPO3: '12.4'
+            php: '8.2'
+            phpunit: '10'
           - TYPO3: '13.4'
             php: '8.2'
             phpunit: '11'

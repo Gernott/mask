@@ -21,14 +21,12 @@ use MASK\Mask\CodeGenerator\TcaCodeGenerator;
 use MASK\Mask\Definition\TableDefinitionCollection;
 use TYPO3\CMS\Backend\Form\FormDataProviderInterface;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Page\PageLayoutResolver;
 
 class TcaTypesShowitemMaskBeLayoutFields implements FormDataProviderInterface
 {
     public function __construct(
         protected TableDefinitionCollection $tableDefinitionCollection,
         protected TcaCodeGenerator $tcaCodeGenerator,
-        protected PageLayoutResolver $pageLayoutResolver,
     ) {}
 
     public function addData(array $result)
@@ -42,7 +40,7 @@ class TcaTypesShowitemMaskBeLayoutFields implements FormDataProviderInterface
         $pages = $this->tableDefinitionCollection->getTable('pages');
         if (!empty($pages->elements)) {
             $rootline = BackendUtility::BEgetRootLine($result['databaseRow']['uid'], '', true);
-            $layoutIdentifier = $this->pageLayoutResolver->getLayoutIdentifierForPage($result['databaseRow'], $rootline);
+            $layoutIdentifier = $this->getLayoutIdentifierForPage($result['databaseRow'], $rootline);
             if ($layoutIdentifier === 'default') {
                 return $result;
             }
@@ -59,5 +57,41 @@ class TcaTypesShowitemMaskBeLayoutFields implements FormDataProviderInterface
             }
         }
         return $result;
+    }
+
+    /**
+     * @todo Copied from Core PageLayoutResolver to work independently in v12 and v13.
+     */
+    protected function getLayoutIdentifierForPage(array $page, array $rootLine): string
+    {
+        $selectedLayout = $page['backend_layout'] ?? '';
+
+        // If it is set to "none" - don't use any
+        if ($selectedLayout === '-1') {
+            return 'none';
+        }
+
+        if ($selectedLayout === '' || $selectedLayout === '0') {
+            // If it not set check the root-line for a layout on next level and use this
+            // Remove first element, which is the current page
+            // See also \TYPO3\CMS\Backend\View\BackendLayoutView::getSelectedCombinedIdentifier()
+            array_shift($rootLine);
+            foreach ($rootLine as $rootLinePage) {
+                $selectedLayout = (string)($rootLinePage['backend_layout_next_level'] ?? '');
+                // If layout for "next level" is set to "none" - don't use any and stop searching
+                if ($selectedLayout === '-1') {
+                    $selectedLayout = 'none';
+                    break;
+                }
+                if ($selectedLayout !== '' && $selectedLayout !== '0') {
+                    // Stop searching if a layout for "next level" is set
+                    break;
+                }
+            }
+        }
+        if ($selectedLayout === '0' || $selectedLayout === '') {
+            $selectedLayout = 'default';
+        }
+        return $selectedLayout;
     }
 }

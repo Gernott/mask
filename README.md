@@ -58,22 +58,22 @@ Read a detailed explanation for each advantage and why to use Mask over other al
 
 ## Mask versions :calendar:
 
-| Mask Version | TYPO3 Version | Release Date | Status        | More Info                                                                                              |
-|--------------|---------------|--------------|---------------|--------------------------------------------------------------------------------------------------------|
-| v9.0         | v13           | 2024-11-13   | bugfix only   | [TYPO3 v13 support](https://github.com/Gernott/mask/releases/tag/v9.0.0)                               |
-| v8.3         | v11, v12      | 2023-08-09   | bugfix only   | [Mask Events](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/8.3/Index.html)                  |
-| v8.2         | v11, v12      | 2023-06-12   | discontinued  | [TCA columnsOverride support](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/8.2/Index.html)  |
-| v8.1         | v11, v12      | 2023-05-02   | discontinued  | [Deprecation free, new types](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/8.1/Index.html)  |
-| v8.0         | v11, v12.3    | 2022-10-24   | discontinued  | [Compatibility TYPO3 v12](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/8.0/Index.html)      |
-| v7.2         | v10, v11      | 2022-05-25   | discontinued  | [New field types, improved UX](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/7.2/Index.html) |
-| v7.1         | v10, v11      | 2021-12-14   | discontinued  | [JsonSplitLoader, new API](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/7.1/Index.html)     |
-| v7.0         | v10, v11      | 2021-05-12   | discontinued  | [VueJS based Mask Backend](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/7.0/Index.html)     |
-| v6           | v10, v11.1    | 2020-10-08   | discontinued  | [Palettes, Groups and more](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/6.0/Index.html)    |
-| v5           | v10           | 2020-04-18   | discontinued  | Please update to v7                                                                                    |
-| v4           | v9            | 2018-10-04   | discontinued  |                                                                                                        |
-| v3           | v8            | 2017-05-23   | discontinued  |                                                                                                        |
-| v2           | v7            | 2016-05-10   | discontinued  |                                                                                                        |
-| v1           | v6, v7        | 2015-08-12   | discontinued  |                                                                                                        |
+| Mask Version | TYPO3 Version | Release Date | Status       | More Info                                                                                              |
+|--------------|---------------|--------------|--------------|--------------------------------------------------------------------------------------------------------|
+| v9.0         | v12, v13      | 2024-11-13   | bugfix only  | [TYPO3 v13 support](https://github.com/Gernott/mask/releases/tag/v9.0.0)                               |
+| v8.3         | v11, v12      | 2023-08-09   | discontinued | [Mask Events](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/8.3/Index.html)                  |
+| v8.2         | v11, v12      | 2023-06-12   | discontinued | [TCA columnsOverride support](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/8.2/Index.html)  |
+| v8.1         | v11, v12      | 2023-05-02   | discontinued | [Deprecation free, new types](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/8.1/Index.html)  |
+| v8.0         | v11, v12.3    | 2022-10-24   | discontinued | [Compatibility TYPO3 v12](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/8.0/Index.html)      |
+| v7.2         | v10, v11      | 2022-05-25   | discontinued | [New field types, improved UX](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/7.2/Index.html) |
+| v7.1         | v10, v11      | 2021-12-14   | discontinued | [JsonSplitLoader, new API](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/7.1/Index.html)     |
+| v7.0         | v10, v11      | 2021-05-12   | discontinued | [VueJS based Mask Backend](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/7.0/Index.html)     |
+| v6           | v10, v11.1    | 2020-10-08   | discontinued | [Palettes, Groups and more](https://docs.typo3.org/p/mask/mask/main/en-us/ChangeLog/6.0/Index.html)    |
+| v5           | v10           | 2020-04-18   | discontinued | Please update to v7                                                                                    |
+| v4           | v9            | 2018-10-04   | discontinued |                                                                                                        |
+| v3           | v8            | 2017-05-23   | discontinued |                                                                                                        |
+| v2           | v7            | 2016-05-10   | discontinued |                                                                                                        |
+| v1           | v6, v7        | 2015-08-12   | discontinued |                                                                                                        |
 
 ## Need help? :left_speech_bubble:
 
