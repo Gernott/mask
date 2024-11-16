@@ -3,7 +3,7 @@
 use MASK\Mask\Enumeration\Tab;
 
 return [
-    Tab::GENERAL => [
+    Tab::GENERAL->value => [
         [
             'config.placeholder' => 6,
         ],
@@ -11,13 +11,13 @@ return [
             'config.size' => 6,
         ],
     ],
-    Tab::VALIDATION => [
+    Tab::VALIDATION->value => [
         [
             'config.eval.required' => 6,
             'config.fieldControl.linkPopup.options.allowedExtensions' => 6,
         ],
     ],
-    Tab::FIELD_CONTROL => [
+    Tab::FIELD_CONTROL->value => [
         [
             'config.fieldControl.linkPopup.options.blindLinkOptions' => 12,
             'config.fieldControl.linkPopup.options.blindLinkOptions.file' => 4,
@@ -28,7 +28,7 @@ return [
             'config.fieldControl.linkPopup.options.blindLinkOptions.telephone' => 4,
         ],
     ],
-    Tab::LOCALIZATION => [
+    Tab::LOCALIZATION->value => [
         [
             'l10n_mode' => 12,
         ],
@@ -36,7 +36,7 @@ return [
             'config.behaviour.allowLanguageSynchronization' => 6,
         ],
     ],
-    Tab::EXTENDED => [
+    Tab::EXTENDED->value => [
         [
             'config.eval.null' => 6,
             'config.mode' => 6,

@@ -17,19 +17,19 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Enumeration;
 
-final class Tab
+enum Tab: string
 {
-    public const GENERAL = 'general';
-    public const APPEARANCE = 'appearance';
-    public const DATABASE = 'database';
-    public const EXTENDED = 'extended';
-    public const FIELD_CONTROL = 'fieldControl';
-    public const FILES = 'files';
-    public const LOCALIZATION = 'localization';
-    public const VALIDATION = 'validation';
-    public const WIZARDS = 'wizards';
-    public const GENERATOR = 'generator';
-    public const ITEM_GROUP_SORTING = 'itemGroupSorting';
-    public const VALUE_PICKER = 'valuePicker';
-    public const ENABLED_CONTROLS = 'enabledControls';
+    case GENERAL = 'general';
+    case APPEARANCE = 'appearance';
+    case DATABASE = 'database';
+    case EXTENDED = 'extended';
+    case FIELD_CONTROL = 'fieldControl';
+    case FILES = 'files';
+    case LOCALIZATION = 'localization';
+    case VALIDATION = 'validation';
+    case WIZARDS = 'wizards';
+    case GENERATOR = 'generator';
+    case ITEM_GROUP_SORTING = 'itemGroupSorting';
+    case VALUE_PICKER = 'valuePicker';
+    case ENABLED_CONTROLS = 'enabledControls';
 }

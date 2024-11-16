@@ -825,19 +825,19 @@ class AjaxController
     {
         $language = [];
         $tabs = [
-            Tab::GENERAL => 'tx_mask.tabs.default',
-            Tab::APPEARANCE => 'tx_mask.tabs.appearance',
-            Tab::DATABASE => 'tx_mask.tabs.database',
-            Tab::EXTENDED => 'tx_mask.tabs.extended',
-            Tab::FIELD_CONTROL => 'tx_mask.tabs.fieldControl',
-            Tab::FILES => 'tx_mask.tabs.files',
-            Tab::LOCALIZATION => 'tx_mask.tabs.localization',
-            Tab::VALIDATION => 'tx_mask.tabs.validation',
-            Tab::WIZARDS => 'tx_mask.tabs.wizards',
-            Tab::GENERATOR => 'tx_mask.tabs.generator',
-            Tab::ITEM_GROUP_SORTING => 'tx_mask.tabs.itemGroupSorting',
-            Tab::VALUE_PICKER => 'tx_mask.tabs.valuePicker',
-            Tab::ENABLED_CONTROLS => 'tx_mask.tabs.enabledControls',
+            Tab::GENERAL->value => 'tx_mask.tabs.default',
+            Tab::APPEARANCE->value => 'tx_mask.tabs.appearance',
+            Tab::DATABASE->value => 'tx_mask.tabs.database',
+            Tab::EXTENDED->value => 'tx_mask.tabs.extended',
+            Tab::FIELD_CONTROL->value => 'tx_mask.tabs.fieldControl',
+            Tab::FILES->value => 'tx_mask.tabs.files',
+            Tab::LOCALIZATION->value => 'tx_mask.tabs.localization',
+            Tab::VALIDATION->value => 'tx_mask.tabs.validation',
+            Tab::WIZARDS->value => 'tx_mask.tabs.wizards',
+            Tab::GENERATOR->value => 'tx_mask.tabs.generator',
+            Tab::ITEM_GROUP_SORTING->value => 'tx_mask.tabs.itemGroupSorting',
+            Tab::VALUE_PICKER->value => 'tx_mask.tabs.valuePicker',
+            Tab::ENABLED_CONTROLS->value => 'tx_mask.tabs.enabledControls',
         ];
 
         foreach ($tabs as $key => $tab) {

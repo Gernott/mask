@@ -3,12 +3,12 @@
 use MASK\Mask\Enumeration\Tab;
 
 return [
-    Tab::GENERAL => [
+    Tab::GENERAL->value => [
         [
             'config.renderType' => 6,
         ],
     ],
-    Tab::LOCALIZATION => [
+    Tab::LOCALIZATION->value => [
         [
             'l10n_mode' => 12,
         ],
@@ -16,7 +16,7 @@ return [
             'config.behaviour.allowLanguageSynchronization' => 6,
         ],
     ],
-    Tab::EXTENDED => [
+    Tab::EXTENDED->value => [
         [
             'config.items' => 12,
         ],
