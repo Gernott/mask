@@ -42,7 +42,7 @@ class RteMigration implements MigrationInterface
 
                         $field = $tableDefinitionCollection->loadField($tableDefinition->table, $fieldKey);
                         if ($field instanceof TcaFieldDefinition) {
-                            $field->setFieldType(new FieldType(FieldType::RICHTEXT));
+                            $field->setFieldType(FieldType::RICHTEXT);
                         }
                     }
                 }

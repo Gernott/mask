@@ -16,7 +16,7 @@ return [
                 12 => 'ColumnsConfig/CommonProperties/Default.html#tca-property-default',
             ],
         ],
-        FieldType::CHECK => [
+        FieldType::CHECK->value => [
             'type' => 'number',
             'min' => 0,
             'max' => 31,
@@ -31,8 +31,8 @@ return [
     'config.placeholder' => [
         'type' => 'variable',
         'types' => [
-            FieldType::TEXT => 'textarea',
-            FieldType::RICHTEXT => 'textarea',
+            FieldType::TEXT->value => 'textarea',
+            FieldType::RICHTEXT->value => 'textarea',
         ],
         'rows' => 5,
         'label' => 'tx_mask.field.string.placeholder',
@@ -56,7 +56,7 @@ return [
             'max' => 50,
             'step' => 5,
         ],
-        FieldType::CATEGORY => [
+        FieldType::CATEGORY->value => [
             'type' => 'number',
             'min' => 1,
             'label' => 'tx_mask.field.category.size',
@@ -66,7 +66,7 @@ return [
                 12 => 'ColumnsConfig/CommonProperties/Size.html#tca-property-size',
             ],
         ],
-        FieldType::SELECT => [
+        FieldType::SELECT->value => [
             'type' => 'number',
             'min' => 1,
             'label' => 'tx_mask.field.select.size',
@@ -76,7 +76,7 @@ return [
                 12 => 'ColumnsConfig/CommonProperties/Size.html#tca-property-size',
             ],
         ],
-        FieldType::GROUP => [
+        FieldType::GROUP->value => [
             'type' => 'number',
             'min' => 1,
             'label' => 'tx_mask.field.select.size',
@@ -495,7 +495,7 @@ return [
     ],
     'config.cols' => [
         'collision' => true,
-        FieldType::CHECK => [
+        FieldType::CHECK->value => [
             'type' => 'text',
             'label' => 'tx_mask.content.check.columns',
             'description' => 'tx_mask.content.check.columns.description',
@@ -531,7 +531,7 @@ return [
     ],
     'config.format' => [
         'collision' => true,
-        FieldType::TEXT => [
+        FieldType::TEXT->value => [
             'type' => 'radio',
             'label' => 'tx_mask.field.text.format',
             'code' => 'format',
@@ -548,7 +548,7 @@ return [
                 12 => 'ColumnsConfig/Type/Text/Properties/Format.html',
             ],
         ],
-        FieldType::TIMESTAMP => [
+        FieldType::TIMESTAMP->value => [
             'type' => 'radio',
             'label' => 'tx_mask.field.timestamp_format',
             'description' => 'tx_mask.field.timestamp.eval',
@@ -602,7 +602,7 @@ return [
     ],
     'config.items' => [
         'collision' => true,
-        FieldType::CHECK => [
+        FieldType::CHECK->value => [
             'type' => 'itemList',
             'label' => 'tx_mask.content.check.items',
             'description' => 'tx_mask.content.check.items.description',
@@ -643,7 +643,7 @@ return [
                 12 => 'ColumnsConfig/Type/Check/Properties/Items.html',
             ],
         ],
-        FieldType::RADIO => [
+        FieldType::RADIO->value => [
             'type' => 'itemList',
             'code' => 'items',
             'label' => 'tx_mask.content.check.items',
@@ -663,7 +663,7 @@ return [
                 12 => 'ColumnsConfig/Type/Radio/Properties/Items.html',
             ],
         ],
-        FieldType::SELECT => [
+        FieldType::SELECT->value => [
             'type' => 'itemList',
             'code' => 'items',
             'properties' => [
@@ -748,7 +748,7 @@ return [
     ],
     'config.renderType' => [
         'collision' => true,
-        FieldType::SELECT => [
+        FieldType::SELECT->value => [
             'type' => 'select',
             'label' => 'tx_mask.field.check.renderType',
             'description' => 'tx_mask.field.check.renderType.description',
@@ -763,7 +763,7 @@ return [
                 12 => 'ColumnsConfig/Type/Select/Index.html',
             ],
         ],
-        FieldType::CHECK => [
+        FieldType::CHECK->value => [
             'type' => 'select',
             'label' => 'tx_mask.field.check.renderType',
             'description' => 'tx_mask.field.check.renderType.description',
@@ -866,7 +866,7 @@ return [
     ],
     'config.elementBrowserEntryPoints._default' => [
         'collision' => true,
-        FieldType::GROUP => [
+        FieldType::GROUP->value => [
             'type' => 'text',
             'label' => 'tx_mask.field.elementBrowserEntryPoints.label',
             'description' => 'tx_mask.field.group.elementBrowserEntryPoints.description',
@@ -875,7 +875,7 @@ return [
                 12 => 'ColumnsConfig/Type/Group/Properties/ElementBrowserEntryPoints.html',
             ],
         ],
-        FieldType::FOLDER => [
+        FieldType::FOLDER->value => [
             'type' => 'text',
             'label' => 'tx_mask.field.elementBrowserEntryPoints.label',
             'description' => 'tx_mask.field.folder.elementBrowserEntryPoints.description',

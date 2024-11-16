@@ -22,7 +22,7 @@ if ((new Typo3Version())->getMajorVersion() < 12) {
 }
 
 return [
-    Tab::GENERAL => [
+    Tab::GENERAL->value => [
         [
             'config.placeholder' => 6,
         ],
@@ -30,13 +30,13 @@ return [
             'config.size' => 6,
         ],
     ],
-    Tab::VALIDATION => [
+    Tab::VALIDATION->value => [
         $validation,
     ],
-    Tab::FIELD_CONTROL => [
+    Tab::FIELD_CONTROL->value => [
         $linkHandler,
     ],
-    Tab::LOCALIZATION => [
+    Tab::LOCALIZATION->value => [
         [
             'l10n_mode' => 12,
         ],
@@ -44,7 +44,7 @@ return [
             'config.behaviour.allowLanguageSynchronization' => 6,
         ],
     ],
-    Tab::EXTENDED => [
+    Tab::EXTENDED->value => [
         [
             (new Typo3Version())->getMajorVersion() > 11 ? 'config.nullable' : 'config.eval.null' => 6,
             'config.mode' => 6,

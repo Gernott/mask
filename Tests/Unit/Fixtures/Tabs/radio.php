@@ -3,7 +3,7 @@
 use MASK\Mask\Enumeration\Tab;
 
 return [
-    Tab::GENERAL => [
+    Tab::GENERAL->value => [
         [
             'config.items' => 12,
         ],
@@ -11,7 +11,7 @@ return [
             'config.default' => 6,
         ],
     ],
-    Tab::LOCALIZATION => [
+    Tab::LOCALIZATION->value => [
         [
             'l10n_mode' => 12,
         ],

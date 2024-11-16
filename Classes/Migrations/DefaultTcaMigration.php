@@ -39,7 +39,7 @@ class DefaultTcaMigration implements RepeatableMigrationInterface
                 if (!$tcaFieldDefinition->hasFieldType() || $tcaFieldDefinition->isCoreField) {
                     continue;
                 }
-                $tcaDefaults = $this->configurationLoader->loadDefaults()[(string)$tcaFieldDefinition->getFieldType()];
+                $tcaDefaults = $this->configurationLoader->loadDefaults()[$tcaFieldDefinition->getFieldType()->value];
                 $tcaDefaults = $tcaDefaults['tca_out'] ?? [];
                 $flatTcaFieldDefinition = TcaConverter::convertTcaArrayToFlat($tcaFieldDefinition->realTca);
 

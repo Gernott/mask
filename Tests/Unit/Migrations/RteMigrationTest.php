@@ -51,6 +51,6 @@ class RteMigrationTest extends UnitTestCase
         );
 
         $tableDefinitionCollection = $jsonLoader->load();
-        self::assertTrue($tableDefinitionCollection->loadField('tt_content', 'tx_mask_rte')->getFieldType()->equals(FieldType::RICHTEXT), 'Field tx_mask_rte is not a richtext.');
+        self::assertTrue($tableDefinitionCollection->loadField('tt_content', 'tx_mask_rte')->getFieldType() == FieldType::RICHTEXT, 'Field tx_mask_rte is not a richtext.');
     }
 }

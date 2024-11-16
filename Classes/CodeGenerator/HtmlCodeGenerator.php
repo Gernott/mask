@@ -74,7 +74,7 @@ class HtmlCodeGenerator
         if (!$field->hasFieldType($element->elementDefinition->key) || !$field->getFieldType($element->elementDefinition->key)->isRenderable()) {
             return '';
         }
-        switch ((string)$field->getFieldType($element->elementDefinition->key)) {
+        switch ($field->getFieldType($element->elementDefinition->key)) {
             case FieldType::SELECT:
                 if (($field->realTca['config']['foreign_table'] ?? '') !== '') {
                     $html[] = $this->drawWhitespace(0 + $depth) . '<f:for each="{' . $datafield . '.' . $field->fullKey . '_items}" as="' . $datafield . '_item' . '">';

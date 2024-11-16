@@ -32,11 +32,11 @@ class RegisterIcons
     public function __invoke(BootCompletedEvent $event): void
     {
         // Register Icons needed in the backend module
-        foreach (FieldType::getConstants() as $maskIcon) {
+        foreach (FieldType::cases() as $maskIcon) {
             $this->iconRegistry->registerIcon(
-                'mask-fieldtype-' . $maskIcon,
+                'mask-fieldtype-' . $maskIcon->value,
                 SvgIconProvider::class,
-                ['source' => 'EXT:mask/Resources/Public/Icons/Fieldtypes/' . GeneralUtility::underscoredToUpperCamelCase($maskIcon) . '.svg']
+                ['source' => 'EXT:mask/Resources/Public/Icons/Fieldtypes/' . GeneralUtility::underscoredToUpperCamelCase($maskIcon->value) . '.svg']
             );
         }
     }

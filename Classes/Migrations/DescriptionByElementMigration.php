@@ -44,7 +44,7 @@ class DescriptionByElementMigration implements MigrationInterface
                 }
 
                 // Go through all palette fields on the root level.
-                if ($tcaFieldDefinition->hasFieldType() && $tcaFieldDefinition->getFieldType()->equals(FieldType::PALETTE)) {
+                if ($tcaFieldDefinition->hasFieldType() && $tcaFieldDefinition->getFieldType() == FieldType::PALETTE) {
                     $paletteField = $tableDefinition->palettes->getPalette($tcaFieldDefinition->fullKey);
                     foreach ($paletteField->showitem as $item) {
                         $itemField = $tableDefinitionCollection->loadField($tableDefinition->table, $item);
@@ -90,7 +90,7 @@ class DescriptionByElementMigration implements MigrationInterface
         }
 
         // If palette, add it to the palette definition as well.
-        if ($tcaFieldDefinition->hasFieldType() && $tcaFieldDefinition->getFieldType()->equals(FieldType::PALETTE)) {
+        if ($tcaFieldDefinition->hasFieldType() && $tcaFieldDefinition->getFieldType() == FieldType::PALETTE) {
             $paletteDefinition = $tableDefinitionCollection->getTable($table)->palettes->getPalette($tcaFieldDefinition->fullKey);
             if ($paletteDefinition->description === '') {
                 $paletteDefinition->description = $descriptionToUse;

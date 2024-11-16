@@ -26,8 +26,8 @@ return [
     'config.placeholder' => [
         'type' => 'variable',
         'types' => [
-            FieldType::TEXT => 'textarea',
-            FieldType::RICHTEXT => 'textarea',
+            FieldType::TEXT->value => 'textarea',
+            FieldType::RICHTEXT->value => 'textarea',
         ],
         'rows' => 5,
         'label' => 'tx_mask.field.string.placeholder',

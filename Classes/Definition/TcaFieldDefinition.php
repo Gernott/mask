@@ -27,10 +27,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 final class TcaFieldDefinition
 {
     private const ALLOWED_EMPTY_VALUES_BY_TYPE = [
-        FieldType::SELECT => [
+        FieldType::SELECT->value => [
             'config.items',
         ],
-        FieldType::CHECK => [
+        FieldType::CHECK->value => [
             'config.items',
         ],
         // This is important for upgrades, to keep something in the "config" array.
@@ -38,19 +38,19 @@ final class TcaFieldDefinition
         // Because of this, Mask does not have any standard TCA for this field anymore.
         // The removeBlankOptions method would thus remove everything and the next save in the backend builder would
         // result in the file field to be treated as a "coreField".
-        FieldType::FILE => [
+        FieldType::FILE->value => [
             'config.minitems',
         ],
-        FieldType::MEDIA => [
+        FieldType::MEDIA->value => [
             'config.minitems',
         ],
     ];
 
     private const STOP_RECURSIVE_VALUES_BY_TYPE = [
-        FieldType::SELECT => [
+        FieldType::SELECT->value => [
             'config.itemGroups',
         ],
-        FieldType::SLUG => [
+        FieldType::SLUG->value => [
             'config.generatorOptions.replacements',
         ],
     ];
@@ -167,7 +167,7 @@ final class TcaFieldDefinition
         // "name" was renamed to "type" in mask 7.1.
         $fieldType = $definition['type'] ?? $definition['name'] ?? $definition['options'] ?? null;
         if ($fieldType !== null) {
-            $tcaFieldDefinition->type = FieldType::cast($fieldType);
+            $tcaFieldDefinition->type = FieldType::from($fieldType);
         }
 
         // Always set minitems / maxitems so the config array is not completely empty.
@@ -182,23 +182,23 @@ final class TcaFieldDefinition
 
         // "rte" was used to identify RTE fields prior to v6.
         if (!$tcaFieldDefinition->hasFieldType() && !empty($definition['rte'])) {
-            $tcaFieldDefinition->type = FieldType::cast(FieldType::RICHTEXT);
+            $tcaFieldDefinition->type = FieldType::RICHTEXT;
         }
 
         // The core field bodytext used to be hard coded as richtext in Mask versions < v7.2
         if (!$tcaFieldDefinition->hasFieldType() && $definition['key'] === 'bodytext') {
-            $tcaFieldDefinition->type = FieldType::cast(FieldType::RICHTEXT);
+            $tcaFieldDefinition->type = FieldType::RICHTEXT;
         }
 
         // If the field is not a core field and the field type couldn't be resolved by now, resolve type by tca config.
         if (!$tcaFieldDefinition->hasFieldType() && !$tcaFieldDefinition->isCoreField) {
-            $tcaFieldDefinition->type = FieldType::cast(FieldTypeUtility::getFieldType($tcaFieldDefinition->toArray(), $tcaFieldDefinition->fullKey));
+            $tcaFieldDefinition->type = FieldTypeUtility::getFieldType($tcaFieldDefinition->toArray(), $tcaFieldDefinition->fullKey);
         }
 
         // If imageoverlayPalette is not set (because of updates to newer version), fallback to default behaviour.
         if (isset($definition['imageoverlayPalette'])) {
             $tcaFieldDefinition->imageoverlayPalette = (bool)$definition['imageoverlayPalette'];
-        } elseif ($tcaFieldDefinition->hasFieldType() && $tcaFieldDefinition->type->equals(FieldType::FILE)) {
+        } elseif ($tcaFieldDefinition->hasFieldType() && $tcaFieldDefinition->type == FieldType::FILE) {
             $tcaFieldDefinition->imageoverlayPalette = true;
         }
 
@@ -212,7 +212,7 @@ final class TcaFieldDefinition
 
         if (!empty($definition['bodytextTypeByElement'])) {
             foreach ($definition['bodytextTypeByElement'] as $elementKey => $bodytextType) {
-                $tcaFieldDefinition->bodytextTypeByElement[$elementKey] = FieldType::cast($bodytextType);
+                $tcaFieldDefinition->bodytextTypeByElement[$elementKey] = FieldType::from($bodytextType);
             }
             // Unset the normal type
             $tcaFieldDefinition->type = null;
@@ -415,7 +415,7 @@ final class TcaFieldDefinition
         $field += [
             'key' => $this->key,
             'fullKey' => $this->fullKey,
-            'type' => $this->type ? (string)$this->type : null,
+            'type' => $this->type?->value,
             'coreField' => $this->isCoreField ? 1 : null,
             'inPalette' => $this->inPalette ? 1 : null,
             'cTypes' => !empty($this->cTypes) ? $this->cTypes : null,
@@ -428,7 +428,7 @@ final class TcaFieldDefinition
             $field['maskKey'] = $this->fullKey;
         }
 
-        if ($this->hasFieldType() && $this->type->equals(FieldType::FILE)) {
+        if ($this->hasFieldType() && $this->type == FieldType::FILE) {
             $field['imageoverlayPalette'] = $this->imageoverlayPalette ? 1 : 0;
         }
 
@@ -492,8 +492,8 @@ final class TcaFieldDefinition
             $fullPath = implode('.', $path);
             if (
                 $fieldDefinition->hasFieldType()
-                && array_key_exists((string)$fieldDefinition->type, self::ALLOWED_EMPTY_VALUES_BY_TYPE)
-                && in_array($fullPath, self::ALLOWED_EMPTY_VALUES_BY_TYPE[(string)$fieldDefinition->type], true)
+                && array_key_exists($fieldDefinition->type->value, self::ALLOWED_EMPTY_VALUES_BY_TYPE)
+                && in_array($fullPath, self::ALLOWED_EMPTY_VALUES_BY_TYPE[$fieldDefinition->type->value], true)
             ) {
                 array_pop($path);
                 continue;
@@ -502,8 +502,8 @@ final class TcaFieldDefinition
                 is_array($value)
                 && !(
                     $fieldDefinition->hasFieldType()
-                    && array_key_exists((string)$fieldDefinition->type, self::STOP_RECURSIVE_VALUES_BY_TYPE)
-                    && in_array($fullPath, self::STOP_RECURSIVE_VALUES_BY_TYPE[(string)$fieldDefinition->type], true)
+                    && array_key_exists($fieldDefinition->type->value, self::STOP_RECURSIVE_VALUES_BY_TYPE)
+                    && in_array($fullPath, self::STOP_RECURSIVE_VALUES_BY_TYPE[$fieldDefinition->type->value], true)
                 )
             ) {
                 $haystack[$key] = self::removeBlankOptions($value, $fieldDefinition, $path);
@@ -534,7 +534,7 @@ final class TcaFieldDefinition
         if (($definition['config']['wizards']['link']['module']['name'] ?? '') === 'wizard_link') {
             $definition['config']['fieldControl']['linkPopup']['options']['allowedExtensions'] = $definition['config']['wizards']['link']['params']['allowedExtensions'] ?? '';
             $definition['config']['fieldControl']['linkPopup']['options']['blindLinkOptions'] = $definition['config']['wizards']['link']['params']['blindLinkOptions'] ?? '';
-            $tcaFieldDefinition->type = new FieldType(FieldType::LINK);
+            $tcaFieldDefinition->type = FieldType::LINK;
             unset($definition['config']['wizards']);
         }
 
@@ -547,7 +547,7 @@ final class TcaFieldDefinition
         // #94765: Migrate levelLinksPosition "none" to showNewRecordLink=false (TYPO3 v11).
         if (
             $tcaFieldDefinition->hasFieldType()
-            && ($tcaFieldDefinition->type->equals(FieldType::INLINE) || $tcaFieldDefinition->type->equals(FieldType::CONTENT))
+            && ($tcaFieldDefinition->type == FieldType::INLINE || $tcaFieldDefinition->type == FieldType::CONTENT)
             && ($definition['config']['appearance']['levelLinksPosition'] ?? '') === 'none'
         ) {
             $definition['config']['appearance']['levelLinksPosition'] = 'top';
@@ -557,7 +557,7 @@ final class TcaFieldDefinition
         // #94406: Migrate folder config to fileFolderConfig (TYPO3 v11).
         if (
             $tcaFieldDefinition->hasFieldType()
-            && $tcaFieldDefinition->type->equals(FieldType::SELECT)
+            && $tcaFieldDefinition->type == FieldType::SELECT
         ) {
             if (isset($definition['config']['fileFolder'])) {
                 $definition['config']['fileFolderConfig']['folder'] = $definition['config']['fileFolder'];
@@ -576,7 +576,7 @@ final class TcaFieldDefinition
         // Fill item values with empty strings.
         if (
             $tcaFieldDefinition->hasFieldType()
-            && $tcaFieldDefinition->type->equals(FieldType::SELECT)
+            && $tcaFieldDefinition->type == FieldType::SELECT
         ) {
             foreach ($definition['config']['items'] ?? [] as $index => $item) {
                 for ($i = 0; $i < 5; $i++) {
@@ -596,7 +596,7 @@ final class TcaFieldDefinition
         // TCA type="datetime" moved "eval=date, datetime, ..." to "format".
         if (
             $tcaFieldDefinition->hasFieldType()
-            && $tcaFieldDefinition->type->equals(FieldType::TIMESTAMP)
+            && $tcaFieldDefinition->type == FieldType::TIMESTAMP
             && ($definition['config']['eval'] ?? '') !== ''
         ) {
             $evalList = explode(',', $definition['config']['eval']);
@@ -615,7 +615,7 @@ final class TcaFieldDefinition
         // TCA type=link "fieldControl" moved to "appearance"
         if (
             $tcaFieldDefinition->hasFieldType()
-            && $tcaFieldDefinition->type->equals(FieldType::LINK)
+            && $tcaFieldDefinition->type == FieldType::LINK
         ) {
             if ($definition['config']['fieldControl']['linkPopup']['options']['allowedExtensions'] ?? false) {
                 $definition['config']['appearance']['allowedFileExtensions'] = $definition['config']['fieldControl']['linkPopup']['options']['allowedExtensions'];
@@ -640,26 +640,26 @@ final class TcaFieldDefinition
         // New TCA type email since TYPO3 v12
         if (
             $tcaFieldDefinition->hasFieldType()
-            && $tcaFieldDefinition->type->equals(FieldType::STRING)
+            && $tcaFieldDefinition->type == FieldType::STRING
         ) {
             $evalList = GeneralUtility::trimExplode(',', $definition['config']['eval'] ?? '');
             if (in_array('email', $evalList, true)) {
                 $evalList = array_intersect($evalList, ['unique', 'uniqueInPid']);
                 $definition['config']['eval'] = implode(',', $evalList);
                 $definition['config']['type'] = 'email';
-                $tcaFieldDefinition->setFieldType(new FieldType(FieldType::EMAIL));
+                $tcaFieldDefinition->setFieldType(FieldType::EMAIL);
             }
         }
 
         // New TCA type folder since TYPO3 v12
         if (
             $tcaFieldDefinition->hasFieldType()
-            && $tcaFieldDefinition->type->equals(FieldType::GROUP)
+            && $tcaFieldDefinition->type == FieldType::GROUP
         ) {
             if (($definition['config']['internal_type'] ?? '') === 'folder') {
                 unset($definition['config']['internal_type']);
                 $definition['config']['type'] = 'folder';
-                $tcaFieldDefinition->setFieldType(new FieldType(FieldType::FOLDER));
+                $tcaFieldDefinition->setFieldType(FieldType::FOLDER);
             }
         }
 
@@ -679,14 +679,14 @@ final class TcaFieldDefinition
         if (
             $tcaFieldDefinition->hasFieldType()
             && (
-                $tcaFieldDefinition->getFieldType()->equals(FieldType::SELECT)
-                || $tcaFieldDefinition->getFieldType()->equals(FieldType::RADIO)
-                || $tcaFieldDefinition->getFieldType()->equals(FieldType::CHECK)
+                $tcaFieldDefinition->getFieldType() == FieldType::SELECT
+                || $tcaFieldDefinition->getFieldType() == FieldType::RADIO
+                || $tcaFieldDefinition->getFieldType() == FieldType::CHECK
             )
             && !empty($definition['config']['items'])
         ) {
             $processedItems = array_map(
-                fn(array $item) => SelectItem::fromTcaItemArray($item, (string)$tcaFieldDefinition->getFieldType())->toArray(),
+                fn(array $item) => SelectItem::fromTcaItemArray($item, $tcaFieldDefinition->getFieldType()->value)->toArray(),
                 $definition['config']['items']
             );
             // Remove null and false (=invertStateDisplay) values.
@@ -697,8 +697,8 @@ final class TcaFieldDefinition
         if (
             $tcaFieldDefinition->hasFieldType()
             && (
-                $tcaFieldDefinition->getFieldType()->equals(FieldType::INTEGER)
-                || $tcaFieldDefinition->getFieldType()->equals(FieldType::FLOAT)
+                $tcaFieldDefinition->getFieldType() == FieldType::INTEGER
+                || $tcaFieldDefinition->getFieldType() == FieldType::FLOAT
             )
             && !empty($definition['config']['eval'])
         ) {
@@ -727,7 +727,7 @@ final class TcaFieldDefinition
             return $this->type;
         }
 
-        return $this->bodytextTypeByElement[$elementKey] ?? new FieldType(FieldType::RICHTEXT);
+        return $this->bodytextTypeByElement[$elementKey] ?? FieldType::RICHTEXT;
     }
 
     public function setFieldType(FieldType $fieldType): void

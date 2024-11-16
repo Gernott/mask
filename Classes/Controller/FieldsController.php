@@ -129,7 +129,7 @@ class FieldsController
                 }
             }
 
-            $newField['name'] = (string)$fieldType;
+            $newField['name'] = $fieldType->value;
             $newField['icon'] = $this->iconFactory->getIcon('mask-fieldtype-' . $newField['name'])->getMarkup();
             $newField['tca'] = [];
 
@@ -142,7 +142,7 @@ class FieldsController
                 $newField['tca']['l10n_mode'] = $field['l10n_mode'] ?? '';
             }
 
-            if ($fieldType->equals(FieldType::TIMESTAMP)) {
+            if ($fieldType == FieldType::TIMESTAMP) {
                 $default = $newField['tca']['config.default'] ?? false;
                 $evalDate = $newField['tca']['config.format'];
                 if ($default) {
@@ -158,7 +158,7 @@ class FieldsController
                 }
             }
 
-            if ($fieldType->equals(FieldType::FILE)) {
+            if ($fieldType == FieldType::FILE) {
                 $newField['tca']['imageoverlayPalette'] = $field['imageoverlayPalette'] ?? 1;
             }
 
@@ -166,20 +166,20 @@ class FieldsController
                 $newField['tca']['allowedFileExtensions'] = $field['allowedFileExtensions'] ?? '';
             }
 
-            if ($fieldType->equals(FieldType::CONTENT)) {
+            if ($fieldType == FieldType::CONTENT) {
                 $newField['tca']['cTypes'] = $field['cTypes'] ?? [];
             }
 
-            if ($fieldType->equals(FieldType::MEDIA)) {
+            if ($fieldType == FieldType::MEDIA) {
                 $newField['tca']['onlineMedia'] = $field['onlineMedia'] ?? [];
             }
 
             // Set defaults for mask fields
-            foreach ($defaults[(string)$fieldType]['tca_in'] ?? [] as $tcaKey => $defaultValue) {
+            foreach ($defaults[$fieldType->value]['tca_in'] ?? [] as $tcaKey => $defaultValue) {
                 $newField['tca'][$tcaKey] = $newField['tca'][$tcaKey] ?? $defaultValue;
             }
 
-            if ($fieldType->equals(FieldType::INLINE)) {
+            if ($fieldType == FieldType::INLINE) {
                 $newField['tca']['ctrl.iconfile'] = $field['ctrl']['iconfile'] ?? '';
                 $newField['tca']['ctrl.label'] = $field['ctrl']['label'] ?? '';
             }
@@ -192,7 +192,7 @@ class FieldsController
                     ? $elementTcaDefinition->elementDefinition
                     : null;
                 $inlineFields = $this->tableDefinitionCollection->loadInlineFields($newField['key'], $elementKey, $element);
-                $inlineTable = $fieldType->equals(FieldType::INLINE) ? $newField['key'] : $table;
+                $inlineTable = $fieldType == FieldType::INLINE ? $newField['key'] : $table;
                 $newField['fields'] = $this->addFields(
                     $inlineFields->toArray(),
                     $inlineTable,
@@ -211,7 +211,7 @@ class FieldsController
      */
     protected function cleanUpConfig(array $config, FieldType $fieldType): array
     {
-        $tabConfig = $this->configurationLoader->loadTab((string)$fieldType);
+        $tabConfig = $this->configurationLoader->loadTab($fieldType->value);
         $tcaOptions = [];
         foreach ($tabConfig as $options) {
             foreach ($options as $row) {

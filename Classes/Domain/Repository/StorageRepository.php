@@ -183,7 +183,7 @@ class StorageRepository implements SingletonInterface
     {
         $defaults = $this->configurationLoader->loadDefaults();
         foreach ($fields as $field) {
-            $fieldType = FieldType::cast($field['name']);
+            $fieldType = FieldType::from($field['name']);
             $fieldName = $field['key'];
             // If mask field which needs table column
             if (isset($defaults[$field['name']]['sql']) && AffixUtility::hasMaskPrefix($field['key'])) {
@@ -191,7 +191,7 @@ class StorageRepository implements SingletonInterface
                 $json[$table]['sql'][$fieldName][$table][$fieldName] = $field['sql'] ?? $defaults[$field['name']]['sql'];
             }
             if (isset($field['fields'])) {
-                $inlineTable = $fieldType->equals(FieldType::INLINE) ? $field['key'] : $table;
+                $inlineTable = $fieldType == FieldType::INLINE ? $field['key'] : $table;
                 $json = $this->setSql($json, $field['fields'], $inlineTable);
             }
         }
@@ -241,7 +241,7 @@ class StorageRepository implements SingletonInterface
             $fieldAdd['type'] = $field['name'];
 
             // Convert range values of timestamp to integers
-            if (FieldType::cast($fieldAdd['type'])->equals(FieldType::TIMESTAMP)) {
+            if (FieldType::from($fieldAdd['type']) == FieldType::TIMESTAMP) {
                 $default = $tcaConfig['config']['default'] ?? false;
                 if ($default) {
                     $date = new \DateTime($default);
@@ -260,7 +260,7 @@ class StorageRepository implements SingletonInterface
             }
 
             // Create palette
-            if (FieldType::cast($fieldAdd['type'])->equals(FieldType::PALETTE)) {
+            if (FieldType::from($fieldAdd['type']) == FieldType::PALETTE) {
                 $jsonAdd[$table]['palettes'][$fieldAdd['fullKey']]['showitem'] = [];
                 $jsonAdd[$table]['palettes'][$fieldAdd['fullKey']]['label'] = $field['label'];
                 $jsonAdd[$table]['palettes'][$fieldAdd['fullKey']]['description'] = $field['description'] ?? '';
@@ -268,7 +268,7 @@ class StorageRepository implements SingletonInterface
 
             // Add label, order and flags to child fields
             if (isset($parent)) {
-                if ($parent['name'] === FieldType::PALETTE) {
+                if ($parent['name'] === FieldType::PALETTE->value) {
                     $fieldAdd['inPalette'] = 1;
                     if ($onRootLevel) {
                         $fieldAdd['inlineParent'][$elementKey] = $parent['key'];
@@ -284,7 +284,7 @@ class StorageRepository implements SingletonInterface
                     // Add field to showitem array
                     $jsonAdd[$table]['palettes'][$parent['key']]['showitem'][] = $field['key'];
                 }
-                if ($parent['name'] === FieldType::INLINE) {
+                if ($parent['name'] === FieldType::INLINE->value) {
                     $fieldAdd['inlineParent'] = $parent['key'];
                     $fieldAdd['label'] = $field['label'];
                     $fieldAdd['description'] = $field['description'] ?? '';
@@ -329,7 +329,7 @@ class StorageRepository implements SingletonInterface
 
             // Resolve nested fields
             if (isset($field['fields'])) {
-                $inlineTable = $field['name'] === FieldType::INLINE ? $field['key'] : $table;
+                $inlineTable = $field['name'] === FieldType::INLINE->value ? $field['key'] : $table;
                 $jsonAdd = $this->addFieldsToJson($jsonAdd, $field['fields'], $elementKey, $inlineTable, $defaultTable, $field);
             }
         }
@@ -384,11 +384,11 @@ class StorageRepository implements SingletonInterface
             $fieldType = $this->tableDefinitionCollection->getFieldType($field->fullKey, $table);
 
             // If field is of type inline, also delete table entry
-            if ($fieldType->equals(FieldType::INLINE)) {
+            if ($fieldType == FieldType::INLINE) {
                 unset($json[$field->fullKey]);
             }
 
-            if ($fieldType->equals(FieldType::PALETTE)) {
+            if ($fieldType == FieldType::PALETTE) {
                 unset($json[$table]['palettes'][$field->fullKey]);
             }
         }
@@ -402,7 +402,7 @@ class StorageRepository implements SingletonInterface
                 return true;
             }
 
-            if (FieldType::cast($field['name'])->equals(FieldType::PALETTE)) {
+            if (FieldType::from($field['name']) == FieldType::PALETTE) {
                 foreach ($field['fields'] ?? [] as $paletteField) {
                     if ($paletteField['key'] === $searchKey) {
                         return true;

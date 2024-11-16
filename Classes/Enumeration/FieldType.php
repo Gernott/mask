@@ -17,78 +17,76 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Enumeration;
 
-use TYPO3\CMS\Core\Type\Enumeration;
-
-final class FieldType extends Enumeration
+enum FieldType: string
 {
-    public const STRING = 'string';
-    public const INTEGER = 'integer';
-    public const FLOAT = 'float';
-    public const LINK = 'link';
-    public const DATE = 'date';
-    public const DATETIME = 'datetime';
-    public const TIMESTAMP = 'timestamp';
-    public const TEXT = 'text';
-    public const RICHTEXT = 'richtext';
-    public const CHECK = 'check';
-    public const RADIO = 'radio';
-    public const SELECT = 'select';
-    public const CATEGORY = 'category';
-    public const GROUP = 'group';
-    public const FILE = 'file';
-    public const MEDIA = 'media';
-    public const INLINE = 'inline';
-    public const CONTENT = 'content';
-    public const TAB = 'tab';
-    public const PALETTE = 'palette';
-    public const LINEBREAK = 'linebreak';
-    public const COLORPICKER = 'colorpicker';
-    public const SLUG = 'slug';
-    public const EMAIL = 'email';
-    public const FOLDER = 'folder';
+    case STRING = 'string';
+    case INTEGER = 'integer';
+    case FLOAT = 'float';
+    case LINK = 'link';
+    case DATE = 'date';
+    case DATETIME = 'datetime';
+    case TIMESTAMP = 'timestamp';
+    case TEXT = 'text';
+    case RICHTEXT = 'richtext';
+    case CHECK = 'check';
+    case RADIO = 'radio';
+    case SELECT = 'select';
+    case CATEGORY = 'category';
+    case GROUP = 'group';
+    case FILE = 'file';
+    case MEDIA = 'media';
+    case INLINE = 'inline';
+    case CONTENT = 'content';
+    case TAB = 'tab';
+    case PALETTE = 'palette';
+    case LINEBREAK = 'linebreak';
+    case COLORPICKER = 'colorpicker';
+    case SLUG = 'slug';
+    case EMAIL = 'email';
+    case FOLDER = 'folder';
 
     public function isGroupingField(): bool
     {
-        return in_array($this->value, [self::TAB, self::PALETTE, self::LINEBREAK], true);
+        return in_array($this, [self::TAB, self::PALETTE, self::LINEBREAK], true);
     }
 
     public function isParentField(): bool
     {
-        return in_array($this->value, [self::INLINE, self::PALETTE], true);
+        return in_array($this, [self::INLINE, self::PALETTE], true);
     }
 
     public function isSearchable(): bool
     {
-        return in_array($this->value, [self::STRING, self::TEXT, self::RICHTEXT, self::EMAIL], true);
+        return in_array($this, [self::STRING, self::TEXT, self::RICHTEXT, self::EMAIL], true);
     }
 
     public function isRenderable(): bool
     {
-        return !in_array($this->value, [self::TAB, self::LINEBREAK], true);
+        return !in_array($this, [self::TAB, self::LINEBREAK], true);
     }
 
     public function canBeShared(): bool
     {
-        return !in_array($this->value, [self::INLINE, self::PALETTE, self::TAB, self::LINEBREAK], true);
+        return !in_array($this, [self::INLINE, self::PALETTE, self::TAB, self::LINEBREAK], true);
     }
 
     public function hasDescription(): bool
     {
-        return $this->value === self::PALETTE || $this->canBeShared();
+        return $this === self::PALETTE || $this->canBeShared();
     }
 
     public function isFileReference(): bool
     {
-        return in_array($this->value, [self::FILE, self::MEDIA], true);
+        return in_array($this, [self::FILE, self::MEDIA], true);
     }
 
     public function isTextareaField(): bool
     {
-        return in_array($this->value, [self::TEXT, self::RICHTEXT], true);
+        return in_array($this, [self::TEXT, self::RICHTEXT], true);
     }
 
     public function isRelationField(): bool
     {
-        return in_array($this->value, [self::INLINE, self::SELECT, self::GROUP, self::CATEGORY, self::CONTENT], true);
+        return in_array($this, [self::INLINE, self::SELECT, self::GROUP, self::CATEGORY, self::CONTENT], true);
     }
 }

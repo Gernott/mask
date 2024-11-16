@@ -3,19 +3,19 @@
 use MASK\Mask\Enumeration\Tab;
 
 return [
-    Tab::GENERAL => [
+    Tab::GENERAL->value => [
         [
             'config.internal_type' => 6,
             'config.allowed' => 6,
         ],
     ],
-    Tab::VALIDATION => [
+    Tab::VALIDATION->value => [
         [
             'config.minitems' => 6,
             'config.maxitems' => 6,
         ],
     ],
-    Tab::FIELD_CONTROL => [
+    Tab::FIELD_CONTROL->value => [
         [
             'config.fieldControl' => 12,
             'config.fieldControl.editPopup.disabled' => 4,
@@ -30,7 +30,7 @@ return [
             'config.fieldWizard.tableList.disabled' => 4,
         ],
     ],
-    Tab::LOCALIZATION => [
+    Tab::LOCALIZATION->value => [
         [
             'l10n_mode' => 12,
         ],
@@ -38,7 +38,7 @@ return [
             'config.behaviour.allowLanguageSynchronization' => 6,
         ],
     ],
-    Tab::EXTENDED => [
+    Tab::EXTENDED->value => [
         [
             'config.size' => 6,
             'config.autoSizeMax' => 6,

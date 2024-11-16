@@ -8,7 +8,7 @@ $validation = [
 ];
 
 return [
-    Tab::GENERAL => [
+    Tab::GENERAL->value => [
         [
             'config.richtextConfiguration' => 6,
         ],
@@ -16,10 +16,10 @@ return [
             'config.default' => 6,
         ],
     ],
-    Tab::VALIDATION => [
+    Tab::VALIDATION->value => [
         $validation,
     ],
-    Tab::LOCALIZATION => [
+    Tab::LOCALIZATION->value => [
         [
             'l10n_mode' => 12,
         ],

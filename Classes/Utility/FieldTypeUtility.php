@@ -19,12 +19,11 @@ namespace MASK\Mask\Utility;
 
 use MASK\Mask\Enumeration\FieldType;
 use TYPO3\CMS\Core\Resource\OnlineMedia\Helpers\OnlineMediaHelperRegistry;
-use TYPO3\CMS\Core\Type\Exception\InvalidEnumerationValueException;
 use TYPO3\CMS\Core\Utility\GeneralUtility as CoreGeneralUtility;
 
 class FieldTypeUtility
 {
-    public static function getFieldType(array $tca, string $fieldKey): string
+    public static function getFieldType(array $tca, string $fieldKey): FieldType
     {
         // If TCA is still empty, error out.
         if (empty($tca)) {
@@ -117,8 +116,8 @@ class FieldTypeUtility
             default:
                 // Check if fake tca type is valid.
                 try {
-                    return (string)FieldType::cast($tcaType);
-                } catch (InvalidEnumerationValueException $e) {
+                    return FieldType::from($tcaType);
+                } catch (\ValueError) {
                     throw new \InvalidArgumentException(sprintf('Could not resolve the field type of "%s". Please check, if your TCA is correct.', $fieldKey), 1629484452);
                 }
         }

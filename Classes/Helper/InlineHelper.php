@@ -144,7 +144,7 @@ class InlineHelper
             $elementKey = $element->elementDefinition->key;
             $fieldType = $this->tableDefinitionCollection->getFieldType($field, $table);
 
-            if ($fieldType->equals(FieldType::PALETTE)) {
+            if ($fieldType == FieldType::PALETTE) {
                 foreach ($this->tableDefinitionCollection->loadInlineFields($field, $elementKey, $element->elementDefinition) as $paletteField) {
                     $fieldType = $this->tableDefinitionCollection->getFieldType($paletteField->fullKey, $table);
                     $this->fillInlineField($data, $fieldType, $paletteField->fullKey, $cType, $table, $originalTable);
@@ -162,11 +162,11 @@ class InlineHelper
         }
         $tcaFieldConfig = $GLOBALS['TCA'][$table]['columns'][$field] ?? [];
         // if it is of type inline and has to be filled (IRRE, FAL)
-        if ($fieldType->equals(FieldType::INLINE) && $this->tableDefinitionCollection->hasTable($field)) {
+        if ($fieldType == FieldType::INLINE && $this->tableDefinitionCollection->hasTable($field)) {
             $elements = $this->getInlineElements($data, $field, $cType, 'parentid', $table, null, $originalTable);
             $data[$field] = $elements;
             // or if it is of type Content (Nested Content) and has to be filled
-        } elseif ($fieldType->equals(FieldType::CONTENT)) {
+        } elseif ($fieldType == FieldType::CONTENT) {
             $content = $this->getRelations((string)($data[$field] ?? ''), $tcaFieldConfig['config']['foreign_table'], '', (int)$data['uid'], $table, $tcaFieldConfig['config'] ?? []);
             foreach ($content as $key => $element) {
                 if ($element) {
@@ -176,17 +176,17 @@ class InlineHelper
                 }
             }
             $data[$field] = $content;
-        } elseif ($fieldType->equals(FieldType::CATEGORY)) {
+        } elseif ($fieldType == FieldType::CATEGORY) {
             if ($tcaFieldConfig['config']['relationship'] === 'manyToMany') {
                 $data[$field . '_items'] = $this->getRelations('', ($tcaFieldConfig['config']['foreign_table'] ?? ''), $tcaFieldConfig['config']['MM'] ?? '', (int)$data['uid'], $table, $tcaFieldConfig['config'] ?? []);
             } else {
                 $data[$field . '_items'] = $this->getRelations((string)($data[$field] ?? ''), ($tcaFieldConfig['config']['foreign_table'] ?? ''), $tcaFieldConfig['config']['MM'] ?? '', (int)$data['uid'], $table, $tcaFieldConfig['config'] ?? []);
             }
-        } elseif (($tcaFieldConfig['config']['foreign_table'] ?? '') !== '' && $fieldType->equals(FieldType::SELECT)) {
+        } elseif (($tcaFieldConfig['config']['foreign_table'] ?? '') !== '' && $fieldType == FieldType::SELECT) {
             $data[$field . '_items'] = $this->getRelations((string)($data[$field] ?? ''), $tcaFieldConfig['config']['foreign_table'], $tcaFieldConfig['config']['MM'] ?? '', (int)$data['uid'], $table, $tcaFieldConfig['config'] ?? []);
-        } elseif ($fieldType->equals(FieldType::GROUP)) {
+        } elseif ($fieldType == FieldType::GROUP) {
             $data[$field . '_items'] = $this->getRelations((string)($data[$field] ?? ''), $tcaFieldConfig['config']['allowed'], $tcaFieldConfig['config']['MM'] ?? '', (int)$data['uid'], $table, $tcaFieldConfig['config'] ?? []);
-        } elseif (in_array(($tcaFieldConfig['config']['renderType'] ?? ''), ['selectCheckBox', 'selectSingleBox', 'selectMultipleSideBySide'], true) && $fieldType->equals(FieldType::SELECT)) {
+        } elseif (in_array(($tcaFieldConfig['config']['renderType'] ?? ''), ['selectCheckBox', 'selectSingleBox', 'selectMultipleSideBySide'], true) && $fieldType == FieldType::SELECT) {
             $data[$field . '_items'] = ($data[$field] ?? '') !== '' ? explode(',', $data[$field]) : [];
         }
     }

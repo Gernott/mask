@@ -59,7 +59,7 @@ class MigrateContentFields implements UpgradeWizardInterface
                 if (!$tcaDefinition->hasFieldType()) {
                     continue;
                 }
-                if ($tcaDefinition->getFieldType()->equals(FieldType::CONTENT)) {
+                if ($tcaDefinition->getFieldType() == FieldType::CONTENT) {
                     $this->migrateField($tcaDefinition, $tableDefinition);
                 }
             }
@@ -90,7 +90,7 @@ class MigrateContentFields implements UpgradeWizardInterface
                 if (!$tcaFieldDefinition->hasFieldType()) {
                     continue;
                 }
-                if ($tcaFieldDefinition->getFieldType()->equals(FieldType::CONTENT)) {
+                if ($tcaFieldDefinition->getFieldType() == FieldType::CONTENT) {
                     $legacyParentColumnName = AffixUtility::addMaskParentSuffix($tcaFieldDefinition->fullKey);
                     $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
                         ->getQueryBuilderForTable('tt_content');

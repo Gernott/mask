@@ -192,10 +192,10 @@ class JsonSplitLoader implements LoaderInterface
                     $newSqlDefinition->addColumn($tableDefinition->sql->getColumn($field->fullKey));
                 }
                 $fieldType = $tableDefinitionCollection->getFieldType($field->fullKey, $table);
-                if ($fieldType->equals(FieldType::INLINE)) {
+                if ($fieldType == FieldType::INLINE) {
                     $this->addInlineRecursive($field, $elementTableDefinitionCollection, $tableDefinitionCollection);
                 }
-                if ($fieldType->equals(FieldType::PALETTE)) {
+                if ($fieldType == FieldType::PALETTE) {
                     $paletteDefinition = $tableDefinition->palettes->getPalette($field->fullKey);
                     $newPaletteDefinitionCollection->addPalette($paletteDefinition);
                     foreach ($paletteDefinition->showitem as $item) {
@@ -205,7 +205,7 @@ class JsonSplitLoader implements LoaderInterface
                         if ($tableDefinition->sql->hasColumn($paletteField->fullKey)) {
                             $newSqlDefinition->addColumn($tableDefinition->sql->getColumn($paletteField->fullKey));
                         }
-                        if ($tableDefinitionCollection->getFieldType($paletteField->fullKey, $table)->equals(FieldType::INLINE)) {
+                        if ($tableDefinitionCollection->getFieldType($paletteField->fullKey, $table) == FieldType::INLINE) {
                             $elementTableDefinitionCollection->addTable($tableDefinitionCollection->getTable($paletteField->fullKey));
                         }
                     }
@@ -236,7 +236,7 @@ class JsonSplitLoader implements LoaderInterface
         $elementTableDefinitionCollection->addTable($tableDefinitionCollection->getTable($field->fullKey));
         foreach ($tableDefinitionCollection->getTable($field->fullKey)->tca as $inlineChild) {
             $fieldType = $tableDefinitionCollection->getFieldType($inlineChild->fullKey, $field->fullKey);
-            if ($fieldType->equals(FieldType::INLINE)) {
+            if ($fieldType == FieldType::INLINE) {
                 $this->addInlineRecursive($inlineChild, $elementTableDefinitionCollection, $tableDefinitionCollection);
             }
         }

@@ -3,18 +3,18 @@
 use MASK\Mask\Enumeration\Tab;
 
 return [
-    Tab::GENERAL => [
+    Tab::GENERAL->value => [
         [
             'cTypes' => 12,
         ],
     ],
-    Tab::VALIDATION => [
+    Tab::VALIDATION->value => [
         [
             'config.minitems' => 6,
             'config.maxitems' => 6,
         ],
     ],
-    TAB::APPEARANCE => [
+    Tab::APPEARANCE->value => [
         [
             'config.appearance.newRecordLinkTitle' => 6,
             'config.appearance.levelLinksPosition' => 6,
@@ -23,7 +23,7 @@ return [
             'config.appearance.expandSingle' => 6,
         ],
     ],
-    Tab::LOCALIZATION => [
+    Tab::LOCALIZATION->value => [
         [
             'l10n_mode' => 12,
         ],

@@ -3,12 +3,12 @@
 use MASK\Mask\Enumeration\Tab;
 
 return [
-    Tab::GENERAL => [
+    Tab::GENERAL->value => [
         [
             'config.eval.slug' => 12,
         ],
     ],
-    Tab::GENERATOR => [
+    Tab::GENERATOR->value => [
         [
             'config.generatorOptions.fields' => 12,
             'config.generatorOptions.replacements' => 12,

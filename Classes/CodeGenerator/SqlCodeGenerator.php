@@ -100,7 +100,7 @@ class SqlCodeGenerator
                 } catch (\InvalidArgumentException $e) {
                     continue;
                 }
-                if ($fieldType->equals(FieldType::INLINE) && !$tableDefinitionCollection->hasTable($column->column)) {
+                if ($fieldType == FieldType::INLINE && !$tableDefinitionCollection->hasTable($column->column)) {
                     continue;
                 }
                 if (!$tableDefinition->tca->hasField($column->column)) {
@@ -115,7 +115,7 @@ class SqlCodeGenerator
 
                 $sql[] = 'CREATE TABLE ' . $tableDefinition->table . " (\n\t" . $column->column . ' ' . $column->sqlDefinition . "\n);\n";
                 // if this field is a content field, also add parent columns
-                if ($fieldType->equals(FieldType::CONTENT)) {
+                if ($fieldType == FieldType::CONTENT) {
                     $sql[] = 'CREATE TABLE tt_content ( tx_mask_content_parent_uid int(11) unsigned DEFAULT \'0\' NOT NULL );' . "\n";
                     $sql[] = 'CREATE TABLE tt_content ( tx_mask_content_role varchar(255) DEFAULT \'\' NOT NULL );' . "\n";
                     $sql[] = 'CREATE TABLE tt_content ( tx_mask_content_tablenames varchar(255) DEFAULT \'\' NOT NULL );' . "\n";

@@ -40,8 +40,8 @@ class ConfigCleanerMigration implements RepeatableMigrationInterface
                 if (!$tcaFieldDefinition->hasFieldType() || $tcaFieldDefinition->isCoreField) {
                     continue;
                 }
-                $tabConfig = $this->configurationLoader->loadTab((string)$tcaFieldDefinition->getFieldType());
-                $defaultsOut = array_keys($this->configurationLoader->loadDefaults()[(string)$tcaFieldDefinition->getFieldType()]['tca_out'] ?? []);
+                $tabConfig = $this->configurationLoader->loadTab($tcaFieldDefinition->getFieldType()->value);
+                $defaultsOut = array_keys($this->configurationLoader->loadDefaults()[$tcaFieldDefinition->getFieldType()->value]['tca_out'] ?? []);
                 $tcaOptions = [];
                 foreach ($tabConfig as $options) {
                     foreach ($options as $row) {

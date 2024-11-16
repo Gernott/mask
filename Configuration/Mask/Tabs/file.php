@@ -3,18 +3,18 @@
 use MASK\Mask\Enumeration\Tab;
 
 return [
-    Tab::GENERAL => [
+    Tab::GENERAL->value => [
         [
             'imageoverlayPalette' => 6,
         ],
     ],
-    Tab::VALIDATION => [
+    Tab::VALIDATION->value => [
         [
             'config.minitems' => 6,
             'config.maxitems' => 6,
         ],
     ],
-    TAB::APPEARANCE => [
+    Tab::APPEARANCE->value => [
         [
             'allowedFileExtensions' => 6,
         ],
@@ -31,7 +31,7 @@ return [
             'config.appearance.fileUploadAllowed' => 6,
         ],
     ],
-    Tab::ENABLED_CONTROLS => [
+    Tab::ENABLED_CONTROLS->value => [
         [
             'config.appearance.enabledControls' => 12,
             'config.appearance.enabledControls.info' => 4,
@@ -42,7 +42,7 @@ return [
             'config.appearance.enabledControls.localize' => 4,
         ],
     ],
-    Tab::LOCALIZATION => [
+    Tab::LOCALIZATION->value => [
         [
             'l10n_mode' => 12,
         ],
