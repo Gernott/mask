@@ -842,7 +842,7 @@ class TcaFieldDefinitionTest extends UnitTestCase
     public function getTypeReturnsTypeIfTypeCanBeFound(array $json, string $expected, string $elementKey): void
     {
         $tcaFieldDefinition = TcaFieldDefinition::createFromFieldArray($json);
-        self::assertSame($expected, (string)$tcaFieldDefinition->getFieldType($elementKey));
+        self::assertSame($expected, $tcaFieldDefinition->getFieldType($elementKey)->value);
     }
 
     /**

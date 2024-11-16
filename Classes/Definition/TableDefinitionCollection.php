@@ -227,7 +227,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
                     $availableTcaField = $availableTcaField->mergeTca($element->getColumnsOverride($fieldKey));
                 }
                 $tcaDefinition->addField($availableTcaField);
-                if ($availableTcaField->hasFieldType() && $availableTcaField->getFieldType()->equals(FieldType::PALETTE)) {
+                if ($availableTcaField->hasFieldType() && $availableTcaField->getFieldType() == FieldType::PALETTE) {
                     $paletteFields = $this->loadInlineFields($availableTcaField->fullKey, $element->key, $element);
                     foreach ($paletteFields as $paletteField) {
                         $tcaDefinition->addField($paletteField);
@@ -276,7 +276,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
 
     public function getFieldType(string $fieldKey, string $table = 'tt_content', string $elementKey = ''): FieldType
     {
-        return FieldType::cast($this->getFieldTypeString($fieldKey, $table, $elementKey));
+        return FieldType::from($this->getFieldTypeString($fieldKey, $table, $elementKey));
     }
 
     /**
@@ -289,10 +289,10 @@ final class TableDefinitionCollection implements \IteratorAggregate
         if ($fieldDefinition instanceof TcaFieldDefinition) {
             // If type is already known, return it.
             if ($fieldDefinition->hasFieldType($elementKey)) {
-                return (string)$fieldDefinition->getFieldType($elementKey);
+                return $fieldDefinition->getFieldType($elementKey)->value;
             }
             try {
-                return FieldTypeUtility::getFieldType($fieldDefinition->toArray(), $fieldDefinition->fullKey);
+                return FieldTypeUtility::getFieldType($fieldDefinition->toArray(), $fieldDefinition->fullKey)->value;
             } catch (\InvalidArgumentException $e) {
                 // For core fields this exception might pop up, because in older
                 // Mask versions no type was defined directly in the definition.
@@ -300,7 +300,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
         }
         // If field could not be found in field definition, check for global TCA.
         $tca = $GLOBALS['TCA'][$table]['columns'][$fieldKey] ?? [];
-        return FieldTypeUtility::getFieldType($tca, $fieldKey);
+        return FieldTypeUtility::getFieldType($tca, $fieldKey)->value;
     }
 
     /**
@@ -345,7 +345,7 @@ final class TableDefinitionCollection implements \IteratorAggregate
                     break;
                 }
                 $fieldDefinition = $this->loadField($table, $column);
-                if ($fieldDefinition instanceof TcaFieldDefinition && $fieldDefinition->hasFieldType() && $fieldDefinition->getFieldType()->equals(FieldType::PALETTE)) {
+                if ($fieldDefinition instanceof TcaFieldDefinition && $fieldDefinition->hasFieldType() && $fieldDefinition->getFieldType() == FieldType::PALETTE) {
                     foreach ($definition->palettes->getPalette($column)->showitem as $item) {
                         if ($item === $key) {
                             $elementsInUse->addElement($element);

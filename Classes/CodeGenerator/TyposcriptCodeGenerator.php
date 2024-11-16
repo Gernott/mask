@@ -169,7 +169,7 @@ class TyposcriptCodeGenerator
             return $TSConfig;
         }
         // As this is called very early, TCA for core fields might not be loaded yet. So ignore them.
-        if (!$fieldDefinition->isCoreField && $this->tableDefinitionCollection->getFieldType($fieldKey, $table)->equals(FieldType::PALETTE)) {
+        if (!$fieldDefinition->isCoreField && $this->tableDefinitionCollection->getFieldType($fieldKey, $table) == FieldType::PALETTE) {
             foreach ($this->tableDefinitionCollection->loadInlineFields($fieldKey, $element->key, $element) as $field) {
                 // Add label from field config.
                 $label = $field->getLabel($element->key);

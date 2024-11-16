@@ -3,28 +3,28 @@
 use MASK\Mask\Enumeration\FieldType;
 
 return [
-    FieldType::STRING => 'input',
-    FieldType::INTEGER => 'input',
-    FieldType::FLOAT => 'input',
-    FieldType::LINK => 'input',
+    FieldType::STRING->value => 'input',
+    FieldType::INTEGER->value => 'input',
+    FieldType::FLOAT->value => 'input',
+    FieldType::LINK->value => 'input',
 
-    FieldType::TEXT => 'text',
-    FieldType::RICHTEXT => 'text',
+    FieldType::TEXT->value => 'text',
+    FieldType::RICHTEXT->value => 'text',
 
-    FieldType::DATE => 'date',
-    FieldType::DATETIME => 'date',
-    FieldType::TIMESTAMP => 'date',
+    FieldType::DATE->value => 'date',
+    FieldType::DATETIME->value => 'date',
+    FieldType::TIMESTAMP->value => 'date',
 
-    FieldType::CHECK => 'choice',
-    FieldType::RADIO => 'choice',
-    FieldType::SELECT => 'choice',
-    FieldType::GROUP => 'choice',
+    FieldType::CHECK->value => 'choice',
+    FieldType::RADIO->value => 'choice',
+    FieldType::SELECT->value => 'choice',
+    FieldType::GROUP->value => 'choice',
 
-    FieldType::FILE => 'repeating',
-    FieldType::INLINE => 'repeating',
-    FieldType::CONTENT => 'repeating',
+    FieldType::FILE->value => 'repeating',
+    FieldType::INLINE->value => 'repeating',
+    FieldType::CONTENT->value => 'repeating',
 
-    FieldType::TAB => 'structure',
-    FieldType::PALETTE => 'structure',
-    FieldType::LINEBREAK => 'structure',
+    FieldType::TAB->value => 'structure',
+    FieldType::PALETTE->value => 'structure',
+    FieldType::LINEBREAK->value => 'structure',
 ];

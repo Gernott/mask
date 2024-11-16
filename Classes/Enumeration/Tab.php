@@ -17,9 +17,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Enumeration;
 
-use TYPO3\CMS\Core\Type\Enumeration;
-
-final class Tab extends Enumeration
+final class Tab
 {
     public const GENERAL = 'general';
     public const APPEARANCE = 'appearance';

@@ -1578,7 +1578,7 @@ class TableDefinitionCollectionTest extends BaseTestCase
 
         $tableDefinitionCollection = TableDefinitionCollection::createFromArray($json);
 
-        self::assertEquals($expected, (string)$tableDefinitionCollection->getFieldType($fieldKey, $table));
+        self::assertEquals($expected, $tableDefinitionCollection->getFieldType($fieldKey, $table)->value);
     }
 
     public static function findFirstNonEmptyLabelDataProvider(): array

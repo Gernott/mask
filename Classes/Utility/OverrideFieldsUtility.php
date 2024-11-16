@@ -49,7 +49,7 @@ class OverrideFieldsUtility
                 $fieldTypeTca = $tcaDefinition->getField($fieldKey);
                 $fieldType = $fieldTypeTca->getFieldType($element->key);
 
-                if ($fieldType->equals(FieldType::PALETTE)) {
+                if ($fieldType == FieldType::PALETTE) {
                     $paletteDefinition = $ttContentDefinition->palettes->getPalette($fieldKey);
                     foreach ($paletteDefinition->showitem as $paletteFieldKey) {
                         $paletteTcaDefinition = $tcaDefinition->getField($paletteFieldKey);

@@ -197,7 +197,7 @@ class TcaCodeGenerator
                 $bodytext = $elementTca->tcaDefinition->getField('bodytext');
                 if (
                     !$bodytext->hasFieldType($element->key)
-                    || $bodytext->getFieldType($element->key)->equals(FieldType::RICHTEXT)
+                    || $bodytext->getFieldType($element->key) == FieldType::RICHTEXT
                 ) {
                     $GLOBALS['TCA']['tt_content']['types'][$cTypeKey]['columnsOverrides']['bodytext']['config']['enableRichtext'] = 1;
                 }
@@ -215,7 +215,7 @@ class TcaCodeGenerator
         $pages = $this->tableDefinitionCollection->getTable('pages');
         $element = $pages->elements->getElement($elementKey);
         foreach ($element->columns as $column) {
-            if ($this->tableDefinitionCollection->getFieldType($column, 'pages')->equals(FieldType::PALETTE)) {
+            if ($this->tableDefinitionCollection->getFieldType($column, 'pages') == FieldType::PALETTE) {
                 $palettes[$column] = $this->generatePalettesTca($pages->palettes->getPalette($column), 'pages');
             }
         }
@@ -246,10 +246,10 @@ class TcaCodeGenerator
             try {
                 $fieldType = $this->tableDefinitionCollection->getFieldType($fieldKey, $table);
             } catch (\InvalidArgumentException $e) {
-                $fieldType = new FieldType(FieldType::STRING);
+                $fieldType = FieldType::STRING;
             }
             // Check if this field is of type tab
-            if ($fieldType->equals(FieldType::TAB)) {
+            if ($fieldType == FieldType::TAB) {
                 $label = $this->tableDefinitionCollection->getLabel($elementKey, $fieldKey, $table);
                 // If a tab is in the first position then change the name of the general tab
                 if ($index === 0) {
@@ -258,9 +258,9 @@ class TcaCodeGenerator
                     // Otherwise just add new tab
                     $fieldArray[] = '--div--;' . $label;
                 }
-            } elseif ($fieldType->equals(FieldType::PALETTE)) {
+            } elseif ($fieldType == FieldType::PALETTE) {
                 $fieldArray[] = '--palette--;;' . $fieldKey;
-            } elseif ($fieldType->equals(FieldType::INLINE)) {
+            } elseif ($fieldType == FieldType::INLINE) {
                 // Make sure only inline fields with at least 1 field are added.
                 $inlineFields = $this->tableDefinitionCollection->loadInlineFields($fieldKey, $element->key, $element);
                 if ($inlineFields->toArray() !== []) {
@@ -282,7 +282,7 @@ class TcaCodeGenerator
     {
         $showitem = [];
         foreach ($palette->showitem as $item) {
-            if ($this->tableDefinitionCollection->getFieldType($item, $table)->equals(FieldType::LINEBREAK)) {
+            if ($this->tableDefinitionCollection->getFieldType($item, $table) == FieldType::LINEBREAK) {
                 $showitem[] = '--linebreak--';
             } else {
                 $showitem[] = $item;
@@ -340,7 +340,7 @@ class TcaCodeGenerator
             $additionalTca[$field->fullKey] = [];
 
             // File: Add file config.
-            if ($fieldType->equals(FieldType::FILE) || $fieldType->equals(FieldType::MEDIA)) {
+            if ($fieldType == FieldType::FILE || $fieldType == FieldType::MEDIA) {
                 $additionalTca[$field->fullKey]['config'] = $this->getFileTCAConfig($fieldType, $field);
             }
 
@@ -352,12 +352,12 @@ class TcaCodeGenerator
             $field->realTca['config'] = self::reconfigureTCAConfig($field, $field->realTca['config']);
 
             // InputLink: Add softref
-            if ($fieldType->equals(FieldType::LINK)) {
+            if ($fieldType == FieldType::LINK) {
                 $field->realTca['config']['softref'] = 'typolink';
             }
 
             // Content: Set foreign_field and default CType in select if restricted.
-            if ($fieldType->equals(FieldType::CONTENT)) {
+            if ($fieldType == FieldType::CONTENT) {
                 $field->realTca['config']['foreign_field'] = 'tx_mask_content_parent_uid';
                 $field->realTca['config']['foreign_table_field'] = 'tx_mask_content_tablenames';
                 $field->realTca['config']['foreign_match_fields'] = [
@@ -386,7 +386,7 @@ class TcaCodeGenerator
 
     private function getFileTCAConfig(FieldType $fieldType, TcaFieldDefinition $field, ?TcaFieldDefinition $columnsOverride = null): array
     {
-        if ($field->imageoverlayPalette || $fieldType->equals(FieldType::MEDIA)) {
+        if ($field->imageoverlayPalette || $fieldType == FieldType::MEDIA) {
             $customSettingOverride = [
                 'overrideChildTca' => [
                     'types' => [
@@ -440,16 +440,16 @@ class TcaCodeGenerator
             ? $columnsOverride->onlineMedia
             : $field->onlineMedia;
 
-        if ($fieldType->equals(FieldType::FILE) && $field->allowedFileExtensions === '') {
+        if ($fieldType == FieldType::FILE && $field->allowedFileExtensions === '') {
             $field->allowedFileExtensions = 'common-image-types';
         }
 
-        if ($fieldType->equals(FieldType::MEDIA) && $field->allowedFileExtensions === '') {
+        if ($fieldType == FieldType::MEDIA && $field->allowedFileExtensions === '') {
             $field->allowedFileExtensions = 'common-media-types';
         }
 
         // Only allow media types the user has selected, but always include the rest.
-        if ($fieldType->equals(FieldType::MEDIA)) {
+        if ($fieldType == FieldType::MEDIA) {
             $onlineMediaHelpers = $this->onlineMediaHelperRegistry->getSupportedFileExtensions();
             $allowedFileExtensionList = GeneralUtility::trimExplode(',', $field->allowedFileExtensions, true);
             $alwaysIncluded = array_diff($allowedFileExtensionList, $onlineMediaHelpers);
@@ -485,12 +485,12 @@ class TcaCodeGenerator
         }
 
         // Text: Set correct rendertype if format (code highlighting) is set.
-        if ($fieldType->equals(FieldType::TEXT) && ($tcaConfig['format'] ?? false)) {
+        if ($fieldType == FieldType::TEXT && ($tcaConfig['format'] ?? false)) {
             $tcaConfig['renderType'] = 't3editor';
         }
 
         // RTE: Add softref
-        if ($fieldType->equals(FieldType::RICHTEXT)) {
+        if ($fieldType == FieldType::RICHTEXT) {
             $tcaConfig['softref'] = 'typolink_tag,email[subst],url';
         }
 
@@ -521,19 +521,19 @@ class TcaCodeGenerator
                 // Do not generate any overrides for empty inline fields.
                 if (
                     $fieldDefinition->hasFieldType()
-                    && $fieldDefinition->getFieldType()->equals(FieldType::INLINE)
+                    && $fieldDefinition->getFieldType() == FieldType::INLINE
                     && $this->tableDefinitionCollection->loadInlineFields($fieldDefinition->fullKey, $element->key, $element)->toArray() === []
                 ) {
                     continue;
                 }
 
                 // Do not generate any overrides for tabs.
-                if ($fieldDefinition->hasFieldType() && $fieldDefinition->getFieldType()->equals(FieldType::TAB)) {
+                if ($fieldDefinition->hasFieldType() && $fieldDefinition->getFieldType() == FieldType::TAB) {
                     continue;
                 }
 
                 // Build TCA columns overrides.
-                if ($fieldDefinition->hasFieldType() && $fieldDefinition->getFieldType()->equals(FieldType::PALETTE)) {
+                if ($fieldDefinition->hasFieldType() && $fieldDefinition->getFieldType() == FieldType::PALETTE) {
                     foreach ($this->tableDefinitionCollection->loadInlineFields($fieldName, $element->key, $element) as $paletteField) {
                         $label = $paletteField->getLabel($element->key);
                         if ($label !== '') {
@@ -597,7 +597,7 @@ class TcaCodeGenerator
         foreach ($tableDefinition->tca as $field) {
             // check if this field is of type tab
             $fieldType = $this->tableDefinitionCollection->getFieldType($field->fullKey, $tableDefinition->table);
-            if ($fieldType->equals(FieldType::TAB)) {
+            if ($fieldType == FieldType::TAB) {
                 // if a tab is in the first position then change the name of the general tab
                 if ($firstField) {
                     $generalTab = '--div--;' . $field->label;
@@ -605,7 +605,7 @@ class TcaCodeGenerator
                     // otherwise just add new tab
                     $fields[] = '--div--;' . $field->label;
                 }
-            } elseif ($fieldType->equals(FieldType::PALETTE)) {
+            } elseif ($fieldType == FieldType::PALETTE) {
                 if ($firstField && empty($tableDefinition->palettes->getPalette($field->fullKey)->showitem)) {
                     $firstField = false;
                     continue;
@@ -654,7 +654,7 @@ class TcaCodeGenerator
             try {
                 $fieldType = $this->tableDefinitionCollection->getFieldType($field->fullKey, $table);
             } catch (\InvalidArgumentException $e) {
-                $fieldType = new FieldType(FieldType::STRING);
+                $fieldType = FieldType::STRING;
             }
             if ($fieldType->isSearchable() && !in_array($field->fullKey, $searchFields, true)) {
                 $searchFields[] = $field->fullKey;

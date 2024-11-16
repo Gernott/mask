@@ -415,36 +415,36 @@ class AjaxController
     {
         $json = [];
         //        $availability = [
-        //            FieldType::EMAIL => 12,
-        //            FieldType::FOLDER => 12,
+        //            FieldType::EMAIL->value => 12,
+        //            FieldType::FOLDER->value => 12,
         //        ];
         //        $typo3Version = new Typo3Version();
         $defaults = $this->configurationLoader->loadDefaults();
         $grouping = $this->configurationLoader->loadFieldGroups();
-        foreach (FieldType::getConstants() as $type) {
+        foreach (FieldType::cases() as $type) {
             //            if (isset($availability[$type]) && $typo3Version->getMajorVersion() < $availability[$type]) {
             //                continue;
             //            }
 
             $config = [
-                'name' => $type,
-                'icon' => $this->iconFactory->getIcon('mask-fieldtype-' . $type)->getMarkup(),
+                'name' => $type->value,
+                'icon' => $this->iconFactory->getIcon('mask-fieldtype-' . $type->value)->getMarkup(),
                 'fields' => [],
                 'key' => '',
                 'label' => '',
                 'description' => '',
                 'translatedLabel' => '',
-                'itemLabel' => $this->translateLabel('tx_mask.field.' . $type),
+                'itemLabel' => $this->translateLabel('tx_mask.field.' . $type->value),
                 'parent' => [],
-                'group' => $grouping[$type],
+                'group' => $grouping[$type->value],
                 'newField' => true,
                 'tca' => [
                     'l10n_mode' => '',
                 ],
             ];
 
-            if (isset($defaults[$type]['tca_in'])) {
-                foreach ($defaults[$type]['tca_in'] as $tcaKey => $value) {
+            if (isset($defaults[$type->value]['tca_in'])) {
+                foreach ($defaults[$type->value]['tca_in'] as $tcaKey => $value) {
                     $config['tca'][$tcaKey] = $value;
                 }
             }
@@ -527,7 +527,7 @@ class AjaxController
             }
 
             // Get fields in palette
-            if ($field->getFieldType()->equals(FieldType::PALETTE)) {
+            if ($field->getFieldType() == FieldType::PALETTE) {
                 foreach ($this->tableDefinitionCollection->loadInlineFields($field->fullKey, $elementKey, $element->elementDefinition) as $paletteField) {
                     if ($paletteField->isCoreField || !$paletteField->getFieldType()->canBeShared()) {
                         continue;
@@ -656,7 +656,7 @@ class AjaxController
         $table = $request->getQueryParams()['table'];
         $type = $request->getQueryParams()['type'];
         $fields = ['mask' => [], 'core' => []];
-        $searchFieldType = FieldType::cast($type);
+        $searchFieldType = FieldType::from($type);
 
         // Return empty result for non-shareable fields.
         if (!$searchFieldType->canBeShared()) {
@@ -684,7 +684,7 @@ class AjaxController
             // OR the field is the bodytext field, and we search for a text or textarea field.
             $fieldType = $this->tableDefinitionCollection->getFieldType($tcaField, $table);
             if (
-                $fieldType->equals($type)
+                $fieldType->value == $type
                 || (
                     $tcaField === 'bodytext' && $searchFieldType->isTextareaField()
                 )
@@ -793,27 +793,27 @@ class AjaxController
     public function tabs(ServerRequestInterface $request): Response
     {
         //        $availability = [
-        //            FieldType::CATEGORY => 11,
+        //            FieldType::CATEGORY->value => 11,
         //        ];
         //        $typo3Version = new Typo3Version();
         $tabs = [];
         $availableTcaFields = $this->configurationLoader->loadTcaFields();
-        foreach (FieldType::getConstants() as $type) {
+        foreach (FieldType::cases() as $type) {
             //            if (isset($availability[$type]) && $typo3Version->getMajorVersion() < $availability[$type]) {
             //                continue;
             //            }
-            $tabs[$type] = $this->configurationLoader->loadTab($type);
+            $tabs[$type->value] = $this->configurationLoader->loadTab($type->value);
             // Remove unavailable TCA options
-            foreach ($tabs[$type] as $tabType => $rows) {
+            foreach ($tabs[$type->value] as $tabType => $rows) {
                 foreach ($rows as $rowIndex => $fields) {
                     foreach ($fields as $tcaField => $ize) {
                         if (!array_key_exists($tcaField, $availableTcaFields)) {
-                            unset($tabs[$type][$tabType][$rowIndex][$tcaField]);
+                            unset($tabs[$type->value][$tabType][$rowIndex][$tcaField]);
                         }
                     }
                     // Remove empty rows
-                    if (empty($tabs[$type][$tabType][$rowIndex])) {
-                        unset($tabs[$type][$tabType][$rowIndex]);
+                    if (empty($tabs[$type->value][$tabType][$rowIndex])) {
+                        unset($tabs[$type->value][$tabType][$rowIndex]);
                     }
                 }
             }
@@ -1050,7 +1050,7 @@ class AjaxController
         $elementKey = $queryParams['elementKey'];
 
         // Check if an inline table with the same key already exists.
-        if ($type === FieldType::INLINE) {
+        if ($type === FieldType::INLINE->value) {
             return new JsonResponse(['isAvailable' => !$this->tableDefinitionCollection->hasTable($fieldKey)]);
         }
 
@@ -1058,7 +1058,7 @@ class AjaxController
         // with the same field type exists, it may be shared.
         $field = $this->tableDefinitionCollection->loadField($table, $fieldKey);
 
-        return new JsonResponse(['isAvailable' => (!$field instanceof TcaFieldDefinition || !$field->hasFieldType($elementKey) || $field->getFieldType($elementKey)->equals($type))]);
+        return new JsonResponse(['isAvailable' => (!$field instanceof TcaFieldDefinition || !$field->hasFieldType($elementKey) || $field->getFieldType($elementKey)->value == $type)]);
     }
 
     protected function addFlashMessage(string $messageBody, string $messageTitle = '', ContextualFeedbackSeverity $severity = ContextualFeedbackSeverity::OK, bool $storeInSession = true): void

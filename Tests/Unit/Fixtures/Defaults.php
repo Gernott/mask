@@ -3,7 +3,7 @@
 use MASK\Mask\Enumeration\FieldType;
 
 return [
-    FieldType::STRING => [
+    FieldType::STRING->value => [
         'tca_in' => [
             'l10n_mode' => '',
             'config.eval.null' => 0,
@@ -13,7 +13,7 @@ return [
         ],
         'sql' => 'varchar(255) DEFAULT \'\' NOT NULL',
     ],
-    FieldType::FLOAT => [
+    FieldType::FLOAT->value => [
         'tca_in' => [
             'l10n_mode' => '',
             'config.eval.null' => 0,
@@ -24,7 +24,7 @@ return [
         ],
         'sql' => 'float DEFAULT \'0\' NOT NULL',
     ],
-    FieldType::INTEGER => [
+    FieldType::INTEGER->value => [
         'tca_in' => [
             'l10n_mode' => '',
             'config.eval.null' => 0,
@@ -35,7 +35,7 @@ return [
         ],
         'sql' => 'int(11) DEFAULT \'0\' NOT NULL',
     ],
-    FieldType::LINK => [
+    FieldType::LINK->value => [
         'tca_in' => [
             'l10n_mode' => '',
             'config.eval.null' => 0,
@@ -47,7 +47,7 @@ return [
         ],
         'sql' => 'varchar(1024) DEFAULT \'\' NOT NULL',
     ],
-    FieldType::DATE => [
+    FieldType::DATE->value => [
         'tca_in' => [
             'l10n_mode' => '',
             'config.eval.null' => 0,
@@ -60,7 +60,7 @@ return [
         ],
         'sql' => 'date',
     ],
-    FieldType::DATETIME => [
+    FieldType::DATETIME->value => [
         'tca_in' => [
             'l10n_mode' => '',
             'config.eval.null' => 0,
@@ -73,7 +73,7 @@ return [
         ],
         'sql' => 'datetime',
     ],
-    FieldType::TIMESTAMP => [
+    FieldType::TIMESTAMP->value => [
         'tca_in' => [
             'l10n_mode' => '',
             'config.eval' => 'date',
@@ -86,7 +86,7 @@ return [
         ],
         'sql' => 'int(10) unsigned DEFAULT \'0\' NOT NULL',
     ],
-    FieldType::TEXT => [
+    FieldType::TEXT->value => [
         'tca_in' => [
             'l10n_mode' => '',
             'config.wrap' => 'virtual',
@@ -98,7 +98,7 @@ return [
         ],
         'sql' => 'mediumtext',
     ],
-    FieldType::RICHTEXT => [
+    FieldType::RICHTEXT->value => [
         'tca_in' => [
             'l10n_mode' => '',
             'config.richtextConfiguration' => '',
@@ -109,7 +109,7 @@ return [
         ],
         'sql' => 'mediumtext',
     ],
-    FieldType::CHECK => [
+    FieldType::CHECK->value => [
         'tca_in' => [
             'l10n_mode' => '',
             'config.renderType' => '',
@@ -119,7 +119,7 @@ return [
         ],
         'sql' => 'int(11) DEFAULT \'0\' NOT NULL',
     ],
-    FieldType::SELECT => [
+    FieldType::SELECT->value => [
         'tca_in' => [
             'l10n_mode' => '',
             'config.renderType' => 'selectSingle',
@@ -129,7 +129,7 @@ return [
         ],
         'sql' => 'varchar(255) DEFAULT \'\' NOT NULL',
     ],
-    FieldType::RADIO => [
+    FieldType::RADIO->value => [
         'tca_in' => [
             'l10n_mode' => '',
             'config.items' => '',
@@ -139,7 +139,7 @@ return [
         ],
         'sql' => 'int(11) DEFAULT \'0\' NOT NULL',
     ],
-    FieldType::GROUP => [
+    FieldType::GROUP->value => [
         'tca_in' => [
             'l10n_mode' => '',
             'config.internal_type' => 'db',
@@ -153,7 +153,7 @@ return [
         ],
         'sql' => 'text',
     ],
-    FieldType::FILE => [
+    FieldType::FILE->value => [
         'tca_in' => [
             'l10n_mode' => '',
             'imageoverlayPalette' => 1,
@@ -165,7 +165,7 @@ return [
         ],
         'sql' => 'int(11) unsigned DEFAULT \'0\' NOT NULL',
     ],
-    FieldType::INLINE => [
+    FieldType::INLINE->value => [
         'tca_in' => [
             'l10n_mode' => '',
             'config.appearance.collapseAll' => 1,
@@ -184,7 +184,7 @@ return [
         ],
         'sql' => 'int(11) unsigned DEFAULT \'0\' NOT NULL',
     ],
-    FieldType::CONTENT => [
+    FieldType::CONTENT->value => [
         'tca_in' => [
             'l10n_mode' => '',
             'config.appearance.levelLinksPosition' => 'top',
@@ -204,17 +204,17 @@ return [
         ],
         'sql' => 'int(11) unsigned DEFAULT \'0\' NOT NULL',
     ],
-    FieldType::TAB => [
+    FieldType::TAB->value => [
         'tca_out' => [
             'config.type' => 'tab',
         ],
     ],
-    FieldType::PALETTE => [
+    FieldType::PALETTE->value => [
         'tca_out' => [
             'config.type' => 'palette',
         ],
     ],
-    FieldType::LINEBREAK => [
+    FieldType::LINEBREAK->value => [
         'tca_out' => [
             'config.type' => 'linebreak',
         ],
