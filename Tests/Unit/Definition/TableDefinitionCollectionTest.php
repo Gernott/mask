@@ -1572,13 +1572,13 @@ class TableDefinitionCollectionTest extends BaseTestCase
      * @test
      * @dataProvider getFormTypeDataProvider
      */
-    public function getFormType(array $tca, array $json, string $fieldKey, string $table, string $expected): void
+    public function getFormType(array $tca, array $json, string $fieldKey, string $table, FieldType $expected): void
     {
         $GLOBALS['TCA'] = $tca;
 
         $tableDefinitionCollection = TableDefinitionCollection::createFromArray($json);
 
-        self::assertEquals($expected, $tableDefinitionCollection->getFieldType($fieldKey, $table)->value);
+        self::assertEquals($expected, $tableDefinitionCollection->getFieldType($fieldKey, $table));
     }
 
     public static function findFirstNonEmptyLabelDataProvider(): array
