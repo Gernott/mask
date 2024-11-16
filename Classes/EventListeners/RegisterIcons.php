@@ -36,7 +36,7 @@ class RegisterIcons
             $this->iconRegistry->registerIcon(
                 'mask-fieldtype-' . $maskIcon->value,
                 SvgIconProvider::class,
-                ['source' => 'EXT:mask/Resources/Public/Icons/Fieldtypes/' . GeneralUtility::underscoredToUpperCamelCase($maskIcon>value) . '.svg']
+                ['source' => 'EXT:mask/Resources/Public/Icons/Fieldtypes/' . GeneralUtility::underscoredToUpperCamelCase($maskIcon->value) . '.svg']
             );
         }
     }
