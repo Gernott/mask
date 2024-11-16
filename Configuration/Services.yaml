@@ -135,3 +135,9 @@ services:
         command: 'mask:restructureOverrideFields'
         description: 'Migrates shared fields to override fields.'
         schedulable: false
+
+  MASK\Mask\EventListeners\RegisterIcons:
+    public: true
+    tags:
+      - name: 'event.listener'
+        event: TYPO3\CMS\Core\Core\Event\BootCompletedEvent

@@ -32,16 +32,6 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['fillTranslat
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['migrateContentFields'] = \MASK\Mask\Updates\MigrateContentFields::class;
 
 (static function () {
-    // Register Icons needed in the backend module
-    $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
-    foreach (\MASK\Mask\Enumeration\FieldType::getConstants() as $maskIcon) {
-        $iconRegistry->registerIcon(
-            'mask-fieldtype-' . $maskIcon,
-            \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
-            ['source' => 'EXT:mask/Resources/Public/Icons/Fieldtypes/' . \TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToUpperCamelCase($maskIcon) . '.svg']
-        );
-    }
-
     // Add all the typoscript we need in the correct files
     $typoScriptCodeGenerator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(MASK\Mask\CodeGenerator\TyposcriptCodeGenerator::class);
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig($typoScriptCodeGenerator->generateTsConfig());
