@@ -1,6 +1,6 @@
 .mask-fields {
-    background-color: $bg-light;
-    border: 1px solid $border-color;
+    background-color: var(--mask-bg-light);
+    border: 1px solid var(--mask-border-color);
     padding: 8px 15px 20px;
     margin-bottom: 20px;
     width: 480px;

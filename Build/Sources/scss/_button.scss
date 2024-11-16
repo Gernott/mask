@@ -1,10 +1,10 @@
 .btn-mask {
-    background-color: $webprofil;
-    border-color: darken($webprofil, 10);
+    background-color: var(--mask-webprofil);
+    border-color: var(--mask-webprofil-10);
     color: #fff;
 
     &:hover {
         color: #fff;
-        background-color: lighten($webprofil, 5);
+        background-color: var(--mask-webprofil-5);
     }
 }

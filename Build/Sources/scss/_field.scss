@@ -15,7 +15,7 @@
     &.active,
     &:hover {
         > .mask-field__row .mask-field__body {
-            background-color: $highlight-color;
+            background-color: var(--mask-highlight-color);
         }
     }
 
@@ -30,11 +30,11 @@
     &__body {
         display: flex;
         align-items: center;
-        border: 1px solid #ccc;
+        border: 1px solid var(--mask-border-color);
         border-left: 0;
         min-height: 37px;
         flex-grow: 1;
-        background-color: #fff;
+        background-color: var(--mask-default-bg);
         width: calc(100% - 37px);
     }
 
@@ -87,7 +87,7 @@
         width: 14px;
         height: 14px;
         border-radius: 50%;
-        background-color: #fff;
+        background-color: var(--mask-default-bg);
         background-size: 1em 1em;
         background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' xml:space='preserve' viewBox='0 0 16 16'%3e%3cg fill='%230060b8'%3e%3cpath d='M8 1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7zm1 10a1 1 0 1 1-2 0V8a1 1 0 1 1 2 0v3zM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2z'/%3e%3c/g%3e%3c/svg%3e");
     }
@@ -96,19 +96,19 @@
         .dragtarget {
             margin: 0;
             list-style: none;
-            background-color: #fff;
+            background-color: var(--mask-default-bg);
             min-height: 38px;
             padding: 4px;
-            border-bottom: 1px solid $border-color;
-            border-right: 1px solid $border-color;
+            border-bottom: 1px solid var(--mask-border-color);
+            border-right: 1px solid var(--mask-border-color);
 
             .mask-field {
-                border-bottom: 2px solid $bg-light;
+                border-bottom: 2px solid var(--mask-bg-light);
                 margin-bottom: 0;
                 margin-top: 3px;
 
                 &--selectable {
-                    border-bottom: 1px dashed $border-color;
+                    border-bottom: 1px dashed var(--mask-border-color);
                 }
             }
         }
@@ -133,13 +133,13 @@
 
     &--inline {
         > .mask-field__dragarea {
-            border-left: 4px solid $color-inline;
+            border-left: 4px solid var(--mask-color-inline);
         }
     }
 
     &--palette {
         > .mask-field__dragarea {
-            border-left: 4px solid $color-palette;
+            border-left: 4px solid var(--mask-color-palette);
         }
     }
 }

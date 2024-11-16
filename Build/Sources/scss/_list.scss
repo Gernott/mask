@@ -23,7 +23,7 @@
 
         a:hover,
         a:focus {
-            color: $mask;
+            color: var(--mask-color);
             text-decoration: none;
         }
     }

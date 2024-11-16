@@ -12,7 +12,7 @@
 }
 
 .icons-selector.fip-grey .selector {
-    border: 1px solid $border-color;
+    border: 1px solid var(--mask-border-color);
     background-color: transparent;
 }
 
@@ -45,11 +45,11 @@
 .icons-selector.fip-grey .selector-popup {
     -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
     box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
-    border: 1px solid $border-color;
+    border: 1px solid var(--mask-border-color);
 }
 
 .icons-selector.fip-grey .selector-category select, .icons-selector.fip-grey .selector-search input[type=text] {
-    border: 1px solid $border-color;
+    border: 1px solid var(--mask-border-color);
     color: #404040;
     -webkit-box-shadow: none;
     box-shadow: none;
@@ -62,7 +62,7 @@
 
 .icons-selector.fip-grey .fip-icons-container {
     background-color: #fff;
-    border: 1px solid $border-color;
+    border: 1px solid var(--mask-border-color);
 }
 
 .icons-selector.fip-grey .fip-icons-container .loading {
@@ -70,7 +70,7 @@
 }
 
 .icons-selector.fip-grey .fip-box {
-    border: 1px solid $border-color;
+    border: 1px solid var(--mask-border-color);
 }
 
 .icons-selector.fip-grey .fip-box:hover {

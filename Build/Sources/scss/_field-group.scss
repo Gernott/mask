@@ -5,7 +5,7 @@
     &:hover {
         .mask-field-group {
             &__label {
-                color: #000;
+                color: var(--mask-default-color);
             }
         }
     }
@@ -15,14 +15,14 @@
         position: absolute;
         right: 10px;
         bottom: 5px;
-        color: #555;
+        color: var(--mask-field-group-color);
         pointer-events: none;
     }
 
     &__list {
-        background-color: #fff;
+        background-color: var(--mask-default-bg);
         padding: 10px;
-        border: 1px solid #ccc;
+        border: 1px solid var(--mask-border-color);
         list-style: none;
         margin: 0;
 
@@ -32,8 +32,8 @@
         }
 
         li {
-            background: #fff;
-            color: #4c4c4c;
+            background: var(--mask-default-bg);
+            color: var(--mask-field-group-item-color);
             font-family: 'Source Sans Pro', sans-serif;
             font-size: 1.2em;
             font-weight: 700;
