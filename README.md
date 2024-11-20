@@ -28,6 +28,12 @@ via TCA overrides or DataProcessors.
 | **Read online:** | https://docs.typo3.org/p/mask/mask/main/en-us/ |
 | **TER:**         | https://extensions.typo3.org/extension/mask    |
 
+## TYPO3 v13 Sponsor
+
+Big thanks to [webconsulting](https://webconsulting.at/) for sponsoring the work on the Mask v9 release for TYPO3 v13!
+
+![webconsulting](Documentation/Images/SponsorsManual/webconsulting.png)
+
 ## Quickstart :rocket:
 
 1. Add Mask as a dependency in your `ext_emconf.php` and/or `composer.json` of your sitepackage.

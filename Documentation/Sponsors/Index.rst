@@ -9,6 +9,14 @@ We started Mask for our customers and used it only internally. Creating new fiel
 public. We searched for financial support and discovered crowdfunding. On `startnext <https://www.startnext.com/mask/>`_
 we created our project.
 
+TYPO3 v13 sponsor
+-----------------
+
+..  figure:: ../Images/SponsorsManual/webconsulting.png
+    :alt: webconsulting
+    :target: https://webconsulting.at/
+    :class: float-left
+
 List of main sponsors
 ---------------------
 
