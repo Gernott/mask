@@ -17,10 +17,8 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Imaging;
 
-use TYPO3\CMS\Core\Resource\Exception\FolderDoesNotExistException;
-use TYPO3\CMS\Core\Resource\Exception\ResourceDoesNotExistException;
-use TYPO3\CMS\Core\Resource\File;
-use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 
 class PreviewIconResolver
 {
@@ -28,14 +26,11 @@ class PreviewIconResolver
      * @var array<string, string>
      */
     protected array $maskExtensionConfiguration;
-    protected ResourceFactory $resourceFactory;
 
     public function __construct(
-        array $maskExtensionConfiguration,
-        ResourceFactory $resourceFactory
+        array $maskExtensionConfiguration
     ) {
         $this->maskExtensionConfiguration = $maskExtensionConfiguration;
-        $this->resourceFactory = $resourceFactory;
     }
 
     /**
@@ -55,13 +50,11 @@ class PreviewIconResolver
         $fileExtensions = ['png', 'svg'];
         $previewPath = rtrim($this->maskExtensionConfiguration['preview'], '/');
         foreach ($fileExtensions as $fileExtension) {
-            try {
-                $icon = $this->resourceFactory->retrieveFileOrFolderObject($previewPath . '/' . $key . '.' . $fileExtension);
-            } catch (\InvalidArgumentException|FolderDoesNotExistException|ResourceDoesNotExistException $e) {
-                continue;
-            }
-            if ($icon instanceof File && $icon->exists()) {
-                return '/' . ltrim($icon->getPublicUrl(), '/');
+            $extPathToIcon = $previewPath.'/'.$key . '.' . $fileExtension;
+            $absolutePathtoIcon = GeneralUtility::getFileAbsFileName($extPathToIcon) ?? '';
+            $resource = PathUtility::getPublicResourceWebPath($previewPath).'/'.$key . '.' . $fileExtension;
+            if ($absolutePathtoIcon && file_exists($absolutePathtoIcon)) {
+                return '/' . ltrim($resource, '/');
             }
         }
 
