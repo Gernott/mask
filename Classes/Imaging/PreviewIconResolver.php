@@ -50,12 +50,13 @@ class PreviewIconResolver
         $fileExtensions = ['png', 'svg'];
         $previewPath = rtrim($this->maskExtensionConfiguration['preview'], '/');
         foreach ($fileExtensions as $fileExtension) {
-            $extPathToIcon = $previewPath.'/'.$key . '.' . $fileExtension;
-            $absolutePathtoIcon = GeneralUtility::getFileAbsFileName($extPathToIcon) ?? '';
-            $resource = PathUtility::getPublicResourceWebPath($previewPath).'/'.$key . '.' . $fileExtension;
-            if ($absolutePathtoIcon && file_exists($absolutePathtoIcon)) {
-                return '/' . ltrim($resource, '/');
+            $extPathToIcon = $previewPath . '/' . $key . '.' . $fileExtension;
+            $absolutePathToIcon = GeneralUtility::getFileAbsFileName($extPathToIcon);
+            if ($absolutePathToIcon === '' || !file_exists($absolutePathToIcon)) {
+                continue;
             }
+            $resource = PathUtility::getPublicResourceWebPath($extPathToIcon);
+            return '/' . ltrim($resource, '/');
         }
 
         return '';
