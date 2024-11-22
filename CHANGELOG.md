@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [9.0.3] - 2024-11-22
+
+### Fixed
+- Do not generate sys_file entries for Mask icons [#652](https://github.com/Gernott/mask/issues/652) (thanks to @jakowidhalm)
+
 ## [9.0.2] - 2024-11-18
 
 ### Added
