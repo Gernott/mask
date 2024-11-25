@@ -27,10 +27,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 final class TcaFieldDefinition
 {
     private const ALLOWED_EMPTY_VALUES_BY_TYPE = [
-        FieldType::SELECT->value => [
+        'select' => [
             'config.items',
         ],
-        FieldType::CHECK->value => [
+        'check' => [
             'config.items',
         ],
         // This is important for upgrades, to keep something in the "config" array.
@@ -38,19 +38,19 @@ final class TcaFieldDefinition
         // Because of this, Mask does not have any standard TCA for this field anymore.
         // The removeBlankOptions method would thus remove everything and the next save in the backend builder would
         // result in the file field to be treated as a "coreField".
-        FieldType::FILE->value => [
+        'file' => [
             'config.minitems',
         ],
-        FieldType::MEDIA->value => [
+        'media' => [
             'config.minitems',
         ],
     ];
 
     private const STOP_RECURSIVE_VALUES_BY_TYPE = [
-        FieldType::SELECT->value => [
+        'select' => [
             'config.itemGroups',
         ],
-        FieldType::SLUG->value => [
+        'slug' => [
             'config.generatorOptions.replacements',
         ],
     ];
