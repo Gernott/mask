@@ -60,6 +60,12 @@ jobs:
           - TYPO3: '13.4'
             php: '8.2'
             phpunit: '11'
+          - TYPO3: '13.4'
+            php: '8.3'
+            phpunit: '11'
+          - TYPO3: '13.4'
+            php: '8.4'
+            phpunit: '11'
     steps:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
