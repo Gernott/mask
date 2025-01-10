@@ -52,7 +52,7 @@ class TcaCodeGenerator
     /**
      * Generates and sets the correct tca for all the inline fields
      */
-    public function setInlineTca(TableDefinitionCollection $tableDefinitionCollection = null): void
+    public function setInlineTca(?TableDefinitionCollection $tableDefinitionCollection = null): void
     {
         $this->tableDefinitionCollection = $tableDefinitionCollection ?? $this->tableDefinitionCollection;
         foreach ($this->tableDefinitionCollection as $tableDefinition) {
