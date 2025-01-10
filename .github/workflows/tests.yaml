@@ -92,14 +92,14 @@ jobs:
         run: Build/Scripts/runTests.sh -s unit -p ${{ matrix.php }}
 
   PHPStan:
-    name: PHPStan TYPO3 13.4 PHP 8.2
+    name: PHPStan TYPO3 13.4 PHP 8.4
     runs-on: ubuntu-latest
 
     steps:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.2
+          php-version: 8.4
 
       - uses: actions/checkout@v3
 
