@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [9.0.6] - 2025-02-03
+- Fix upgrade wizard registrations [#664](https://github.com/Gernott/mask/pull/664) (thanks to @arunspt)
+
 ## [9.0.5] - 2025-01-10
 
 ### Fixed
