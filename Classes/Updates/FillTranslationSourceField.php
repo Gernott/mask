@@ -20,11 +20,13 @@ namespace MASK\Mask\Updates;
 use MASK\Mask\Definition\TableDefinitionCollection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Install\Attribute\UpgradeWizard;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
 /**
  * Fill translation source field (l10n_source)
  */
+#[UpgradeWizard('fillTranslationSourceField')]
 class FillTranslationSourceField implements UpgradeWizardInterface
 {
     protected TableDefinitionCollection $tableDefinitionCollection;

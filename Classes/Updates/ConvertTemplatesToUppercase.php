@@ -23,8 +23,10 @@ use Symfony\Component\Finder\SplFileInfo;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Install\Attribute\UpgradeWizard;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
+#[UpgradeWizard('convertTemplatesToUppercase')]
 class ConvertTemplatesToUppercase implements UpgradeWizardInterface
 {
     public function getIdentifier(): string
