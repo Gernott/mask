@@ -65,4 +65,19 @@ class TemplatePathUtility
         }
         return $path . $fileName . $fileExtension;
     }
+
+    /**
+     * Split a string of comma-separated paths and make them absolute.
+     * Remove empty paths.
+     *
+     * @return string[]
+     */
+    public static function getAbsolutePaths(string $commaSeparatedPaths): array
+    {
+        $paths = GeneralUtility::trimExplode(',', $commaSeparatedPaths);
+        foreach ($paths as $key => $path) {
+            $paths[$key] = GeneralUtility::getFileAbsFileName($path);
+        }
+        return array_filter($paths);
+    }
 }

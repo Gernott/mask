@@ -57,6 +57,30 @@ class JsonSplitLoaderTest extends UnitTestCase
     /**
      * @test
      */
+    public function loadCommaSeparated(): void
+    {
+        $this->registerPackageManager();
+        $jsonSplitLoader = new JsonSplitLoader(
+            [
+                'content_elements_folder' => 'EXT:mask/Tests/Unit/Fixtures/Configuration/ContentElements,EXT:mask/Tests/Unit/Fixtures/Configuration/ContentElements2',
+                'backend_layouts_folder' => 'EXT:mask/Tests/Unit/Fixtures/Configuration/BackendLayouts',
+            ],
+            new MigrationManager([]),
+            new Features()
+        );
+
+        self::assertEquals(
+            array_merge_recursive(
+                $this->getExpectedConfigurationArray(),
+                $this->getExpectedConfigurationArray2()
+            ),
+            $jsonSplitLoader->load()->toArray(false)
+        );
+    }
+
+    /**
+     * @test
+     */
     public function write(): void
     {
         $this->registerPackageManager();
@@ -637,6 +661,40 @@ class JsonSplitLoaderTest extends UnitTestCase
         self::assertEquals($configurationE, json_decode(file_get_contents($contentElementsPath . '/e.json'), true)['tables']);
     }
 
+    /**
+     * @test
+     */
+    public function writeCommaSeparated(): void
+    {
+        $this->registerPackageManager();
+
+        $GLOBALS['TCA']['tt_content']['columns']['header']['config']['type'] = 'input';
+        $jsonSplitLoader = new JsonSplitLoader(
+            [
+                'content_elements_folder' => 'EXT:mask/var/ContentElements,EXT:mask/var/ContentElements2',
+                'backend_layouts_folder' => 'EXT:mask/var/BackendLayouts',
+            ],
+            new MigrationManager([]),
+            new Features()
+        );
+
+        $jsonSplitLoader->write(TableDefinitionCollection::createFromArray($this->getExpectedConfigurationArray()));
+
+        $contentElementsPath = GeneralUtility::getFileAbsFileName('EXT:mask/var/ContentElements');
+        $contentElementsPath2 = GeneralUtility::getFileAbsFileName('EXT:mask/var/ContentElements2');
+        self::assertFileExists($contentElementsPath . '/a.json');
+        self::assertFileExists($contentElementsPath . '/b.json');
+        self::assertFileExists($contentElementsPath . '/c.json');
+        self::assertFileExists($contentElementsPath . '/d.json');
+        self::assertFileExists($contentElementsPath . '/e.json');
+
+        rename($contentElementsPath . '/a.json', $contentElementsPath2 . '/a.json');
+
+        $jsonSplitLoader->write(TableDefinitionCollection::createFromArray($this->getExpectedConfigurationArray()));
+        self::assertFileDoesNotExist($contentElementsPath . '/a.json');
+        self::assertFileExists($contentElementsPath2 . '/a.json');
+    }
+
     protected function getExpectedConfigurationArray(): array
     {
         return [
@@ -1104,6 +1162,39 @@ class JsonSplitLoaderTest extends UnitTestCase
                         'label' => 'Palette 1',
                         'description' => 'Description for palette 1',
                         'showitem' => ['tx_mask_inline'],
+                    ],
+                ],
+            ],
+        ];
+    }
+
+    protected function getExpectedConfigurationArray2(): array
+    {
+        return [
+            'tt_content' => [
+                'elements' => [
+                    'f' => [
+                        'key' => 'f',
+                        'label' => 'F',
+                        'description' => '',
+                        'shortLabel' => '',
+                        'color' => '#000000',
+                        'icon' => '',
+                        'columns' => [
+                            'header',
+                            'tx_mask_file',
+                        ],
+                        'labels' => [
+                            'Header',
+                            'File',
+                        ],
+                        'descriptions' => [
+                            '',
+                            'only images are allowed',
+                        ],
+                        'sorting' => 2,
+                        'colorOverlay' => '',
+                        'iconOverlay' => '',
                     ],
                 ],
             ],

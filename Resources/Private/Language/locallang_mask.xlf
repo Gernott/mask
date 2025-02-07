@@ -22,10 +22,10 @@
 				<source>File with project-specific mask configuration (JsonLoader)</source>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-content-elements-folder">
-				<source>Folder in which to store content element definitions (JsonSplitLoader)</source>
+				<source>Folder in which to store content element definitions (JsonSplitLoader): Multiple folders comma-separated</source>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-backend-layouts-folder">
-				<source>Folder in which to store backend layout definitions (JsonSplitLoader)</source>
+				<source>Folder in which to store backend layout definitions (JsonSplitLoader): Multiple folders comma-separated</source>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-override_shared_fields">
 				<source>Override shared fields per content element.:Careful! As soon as this option is enabled and you save content elements, the fields are not synced anymore and this action can not be undone! Please back up your Mask element definitions before.</source>
