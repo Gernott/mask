@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace MASK\Mask\Imaging;
 
+use MASK\Mask\Utility\TemplatePathUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
 
@@ -43,20 +44,23 @@ class PreviewIconResolver
 
     public function getPreviewIconPath(string $key): string
     {
-        if (!($this->maskExtensionConfiguration['preview'] ?? false)) {
+        $previewPaths = TemplatePathUtility::getPaths($this->maskExtensionConfiguration['preview']);
+        if (!count($previewPaths)) {
             return '';
         }
         // search a fitting png or svg file in this path
         $fileExtensions = ['png', 'svg'];
-        $previewPath = rtrim($this->maskExtensionConfiguration['preview'], '/');
-        foreach ($fileExtensions as $fileExtension) {
-            $extPathToIcon = $previewPath . '/' . $key . '.' . $fileExtension;
-            $absolutePathToIcon = GeneralUtility::getFileAbsFileName($extPathToIcon);
-            if ($absolutePathToIcon === '' || !file_exists($absolutePathToIcon)) {
-                continue;
+        foreach ($previewPaths as $previewPath) {
+            $previewPath = rtrim($previewPath, '/');
+            foreach ($fileExtensions as $fileExtension) {
+                $extPathToIcon = $previewPath . '/' . $key . '.' . $fileExtension;
+                $absolutePathToIcon = GeneralUtility::getFileAbsFileName($extPathToIcon);
+                if ($absolutePathToIcon === '' || !file_exists($absolutePathToIcon)) {
+                    continue;
+                }
+                $resource = PathUtility::getPublicResourceWebPath($extPathToIcon);
+                return '/' . ltrim($resource, '/');
             }
-            $resource = PathUtility::getPublicResourceWebPath($extPathToIcon);
-            return '/' . ltrim($resource, '/');
         }
 
         return '';
