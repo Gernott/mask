@@ -27,6 +27,7 @@ use MASK\Mask\Definition\TcaDefinition;
 use MASK\Mask\Definition\TcaFieldDefinition;
 use MASK\Mask\Enumeration\FieldType;
 use MASK\Mask\Migrations\MigrationManager;
+use MASK\Mask\Utility\TemplatePathUtility;
 use Symfony\Component\Finder\Finder;
 use TYPO3\CMS\Core\Configuration\Features;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
@@ -63,17 +64,21 @@ class JsonSplitLoader implements LoaderInterface
         $this->tableDefinitionCollection = new TableDefinitionCollection();
         $definitionArray = [];
 
-        $contentElementsFolder = $this->validateFolderPath('tt_content');
-        if (file_exists($contentElementsFolder)) {
-            $definitionArray = $this->mergeElementDefinitions($definitionArray, $contentElementsFolder);
+        $contentElementsFolders = $this->validateFolderPaths('tt_content');
+        foreach ($contentElementsFolders as $contentElementsFolder) {
+            if (file_exists($contentElementsFolder)) {
+                $definitionArray = $this->mergeElementDefinitions($definitionArray, $contentElementsFolder);
+            }
         }
 
         // If optional backendLayoutsFolder is not empty, validate the path.
-        $backendLayoutsFolder = $this->getAbsolutePath('pages');
-        if ($backendLayoutsFolder !== '') {
-            $backendLayoutsFolder = $this->validateFolderPath('pages');
-            if (file_exists($backendLayoutsFolder)) {
-                $definitionArray = $this->mergeElementDefinitions($definitionArray, $backendLayoutsFolder);
+        $backendLayoutsFolders = $this->getAbsolutePaths('pages');
+        if (count($backendLayoutsFolders)) {
+            $backendLayoutsFolders = $this->validateFolderPaths('pages');
+            foreach ($backendLayoutsFolders as $backendLayoutsFolder) {
+                if (file_exists($backendLayoutsFolder)) {
+                    $definitionArray = $this->mergeElementDefinitions($definitionArray, $backendLayoutsFolder);
+                }
             }
         }
 
@@ -91,7 +96,7 @@ class JsonSplitLoader implements LoaderInterface
     {
         // Write content elements and backend layouts (if a folder is defined).
         $this->writeElementsForTable($tableDefinitionCollection, 'tt_content');
-        if ($this->getAbsolutePath('pages') !== '') {
+        if (count($this->getAbsolutePaths('pages'))) {
             $this->writeElementsForTable($tableDefinitionCollection, 'pages');
         }
 
@@ -99,14 +104,17 @@ class JsonSplitLoader implements LoaderInterface
         $this->tableDefinitionCollection = $tableDefinitionCollection;
     }
 
-    protected function validateFolderPath(string $table): string
+    /**
+     * @return string[]
+     */
+    protected function validateFolderPaths(string $table): array
     {
-        $path = $this->getAbsolutePath($table);
-        if ($path === '' && isset($this->maskExtensionConfiguration[self::FOLDER_KEYS[$table]]) && $this->maskExtensionConfiguration[self::FOLDER_KEYS[$table]] !== '') {
-            throw new \InvalidArgumentException('Expected ' . self::FOLDER_KEYS[$table] . ' to be a correct file system path. The value "' . $path . '" was given.', 1639218892);
+        $paths = $this->getAbsolutePaths($table);
+        if (count($paths) === 0 && isset($this->maskExtensionConfiguration[self::FOLDER_KEYS[$table]]) && $this->maskExtensionConfiguration[self::FOLDER_KEYS[$table]] !== '') {
+            throw new \InvalidArgumentException('Expected ' . self::FOLDER_KEYS[$table] . ' to be a correct file system path. The value "" was given.', 1639218892);
         }
 
-        return $path;
+        return $paths;
     }
 
     protected function getPath(string $table): string
@@ -114,9 +122,12 @@ class JsonSplitLoader implements LoaderInterface
         return $this->maskExtensionConfiguration[self::FOLDER_KEYS[$table]] ?? '';
     }
 
-    protected function getAbsolutePath(string $table): string
+    /**
+     * @return string[]
+     */
+    protected function getAbsolutePaths(string $table): array
     {
-        return GeneralUtility::getFileAbsFileName($this->getPath($table));
+        return TemplatePathUtility::getAbsolutePaths($this->getPath($table));
     }
 
     protected function mergeElementDefinitions(array &$definitionArray, string $folder): array
@@ -138,10 +149,12 @@ class JsonSplitLoader implements LoaderInterface
         }
 
         $overrideSharedFields = $this->features->isFeatureEnabled('overrideSharedFields');
-        $absolutePath = $this->validateFolderPath($table);
+        $absoluteFolderPaths = $this->validateFolderPaths($table);
 
-        if (!file_exists($absolutePath)) {
-            GeneralUtility::mkdir_deep($absolutePath);
+        foreach ($absoluteFolderPaths as $absoluteFolderPath) {
+            if (!file_exists($absoluteFolderPath)) {
+                GeneralUtility::mkdir_deep($absoluteFolderPath);
+            }
         }
 
         $elements = [];
@@ -150,7 +163,7 @@ class JsonSplitLoader implements LoaderInterface
         }
 
         // Delete removed elements
-        foreach ((new Finder())->files()->in($absolutePath) as $file) {
+        foreach ((new Finder())->files()->in($absoluteFolderPaths) as $file) {
             if ($file->getFileInfo()->getExtension() !== 'json') {
                 continue;
             }
@@ -219,7 +232,20 @@ class JsonSplitLoader implements LoaderInterface
             if ($overrideSharedFields) {
                 $elementTableDefinitionCollection->setRestructuringDone();
             }
-            $filePath = $absolutePath . '/' . $element->key . '.json';
+            $fileName = $element->key . '.json';
+            $filePath = null;
+            foreach ($absoluteFolderPaths as $absolutePath) {
+                $filePath = $absolutePath . '/' . $fileName;
+                if (file_exists($filePath)) {
+                    break;
+                }
+                $filePath = null;
+            }
+            if ($filePath === null) {
+                //use the first folder for new files
+                $filePath = $absoluteFolderPaths[0] . '/' . $fileName;
+            }
+
             $result = GeneralUtility::writeFile($filePath, json_encode($elementTableDefinitionCollection->toArray(), JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT) . "\n");
 
             if (!$result) {
