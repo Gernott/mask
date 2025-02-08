@@ -47,6 +47,7 @@ class TcaConverter
      */
     protected static array $listFields = [
         'config.allowedTypes',
+        'config.appearance.allowedFileExtensions',
     ];
 
     /**

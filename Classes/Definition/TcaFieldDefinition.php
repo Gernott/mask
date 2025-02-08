@@ -620,6 +620,9 @@ final class TcaFieldDefinition
             if ($definition['config']['fieldControl']['linkPopup']['options']['allowedExtensions'] ?? false) {
                 $definition['config']['appearance']['allowedFileExtensions'] = $definition['config']['fieldControl']['linkPopup']['options']['allowedExtensions'];
             }
+            if (isset($definition['config']['appearance']['allowedFileExtensions']) && is_string($definition['config']['appearance']['allowedFileExtensions'])) {
+                $definition['config']['appearance']['allowedFileExtensions'] = GeneralUtility::trimExplode(',', $definition['config']['appearance']['allowedFileExtensions'], true);
+            }
             $blindLinkOptions = $definition['config']['fieldControl']['linkPopup']['options']['blindLinkOptions'] ?? false;
             if ($blindLinkOptions) {
                 $availableTypes = $GLOBALS['TYPO3_CONF_VARS']['SYS']['linkHandler'] ?? [];

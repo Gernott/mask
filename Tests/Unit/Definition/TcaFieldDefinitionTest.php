@@ -381,7 +381,7 @@ class TcaFieldDefinitionTest extends UnitTestCase
                     'type' => 'input',
                     'allowedTypes' => ['folder', 'url', 'email', 'record', 'telephone'],
                     'appearance' => [
-                        'allowedFileExtensions' => 'jpg,png',
+                        'allowedFileExtensions' => ['jpg', 'png'],
                     ],
                 ],
             ],
@@ -412,7 +412,7 @@ class TcaFieldDefinitionTest extends UnitTestCase
                     'type' => 'link',
                     'allowedTypes' => ['folder', 'url', 'email', 'record', 'telephone'],
                     'appearance' => [
-                        'allowedFileExtensions' => 'jpg,png',
+                        'allowedFileExtensions' => ['jpg', 'png'],
                     ],
                 ],
             ],
