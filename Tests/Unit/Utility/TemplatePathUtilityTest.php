@@ -36,6 +36,14 @@ class TemplatePathUtilityTest extends UnitTestCase
                 false,
                 Environment::getProjectPath() . '/Tests/Unit/Fixtures/Templates/UpperExists.html',
             ],
+            'Comma-separated content path' => [
+                ['content' => 'EXT:mask/Tests/Unit/Fixtures/Templates/,EXT:mask/Tests/Unit/Fixtures/Templates2/'],
+                'upper_exists2',
+                false,
+                null,
+                false,
+                Environment::getProjectPath() . '/Tests/Unit/Fixtures/Templates2/UpperExists2.html',
+            ],
             'File does not exist' => [
                 ['content' => 'EXT:mask/Tests/Unit/Fixtures/Templates/'],
                 'noelement',
@@ -66,7 +74,7 @@ class TemplatePathUtilityTest extends UnitTestCase
                 false,
                 'typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/',
                 false,
-                'typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/UpperExists.html',
+                Environment::getProjectPath() . '/.Build/Web/typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/UpperExists.html',
             ],
             'Manually configured absolute path works' => [
                 ['content' => ''],
@@ -75,6 +83,14 @@ class TemplatePathUtilityTest extends UnitTestCase
                 Environment::getProjectPath() . '/Tests/Unit/Fixtures/Templates/',
                 false,
                 Environment::getProjectPath() . '/Tests/Unit/Fixtures/Templates/UpperExists.html',
+            ],
+            'Manually configured comma-separated path works' => [
+                ['content' => ''],
+                'upper_exists2',
+                false,
+                'typo3conf/ext/mask/Tests/Unit/Fixtures/Templates/,EXT:mask/Tests/Unit/Fixtures/Templates2/',
+                false,
+                Environment::getProjectPath() . '/Tests/Unit/Fixtures/Templates2/UpperExists2.html',
             ],
             'Only template is returned' => [
                 ['content' => 'EXT:mask/Tests/Unit/Fixtures/Templates/'],

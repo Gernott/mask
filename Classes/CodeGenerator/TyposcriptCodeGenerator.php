@@ -214,21 +214,24 @@ class TyposcriptCodeGenerator
         // for base paths to fluid templates configured in extension settings
         $paths = [];
         if ($this->maskExtensionConfiguration['content'] ?? false) {
-            $paths['templateRootPaths'] = [
-                10 => $this->maskExtensionConfiguration['content'],
-            ];
+            $paths['templateRootPaths'] = $this->getTyposcriptPathArray(
+                $this->maskExtensionConfiguration['content'],
+                10
+            );
         }
 
         if ($this->maskExtensionConfiguration['partials'] ?? false) {
-            $paths['partialRootPaths'] = [
-                10 => $this->maskExtensionConfiguration['partials'],
-            ];
+            $paths['partialRootPaths'] = $this->getTyposcriptPathArray(
+                $this->maskExtensionConfiguration['partials'],
+                10
+            );
         }
 
         if ($this->maskExtensionConfiguration['layouts'] ?? false) {
-            $paths['layoutRootPaths'] = [
-                10 => $this->maskExtensionConfiguration['layouts'],
-            ];
+            $paths['layoutRootPaths'] = $this->getTyposcriptPathArray(
+                $this->maskExtensionConfiguration['layouts'],
+                10
+            );
         }
 
         $setupContent[] = ArrayToTypoScriptConverter::convert($paths, 'lib.maskContentElement');
@@ -249,5 +252,20 @@ class TyposcriptCodeGenerator
         }
 
         return implode("\n\n", $setupContent) . "\n\n";
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function getTyposcriptPathArray(string $commaSeparatedPaths, int $startKey): array
+    {
+        $paths = TemplatePathUtility::getPaths($commaSeparatedPaths);
+        if (count($paths) === 0) {
+            return [];
+        }
+        return array_combine(
+            range($startKey, $startKey + count($paths) - 1),
+            $paths
+        );
     }
 }
