@@ -21,4 +21,9 @@ $contentColumns = $tcaCodeGenerator->generateFieldsTca('tt_content');
 $tcaCodeGenerator->setInlineTca();
 $tcaCodeGenerator->setElementsTca();
 $GLOBALS['TCA']['tt_content']['ctrl']['searchFields'] = $tcaCodeGenerator->addSearchFields('tt_content');
-$GLOBALS['TCA']['tt_content']['columns']['bodytext']['config']['search']['andWhere'] .= $tcaCodeGenerator->extendBodytextSearchAndWhere();
+$versionString = \TYPO3\CMS\Core\Utility\VersionNumberUtility::getNumericTypo3Version();
+if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger($versionString) < 13004005) {
+    // no longer needed in TYPO3 13.4.5 and later
+    // https://review.typo3.org/c/Packages/TYPO3.CMS/+/85489
+    $GLOBALS['TCA']['tt_content']['columns']['bodytext']['config']['search']['andWhere'] .= $tcaCodeGenerator->extendBodytextSearchAndWhere();
+}
