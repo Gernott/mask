@@ -4,7 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [9.0.7] - 2025-02-12
+
+### Fixed
+- Migrate TCA type link allowedFileExtensions to array [#665](https://github.com/Gernott/mask/issues/665)
+- Remove bodytext andWhere in TYPO3 version 13.4.5 and onwards [#669](https://github.com/Gernott/mask/issues/669) (thanks to @nitori)
+
 ## [9.0.6] - 2025-02-03
+
+### Fixed
 - Fix upgrade wizard registrations [#664](https://github.com/Gernott/mask/pull/664) (thanks to @arunspt)
 
 ## [9.0.5] - 2025-01-10
