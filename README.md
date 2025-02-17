@@ -1,3 +1,10 @@
+# ⚠️ Attention: Deprecation of Mask ⚠️
+
+Since TYPO3 v13 the Mask extension is deprecated. This extension will only receive bugfixes until regular maintenance for TYPO3 v13 has ended (30 April 2026).
+There are no official plans to make this extension work with the upcoming TYPO3 v14 version (Please reach out to us, if you want to make it compatible).
+We highly recommend to [migrate to TYPO3 Content Blocks](https://docs.typo3.org/permalink/friendsoftypo3-content-blocks:migrations-mask).
+At the time of writing Content Blocks has no GUI, but there is a plan to build one.
+
 ![Page and Content masks for TYPO3](Resources/Public/Images/banner.jpg)
 
 [![TYPO3 compatibility](https://img.shields.io/badge/TYPO3-13.4%20%7C%2012.4-ff8700?maxAge=3600&logo=typo3)](https://get.typo3.org/)
