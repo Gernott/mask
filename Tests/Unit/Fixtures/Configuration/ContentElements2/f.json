@@ -1,0 +1,55 @@
+{
+	"tt_content": {
+		"elements": {
+			"f": {
+				"key": "f",
+				"label": "F",
+				"description": "",
+				"shortLabel": "",
+				"color": "#000000",
+				"icon": "",
+				"columns": [
+					"header",
+					"tx_mask_file"
+				],
+				"columnsOverride": [],
+				"labels": [
+					"Header",
+					"File"
+				],
+				"descriptions": [
+					"",
+					"only images are allowed"
+				],
+				"sorting": 2
+			}
+		},
+		"sql": {
+			"tx_mask_file": {
+				"tt_content": {
+					"tx_mask_file": "int(11) unsigned DEFAULT '0' NOT NULL"
+				}
+			}
+		},
+		"tca": {
+			"tx_mask_file": {
+				"config": {
+					"appearance": {
+						"fileUploadAllowed": 1
+					}
+				},
+				"type": "file",
+				"key": "file",
+				"fullKey": "tx_mask_file",
+				"imageoverlayPalette": 1
+			},
+			"header": {
+				"coreField": 1,
+				"type": "string",
+				"key": "header",
+				"fullKey": "header"
+			}
+		},
+		"palettes": []
+	}
+}

@@ -22,34 +22,34 @@
 				<source>File with project-specific mask configuration (JsonLoader)</source>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-content-elements-folder">
-				<source>Folder in which to store content element definitions (JsonSplitLoader)</source>
+				<source>Folder in which to store content element definitions (JsonSplitLoader): Multiple folders comma-separated</source>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-backend-layouts-folder">
-				<source>Folder in which to store backend layout definitions (JsonSplitLoader)</source>
+				<source>Folder in which to store backend layout definitions (JsonSplitLoader): Multiple folders comma-separated</source>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-override_shared_fields">
 				<source>Override shared fields per content element.:Careful! As soon as this option is enabled and you save content elements, the fields are not synced anymore and this action can not be undone! Please back up your Mask element definitions before.</source>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-content">
-				<source>Folder for Content Fluid Templates</source>
+				<source>Folder for Content Fluid Templates: Multiple folders comma-separated</source>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-backend">
-				<source>Folder for Backend Preview Templates</source>
+				<source>Folder for Backend Preview Templates: Multiple folders comma-separated</source>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-preview">
-				<source>Folder for 32x32px png/svg content element preview icons (e.g. mykey.(png|svg))</source>
+				<source>Folder for content element preview icons: 32x32px png/svg files, e.g. mykey.(png|svg). Multiple folders comma-separated</source>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-layouts">
-				<source>Folder for Content Fluid Layouts</source>
+				<source>Folder for Content Fluid Layouts: Multiple folders comma-separated</source>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-partials">
-				<source>Folder for Content Fluid Partials</source>
+				<source>Folder for Content Fluid Partials: Multiple folders comma-separated</source>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-layouts_backend">
-				<source>Folder for Backend Preview Layouts</source>
+				<source>Folder for Backend Preview Layouts: Multiple folders comma-separated</source>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-partials_backend">
-				<source>Folder for Backend Preview Partials</source>
+				<source>Folder for Backend Preview Partials: Multiple folders comma-separated</source>
 			</trans-unit>
 			<trans-unit id="ext_conf_template-backendlayout_pids">
 				<source>PageIds from where the in PageTS defined backend layouts should be loaded (comma separated)</source>
