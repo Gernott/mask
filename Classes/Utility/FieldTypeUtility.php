@@ -127,6 +127,9 @@ class FieldTypeUtility
     {
         // Check if the allowed list contains online media types.
         $allowedList = $tca['config']['allowed'] ?? '';
+        if (is_string($allowedList)) {
+            $allowedList = CoreGeneralUtility::trimExplode(',', $allowedList, true);
+        }
         $allowedList = CoreGeneralUtility::trimExplode(',', $allowedList, true);
         $onlineMediaHelperRegistry = CoreGeneralUtility::makeInstance(OnlineMediaHelperRegistry::class);
         $onlineMediaTypes = $onlineMediaHelperRegistry->getSupportedFileExtensions();
