@@ -130,7 +130,6 @@ class FieldTypeUtility
         if (is_string($allowedList)) {
             $allowedList = CoreGeneralUtility::trimExplode(',', $allowedList, true);
         }
-        $allowedList = CoreGeneralUtility::trimExplode(',', $allowedList, true);
         $onlineMediaHelperRegistry = CoreGeneralUtility::makeInstance(OnlineMediaHelperRegistry::class);
         $onlineMediaTypes = $onlineMediaHelperRegistry->getSupportedFileExtensions();
         if (!empty(array_intersect($allowedList, $onlineMediaTypes))) {
