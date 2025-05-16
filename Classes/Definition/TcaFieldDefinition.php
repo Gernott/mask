@@ -538,6 +538,12 @@ final class TcaFieldDefinition
             unset($definition['config']['wizards']);
         }
 
+        // Migration for type Link in TYPO3 v12
+        if (($definition['config']['renderType'] ?? '') === 'inputLink') {
+            $definition['config']['type'] = 'link';
+            unset($definition['config']['renderType']);
+        }
+
         // Migration for foreign_record_defaults Mask v2 / TYPO3 v7.
         if (isset($definition['config']['foreign_record_defaults'])) {
             $definition['config']['overrideChildTca']['columns']['colPos']['config']['default'] = 999;

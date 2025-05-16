@@ -387,6 +387,26 @@ class TcaFieldDefinitionTest extends UnitTestCase
             ],
         ];
 
+        yield 'Legacy inputLink is migrated to type link' => [
+            'json' => [
+                'key' => 'link',
+                'fullKey' => 'tx_mask_link',
+                'type' => 'link',
+                'config' => [
+                    'type' => 'input',
+                    'renderType' => 'inputLink',
+                ],
+            ],
+            'expected' => [
+                'key' => 'link',
+                'fullKey' => 'tx_mask_link',
+                'type' => 'link',
+                'config' => [
+                    'type' => 'link',
+                ],
+            ],
+        ];
+
         yield 'Legacy Link fieldControl is migrated.' => [
             'json' => [
                 'key' => 'link',

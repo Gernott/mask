@@ -58,9 +58,6 @@ class FieldTypeUtility
                 if (in_array('double2', $evals, true)) {
                     return FieldType::FLOAT;
                 }
-                if (($tca['config']['renderType'] ?? '') === 'inputLink') {
-                    return FieldType::LINK;
-                }
                 if (($tca['config']['renderType'] ?? '') === 'colorpicker') {
                     return FieldType::COLORPICKER;
                 }
