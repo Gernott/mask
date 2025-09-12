@@ -24,6 +24,7 @@ if ((new Typo3Version())->getMajorVersion() < 12) {
 return [
     Tab::GENERAL->value => [
         [
+            'config.default' => 6,
             'config.placeholder' => 6,
         ],
         [
