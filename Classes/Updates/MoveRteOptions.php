@@ -81,7 +81,7 @@ class MoveRteOptions implements UpgradeWizardInterface
                         }
 
                         // Add the richtext type
-                        $tableDefinitionArray[$tableDefinition->table]['tca'][$field]['type'] = FieldType::RICHTEXT;
+                        $tableDefinitionArray[$tableDefinition->table]['tca'][$field]['type'] = FieldType::RICHTEXT->value;
                     }
                 }
             }
