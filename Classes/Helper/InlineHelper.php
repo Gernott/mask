@@ -63,6 +63,8 @@ class InlineHelper
             $uid = $data['_LOCALIZED_UID'];
         } elseif ($data['_PAGES_OVERLAY_UID'] ?? false) {
             $uid = $data['_PAGES_OVERLAY_UID'];
+        } elseif (isset($data['_computed']['localizedUid'])) {
+            $uid = $data['_computed']['localizedUid'];
         }
 
         // using is_numeric in favor to is_int
@@ -258,6 +260,8 @@ class InlineHelper
             $parentUid = $data['_LOCALIZED_UID'];
         } elseif (isset($data['_PAGES_OVERLAY_UID'])) {
             $parentUid = $data['_PAGES_OVERLAY_UID'];
+        } elseif (isset($data['_computed']['localizedUid'])) {
+            $parentUid = $data['_computed']['localizedUid'];
         }
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($childTable);
 
