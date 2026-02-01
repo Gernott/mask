@@ -1128,12 +1128,21 @@ class AjaxController
             if (!isset($this->maskExtensionConfiguration[$key])) {
                 continue;
             }
-            $path = GeneralUtility::getFileAbsFileName($this->maskExtensionConfiguration[$key]);
-            if ($path === '') {
+            $origPaths = TemplatePathUtility::getPaths($this->maskExtensionConfiguration[$key]);
+            if (count($origPaths) === 0) {
                 continue;
             }
-            if (!file_exists($path)) {
-                $missingFolders[$key] = $this->maskExtensionConfiguration[$key];
+            foreach ($origPaths as $origPath) {
+                $path = GeneralUtility::getFileAbsFileName($origPath);
+                if (!file_exists($path)) {
+                    $suffix = '';
+                    $num = 1;
+                    while (isset($missingFolders[$key . $suffix])) {
+                        $num++;
+                        $suffix = ' #' . $num;
+                    }
+                    $missingFolders[$key . $suffix] = $origPath;
+                }
             }
         }
 

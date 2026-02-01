@@ -93,12 +93,12 @@ class MaskBackendPreviewEventListener
         $view = GeneralUtility::makeInstance(StandaloneView::class, $renderingContext);
         $view->setTemplatePathAndFilename($templatePathAndFilename);
         if (!empty($this->maskExtensionConfiguration['layouts_backend'])) {
-            $layoutRootPath = GeneralUtility::getFileAbsFileName($this->maskExtensionConfiguration['layouts_backend']);
-            $view->setLayoutRootPaths([$layoutRootPath]);
+            $layoutRootPaths = TemplatePathUtility::getAbsolutePaths($this->maskExtensionConfiguration['layouts_backend']);
+            $view->setLayoutRootPaths($layoutRootPaths);
         }
         if (!empty($this->maskExtensionConfiguration['partials_backend'])) {
-            $partialRootPath = GeneralUtility::getFileAbsFileName($this->maskExtensionConfiguration['partials_backend']);
-            $view->setPartialRootPaths([$partialRootPath]);
+            $partialRootPaths = TemplatePathUtility::getAbsolutePaths($this->maskExtensionConfiguration['partials_backend']);
+            $view->setPartialRootPaths($partialRootPaths);
         }
 
         // Fetch and assign some useful variables

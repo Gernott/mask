@@ -1231,6 +1231,11 @@ parameters:
 			path: ../../Tests/Unit/Loader/JsonSplitLoaderTest.php
 
 		-
+			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\Loader\\\\JsonSplitLoaderTest\\:\\:getExpectedConfigurationArray2\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../Tests/Unit/Loader/JsonSplitLoaderTest.php
+
+		-
 			message: "#^Method MASK\\\\Mask\\\\Test\\\\Utility\\\\OverrideFieldsUtilityTest\\:\\:restructuringFieldsWorks\\(\\) has parameter \\$expected with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: ../../Tests/Unit/Utility/OverrideFieldsUtilityTest.php
@@ -1284,4 +1289,3 @@ parameters:
 			message: "#^Method MASK\\\\Mask\\\\Tests\\\\Unit\\\\TemplatePathUtilityTest\\:\\:getTemplatePathDataProvider\\(\\) return type has no value type specified in iterable type iterable\\.$#"
 			count: 1
 			path: ../../Tests/Unit/Utility/TemplatePathUtilityTest.php
-

@@ -77,6 +77,51 @@ tt_content.mask_element1 {
 ',
         ];
 
+        yield 'comma-separated paths' => [
+            'json' => [
+                'tt_content' => [
+                    'elements' => [
+                        'element1' => [
+                            'label' => 'Element 1',
+                            'key' => 'element1',
+                        ],
+                        'element2' => [
+                            'label' => 'Element 2',
+                            'key' => 'element2',
+                            'hidden' => true,
+                        ],
+                    ],
+                ],
+            ],
+            'configuration' => [
+                'content' => 'EXT:sitepackage/Resources/Private/Mask/Templates,EXT:sitepackage/Resources/Private/Mask/Templates2',
+                'layouts' => 'EXT:sitepackage/Resources/Private/Mask/Layouts,EXT:sitepackage/Resources/Private/Mask/Layouts2',
+                'partials' => 'EXT:sitepackage/Resources/Private/Mask/Partials,EXT:sitepackage/Resources/Private/Mask/Partials2',
+            ],
+            'expected' =>
+'lib.maskContentElement {
+	templateRootPaths {
+		10 = EXT:sitepackage/Resources/Private/Mask/Templates
+		11 = EXT:sitepackage/Resources/Private/Mask/Templates2
+	}
+	partialRootPaths {
+		10 = EXT:sitepackage/Resources/Private/Mask/Partials
+		11 = EXT:sitepackage/Resources/Private/Mask/Partials2
+	}
+	layoutRootPaths {
+		10 = EXT:sitepackage/Resources/Private/Mask/Layouts
+		11 = EXT:sitepackage/Resources/Private/Mask/Layouts2
+	}
+}
+
+tt_content.mask_element1 =< lib.maskContentElement
+tt_content.mask_element1 {
+	templateName = Element1
+}
+
+',
+        ];
+
         yield 'only template, no element' => [
             'json' => [
                 'tt_content' => [
