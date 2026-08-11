@@ -273,6 +273,9 @@ class AjaxController
         $params = $request->getParsedBody();
         $isNew = (bool)$params['isNew'];
         $elementKey = $params['element']['key'];
+        if ($this->checkAllowedCharacters($elementKey) === false) {
+            return new JsonResponse(['messages' => ['Element key "' . $elementKey . '" is not allowed.'], 'hasError' => 1]);
+        }
         $fields = json_decode($params['fields'], true);
         try {
             $tableDefinitionCollection = $this->storageRepository->update($params['element'], $fields, $params['type'], $isNew);
@@ -308,15 +311,19 @@ class AjaxController
     public function delete(ServerRequestInterface $request): Response
     {
         $params = $request->getParsedBody();
-        if ($params['purge']) {
-            $this->deleteHtml($params['key']);
+        $elementKey = $params['key'];
+        if ($this->checkAllowedCharacters($elementKey) === false) {
+            return new JsonResponse(['messages' => ['Element key "' . $elementKey . '" is not allowed.'], 'hasError' => 1]);
         }
-        $tableDefinitionCollection = $this->storageRepository->persist($this->storageRepository->remove('tt_content', $params['key']));
+        if ($params['purge']) {
+            $this->deleteHtml($elementKey);
+        }
+        $tableDefinitionCollection = $this->storageRepository->persist($this->storageRepository->remove('tt_content', $elementKey));
         $this->generateAction($tableDefinitionCollection);
         $this->addFlashMessage($this->translateLabel('tx_mask.content.deletedcontentelement'));
 
         $this->eventDispatcher->dispatch(
-            new MaskAfterElementDeletedEvent($tableDefinitionCollection, $params['key'])
+            new MaskAfterElementDeletedEvent($tableDefinitionCollection, $elementKey)
         );
 
         return new JsonResponse($this->flashMessageQueue->getAllMessagesAndFlush());
@@ -1200,6 +1207,15 @@ class AjaxController
         }
 
         return $missingFolders;
+    }
+
+    protected function checkAllowedCharacters(string $key): bool
+    {
+        $keyTransformed = strtolower($key);
+        $keyTransformed = preg_replace('/\s/', '_', $keyTransformed);
+        $keyTransformed = preg_replace('/[^a-z0-9_]/', '', $keyTransformed);
+
+        return $keyTransformed === $key;
     }
 
     protected function translateLabel(string $key): string
